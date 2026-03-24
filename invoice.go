@@ -461,7 +461,9 @@ type InvoiceParamsUnsetField string
 
 const (
 	InvoiceParamsUnsetFieldAccountTaxIDs   InvoiceParamsUnsetField = "account_tax_ids"
+	InvoiceParamsUnsetFieldAmountsDue      InvoiceParamsUnsetField = "amounts_due"
 	InvoiceParamsUnsetFieldCustomFields    InvoiceParamsUnsetField = "custom_fields"
+	InvoiceParamsUnsetFieldDefaultMargins  InvoiceParamsUnsetField = "default_margins"
 	InvoiceParamsUnsetFieldDefaultSource   InvoiceParamsUnsetField = "default_source"
 	InvoiceParamsUnsetFieldDefaultTaxRates InvoiceParamsUnsetField = "default_tax_rates"
 	InvoiceParamsUnsetFieldDiscounts       InvoiceParamsUnsetField = "discounts"
@@ -764,9 +766,12 @@ const (
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
+	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDBankTransfer  InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPayto           InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "payto"
+	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPix             InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "pix"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
 )
 
@@ -1037,7 +1042,20 @@ type InvoiceAddLinesLinePriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                                                             `form:"tax_code"`
+	UnsetFields []InvoiceAddLinesLinePriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceAddLinesLinePriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceAddLinesLinePriceDataProductDataTaxDetailsParams.
+type InvoiceAddLinesLinePriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	InvoiceAddLinesLinePriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode InvoiceAddLinesLinePriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceAddLinesLinePriceDataProductDataTaxDetailsParams) AddUnsetField(field InvoiceAddLinesLinePriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -1165,6 +1183,7 @@ type InvoiceAddLinesLineParamsUnsetField string
 
 const (
 	InvoiceAddLinesLineParamsUnsetFieldDiscounts  InvoiceAddLinesLineParamsUnsetField = "discounts"
+	InvoiceAddLinesLineParamsUnsetFieldMargins    InvoiceAddLinesLineParamsUnsetField = "margins"
 	InvoiceAddLinesLineParamsUnsetFieldMetadata   InvoiceAddLinesLineParamsUnsetField = "metadata"
 	InvoiceAddLinesLineParamsUnsetFieldTaxAmounts InvoiceAddLinesLineParamsUnsetField = "tax_amounts"
 	InvoiceAddLinesLineParamsUnsetFieldTaxRates   InvoiceAddLinesLineParamsUnsetField = "tax_rates"
@@ -1226,7 +1245,20 @@ type InvoiceAttachPaymentPaymentRecordDataParams struct {
 	// The timestamp when this out of band payment was paid.
 	PaidAt *int64 `form:"paid_at"`
 	// The reference for this out of band payment record.
-	PaymentReference *string `form:"payment_reference"`
+	PaymentReference *string                                                 `form:"payment_reference"`
+	UnsetFields      []InvoiceAttachPaymentPaymentRecordDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceAttachPaymentPaymentRecordDataParamsUnsetField is the list of fields that can be cleared/unset on InvoiceAttachPaymentPaymentRecordDataParams.
+type InvoiceAttachPaymentPaymentRecordDataParamsUnsetField string
+
+const (
+	InvoiceAttachPaymentPaymentRecordDataParamsUnsetFieldMetadata InvoiceAttachPaymentPaymentRecordDataParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceAttachPaymentPaymentRecordDataParams) AddUnsetField(field InvoiceAttachPaymentPaymentRecordDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1440,7 +1472,20 @@ type InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                                                                `form:"tax_code"`
+	UnsetFields []InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParams.
+type InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParams) AddUnsetField(field InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -1568,6 +1613,7 @@ type InvoiceUpdateLinesLineParamsUnsetField string
 
 const (
 	InvoiceUpdateLinesLineParamsUnsetFieldDiscounts  InvoiceUpdateLinesLineParamsUnsetField = "discounts"
+	InvoiceUpdateLinesLineParamsUnsetFieldMargins    InvoiceUpdateLinesLineParamsUnsetField = "margins"
 	InvoiceUpdateLinesLineParamsUnsetFieldMetadata   InvoiceUpdateLinesLineParamsUnsetField = "metadata"
 	InvoiceUpdateLinesLineParamsUnsetFieldTaxAmounts InvoiceUpdateLinesLineParamsUnsetField = "tax_amounts"
 	InvoiceUpdateLinesLineParamsUnsetFieldTaxRates   InvoiceUpdateLinesLineParamsUnsetField = "tax_rates"
@@ -2124,7 +2170,20 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentMetadataActionParams struct {
 	// Key-value pairs to set as schedule phase metadata. Existing schedule phase metadata will be overwritten.
 	Set map[string]string `form:"set"`
 	// Select one of three ways to update phase-level `metadata` on subscription schedules.
-	Type *string `form:"type"`
+	Type        *string                                                                      `form:"type"`
+	UnsetFields []InvoiceCreatePreviewScheduleDetailsAmendmentMetadataActionParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceCreatePreviewScheduleDetailsAmendmentMetadataActionParamsUnsetField is the list of fields that can be cleared/unset on InvoiceCreatePreviewScheduleDetailsAmendmentMetadataActionParams.
+type InvoiceCreatePreviewScheduleDetailsAmendmentMetadataActionParamsUnsetField string
+
+const (
+	InvoiceCreatePreviewScheduleDetailsAmendmentMetadataActionParamsUnsetFieldSet InvoiceCreatePreviewScheduleDetailsAmendmentMetadataActionParamsUnsetField = "set"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceCreatePreviewScheduleDetailsAmendmentMetadataActionParams) AddUnsetField(field InvoiceCreatePreviewScheduleDetailsAmendmentMetadataActionParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Details of the pause_collection behavior to apply to the amendment.
@@ -2481,7 +2540,22 @@ type InvoiceCreatePreviewScheduleDetailsPhaseItemParams struct {
 	// Options that configure the trial on the subscription item.
 	Trial *InvoiceCreatePreviewScheduleDetailsPhaseItemTrialParams `form:"trial"`
 	// The ID of the trial offer to apply to the configuration item.
-	TrialOffer *string `form:"trial_offer"`
+	TrialOffer  *string                                                        `form:"trial_offer"`
+	UnsetFields []InvoiceCreatePreviewScheduleDetailsPhaseItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceCreatePreviewScheduleDetailsPhaseItemParamsUnsetField is the list of fields that can be cleared/unset on InvoiceCreatePreviewScheduleDetailsPhaseItemParams.
+type InvoiceCreatePreviewScheduleDetailsPhaseItemParamsUnsetField string
+
+const (
+	InvoiceCreatePreviewScheduleDetailsPhaseItemParamsUnsetFieldBillingThresholds InvoiceCreatePreviewScheduleDetailsPhaseItemParamsUnsetField = "billing_thresholds"
+	InvoiceCreatePreviewScheduleDetailsPhaseItemParamsUnsetFieldDiscounts         InvoiceCreatePreviewScheduleDetailsPhaseItemParamsUnsetField = "discounts"
+	InvoiceCreatePreviewScheduleDetailsPhaseItemParamsUnsetFieldTaxRates          InvoiceCreatePreviewScheduleDetailsPhaseItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceCreatePreviewScheduleDetailsPhaseItemParams) AddUnsetField(field InvoiceCreatePreviewScheduleDetailsPhaseItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2574,6 +2648,22 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Settings related to subscription trials.
 	TrialSettings *InvoiceCreatePreviewScheduleDetailsPhaseTrialSettingsParams `form:"trial_settings"`
+	UnsetFields   []InvoiceCreatePreviewScheduleDetailsPhaseParamsUnsetField   `form:"-" json:"-"`
+}
+
+// InvoiceCreatePreviewScheduleDetailsPhaseParamsUnsetField is the list of fields that can be cleared/unset on InvoiceCreatePreviewScheduleDetailsPhaseParams.
+type InvoiceCreatePreviewScheduleDetailsPhaseParamsUnsetField string
+
+const (
+	InvoiceCreatePreviewScheduleDetailsPhaseParamsUnsetFieldBillingThresholds InvoiceCreatePreviewScheduleDetailsPhaseParamsUnsetField = "billing_thresholds"
+	InvoiceCreatePreviewScheduleDetailsPhaseParamsUnsetFieldDefaultTaxRates   InvoiceCreatePreviewScheduleDetailsPhaseParamsUnsetField = "default_tax_rates"
+	InvoiceCreatePreviewScheduleDetailsPhaseParamsUnsetFieldDescription       InvoiceCreatePreviewScheduleDetailsPhaseParamsUnsetField = "description"
+	InvoiceCreatePreviewScheduleDetailsPhaseParamsUnsetFieldDiscounts         InvoiceCreatePreviewScheduleDetailsPhaseParamsUnsetField = "discounts"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceCreatePreviewScheduleDetailsPhaseParams) AddUnsetField(field InvoiceCreatePreviewScheduleDetailsPhaseParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2647,7 +2737,20 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 	// Provide any time periods to bill in advance.
 	Prebilling []*InvoiceCreatePreviewScheduleDetailsPrebillingParams `form:"prebilling"`
 	// In cases where the `schedule_details` params update the currently active phase, specifies if and how to prorate at the time of the request.
-	ProrationBehavior *string `form:"proration_behavior"`
+	ProrationBehavior *string                                               `form:"proration_behavior"`
+	UnsetFields       []InvoiceCreatePreviewScheduleDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceCreatePreviewScheduleDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceCreatePreviewScheduleDetailsParams.
+type InvoiceCreatePreviewScheduleDetailsParamsUnsetField string
+
+const (
+	InvoiceCreatePreviewScheduleDetailsParamsUnsetFieldPrebilling InvoiceCreatePreviewScheduleDetailsParamsUnsetField = "prebilling"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceCreatePreviewScheduleDetailsParams) AddUnsetField(field InvoiceCreatePreviewScheduleDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Configure behavior for flexible billing mode.
@@ -2869,8 +2972,9 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 type InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField string
 
 const (
-	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldCancelAt        InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "cancel_at"
-	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldDefaultTaxRates InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "default_tax_rates"
+	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldBillingSchedules InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "billing_schedules"
+	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldCancelAt         InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "cancel_at"
+	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldDefaultTaxRates  InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "default_tax_rates"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3260,9 +3364,12 @@ const (
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDBankTransfer  InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPayto           InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "payto"
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPix             InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "pix"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
 )
 
@@ -3511,7 +3618,9 @@ type InvoiceUpdateParamsUnsetField string
 
 const (
 	InvoiceUpdateParamsUnsetFieldAccountTaxIDs   InvoiceUpdateParamsUnsetField = "account_tax_ids"
+	InvoiceUpdateParamsUnsetFieldAmountsDue      InvoiceUpdateParamsUnsetField = "amounts_due"
 	InvoiceUpdateParamsUnsetFieldCustomFields    InvoiceUpdateParamsUnsetField = "custom_fields"
+	InvoiceUpdateParamsUnsetFieldDefaultMargins  InvoiceUpdateParamsUnsetField = "default_margins"
 	InvoiceUpdateParamsUnsetFieldDefaultSource   InvoiceUpdateParamsUnsetField = "default_source"
 	InvoiceUpdateParamsUnsetFieldDefaultTaxRates InvoiceUpdateParamsUnsetField = "default_tax_rates"
 	InvoiceUpdateParamsUnsetFieldDiscounts       InvoiceUpdateParamsUnsetField = "discounts"
@@ -3822,9 +3931,12 @@ const (
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDBankTransfer  InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPayto           InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "payto"
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPix             InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "pix"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
 )
 
@@ -4080,6 +4192,7 @@ type InvoiceCreateParamsUnsetField string
 
 const (
 	InvoiceCreateParamsUnsetFieldAccountTaxIDs InvoiceCreateParamsUnsetField = "account_tax_ids"
+	InvoiceCreateParamsUnsetFieldAmountsDue    InvoiceCreateParamsUnsetField = "amounts_due"
 	InvoiceCreateParamsUnsetFieldCustomFields  InvoiceCreateParamsUnsetField = "custom_fields"
 	InvoiceCreateParamsUnsetFieldDiscounts     InvoiceCreateParamsUnsetField = "discounts"
 	InvoiceCreateParamsUnsetFieldMetadata      InvoiceCreateParamsUnsetField = "metadata"

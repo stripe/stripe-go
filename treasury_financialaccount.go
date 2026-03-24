@@ -268,7 +268,8 @@ type TreasuryFinancialAccountParams struct {
 type TreasuryFinancialAccountParamsUnsetField string
 
 const (
-	TreasuryFinancialAccountParamsUnsetFieldNickname TreasuryFinancialAccountParamsUnsetField = "nickname"
+	TreasuryFinancialAccountParamsUnsetFieldDisplayName TreasuryFinancialAccountParamsUnsetField = "display_name"
+	TreasuryFinancialAccountParamsUnsetFieldNickname    TreasuryFinancialAccountParamsUnsetField = "nickname"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -580,7 +581,8 @@ type TreasuryFinancialAccountCreateParams struct {
 type TreasuryFinancialAccountCreateParamsUnsetField string
 
 const (
-	TreasuryFinancialAccountCreateParamsUnsetFieldNickname TreasuryFinancialAccountCreateParamsUnsetField = "nickname"
+	TreasuryFinancialAccountCreateParamsUnsetFieldDisplayName TreasuryFinancialAccountCreateParamsUnsetField = "display_name"
+	TreasuryFinancialAccountCreateParamsUnsetFieldNickname    TreasuryFinancialAccountCreateParamsUnsetField = "nickname"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -656,7 +658,8 @@ type TreasuryFinancialAccountUpdateParams struct {
 type TreasuryFinancialAccountUpdateParamsUnsetField string
 
 const (
-	TreasuryFinancialAccountUpdateParamsUnsetFieldNickname TreasuryFinancialAccountUpdateParamsUnsetField = "nickname"
+	TreasuryFinancialAccountUpdateParamsUnsetFieldDisplayName TreasuryFinancialAccountUpdateParamsUnsetField = "display_name"
+	TreasuryFinancialAccountUpdateParamsUnsetFieldNickname    TreasuryFinancialAccountUpdateParamsUnsetField = "nickname"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.

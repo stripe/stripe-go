@@ -58,7 +58,20 @@ type CouponParams struct {
 	// Unix timestamp specifying the last time at which the coupon can be redeemed (cannot be set to more than 5 years in the future). After the redeem_by date, the coupon can no longer be applied to new customers.
 	RedeemBy *int64 `form:"redeem_by"`
 	// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
-	Script *CouponScriptParams `form:"script"`
+	Script      *CouponScriptParams      `form:"script"`
+	UnsetFields []CouponParamsUnsetField `form:"-" json:"-"`
+}
+
+// CouponParamsUnsetField is the list of fields that can be cleared/unset on CouponParams.
+type CouponParamsUnsetField string
+
+const (
+	CouponParamsUnsetFieldMetadata CouponParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CouponParams) AddUnsetField(field CouponParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -232,7 +245,20 @@ type CouponCreateParams struct {
 	// Unix timestamp specifying the last time at which the coupon can be redeemed (cannot be set to more than 5 years in the future). After the redeem_by date, the coupon can no longer be applied to new customers.
 	RedeemBy *int64 `form:"redeem_by"`
 	// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
-	Script *CouponCreateScriptParams `form:"script"`
+	Script      *CouponCreateScriptParams      `form:"script"`
+	UnsetFields []CouponCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// CouponCreateParamsUnsetField is the list of fields that can be cleared/unset on CouponCreateParams.
+type CouponCreateParamsUnsetField string
+
+const (
+	CouponCreateParamsUnsetFieldMetadata CouponCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CouponCreateParams) AddUnsetField(field CouponCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

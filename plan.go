@@ -154,8 +154,22 @@ type PlanProductTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                                 `form:"tax_code"`
+	UnsetFields []PlanProductTaxDetailsParamsUnsetField `form:"-" json:"-"`
 }
+
+// PlanProductTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PlanProductTaxDetailsParams.
+type PlanProductTaxDetailsParamsUnsetField string
+
+const (
+	PlanProductTaxDetailsParamsUnsetFieldTaxCode PlanProductTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PlanProductTaxDetailsParams) AddUnsetField(field PlanProductTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 type PlanProductParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
 	Active *bool `form:"active"`
@@ -287,8 +301,22 @@ type PlanCreateProductTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                                       `form:"tax_code"`
+	UnsetFields []PlanCreateProductTaxDetailsParamsUnsetField `form:"-" json:"-"`
 }
+
+// PlanCreateProductTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PlanCreateProductTaxDetailsParams.
+type PlanCreateProductTaxDetailsParamsUnsetField string
+
+const (
+	PlanCreateProductTaxDetailsParamsUnsetFieldTaxCode PlanCreateProductTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PlanCreateProductTaxDetailsParams) AddUnsetField(field PlanCreateProductTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 type PlanCreateProductParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
 	Active *bool `form:"active"`

@@ -576,6 +576,7 @@ type SubscriptionParamsUnsetField string
 
 const (
 	SubscriptionParamsUnsetFieldApplicationFeePercent      SubscriptionParamsUnsetField = "application_fee_percent"
+	SubscriptionParamsUnsetFieldBillingSchedules           SubscriptionParamsUnsetField = "billing_schedules"
 	SubscriptionParamsUnsetFieldBillingThresholds          SubscriptionParamsUnsetField = "billing_thresholds"
 	SubscriptionParamsUnsetFieldCancelAt                   SubscriptionParamsUnsetField = "cancel_at"
 	SubscriptionParamsUnsetFieldDefaultSource              SubscriptionParamsUnsetField = "default_source"
@@ -890,7 +891,23 @@ type SubscriptionItemsParams struct {
 	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
 	// Define options to configure the trial on the subscription item.
-	Trial *SubscriptionItemTrialParams `form:"trial"`
+	Trial       *SubscriptionItemTrialParams        `form:"trial"`
+	UnsetFields []SubscriptionItemsParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionItemsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionItemsParams.
+type SubscriptionItemsParamsUnsetField string
+
+const (
+	SubscriptionItemsParamsUnsetFieldBillingThresholds SubscriptionItemsParamsUnsetField = "billing_thresholds"
+	SubscriptionItemsParamsUnsetFieldDiscounts         SubscriptionItemsParamsUnsetField = "discounts"
+	SubscriptionItemsParamsUnsetFieldMetadata          SubscriptionItemsParamsUnsetField = "metadata"
+	SubscriptionItemsParamsUnsetFieldTaxRates          SubscriptionItemsParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionItemsParams) AddUnsetField(field SubscriptionItemsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1094,9 +1111,12 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDBankTransfer  SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldPayto           SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "payto"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldPix             SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "pix"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
 )
 
@@ -1868,9 +1888,12 @@ const (
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDBankTransfer  SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPayto           SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "payto"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPix             SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "pix"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
 )
 
@@ -2046,6 +2069,7 @@ type SubscriptionUpdateParamsUnsetField string
 
 const (
 	SubscriptionUpdateParamsUnsetFieldApplicationFeePercent      SubscriptionUpdateParamsUnsetField = "application_fee_percent"
+	SubscriptionUpdateParamsUnsetFieldBillingSchedules           SubscriptionUpdateParamsUnsetField = "billing_schedules"
 	SubscriptionUpdateParamsUnsetFieldBillingThresholds          SubscriptionUpdateParamsUnsetField = "billing_thresholds"
 	SubscriptionUpdateParamsUnsetFieldCancelAt                   SubscriptionUpdateParamsUnsetField = "cancel_at"
 	SubscriptionUpdateParamsUnsetFieldDefaultSource              SubscriptionUpdateParamsUnsetField = "default_source"
@@ -2435,7 +2459,22 @@ type SubscriptionCreateItemParams struct {
 	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
 	// Define options to configure the trial on the subscription item.
-	Trial *SubscriptionCreateItemTrialParams `form:"trial"`
+	Trial       *SubscriptionCreateItemTrialParams       `form:"trial"`
+	UnsetFields []SubscriptionCreateItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionCreateItemParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCreateItemParams.
+type SubscriptionCreateItemParamsUnsetField string
+
+const (
+	SubscriptionCreateItemParamsUnsetFieldBillingThresholds SubscriptionCreateItemParamsUnsetField = "billing_thresholds"
+	SubscriptionCreateItemParamsUnsetFieldDiscounts         SubscriptionCreateItemParamsUnsetField = "discounts"
+	SubscriptionCreateItemParamsUnsetFieldTaxRates          SubscriptionCreateItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionCreateItemParams) AddUnsetField(field SubscriptionCreateItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2631,9 +2670,12 @@ const (
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDBankTransfer  SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPayto           SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "payto"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPix             SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "pix"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
 )
 
@@ -3182,10 +3224,6 @@ type SubscriptionPendingUpdate struct {
 	TrialEnd int64 `json:"trial_end"`
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
 	TrialFromPlan bool `json:"trial_from_plan"`
-}
-type SubscriptionPresentmentDetails struct {
-	// Currency used for customer payments.
-	PresentmentCurrency Currency `json:"presentment_currency"`
 }
 
 // Time period and invoice for a Subscription billed in advance.

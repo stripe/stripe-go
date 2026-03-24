@@ -1420,6 +1420,23 @@ type ChargePaymentDetailsParams struct {
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *ChargePaymentDetailsSubscriptionParams `form:"subscription"`
+	UnsetFields  []ChargePaymentDetailsParamsUnsetField  `form:"-" json:"-"`
+}
+
+// ChargePaymentDetailsParamsUnsetField is the list of fields that can be cleared/unset on ChargePaymentDetailsParams.
+type ChargePaymentDetailsParamsUnsetField string
+
+const (
+	ChargePaymentDetailsParamsUnsetFieldCarRentalData     ChargePaymentDetailsParamsUnsetField = "car_rental_data"
+	ChargePaymentDetailsParamsUnsetFieldCustomerReference ChargePaymentDetailsParamsUnsetField = "customer_reference"
+	ChargePaymentDetailsParamsUnsetFieldFlightData        ChargePaymentDetailsParamsUnsetField = "flight_data"
+	ChargePaymentDetailsParamsUnsetFieldLodgingData       ChargePaymentDetailsParamsUnsetField = "lodging_data"
+	ChargePaymentDetailsParamsUnsetFieldOrderReference    ChargePaymentDetailsParamsUnsetField = "order_reference"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargePaymentDetailsParams) AddUnsetField(field ChargePaymentDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Search for charges you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
@@ -2257,6 +2274,23 @@ type ChargeCapturePaymentDetailsParams struct {
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *ChargeCapturePaymentDetailsSubscriptionParams `form:"subscription"`
+	UnsetFields  []ChargeCapturePaymentDetailsParamsUnsetField  `form:"-" json:"-"`
+}
+
+// ChargeCapturePaymentDetailsParamsUnsetField is the list of fields that can be cleared/unset on ChargeCapturePaymentDetailsParams.
+type ChargeCapturePaymentDetailsParamsUnsetField string
+
+const (
+	ChargeCapturePaymentDetailsParamsUnsetFieldCarRentalData     ChargeCapturePaymentDetailsParamsUnsetField = "car_rental_data"
+	ChargeCapturePaymentDetailsParamsUnsetFieldCustomerReference ChargeCapturePaymentDetailsParamsUnsetField = "customer_reference"
+	ChargeCapturePaymentDetailsParamsUnsetFieldFlightData        ChargeCapturePaymentDetailsParamsUnsetField = "flight_data"
+	ChargeCapturePaymentDetailsParamsUnsetFieldLodgingData       ChargeCapturePaymentDetailsParamsUnsetField = "lodging_data"
+	ChargeCapturePaymentDetailsParamsUnsetFieldOrderReference    ChargeCapturePaymentDetailsParamsUnsetField = "order_reference"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargeCapturePaymentDetailsParams) AddUnsetField(field ChargeCapturePaymentDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
@@ -3269,6 +3303,23 @@ type ChargeUpdatePaymentDetailsParams struct {
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *ChargeUpdatePaymentDetailsSubscriptionParams `form:"subscription"`
+	UnsetFields  []ChargeUpdatePaymentDetailsParamsUnsetField  `form:"-" json:"-"`
+}
+
+// ChargeUpdatePaymentDetailsParamsUnsetField is the list of fields that can be cleared/unset on ChargeUpdatePaymentDetailsParams.
+type ChargeUpdatePaymentDetailsParamsUnsetField string
+
+const (
+	ChargeUpdatePaymentDetailsParamsUnsetFieldCarRentalData     ChargeUpdatePaymentDetailsParamsUnsetField = "car_rental_data"
+	ChargeUpdatePaymentDetailsParamsUnsetFieldCustomerReference ChargeUpdatePaymentDetailsParamsUnsetField = "customer_reference"
+	ChargeUpdatePaymentDetailsParamsUnsetFieldFlightData        ChargeUpdatePaymentDetailsParamsUnsetField = "flight_data"
+	ChargeUpdatePaymentDetailsParamsUnsetFieldLodgingData       ChargeUpdatePaymentDetailsParamsUnsetField = "lodging_data"
+	ChargeUpdatePaymentDetailsParamsUnsetFieldOrderReference    ChargeUpdatePaymentDetailsParamsUnsetField = "order_reference"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargeUpdatePaymentDetailsParams) AddUnsetField(field ChargeUpdatePaymentDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Updates the specified charge by setting the values of the parameters passed. Any parameters not provided will be left unchanged.

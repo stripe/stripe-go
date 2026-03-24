@@ -1854,7 +1854,20 @@ type CheckoutSessionDiscountCouponDataParams struct {
 	// Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set.
 	Name *string `form:"name"`
 	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
-	PercentOff *float64 `form:"percent_off"`
+	PercentOff  *float64                                            `form:"percent_off"`
+	UnsetFields []CheckoutSessionDiscountCouponDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionDiscountCouponDataParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionDiscountCouponDataParams.
+type CheckoutSessionDiscountCouponDataParamsUnsetField string
+
+const (
+	CheckoutSessionDiscountCouponDataParamsUnsetFieldMetadata CheckoutSessionDiscountCouponDataParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionDiscountCouponDataParams) AddUnsetField(field CheckoutSessionDiscountCouponDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1978,7 +1991,20 @@ type CheckoutSessionLineItemPriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                                                                 `form:"tax_code"`
+	UnsetFields []CheckoutSessionLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionLineItemPriceDataProductDataTaxDetailsParams.
+type CheckoutSessionLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	CheckoutSessionLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode CheckoutSessionLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field CheckoutSessionLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -2812,7 +2838,21 @@ type CheckoutSessionPaymentMethodOptionsPaypalParams struct {
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
-	Subsellers []*string `form:"subsellers"`
+	Subsellers  []*string                                                   `form:"subsellers"`
+	UnsetFields []CheckoutSessionPaymentMethodOptionsPaypalParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionPaymentMethodOptionsPaypalParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionPaymentMethodOptionsPaypalParams.
+type CheckoutSessionPaymentMethodOptionsPaypalParamsUnsetField string
+
+const (
+	CheckoutSessionPaymentMethodOptionsPaypalParamsUnsetFieldCaptureMethod    CheckoutSessionPaymentMethodOptionsPaypalParamsUnsetField = "capture_method"
+	CheckoutSessionPaymentMethodOptionsPaypalParamsUnsetFieldSetupFutureUsage CheckoutSessionPaymentMethodOptionsPaypalParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionPaymentMethodOptionsPaypalParams) AddUnsetField(field CheckoutSessionPaymentMethodOptionsPaypalParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for Mandate creation
@@ -3421,6 +3461,20 @@ type CheckoutSessionSubscriptionDataParams struct {
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Settings related to subscription trials.
 	TrialSettings *CheckoutSessionSubscriptionDataTrialSettingsParams `form:"trial_settings"`
+	UnsetFields   []CheckoutSessionSubscriptionDataParamsUnsetField   `form:"-" json:"-"`
+}
+
+// CheckoutSessionSubscriptionDataParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionSubscriptionDataParams.
+type CheckoutSessionSubscriptionDataParamsUnsetField string
+
+const (
+	CheckoutSessionSubscriptionDataParamsUnsetFieldPendingInvoiceItemInterval CheckoutSessionSubscriptionDataParamsUnsetField = "pending_invoice_item_interval"
+	CheckoutSessionSubscriptionDataParamsUnsetFieldTrialPeriodDays            CheckoutSessionSubscriptionDataParamsUnsetField = "trial_period_days"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionSubscriptionDataParams) AddUnsetField(field CheckoutSessionSubscriptionDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -3638,6 +3692,7 @@ type CheckoutSessionParams struct {
 type CheckoutSessionParamsUnsetField string
 
 const (
+	CheckoutSessionParamsUnsetFieldDiscounts       CheckoutSessionParamsUnsetField = "discounts"
 	CheckoutSessionParamsUnsetFieldMetadata        CheckoutSessionParamsUnsetField = "metadata"
 	CheckoutSessionParamsUnsetFieldShippingOptions CheckoutSessionParamsUnsetField = "shipping_options"
 )
@@ -3955,7 +4010,20 @@ type CheckoutSessionCreateDiscountCouponDataParams struct {
 	// Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set.
 	Name *string `form:"name"`
 	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
-	PercentOff *float64 `form:"percent_off"`
+	PercentOff  *float64                                                  `form:"percent_off"`
+	UnsetFields []CheckoutSessionCreateDiscountCouponDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionCreateDiscountCouponDataParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionCreateDiscountCouponDataParams.
+type CheckoutSessionCreateDiscountCouponDataParamsUnsetField string
+
+const (
+	CheckoutSessionCreateDiscountCouponDataParamsUnsetFieldMetadata CheckoutSessionCreateDiscountCouponDataParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionCreateDiscountCouponDataParams) AddUnsetField(field CheckoutSessionCreateDiscountCouponDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -4079,7 +4147,20 @@ type CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                                                                       `form:"tax_code"`
+	UnsetFields []CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParams.
+type CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -4897,7 +4978,21 @@ type CheckoutSessionCreatePaymentMethodOptionsPaypalParams struct {
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
-	Subsellers []*string `form:"subsellers"`
+	Subsellers  []*string                                                         `form:"subsellers"`
+	UnsetFields []CheckoutSessionCreatePaymentMethodOptionsPaypalParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionCreatePaymentMethodOptionsPaypalParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionCreatePaymentMethodOptionsPaypalParams.
+type CheckoutSessionCreatePaymentMethodOptionsPaypalParamsUnsetField string
+
+const (
+	CheckoutSessionCreatePaymentMethodOptionsPaypalParamsUnsetFieldCaptureMethod    CheckoutSessionCreatePaymentMethodOptionsPaypalParamsUnsetField = "capture_method"
+	CheckoutSessionCreatePaymentMethodOptionsPaypalParamsUnsetFieldSetupFutureUsage CheckoutSessionCreatePaymentMethodOptionsPaypalParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionCreatePaymentMethodOptionsPaypalParams) AddUnsetField(field CheckoutSessionCreatePaymentMethodOptionsPaypalParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for Mandate creation
@@ -5783,7 +5878,20 @@ type CheckoutSessionUpdateDiscountCouponDataParams struct {
 	// Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set.
 	Name *string `form:"name"`
 	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
-	PercentOff *float64 `form:"percent_off"`
+	PercentOff  *float64                                                  `form:"percent_off"`
+	UnsetFields []CheckoutSessionUpdateDiscountCouponDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionUpdateDiscountCouponDataParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionUpdateDiscountCouponDataParams.
+type CheckoutSessionUpdateDiscountCouponDataParamsUnsetField string
+
+const (
+	CheckoutSessionUpdateDiscountCouponDataParamsUnsetFieldMetadata CheckoutSessionUpdateDiscountCouponDataParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionUpdateDiscountCouponDataParams) AddUnsetField(field CheckoutSessionUpdateDiscountCouponDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -5838,7 +5946,20 @@ type CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                                                                       `form:"tax_code"`
+	UnsetFields []CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParams.
+type CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -6055,7 +6176,21 @@ type CheckoutSessionUpdateSubscriptionDataParams struct {
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
 	TrialEnd *int64 `form:"trial_end"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
-	TrialPeriodDays *int64 `form:"trial_period_days"`
+	TrialPeriodDays *int64                                                  `form:"trial_period_days"`
+	UnsetFields     []CheckoutSessionUpdateSubscriptionDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionUpdateSubscriptionDataParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionUpdateSubscriptionDataParams.
+type CheckoutSessionUpdateSubscriptionDataParamsUnsetField string
+
+const (
+	CheckoutSessionUpdateSubscriptionDataParamsUnsetFieldPendingInvoiceItemInterval CheckoutSessionUpdateSubscriptionDataParamsUnsetField = "pending_invoice_item_interval"
+	CheckoutSessionUpdateSubscriptionDataParamsUnsetFieldTrialPeriodDays            CheckoutSessionUpdateSubscriptionDataParamsUnsetField = "trial_period_days"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionUpdateSubscriptionDataParams) AddUnsetField(field CheckoutSessionUpdateSubscriptionDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Updates a Checkout Session object.
@@ -6093,6 +6228,21 @@ type CheckoutSessionUpdateParams struct {
 	ShippingOptions []*CheckoutSessionUpdateShippingOptionParams `form:"shipping_options"`
 	// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 	SubscriptionData *CheckoutSessionUpdateSubscriptionDataParams `form:"subscription_data"`
+	UnsetFields      []CheckoutSessionUpdateParamsUnsetField      `form:"-" json:"-"`
+}
+
+// CheckoutSessionUpdateParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionUpdateParams.
+type CheckoutSessionUpdateParamsUnsetField string
+
+const (
+	CheckoutSessionUpdateParamsUnsetFieldDiscounts       CheckoutSessionUpdateParamsUnsetField = "discounts"
+	CheckoutSessionUpdateParamsUnsetFieldMetadata        CheckoutSessionUpdateParamsUnsetField = "metadata"
+	CheckoutSessionUpdateParamsUnsetFieldShippingOptions CheckoutSessionUpdateParamsUnsetField = "shipping_options"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionUpdateParams) AddUnsetField(field CheckoutSessionUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

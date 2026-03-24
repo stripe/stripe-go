@@ -75,6 +75,7 @@ const (
 	ProductParamsUnsetFieldMetadata          ProductParamsUnsetField = "metadata"
 	ProductParamsUnsetFieldPackageDimensions ProductParamsUnsetField = "package_dimensions"
 	ProductParamsUnsetFieldTaxCode           ProductParamsUnsetField = "tax_code"
+	ProductParamsUnsetFieldTaxDetails        ProductParamsUnsetField = "tax_details"
 	ProductParamsUnsetFieldUnitLabel         ProductParamsUnsetField = "unit_label"
 	ProductParamsUnsetFieldURL               ProductParamsUnsetField = "url"
 )
@@ -121,7 +122,20 @@ type ProductTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                             `form:"tax_code"`
+	UnsetFields []ProductTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on ProductTaxDetailsParams.
+type ProductTaxDetailsParamsUnsetField string
+
+const (
+	ProductTaxDetailsParamsUnsetFieldTaxCode ProductTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductTaxDetailsParams) AddUnsetField(field ProductTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Returns a list of your products. The products are returned sorted by creation date, with the most recently created products appearing first.
@@ -304,7 +318,20 @@ type ProductUpdateTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                                   `form:"tax_code"`
+	UnsetFields []ProductUpdateTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductUpdateTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on ProductUpdateTaxDetailsParams.
+type ProductUpdateTaxDetailsParamsUnsetField string
+
+const (
+	ProductUpdateTaxDetailsParamsUnsetFieldTaxCode ProductUpdateTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductUpdateTaxDetailsParams) AddUnsetField(field ProductUpdateTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Updates the specific product by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
@@ -356,6 +383,7 @@ const (
 	ProductUpdateParamsUnsetFieldMetadata          ProductUpdateParamsUnsetField = "metadata"
 	ProductUpdateParamsUnsetFieldPackageDimensions ProductUpdateParamsUnsetField = "package_dimensions"
 	ProductUpdateParamsUnsetFieldTaxCode           ProductUpdateParamsUnsetField = "tax_code"
+	ProductUpdateParamsUnsetFieldTaxDetails        ProductUpdateParamsUnsetField = "tax_details"
 	ProductUpdateParamsUnsetFieldUnitLabel         ProductUpdateParamsUnsetField = "unit_label"
 	ProductUpdateParamsUnsetFieldURL               ProductUpdateParamsUnsetField = "url"
 )
@@ -499,7 +527,20 @@ type ProductCreateTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                                   `form:"tax_code"`
+	UnsetFields []ProductCreateTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductCreateTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on ProductCreateTaxDetailsParams.
+type ProductCreateTaxDetailsParamsUnsetField string
+
+const (
+	ProductCreateTaxDetailsParamsUnsetFieldTaxCode ProductCreateTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductCreateTaxDetailsParams) AddUnsetField(field ProductCreateTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Creates a new product object.

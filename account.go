@@ -460,7 +460,8 @@ type AccountBusinessProfileParams struct {
 type AccountBusinessProfileParamsUnsetField string
 
 const (
-	AccountBusinessProfileParamsUnsetFieldSupportURL AccountBusinessProfileParamsUnsetField = "support_url"
+	AccountBusinessProfileParamsUnsetFieldSpecifiedCommercialTransactionsActURL AccountBusinessProfileParamsUnsetField = "specified_commercial_transactions_act_url"
+	AccountBusinessProfileParamsUnsetFieldSupportURL                            AccountBusinessProfileParamsUnsetField = "support_url"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -1853,7 +1854,8 @@ type AccountUpdateBusinessProfileParams struct {
 type AccountUpdateBusinessProfileParamsUnsetField string
 
 const (
-	AccountUpdateBusinessProfileParamsUnsetFieldSupportURL AccountUpdateBusinessProfileParamsUnsetField = "support_url"
+	AccountUpdateBusinessProfileParamsUnsetFieldSpecifiedCommercialTransactionsActURL AccountUpdateBusinessProfileParamsUnsetField = "specified_commercial_transactions_act_url"
+	AccountUpdateBusinessProfileParamsUnsetFieldSupportURL                            AccountUpdateBusinessProfileParamsUnsetField = "support_url"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3231,7 +3233,8 @@ type AccountCreateBusinessProfileParams struct {
 type AccountCreateBusinessProfileParamsUnsetField string
 
 const (
-	AccountCreateBusinessProfileParamsUnsetFieldSupportURL AccountCreateBusinessProfileParamsUnsetField = "support_url"
+	AccountCreateBusinessProfileParamsUnsetFieldSpecifiedCommercialTransactionsActURL AccountCreateBusinessProfileParamsUnsetField = "specified_commercial_transactions_act_url"
+	AccountCreateBusinessProfileParamsUnsetFieldSupportURL                            AccountCreateBusinessProfileParamsUnsetField = "support_url"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.

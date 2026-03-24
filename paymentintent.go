@@ -1906,7 +1906,21 @@ type PaymentIntentAmountDetailsSurchargeParams struct {
 	// Portion of the amount that corresponds to a surcharge.
 	Amount *int64 `form:"amount"`
 	// Indicate whether to enforce validations on the surcharge amount.
-	EnforceValidation *string `form:"enforce_validation"`
+	EnforceValidation *string                                               `form:"enforce_validation"`
+	UnsetFields       []PaymentIntentAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentAmountDetailsSurchargeParams.
+type PaymentIntentAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Contains information about the tax portion of the amount.
@@ -1947,6 +1961,7 @@ const (
 	PaymentIntentAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentAmountDetailsParamsUnsetField = "discount_amount"
 	PaymentIntentAmountDetailsParamsUnsetFieldLineItems      PaymentIntentAmountDetailsParamsUnsetField = "line_items"
 	PaymentIntentAmountDetailsParamsUnsetFieldShipping       PaymentIntentAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentAmountDetailsParamsUnsetFieldTax            PaymentIntentAmountDetailsParamsUnsetField = "tax"
 )
 
@@ -2843,6 +2858,23 @@ type PaymentIntentPaymentDetailsParams struct {
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentPaymentDetailsSubscriptionParams `form:"subscription"`
+	UnsetFields  []PaymentIntentPaymentDetailsParamsUnsetField  `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentDetailsParams.
+type PaymentIntentPaymentDetailsParamsUnsetField string
+
+const (
+	PaymentIntentPaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentPaymentDetailsParamsUnsetField = "car_rental_data"
+	PaymentIntentPaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentPaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentPaymentDetailsParamsUnsetFieldFlightData        PaymentIntentPaymentDetailsParamsUnsetField = "flight_data"
+	PaymentIntentPaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentPaymentDetailsParamsUnsetField = "lodging_data"
+	PaymentIntentPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentPaymentDetailsParamsUnsetField = "order_reference"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentDetailsParams) AddUnsetField(field PaymentIntentPaymentDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
@@ -3613,6 +3645,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardParamsUnsetFieldSetupFutureUsage               PaymentIntentPaymentMethodOptionsCardParamsUnsetField = "setup_future_usage"
 	PaymentIntentPaymentMethodOptionsCardParamsUnsetFieldStatementDescriptorSuffixKana  PaymentIntentPaymentMethodOptionsCardParamsUnsetField = "statement_descriptor_suffix_kana"
 	PaymentIntentPaymentMethodOptionsCardParamsUnsetFieldStatementDescriptorSuffixKanji PaymentIntentPaymentMethodOptionsCardParamsUnsetField = "statement_descriptor_suffix_kanji"
+	PaymentIntentPaymentMethodOptionsCardParamsUnsetFieldStatementDetails               PaymentIntentPaymentMethodOptionsCardParamsUnsetField = "statement_details"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -4421,7 +4454,27 @@ type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams stru
 	// Supplementary train reservation details.
 	TrainReservationDetails []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
 	// Voucher details, such as a gift card or discount code.
-	Vouchers []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams `form:"vouchers"`
+	Vouchers    []*PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams   `form:"vouchers"`
+	UnsetFields []PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams.
+type PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldBusReservationDetails       PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "bus_reservation_details"
+	PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldEventReservationDetails     PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "event_reservation_details"
+	PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldFerryReservationDetails     PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "ferry_reservation_details"
+	PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldInsurances                  PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "insurances"
+	PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldMarketplaceSellers          PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "marketplace_sellers"
+	PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldRoundTripReservationDetails PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "round_trip_reservation_details"
+	PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldTrainReservationDetails     PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "train_reservation_details"
+	PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldVouchers                    PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "vouchers"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
@@ -4450,6 +4503,21 @@ type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
 	Subscriptions []*PaymentIntentPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 	// Supplementary Purchase Data for the corresponding Klarna payment
 	SupplementaryPurchaseData *PaymentIntentPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
+	UnsetFields               []PaymentIntentPaymentMethodOptionsKlarnaParamsUnsetField               `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsKlarnaParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsKlarnaParams.
+type PaymentIntentPaymentMethodOptionsKlarnaParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsKlarnaParamsUnsetFieldCaptureMethod             PaymentIntentPaymentMethodOptionsKlarnaParamsUnsetField = "capture_method"
+	PaymentIntentPaymentMethodOptionsKlarnaParamsUnsetFieldSubscriptions             PaymentIntentPaymentMethodOptionsKlarnaParamsUnsetField = "subscriptions"
+	PaymentIntentPaymentMethodOptionsKlarnaParamsUnsetFieldSupplementaryPurchaseData PaymentIntentPaymentMethodOptionsKlarnaParamsUnsetField = "supplementary_purchase_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsKlarnaParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsKlarnaParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `konbini` PaymentMethod, this sub-hash contains details about the Konbini payment method options.
@@ -4806,7 +4874,21 @@ type PaymentIntentPaymentMethodOptionsPaypalParams struct {
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
-	Subsellers []*string `form:"subsellers"`
+	Subsellers  []*string                                                 `form:"subsellers"`
+	UnsetFields []PaymentIntentPaymentMethodOptionsPaypalParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsPaypalParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsPaypalParams.
+type PaymentIntentPaymentMethodOptionsPaypalParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsPaypalParamsUnsetFieldCaptureMethod    PaymentIntentPaymentMethodOptionsPaypalParamsUnsetField = "capture_method"
+	PaymentIntentPaymentMethodOptionsPaypalParamsUnsetFieldSetupFutureUsage PaymentIntentPaymentMethodOptionsPaypalParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsPaypalParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsPaypalParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
@@ -4816,7 +4898,20 @@ type PaymentIntentPaymentMethodOptionsPaypayParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string                                                   `form:"capture_method"`
+	UnsetFields   []PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsPaypayParams.
+type PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsPaypayParamsUnsetFieldCaptureMethod PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField = "capture_method"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsPaypayParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for Mandate creation. Only `purpose` field is configurable for PayTo PaymentIntent with `setup_future_usage=none`. Other fields are only applicable to PayTo PaymentIntent with `setup_future_usage=off_session`
@@ -5138,7 +5233,20 @@ type PaymentIntentPaymentMethodOptionsStripeBalanceParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                          `form:"setup_future_usage"`
+	UnsetFields      []PaymentIntentPaymentMethodOptionsStripeBalanceParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsStripeBalanceParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsStripeBalanceParams.
+type PaymentIntentPaymentMethodOptionsStripeBalanceParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsStripeBalanceParamsUnsetFieldSetupFutureUsage PaymentIntentPaymentMethodOptionsStripeBalanceParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsStripeBalanceParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsStripeBalanceParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `Swish` PaymentMethod, this sub-hash contains details about the Swish payment method options.
@@ -5490,7 +5598,9 @@ const (
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldEPS              PaymentIntentPaymentMethodOptionsParamsUnsetField = "eps"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldFPX              PaymentIntentPaymentMethodOptionsParamsUnsetField = "fpx"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldGiropay          PaymentIntentPaymentMethodOptionsParamsUnsetField = "giropay"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldGopay            PaymentIntentPaymentMethodOptionsParamsUnsetField = "gopay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldGrabpay          PaymentIntentPaymentMethodOptionsParamsUnsetField = "grabpay"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldIDBankTransfer   PaymentIntentPaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldIDEAL            PaymentIntentPaymentMethodOptionsParamsUnsetField = "ideal"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldInteracPresent   PaymentIntentPaymentMethodOptionsParamsUnsetField = "interac_present"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldKakaoPay         PaymentIntentPaymentMethodOptionsParamsUnsetField = "kakao_pay"
@@ -5509,14 +5619,19 @@ const (
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldPayco            PaymentIntentPaymentMethodOptionsParamsUnsetField = "payco"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldPayNow           PaymentIntentPaymentMethodOptionsParamsUnsetField = "paynow"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldPaypal           PaymentIntentPaymentMethodOptionsParamsUnsetField = "paypal"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldPaypay           PaymentIntentPaymentMethodOptionsParamsUnsetField = "paypay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldPayto            PaymentIntentPaymentMethodOptionsParamsUnsetField = "payto"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldPix              PaymentIntentPaymentMethodOptionsParamsUnsetField = "pix"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldPromptPay        PaymentIntentPaymentMethodOptionsParamsUnsetField = "promptpay"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldQris             PaymentIntentPaymentMethodOptionsParamsUnsetField = "qris"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldRechnung         PaymentIntentPaymentMethodOptionsParamsUnsetField = "rechnung"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldRevolutPay       PaymentIntentPaymentMethodOptionsParamsUnsetField = "revolut_pay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldSamsungPay       PaymentIntentPaymentMethodOptionsParamsUnsetField = "samsung_pay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldSatispay         PaymentIntentPaymentMethodOptionsParamsUnsetField = "satispay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldSEPADebit        PaymentIntentPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldShopeepay        PaymentIntentPaymentMethodOptionsParamsUnsetField = "shopeepay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldSofort           PaymentIntentPaymentMethodOptionsParamsUnsetField = "sofort"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldStripeBalance    PaymentIntentPaymentMethodOptionsParamsUnsetField = "stripe_balance"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldSwish            PaymentIntentPaymentMethodOptionsParamsUnsetField = "swish"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldTWINT            PaymentIntentPaymentMethodOptionsParamsUnsetField = "twint"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentPaymentMethodOptionsParamsUnsetField = "upi"
@@ -5873,7 +5988,21 @@ type PaymentIntentCaptureAmountDetailsSurchargeParams struct {
 	// Portion of the amount that corresponds to a surcharge.
 	Amount *int64 `form:"amount"`
 	// Indicate whether to enforce validations on the surcharge amount.
-	EnforceValidation *string `form:"enforce_validation"`
+	EnforceValidation *string                                                      `form:"enforce_validation"`
+	UnsetFields       []PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCaptureAmountDetailsSurchargeParams.
+type PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCaptureAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Contains information about the tax portion of the amount.
@@ -5914,6 +6043,7 @@ const (
 	PaymentIntentCaptureAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentCaptureAmountDetailsParamsUnsetField = "discount_amount"
 	PaymentIntentCaptureAmountDetailsParamsUnsetFieldLineItems      PaymentIntentCaptureAmountDetailsParamsUnsetField = "line_items"
 	PaymentIntentCaptureAmountDetailsParamsUnsetFieldShipping       PaymentIntentCaptureAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentCaptureAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentCaptureAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentCaptureAmountDetailsParamsUnsetFieldTax            PaymentIntentCaptureAmountDetailsParamsUnsetField = "tax"
 )
 
@@ -6771,6 +6901,23 @@ type PaymentIntentCapturePaymentDetailsParams struct {
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentCapturePaymentDetailsSubscriptionParams `form:"subscription"`
+	UnsetFields  []PaymentIntentCapturePaymentDetailsParamsUnsetField  `form:"-" json:"-"`
+}
+
+// PaymentIntentCapturePaymentDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCapturePaymentDetailsParams.
+type PaymentIntentCapturePaymentDetailsParamsUnsetField string
+
+const (
+	PaymentIntentCapturePaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentCapturePaymentDetailsParamsUnsetField = "car_rental_data"
+	PaymentIntentCapturePaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentCapturePaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentCapturePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentCapturePaymentDetailsParamsUnsetField = "flight_data"
+	PaymentIntentCapturePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentCapturePaymentDetailsParamsUnsetField = "lodging_data"
+	PaymentIntentCapturePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCapturePaymentDetailsParamsUnsetField = "order_reference"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCapturePaymentDetailsParams) AddUnsetField(field PaymentIntentCapturePaymentDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Capture the funds of an existing uncaptured PaymentIntent when its status is requires_capture.
@@ -6943,7 +7090,21 @@ type PaymentIntentConfirmAmountDetailsSurchargeParams struct {
 	// Portion of the amount that corresponds to a surcharge.
 	Amount *int64 `form:"amount"`
 	// Indicate whether to enforce validations on the surcharge amount.
-	EnforceValidation *string `form:"enforce_validation"`
+	EnforceValidation *string                                                      `form:"enforce_validation"`
+	UnsetFields       []PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentConfirmAmountDetailsSurchargeParams.
+type PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentConfirmAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Contains information about the tax portion of the amount.
@@ -6984,6 +7145,7 @@ const (
 	PaymentIntentConfirmAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentConfirmAmountDetailsParamsUnsetField = "discount_amount"
 	PaymentIntentConfirmAmountDetailsParamsUnsetFieldLineItems      PaymentIntentConfirmAmountDetailsParamsUnsetField = "line_items"
 	PaymentIntentConfirmAmountDetailsParamsUnsetFieldShipping       PaymentIntentConfirmAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentConfirmAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentConfirmAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentConfirmAmountDetailsParamsUnsetFieldTax            PaymentIntentConfirmAmountDetailsParamsUnsetField = "tax"
 )
 
@@ -7841,6 +8003,23 @@ type PaymentIntentConfirmPaymentDetailsParams struct {
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentConfirmPaymentDetailsSubscriptionParams `form:"subscription"`
+	UnsetFields  []PaymentIntentConfirmPaymentDetailsParamsUnsetField  `form:"-" json:"-"`
+}
+
+// PaymentIntentConfirmPaymentDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentConfirmPaymentDetailsParams.
+type PaymentIntentConfirmPaymentDetailsParamsUnsetField string
+
+const (
+	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentConfirmPaymentDetailsParamsUnsetField = "car_rental_data"
+	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentConfirmPaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldFlightData        PaymentIntentConfirmPaymentDetailsParamsUnsetField = "flight_data"
+	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentConfirmPaymentDetailsParamsUnsetField = "lodging_data"
+	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentConfirmPaymentDetailsParamsUnsetField = "order_reference"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentConfirmPaymentDetailsParams) AddUnsetField(field PaymentIntentConfirmPaymentDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
@@ -7949,6 +8128,7 @@ type PaymentIntentConfirmParamsUnsetField string
 
 const (
 	PaymentIntentConfirmParamsUnsetFieldAmountDetails              PaymentIntentConfirmParamsUnsetField = "amount_details"
+	PaymentIntentConfirmParamsUnsetFieldApplicationFeeAmount       PaymentIntentConfirmParamsUnsetField = "application_fee_amount"
 	PaymentIntentConfirmParamsUnsetFieldExcludedPaymentMethodTypes PaymentIntentConfirmParamsUnsetField = "excluded_payment_method_types"
 	PaymentIntentConfirmParamsUnsetFieldPaymentDetails             PaymentIntentConfirmParamsUnsetField = "payment_details"
 	PaymentIntentConfirmParamsUnsetFieldReceiptEmail               PaymentIntentConfirmParamsUnsetField = "receipt_email"
@@ -8051,7 +8231,22 @@ type PaymentIntentDecrementAuthorizationAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
 	FromPostalCode *string `form:"from_postal_code"`
 	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
-	ToPostalCode *string `form:"to_postal_code"`
+	ToPostalCode *string                                                                    `form:"to_postal_code"`
+	UnsetFields  []PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentDecrementAuthorizationAmountDetailsShippingParams.
+type PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField string
+
+const (
+	PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetFieldAmount         PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField = "amount"
+	PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetFieldFromPostalCode PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField = "from_postal_code"
+	PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetFieldToPostalCode   PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField = "to_postal_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentDecrementAuthorizationAmountDetailsShippingParams) AddUnsetField(field PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Contains information about the surcharge portion of the amount.
@@ -8059,7 +8254,21 @@ type PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParams struct {
 	// Portion of the amount that corresponds to a surcharge.
 	Amount *int64 `form:"amount"`
 	// Indicate whether to enforce validations on the surcharge amount.
-	EnforceValidation *string `form:"enforce_validation"`
+	EnforceValidation *string                                                                     `form:"enforce_validation"`
+	UnsetFields       []PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParams.
+type PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Contains information about the tax portion of the amount.
@@ -8089,13 +8298,43 @@ type PaymentIntentDecrementAuthorizationAmountDetailsParams struct {
 	// Contains information about the surcharge portion of the amount.
 	Surcharge *PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParams `form:"surcharge"`
 	// Contains information about the tax portion of the amount.
-	Tax *PaymentIntentDecrementAuthorizationAmountDetailsTaxParams `form:"tax"`
+	Tax         *PaymentIntentDecrementAuthorizationAmountDetailsTaxParams         `form:"tax"`
+	UnsetFields []PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentDecrementAuthorizationAmountDetailsParams.
+type PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField string
+
+const (
+	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "discount_amount"
+	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldLineItems      PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "line_items"
+	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldShipping       PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "surcharge"
+	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldTax            PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "tax"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentDecrementAuthorizationAmountDetailsParams) AddUnsetField(field PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Tax arguments for automations
 type PaymentIntentDecrementAuthorizationHooksInputsTaxParams struct {
 	// The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
-	Calculation *string `form:"calculation"`
+	Calculation *string                                                             `form:"calculation"`
+	UnsetFields []PaymentIntentDecrementAuthorizationHooksInputsTaxParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentDecrementAuthorizationHooksInputsTaxParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentDecrementAuthorizationHooksInputsTaxParams.
+type PaymentIntentDecrementAuthorizationHooksInputsTaxParamsUnsetField string
+
+const (
+	PaymentIntentDecrementAuthorizationHooksInputsTaxParamsUnsetFieldCalculation PaymentIntentDecrementAuthorizationHooksInputsTaxParamsUnsetField = "calculation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentDecrementAuthorizationHooksInputsTaxParams) AddUnsetField(field PaymentIntentDecrementAuthorizationHooksInputsTaxParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Arguments passed in automations
@@ -8119,7 +8358,21 @@ type PaymentIntentDecrementAuthorizationPaymentDetailsParams struct {
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
-	OrderReference *string `form:"order_reference"`
+	OrderReference *string                                                             `form:"order_reference"`
+	UnsetFields    []PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentDecrementAuthorizationPaymentDetailsParams.
+type PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetField string
+
+const (
+	PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetField = "order_reference"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentDecrementAuthorizationPaymentDetailsParams) AddUnsetField(field PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The parameters used to automatically create a transfer after the payment is captured.
@@ -8290,7 +8543,21 @@ type PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParams struct {
 	// Portion of the amount that corresponds to a surcharge.
 	Amount *int64 `form:"amount"`
 	// Indicate whether to enforce validations on the surcharge amount.
-	EnforceValidation *string `form:"enforce_validation"`
+	EnforceValidation *string                                                                     `form:"enforce_validation"`
+	UnsetFields       []PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParams.
+type PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Contains information about the tax portion of the amount.
@@ -8331,6 +8598,7 @@ const (
 	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "discount_amount"
 	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldLineItems      PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "line_items"
 	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldShipping       PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldTax            PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "tax"
 )
 
@@ -8626,7 +8894,21 @@ type PaymentIntentCreateAmountDetailsSurchargeParams struct {
 	// Portion of the amount that corresponds to a surcharge.
 	Amount *int64 `form:"amount"`
 	// Indicate whether to enforce validations on the surcharge amount.
-	EnforceValidation *string `form:"enforce_validation"`
+	EnforceValidation *string                                                     `form:"enforce_validation"`
+	UnsetFields       []PaymentIntentCreateAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreateAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreateAmountDetailsSurchargeParams.
+type PaymentIntentCreateAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentCreateAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentCreateAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentCreateAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentCreateAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreateAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentCreateAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Contains information about the tax portion of the amount.
@@ -8667,6 +8949,7 @@ const (
 	PaymentIntentCreateAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentCreateAmountDetailsParamsUnsetField = "discount_amount"
 	PaymentIntentCreateAmountDetailsParamsUnsetFieldLineItems      PaymentIntentCreateAmountDetailsParamsUnsetField = "line_items"
 	PaymentIntentCreateAmountDetailsParamsUnsetFieldShipping       PaymentIntentCreateAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentCreateAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentCreateAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentCreateAmountDetailsParamsUnsetFieldTax            PaymentIntentCreateAmountDetailsParamsUnsetField = "tax"
 )
 
@@ -9563,6 +9846,23 @@ type PaymentIntentCreatePaymentDetailsParams struct {
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentCreatePaymentDetailsSubscriptionParams `form:"subscription"`
+	UnsetFields  []PaymentIntentCreatePaymentDetailsParamsUnsetField  `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentDetailsParams.
+type PaymentIntentCreatePaymentDetailsParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentCreatePaymentDetailsParamsUnsetField = "car_rental_data"
+	PaymentIntentCreatePaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentCreatePaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentCreatePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentCreatePaymentDetailsParamsUnsetField = "flight_data"
+	PaymentIntentCreatePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentCreatePaymentDetailsParamsUnsetField = "lodging_data"
+	PaymentIntentCreatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCreatePaymentDetailsParamsUnsetField = "order_reference"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentDetailsParams) AddUnsetField(field PaymentIntentCreatePaymentDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
@@ -10333,6 +10633,7 @@ const (
 	PaymentIntentCreatePaymentMethodOptionsCardParamsUnsetFieldSetupFutureUsage               PaymentIntentCreatePaymentMethodOptionsCardParamsUnsetField = "setup_future_usage"
 	PaymentIntentCreatePaymentMethodOptionsCardParamsUnsetFieldStatementDescriptorSuffixKana  PaymentIntentCreatePaymentMethodOptionsCardParamsUnsetField = "statement_descriptor_suffix_kana"
 	PaymentIntentCreatePaymentMethodOptionsCardParamsUnsetFieldStatementDescriptorSuffixKanji PaymentIntentCreatePaymentMethodOptionsCardParamsUnsetField = "statement_descriptor_suffix_kanji"
+	PaymentIntentCreatePaymentMethodOptionsCardParamsUnsetFieldStatementDetails               PaymentIntentCreatePaymentMethodOptionsCardParamsUnsetField = "statement_details"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -11141,7 +11442,27 @@ type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParam
 	// Supplementary train reservation details.
 	TrainReservationDetails []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
 	// Voucher details, such as a gift card or discount code.
-	Vouchers []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams `form:"vouchers"`
+	Vouchers    []*PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams   `form:"vouchers"`
+	UnsetFields []PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldBusReservationDetails       PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "bus_reservation_details"
+	PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldEventReservationDetails     PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "event_reservation_details"
+	PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldFerryReservationDetails     PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "ferry_reservation_details"
+	PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldInsurances                  PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "insurances"
+	PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldMarketplaceSellers          PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "marketplace_sellers"
+	PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldRoundTripReservationDetails PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "round_trip_reservation_details"
+	PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldTrainReservationDetails     PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "train_reservation_details"
+	PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldVouchers                    PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "vouchers"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
@@ -11170,6 +11491,21 @@ type PaymentIntentCreatePaymentMethodOptionsKlarnaParams struct {
 	Subscriptions []*PaymentIntentCreatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 	// Supplementary Purchase Data for the corresponding Klarna payment
 	SupplementaryPurchaseData *PaymentIntentCreatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
+	UnsetFields               []PaymentIntentCreatePaymentMethodOptionsKlarnaParamsUnsetField               `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsKlarnaParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsKlarnaParams.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsKlarnaParamsUnsetFieldCaptureMethod             PaymentIntentCreatePaymentMethodOptionsKlarnaParamsUnsetField = "capture_method"
+	PaymentIntentCreatePaymentMethodOptionsKlarnaParamsUnsetFieldSubscriptions             PaymentIntentCreatePaymentMethodOptionsKlarnaParamsUnsetField = "subscriptions"
+	PaymentIntentCreatePaymentMethodOptionsKlarnaParamsUnsetFieldSupplementaryPurchaseData PaymentIntentCreatePaymentMethodOptionsKlarnaParamsUnsetField = "supplementary_purchase_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsKlarnaParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsKlarnaParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `konbini` PaymentMethod, this sub-hash contains details about the Konbini payment method options.
@@ -11526,7 +11862,21 @@ type PaymentIntentCreatePaymentMethodOptionsPaypalParams struct {
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
-	Subsellers []*string `form:"subsellers"`
+	Subsellers  []*string                                                       `form:"subsellers"`
+	UnsetFields []PaymentIntentCreatePaymentMethodOptionsPaypalParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsPaypalParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsPaypalParams.
+type PaymentIntentCreatePaymentMethodOptionsPaypalParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsPaypalParamsUnsetFieldCaptureMethod    PaymentIntentCreatePaymentMethodOptionsPaypalParamsUnsetField = "capture_method"
+	PaymentIntentCreatePaymentMethodOptionsPaypalParamsUnsetFieldSetupFutureUsage PaymentIntentCreatePaymentMethodOptionsPaypalParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsPaypalParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsPaypalParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
@@ -11536,7 +11886,20 @@ type PaymentIntentCreatePaymentMethodOptionsPaypayParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string                                                         `form:"capture_method"`
+	UnsetFields   []PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsPaypayParams.
+type PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetFieldCaptureMethod PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField = "capture_method"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsPaypayParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for Mandate creation. Only `purpose` field is configurable for PayTo PaymentIntent with `setup_future_usage=none`. Other fields are only applicable to PayTo PaymentIntent with `setup_future_usage=off_session`
@@ -11858,7 +12221,20 @@ type PaymentIntentCreatePaymentMethodOptionsStripeBalanceParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                `form:"setup_future_usage"`
+	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsStripeBalanceParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsStripeBalanceParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsStripeBalanceParams.
+type PaymentIntentCreatePaymentMethodOptionsStripeBalanceParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsStripeBalanceParamsUnsetFieldSetupFutureUsage PaymentIntentCreatePaymentMethodOptionsStripeBalanceParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsStripeBalanceParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsStripeBalanceParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `Swish` PaymentMethod, this sub-hash contains details about the Swish payment method options.
@@ -12210,7 +12586,9 @@ const (
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldEPS              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "eps"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldFPX              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "fpx"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldGiropay          PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "giropay"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldGopay            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "gopay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldGrabpay          PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "grabpay"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldIDBankTransfer   PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldIDEAL            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "ideal"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldInteracPresent   PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "interac_present"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldKakaoPay         PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "kakao_pay"
@@ -12229,14 +12607,19 @@ const (
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldPayco            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "payco"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldPayNow           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "paynow"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldPaypal           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "paypal"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldPaypay           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "paypay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldPayto            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "payto"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldPix              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "pix"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldPromptPay        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "promptpay"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldQris             PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "qris"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldRechnung         PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "rechnung"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldRevolutPay       PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "revolut_pay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldSamsungPay       PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "samsung_pay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldSatispay         PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "satispay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldSEPADebit        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldShopeepay        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "shopeepay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldSofort           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "sofort"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldStripeBalance    PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "stripe_balance"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldSwish            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "swish"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldTWINT            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "twint"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "upi"
@@ -12544,7 +12927,21 @@ type PaymentIntentUpdateAmountDetailsSurchargeParams struct {
 	// Portion of the amount that corresponds to a surcharge.
 	Amount *int64 `form:"amount"`
 	// Indicate whether to enforce validations on the surcharge amount.
-	EnforceValidation *string `form:"enforce_validation"`
+	EnforceValidation *string                                                     `form:"enforce_validation"`
+	UnsetFields       []PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdateAmountDetailsSurchargeParams.
+type PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdateAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Contains information about the tax portion of the amount.
@@ -12585,6 +12982,7 @@ const (
 	PaymentIntentUpdateAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentUpdateAmountDetailsParamsUnsetField = "discount_amount"
 	PaymentIntentUpdateAmountDetailsParamsUnsetFieldLineItems      PaymentIntentUpdateAmountDetailsParamsUnsetField = "line_items"
 	PaymentIntentUpdateAmountDetailsParamsUnsetFieldShipping       PaymentIntentUpdateAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentUpdateAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentUpdateAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentUpdateAmountDetailsParamsUnsetFieldTax            PaymentIntentUpdateAmountDetailsParamsUnsetField = "tax"
 )
 
@@ -13464,6 +13862,23 @@ type PaymentIntentUpdatePaymentDetailsParams struct {
 	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentUpdatePaymentDetailsSubscriptionParams `form:"subscription"`
+	UnsetFields  []PaymentIntentUpdatePaymentDetailsParamsUnsetField  `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentDetailsParams.
+type PaymentIntentUpdatePaymentDetailsParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentUpdatePaymentDetailsParamsUnsetField = "car_rental_data"
+	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentUpdatePaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentUpdatePaymentDetailsParamsUnsetField = "flight_data"
+	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentUpdatePaymentDetailsParamsUnsetField = "lodging_data"
+	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentUpdatePaymentDetailsParamsUnsetField = "order_reference"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentDetailsParams) AddUnsetField(field PaymentIntentUpdatePaymentDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
@@ -14234,6 +14649,7 @@ const (
 	PaymentIntentUpdatePaymentMethodOptionsCardParamsUnsetFieldSetupFutureUsage               PaymentIntentUpdatePaymentMethodOptionsCardParamsUnsetField = "setup_future_usage"
 	PaymentIntentUpdatePaymentMethodOptionsCardParamsUnsetFieldStatementDescriptorSuffixKana  PaymentIntentUpdatePaymentMethodOptionsCardParamsUnsetField = "statement_descriptor_suffix_kana"
 	PaymentIntentUpdatePaymentMethodOptionsCardParamsUnsetFieldStatementDescriptorSuffixKanji PaymentIntentUpdatePaymentMethodOptionsCardParamsUnsetField = "statement_descriptor_suffix_kanji"
+	PaymentIntentUpdatePaymentMethodOptionsCardParamsUnsetFieldStatementDetails               PaymentIntentUpdatePaymentMethodOptionsCardParamsUnsetField = "statement_details"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -15042,7 +15458,27 @@ type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParam
 	// Supplementary train reservation details.
 	TrainReservationDetails []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
 	// Voucher details, such as a gift card or discount code.
-	Vouchers []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams `form:"vouchers"`
+	Vouchers    []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams   `form:"vouchers"`
+	UnsetFields []PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldBusReservationDetails       PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "bus_reservation_details"
+	PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldEventReservationDetails     PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "event_reservation_details"
+	PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldFerryReservationDetails     PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "ferry_reservation_details"
+	PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldInsurances                  PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "insurances"
+	PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldMarketplaceSellers          PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "marketplace_sellers"
+	PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldRoundTripReservationDetails PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "round_trip_reservation_details"
+	PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldTrainReservationDetails     PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "train_reservation_details"
+	PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldVouchers                    PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "vouchers"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
@@ -15071,6 +15507,21 @@ type PaymentIntentUpdatePaymentMethodOptionsKlarnaParams struct {
 	Subscriptions []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 	// Supplementary Purchase Data for the corresponding Klarna payment
 	SupplementaryPurchaseData *PaymentIntentUpdatePaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
+	UnsetFields               []PaymentIntentUpdatePaymentMethodOptionsKlarnaParamsUnsetField               `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsKlarnaParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsKlarnaParams.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsKlarnaParamsUnsetFieldCaptureMethod             PaymentIntentUpdatePaymentMethodOptionsKlarnaParamsUnsetField = "capture_method"
+	PaymentIntentUpdatePaymentMethodOptionsKlarnaParamsUnsetFieldSubscriptions             PaymentIntentUpdatePaymentMethodOptionsKlarnaParamsUnsetField = "subscriptions"
+	PaymentIntentUpdatePaymentMethodOptionsKlarnaParamsUnsetFieldSupplementaryPurchaseData PaymentIntentUpdatePaymentMethodOptionsKlarnaParamsUnsetField = "supplementary_purchase_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsKlarnaParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsKlarnaParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `konbini` PaymentMethod, this sub-hash contains details about the Konbini payment method options.
@@ -15427,7 +15878,21 @@ type PaymentIntentUpdatePaymentMethodOptionsPaypalParams struct {
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
-	Subsellers []*string `form:"subsellers"`
+	Subsellers  []*string                                                       `form:"subsellers"`
+	UnsetFields []PaymentIntentUpdatePaymentMethodOptionsPaypalParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsPaypalParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsPaypalParams.
+type PaymentIntentUpdatePaymentMethodOptionsPaypalParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsPaypalParamsUnsetFieldCaptureMethod    PaymentIntentUpdatePaymentMethodOptionsPaypalParamsUnsetField = "capture_method"
+	PaymentIntentUpdatePaymentMethodOptionsPaypalParamsUnsetFieldSetupFutureUsage PaymentIntentUpdatePaymentMethodOptionsPaypalParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsPaypalParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsPaypalParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `paypay` PaymentMethod, this sub-hash contains details about the PayPay payment method options.
@@ -15437,7 +15902,20 @@ type PaymentIntentUpdatePaymentMethodOptionsPaypayParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string                                                         `form:"capture_method"`
+	UnsetFields   []PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsPaypayParams.
+type PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetFieldCaptureMethod PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField = "capture_method"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsPaypayParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for Mandate creation. Only `purpose` field is configurable for PayTo PaymentIntent with `setup_future_usage=none`. Other fields are only applicable to PayTo PaymentIntent with `setup_future_usage=off_session`
@@ -15759,7 +16237,20 @@ type PaymentIntentUpdatePaymentMethodOptionsStripeBalanceParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                `form:"setup_future_usage"`
+	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsStripeBalanceParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsStripeBalanceParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsStripeBalanceParams.
+type PaymentIntentUpdatePaymentMethodOptionsStripeBalanceParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsStripeBalanceParamsUnsetFieldSetupFutureUsage PaymentIntentUpdatePaymentMethodOptionsStripeBalanceParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsStripeBalanceParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsStripeBalanceParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If this is a `Swish` PaymentMethod, this sub-hash contains details about the Swish payment method options.
@@ -16111,7 +16602,9 @@ const (
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldEPS              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "eps"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldFPX              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "fpx"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldGiropay          PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "giropay"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldGopay            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "gopay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldGrabpay          PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "grabpay"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldIDBankTransfer   PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldIDEAL            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "ideal"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldInteracPresent   PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "interac_present"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldKakaoPay         PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "kakao_pay"
@@ -16130,14 +16623,19 @@ const (
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldPayco            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "payco"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldPayNow           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "paynow"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldPaypal           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "paypal"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldPaypay           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "paypay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldPayto            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "payto"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldPix              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "pix"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldPromptPay        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "promptpay"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldQris             PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "qris"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldRechnung         PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "rechnung"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldRevolutPay       PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "revolut_pay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldSamsungPay       PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "samsung_pay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldSatispay         PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "satispay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldSEPADebit        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldShopeepay        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "shopeepay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldSofort           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "sofort"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldStripeBalance    PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "stripe_balance"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldSwish            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "swish"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldTWINT            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "twint"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "upi"

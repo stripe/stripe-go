@@ -75,6 +75,7 @@ type InvoiceItemParamsUnsetField string
 
 const (
 	InvoiceItemParamsUnsetFieldDiscounts InvoiceItemParamsUnsetField = "discounts"
+	InvoiceItemParamsUnsetFieldMargins   InvoiceItemParamsUnsetField = "margins"
 	InvoiceItemParamsUnsetFieldMetadata  InvoiceItemParamsUnsetField = "metadata"
 	InvoiceItemParamsUnsetFieldTaxCode   InvoiceItemParamsUnsetField = "tax_code"
 	InvoiceItemParamsUnsetFieldTaxRates  InvoiceItemParamsUnsetField = "tax_rates"
@@ -299,6 +300,7 @@ type InvoiceItemUpdateParamsUnsetField string
 
 const (
 	InvoiceItemUpdateParamsUnsetFieldDiscounts InvoiceItemUpdateParamsUnsetField = "discounts"
+	InvoiceItemUpdateParamsUnsetFieldMargins   InvoiceItemUpdateParamsUnsetField = "margins"
 	InvoiceItemUpdateParamsUnsetFieldMetadata  InvoiceItemUpdateParamsUnsetField = "metadata"
 	InvoiceItemUpdateParamsUnsetFieldTaxCode   InvoiceItemUpdateParamsUnsetField = "tax_code"
 	InvoiceItemUpdateParamsUnsetFieldTaxRates  InvoiceItemUpdateParamsUnsetField = "tax_rates"

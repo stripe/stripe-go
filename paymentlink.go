@@ -510,7 +510,20 @@ type PaymentLinkLineItemPriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                                                             `form:"tax_code"`
+	UnsetFields []PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkLineItemPriceDataProductDataTaxDetailsParams.
+type PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -1204,7 +1217,20 @@ type PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                                                                   `form:"tax_code"`
+	UnsetFields []PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParams.
+type PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.

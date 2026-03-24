@@ -116,7 +116,20 @@ type InvoiceLineItemPriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                                                         `form:"tax_code"`
+	UnsetFields []InvoiceLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceLineItemPriceDataProductDataTaxDetailsParams.
+type InvoiceLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	InvoiceLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode InvoiceLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field InvoiceLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -250,6 +263,7 @@ type InvoiceLineItemParamsUnsetField string
 
 const (
 	InvoiceLineItemParamsUnsetFieldDiscounts  InvoiceLineItemParamsUnsetField = "discounts"
+	InvoiceLineItemParamsUnsetFieldMargins    InvoiceLineItemParamsUnsetField = "margins"
 	InvoiceLineItemParamsUnsetFieldMetadata   InvoiceLineItemParamsUnsetField = "metadata"
 	InvoiceLineItemParamsUnsetFieldTaxAmounts InvoiceLineItemParamsUnsetField = "tax_amounts"
 	InvoiceLineItemParamsUnsetFieldTaxRates   InvoiceLineItemParamsUnsetField = "tax_rates"
@@ -317,7 +331,20 @@ type InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode     *string                                                               `form:"tax_code"`
+	UnsetFields []InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParams.
+type InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParams) AddUnsetField(field InvoiceLineItemUpdatePriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -451,6 +478,7 @@ type InvoiceLineItemUpdateParamsUnsetField string
 
 const (
 	InvoiceLineItemUpdateParamsUnsetFieldDiscounts  InvoiceLineItemUpdateParamsUnsetField = "discounts"
+	InvoiceLineItemUpdateParamsUnsetFieldMargins    InvoiceLineItemUpdateParamsUnsetField = "margins"
 	InvoiceLineItemUpdateParamsUnsetFieldMetadata   InvoiceLineItemUpdateParamsUnsetField = "metadata"
 	InvoiceLineItemUpdateParamsUnsetFieldTaxAmounts InvoiceLineItemUpdateParamsUnsetField = "tax_amounts"
 	InvoiceLineItemUpdateParamsUnsetFieldTaxRates   InvoiceLineItemUpdateParamsUnsetField = "tax_rates"
