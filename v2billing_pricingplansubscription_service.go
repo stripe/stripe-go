@@ -41,6 +41,19 @@ func (c v2BillingPricingPlanSubscriptionService) Update(ctx context.Context, id 
 	return pricingplansubscription, err
 }
 
+// Remove Discounts from a Pricing Plan Subscription.
+func (c v2BillingPricingPlanSubscriptionService) RemoveDiscounts(ctx context.Context, id string, params *V2BillingPricingPlanSubscriptionRemoveDiscountsParams) (*V2BillingPricingPlanSubscription, error) {
+	if params == nil {
+		params = &V2BillingPricingPlanSubscriptionRemoveDiscountsParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v2/billing/pricing_plan_subscriptions/%s/remove_discounts", id)
+	pricingplansubscription := &V2BillingPricingPlanSubscription{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, pricingplansubscription)
+	return pricingplansubscription, err
+}
+
 // List all Pricing Plan Subscription objects.
 func (c v2BillingPricingPlanSubscriptionService) List(ctx context.Context, listParams *V2BillingPricingPlanSubscriptionListParams) *V2List[*V2BillingPricingPlanSubscription] {
 	if listParams == nil {

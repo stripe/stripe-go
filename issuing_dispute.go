@@ -1302,7 +1302,7 @@ type IssuingDispute struct {
 	Evidence *IssuingDisputeEvidence `json:"evidence"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// The enum that describes the dispute loss outcome. If the dispute is not lost, this field will be absent. New enum values may be added in the future, so be sure to handle unknown values.
 	LossReason IssuingDisputeLossReason `json:"loss_reason"`

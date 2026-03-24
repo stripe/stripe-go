@@ -1109,6 +1109,8 @@ type V2CoreAccountDefaultsParams struct {
 	Profile *V2CoreAccountDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
 	Responsibilities *V2CoreAccountDefaultsResponsibilitiesParams `form:"responsibilities" json:"responsibilities,omitempty"`
+	// The Account's local timezone. A list of possible time zone values is maintained at the [IANA Time Zone Database](https://www.iana.org/time-zones).
+	Timezone *string `form:"timezone" json:"timezone,omitempty"`
 }
 
 // This hash is used to attest that the directors information provided to Stripe is both current and correct.
@@ -1767,14 +1769,6 @@ type V2CoreAccountIdentityBusinessDetailsAddressParams struct {
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
-// A non-negative integer representing the amount in the smallest currency unit.
-type V2CoreAccountIdentityBusinessDetailsAnnualRevenueAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
-}
-
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountIdentityBusinessDetailsAnnualRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
@@ -1903,14 +1897,6 @@ type V2CoreAccountIdentityBusinessDetailsIDNumberParams struct {
 	Type *string `form:"type" json:"type"`
 	// The value of the ID number.
 	Value *string `form:"value" json:"value"`
-}
-
-// A non-negative integer representing the amount in the smallest currency unit.
-type V2CoreAccountIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
 }
 
 // An estimate of the monthly revenue of the business.
@@ -3429,6 +3415,8 @@ type V2CoreAccountCreateDefaultsParams struct {
 	Profile *V2CoreAccountCreateDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
 	Responsibilities *V2CoreAccountCreateDefaultsResponsibilitiesParams `form:"responsibilities" json:"responsibilities,omitempty"`
+	// The Account's local timezone. A list of possible time zone values is maintained at the [IANA Time Zone Database](https://www.iana.org/time-zones).
+	Timezone *string `form:"timezone" json:"timezone,omitempty"`
 }
 
 // This hash is used to attest that the directors information provided to Stripe is both current and correct.
@@ -4085,14 +4073,6 @@ type V2CoreAccountCreateIdentityBusinessDetailsAddressParams struct {
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
-// A non-negative integer representing the amount in the smallest currency unit.
-type V2CoreAccountCreateIdentityBusinessDetailsAnnualRevenueAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
-}
-
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountCreateIdentityBusinessDetailsAnnualRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
@@ -4221,14 +4201,6 @@ type V2CoreAccountCreateIdentityBusinessDetailsIDNumberParams struct {
 	Type *string `form:"type" json:"type"`
 	// The value of the ID number.
 	Value *string `form:"value" json:"value"`
-}
-
-// A non-negative integer representing the amount in the smallest currency unit.
-type V2CoreAccountCreateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
 }
 
 // An estimate of the monthly revenue of the business.
@@ -5753,6 +5725,8 @@ type V2CoreAccountUpdateDefaultsParams struct {
 	Profile *V2CoreAccountUpdateDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
 	Responsibilities *V2CoreAccountUpdateDefaultsResponsibilitiesParams `form:"responsibilities" json:"responsibilities,omitempty"`
+	// The Account's local timezone. A list of possible time zone values is maintained at the [IANA Time Zone Database](https://www.iana.org/time-zones).
+	Timezone *string `form:"timezone" json:"timezone,omitempty"`
 }
 
 // This hash is used to attest that the directors information provided to Stripe is both current and correct.
@@ -6409,14 +6383,6 @@ type V2CoreAccountUpdateIdentityBusinessDetailsAddressParams struct {
 	Town *string `form:"town" json:"town,omitempty"`
 }
 
-// A non-negative integer representing the amount in the smallest currency unit.
-type V2CoreAccountUpdateIdentityBusinessDetailsAnnualRevenueAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
-}
-
 // The business gross annual revenue for its preceding fiscal year.
 type V2CoreAccountUpdateIdentityBusinessDetailsAnnualRevenueParams struct {
 	// A non-negative integer representing the amount in the smallest currency unit.
@@ -6545,14 +6511,6 @@ type V2CoreAccountUpdateIdentityBusinessDetailsIDNumberParams struct {
 	Type *string `form:"type" json:"type"`
 	// The value of the ID number.
 	Value *string `form:"value" json:"value"`
-}
-
-// A non-negative integer representing the amount in the smallest currency unit.
-type V2CoreAccountUpdateIdentityBusinessDetailsMonthlyEstimatedRevenueAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value *int64 `form:"value" json:"value"`
 }
 
 // An estimate of the monthly revenue of the business.

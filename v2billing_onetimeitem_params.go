@@ -64,7 +64,7 @@ type V2BillingOneTimeItemCreateParams struct {
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name"`
 	// An internal key you can use to search for a particular one-time item.
-	// Must be unique among billable items.
+	// Must be unique among one-time items.
 	// Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

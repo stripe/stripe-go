@@ -46,7 +46,7 @@ type V2TaxManualRuleScheduledTaxRateRateParams struct {
 	// Jurisdiction of the tax rate should apply as it will be shown on the invoice.
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction,omitempty"`
 	// Percentage of the tax rate. Must be positive and maximum of 4 decimal points.
-	Percentage *string `form:"percentage" json:"percentage"`
+	Percentage *float64 `form:"percentage,high_precision" json:"percentage,string"`
 	// State of the tax rate.
 	State *string `form:"state" json:"state,omitempty"`
 }
@@ -106,7 +106,7 @@ type V2TaxManualRuleCreateScheduledTaxRateRateParams struct {
 	// Jurisdiction of the tax rate should apply as it will be shown on the invoice.
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction,omitempty"`
 	// Percentage of the tax rate. Must be positive and maximum of 4 decimal points.
-	Percentage *string `form:"percentage" json:"percentage"`
+	Percentage *float64 `form:"percentage,high_precision" json:"percentage,string"`
 	// State of the tax rate.
 	State *string `form:"state" json:"state,omitempty"`
 }
@@ -166,7 +166,7 @@ type V2TaxManualRuleUpdateScheduledTaxRateRateParams struct {
 	// Jurisdiction of the tax rate should apply as it will be shown on the invoice.
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction,omitempty"`
 	// Percentage of the tax rate. Must be positive and maximum of 4 decimal points.
-	Percentage *string `form:"percentage" json:"percentage"`
+	Percentage *float64 `form:"percentage,high_precision" json:"percentage,string"`
 	// State of the tax rate.
 	State *string `form:"state" json:"state,omitempty"`
 }

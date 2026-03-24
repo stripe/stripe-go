@@ -9,14 +9,14 @@ package stripe
 import "time"
 
 // The interval for assessing service.
-type V2BillingLicenseFeeServiceInterval string
+type V2BillingLicenseFeeServiceCycleInterval string
 
-// List of values that V2BillingLicenseFeeServiceInterval can take
+// List of values that V2BillingLicenseFeeServiceCycleInterval can take
 const (
-	V2BillingLicenseFeeServiceIntervalDay   V2BillingLicenseFeeServiceInterval = "day"
-	V2BillingLicenseFeeServiceIntervalMonth V2BillingLicenseFeeServiceInterval = "month"
-	V2BillingLicenseFeeServiceIntervalWeek  V2BillingLicenseFeeServiceInterval = "week"
-	V2BillingLicenseFeeServiceIntervalYear  V2BillingLicenseFeeServiceInterval = "year"
+	V2BillingLicenseFeeServiceCycleIntervalDay   V2BillingLicenseFeeServiceCycleInterval = "day"
+	V2BillingLicenseFeeServiceCycleIntervalMonth V2BillingLicenseFeeServiceCycleInterval = "month"
+	V2BillingLicenseFeeServiceCycleIntervalWeek  V2BillingLicenseFeeServiceCycleInterval = "week"
+	V2BillingLicenseFeeServiceCycleIntervalYear  V2BillingLicenseFeeServiceCycleInterval = "year"
 )
 
 // The Stripe Tax tax behavior - whether the license fee is inclusive or exclusive of tax.
@@ -56,6 +56,15 @@ const (
 	V2BillingLicenseFeeTransformQuantityRoundUp   V2BillingLicenseFeeTransformQuantityRound = "up"
 )
 
+// The service cycle configuration for this License Fee.
+type V2BillingLicenseFeeServiceCycle struct {
+	// The interval for assessing service.
+	Interval V2BillingLicenseFeeServiceCycleInterval `json:"interval"`
+	// The length of the interval for assessing service. For example, set this to 3 and `interval` to `"month"` in
+	// order to specify quarterly service.
+	IntervalCount int64 `json:"interval_count"`
+}
+
 // Each element represents a pricing tier. Cannot be set if `unit_amount` is provided.
 type V2BillingLicenseFeeTier struct {
 	// Price for the entire tier, represented as a decimal string in minor currency units with at most 12 decimal places.
@@ -65,7 +74,7 @@ type V2BillingLicenseFeeTier struct {
 	UnitAmount string `json:"unit_amount,omitempty"`
 	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
-	UpToDecimal string `json:"up_to_decimal,omitempty"`
+	UpToDecimal float64 `json:"up_to_decimal,string,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
 	UpToInf V2BillingLicenseFeeTierUpToInf `json:"up_to_inf,omitempty"`
 }
@@ -73,7 +82,7 @@ type V2BillingLicenseFeeTier struct {
 // Apply a transformation to the reported usage or set quantity before computing the amount billed.
 type V2BillingLicenseFeeTransformQuantity struct {
 	// Divide usage by this number.
-	DivideBy int64 `json:"divide_by"`
+	DivideBy int64 `json:"divide_by,string"`
 	// After division, round the result up or down.
 	Round V2BillingLicenseFeeTransformQuantityRound `json:"round"`
 }
@@ -95,8 +104,6 @@ type V2BillingLicenseFee struct {
 	DisplayName string `json:"display_name"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// The ID of the license fee's most recently created version.
-	LatestVersion string `json:"latest_version"`
 	// A Licensed Item represents a billable item whose pricing is based on license fees. You can use license fees
 	// to specify the pricing and create subscriptions to these items.
 	LicensedItem *V2BillingLicensedItem `json:"licensed_item"`
@@ -110,11 +117,8 @@ type V2BillingLicenseFee struct {
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// The interval for assessing service.
-	ServiceInterval V2BillingLicenseFeeServiceInterval `json:"service_interval"`
-	// The length of the interval for assessing service. For example, set this to 3 and `service_interval` to `"month"` in
-	// order to specify quarterly service.
-	ServiceIntervalCount int64 `json:"service_interval_count"`
+	// The service cycle configuration for this License Fee.
+	ServiceCycle *V2BillingLicenseFeeServiceCycle `json:"service_cycle"`
 	// The Stripe Tax tax behavior - whether the license fee is inclusive or exclusive of tax.
 	TaxBehavior V2BillingLicenseFeeTaxBehavior `json:"tax_behavior"`
 	// Defines whether the tiering price should be graduated or volume-based. In volume-based tiering, the maximum

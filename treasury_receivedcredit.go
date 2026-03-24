@@ -264,7 +264,7 @@ type TreasuryReceivedCredit struct {
 	ID                             string                                                `json:"id"`
 	InitiatingPaymentMethodDetails *TreasuryReceivedCreditInitiatingPaymentMethodDetails `json:"initiating_payment_method_details"`
 	LinkedFlows                    *TreasuryReceivedCreditLinkedFlows                    `json:"linked_flows"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// The rails used to send the funds.
 	Network TreasuryReceivedCreditNetwork `json:"network"`

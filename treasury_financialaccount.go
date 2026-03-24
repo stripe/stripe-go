@@ -268,7 +268,8 @@ type TreasuryFinancialAccountParams struct {
 type TreasuryFinancialAccountParamsUnsetField string
 
 const (
-	TreasuryFinancialAccountParamsUnsetFieldNickname TreasuryFinancialAccountParamsUnsetField = "nickname"
+	TreasuryFinancialAccountParamsUnsetFieldDisplayName TreasuryFinancialAccountParamsUnsetField = "display_name"
+	TreasuryFinancialAccountParamsUnsetFieldNickname    TreasuryFinancialAccountParamsUnsetField = "nickname"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -580,7 +581,8 @@ type TreasuryFinancialAccountCreateParams struct {
 type TreasuryFinancialAccountCreateParamsUnsetField string
 
 const (
-	TreasuryFinancialAccountCreateParamsUnsetFieldNickname TreasuryFinancialAccountCreateParamsUnsetField = "nickname"
+	TreasuryFinancialAccountCreateParamsUnsetFieldDisplayName TreasuryFinancialAccountCreateParamsUnsetField = "display_name"
+	TreasuryFinancialAccountCreateParamsUnsetFieldNickname    TreasuryFinancialAccountCreateParamsUnsetField = "nickname"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -656,7 +658,8 @@ type TreasuryFinancialAccountUpdateParams struct {
 type TreasuryFinancialAccountUpdateParamsUnsetField string
 
 const (
-	TreasuryFinancialAccountUpdateParamsUnsetFieldNickname TreasuryFinancialAccountUpdateParamsUnsetField = "nickname"
+	TreasuryFinancialAccountUpdateParamsUnsetFieldDisplayName TreasuryFinancialAccountUpdateParamsUnsetField = "display_name"
+	TreasuryFinancialAccountUpdateParamsUnsetFieldNickname    TreasuryFinancialAccountUpdateParamsUnsetField = "nickname"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -752,7 +755,7 @@ type TreasuryFinancialAccount struct {
 	// Unique identifier for the object.
 	ID        string `json:"id"`
 	IsDefault bool   `json:"is_default"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

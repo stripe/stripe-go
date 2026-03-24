@@ -20,7 +20,7 @@ type V2BillingRateCardSubscriptionListParams struct {
 	Params `form:"*"`
 	// Optionally filter by a BillingCadence. Mutually exclusive with `payers`, `rate_card`, and `rate_card_version`.
 	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
-	// The page size limit, if not provided the default is 20.
+	// The page size limit. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Optionally filter by the payer associated with Billing Cadences which the Rate Card Subscriptions are subscribed to.
 	// Mutually exclusive with `billing_cadence`, `rate_card`, and `rate_card_version`.

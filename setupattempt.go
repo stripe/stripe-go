@@ -353,7 +353,6 @@ type SetupAttemptPaymentMethodDetails struct {
 	StripeBalance  *SetupAttemptPaymentMethodDetailsStripeBalance  `json:"stripe_balance"`
 	// The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.
 	Type          SetupAttemptPaymentMethodDetailsType           `json:"type"`
-	Upi           *SetupAttemptPaymentMethodDetailsUpi           `json:"upi"`
 	USBankAccount *SetupAttemptPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
 }
 
@@ -381,7 +380,7 @@ type SetupAttempt struct {
 	FlowDirections []SetupAttemptFlowDirection `json:"flow_directions"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

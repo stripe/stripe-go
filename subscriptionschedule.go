@@ -778,7 +778,22 @@ type SubscriptionSchedulePhaseItemParams struct {
 	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionSchedulePhaseItemTrialParams `form:"trial"`
 	// The ID of the trial offer to apply to the configuration item.
-	TrialOffer *string `form:"trial_offer"`
+	TrialOffer  *string                                         `form:"trial_offer"`
+	UnsetFields []SubscriptionSchedulePhaseItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionSchedulePhaseItemParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionSchedulePhaseItemParams.
+type SubscriptionSchedulePhaseItemParamsUnsetField string
+
+const (
+	SubscriptionSchedulePhaseItemParamsUnsetFieldBillingThresholds SubscriptionSchedulePhaseItemParamsUnsetField = "billing_thresholds"
+	SubscriptionSchedulePhaseItemParamsUnsetFieldDiscounts         SubscriptionSchedulePhaseItemParamsUnsetField = "discounts"
+	SubscriptionSchedulePhaseItemParamsUnsetFieldTaxRates          SubscriptionSchedulePhaseItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionSchedulePhaseItemParams) AddUnsetField(field SubscriptionSchedulePhaseItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -865,6 +880,22 @@ type SubscriptionSchedulePhaseParams struct {
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionSchedulePhaseTrialSettingsParams `form:"trial_settings"`
+	UnsetFields   []SubscriptionSchedulePhaseParamsUnsetField   `form:"-" json:"-"`
+}
+
+// SubscriptionSchedulePhaseParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionSchedulePhaseParams.
+type SubscriptionSchedulePhaseParamsUnsetField string
+
+const (
+	SubscriptionSchedulePhaseParamsUnsetFieldBillingThresholds SubscriptionSchedulePhaseParamsUnsetField = "billing_thresholds"
+	SubscriptionSchedulePhaseParamsUnsetFieldDefaultTaxRates   SubscriptionSchedulePhaseParamsUnsetField = "default_tax_rates"
+	SubscriptionSchedulePhaseParamsUnsetFieldDescription       SubscriptionSchedulePhaseParamsUnsetField = "description"
+	SubscriptionSchedulePhaseParamsUnsetFieldDiscounts         SubscriptionSchedulePhaseParamsUnsetField = "discounts"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionSchedulePhaseParams) AddUnsetField(field SubscriptionSchedulePhaseParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -936,7 +967,8 @@ type SubscriptionScheduleParams struct {
 type SubscriptionScheduleParamsUnsetField string
 
 const (
-	SubscriptionScheduleParamsUnsetFieldMetadata SubscriptionScheduleParamsUnsetField = "metadata"
+	SubscriptionScheduleParamsUnsetFieldBillingSchedules SubscriptionScheduleParamsUnsetField = "billing_schedules"
+	SubscriptionScheduleParamsUnsetFieldMetadata         SubscriptionScheduleParamsUnsetField = "metadata"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -1368,7 +1400,20 @@ type SubscriptionScheduleAmendAmendmentMetadataActionParams struct {
 	// Key-value pairs to set as schedule phase metadata. Existing schedule phase metadata will be overwritten.
 	Set map[string]string `form:"set"`
 	// Select one of three ways to update phase-level `metadata` on subscription schedules.
-	Type *string `form:"type"`
+	Type        *string                                                            `form:"type"`
+	UnsetFields []SubscriptionScheduleAmendAmendmentMetadataActionParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionScheduleAmendAmendmentMetadataActionParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionScheduleAmendAmendmentMetadataActionParams.
+type SubscriptionScheduleAmendAmendmentMetadataActionParamsUnsetField string
+
+const (
+	SubscriptionScheduleAmendAmendmentMetadataActionParamsUnsetFieldSet SubscriptionScheduleAmendAmendmentMetadataActionParamsUnsetField = "set"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionScheduleAmendAmendmentMetadataActionParams) AddUnsetField(field SubscriptionScheduleAmendAmendmentMetadataActionParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Details of the pause_collection behavior to apply to the amendment.
@@ -1499,6 +1544,19 @@ type SubscriptionScheduleAmendParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 	// Changes to apply to the subscription schedule.
 	ScheduleSettings *SubscriptionScheduleAmendScheduleSettingsParams `form:"schedule_settings"`
+	UnsetFields      []SubscriptionScheduleAmendParamsUnsetField      `form:"-" json:"-"`
+}
+
+// SubscriptionScheduleAmendParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionScheduleAmendParams.
+type SubscriptionScheduleAmendParamsUnsetField string
+
+const (
+	SubscriptionScheduleAmendParamsUnsetFieldPrebilling SubscriptionScheduleAmendParamsUnsetField = "prebilling"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionScheduleAmendParams) AddUnsetField(field SubscriptionScheduleAmendParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1982,7 +2040,22 @@ type SubscriptionScheduleCreatePhaseItemParams struct {
 	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionScheduleCreatePhaseItemTrialParams `form:"trial"`
 	// The ID of the trial offer to apply to the configuration item.
-	TrialOffer *string `form:"trial_offer"`
+	TrialOffer  *string                                               `form:"trial_offer"`
+	UnsetFields []SubscriptionScheduleCreatePhaseItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionScheduleCreatePhaseItemParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionScheduleCreatePhaseItemParams.
+type SubscriptionScheduleCreatePhaseItemParamsUnsetField string
+
+const (
+	SubscriptionScheduleCreatePhaseItemParamsUnsetFieldBillingThresholds SubscriptionScheduleCreatePhaseItemParamsUnsetField = "billing_thresholds"
+	SubscriptionScheduleCreatePhaseItemParamsUnsetFieldDiscounts         SubscriptionScheduleCreatePhaseItemParamsUnsetField = "discounts"
+	SubscriptionScheduleCreatePhaseItemParamsUnsetFieldTaxRates          SubscriptionScheduleCreatePhaseItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionScheduleCreatePhaseItemParams) AddUnsetField(field SubscriptionScheduleCreatePhaseItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2064,6 +2137,22 @@ type SubscriptionScheduleCreatePhaseParams struct {
 	TrialEnd *int64 `form:"trial_end"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionScheduleCreatePhaseTrialSettingsParams `form:"trial_settings"`
+	UnsetFields   []SubscriptionScheduleCreatePhaseParamsUnsetField   `form:"-" json:"-"`
+}
+
+// SubscriptionScheduleCreatePhaseParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionScheduleCreatePhaseParams.
+type SubscriptionScheduleCreatePhaseParamsUnsetField string
+
+const (
+	SubscriptionScheduleCreatePhaseParamsUnsetFieldBillingThresholds SubscriptionScheduleCreatePhaseParamsUnsetField = "billing_thresholds"
+	SubscriptionScheduleCreatePhaseParamsUnsetFieldDefaultTaxRates   SubscriptionScheduleCreatePhaseParamsUnsetField = "default_tax_rates"
+	SubscriptionScheduleCreatePhaseParamsUnsetFieldDescription       SubscriptionScheduleCreatePhaseParamsUnsetField = "description"
+	SubscriptionScheduleCreatePhaseParamsUnsetFieldDiscounts         SubscriptionScheduleCreatePhaseParamsUnsetField = "discounts"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionScheduleCreatePhaseParams) AddUnsetField(field SubscriptionScheduleCreatePhaseParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2593,7 +2682,22 @@ type SubscriptionScheduleUpdatePhaseItemParams struct {
 	// Options that configure the trial on the subscription item.
 	Trial *SubscriptionScheduleUpdatePhaseItemTrialParams `form:"trial"`
 	// The ID of the trial offer to apply to the configuration item.
-	TrialOffer *string `form:"trial_offer"`
+	TrialOffer  *string                                               `form:"trial_offer"`
+	UnsetFields []SubscriptionScheduleUpdatePhaseItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionScheduleUpdatePhaseItemParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionScheduleUpdatePhaseItemParams.
+type SubscriptionScheduleUpdatePhaseItemParamsUnsetField string
+
+const (
+	SubscriptionScheduleUpdatePhaseItemParamsUnsetFieldBillingThresholds SubscriptionScheduleUpdatePhaseItemParamsUnsetField = "billing_thresholds"
+	SubscriptionScheduleUpdatePhaseItemParamsUnsetFieldDiscounts         SubscriptionScheduleUpdatePhaseItemParamsUnsetField = "discounts"
+	SubscriptionScheduleUpdatePhaseItemParamsUnsetFieldTaxRates          SubscriptionScheduleUpdatePhaseItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionScheduleUpdatePhaseItemParams) AddUnsetField(field SubscriptionScheduleUpdatePhaseItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2680,6 +2784,22 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionScheduleUpdatePhaseTrialSettingsParams `form:"trial_settings"`
+	UnsetFields   []SubscriptionScheduleUpdatePhaseParamsUnsetField   `form:"-" json:"-"`
+}
+
+// SubscriptionScheduleUpdatePhaseParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionScheduleUpdatePhaseParams.
+type SubscriptionScheduleUpdatePhaseParamsUnsetField string
+
+const (
+	SubscriptionScheduleUpdatePhaseParamsUnsetFieldBillingThresholds SubscriptionScheduleUpdatePhaseParamsUnsetField = "billing_thresholds"
+	SubscriptionScheduleUpdatePhaseParamsUnsetFieldDefaultTaxRates   SubscriptionScheduleUpdatePhaseParamsUnsetField = "default_tax_rates"
+	SubscriptionScheduleUpdatePhaseParamsUnsetFieldDescription       SubscriptionScheduleUpdatePhaseParamsUnsetField = "description"
+	SubscriptionScheduleUpdatePhaseParamsUnsetFieldDiscounts         SubscriptionScheduleUpdatePhaseParamsUnsetField = "discounts"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionScheduleUpdatePhaseParams) AddUnsetField(field SubscriptionScheduleUpdatePhaseParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2740,7 +2860,8 @@ type SubscriptionScheduleUpdateParams struct {
 type SubscriptionScheduleUpdateParamsUnsetField string
 
 const (
-	SubscriptionScheduleUpdateParamsUnsetFieldMetadata SubscriptionScheduleUpdateParamsUnsetField = "metadata"
+	SubscriptionScheduleUpdateParamsUnsetFieldBillingSchedules SubscriptionScheduleUpdateParamsUnsetField = "billing_schedules"
+	SubscriptionScheduleUpdateParamsUnsetFieldMetadata         SubscriptionScheduleUpdateParamsUnsetField = "metadata"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.

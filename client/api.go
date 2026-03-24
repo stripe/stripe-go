@@ -206,7 +206,6 @@ import (
 	v2billinglicenseditem "github.com/stripe/stripe-go/v84/v2/billing/licenseditem"
 	v2billinglicensefee "github.com/stripe/stripe-go/v84/v2/billing/licensefee"
 	v2billinglicensefeesversion "github.com/stripe/stripe-go/v84/v2/billing/licensefees/version"
-	v2billinglicensefeesubscription "github.com/stripe/stripe-go/v84/v2/billing/licensefeesubscription"
 	v2billingmetereditem "github.com/stripe/stripe-go/v84/v2/billing/metereditem"
 	v2billingmeterevent "github.com/stripe/stripe-go/v84/v2/billing/meterevent"
 	v2billingmetereventadjustment "github.com/stripe/stripe-go/v84/v2/billing/metereventadjustment"
@@ -217,7 +216,6 @@ import (
 	v2billingpricingplanscomponent "github.com/stripe/stripe-go/v84/v2/billing/pricingplans/component"
 	v2billingpricingplansversion "github.com/stripe/stripe-go/v84/v2/billing/pricingplans/version"
 	v2billingpricingplansubscription "github.com/stripe/stripe-go/v84/v2/billing/pricingplansubscription"
-	v2billingpricingplansubscriptionscomponent "github.com/stripe/stripe-go/v84/v2/billing/pricingplansubscriptions/component"
 	v2billingprofile "github.com/stripe/stripe-go/v84/v2/billing/profile"
 	v2billingratecard "github.com/stripe/stripe-go/v84/v2/billing/ratecard"
 	v2billingratecardscustompricingunitoveragerate "github.com/stripe/stripe-go/v84/v2/billing/ratecards/custompricingunitoveragerate"
@@ -226,10 +224,12 @@ import (
 	v2billingratecardsubscription "github.com/stripe/stripe-go/v84/v2/billing/ratecardsubscription"
 	v2billingserviceaction "github.com/stripe/stripe-go/v84/v2/billing/serviceaction"
 	v2coreaccount "github.com/stripe/stripe-go/v84/v2/core/account"
+	v2coreaccountevaluation "github.com/stripe/stripe-go/v84/v2/core/accountevaluation"
 	v2coreaccountlink "github.com/stripe/stripe-go/v84/v2/core/accountlink"
 	v2coreaccountsperson "github.com/stripe/stripe-go/v84/v2/core/accounts/person"
 	v2coreaccountspersontoken "github.com/stripe/stripe-go/v84/v2/core/accounts/persontoken"
 	v2coreaccounttoken "github.com/stripe/stripe-go/v84/v2/core/accounttoken"
+	v2corebatchjob "github.com/stripe/stripe-go/v84/v2/core/batchjob"
 	v2coreclaimablesandbox "github.com/stripe/stripe-go/v84/v2/core/claimablesandbox"
 	v2coreconnectionsession "github.com/stripe/stripe-go/v84/v2/core/connectionsession"
 	v2coreevent "github.com/stripe/stripe-go/v84/v2/core/event"
@@ -654,8 +654,6 @@ type API struct {
 	V2BillingLicensedItems *v2billinglicenseditem.Client
 	// V2BillingLicenseFees is the client used to invoke /v2/billing/license_fees APIs.
 	V2BillingLicenseFees *v2billinglicensefee.Client
-	// V2BillingLicenseFeeSubscriptions is the client used to invoke licensefeesubscription related APIs.
-	V2BillingLicenseFeeSubscriptions *v2billinglicensefeesubscription.Client
 	// V2BillingLicenseFeesVersions is the client used to invoke /v2/billing/license_fees/{license_fee_id}/versions APIs.
 	V2BillingLicenseFeesVersions *v2billinglicensefeesversion.Client
 	// V2BillingMeteredItems is the client used to invoke /v2/billing/metered_items APIs.
@@ -676,8 +674,6 @@ type API struct {
 	V2BillingPricingPlansComponents *v2billingpricingplanscomponent.Client
 	// V2BillingPricingPlanSubscriptions is the client used to invoke /v2/billing/pricing_plan_subscriptions APIs.
 	V2BillingPricingPlanSubscriptions *v2billingpricingplansubscription.Client
-	// V2BillingPricingPlanSubscriptionsComponents is the client used to invoke component related APIs.
-	V2BillingPricingPlanSubscriptionsComponents *v2billingpricingplansubscriptionscomponent.Client
 	// V2BillingPricingPlansVersions is the client used to invoke /v2/billing/pricing_plans/{pricing_plan_id}/versions APIs.
 	V2BillingPricingPlansVersions *v2billingpricingplansversion.Client
 	// V2BillingProfiles is the client used to invoke /v2/billing/profiles APIs.
@@ -694,6 +690,8 @@ type API struct {
 	V2BillingRateCardsVersions *v2billingratecardsversion.Client
 	// V2BillingServiceActions is the client used to invoke /v2/billing/service_actions APIs.
 	V2BillingServiceActions *v2billingserviceaction.Client
+	// V2CoreAccountEvaluations is the client used to invoke /v2/core/account_evaluations APIs.
+	V2CoreAccountEvaluations *v2coreaccountevaluation.Client
 	// V2CoreAccountLinks is the client used to invoke /v2/core/account_links APIs.
 	V2CoreAccountLinks *v2coreaccountlink.Client
 	// V2CoreAccounts is the client used to invoke /v2/core/accounts APIs.
@@ -704,6 +702,8 @@ type API struct {
 	V2CoreAccountsPersonTokens *v2coreaccountspersontoken.Client
 	// V2CoreAccountTokens is the client used to invoke /v2/core/account_tokens APIs.
 	V2CoreAccountTokens *v2coreaccounttoken.Client
+	// V2CoreBatchJobs is the client used to invoke /v2/core/batch_jobs APIs.
+	V2CoreBatchJobs *v2corebatchjob.Client
 	// V2CoreClaimableSandboxes is the client used to invoke /v2/core/claimable_sandboxes APIs.
 	V2CoreClaimableSandboxes *v2coreclaimablesandbox.Client
 	// V2CoreConnectionSessions is the client used to invoke /v2/core/connection_sessions APIs.
@@ -976,7 +976,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2BillingIntentsActions = &v2billingintentsaction.Client{B: backends.API, Key: key}
 	a.V2BillingLicensedItems = &v2billinglicenseditem.Client{B: backends.API, Key: key}
 	a.V2BillingLicenseFees = &v2billinglicensefee.Client{B: backends.API, Key: key}
-	a.V2BillingLicenseFeeSubscriptions = &v2billinglicensefeesubscription.Client{B: backends.API, Key: key}
 	a.V2BillingLicenseFeesVersions = &v2billinglicensefeesversion.Client{B: backends.API, Key: key}
 	a.V2BillingMeteredItems = &v2billingmetereditem.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEventAdjustments = &v2billingmetereventadjustment.Client{B: backends.API, Key: key}
@@ -987,7 +986,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2BillingPricingPlans = &v2billingpricingplan.Client{B: backends.API, Key: key}
 	a.V2BillingPricingPlansComponents = &v2billingpricingplanscomponent.Client{B: backends.API, Key: key}
 	a.V2BillingPricingPlanSubscriptions = &v2billingpricingplansubscription.Client{B: backends.API, Key: key}
-	a.V2BillingPricingPlanSubscriptionsComponents = &v2billingpricingplansubscriptionscomponent.Client{B: backends.API, Key: key}
 	a.V2BillingPricingPlansVersions = &v2billingpricingplansversion.Client{B: backends.API, Key: key}
 	a.V2BillingProfiles = &v2billingprofile.Client{B: backends.API, Key: key}
 	a.V2BillingRateCards = &v2billingratecard.Client{B: backends.API, Key: key}
@@ -996,11 +994,13 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2BillingRateCardSubscriptions = &v2billingratecardsubscription.Client{B: backends.API, Key: key}
 	a.V2BillingRateCardsVersions = &v2billingratecardsversion.Client{B: backends.API, Key: key}
 	a.V2BillingServiceActions = &v2billingserviceaction.Client{B: backends.API, Key: key}
+	a.V2CoreAccountEvaluations = &v2coreaccountevaluation.Client{B: backends.API, Key: key}
 	a.V2CoreAccountLinks = &v2coreaccountlink.Client{B: backends.API, Key: key}
 	a.V2CoreAccounts = &v2coreaccount.Client{B: backends.API, Key: key}
 	a.V2CoreAccountsPersons = &v2coreaccountsperson.Client{B: backends.API, Key: key}
 	a.V2CoreAccountsPersonTokens = &v2coreaccountspersontoken.Client{B: backends.API, Key: key}
 	a.V2CoreAccountTokens = &v2coreaccounttoken.Client{B: backends.API, Key: key}
+	a.V2CoreBatchJobs = &v2corebatchjob.Client{B: backends.API, Key: key}
 	a.V2CoreClaimableSandboxes = &v2coreclaimablesandbox.Client{B: backends.API, Key: key}
 	a.V2CoreConnectionSessions = &v2coreconnectionsession.Client{B: backends.API, Key: key}
 	a.V2CoreEventDestinations = &v2coreeventdestination.Client{B: backends.API, Key: key}

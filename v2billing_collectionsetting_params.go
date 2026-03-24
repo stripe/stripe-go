@@ -53,7 +53,7 @@ type V2BillingCollectionSettingPaymentMethodOptionsBancontactParams struct {
 // Configuration options for setting up an eMandate for cards issued in India.
 type V2BillingCollectionSettingPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	Amount *int64 `form:"amount" json:"amount,string,omitempty"`
 	// The AmountType for the mandate. One of `fixed` or `maximum`.
 	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
 	// A description of the mandate that is meant to be displayed to the customer.
@@ -201,7 +201,7 @@ type V2BillingCollectionSettingCreatePaymentMethodOptionsBancontactParams struct
 // Configuration options for setting up an eMandate for cards issued in India.
 type V2BillingCollectionSettingCreatePaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	Amount *int64 `form:"amount" json:"amount,string,omitempty"`
 	// The AmountType for the mandate. One of `fixed` or `maximum`.
 	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
 	// A description of the mandate that is meant to be displayed to the customer.
@@ -349,7 +349,7 @@ type V2BillingCollectionSettingUpdatePaymentMethodOptionsBancontactParams struct
 // Configuration options for setting up an eMandate for cards issued in India.
 type V2BillingCollectionSettingUpdatePaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	Amount *int64 `form:"amount" json:"amount,string,omitempty"`
 	// The AmountType for the mandate. One of `fixed` or `maximum`.
 	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
 	// A description of the mandate that is meant to be displayed to the customer.

@@ -31,8 +31,9 @@ type V2CoreEventDestinationStatusDetailsDisabledReason string
 
 // List of values that V2CoreEventDestinationStatusDetailsDisabledReason can take
 const (
-	V2CoreEventDestinationStatusDetailsDisabledReasonNoAwsEventSourceExists V2CoreEventDestinationStatusDetailsDisabledReason = "no_aws_event_source_exists"
-	V2CoreEventDestinationStatusDetailsDisabledReasonUser                   V2CoreEventDestinationStatusDetailsDisabledReason = "user"
+	V2CoreEventDestinationStatusDetailsDisabledReasonNoAwsEventSourceExists    V2CoreEventDestinationStatusDetailsDisabledReason = "no_aws_event_source_exists"
+	V2CoreEventDestinationStatusDetailsDisabledReasonNoAzurePartnerTopicExists V2CoreEventDestinationStatusDetailsDisabledReason = "no_azure_partner_topic_exists"
+	V2CoreEventDestinationStatusDetailsDisabledReasonUser                      V2CoreEventDestinationStatusDetailsDisabledReason = "user"
 )
 
 // Event destination type.
@@ -41,6 +42,7 @@ type V2CoreEventDestinationType string
 // List of values that V2CoreEventDestinationType can take
 const (
 	V2CoreEventDestinationTypeAmazonEventbridge V2CoreEventDestinationType = "amazon_eventbridge"
+	V2CoreEventDestinationTypeAzureEventGrid    V2CoreEventDestinationType = "azure_event_grid"
 	V2CoreEventDestinationTypeWebhookEndpoint   V2CoreEventDestinationType = "webhook_endpoint"
 )
 
@@ -53,6 +55,17 @@ const (
 	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusDeleted V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "deleted"
 	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusPending V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "pending"
 	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusUnknown V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "unknown"
+)
+
+// The status of the Azure partner topic.
+type V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus string
+
+// List of values that V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus can take
+const (
+	V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatusActivated      V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus = "activated"
+	V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatusDeleted        V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus = "deleted"
+	V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatusNeverActivated V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus = "never_activated"
+	V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatusUnknown        V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus = "unknown"
 )
 
 // Details about why the event destination has been disabled.
@@ -77,6 +90,20 @@ type V2CoreEventDestinationAmazonEventbridge struct {
 	AwsEventSourceStatus V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus `json:"aws_event_source_status"`
 }
 
+// Azure Event Grid configuration.
+type V2CoreEventDestinationAzureEventGrid struct {
+	// The name of the Azure partner topic.
+	AzurePartnerTopicName string `json:"azure_partner_topic_name"`
+	// The status of the Azure partner topic.
+	AzurePartnerTopicStatus V2CoreEventDestinationAzureEventGridAzurePartnerTopicStatus `json:"azure_partner_topic_status"`
+	// The Azure region.
+	AzureRegion string `json:"azure_region"`
+	// The name of the Azure resource group.
+	AzureResourceGroupName string `json:"azure_resource_group_name"`
+	// The Azure subscription ID.
+	AzureSubscriptionID string `json:"azure_subscription_id"`
+}
+
 // Webhook endpoint configuration.
 type V2CoreEventDestinationWebhookEndpoint struct {
 	// The signing secret of the webhook endpoint, only includable on creation.
@@ -90,6 +117,8 @@ type V2CoreEventDestination struct {
 	APIResource
 	// Amazon EventBridge configuration.
 	AmazonEventbridge *V2CoreEventDestinationAmazonEventbridge `json:"amazon_eventbridge,omitempty"`
+	// Azure Event Grid configuration.
+	AzureEventGrid *V2CoreEventDestinationAzureEventGrid `json:"azure_event_grid,omitempty"`
 	// Time at which the object was created.
 	Created time.Time `json:"created"`
 	// An optional description of what the event destination is used for.

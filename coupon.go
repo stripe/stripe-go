@@ -70,6 +70,19 @@ type CouponParams struct {
 	Script *CouponScriptParams `form:"script"`
 	// A hash specifying the service period for the coupon.
 	ServicePeriod *CouponServicePeriodParams `form:"service_period"`
+	UnsetFields   []CouponParamsUnsetField   `form:"-" json:"-"`
+}
+
+// CouponParamsUnsetField is the list of fields that can be cleared/unset on CouponParams.
+type CouponParamsUnsetField string
+
+const (
+	CouponParamsUnsetFieldMetadata CouponParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CouponParams) AddUnsetField(field CouponParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -282,6 +295,19 @@ type CouponCreateParams struct {
 	Script *CouponCreateScriptParams `form:"script"`
 	// A hash specifying the service period for the coupon.
 	ServicePeriod *CouponCreateServicePeriodParams `form:"service_period"`
+	UnsetFields   []CouponCreateParamsUnsetField   `form:"-" json:"-"`
+}
+
+// CouponCreateParamsUnsetField is the list of fields that can be cleared/unset on CouponCreateParams.
+type CouponCreateParamsUnsetField string
+
+const (
+	CouponCreateParamsUnsetFieldMetadata CouponCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CouponCreateParams) AddUnsetField(field CouponCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -333,7 +359,7 @@ type CouponServicePeriod struct {
 
 // A coupon contains information about a percent-off or amount-off discount you
 // might want to apply to a customer. Coupons may be applied to [subscriptions](https://api.stripe.com#subscriptions), [invoices](https://api.stripe.com#invoices),
-// [checkout sessions](https://docs.stripe.com/api/checkout/sessions), [quotes](https://api.stripe.com#quotes), and more. Coupons do not work with conventional one-off [charges](https://docs.stripe.com/api/charges/create) or [payment intents](https://docs.stripe.com/api/payment_intents).
+// [checkout sessions](https://docs.stripe.com/api/checkout/sessions), [quotes](https://api.stripe.com#quotes), and more. Coupons do not work with conventional one-off [charges](https://api.stripe.com#create_charge) or [payment intents](https://docs.stripe.com/api/payment_intents).
 type Coupon struct {
 	APIResource
 	// Amount (in the `currency` specified) that will be taken off the subtotal of any invoices for this customer.
@@ -352,7 +378,7 @@ type Coupon struct {
 	DurationInMonths int64 `json:"duration_in_months"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Maximum number of times this coupon can be redeemed, in total, across all customers, before it is no longer valid.
 	MaxRedemptions int64 `json:"max_redemptions"`

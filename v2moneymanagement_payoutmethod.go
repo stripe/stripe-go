@@ -139,6 +139,8 @@ type V2MoneyManagementPayoutMethodCard struct {
 	Fingerprint string `json:"fingerprint"`
 	// The last 4 digits of the card number.
 	Last4 string `json:"last4"`
+	// The list of currencies supported by this bank account.
+	SupportedCurrencies []Currency `json:"supported_currencies"`
 }
 
 // The PayoutMethodCryptoWallet object details.
@@ -178,6 +180,9 @@ type V2MoneyManagementPayoutMethod struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
+	// Whether the Payout Method is currently unusable for money movement, despite potentially being correctly set up.
+	// Please reach out to Stripe Support for more information.
+	Restricted bool `json:"restricted"`
 	// Closed Enum. The type of payout method.
 	Type V2MoneyManagementPayoutMethodType `json:"type"`
 	// Indicates whether the payout method has met the necessary requirements for outbound money movement.

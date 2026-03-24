@@ -9,6 +9,8 @@ package stripe
 // Lists FinancialAccounts in this compartment.
 type V2MoneyManagementFinancialAccountListParams struct {
 	Params `form:"*"`
+	// Additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
 	// The page limit.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// The status of the FinancialAccount to filter by. By default, closed FinancialAccounts are not returned.
@@ -30,6 +32,8 @@ type V2MoneyManagementFinancialAccountParams struct {
 	Params `form:"*"`
 	// A descriptive name for the FinancialAccount, up to 50 characters long. This name will be used in the Stripe Dashboard and embedded components.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
+	// Additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
 	// Metadata associated with the FinancialAccount.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Parameters specific to creating `storage` type FinancialAccounts.
@@ -95,6 +99,8 @@ func (p *V2MoneyManagementFinancialAccountCreateParams) AddMetadata(key string, 
 // Retrieves the details of an existing FinancialAccount.
 type V2MoneyManagementFinancialAccountRetrieveParams struct {
 	Params `form:"*"`
+	// Additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
 }
 
 // Updates an existing FinancialAccount.

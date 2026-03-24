@@ -52,16 +52,17 @@ type TerminalConfigurationParams struct {
 type TerminalConfigurationParamsUnsetField string
 
 const (
-	TerminalConfigurationParamsUnsetFieldBBPOSWisePad3 TerminalConfigurationParamsUnsetField = "bbpos_wisepad3"
-	TerminalConfigurationParamsUnsetFieldBBPOSWisePOSE TerminalConfigurationParamsUnsetField = "bbpos_wisepos_e"
-	TerminalConfigurationParamsUnsetFieldCellular      TerminalConfigurationParamsUnsetField = "cellular"
-	TerminalConfigurationParamsUnsetFieldOffline       TerminalConfigurationParamsUnsetField = "offline"
-	TerminalConfigurationParamsUnsetFieldRebootWindow  TerminalConfigurationParamsUnsetField = "reboot_window"
-	TerminalConfigurationParamsUnsetFieldStripeS700    TerminalConfigurationParamsUnsetField = "stripe_s700"
-	TerminalConfigurationParamsUnsetFieldStripeS710    TerminalConfigurationParamsUnsetField = "stripe_s710"
-	TerminalConfigurationParamsUnsetFieldTipping       TerminalConfigurationParamsUnsetField = "tipping"
-	TerminalConfigurationParamsUnsetFieldVerifoneP400  TerminalConfigurationParamsUnsetField = "verifone_p400"
-	TerminalConfigurationParamsUnsetFieldWifi          TerminalConfigurationParamsUnsetField = "wifi"
+	TerminalConfigurationParamsUnsetFieldBBPOSWisePad3  TerminalConfigurationParamsUnsetField = "bbpos_wisepad3"
+	TerminalConfigurationParamsUnsetFieldBBPOSWisePOSE  TerminalConfigurationParamsUnsetField = "bbpos_wisepos_e"
+	TerminalConfigurationParamsUnsetFieldCellular       TerminalConfigurationParamsUnsetField = "cellular"
+	TerminalConfigurationParamsUnsetFieldOffline        TerminalConfigurationParamsUnsetField = "offline"
+	TerminalConfigurationParamsUnsetFieldReaderSecurity TerminalConfigurationParamsUnsetField = "reader_security"
+	TerminalConfigurationParamsUnsetFieldRebootWindow   TerminalConfigurationParamsUnsetField = "reboot_window"
+	TerminalConfigurationParamsUnsetFieldStripeS700     TerminalConfigurationParamsUnsetField = "stripe_s700"
+	TerminalConfigurationParamsUnsetFieldStripeS710     TerminalConfigurationParamsUnsetField = "stripe_s710"
+	TerminalConfigurationParamsUnsetFieldTipping        TerminalConfigurationParamsUnsetField = "tipping"
+	TerminalConfigurationParamsUnsetFieldVerifoneP400   TerminalConfigurationParamsUnsetField = "verifone_p400"
+	TerminalConfigurationParamsUnsetFieldWifi           TerminalConfigurationParamsUnsetField = "wifi"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -127,7 +128,20 @@ type TerminalConfigurationOfflineParams struct {
 // Configurations for reader security settings.
 type TerminalConfigurationReaderSecurityParams struct {
 	// Passcode used to access a reader's admin menu.
-	AdminMenuPasscode *string `form:"admin_menu_passcode"`
+	AdminMenuPasscode *string                                               `form:"admin_menu_passcode"`
+	UnsetFields       []TerminalConfigurationReaderSecurityParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationReaderSecurityParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationReaderSecurityParams.
+type TerminalConfigurationReaderSecurityParamsUnsetField string
+
+const (
+	TerminalConfigurationReaderSecurityParamsUnsetFieldAdminMenuPasscode TerminalConfigurationReaderSecurityParamsUnsetField = "admin_menu_passcode"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationReaderSecurityParams) AddUnsetField(field TerminalConfigurationReaderSecurityParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Reboot time settings for readers. that support customized reboot time configuration.
@@ -581,7 +595,20 @@ type TerminalConfigurationUpdateOfflineParams struct {
 // Configurations for reader security settings.
 type TerminalConfigurationUpdateReaderSecurityParams struct {
 	// Passcode used to access a reader's admin menu.
-	AdminMenuPasscode *string `form:"admin_menu_passcode"`
+	AdminMenuPasscode *string                                                     `form:"admin_menu_passcode"`
+	UnsetFields       []TerminalConfigurationUpdateReaderSecurityParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateReaderSecurityParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateReaderSecurityParams.
+type TerminalConfigurationUpdateReaderSecurityParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateReaderSecurityParamsUnsetFieldAdminMenuPasscode TerminalConfigurationUpdateReaderSecurityParamsUnsetField = "admin_menu_passcode"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateReaderSecurityParams) AddUnsetField(field TerminalConfigurationUpdateReaderSecurityParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Reboot time settings for readers. that support customized reboot time configuration.
@@ -987,16 +1014,17 @@ type TerminalConfigurationUpdateParams struct {
 type TerminalConfigurationUpdateParamsUnsetField string
 
 const (
-	TerminalConfigurationUpdateParamsUnsetFieldBBPOSWisePad3 TerminalConfigurationUpdateParamsUnsetField = "bbpos_wisepad3"
-	TerminalConfigurationUpdateParamsUnsetFieldBBPOSWisePOSE TerminalConfigurationUpdateParamsUnsetField = "bbpos_wisepos_e"
-	TerminalConfigurationUpdateParamsUnsetFieldCellular      TerminalConfigurationUpdateParamsUnsetField = "cellular"
-	TerminalConfigurationUpdateParamsUnsetFieldOffline       TerminalConfigurationUpdateParamsUnsetField = "offline"
-	TerminalConfigurationUpdateParamsUnsetFieldRebootWindow  TerminalConfigurationUpdateParamsUnsetField = "reboot_window"
-	TerminalConfigurationUpdateParamsUnsetFieldStripeS700    TerminalConfigurationUpdateParamsUnsetField = "stripe_s700"
-	TerminalConfigurationUpdateParamsUnsetFieldStripeS710    TerminalConfigurationUpdateParamsUnsetField = "stripe_s710"
-	TerminalConfigurationUpdateParamsUnsetFieldTipping       TerminalConfigurationUpdateParamsUnsetField = "tipping"
-	TerminalConfigurationUpdateParamsUnsetFieldVerifoneP400  TerminalConfigurationUpdateParamsUnsetField = "verifone_p400"
-	TerminalConfigurationUpdateParamsUnsetFieldWifi          TerminalConfigurationUpdateParamsUnsetField = "wifi"
+	TerminalConfigurationUpdateParamsUnsetFieldBBPOSWisePad3  TerminalConfigurationUpdateParamsUnsetField = "bbpos_wisepad3"
+	TerminalConfigurationUpdateParamsUnsetFieldBBPOSWisePOSE  TerminalConfigurationUpdateParamsUnsetField = "bbpos_wisepos_e"
+	TerminalConfigurationUpdateParamsUnsetFieldCellular       TerminalConfigurationUpdateParamsUnsetField = "cellular"
+	TerminalConfigurationUpdateParamsUnsetFieldOffline        TerminalConfigurationUpdateParamsUnsetField = "offline"
+	TerminalConfigurationUpdateParamsUnsetFieldReaderSecurity TerminalConfigurationUpdateParamsUnsetField = "reader_security"
+	TerminalConfigurationUpdateParamsUnsetFieldRebootWindow   TerminalConfigurationUpdateParamsUnsetField = "reboot_window"
+	TerminalConfigurationUpdateParamsUnsetFieldStripeS700     TerminalConfigurationUpdateParamsUnsetField = "stripe_s700"
+	TerminalConfigurationUpdateParamsUnsetFieldStripeS710     TerminalConfigurationUpdateParamsUnsetField = "stripe_s710"
+	TerminalConfigurationUpdateParamsUnsetFieldTipping        TerminalConfigurationUpdateParamsUnsetField = "tipping"
+	TerminalConfigurationUpdateParamsUnsetFieldVerifoneP400   TerminalConfigurationUpdateParamsUnsetField = "verifone_p400"
+	TerminalConfigurationUpdateParamsUnsetFieldWifi           TerminalConfigurationUpdateParamsUnsetField = "wifi"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -1062,7 +1090,20 @@ type TerminalConfigurationCreateOfflineParams struct {
 // Configurations for reader security settings.
 type TerminalConfigurationCreateReaderSecurityParams struct {
 	// Passcode used to access a reader's admin menu.
-	AdminMenuPasscode *string `form:"admin_menu_passcode"`
+	AdminMenuPasscode *string                                                     `form:"admin_menu_passcode"`
+	UnsetFields       []TerminalConfigurationCreateReaderSecurityParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateReaderSecurityParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateReaderSecurityParams.
+type TerminalConfigurationCreateReaderSecurityParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateReaderSecurityParamsUnsetFieldAdminMenuPasscode TerminalConfigurationCreateReaderSecurityParamsUnsetField = "admin_menu_passcode"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateReaderSecurityParams) AddUnsetField(field TerminalConfigurationCreateReaderSecurityParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Reboot time settings for readers. that support customized reboot time configuration.
@@ -1468,10 +1509,11 @@ type TerminalConfigurationCreateParams struct {
 type TerminalConfigurationCreateParamsUnsetField string
 
 const (
-	TerminalConfigurationCreateParamsUnsetFieldCellular TerminalConfigurationCreateParamsUnsetField = "cellular"
-	TerminalConfigurationCreateParamsUnsetFieldOffline  TerminalConfigurationCreateParamsUnsetField = "offline"
-	TerminalConfigurationCreateParamsUnsetFieldTipping  TerminalConfigurationCreateParamsUnsetField = "tipping"
-	TerminalConfigurationCreateParamsUnsetFieldWifi     TerminalConfigurationCreateParamsUnsetField = "wifi"
+	TerminalConfigurationCreateParamsUnsetFieldCellular       TerminalConfigurationCreateParamsUnsetField = "cellular"
+	TerminalConfigurationCreateParamsUnsetFieldOffline        TerminalConfigurationCreateParamsUnsetField = "offline"
+	TerminalConfigurationCreateParamsUnsetFieldReaderSecurity TerminalConfigurationCreateParamsUnsetField = "reader_security"
+	TerminalConfigurationCreateParamsUnsetFieldTipping        TerminalConfigurationCreateParamsUnsetField = "tipping"
+	TerminalConfigurationCreateParamsUnsetFieldWifi           TerminalConfigurationCreateParamsUnsetField = "wifi"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -1761,7 +1803,7 @@ type TerminalConfiguration struct {
 	ID string `json:"id"`
 	// Whether this Configuration is the default for your account
 	IsAccountDefault bool `json:"is_account_default"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String indicating the name of the Configuration object, set by the user
 	Name string `json:"name"`

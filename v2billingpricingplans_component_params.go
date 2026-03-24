@@ -25,7 +25,7 @@ type V2BillingPricingPlansComponentListParams struct {
 type V2BillingPricingPlansComponentLicenseFeeParams struct {
 	// The ID of the License Fee.
 	ID *string `form:"id" json:"id"`
-	// The version of the LicenseFee. Defaults to 'latest', if not specified.
+	// The ID of the License Fee Version. If not specified, defaults to 'latest'.
 	Version *string `form:"version" json:"version,omitempty"`
 }
 
@@ -33,7 +33,7 @@ type V2BillingPricingPlansComponentLicenseFeeParams struct {
 type V2BillingPricingPlansComponentRateCardParams struct {
 	// The ID of the Rate Card.
 	ID *string `form:"id" json:"id"`
-	// The version of the RateCard. Defaults to 'latest', if not specified.
+	// The ID of the Rate Card Version. If not specified, defaults to 'latest'.
 	Version *string `form:"version" json:"version,omitempty"`
 }
 
@@ -75,7 +75,7 @@ func (p *V2BillingPricingPlansComponentParams) AddMetadata(key string, value *st
 type V2BillingPricingPlansComponentCreateLicenseFeeParams struct {
 	// The ID of the License Fee.
 	ID *string `form:"id" json:"id"`
-	// The version of the LicenseFee. Defaults to 'latest', if not specified.
+	// The ID of the License Fee Version. If not specified, defaults to 'latest'.
 	Version *string `form:"version" json:"version,omitempty"`
 }
 
@@ -83,7 +83,7 @@ type V2BillingPricingPlansComponentCreateLicenseFeeParams struct {
 type V2BillingPricingPlansComponentCreateRateCardParams struct {
 	// The ID of the Rate Card.
 	ID *string `form:"id" json:"id"`
-	// The version of the RateCard. Defaults to 'latest', if not specified.
+	// The ID of the Rate Card Version. If not specified, defaults to 'latest'.
 	Version *string `form:"version" json:"version,omitempty"`
 }
 

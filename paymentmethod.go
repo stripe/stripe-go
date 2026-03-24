@@ -355,7 +355,6 @@ const (
 	PaymentMethodTypeStripeBalance    PaymentMethodType = "stripe_balance"
 	PaymentMethodTypeSwish            PaymentMethodType = "swish"
 	PaymentMethodTypeTWINT            PaymentMethodType = "twint"
-	PaymentMethodTypeUpi              PaymentMethodType = "upi"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
 	PaymentMethodTypeWeChatPay        PaymentMethodType = "wechat_pay"
 	PaymentMethodTypeZip              PaymentMethodType = "zip"
@@ -780,24 +779,6 @@ type PaymentMethodSwishParams struct{}
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type PaymentMethodTWINTParams struct{}
 
-// Configuration options for setting up an eMandate
-type PaymentMethodUpiMandateOptionsParams struct {
-	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount"`
-	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
-	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
-	// End date of the mandate or subscription.
-	EndDate *int64 `form:"end_date"`
-}
-
-// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-type PaymentMethodUpiParams struct {
-	// Configuration options for setting up an eMandate
-	MandateOptions *PaymentMethodUpiMandateOptionsParams `form:"mandate_options"`
-}
-
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -947,8 +928,6 @@ type PaymentMethodParams struct {
 	TWINT *PaymentMethodTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
-	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-	Upi *PaymentMethodUpiParams `form:"upi"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -1363,24 +1342,6 @@ type PaymentMethodCreateSwishParams struct{}
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type PaymentMethodCreateTWINTParams struct{}
 
-// Configuration options for setting up an eMandate
-type PaymentMethodCreateUpiMandateOptionsParams struct {
-	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount"`
-	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
-	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
-	// End date of the mandate or subscription.
-	EndDate *int64 `form:"end_date"`
-}
-
-// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-type PaymentMethodCreateUpiParams struct {
-	// Configuration options for setting up an eMandate
-	MandateOptions *PaymentMethodCreateUpiMandateOptionsParams `form:"mandate_options"`
-}
-
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodCreateUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -1534,8 +1495,6 @@ type PaymentMethodCreateParams struct {
 	TWINT *PaymentMethodCreateTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
-	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-	Upi *PaymentMethodCreateUpiParams `form:"upi"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodCreateUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -2277,10 +2236,6 @@ type PaymentMethodStripeBalance struct {
 }
 type PaymentMethodSwish struct{}
 type PaymentMethodTWINT struct{}
-type PaymentMethodUpi struct {
-	// Customer's unique Virtual Payment Address
-	Vpa string `json:"vpa"`
-}
 
 // Contains information about US bank account networks that can be used.
 type PaymentMethodUSBankAccountNetworks struct {
@@ -2411,7 +2366,6 @@ type PaymentMethod struct {
 	TWINT         *PaymentMethodTWINT         `json:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          PaymentMethodType           `json:"type"`
-	Upi           *PaymentMethodUpi           `json:"upi"`
 	USBankAccount *PaymentMethodUSBankAccount `json:"us_bank_account"`
 	WeChatPay     *PaymentMethodWeChatPay     `json:"wechat_pay"`
 	Zip           *PaymentMethodZip           `json:"zip"`

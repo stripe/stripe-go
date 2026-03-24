@@ -87,7 +87,6 @@ const (
 	SetupIntentExcludedPaymentMethodTypeStripeBalance    SetupIntentExcludedPaymentMethodType = "stripe_balance"
 	SetupIntentExcludedPaymentMethodTypeSwish            SetupIntentExcludedPaymentMethodType = "swish"
 	SetupIntentExcludedPaymentMethodTypeTWINT            SetupIntentExcludedPaymentMethodType = "twint"
-	SetupIntentExcludedPaymentMethodTypeUpi              SetupIntentExcludedPaymentMethodType = "upi"
 	SetupIntentExcludedPaymentMethodTypeUSBankAccount    SetupIntentExcludedPaymentMethodType = "us_bank_account"
 	SetupIntentExcludedPaymentMethodTypeWeChatPay        SetupIntentExcludedPaymentMethodType = "wechat_pay"
 	SetupIntentExcludedPaymentMethodTypeZip              SetupIntentExcludedPaymentMethodType = "zip"
@@ -162,7 +161,7 @@ const (
 	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
 )
 
-// Bank account verification method. The default value is `automatic`.
+// Bank account verification method.
 type SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod string
 
 // List of values that SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod can take
@@ -351,7 +350,7 @@ const (
 	SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethodPaper SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsCollectionMethod = "paper"
 )
 
-// Bank account verification method. The default value is `automatic`.
+// Bank account verification method.
 type SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod string
 
 // List of values that SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod can take
@@ -744,24 +743,6 @@ type SetupIntentPaymentMethodDataSwishParams struct{}
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type SetupIntentPaymentMethodDataTWINTParams struct{}
 
-// Configuration options for setting up an eMandate
-type SetupIntentPaymentMethodDataUpiMandateOptionsParams struct {
-	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount"`
-	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
-	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
-	// End date of the mandate or subscription.
-	EndDate *int64 `form:"end_date"`
-}
-
-// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-type SetupIntentPaymentMethodDataUpiParams struct {
-	// Configuration options for setting up an eMandate
-	MandateOptions *SetupIntentPaymentMethodDataUpiMandateOptionsParams `form:"mandate_options"`
-}
-
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -903,8 +884,6 @@ type SetupIntentPaymentMethodDataParams struct {
 	TWINT *SetupIntentPaymentMethodDataTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
-	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-	Upi *SetupIntentPaymentMethodDataUpiParams `form:"upi"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *SetupIntentPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -957,7 +936,7 @@ type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 	Currency *string `form:"currency"`
 	// Additional fields for Mandate creation
 	MandateOptions *SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
-	// Bank account verification method. The default value is `automatic`.
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -991,7 +970,7 @@ type SetupIntentPaymentMethodOptionsBACSDebitParams struct {
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments, specified in the presentment currency.
+	// Amount to be charged for future payments.
 	Amount *int64 `form:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
@@ -1255,38 +1234,6 @@ type SetupIntentPaymentMethodOptionsSEPADebitParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
 }
 
-// Configuration options for setting up an eMandate
-type SetupIntentPaymentMethodOptionsUpiMandateOptionsParams struct {
-	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount"`
-	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
-	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
-	// End date of the mandate or subscription.
-	EndDate *int64 `form:"end_date"`
-}
-
-// If this is a `upi` SetupIntent, this sub-hash contains details about the UPI payment method options.
-type SetupIntentPaymentMethodOptionsUpiParams struct {
-	// Configuration options for setting up an eMandate
-	MandateOptions   *SetupIntentPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
-	SetupFutureUsage *string                                                 `form:"setup_future_usage"`
-	UnsetFields      []SetupIntentPaymentMethodOptionsUpiParamsUnsetField    `form:"-" json:"-"`
-}
-
-// SetupIntentPaymentMethodOptionsUpiParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentPaymentMethodOptionsUpiParams.
-type SetupIntentPaymentMethodOptionsUpiParamsUnsetField string
-
-const (
-	SetupIntentPaymentMethodOptionsUpiParamsUnsetFieldSetupFutureUsage SetupIntentPaymentMethodOptionsUpiParamsUnsetField = "setup_future_usage"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *SetupIntentPaymentMethodOptionsUpiParams) AddUnsetField(field SetupIntentPaymentMethodOptionsUpiParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
@@ -1348,7 +1295,7 @@ type SetupIntentPaymentMethodOptionsUSBankAccountParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsUSBankAccountMandateOptionsParams `form:"mandate_options"`
 	// Additional fields for network related functions
 	Networks *SetupIntentPaymentMethodOptionsUSBankAccountNetworksParams `form:"networks"`
-	// Bank account verification method. The default value is `automatic`.
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -1376,8 +1323,6 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	Pix *SetupIntentPaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
-	// If this is a `upi` SetupIntent, this sub-hash contains details about the UPI payment method options.
-	Upi *SetupIntentPaymentMethodOptionsUpiParams `form:"upi"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
@@ -1392,6 +1337,19 @@ type SetupIntentSetupDetailsBenefitFRMealVoucherParams struct {
 type SetupIntentSetupDetailsBenefitParams struct {
 	// French meal voucher benefit details for this SetupIntent.
 	FRMealVoucher *SetupIntentSetupDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
+	UnsetFields   []SetupIntentSetupDetailsBenefitParamsUnsetField   `form:"-" json:"-"`
+}
+
+// SetupIntentSetupDetailsBenefitParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentSetupDetailsBenefitParams.
+type SetupIntentSetupDetailsBenefitParamsUnsetField string
+
+const (
+	SetupIntentSetupDetailsBenefitParamsUnsetFieldFRMealVoucher SetupIntentSetupDetailsBenefitParamsUnsetField = "fr_meal_voucher"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SetupIntentSetupDetailsBenefitParams) AddUnsetField(field SetupIntentSetupDetailsBenefitParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Provides industry-specific information about the SetupIntent.
@@ -1818,24 +1776,6 @@ type SetupIntentConfirmPaymentMethodDataSwishParams struct{}
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type SetupIntentConfirmPaymentMethodDataTWINTParams struct{}
 
-// Configuration options for setting up an eMandate
-type SetupIntentConfirmPaymentMethodDataUpiMandateOptionsParams struct {
-	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount"`
-	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
-	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
-	// End date of the mandate or subscription.
-	EndDate *int64 `form:"end_date"`
-}
-
-// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-type SetupIntentConfirmPaymentMethodDataUpiParams struct {
-	// Configuration options for setting up an eMandate
-	MandateOptions *SetupIntentConfirmPaymentMethodDataUpiMandateOptionsParams `form:"mandate_options"`
-}
-
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -1977,8 +1917,6 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	TWINT *SetupIntentConfirmPaymentMethodDataTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
-	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-	Upi *SetupIntentConfirmPaymentMethodDataUpiParams `form:"upi"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *SetupIntentConfirmPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -2006,6 +1944,19 @@ type SetupIntentConfirmSetupDetailsBenefitFRMealVoucherParams struct {
 type SetupIntentConfirmSetupDetailsBenefitParams struct {
 	// French meal voucher benefit details for this SetupIntent.
 	FRMealVoucher *SetupIntentConfirmSetupDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
+	UnsetFields   []SetupIntentConfirmSetupDetailsBenefitParamsUnsetField   `form:"-" json:"-"`
+}
+
+// SetupIntentConfirmSetupDetailsBenefitParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentConfirmSetupDetailsBenefitParams.
+type SetupIntentConfirmSetupDetailsBenefitParamsUnsetField string
+
+const (
+	SetupIntentConfirmSetupDetailsBenefitParamsUnsetFieldFRMealVoucher SetupIntentConfirmSetupDetailsBenefitParamsUnsetField = "fr_meal_voucher"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SetupIntentConfirmSetupDetailsBenefitParams) AddUnsetField(field SetupIntentConfirmSetupDetailsBenefitParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Provides industry-specific information about the SetupIntent.
@@ -2421,24 +2372,6 @@ type SetupIntentCreatePaymentMethodDataSwishParams struct{}
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type SetupIntentCreatePaymentMethodDataTWINTParams struct{}
 
-// Configuration options for setting up an eMandate
-type SetupIntentCreatePaymentMethodDataUpiMandateOptionsParams struct {
-	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount"`
-	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
-	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
-	// End date of the mandate or subscription.
-	EndDate *int64 `form:"end_date"`
-}
-
-// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-type SetupIntentCreatePaymentMethodDataUpiParams struct {
-	// Configuration options for setting up an eMandate
-	MandateOptions *SetupIntentCreatePaymentMethodDataUpiMandateOptionsParams `form:"mandate_options"`
-}
-
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentCreatePaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -2580,8 +2513,6 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	TWINT *SetupIntentCreatePaymentMethodDataTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
-	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-	Upi *SetupIntentCreatePaymentMethodDataUpiParams `form:"upi"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *SetupIntentCreatePaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -2634,7 +2565,7 @@ type SetupIntentCreatePaymentMethodOptionsACSSDebitParams struct {
 	Currency *string `form:"currency"`
 	// Additional fields for Mandate creation
 	MandateOptions *SetupIntentCreatePaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
-	// Bank account verification method. The default value is `automatic`.
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -2668,7 +2599,7 @@ type SetupIntentCreatePaymentMethodOptionsBACSDebitParams struct {
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentCreatePaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments, specified in the presentment currency.
+	// Amount to be charged for future payments.
 	Amount *int64 `form:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
@@ -2932,38 +2863,6 @@ type SetupIntentCreatePaymentMethodOptionsSEPADebitParams struct {
 	MandateOptions *SetupIntentCreatePaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
 }
 
-// Configuration options for setting up an eMandate
-type SetupIntentCreatePaymentMethodOptionsUpiMandateOptionsParams struct {
-	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount"`
-	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
-	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
-	// End date of the mandate or subscription.
-	EndDate *int64 `form:"end_date"`
-}
-
-// If this is a `upi` SetupIntent, this sub-hash contains details about the UPI payment method options.
-type SetupIntentCreatePaymentMethodOptionsUpiParams struct {
-	// Configuration options for setting up an eMandate
-	MandateOptions   *SetupIntentCreatePaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
-	SetupFutureUsage *string                                                       `form:"setup_future_usage"`
-	UnsetFields      []SetupIntentCreatePaymentMethodOptionsUpiParamsUnsetField    `form:"-" json:"-"`
-}
-
-// SetupIntentCreatePaymentMethodOptionsUpiParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentCreatePaymentMethodOptionsUpiParams.
-type SetupIntentCreatePaymentMethodOptionsUpiParamsUnsetField string
-
-const (
-	SetupIntentCreatePaymentMethodOptionsUpiParamsUnsetFieldSetupFutureUsage SetupIntentCreatePaymentMethodOptionsUpiParamsUnsetField = "setup_future_usage"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *SetupIntentCreatePaymentMethodOptionsUpiParams) AddUnsetField(field SetupIntentCreatePaymentMethodOptionsUpiParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type SetupIntentCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
@@ -3025,7 +2924,7 @@ type SetupIntentCreatePaymentMethodOptionsUSBankAccountParams struct {
 	MandateOptions *SetupIntentCreatePaymentMethodOptionsUSBankAccountMandateOptionsParams `form:"mandate_options"`
 	// Additional fields for network related functions
 	Networks *SetupIntentCreatePaymentMethodOptionsUSBankAccountNetworksParams `form:"networks"`
-	// Bank account verification method. The default value is `automatic`.
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -3053,8 +2952,6 @@ type SetupIntentCreatePaymentMethodOptionsParams struct {
 	Pix *SetupIntentCreatePaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
-	// If this is a `upi` SetupIntent, this sub-hash contains details about the UPI payment method options.
-	Upi *SetupIntentCreatePaymentMethodOptionsUpiParams `form:"upi"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *SetupIntentCreatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
@@ -3069,6 +2966,19 @@ type SetupIntentCreateSetupDetailsBenefitFRMealVoucherParams struct {
 type SetupIntentCreateSetupDetailsBenefitParams struct {
 	// French meal voucher benefit details for this SetupIntent.
 	FRMealVoucher *SetupIntentCreateSetupDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
+	UnsetFields   []SetupIntentCreateSetupDetailsBenefitParamsUnsetField   `form:"-" json:"-"`
+}
+
+// SetupIntentCreateSetupDetailsBenefitParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentCreateSetupDetailsBenefitParams.
+type SetupIntentCreateSetupDetailsBenefitParamsUnsetField string
+
+const (
+	SetupIntentCreateSetupDetailsBenefitParamsUnsetFieldFRMealVoucher SetupIntentCreateSetupDetailsBenefitParamsUnsetField = "fr_meal_voucher"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SetupIntentCreateSetupDetailsBenefitParams) AddUnsetField(field SetupIntentCreateSetupDetailsBenefitParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Provides industry-specific information about the SetupIntent.
@@ -3493,24 +3403,6 @@ type SetupIntentUpdatePaymentMethodDataSwishParams struct{}
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type SetupIntentUpdatePaymentMethodDataTWINTParams struct{}
 
-// Configuration options for setting up an eMandate
-type SetupIntentUpdatePaymentMethodDataUpiMandateOptionsParams struct {
-	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount"`
-	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
-	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
-	// End date of the mandate or subscription.
-	EndDate *int64 `form:"end_date"`
-}
-
-// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-type SetupIntentUpdatePaymentMethodDataUpiParams struct {
-	// Configuration options for setting up an eMandate
-	MandateOptions *SetupIntentUpdatePaymentMethodDataUpiMandateOptionsParams `form:"mandate_options"`
-}
-
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentUpdatePaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -3652,8 +3544,6 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	TWINT *SetupIntentUpdatePaymentMethodDataTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
-	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
-	Upi *SetupIntentUpdatePaymentMethodDataUpiParams `form:"upi"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *SetupIntentUpdatePaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -3706,7 +3596,7 @@ type SetupIntentUpdatePaymentMethodOptionsACSSDebitParams struct {
 	Currency *string `form:"currency"`
 	// Additional fields for Mandate creation
 	MandateOptions *SetupIntentUpdatePaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
-	// Bank account verification method. The default value is `automatic`.
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -3740,7 +3630,7 @@ type SetupIntentUpdatePaymentMethodOptionsBACSDebitParams struct {
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentUpdatePaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments, specified in the presentment currency.
+	// Amount to be charged for future payments.
 	Amount *int64 `form:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type"`
@@ -4004,38 +3894,6 @@ type SetupIntentUpdatePaymentMethodOptionsSEPADebitParams struct {
 	MandateOptions *SetupIntentUpdatePaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
 }
 
-// Configuration options for setting up an eMandate
-type SetupIntentUpdatePaymentMethodOptionsUpiMandateOptionsParams struct {
-	// Amount to be charged for future payments.
-	Amount *int64 `form:"amount"`
-	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
-	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
-	// End date of the mandate or subscription.
-	EndDate *int64 `form:"end_date"`
-}
-
-// If this is a `upi` SetupIntent, this sub-hash contains details about the UPI payment method options.
-type SetupIntentUpdatePaymentMethodOptionsUpiParams struct {
-	// Configuration options for setting up an eMandate
-	MandateOptions   *SetupIntentUpdatePaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
-	SetupFutureUsage *string                                                       `form:"setup_future_usage"`
-	UnsetFields      []SetupIntentUpdatePaymentMethodOptionsUpiParamsUnsetField    `form:"-" json:"-"`
-}
-
-// SetupIntentUpdatePaymentMethodOptionsUpiParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentUpdatePaymentMethodOptionsUpiParams.
-type SetupIntentUpdatePaymentMethodOptionsUpiParamsUnsetField string
-
-const (
-	SetupIntentUpdatePaymentMethodOptionsUpiParamsUnsetFieldSetupFutureUsage SetupIntentUpdatePaymentMethodOptionsUpiParamsUnsetField = "setup_future_usage"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *SetupIntentUpdatePaymentMethodOptionsUpiParams) AddUnsetField(field SetupIntentUpdatePaymentMethodOptionsUpiParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type SetupIntentUpdatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
@@ -4097,7 +3955,7 @@ type SetupIntentUpdatePaymentMethodOptionsUSBankAccountParams struct {
 	MandateOptions *SetupIntentUpdatePaymentMethodOptionsUSBankAccountMandateOptionsParams `form:"mandate_options"`
 	// Additional fields for network related functions
 	Networks *SetupIntentUpdatePaymentMethodOptionsUSBankAccountNetworksParams `form:"networks"`
-	// Bank account verification method. The default value is `automatic`.
+	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
 
@@ -4125,8 +3983,6 @@ type SetupIntentUpdatePaymentMethodOptionsParams struct {
 	Pix *SetupIntentUpdatePaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentUpdatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
-	// If this is a `upi` SetupIntent, this sub-hash contains details about the UPI payment method options.
-	Upi *SetupIntentUpdatePaymentMethodOptionsUpiParams `form:"upi"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *SetupIntentUpdatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
@@ -4141,6 +3997,19 @@ type SetupIntentUpdateSetupDetailsBenefitFRMealVoucherParams struct {
 type SetupIntentUpdateSetupDetailsBenefitParams struct {
 	// French meal voucher benefit details for this SetupIntent.
 	FRMealVoucher *SetupIntentUpdateSetupDetailsBenefitFRMealVoucherParams `form:"fr_meal_voucher"`
+	UnsetFields   []SetupIntentUpdateSetupDetailsBenefitParamsUnsetField   `form:"-" json:"-"`
+}
+
+// SetupIntentUpdateSetupDetailsBenefitParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentUpdateSetupDetailsBenefitParams.
+type SetupIntentUpdateSetupDetailsBenefitParamsUnsetField string
+
+const (
+	SetupIntentUpdateSetupDetailsBenefitParamsUnsetFieldFRMealVoucher SetupIntentUpdateSetupDetailsBenefitParamsUnsetField = "fr_meal_voucher"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SetupIntentUpdateSetupDetailsBenefitParams) AddUnsetField(field SetupIntentUpdateSetupDetailsBenefitParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Provides industry-specific information about the SetupIntent.
@@ -4189,6 +4058,20 @@ type SetupIntentUpdateParams struct {
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Provides industry-specific information about the SetupIntent.
 	SetupDetails *SetupIntentUpdateSetupDetailsParams `form:"setup_details"`
+	UnsetFields  []SetupIntentUpdateParamsUnsetField  `form:"-" json:"-"`
+}
+
+// SetupIntentUpdateParamsUnsetField is the list of fields that can be cleared/unset on SetupIntentUpdateParams.
+type SetupIntentUpdateParamsUnsetField string
+
+const (
+	SetupIntentUpdateParamsUnsetFieldExcludedPaymentMethodTypes SetupIntentUpdateParamsUnsetField = "excluded_payment_method_types"
+	SetupIntentUpdateParamsUnsetFieldMetadata                   SetupIntentUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SetupIntentUpdateParams) AddUnsetField(field SetupIntentUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -4251,19 +4134,6 @@ type SetupIntentNextActionRedirectToURL struct {
 	// The URL you must redirect your customer to in order to authenticate.
 	URL string `json:"url"`
 }
-type SetupIntentNextActionUpiHandleRedirectOrDisplayQRCodeQRCode struct {
-	// The date (unix timestamp) when the QR code expires.
-	ExpiresAt int64 `json:"expires_at"`
-	// The image_url_png string used to render QR code
-	ImageURLPNG string `json:"image_url_png"`
-	// The image_url_svg string used to render QR code
-	ImageURLSVG string `json:"image_url_svg"`
-}
-type SetupIntentNextActionUpiHandleRedirectOrDisplayQRCode struct {
-	// The URL to the hosted UPI instructions page, which allows customers to view the QR code.
-	HostedInstructionsURL string                                                       `json:"hosted_instructions_url"`
-	QRCode                *SetupIntentNextActionUpiHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
-}
 
 // When confirming a SetupIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
 type SetupIntentNextActionUseStripeSDK struct{}
@@ -4282,8 +4152,7 @@ type SetupIntentNextAction struct {
 	PixDisplayQRCode                     *SetupIntentNextActionPixDisplayQRCode                     `json:"pix_display_qr_code"`
 	RedirectToURL                        *SetupIntentNextActionRedirectToURL                        `json:"redirect_to_url"`
 	// Type of the next action to perform. Refer to the other child attributes under `next_action` for available values. Examples include: `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
-	Type                             SetupIntentNextActionType                              `json:"type"`
-	UpiHandleRedirectOrDisplayQRCode *SetupIntentNextActionUpiHandleRedirectOrDisplayQRCode `json:"upi_handle_redirect_or_display_qr_code"`
+	Type SetupIntentNextActionType `json:"type"`
 	// When confirming a SetupIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
 	UseStripeSDK            *SetupIntentNextActionUseStripeSDK            `json:"use_stripe_sdk"`
 	VerifyWithMicrodeposits *SetupIntentNextActionVerifyWithMicrodeposits `json:"verify_with_microdeposits"`
@@ -4312,7 +4181,7 @@ type SetupIntentPaymentMethodOptionsACSSDebit struct {
 	// Currency supported by the bank account
 	Currency       SetupIntentPaymentMethodOptionsACSSDebitCurrency        `json:"currency"`
 	MandateOptions *SetupIntentPaymentMethodOptionsACSSDebitMandateOptions `json:"mandate_options"`
-	// Bank account verification method. The default value is `automatic`.
+	// Bank account verification method.
 	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 type SetupIntentPaymentMethodOptionsAmazonPay struct{}
@@ -4326,7 +4195,7 @@ type SetupIntentPaymentMethodOptionsBACSDebit struct {
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptions struct {
-	// Amount to be charged for future payments, specified in the presentment currency.
+	// Amount to be charged for future payments.
 	Amount int64 `json:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType SetupIntentPaymentMethodOptionsCardMandateOptionsAmountType `json:"amount_type"`
@@ -4422,19 +4291,6 @@ type SetupIntentPaymentMethodOptionsSEPADebitMandateOptions struct {
 type SetupIntentPaymentMethodOptionsSEPADebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
 }
-type SetupIntentPaymentMethodOptionsUpiMandateOptions struct {
-	// Amount to be charged for future payments.
-	Amount int64 `json:"amount"`
-	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType SetupIntentPaymentMethodOptionsUpiMandateOptionsAmountType `json:"amount_type"`
-	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description string `json:"description"`
-	// End date of the mandate or subscription.
-	EndDate int64 `json:"end_date"`
-}
-type SetupIntentPaymentMethodOptionsUpi struct {
-	MandateOptions *SetupIntentPaymentMethodOptionsUpiMandateOptions `json:"mandate_options"`
-}
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
@@ -4462,7 +4318,7 @@ type SetupIntentPaymentMethodOptionsUSBankAccountMandateOptions struct {
 type SetupIntentPaymentMethodOptionsUSBankAccount struct {
 	FinancialConnections *SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
 	MandateOptions       *SetupIntentPaymentMethodOptionsUSBankAccountMandateOptions       `json:"mandate_options"`
-	// Bank account verification method. The default value is `automatic`.
+	// Bank account verification method.
 	VerificationMethod SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
 
@@ -4479,7 +4335,6 @@ type SetupIntentPaymentMethodOptions struct {
 	Payto         *SetupIntentPaymentMethodOptionsPayto         `json:"payto"`
 	Pix           *SetupIntentPaymentMethodOptionsPix           `json:"pix"`
 	SEPADebit     *SetupIntentPaymentMethodOptionsSEPADebit     `json:"sepa_debit"`
-	Upi           *SetupIntentPaymentMethodOptionsUpi           `json:"upi"`
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
 type SetupIntentSetupDetailsBenefitFRMealVoucher struct {

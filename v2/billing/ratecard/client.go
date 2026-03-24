@@ -58,6 +58,18 @@ func (c Client) Update(id string, params *stripe.V2BillingRateCardParams) (*stri
 	return ratecard, err
 }
 
+// Creates, updates, and/or deletes multiple Rates on a Rate Card atomically.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) ModifyRates(id string, params *stripe.V2BillingRateCardModifyRatesParams) (*stripe.V2BillingRateCardVersion, error) {
+	path := stripe.FormatURLPath("/v2/billing/rate_cards/%s/modify_rates", id)
+	ratecardversion := &stripe.V2BillingRateCardVersion{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, ratecardversion)
+	return ratecardversion, err
+}
+
 // List all Rate Card objects.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.

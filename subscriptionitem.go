@@ -49,7 +49,7 @@ type SubscriptionItemParams struct {
 	PriceData *SubscriptionItemPriceDataParams `form:"price_data"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://docs.stripe.com/api/invoices/create_preview) endpoint.
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://api.stripe.com#retrieve_customer_invoice) endpoint.
 	ProrationDate *int64 `form:"proration_date"`
 	// The quantity you'd like to apply to the subscription item you're creating.
 	Quantity *int64 `form:"quantity"`
@@ -58,7 +58,23 @@ type SubscriptionItemParams struct {
 	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
-	Trial *SubscriptionItemTrialParams `form:"trial"`
+	Trial       *SubscriptionItemTrialParams       `form:"trial"`
+	UnsetFields []SubscriptionItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionItemParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionItemParams.
+type SubscriptionItemParamsUnsetField string
+
+const (
+	SubscriptionItemParamsUnsetFieldBillingThresholds SubscriptionItemParamsUnsetField = "billing_thresholds"
+	SubscriptionItemParamsUnsetFieldDiscounts         SubscriptionItemParamsUnsetField = "discounts"
+	SubscriptionItemParamsUnsetFieldMetadata          SubscriptionItemParamsUnsetField = "metadata"
+	SubscriptionItemParamsUnsetFieldTaxRates          SubscriptionItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionItemParams) AddUnsetField(field SubscriptionItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -212,7 +228,7 @@ type SubscriptionItemDeleteParams struct {
 	PaymentBehavior *string `form:"payment_behavior"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://docs.stripe.com/api/invoices/create_preview) endpoint.
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://api.stripe.com#retrieve_customer_invoice) endpoint.
 	ProrationDate *int64 `form:"proration_date"`
 }
 
@@ -359,7 +375,7 @@ type SubscriptionItemUpdateParams struct {
 	PriceData *SubscriptionItemUpdatePriceDataParams `form:"price_data"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://docs.stripe.com/api/invoices/create_preview) endpoint.
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://api.stripe.com#retrieve_customer_invoice) endpoint.
 	ProrationDate *int64 `form:"proration_date"`
 	// The quantity you'd like to apply to the subscription item you're creating.
 	Quantity *int64 `form:"quantity"`
@@ -534,7 +550,7 @@ type SubscriptionItemCreateParams struct {
 	PriceData *SubscriptionItemCreatePriceDataParams `form:"price_data"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://docs.stripe.com/api/invoices/create_preview) endpoint.
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://api.stripe.com#retrieve_customer_invoice) endpoint.
 	ProrationDate *int64 `form:"proration_date"`
 	// The quantity you'd like to apply to the subscription item you're creating.
 	Quantity *int64 `form:"quantity"`
@@ -543,7 +559,22 @@ type SubscriptionItemCreateParams struct {
 	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
 	// Options that configure the trial on the subscription item.
-	Trial *SubscriptionItemCreateTrialParams `form:"trial"`
+	Trial       *SubscriptionItemCreateTrialParams       `form:"trial"`
+	UnsetFields []SubscriptionItemCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionItemCreateParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionItemCreateParams.
+type SubscriptionItemCreateParamsUnsetField string
+
+const (
+	SubscriptionItemCreateParamsUnsetFieldBillingThresholds SubscriptionItemCreateParamsUnsetField = "billing_thresholds"
+	SubscriptionItemCreateParamsUnsetFieldDiscounts         SubscriptionItemCreateParamsUnsetField = "discounts"
+	SubscriptionItemCreateParamsUnsetFieldTaxRates          SubscriptionItemCreateParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionItemCreateParams) AddUnsetField(field SubscriptionItemCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

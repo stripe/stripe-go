@@ -60,7 +60,7 @@ type ReportingReportType struct {
 	DefaultColumns []string `json:"default_columns"`
 	// The [ID of the Report Type](https://docs.stripe.com/reporting/statements/api#available-report-types), such as `balance.summary.1`.
 	ID string `json:"id"`
-	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Human-readable name of the Report Type
 	Name string `json:"name"`

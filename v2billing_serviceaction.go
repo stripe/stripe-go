@@ -103,15 +103,7 @@ type V2BillingServiceActionCreditGrantAmountCustomPricingUnit struct {
 	// The id of the custom pricing unit.
 	ID string `json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value string `json:"value"`
-}
-
-// The monetary amount of the credit grant. Required if `type` is `monetary`.
-type V2BillingServiceActionCreditGrantAmountMonetary struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
+	Value float64 `json:"value,string"`
 }
 
 // The amount of the credit grant.
@@ -119,7 +111,7 @@ type V2BillingServiceActionCreditGrantAmount struct {
 	// The custom pricing unit amount of the credit grant. Required if `type` is `custom_pricing_unit`.
 	CustomPricingUnit *V2BillingServiceActionCreditGrantAmountCustomPricingUnit `json:"custom_pricing_unit,omitempty"`
 	// The monetary amount of the credit grant. Required if `type` is `monetary`.
-	Monetary *V2BillingServiceActionCreditGrantAmountMonetary `json:"monetary,omitempty"`
+	Monetary Amount `json:"monetary,omitempty"`
 	// The type of the credit grant amount. We currently support `monetary` and `custom_pricing_unit` billing credits.
 	Type V2BillingServiceActionCreditGrantAmountType `json:"type"`
 }
@@ -167,15 +159,7 @@ type V2BillingServiceActionCreditGrantPerTenantAmountCustomPricingUnit struct {
 	// The id of the custom pricing unit.
 	ID string `json:"id"`
 	// The value of the credit grant, decimal value represented as a string.
-	Value string `json:"value"`
-}
-
-// The monetary amount of the credit grant. Required if `type` is `monetary`.
-type V2BillingServiceActionCreditGrantPerTenantAmountMonetary struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
-	Value int64 `json:"value"`
+	Value float64 `json:"value,string"`
 }
 
 // The amount of the credit grant.
@@ -183,7 +167,7 @@ type V2BillingServiceActionCreditGrantPerTenantAmount struct {
 	// The custom pricing unit amount of the credit grant. Required if `type` is `custom_pricing_unit`.
 	CustomPricingUnit *V2BillingServiceActionCreditGrantPerTenantAmountCustomPricingUnit `json:"custom_pricing_unit,omitempty"`
 	// The monetary amount of the credit grant. Required if `type` is `monetary`.
-	Monetary *V2BillingServiceActionCreditGrantPerTenantAmountMonetary `json:"monetary,omitempty"`
+	Monetary Amount `json:"monetary,omitempty"`
 	// The type of the credit grant amount. We currently support `monetary` and `custom_pricing_unit` billing credits.
 	Type V2BillingServiceActionCreditGrantPerTenantAmountType `json:"type"`
 }

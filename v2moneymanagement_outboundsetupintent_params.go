@@ -23,6 +23,8 @@ type V2MoneyManagementOutboundSetupIntentPayoutMethodDataBankAccountParams struc
 	BranchNumber *string `form:"branch_number" json:"branch_number,omitempty"`
 	// The country code of the bank account.
 	Country *string `form:"country" json:"country"`
+	// The currency of the bank account.
+	Currency *string `form:"currency" json:"currency"`
 	// The routing number of the bank account, if present.
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
 	// The swift code of the bank account, if present.
@@ -31,6 +33,8 @@ type V2MoneyManagementOutboundSetupIntentPayoutMethodDataBankAccountParams struc
 
 // The type specific details of the card payout method.
 type V2MoneyManagementOutboundSetupIntentPayoutMethodDataCardParams struct {
+	// The currency of the card.
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The expiration month of the card.
 	ExpMonth *string `form:"exp_month" json:"exp_month,omitempty"`
 	// The expiration year of the card.
@@ -91,6 +95,8 @@ type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataBankAccountParams
 	BranchNumber *string `form:"branch_number" json:"branch_number,omitempty"`
 	// The country code of the bank account.
 	Country *string `form:"country" json:"country"`
+	// The currency of the bank account.
+	Currency *string `form:"currency" json:"currency"`
 	// The routing number of the bank account, if present.
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
 	// The swift code of the bank account, if present.
@@ -99,6 +105,8 @@ type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataBankAccountParams
 
 // The type specific details of the card payout method.
 type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataCardParams struct {
+	// The currency of the card.
+	Currency *string `form:"currency" json:"currency"`
 	// The expiration month of the card.
 	ExpMonth *string `form:"exp_month" json:"exp_month"`
 	// The expiration year of the card.
@@ -159,6 +167,8 @@ type V2MoneyManagementOutboundSetupIntentUpdatePayoutMethodDataBankAccountParams
 	BranchNumber *string `form:"branch_number" json:"branch_number,omitempty"`
 	// The country code of the bank account.
 	Country *string `form:"country" json:"country"`
+	// The currency of the bank account.
+	Currency *string `form:"currency" json:"currency"`
 	// The routing number of the bank account, if present.
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
 	// The swift code of the bank account, if present.
@@ -167,6 +177,8 @@ type V2MoneyManagementOutboundSetupIntentUpdatePayoutMethodDataBankAccountParams
 
 // The type specific details of the card payout method.
 type V2MoneyManagementOutboundSetupIntentUpdatePayoutMethodDataCardParams struct {
+	// The currency of the card.
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The expiration month of the card.
 	ExpMonth *string `form:"exp_month" json:"exp_month,omitempty"`
 	// The expiration year of the card.
