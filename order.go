@@ -752,7 +752,25 @@ type OrderLineItemProductDataParams struct {
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 	// A URL of a publicly-accessible webpage for this product.
-	URL *string `form:"url"`
+	URL         *string                                    `form:"url"`
+	UnsetFields []OrderLineItemProductDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderLineItemProductDataParamsUnsetField is the list of fields that can be cleared/unset on OrderLineItemProductDataParams.
+type OrderLineItemProductDataParamsUnsetField string
+
+const (
+	OrderLineItemProductDataParamsUnsetFieldDescription       OrderLineItemProductDataParamsUnsetField = "description"
+	OrderLineItemProductDataParamsUnsetFieldImages            OrderLineItemProductDataParamsUnsetField = "images"
+	OrderLineItemProductDataParamsUnsetFieldMetadata          OrderLineItemProductDataParamsUnsetField = "metadata"
+	OrderLineItemProductDataParamsUnsetFieldPackageDimensions OrderLineItemProductDataParamsUnsetField = "package_dimensions"
+	OrderLineItemProductDataParamsUnsetFieldTaxCode           OrderLineItemProductDataParamsUnsetField = "tax_code"
+	OrderLineItemProductDataParamsUnsetFieldURL               OrderLineItemProductDataParamsUnsetField = "url"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderLineItemProductDataParams) AddUnsetField(field OrderLineItemProductDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -795,7 +813,21 @@ type OrderLineItemParams struct {
 	// The quantity of the line item.
 	Quantity *int64 `form:"quantity"`
 	// The tax rates applied to this line item.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                       `form:"tax_rates"`
+	UnsetFields []OrderLineItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderLineItemParamsUnsetField is the list of fields that can be cleared/unset on OrderLineItemParams.
+type OrderLineItemParamsUnsetField string
+
+const (
+	OrderLineItemParamsUnsetFieldDiscounts OrderLineItemParamsUnsetField = "discounts"
+	OrderLineItemParamsUnsetFieldTaxRates  OrderLineItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderLineItemParams) AddUnsetField(field OrderLineItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for Mandate creation
@@ -809,7 +841,20 @@ type OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struc
 	// Payment schedule for the mandate.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// Transaction type of the mandate.
-	TransactionType *string `form:"transaction_type"`
+	TransactionType *string                                                                           `form:"transaction_type"`
+	UnsetFields     []OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams.
+type OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField string
+
+const (
+	OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetFieldCustomMandateURL OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField = "custom_mandate_url"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams) AddUnsetField(field OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `acss_debit`, this sub-hash contains details about the ACSS Debit payment method options to pass to the order's PaymentIntent.
@@ -829,7 +874,20 @@ type OrderPaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
 	// Bank account verification method. The default value is `automatic`.
-	VerificationMethod *string `form:"verification_method"`
+	VerificationMethod *string                                                             `form:"verification_method"`
+	UnsetFields        []OrderPaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsPaymentMethodOptionsACSSDebitParams.
+type OrderPaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField string
+
+const (
+	OrderPaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetFieldSetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsPaymentMethodOptionsACSSDebitParams) AddUnsetField(field OrderPaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `afterpay_clearpay`, this sub-hash contains details about the AfterpayClearpay payment method options to pass to the order's PaymentIntent.
@@ -863,7 +921,20 @@ type OrderPaymentSettingsPaymentMethodOptionsAlipayParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                          `form:"setup_future_usage"`
+	UnsetFields      []OrderPaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsPaymentMethodOptionsAlipayParams.
+type OrderPaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField string
+
+const (
+	OrderPaymentSettingsPaymentMethodOptionsAlipayParamsUnsetFieldSetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsPaymentMethodOptionsAlipayParams) AddUnsetField(field OrderPaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the order's PaymentIntent.
@@ -879,7 +950,20 @@ type OrderPaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                              `form:"setup_future_usage"`
+	UnsetFields      []OrderPaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsPaymentMethodOptionsBancontactParams.
+type OrderPaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField string
+
+const (
+	OrderPaymentSettingsPaymentMethodOptionsBancontactParamsUnsetFieldSetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsPaymentMethodOptionsBancontactParams) AddUnsetField(field OrderPaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order's PaymentIntent.
@@ -943,7 +1027,20 @@ type OrderPaymentSettingsPaymentMethodOptionsIDEALParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                         `form:"setup_future_usage"`
+	UnsetFields      []OrderPaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsPaymentMethodOptionsIDEALParams.
+type OrderPaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField string
+
+const (
+	OrderPaymentSettingsPaymentMethodOptionsIDEALParamsUnsetFieldSetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsPaymentMethodOptionsIDEALParams) AddUnsetField(field OrderPaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // On-demand details if setting up or charging an on-demand payment.
@@ -1491,7 +1588,27 @@ type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataPara
 	// Supplementary train reservation details.
 	TrainReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
 	// Voucher details, such as a gift card or discount code.
-	Vouchers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams `form:"vouchers"`
+	Vouchers    []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams   `form:"vouchers"`
+	UnsetFields []OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField string
+
+const (
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldBusReservationDetails       OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "bus_reservation_details"
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldEventReservationDetails     OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "event_reservation_details"
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldFerryReservationDetails     OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "ferry_reservation_details"
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldInsurances                  OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "insurances"
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldMarketplaceSellers          OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "marketplace_sellers"
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldRoundTripReservationDetails OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "round_trip_reservation_details"
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldTrainReservationDetails     OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "train_reservation_details"
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldVouchers                    OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "vouchers"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams) AddUnsetField(field OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
@@ -1520,6 +1637,21 @@ type OrderPaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	Subscriptions []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 	// Supplementary Purchase Data for the corresponding Klarna payment
 	SupplementaryPurchaseData *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
+	UnsetFields               []OrderPaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField               `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsPaymentMethodOptionsKlarnaParams.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField string
+
+const (
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetFieldCaptureMethod             OrderPaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField = "capture_method"
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetFieldSubscriptions             OrderPaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField = "subscriptions"
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetFieldSupplementaryPurchaseData OrderPaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField = "supplementary_purchase_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsPaymentMethodOptionsKlarnaParams) AddUnsetField(field OrderPaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
@@ -1542,7 +1674,21 @@ type OrderPaymentSettingsPaymentMethodOptionsLinkParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                        `form:"setup_future_usage"`
+	UnsetFields      []OrderPaymentSettingsPaymentMethodOptionsLinkParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsPaymentMethodOptionsLinkParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsPaymentMethodOptionsLinkParams.
+type OrderPaymentSettingsPaymentMethodOptionsLinkParamsUnsetField string
+
+const (
+	OrderPaymentSettingsPaymentMethodOptionsLinkParamsUnsetFieldCaptureMethod    OrderPaymentSettingsPaymentMethodOptionsLinkParamsUnsetField = "capture_method"
+	OrderPaymentSettingsPaymentMethodOptionsLinkParamsUnsetFieldSetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsLinkParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsPaymentMethodOptionsLinkParams) AddUnsetField(field OrderPaymentSettingsPaymentMethodOptionsLinkParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `oxxo`, this sub-hash contains details about the OXXO payment method options to pass to the order's PaymentIntent.
@@ -1630,13 +1776,40 @@ type OrderPaymentSettingsPaymentMethodOptionsPaypalParams struct {
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
-	Subsellers []*string `form:"subsellers"`
+	Subsellers  []*string                                                        `form:"subsellers"`
+	UnsetFields []OrderPaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsPaymentMethodOptionsPaypalParams.
+type OrderPaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField string
+
+const (
+	OrderPaymentSettingsPaymentMethodOptionsPaypalParamsUnsetFieldCaptureMethod    OrderPaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField = "capture_method"
+	OrderPaymentSettingsPaymentMethodOptionsPaypalParamsUnsetFieldSetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsPaymentMethodOptionsPaypalParams) AddUnsetField(field OrderPaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for Mandate creation
 type OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
-	ReferencePrefix *string `form:"reference_prefix"`
+	ReferencePrefix *string                                                                           `form:"reference_prefix"`
+	UnsetFields     []OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams.
+type OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField string
+
+const (
+	OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetFieldReferencePrefix OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField = "reference_prefix"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams) AddUnsetField(field OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
@@ -1654,7 +1827,20 @@ type OrderPaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate *string `form:"target_date"`
+	TargetDate  *string                                                             `form:"target_date"`
+	UnsetFields []OrderPaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsPaymentMethodOptionsSEPADebitParams.
+type OrderPaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField string
+
+const (
+	OrderPaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetFieldSetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsPaymentMethodOptionsSEPADebitParams) AddUnsetField(field OrderPaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
@@ -1670,7 +1856,21 @@ type OrderPaymentSettingsPaymentMethodOptionsSofortParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                          `form:"setup_future_usage"`
+	UnsetFields      []OrderPaymentSettingsPaymentMethodOptionsSofortParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsPaymentMethodOptionsSofortParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsPaymentMethodOptionsSofortParams.
+type OrderPaymentSettingsPaymentMethodOptionsSofortParamsUnsetField string
+
+const (
+	OrderPaymentSettingsPaymentMethodOptionsSofortParamsUnsetFieldPreferredLanguage OrderPaymentSettingsPaymentMethodOptionsSofortParamsUnsetField = "preferred_language"
+	OrderPaymentSettingsPaymentMethodOptionsSofortParamsUnsetFieldSetupFutureUsage  OrderPaymentSettingsPaymentMethodOptionsSofortParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsPaymentMethodOptionsSofortParams) AddUnsetField(field OrderPaymentSettingsPaymentMethodOptionsSofortParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
@@ -1722,7 +1922,34 @@ type OrderPaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
 	Sofort *OrderPaymentSettingsPaymentMethodOptionsSofortParams `form:"sofort"`
 	// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
-	WeChatPay *OrderPaymentSettingsPaymentMethodOptionsWeChatPayParams `form:"wechat_pay"`
+	WeChatPay   *OrderPaymentSettingsPaymentMethodOptionsWeChatPayParams   `form:"wechat_pay"`
+	UnsetFields []OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsPaymentMethodOptionsParams.
+type OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField string
+
+const (
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit        OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldAfterpayClearpay OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "afterpay_clearpay"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldAlipay           OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "alipay"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact       OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard             OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance  OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDEAL            OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "ideal"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldKlarna           OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "klarna"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldLink             OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "link"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldOXXO             OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "oxxo"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldP24              OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "p24"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldPaypal           OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "paypal"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit        OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldSofort           OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "sofort"
+	OrderPaymentSettingsPaymentMethodOptionsParamsUnsetFieldWeChatPay        OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField = "wechat_pay"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsPaymentMethodOptionsParams) AddUnsetField(field OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Provides configuration for completing a transfer for the order after it is paid.
@@ -1749,6 +1976,21 @@ type OrderPaymentSettingsParams struct {
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
 	// Provides configuration for completing a transfer for the order after it is paid.
 	TransferData *OrderPaymentSettingsTransferDataParams `form:"transfer_data"`
+	UnsetFields  []OrderPaymentSettingsParamsUnsetField  `form:"-" json:"-"`
+}
+
+// OrderPaymentSettingsParamsUnsetField is the list of fields that can be cleared/unset on OrderPaymentSettingsParams.
+type OrderPaymentSettingsParamsUnsetField string
+
+const (
+	OrderPaymentSettingsParamsUnsetFieldApplicationFeeAmount OrderPaymentSettingsParamsUnsetField = "application_fee_amount"
+	OrderPaymentSettingsParamsUnsetFieldReturnURL            OrderPaymentSettingsParamsUnsetField = "return_url"
+	OrderPaymentSettingsParamsUnsetFieldTransferData         OrderPaymentSettingsParamsUnsetField = "transfer_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderPaymentSettingsParams) AddUnsetField(field OrderPaymentSettingsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Payment information associated with the order, including payment settings.
@@ -1841,7 +2083,20 @@ type OrderShippingDetailsParams struct {
 	// The name of the recipient of the order.
 	Name *string `form:"name"`
 	// The phone number (including extension) for the recipient of the order.
-	Phone *string `form:"phone"`
+	Phone       *string                                `form:"phone"`
+	UnsetFields []OrderShippingDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderShippingDetailsParamsUnsetField is the list of fields that can be cleared/unset on OrderShippingDetailsParams.
+type OrderShippingDetailsParamsUnsetField string
+
+const (
+	OrderShippingDetailsParamsUnsetFieldPhone OrderShippingDetailsParamsUnsetField = "phone"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderShippingDetailsParams) AddUnsetField(field OrderShippingDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The purchaser's tax IDs to be used for this order.
@@ -1857,7 +2112,20 @@ type OrderTaxDetailsParams struct {
 	// The purchaser's tax exemption status. One of `none`, `exempt`, or `reverse`.
 	TaxExempt *string `form:"tax_exempt"`
 	// The purchaser's tax IDs to be used for this order.
-	TaxIDs []*OrderTaxDetailsTaxIDParams `form:"tax_ids"`
+	TaxIDs      []*OrderTaxDetailsTaxIDParams     `form:"tax_ids"`
+	UnsetFields []OrderTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on OrderTaxDetailsParams.
+type OrderTaxDetailsParamsUnsetField string
+
+const (
+	OrderTaxDetailsParamsUnsetFieldTaxExempt OrderTaxDetailsParamsUnsetField = "tax_exempt"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderTaxDetailsParams) AddUnsetField(field OrderTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Creates a new open order object.
@@ -1890,7 +2158,25 @@ type OrderParams struct {
 	// Shipping details for the order.
 	ShippingDetails *OrderShippingDetailsParams `form:"shipping_details"`
 	// Additional tax details about the purchaser to be used for this order.
-	TaxDetails *OrderTaxDetailsParams `form:"tax_details"`
+	TaxDetails  *OrderTaxDetailsParams  `form:"tax_details"`
+	UnsetFields []OrderParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderParamsUnsetField is the list of fields that can be cleared/unset on OrderParams.
+type OrderParamsUnsetField string
+
+const (
+	OrderParamsUnsetFieldBillingDetails  OrderParamsUnsetField = "billing_details"
+	OrderParamsUnsetFieldDescription     OrderParamsUnsetField = "description"
+	OrderParamsUnsetFieldDiscounts       OrderParamsUnsetField = "discounts"
+	OrderParamsUnsetFieldMetadata        OrderParamsUnsetField = "metadata"
+	OrderParamsUnsetFieldShippingCost    OrderParamsUnsetField = "shipping_cost"
+	OrderParamsUnsetFieldShippingDetails OrderParamsUnsetField = "shipping_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderParams) AddUnsetField(field OrderParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -2014,7 +2300,25 @@ type OrderCreateLineItemProductDataParams struct {
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 	// A URL of a publicly-accessible webpage for this product.
-	URL *string `form:"url"`
+	URL         *string                                          `form:"url"`
+	UnsetFields []OrderCreateLineItemProductDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreateLineItemProductDataParamsUnsetField is the list of fields that can be cleared/unset on OrderCreateLineItemProductDataParams.
+type OrderCreateLineItemProductDataParamsUnsetField string
+
+const (
+	OrderCreateLineItemProductDataParamsUnsetFieldDescription       OrderCreateLineItemProductDataParamsUnsetField = "description"
+	OrderCreateLineItemProductDataParamsUnsetFieldImages            OrderCreateLineItemProductDataParamsUnsetField = "images"
+	OrderCreateLineItemProductDataParamsUnsetFieldMetadata          OrderCreateLineItemProductDataParamsUnsetField = "metadata"
+	OrderCreateLineItemProductDataParamsUnsetFieldPackageDimensions OrderCreateLineItemProductDataParamsUnsetField = "package_dimensions"
+	OrderCreateLineItemProductDataParamsUnsetFieldTaxCode           OrderCreateLineItemProductDataParamsUnsetField = "tax_code"
+	OrderCreateLineItemProductDataParamsUnsetFieldURL               OrderCreateLineItemProductDataParamsUnsetField = "url"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreateLineItemProductDataParams) AddUnsetField(field OrderCreateLineItemProductDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2055,7 +2359,21 @@ type OrderCreateLineItemParams struct {
 	// The quantity of the line item.
 	Quantity *int64 `form:"quantity"`
 	// The tax rates applied to this line item.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                             `form:"tax_rates"`
+	UnsetFields []OrderCreateLineItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreateLineItemParamsUnsetField is the list of fields that can be cleared/unset on OrderCreateLineItemParams.
+type OrderCreateLineItemParamsUnsetField string
+
+const (
+	OrderCreateLineItemParamsUnsetFieldDiscounts OrderCreateLineItemParamsUnsetField = "discounts"
+	OrderCreateLineItemParamsUnsetFieldTaxRates  OrderCreateLineItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreateLineItemParams) AddUnsetField(field OrderCreateLineItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for Mandate creation
@@ -2069,7 +2387,20 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams
 	// Payment schedule for the mandate.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// Transaction type of the mandate.
-	TransactionType *string `form:"transaction_type"`
+	TransactionType *string                                                                                 `form:"transaction_type"`
+	UnsetFields     []OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams.
+type OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField string
+
+const (
+	OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetFieldCustomMandateURL OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField = "custom_mandate_url"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams) AddUnsetField(field OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `acss_debit`, this sub-hash contains details about the ACSS Debit payment method options to pass to the order's PaymentIntent.
@@ -2089,7 +2420,20 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
 	// Bank account verification method. The default value is `automatic`.
-	VerificationMethod *string `form:"verification_method"`
+	VerificationMethod *string                                                                   `form:"verification_method"`
+	UnsetFields        []OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField is the list of fields that can be cleared/unset on OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams.
+type OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField string
+
+const (
+	OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetFieldSetupFutureUsage OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams) AddUnsetField(field OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `afterpay_clearpay`, this sub-hash contains details about the AfterpayClearpay payment method options to pass to the order's PaymentIntent.
@@ -2123,7 +2467,20 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                `form:"setup_future_usage"`
+	UnsetFields      []OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField is the list of fields that can be cleared/unset on OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParams.
+type OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField string
+
+const (
+	OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetFieldSetupFutureUsage OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParams) AddUnsetField(field OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the order's PaymentIntent.
@@ -2139,7 +2496,20 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                    `form:"setup_future_usage"`
+	UnsetFields      []OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField is the list of fields that can be cleared/unset on OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParams.
+type OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField string
+
+const (
+	OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetFieldSetupFutureUsage OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParams) AddUnsetField(field OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order's PaymentIntent.
@@ -2203,7 +2573,20 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                               `form:"setup_future_usage"`
+	UnsetFields      []OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField is the list of fields that can be cleared/unset on OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParams.
+type OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField string
+
+const (
+	OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetFieldSetupFutureUsage OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParams) AddUnsetField(field OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // On-demand details if setting up or charging an on-demand payment.
@@ -2751,7 +3134,27 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDa
 	// Supplementary train reservation details.
 	TrainReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
 	// Voucher details, such as a gift card or discount code.
-	Vouchers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams `form:"vouchers"`
+	Vouchers    []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams   `form:"vouchers"`
+	UnsetFields []OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField is the list of fields that can be cleared/unset on OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField string
+
+const (
+	OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldBusReservationDetails       OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "bus_reservation_details"
+	OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldEventReservationDetails     OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "event_reservation_details"
+	OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldFerryReservationDetails     OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "ferry_reservation_details"
+	OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldInsurances                  OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "insurances"
+	OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldMarketplaceSellers          OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "marketplace_sellers"
+	OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldRoundTripReservationDetails OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "round_trip_reservation_details"
+	OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldTrainReservationDetails     OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "train_reservation_details"
+	OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldVouchers                    OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "vouchers"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams) AddUnsetField(field OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
@@ -2780,6 +3183,21 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	Subscriptions []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 	// Supplementary Purchase Data for the corresponding Klarna payment
 	SupplementaryPurchaseData *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
+	UnsetFields               []OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField               `form:"-" json:"-"`
+}
+
+// OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField is the list of fields that can be cleared/unset on OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField string
+
+const (
+	OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetFieldCaptureMethod             OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField = "capture_method"
+	OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetFieldSubscriptions             OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField = "subscriptions"
+	OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetFieldSupplementaryPurchaseData OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField = "supplementary_purchase_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams) AddUnsetField(field OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
@@ -2802,7 +3220,21 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsLinkParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                              `form:"setup_future_usage"`
+	UnsetFields      []OrderCreatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField is the list of fields that can be cleared/unset on OrderCreatePaymentSettingsPaymentMethodOptionsLinkParams.
+type OrderCreatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField string
+
+const (
+	OrderCreatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetFieldCaptureMethod    OrderCreatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField = "capture_method"
+	OrderCreatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetFieldSetupFutureUsage OrderCreatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreatePaymentSettingsPaymentMethodOptionsLinkParams) AddUnsetField(field OrderCreatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `oxxo`, this sub-hash contains details about the OXXO payment method options to pass to the order's PaymentIntent.
@@ -2890,13 +3322,40 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParams struct {
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
-	Subsellers []*string `form:"subsellers"`
+	Subsellers  []*string                                                              `form:"subsellers"`
+	UnsetFields []OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField is the list of fields that can be cleared/unset on OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParams.
+type OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField string
+
+const (
+	OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetFieldCaptureMethod    OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField = "capture_method"
+	OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetFieldSetupFutureUsage OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParams) AddUnsetField(field OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for Mandate creation
 type OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
-	ReferencePrefix *string `form:"reference_prefix"`
+	ReferencePrefix *string                                                                                 `form:"reference_prefix"`
+	UnsetFields     []OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams.
+type OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField string
+
+const (
+	OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetFieldReferencePrefix OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField = "reference_prefix"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams) AddUnsetField(field OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
@@ -2914,7 +3373,20 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate *string `form:"target_date"`
+	TargetDate  *string                                                                   `form:"target_date"`
+	UnsetFields []OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField is the list of fields that can be cleared/unset on OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams.
+type OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField string
+
+const (
+	OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetFieldSetupFutureUsage OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams) AddUnsetField(field OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
@@ -2930,7 +3402,21 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsSofortParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                `form:"setup_future_usage"`
+	UnsetFields      []OrderCreatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField is the list of fields that can be cleared/unset on OrderCreatePaymentSettingsPaymentMethodOptionsSofortParams.
+type OrderCreatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField string
+
+const (
+	OrderCreatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetFieldPreferredLanguage OrderCreatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField = "preferred_language"
+	OrderCreatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetFieldSetupFutureUsage  OrderCreatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreatePaymentSettingsPaymentMethodOptionsSofortParams) AddUnsetField(field OrderCreatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
@@ -3101,7 +3587,20 @@ type OrderCreateShippingDetailsParams struct {
 	// The name of the recipient of the order.
 	Name *string `form:"name"`
 	// The phone number (including extension) for the recipient of the order.
-	Phone *string `form:"phone"`
+	Phone       *string                                      `form:"phone"`
+	UnsetFields []OrderCreateShippingDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreateShippingDetailsParamsUnsetField is the list of fields that can be cleared/unset on OrderCreateShippingDetailsParams.
+type OrderCreateShippingDetailsParamsUnsetField string
+
+const (
+	OrderCreateShippingDetailsParamsUnsetFieldPhone OrderCreateShippingDetailsParamsUnsetField = "phone"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreateShippingDetailsParams) AddUnsetField(field OrderCreateShippingDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The purchaser's tax IDs to be used for this order.
@@ -3117,7 +3616,20 @@ type OrderCreateTaxDetailsParams struct {
 	// The purchaser's tax exemption status. One of `none`, `exempt`, or `reverse`.
 	TaxExempt *string `form:"tax_exempt"`
 	// The purchaser's tax IDs to be used for this order.
-	TaxIDs []*OrderCreateTaxDetailsTaxIDParams `form:"tax_ids"`
+	TaxIDs      []*OrderCreateTaxDetailsTaxIDParams     `form:"tax_ids"`
+	UnsetFields []OrderCreateTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreateTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on OrderCreateTaxDetailsParams.
+type OrderCreateTaxDetailsParamsUnsetField string
+
+const (
+	OrderCreateTaxDetailsParamsUnsetFieldTaxExempt OrderCreateTaxDetailsParamsUnsetField = "tax_exempt"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreateTaxDetailsParams) AddUnsetField(field OrderCreateTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Creates a new open order object.
@@ -3150,7 +3662,23 @@ type OrderCreateParams struct {
 	// Shipping details for the order.
 	ShippingDetails *OrderCreateShippingDetailsParams `form:"shipping_details"`
 	// Additional tax details about the purchaser to be used for this order.
-	TaxDetails *OrderCreateTaxDetailsParams `form:"tax_details"`
+	TaxDetails  *OrderCreateTaxDetailsParams  `form:"tax_details"`
+	UnsetFields []OrderCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreateParamsUnsetField is the list of fields that can be cleared/unset on OrderCreateParams.
+type OrderCreateParamsUnsetField string
+
+const (
+	OrderCreateParamsUnsetFieldBillingDetails  OrderCreateParamsUnsetField = "billing_details"
+	OrderCreateParamsUnsetFieldDiscounts       OrderCreateParamsUnsetField = "discounts"
+	OrderCreateParamsUnsetFieldShippingCost    OrderCreateParamsUnsetField = "shipping_cost"
+	OrderCreateParamsUnsetFieldShippingDetails OrderCreateParamsUnsetField = "shipping_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreateParams) AddUnsetField(field OrderCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -3272,7 +3800,25 @@ type OrderUpdateLineItemProductDataParams struct {
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 	// A URL of a publicly-accessible webpage for this product.
-	URL *string `form:"url"`
+	URL         *string                                          `form:"url"`
+	UnsetFields []OrderUpdateLineItemProductDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdateLineItemProductDataParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdateLineItemProductDataParams.
+type OrderUpdateLineItemProductDataParamsUnsetField string
+
+const (
+	OrderUpdateLineItemProductDataParamsUnsetFieldDescription       OrderUpdateLineItemProductDataParamsUnsetField = "description"
+	OrderUpdateLineItemProductDataParamsUnsetFieldImages            OrderUpdateLineItemProductDataParamsUnsetField = "images"
+	OrderUpdateLineItemProductDataParamsUnsetFieldMetadata          OrderUpdateLineItemProductDataParamsUnsetField = "metadata"
+	OrderUpdateLineItemProductDataParamsUnsetFieldPackageDimensions OrderUpdateLineItemProductDataParamsUnsetField = "package_dimensions"
+	OrderUpdateLineItemProductDataParamsUnsetFieldTaxCode           OrderUpdateLineItemProductDataParamsUnsetField = "tax_code"
+	OrderUpdateLineItemProductDataParamsUnsetFieldURL               OrderUpdateLineItemProductDataParamsUnsetField = "url"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdateLineItemProductDataParams) AddUnsetField(field OrderUpdateLineItemProductDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -3315,7 +3861,21 @@ type OrderUpdateLineItemParams struct {
 	// The quantity of the line item.
 	Quantity *int64 `form:"quantity"`
 	// The tax rates applied to this line item.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                             `form:"tax_rates"`
+	UnsetFields []OrderUpdateLineItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdateLineItemParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdateLineItemParams.
+type OrderUpdateLineItemParamsUnsetField string
+
+const (
+	OrderUpdateLineItemParamsUnsetFieldDiscounts OrderUpdateLineItemParamsUnsetField = "discounts"
+	OrderUpdateLineItemParamsUnsetFieldTaxRates  OrderUpdateLineItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdateLineItemParams) AddUnsetField(field OrderUpdateLineItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for Mandate creation
@@ -3329,7 +3889,20 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams
 	// Payment schedule for the mandate.
 	PaymentSchedule *string `form:"payment_schedule"`
 	// Transaction type of the mandate.
-	TransactionType *string `form:"transaction_type"`
+	TransactionType *string                                                                                 `form:"transaction_type"`
+	UnsetFields     []OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetFieldCustomMandateURL OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField = "custom_mandate_url"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams) AddUnsetField(field OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `acss_debit`, this sub-hash contains details about the ACSS Debit payment method options to pass to the order's PaymentIntent.
@@ -3349,7 +3922,20 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date"`
 	// Bank account verification method. The default value is `automatic`.
-	VerificationMethod *string `form:"verification_method"`
+	VerificationMethod *string                                                                   `form:"verification_method"`
+	UnsetFields        []OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetFieldSetupFutureUsage OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams) AddUnsetField(field OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `afterpay_clearpay`, this sub-hash contains details about the AfterpayClearpay payment method options to pass to the order's PaymentIntent.
@@ -3383,7 +3969,20 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                `form:"setup_future_usage"`
+	UnsetFields      []OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParams.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetFieldSetupFutureUsage OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParams) AddUnsetField(field OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the order's PaymentIntent.
@@ -3399,7 +3998,20 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                    `form:"setup_future_usage"`
+	UnsetFields      []OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParams.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetFieldSetupFutureUsage OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParams) AddUnsetField(field OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order's PaymentIntent.
@@ -3463,7 +4075,20 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                               `form:"setup_future_usage"`
+	UnsetFields      []OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParams.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetFieldSetupFutureUsage OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParams) AddUnsetField(field OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // On-demand details if setting up or charging an on-demand payment.
@@ -4011,7 +4636,27 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDa
 	// Supplementary train reservation details.
 	TrainReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
 	// Voucher details, such as a gift card or discount code.
-	Vouchers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams `form:"vouchers"`
+	Vouchers    []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams   `form:"vouchers"`
+	UnsetFields []OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldBusReservationDetails       OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "bus_reservation_details"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldEventReservationDetails     OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "event_reservation_details"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldFerryReservationDetails     OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "ferry_reservation_details"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldInsurances                  OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "insurances"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldMarketplaceSellers          OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "marketplace_sellers"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldRoundTripReservationDetails OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "round_trip_reservation_details"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldTrainReservationDetails     OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "train_reservation_details"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetFieldVouchers                    OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField = "vouchers"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams) AddUnsetField(field OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
@@ -4040,6 +4685,21 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	Subscriptions []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 	// Supplementary Purchase Data for the corresponding Klarna payment
 	SupplementaryPurchaseData *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
+	UnsetFields               []OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField               `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetFieldCaptureMethod             OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField = "capture_method"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetFieldSubscriptions             OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField = "subscriptions"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetFieldSupplementaryPurchaseData OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField = "supplementary_purchase_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams) AddUnsetField(field OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
@@ -4062,7 +4722,21 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                              `form:"setup_future_usage"`
+	UnsetFields      []OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParams.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetFieldCaptureMethod    OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField = "capture_method"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetFieldSetupFutureUsage OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParams) AddUnsetField(field OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `oxxo`, this sub-hash contains details about the OXXO payment method options to pass to the order's PaymentIntent.
@@ -4150,13 +4824,40 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParams struct {
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
-	Subsellers []*string `form:"subsellers"`
+	Subsellers  []*string                                                              `form:"subsellers"`
+	UnsetFields []OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParams.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetFieldCaptureMethod    OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField = "capture_method"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetFieldSetupFutureUsage OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParams) AddUnsetField(field OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Additional fields for Mandate creation
 type OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
-	ReferencePrefix *string `form:"reference_prefix"`
+	ReferencePrefix *string                                                                                 `form:"reference_prefix"`
+	UnsetFields     []OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetFieldReferencePrefix OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField = "reference_prefix"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams) AddUnsetField(field OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
@@ -4174,7 +4875,20 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate *string `form:"target_date"`
+	TargetDate  *string                                                                   `form:"target_date"`
+	UnsetFields []OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetFieldSetupFutureUsage OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams) AddUnsetField(field OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
@@ -4190,7 +4904,21 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                `form:"setup_future_usage"`
+	UnsetFields      []OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParams.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetFieldPreferredLanguage OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField = "preferred_language"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetFieldSetupFutureUsage  OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParams) AddUnsetField(field OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
@@ -4242,7 +4970,34 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
 	Sofort *OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParams `form:"sofort"`
 	// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
-	WeChatPay *OrderUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams `form:"wechat_pay"`
+	WeChatPay   *OrderUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams   `form:"wechat_pay"`
+	UnsetFields []OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsPaymentMethodOptionsParams.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit        OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldAfterpayClearpay OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "afterpay_clearpay"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldAlipay           OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "alipay"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact       OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard             OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance  OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDEAL            OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "ideal"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKlarna           OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "klarna"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldLink             OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "link"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldOXXO             OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "oxxo"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldP24              OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "p24"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPaypal           OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "paypal"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit        OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSofort           OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sofort"
+	OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldWeChatPay        OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "wechat_pay"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsParams) AddUnsetField(field OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Provides configuration for completing a transfer for the order after it is paid.
@@ -4269,6 +5024,21 @@ type OrderUpdatePaymentSettingsParams struct {
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
 	// Provides configuration for completing a transfer for the order after it is paid.
 	TransferData *OrderUpdatePaymentSettingsTransferDataParams `form:"transfer_data"`
+	UnsetFields  []OrderUpdatePaymentSettingsParamsUnsetField  `form:"-" json:"-"`
+}
+
+// OrderUpdatePaymentSettingsParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdatePaymentSettingsParams.
+type OrderUpdatePaymentSettingsParamsUnsetField string
+
+const (
+	OrderUpdatePaymentSettingsParamsUnsetFieldApplicationFeeAmount OrderUpdatePaymentSettingsParamsUnsetField = "application_fee_amount"
+	OrderUpdatePaymentSettingsParamsUnsetFieldReturnURL            OrderUpdatePaymentSettingsParamsUnsetField = "return_url"
+	OrderUpdatePaymentSettingsParamsUnsetFieldTransferData         OrderUpdatePaymentSettingsParamsUnsetField = "transfer_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdatePaymentSettingsParams) AddUnsetField(field OrderUpdatePaymentSettingsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Payment information associated with the order, including payment settings.
@@ -4361,7 +5131,20 @@ type OrderUpdateShippingDetailsParams struct {
 	// The name of the recipient of the order.
 	Name *string `form:"name"`
 	// The phone number (including extension) for the recipient of the order.
-	Phone *string `form:"phone"`
+	Phone       *string                                      `form:"phone"`
+	UnsetFields []OrderUpdateShippingDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdateShippingDetailsParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdateShippingDetailsParams.
+type OrderUpdateShippingDetailsParamsUnsetField string
+
+const (
+	OrderUpdateShippingDetailsParamsUnsetFieldPhone OrderUpdateShippingDetailsParamsUnsetField = "phone"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdateShippingDetailsParams) AddUnsetField(field OrderUpdateShippingDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The purchaser's tax IDs to be used for this order.
@@ -4377,7 +5160,20 @@ type OrderUpdateTaxDetailsParams struct {
 	// The purchaser's tax exemption status. One of `none`, `exempt`, or `reverse`.
 	TaxExempt *string `form:"tax_exempt"`
 	// The purchaser's tax IDs to be used for this order.
-	TaxIDs []*OrderUpdateTaxDetailsTaxIDParams `form:"tax_ids"`
+	TaxIDs      []*OrderUpdateTaxDetailsTaxIDParams     `form:"tax_ids"`
+	UnsetFields []OrderUpdateTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdateTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdateTaxDetailsParams.
+type OrderUpdateTaxDetailsParamsUnsetField string
+
+const (
+	OrderUpdateTaxDetailsParamsUnsetFieldTaxExempt OrderUpdateTaxDetailsParamsUnsetField = "tax_exempt"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdateTaxDetailsParams) AddUnsetField(field OrderUpdateTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Updates the specific order by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
@@ -4410,7 +5206,25 @@ type OrderUpdateParams struct {
 	// Shipping details for the order.
 	ShippingDetails *OrderUpdateShippingDetailsParams `form:"shipping_details"`
 	// Additional tax details about the purchaser to be used for this order.
-	TaxDetails *OrderUpdateTaxDetailsParams `form:"tax_details"`
+	TaxDetails  *OrderUpdateTaxDetailsParams  `form:"tax_details"`
+	UnsetFields []OrderUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdateParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdateParams.
+type OrderUpdateParamsUnsetField string
+
+const (
+	OrderUpdateParamsUnsetFieldBillingDetails  OrderUpdateParamsUnsetField = "billing_details"
+	OrderUpdateParamsUnsetFieldDescription     OrderUpdateParamsUnsetField = "description"
+	OrderUpdateParamsUnsetFieldDiscounts       OrderUpdateParamsUnsetField = "discounts"
+	OrderUpdateParamsUnsetFieldMetadata        OrderUpdateParamsUnsetField = "metadata"
+	OrderUpdateParamsUnsetFieldShippingCost    OrderUpdateParamsUnsetField = "shipping_cost"
+	OrderUpdateParamsUnsetFieldShippingDetails OrderUpdateParamsUnsetField = "shipping_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdateParams) AddUnsetField(field OrderUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

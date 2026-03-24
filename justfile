@@ -8,8 +8,8 @@ export PATH := home_directory() + "/go/bin:" + env('PATH')
 _default:
     just --list --unsorted
 
-# ⭐ run format, lint, and tests to prepare for CI
-prepare: format lint test
+# ⭐ run format, and tests to prepare for CI. Doesn't lint, since that takes too long locally
+prepare: format test
 
 # ⭐ run all unit tests, or pass a package name (./invoice) to only run those tests
 test *args="./...":
