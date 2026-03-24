@@ -359,28 +359,143 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 	return formValues, commonParams, nil
 }
 
-// marshalV2JSON marshals params to JSON for v2 POST requests. If the params
-// have EmptyFields set, those field names are explicitly included as null in
-// the JSON output, even if the corresponding struct field is nil/omitted.
+// collectAllEmptyFields walks a struct recursively via reflection and collects
+// all EmptyFields entries with their full path (as a slice of API field names).
+// For root params, EmptyFields lives on the embedded Params struct. For nested
+// params, EmptyFields is a direct field. Each returned path represents a field
+// that should be sent as empty (v1 form: field=) or null (v2 JSON: "field": null).
+// Example: [["description"], ["cancellation_details", "comment"]]
+func collectAllEmptyFields(v reflect.Value) [][]string {
+	if v.Kind() == reflect.Ptr {
+		if v.IsNil() {
+			return nil
+		}
+		v = v.Elem()
+	}
+	if v.Kind() != reflect.Struct {
+		return nil
+	}
+
+	var result [][]string
+	t := v.Type()
+
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+		fv := v.Field(i)
+
+		if field.Name == "EmptyFields" {
+			// Collect entries at the current path level
+			if fv.Kind() == reflect.Slice {
+				for j := 0; j < fv.Len(); j++ {
+					result = append(result, []string{fv.Index(j).String()})
+				}
+			}
+			continue
+		}
+
+		if field.Anonymous {
+			// Embedded struct (e.g. Params) — recurse at same path level
+			sub := fv
+			if sub.Kind() == reflect.Ptr {
+				if sub.IsNil() {
+					continue
+				}
+				sub = sub.Elem()
+			}
+			if sub.Kind() == reflect.Struct {
+				result = append(result, collectAllEmptyFields(sub)...)
+			}
+			continue
+		}
+
+		// Non-embedded struct pointer field — recurse with key prefix
+		sub := fv
+		if sub.Kind() == reflect.Ptr {
+			if sub.IsNil() {
+				continue
+			}
+			sub = sub.Elem()
+		}
+		if sub.Kind() != reflect.Struct {
+			continue
+		}
+
+		// Determine the API field name from json tag, falling back to form tag
+		apiName := ""
+		if jsonTag := field.Tag.Get("json"); jsonTag != "" && jsonTag != "-" {
+			apiName = strings.Split(jsonTag, ",")[0]
+		}
+		if apiName == "" {
+			if formTag := field.Tag.Get("form"); formTag != "" && formTag != "-" && formTag != "*" {
+				apiName = strings.Split(formTag, ",")[0]
+			}
+		}
+		if apiName == "" {
+			continue
+		}
+
+		subPaths := collectAllEmptyFields(sub)
+		for _, subPath := range subPaths {
+			fullPath := make([]string, 0, len(subPath)+1)
+			fullPath = append(fullPath, apiName)
+			fullPath = append(fullPath, subPath...)
+			result = append(result, fullPath)
+		}
+	}
+
+	return result
+}
+
+// setNestedNull navigates into a nested JSON map using the given path and sets
+// the leaf value to null. Intermediate objects are created if they don't exist
+// (e.g. when a nested struct was nil/omitted but has EmptyFields entries).
+func setNestedNull(m map[string]json.RawMessage, path []string) {
+	if len(path) == 1 {
+		m[path[0]] = json.RawMessage("null")
+		return
+	}
+
+	key := path[0]
+	rest := path[1:]
+
+	var nested map[string]json.RawMessage
+	if existing, ok := m[key]; ok {
+		if err := json.Unmarshal(existing, &nested); err != nil {
+			nested = make(map[string]json.RawMessage)
+		}
+	} else {
+		nested = make(map[string]json.RawMessage)
+	}
+
+	setNestedNull(nested, rest)
+
+	data, _ := json.Marshal(nested)
+	m[key] = json.RawMessage(data)
+}
+
+// marshalV2JSON marshals params to JSON for v2 POST requests. EmptyFields
+// entries on both root and nested params structs are included as explicit nulls
+// in the JSON output, even if the corresponding struct field is nil/omitted.
 func marshalV2JSON(params ParamsContainer) ([]byte, error) {
 	data, err := json.Marshal(params)
 	if err != nil {
 		return nil, err
 	}
 
-	p := params.GetParams()
-	if p == nil || len(p.EmptyFields) == 0 {
+	// Collect all EmptyFields from root and nested structs
+	emptyFieldPaths := collectAllEmptyFields(reflect.ValueOf(params))
+	if len(emptyFieldPaths) == 0 {
 		return data, nil
 	}
 
-	// Parse the marshaled JSON, inject null for each EmptyFields entry
+	// Parse the marshaled JSON, inject null at each path
 	var m map[string]json.RawMessage
 	if err := json.Unmarshal(data, &m); err != nil {
 		return nil, err
 	}
 
-	for _, field := range p.EmptyFields {
-		m[field] = json.RawMessage("null")
+	for _, path := range emptyFieldPaths {
+		setNestedNull(m, path)
 	}
 
 	return json.Marshal(m)
@@ -401,11 +516,16 @@ func (s *BackendImplementation) Call(method, path, key string, params ParamsCont
 	// parameters are URL-encoded, and for POST requests, parameters are JSON-encoded.
 	var body []byte
 	if ver == V1APIMode || method != http.MethodPost {
-		// For v1 form encoding, EmptyFields entries are sent as field=
-		// (empty string) to clear the field value.
-		if commonParams != nil {
-			for _, field := range commonParams.EmptyFields {
-				bodyParams.Add(field, "")
+		// For v1 form encoding, EmptyFields entries (from both root and
+		// nested params structs) are sent as field= (empty string) to clear
+		// the field value. Nested paths use bracket notation, e.g.
+		// cancellation_details[comment]=
+		if params != nil {
+			emptyFieldPaths := collectAllEmptyFields(reflect.ValueOf(params))
+			for _, path := range emptyFieldPaths {
+				if bodyParams != nil {
+					bodyParams.Add(form.FormatKey(path), "")
+				}
 			}
 		}
 		body = []byte(bodyParams.Encode())

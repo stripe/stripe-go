@@ -957,6 +957,212 @@ func TestMarshalV2JSON(t *testing.T) {
 		// EmptyFields takes precedence — user explicitly asked for null
 		assert.Equal(t, "null", string(raw["description"]))
 	})
+
+	t.Run("nested struct EmptyFields", func(t *testing.T) {
+		type nestedDetails struct {
+			Comment  *string  `json:"comment,omitempty"`
+			Feedback *string  `json:"feedback,omitempty"`
+			EmptyFields []string `form:"-" json:"-"`
+		}
+		type outerParams struct {
+			Params  `form:"*"`
+			Name    *string        `json:"name,omitempty"`
+			Details *nestedDetails `json:"details,omitempty"`
+		}
+
+		params := &outerParams{
+			Name: String("test"),
+			Details: &nestedDetails{
+				Feedback: String("too_expensive"),
+			},
+		}
+		params.AddEmptyField("name") // root-level empty
+		params.Details.EmptyFields = append(params.Details.EmptyFields, "comment")
+
+		data, err := marshalV2JSON(params)
+		assert.NoError(t, err)
+
+		var raw map[string]json.RawMessage
+		err = json.Unmarshal(data, &raw)
+		assert.NoError(t, err)
+
+		// Root-level: "name" should be null
+		assert.Equal(t, "null", string(raw["name"]))
+
+		// Nested: "details.comment" should be null, "details.feedback" should be present
+		var details map[string]json.RawMessage
+		err = json.Unmarshal(raw["details"], &details)
+		assert.NoError(t, err)
+		assert.Equal(t, "null", string(details["comment"]))
+		assert.Equal(t, `"too_expensive"`, string(details["feedback"]))
+	})
+
+	t.Run("deeply nested EmptyFields", func(t *testing.T) {
+		type innerSettings struct {
+			Threshold *int64   `json:"threshold,omitempty"`
+			EmptyFields []string `form:"-" json:"-"`
+		}
+		type midLevel struct {
+			Settings *innerSettings `json:"settings,omitempty"`
+			Mode     *string        `json:"mode,omitempty"`
+			EmptyFields []string    `form:"-" json:"-"`
+		}
+		type rootParams struct {
+			Params  `form:"*"`
+			Details *midLevel `json:"details,omitempty"`
+		}
+
+		params := &rootParams{
+			Details: &midLevel{
+				Mode: String("auto"),
+				Settings: &innerSettings{},
+			},
+		}
+		params.Details.EmptyFields = append(params.Details.EmptyFields, "mode")
+		params.Details.Settings.EmptyFields = append(params.Details.Settings.EmptyFields, "threshold")
+
+		data, err := marshalV2JSON(params)
+		assert.NoError(t, err)
+
+		var raw map[string]json.RawMessage
+		err = json.Unmarshal(data, &raw)
+		assert.NoError(t, err)
+
+		var details map[string]json.RawMessage
+		err = json.Unmarshal(raw["details"], &details)
+		assert.NoError(t, err)
+		assert.Equal(t, "null", string(details["mode"]))
+
+		var settings map[string]json.RawMessage
+		err = json.Unmarshal(details["settings"], &settings)
+		assert.NoError(t, err)
+		assert.Equal(t, "null", string(settings["threshold"]))
+	})
+}
+
+// Test nested EmptyFields with v1 form encoding (bracket notation)
+func TestCall_V1PathPostNestedEmptyFields(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		body, err := io.ReadAll(r.Body)
+		assert.NoError(t, err)
+		bodyStr := string(body)
+
+		// Root-level: "description=" should be present
+		vals, err := url.ParseQuery(bodyStr)
+		assert.NoError(t, err)
+		assert.Equal(t, "", vals.Get("description"))
+		assert.Contains(t, bodyStr, "description=")
+
+		// Nested: "details[comment]=" should be present (stripe form encoder
+		// uses literal brackets, not percent-encoded)
+		assert.Equal(t, "", vals.Get("details[comment]"))
+		assert.Contains(t, bodyStr, "details[comment]=")
+
+		// "details[feedback]" should have a value
+		assert.Equal(t, "too_slow", vals.Get("details[feedback]"))
+
+		data, _ := json.Marshal(testServerResponse{Message: "ok"})
+		w.Write(data)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+
+	type nestedDetails struct {
+		Comment     *string  `form:"comment" json:"comment,omitempty"`
+		Feedback    *string  `form:"feedback" json:"feedback,omitempty"`
+		EmptyFields []string `form:"-" json:"-"`
+	}
+	type myParams struct {
+		Params      `form:"*"`
+		Description *string        `form:"description" json:"description,omitempty"`
+		Details     *nestedDetails `form:"details" json:"details,omitempty"`
+	}
+	params := &myParams{
+		Details: &nestedDetails{
+			Feedback: String("too_slow"),
+		},
+	}
+	params.AddEmptyField("description")
+	params.Details.EmptyFields = append(params.Details.EmptyFields, "comment")
+
+	var response testServerResponse
+	err := backend.Call(http.MethodPost, "/v1/hello", "sk_test_xyz", params, &response)
+	assert.NoError(t, err)
+}
+
+// Test nested EmptyFields with v2 JSON encoding (end-to-end via Call)
+func TestCall_V2PathPostNestedEmptyFields(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		body, err := io.ReadAll(r.Body)
+		assert.NoError(t, err)
+
+		var raw map[string]json.RawMessage
+		err = json.Unmarshal(body, &raw)
+		assert.NoError(t, err)
+
+		// Root-level: "description" should be null
+		assert.Equal(t, "null", string(raw["description"]))
+
+		// Nested: "details.comment" should be null
+		var details map[string]json.RawMessage
+		err = json.Unmarshal(raw["details"], &details)
+		assert.NoError(t, err)
+		assert.Equal(t, "null", string(details["comment"]))
+		assert.Equal(t, `"too_slow"`, string(details["feedback"]))
+
+		data, _ := json.Marshal(testServerResponse{Message: "ok"})
+		w.Write(data)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+
+	type nestedDetails struct {
+		Comment     *string  `form:"comment" json:"comment,omitempty"`
+		Feedback    *string  `form:"feedback" json:"feedback,omitempty"`
+		EmptyFields []string `form:"-" json:"-"`
+	}
+	type myParams struct {
+		Params      `form:"*"`
+		Description *string        `form:"description" json:"description,omitempty"`
+		Details     *nestedDetails `form:"details" json:"details,omitempty"`
+	}
+	params := &myParams{
+		Details: &nestedDetails{
+			Feedback: String("too_slow"),
+		},
+	}
+	params.AddEmptyField("description")
+	params.Details.EmptyFields = append(params.Details.EmptyFields, "comment")
+
+	var response testServerResponse
+	err := backend.Call(http.MethodPost, "/v2/hello", "sk_test_xyz", params, &response)
+	assert.NoError(t, err)
 }
 
 func TestDo_Redaction(t *testing.T) {
