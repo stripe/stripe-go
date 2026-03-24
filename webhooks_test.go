@@ -340,5 +340,5 @@ func TestConstructEvent_ErrorOnEventNotification(t *testing.T) {
 	_, err := ConstructEvent(p.Payload, p.Header, p.Secret)
 
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "EventNotification")
+	assert.Contains(t, err.Error(), "ParseEventNotification")
 }
