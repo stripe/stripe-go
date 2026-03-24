@@ -2385,14 +2385,59 @@ func TestHandleResponseBufferingErrors_NilResponse(t *testing.T) {
 }
 
 func BenchmarkCollectAllUnsetFields(b *testing.B) {
-	params := &PaymentIntentCreateParams{
-		Amount:   Int64(1000),
-		Currency: String("usd"),
-	}
-	params.AddUnsetField(PaymentIntentCreateParamsUnsetFieldMandateData)
+	// Minimal params — just the root struct with one unset field.
+	b.Run("minimal", func(b *testing.B) {
+		params := &PaymentIntentCreateParams{
+			Amount:   Int64(1000),
+			Currency: String("usd"),
+		}
+		params.AddUnsetField(PaymentIntentCreateParamsUnsetFieldMandateData)
 
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		collectAllUnsetFields(reflect.ValueOf(params))
-	}
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			collectAllUnsetFields(reflect.ValueOf(params))
+		}
+	})
+
+	// Deeply nested params — many populated sub-structs to stress the
+	// recursive reflection walk.
+	b.Run("deeply_nested", func(b *testing.B) {
+		params := &PaymentIntentCreateParams{
+			Amount:   Int64(1000),
+			Currency: String("usd"),
+			PaymentMethodOptions: &PaymentIntentCreatePaymentMethodOptionsParams{
+				Card: &PaymentIntentCreatePaymentMethodOptionsCardParams{
+					Installments: &PaymentIntentCreatePaymentMethodOptionsCardInstallmentsParams{
+						Enabled: Bool(true),
+					},
+				},
+				USBankAccount: &PaymentIntentCreatePaymentMethodOptionsUSBankAccountParams{
+					FinancialConnections: &PaymentIntentCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsParams{
+						Permissions: []*string{String("payment_method")},
+					},
+				},
+			},
+			PaymentMethodData: &PaymentIntentCreatePaymentMethodDataParams{
+				BillingDetails: &PaymentIntentCreatePaymentMethodDataBillingDetailsParams{
+					Address: &AddressParams{
+						City:    String("SF"),
+						Country: String("US"),
+					},
+				},
+			},
+			Shipping: &ShippingDetailsParams{
+				Address: &AddressParams{
+					City:    String("SF"),
+					Country: String("US"),
+				},
+				Name: String("Test"),
+			},
+		}
+		params.AddUnsetField(PaymentIntentCreateParamsUnsetFieldMandateData)
+
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			collectAllUnsetFields(reflect.ValueOf(params))
+		}
+	})
 }
