@@ -80,7 +80,7 @@ func TestParseEventNotification(t *testing.T) {
 	eventNotification := &stripe.V1BillingMeterErrorReportTriggeredEventNotification{
 		V2CoreEventNotification: stripe.V2CoreEventNotification{
 			ID:       "evt_123",
-			Object:   "event",
+			Object:   "v2.core.event",
 			Type:     "v1.billing.meter.error_report_triggered",
 			Livemode: true,
 			Created:  time.Now(),
@@ -114,7 +114,7 @@ func TestParseEventNotification(t *testing.T) {
 	assert.True(t, ok)
 
 	assert.Equal(t, "evt_123", specificEventNotification.ID)
-	assert.Equal(t, "event", specificEventNotification.Object)
+	assert.Equal(t, "v2.core.event", specificEventNotification.Object)
 	assert.Equal(t, "v1.billing.meter.error_report_triggered", specificEventNotification.Type)
 	assert.Equal(t, true, specificEventNotification.Livemode)
 	assert.Equal(t, "bm_123", specificEventNotification.RelatedObject.ID)
@@ -122,11 +122,32 @@ func TestParseEventNotification(t *testing.T) {
 	assert.Equal(t, "/v1/billing/meters/bm_123", specificEventNotification.RelatedObject.URL)
 }
 
+func TestParseEventNotification_ErrorOnV1Event(t *testing.T) {
+	v1Payload := []byte(`{"id": "evt_123", "object": "event", "type": "charge.succeeded"}`)
+
+	p := stripe.SignedPayload{
+		UnsignedPayload: stripe.UnsignedPayload{
+			Payload:   v1Payload,
+			Timestamp: time.Now(),
+			Secret:    "whsec_test_secret",
+			Scheme:    "v1",
+		},
+	}
+	p.Signature = stripe.ComputeSignature(p.Timestamp, p.Payload, p.Secret)
+	p.Header = generateHeader(p)
+
+	sc := stripe.NewClient("sk_test_secret")
+	_, err := sc.ParseEventNotification(p.Payload, p.Header, p.Secret)
+
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "ConstructEvent")
+}
+
 func TestParseEventNotificationNoTolerance(t *testing.T) {
 	unknownEvent := &stripe.UnknownEventNotification{
 		V2CoreEventNotification: stripe.V2CoreEventNotification{
 			ID:       "evt_123",
-			Object:   "event",
+			Object:   "v2.core.event",
 			Type:     "charge.succeeded",
 			Livemode: true,
 			Created:  time.Now(),
@@ -294,7 +315,7 @@ func TestFetchEventHTTPCall(t *testing.T) {
 	// Create a simple event payload for an unknown event type
 	payload := []byte(`{
 		"id": "evt_123",
-		"object": "event",
+		"object": "v2.core.event",
 		"type": "v1.billing.meter.error_report_triggered",
 		"context": "ctx_123"
 	}`)
@@ -357,7 +378,7 @@ func TestFetchRelatedObject(t *testing.T) {
 	// Create a simple event payload for an unknown event type
 	payload := []byte(`{
 		"id": "evt_123",
-		"object": "event",
+		"object": "v2.core.event",
 		"type": "v1.billing.meter.error_report_triggered",
 		"related_object": {
 			"id": "bm_123",
@@ -430,7 +451,7 @@ func TestFetchRelatedObjectUnknownEvent(t *testing.T) {
 	// Create a simple event payload for an unknown event type
 	payload := []byte(`{
 		"id": "evt_123",
-		"object": "event",
+		"object": "v2.core.event",
 		"type": "imaginary_with_related_object",
 		"context": "ctx_123",
 		"related_object": {
