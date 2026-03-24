@@ -318,7 +318,22 @@ type PriceParams struct {
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount`, `unit_amount_decimal`, or `custom_unit_amount` is required, unless `billing_scheme=tiered`.
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []PriceParamsUnsetField `form:"-" json:"-"`
+}
+
+// PriceParamsUnsetField is the list of fields that can be cleared/unset on PriceParams.
+type PriceParamsUnsetField string
+
+const (
+	PriceParamsUnsetFieldCurrencyOptions PriceParamsUnsetField = "currency_options"
+	PriceParamsUnsetFieldMetadata        PriceParamsUnsetField = "metadata"
+	PriceParamsUnsetFieldMigrateTo       PriceParamsUnsetField = "migrate_to"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PriceParams) AddUnsetField(field PriceParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -652,7 +667,22 @@ type PriceUpdateParams struct {
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
 	// If set to true, will atomically remove the lookup key from the existing price, and assign it to this price.
-	TransferLookupKey *bool `form:"transfer_lookup_key"`
+	TransferLookupKey *bool                         `form:"transfer_lookup_key"`
+	UnsetFields       []PriceUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// PriceUpdateParamsUnsetField is the list of fields that can be cleared/unset on PriceUpdateParams.
+type PriceUpdateParamsUnsetField string
+
+const (
+	PriceUpdateParamsUnsetFieldCurrencyOptions PriceUpdateParamsUnsetField = "currency_options"
+	PriceUpdateParamsUnsetFieldMetadata        PriceUpdateParamsUnsetField = "metadata"
+	PriceUpdateParamsUnsetFieldMigrateTo       PriceUpdateParamsUnsetField = "migrate_to"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PriceUpdateParams) AddUnsetField(field PriceUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

@@ -61,7 +61,20 @@ type TransferParams struct {
 	// The source balance to use for this transfer. One of `bank_account`, `card`, or `fpx`. For most users, this will default to `card`.
 	SourceType *string `form:"source_type"`
 	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string                    `form:"transfer_group"`
+	UnsetFields   []TransferParamsUnsetField `form:"-" json:"-"`
+}
+
+// TransferParamsUnsetField is the list of fields that can be cleared/unset on TransferParams.
+type TransferParamsUnsetField string
+
+const (
+	TransferParamsUnsetFieldMetadata TransferParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TransferParams) AddUnsetField(field TransferParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -140,7 +153,20 @@ type TransferUpdateParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                `form:"metadata"`
+	UnsetFields []TransferUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// TransferUpdateParamsUnsetField is the list of fields that can be cleared/unset on TransferUpdateParams.
+type TransferUpdateParamsUnsetField string
+
+const (
+	TransferUpdateParamsUnsetFieldMetadata TransferUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TransferUpdateParams) AddUnsetField(field TransferUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

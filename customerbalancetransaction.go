@@ -59,7 +59,20 @@ type CustomerBalanceTransactionParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                            `form:"metadata"`
+	UnsetFields []CustomerBalanceTransactionParamsUnsetField `form:"-" json:"-"`
+}
+
+// CustomerBalanceTransactionParamsUnsetField is the list of fields that can be cleared/unset on CustomerBalanceTransactionParams.
+type CustomerBalanceTransactionParamsUnsetField string
+
+const (
+	CustomerBalanceTransactionParamsUnsetFieldMetadata CustomerBalanceTransactionParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CustomerBalanceTransactionParams) AddUnsetField(field CustomerBalanceTransactionParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -89,7 +102,20 @@ type CustomerBalanceTransactionCreateParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                                  `form:"metadata"`
+	UnsetFields []CustomerBalanceTransactionCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// CustomerBalanceTransactionCreateParamsUnsetField is the list of fields that can be cleared/unset on CustomerBalanceTransactionCreateParams.
+type CustomerBalanceTransactionCreateParamsUnsetField string
+
+const (
+	CustomerBalanceTransactionCreateParamsUnsetFieldMetadata CustomerBalanceTransactionCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CustomerBalanceTransactionCreateParams) AddUnsetField(field CustomerBalanceTransactionCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -128,7 +154,20 @@ type CustomerBalanceTransactionUpdateParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                                  `form:"metadata"`
+	UnsetFields []CustomerBalanceTransactionUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// CustomerBalanceTransactionUpdateParamsUnsetField is the list of fields that can be cleared/unset on CustomerBalanceTransactionUpdateParams.
+type CustomerBalanceTransactionUpdateParamsUnsetField string
+
+const (
+	CustomerBalanceTransactionUpdateParamsUnsetFieldMetadata CustomerBalanceTransactionUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CustomerBalanceTransactionUpdateParams) AddUnsetField(field CustomerBalanceTransactionUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

@@ -28,7 +28,20 @@ type IssuingProgramParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The program to use as the parent for the new program to create.
-	PlatformProgram *string `form:"platform_program"`
+	PlatformProgram *string                          `form:"platform_program"`
+	UnsetFields     []IssuingProgramParamsUnsetField `form:"-" json:"-"`
+}
+
+// IssuingProgramParamsUnsetField is the list of fields that can be cleared/unset on IssuingProgramParams.
+type IssuingProgramParamsUnsetField string
+
+const (
+	IssuingProgramParamsUnsetFieldMetadata IssuingProgramParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingProgramParams) AddUnsetField(field IssuingProgramParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -81,7 +94,20 @@ type IssuingProgramUpdateParams struct {
 	// If true, makes the specified program the default.
 	IsDefault *bool `form:"is_default"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                      `form:"metadata"`
+	UnsetFields []IssuingProgramUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// IssuingProgramUpdateParamsUnsetField is the list of fields that can be cleared/unset on IssuingProgramUpdateParams.
+type IssuingProgramUpdateParamsUnsetField string
+
+const (
+	IssuingProgramUpdateParamsUnsetFieldMetadata IssuingProgramUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingProgramUpdateParams) AddUnsetField(field IssuingProgramUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

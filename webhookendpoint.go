@@ -22,11 +22,25 @@ type WebhookEndpointParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The URL of the webhook endpoint.
-	URL *string `form:"url"`
+	URL         *string                           `form:"url"`
+	UnsetFields []WebhookEndpointParamsUnsetField `form:"-" json:"-"`
 	// This parameter is only available on creation.
 	// We recommend setting the API version that the library is pinned to. See apiversion in stripe.go
 	// Events sent to this endpoint will be generated with this Stripe Version instead of your account's default Stripe Version.
 	APIVersion *string `form:"api_version"`
+}
+
+// WebhookEndpointParamsUnsetField is the list of fields that can be cleared/unset on WebhookEndpointParams.
+type WebhookEndpointParamsUnsetField string
+
+const (
+	WebhookEndpointParamsUnsetFieldDescription WebhookEndpointParamsUnsetField = "description"
+	WebhookEndpointParamsUnsetFieldMetadata    WebhookEndpointParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *WebhookEndpointParams) AddUnsetField(field WebhookEndpointParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -86,7 +100,21 @@ type WebhookEndpointUpdateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The URL of the webhook endpoint.
-	URL *string `form:"url"`
+	URL         *string                                 `form:"url"`
+	UnsetFields []WebhookEndpointUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// WebhookEndpointUpdateParamsUnsetField is the list of fields that can be cleared/unset on WebhookEndpointUpdateParams.
+type WebhookEndpointUpdateParamsUnsetField string
+
+const (
+	WebhookEndpointUpdateParamsUnsetFieldDescription WebhookEndpointUpdateParamsUnsetField = "description"
+	WebhookEndpointUpdateParamsUnsetFieldMetadata    WebhookEndpointUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *WebhookEndpointUpdateParams) AddUnsetField(field WebhookEndpointUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -119,7 +147,21 @@ type WebhookEndpointCreateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The URL of the webhook endpoint.
-	URL *string `form:"url"`
+	URL         *string                                 `form:"url"`
+	UnsetFields []WebhookEndpointCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// WebhookEndpointCreateParamsUnsetField is the list of fields that can be cleared/unset on WebhookEndpointCreateParams.
+type WebhookEndpointCreateParamsUnsetField string
+
+const (
+	WebhookEndpointCreateParamsUnsetFieldDescription WebhookEndpointCreateParamsUnsetField = "description"
+	WebhookEndpointCreateParamsUnsetFieldMetadata    WebhookEndpointCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *WebhookEndpointCreateParams) AddUnsetField(field WebhookEndpointCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

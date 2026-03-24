@@ -245,7 +245,24 @@ type InvoiceLineItemParams struct {
 	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceLineItemTaxAmountParams `form:"tax_amounts"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                         `form:"tax_rates"`
+	UnsetFields []InvoiceLineItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceLineItemParamsUnsetField is the list of fields that can be cleared/unset on InvoiceLineItemParams.
+type InvoiceLineItemParamsUnsetField string
+
+const (
+	InvoiceLineItemParamsUnsetFieldDiscounts  InvoiceLineItemParamsUnsetField = "discounts"
+	InvoiceLineItemParamsUnsetFieldMargins    InvoiceLineItemParamsUnsetField = "margins"
+	InvoiceLineItemParamsUnsetFieldMetadata   InvoiceLineItemParamsUnsetField = "metadata"
+	InvoiceLineItemParamsUnsetFieldTaxAmounts InvoiceLineItemParamsUnsetField = "tax_amounts"
+	InvoiceLineItemParamsUnsetFieldTaxRates   InvoiceLineItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceLineItemParams) AddUnsetField(field InvoiceLineItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -428,7 +445,24 @@ type InvoiceLineItemUpdateParams struct {
 	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceLineItemUpdateTaxAmountParams `form:"tax_amounts"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                               `form:"tax_rates"`
+	UnsetFields []InvoiceLineItemUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceLineItemUpdateParamsUnsetField is the list of fields that can be cleared/unset on InvoiceLineItemUpdateParams.
+type InvoiceLineItemUpdateParamsUnsetField string
+
+const (
+	InvoiceLineItemUpdateParamsUnsetFieldDiscounts  InvoiceLineItemUpdateParamsUnsetField = "discounts"
+	InvoiceLineItemUpdateParamsUnsetFieldMargins    InvoiceLineItemUpdateParamsUnsetField = "margins"
+	InvoiceLineItemUpdateParamsUnsetFieldMetadata   InvoiceLineItemUpdateParamsUnsetField = "metadata"
+	InvoiceLineItemUpdateParamsUnsetFieldTaxAmounts InvoiceLineItemUpdateParamsUnsetField = "tax_amounts"
+	InvoiceLineItemUpdateParamsUnsetFieldTaxRates   InvoiceLineItemUpdateParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceLineItemUpdateParams) AddUnsetField(field InvoiceLineItemUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
