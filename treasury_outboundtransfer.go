@@ -122,6 +122,19 @@ type TreasuryOutboundTransferDestinationPaymentMethodOptionsUSBankAccountParams 
 type TreasuryOutboundTransferDestinationPaymentMethodOptionsParams struct {
 	// Optional fields for `us_bank_account`.
 	USBankAccount *TreasuryOutboundTransferDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	UnsetFields   []TreasuryOutboundTransferDestinationPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
+}
+
+// TreasuryOutboundTransferDestinationPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on TreasuryOutboundTransferDestinationPaymentMethodOptionsParams.
+type TreasuryOutboundTransferDestinationPaymentMethodOptionsParamsUnsetField string
+
+const (
+	TreasuryOutboundTransferDestinationPaymentMethodOptionsParamsUnsetFieldUSBankAccount TreasuryOutboundTransferDestinationPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TreasuryOutboundTransferDestinationPaymentMethodOptionsParams) AddUnsetField(field TreasuryOutboundTransferDestinationPaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Creates an OutboundTransfer.
@@ -193,6 +206,19 @@ type TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsUSBankAccountP
 type TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParams struct {
 	// Optional fields for `us_bank_account`.
 	USBankAccount *TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	UnsetFields   []TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
+}
+
+// TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParams.
+type TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParamsUnsetField string
+
+const (
+	TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParamsUnsetFieldUSBankAccount TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParams) AddUnsetField(field TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Creates an OutboundTransfer.

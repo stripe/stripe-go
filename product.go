@@ -59,7 +59,27 @@ type ProductParams struct {
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. May only be set if `type=service`.
 	UnitLabel *string `form:"unit_label"`
 	// A URL of a publicly-accessible webpage for this product.
-	URL *string `form:"url"`
+	URL         *string                   `form:"url"`
+	UnsetFields []ProductParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductParamsUnsetField is the list of fields that can be cleared/unset on ProductParams.
+type ProductParamsUnsetField string
+
+const (
+	ProductParamsUnsetFieldDescription       ProductParamsUnsetField = "description"
+	ProductParamsUnsetFieldImages            ProductParamsUnsetField = "images"
+	ProductParamsUnsetFieldMarketingFeatures ProductParamsUnsetField = "marketing_features"
+	ProductParamsUnsetFieldMetadata          ProductParamsUnsetField = "metadata"
+	ProductParamsUnsetFieldPackageDimensions ProductParamsUnsetField = "package_dimensions"
+	ProductParamsUnsetFieldTaxCode           ProductParamsUnsetField = "tax_code"
+	ProductParamsUnsetFieldUnitLabel         ProductParamsUnsetField = "unit_label"
+	ProductParamsUnsetFieldURL               ProductParamsUnsetField = "url"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductParams) AddUnsetField(field ProductParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -302,7 +322,27 @@ type ProductUpdateParams struct {
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. May only be set if `type=service`.
 	UnitLabel *string `form:"unit_label"`
 	// A URL of a publicly-accessible webpage for this product.
-	URL *string `form:"url"`
+	URL         *string                         `form:"url"`
+	UnsetFields []ProductUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductUpdateParamsUnsetField is the list of fields that can be cleared/unset on ProductUpdateParams.
+type ProductUpdateParamsUnsetField string
+
+const (
+	ProductUpdateParamsUnsetFieldDescription       ProductUpdateParamsUnsetField = "description"
+	ProductUpdateParamsUnsetFieldImages            ProductUpdateParamsUnsetField = "images"
+	ProductUpdateParamsUnsetFieldMarketingFeatures ProductUpdateParamsUnsetField = "marketing_features"
+	ProductUpdateParamsUnsetFieldMetadata          ProductUpdateParamsUnsetField = "metadata"
+	ProductUpdateParamsUnsetFieldPackageDimensions ProductUpdateParamsUnsetField = "package_dimensions"
+	ProductUpdateParamsUnsetFieldTaxCode           ProductUpdateParamsUnsetField = "tax_code"
+	ProductUpdateParamsUnsetFieldUnitLabel         ProductUpdateParamsUnsetField = "unit_label"
+	ProductUpdateParamsUnsetFieldURL               ProductUpdateParamsUnsetField = "url"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductUpdateParams) AddUnsetField(field ProductUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

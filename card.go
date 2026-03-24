@@ -152,8 +152,9 @@ type CardParams struct {
 	// Cardholder's full name.
 	Name *string `form:"name"`
 	// The card number, as a string without any separators.
-	Number *string          `form:"number"`
-	Owner  *CardOwnerParams `form:"owner"`
+	Number      *string                `form:"number"`
+	Owner       *CardOwnerParams       `form:"owner"`
+	UnsetFields []CardParamsUnsetField `form:"-" json:"-"`
 	// ID is used when tokenizing a card for shared customers
 	ID string `form:"*"`
 }
@@ -250,6 +251,18 @@ func (p *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, ke
 			form.FormatKey(append(keyParts, cardSource, "address_zip")), StringValue(
 				p.AddressZip))
 	}
+}
+
+// CardParamsUnsetField is the list of fields that can be cleared/unset on CardParams.
+type CardParamsUnsetField string
+
+const (
+	CardParamsUnsetFieldMetadata CardParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CardParams) AddUnsetField(field CardParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -352,7 +365,20 @@ type CardUpdateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Cardholder name.
-	Name *string `form:"name"`
+	Name        *string                      `form:"name"`
+	UnsetFields []CardUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// CardUpdateParamsUnsetField is the list of fields that can be cleared/unset on CardUpdateParams.
+type CardUpdateParamsUnsetField string
+
+const (
+	CardUpdateParamsUnsetFieldMetadata CardUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CardUpdateParams) AddUnsetField(field CardUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -404,7 +430,8 @@ type CardCreateParams struct {
 	// Cardholder's full name.
 	Name *string `form:"name"`
 	// The card number, as a string without any separators.
-	Number *string `form:"number"`
+	Number      *string                      `form:"number"`
+	UnsetFields []CardCreateParamsUnsetField `form:"-" json:"-"`
 }
 
 // AppendToAsCardSourceOrExternalAccount appends the given CardCreateParams as either a
@@ -518,6 +545,18 @@ func (p *CardCreateParams) AppendToAsCardSourceOrExternalAccount(body *form.Valu
 				p.AddressZip))
 	}
 	return nil
+}
+
+// CardCreateParamsUnsetField is the list of fields that can be cleared/unset on CardCreateParams.
+type CardCreateParamsUnsetField string
+
+const (
+	CardCreateParamsUnsetFieldMetadata CardCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CardCreateParams) AddUnsetField(field CardCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

@@ -46,7 +46,20 @@ type CouponParams struct {
 	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
 	PercentOff *float64 `form:"percent_off"`
 	// Unix timestamp specifying the last time at which the coupon can be redeemed (cannot be set to more than 5 years in the future). After the redeem_by date, the coupon can no longer be applied to new customers.
-	RedeemBy *int64 `form:"redeem_by"`
+	RedeemBy    *int64                   `form:"redeem_by"`
+	UnsetFields []CouponParamsUnsetField `form:"-" json:"-"`
+}
+
+// CouponParamsUnsetField is the list of fields that can be cleared/unset on CouponParams.
+type CouponParamsUnsetField string
+
+const (
+	CouponParamsUnsetFieldMetadata CouponParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CouponParams) AddUnsetField(field CouponParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -124,7 +137,20 @@ type CouponUpdateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set.
-	Name *string `form:"name"`
+	Name        *string                        `form:"name"`
+	UnsetFields []CouponUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// CouponUpdateParamsUnsetField is the list of fields that can be cleared/unset on CouponUpdateParams.
+type CouponUpdateParamsUnsetField string
+
+const (
+	CouponUpdateParamsUnsetFieldMetadata CouponUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CouponUpdateParams) AddUnsetField(field CouponUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -183,7 +209,20 @@ type CouponCreateParams struct {
 	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
 	PercentOff *float64 `form:"percent_off"`
 	// Unix timestamp specifying the last time at which the coupon can be redeemed (cannot be set to more than 5 years in the future). After the redeem_by date, the coupon can no longer be applied to new customers.
-	RedeemBy *int64 `form:"redeem_by"`
+	RedeemBy    *int64                         `form:"redeem_by"`
+	UnsetFields []CouponCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// CouponCreateParamsUnsetField is the list of fields that can be cleared/unset on CouponCreateParams.
+type CouponCreateParamsUnsetField string
+
+const (
+	CouponCreateParamsUnsetFieldMetadata CouponCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CouponCreateParams) AddUnsetField(field CouponCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
