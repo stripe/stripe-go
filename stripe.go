@@ -15,6 +15,7 @@ import (
 	"os"
 	"reflect"
 	"regexp"
+	"strconv"
 	"runtime"
 	"strings"
 	"sync"
@@ -360,11 +361,12 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 }
 
 // collectAllUnsetFields walks a struct recursively via reflection and collects
-// all UnsetFields entries with their full path (as a slice of API field names).
-// For root params, UnsetFields lives on the embedded Params struct. For nested
-// params, UnsetFields is a direct field. Each returned path represents a field
-// that should be sent as empty (v1 form: field=) or null (v2 JSON: "field": null).
-// Example: [["description"], ["cancellation_details", "comment"]]
+// all UnsetFields entries with their full path (as a slice of path segments).
+// It recurses into embedded structs, pointer-to-struct fields, and slice/array
+// elements. Each returned path represents a field that should be sent as empty
+// (v1 form: field=) or null (v2 JSON: "field": null). Numeric path segments
+// represent array indices.
+// Examples: [["description"], ["details", "comment"], ["line_items", "0", "tax_rates"]]
 func collectAllUnsetFields(v reflect.Value) [][]string {
 	if v.Kind() == reflect.Ptr {
 		if v.IsNil() {
@@ -408,18 +410,6 @@ func collectAllUnsetFields(v reflect.Value) [][]string {
 			continue
 		}
 
-		// Non-embedded struct pointer field — recurse with key prefix
-		sub := fv
-		if sub.Kind() == reflect.Ptr {
-			if sub.IsNil() {
-				continue
-			}
-			sub = sub.Elem()
-		}
-		if sub.Kind() != reflect.Struct {
-			continue
-		}
-
 		// Determine the API field name from json tag, falling back to form tag
 		apiName := ""
 		if jsonTag := field.Tag.Get("json"); jsonTag != "" && jsonTag != "-" {
@@ -434,6 +424,34 @@ func collectAllUnsetFields(v reflect.Value) [][]string {
 			continue
 		}
 
+		sub := fv
+		if sub.Kind() == reflect.Ptr {
+			if sub.IsNil() {
+				continue
+			}
+			sub = sub.Elem()
+		}
+
+		// Slice/array field — recurse into each element with index prefix
+		if sub.Kind() == reflect.Slice || sub.Kind() == reflect.Array {
+			for j := 0; j < sub.Len(); j++ {
+				elem := sub.Index(j)
+				subPaths := collectAllUnsetFields(elem)
+				for _, subPath := range subPaths {
+					fullPath := make([]string, 0, len(subPath)+2)
+					fullPath = append(fullPath, apiName, strconv.Itoa(j))
+					fullPath = append(fullPath, subPath...)
+					result = append(result, fullPath)
+				}
+			}
+			continue
+		}
+
+		if sub.Kind() != reflect.Struct {
+			continue
+		}
+
+		// Non-embedded struct pointer field — recurse with key prefix
 		subPaths := collectAllUnsetFields(sub)
 		for _, subPath := range subPaths {
 			fullPath := make([]string, 0, len(subPath)+1)
@@ -446,9 +464,10 @@ func collectAllUnsetFields(v reflect.Value) [][]string {
 	return result
 }
 
-// setNestedNull navigates into a nested JSON map using the given path and sets
-// the leaf value to null. Intermediate objects are created if they don't exist
-// (e.g. when a nested struct was nil/omitted but has UnsetFields entries).
+// setNestedNull navigates into a nested JSON structure using the given path and
+// sets the leaf value to null. Intermediate objects are created if they don't
+// exist (e.g. when a nested struct was nil/omitted but has UnsetFields entries).
+// Numeric path segments navigate into JSON arrays by index.
 func setNestedNull(m map[string]json.RawMessage, path []string) {
 	if len(path) == 1 {
 		m[path[0]] = json.RawMessage("null")
@@ -457,6 +476,32 @@ func setNestedNull(m map[string]json.RawMessage, path []string) {
 
 	key := path[0]
 	rest := path[1:]
+
+	// Check if the next path segment is an array index
+	if idx, err := strconv.Atoi(rest[0]); err == nil {
+		var arr []json.RawMessage
+		if existing, ok := m[key]; ok {
+			_ = json.Unmarshal(existing, &arr)
+		}
+		if idx < len(arr) {
+			if len(rest) == 1 {
+				// The array element itself should be null (unlikely but handle it)
+				arr[idx] = json.RawMessage("null")
+			} else {
+				// Navigate into the array element (must be an object)
+				var elem map[string]json.RawMessage
+				if err := json.Unmarshal(arr[idx], &elem); err != nil {
+					elem = make(map[string]json.RawMessage)
+				}
+				setNestedNull(elem, rest[1:])
+				data, _ := json.Marshal(elem)
+				arr[idx] = json.RawMessage(data)
+			}
+			data, _ := json.Marshal(arr)
+			m[key] = json.RawMessage(data)
+		}
+		return
+	}
 
 	var nested map[string]json.RawMessage
 	if existing, ok := m[key]; ok {
