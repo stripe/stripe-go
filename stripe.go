@@ -360,6 +360,192 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 	return formValues, commonParams, nil
 }
 
+// collectAllUnsetFields walks a struct recursively via reflection and collects
+// all UnsetFields entries with their full path (as a slice of path segments).
+// It recurses into embedded structs, pointer-to-struct fields, and slice/array
+// elements. Each returned path represents a field that should be sent as empty
+// (v1 form: field=) or null (v2 JSON: "field": null). Numeric path segments
+// represent array indices.
+// Examples: [["description"], ["details", "comment"], ["line_items", "0", "tax_rates"]]
+func collectAllUnsetFields(v reflect.Value) [][]string {
+	if v.Kind() == reflect.Ptr {
+		if v.IsNil() {
+			return nil
+		}
+		v = v.Elem()
+	}
+	if v.Kind() != reflect.Struct {
+		return nil
+	}
+
+	var result [][]string
+	t := v.Type()
+
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+		fv := v.Field(i)
+
+		if field.Name == "UnsetFields" {
+			// Collect entries at the current path level
+			if fv.Kind() == reflect.Slice {
+				for j := 0; j < fv.Len(); j++ {
+					result = append(result, []string{fv.Index(j).String()})
+				}
+			}
+			continue
+		}
+
+		if field.Anonymous {
+			// Embedded struct (e.g. Params) — recurse at same path level
+			sub := fv
+			if sub.Kind() == reflect.Ptr {
+				if sub.IsNil() {
+					continue
+				}
+				sub = sub.Elem()
+			}
+			if sub.Kind() == reflect.Struct {
+				result = append(result, collectAllUnsetFields(sub)...)
+			}
+			continue
+		}
+
+		// Determine the API field name from json tag, falling back to form tag
+		apiName := ""
+		if jsonTag := field.Tag.Get("json"); jsonTag != "" && jsonTag != "-" {
+			apiName = strings.Split(jsonTag, ",")[0]
+		}
+		if apiName == "" {
+			if formTag := field.Tag.Get("form"); formTag != "" && formTag != "-" && formTag != "*" {
+				apiName = strings.Split(formTag, ",")[0]
+			}
+		}
+		if apiName == "" {
+			continue
+		}
+
+		sub := fv
+		if sub.Kind() == reflect.Ptr {
+			if sub.IsNil() {
+				continue
+			}
+			sub = sub.Elem()
+		}
+
+		// Slice/array field — recurse into each element with index prefix
+		if sub.Kind() == reflect.Slice || sub.Kind() == reflect.Array {
+			for j := 0; j < sub.Len(); j++ {
+				elem := sub.Index(j)
+				subPaths := collectAllUnsetFields(elem)
+				for _, subPath := range subPaths {
+					fullPath := make([]string, 0, len(subPath)+2)
+					fullPath = append(fullPath, apiName, strconv.Itoa(j))
+					fullPath = append(fullPath, subPath...)
+					result = append(result, fullPath)
+				}
+			}
+			continue
+		}
+
+		if sub.Kind() != reflect.Struct {
+			continue
+		}
+
+		// Non-embedded struct pointer field — recurse with key prefix
+		subPaths := collectAllUnsetFields(sub)
+		for _, subPath := range subPaths {
+			fullPath := make([]string, 0, len(subPath)+1)
+			fullPath = append(fullPath, apiName)
+			fullPath = append(fullPath, subPath...)
+			result = append(result, fullPath)
+		}
+	}
+
+	return result
+}
+
+// setNestedNull navigates into a nested JSON structure using the given path and
+// sets the leaf value to null. Intermediate objects are created if they don't
+// exist (e.g. when a nested struct was nil/omitted but has UnsetFields entries).
+// Numeric path segments navigate into JSON arrays by index.
+func setNestedNull(m map[string]json.RawMessage, path []string) {
+	if len(path) == 1 {
+		m[path[0]] = json.RawMessage("null")
+		return
+	}
+
+	key := path[0]
+	rest := path[1:]
+
+	// Check if the next path segment is an array index
+	if idx, err := strconv.Atoi(rest[0]); err == nil {
+		var arr []json.RawMessage
+		if existing, ok := m[key]; ok {
+			_ = json.Unmarshal(existing, &arr)
+		}
+		if idx < len(arr) {
+			if len(rest) == 1 {
+				// The array element itself should be null (unlikely but handle it)
+				arr[idx] = json.RawMessage("null")
+			} else {
+				// Navigate into the array element (must be an object)
+				var elem map[string]json.RawMessage
+				if err := json.Unmarshal(arr[idx], &elem); err != nil {
+					elem = make(map[string]json.RawMessage)
+				}
+				setNestedNull(elem, rest[1:])
+				data, _ := json.Marshal(elem)
+				arr[idx] = json.RawMessage(data)
+			}
+			data, _ := json.Marshal(arr)
+			m[key] = json.RawMessage(data)
+		}
+		return
+	}
+
+	var nested map[string]json.RawMessage
+	if existing, ok := m[key]; ok {
+		if err := json.Unmarshal(existing, &nested); err != nil {
+			nested = make(map[string]json.RawMessage)
+		}
+	} else {
+		nested = make(map[string]json.RawMessage)
+	}
+
+	setNestedNull(nested, rest)
+
+	data, _ := json.Marshal(nested)
+	m[key] = json.RawMessage(data)
+}
+
+// marshalV2JSON marshals params to JSON for v2 POST requests. UnsetFields
+// entries on both root and nested params structs are included as explicit nulls
+// in the JSON output, even if the corresponding struct field is nil/omitted.
+func marshalV2JSON(params ParamsContainer) ([]byte, error) {
+	data, err := json.Marshal(params)
+	if err != nil {
+		return nil, err
+	}
+
+	// Collect all UnsetFields from root and nested structs
+	unsetFieldPaths := collectAllUnsetFields(reflect.ValueOf(params))
+	if len(unsetFieldPaths) == 0 {
+		return data, nil
+	}
+
+	// Parse the marshaled JSON, inject null at each path
+	var m map[string]json.RawMessage
+	if err := json.Unmarshal(data, &m); err != nil {
+		return nil, err
+	}
+
+	for _, path := range unsetFieldPaths {
+		setNestedNull(m, path)
+	}
+
+	return json.Marshal(m)
+}
+
 // Call is the Backend.Call implementation for invoking Stripe APIs.
 func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
 	bodyParams, commonParams, err := extractParams(params)
@@ -375,9 +561,21 @@ func (s *BackendImplementation) Call(method, path, key string, params ParamsCont
 	// parameters are URL-encoded, and for POST requests, parameters are JSON-encoded.
 	var body []byte
 	if ver == V1APIMode || method != http.MethodPost {
+		// For v1 form encoding, UnsetFields entries (from both root and
+		// nested params structs) are sent as field= (empty string) to clear
+		// the field value. Nested paths use bracket notation, e.g.
+		// cancellation_details[comment]=
+		if params != nil {
+			unsetFieldPaths := collectAllUnsetFields(reflect.ValueOf(params))
+			for _, path := range unsetFieldPaths {
+				if bodyParams != nil {
+					bodyParams.Add(form.FormatKey(path), "")
+				}
+			}
+		}
 		body = []byte(bodyParams.Encode())
 	} else if params != nil && !(reflect.ValueOf(params).Kind() == reflect.Ptr && reflect.ValueOf(params).IsNil()) {
-		body, err = json.Marshal(params)
+		body, err = marshalV2JSON(params)
 		if err != nil {
 			return err
 		}
@@ -1645,6 +1843,22 @@ func SetBackend(backend SupportedBackend, b Backend) {
 // where the http.DefaultClient is not available.
 func SetHTTPClient(client *http.Client) {
 	httpClient = client
+}
+
+// Pointer returns a pointer to the value passed in.
+// On go 1.26+, this is equivalent to new(v)
+func Pointer[T any](v T) *T {
+	return &v
+}
+
+// PointerValue returns the value of the pointer passed in or
+// the zero value of the type if the pointer is nil.
+func PointerValue[T any](v *T) T {
+	if v != nil {
+		return *v
+	}
+	var zero T
+	return zero
 }
 
 // String returns a pointer to the string value or enum passed in.

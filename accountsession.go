@@ -41,7 +41,20 @@ type AccountSessionComponentsAccountOnboardingParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsAppInstallFeaturesParams struct {
 	// The list of apps allowed to be enabled in the embedded component.
-	AllowedApps []*string `form:"allowed_apps"`
+	AllowedApps []*string                                                    `form:"allowed_apps"`
+	UnsetFields []AccountSessionComponentsAppInstallFeaturesParamsUnsetField `form:"-" json:"-"`
+}
+
+// AccountSessionComponentsAppInstallFeaturesParamsUnsetField is the list of fields that can be cleared/unset on AccountSessionComponentsAppInstallFeaturesParams.
+type AccountSessionComponentsAppInstallFeaturesParamsUnsetField string
+
+const (
+	AccountSessionComponentsAppInstallFeaturesParamsUnsetFieldAllowedApps AccountSessionComponentsAppInstallFeaturesParamsUnsetField = "allowed_apps"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *AccountSessionComponentsAppInstallFeaturesParams) AddUnsetField(field AccountSessionComponentsAppInstallFeaturesParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Configuration for the [app install](https://docs.stripe.com/connect/supported-embedded-components/app-install/) embedded component.
@@ -55,7 +68,20 @@ type AccountSessionComponentsAppInstallParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsAppViewportFeaturesParams struct {
 	// The list of apps allowed to be enabled in the embedded component.
-	AllowedApps []*string `form:"allowed_apps"`
+	AllowedApps []*string                                                     `form:"allowed_apps"`
+	UnsetFields []AccountSessionComponentsAppViewportFeaturesParamsUnsetField `form:"-" json:"-"`
+}
+
+// AccountSessionComponentsAppViewportFeaturesParamsUnsetField is the list of fields that can be cleared/unset on AccountSessionComponentsAppViewportFeaturesParams.
+type AccountSessionComponentsAppViewportFeaturesParamsUnsetField string
+
+const (
+	AccountSessionComponentsAppViewportFeaturesParamsUnsetFieldAllowedApps AccountSessionComponentsAppViewportFeaturesParamsUnsetField = "allowed_apps"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *AccountSessionComponentsAppViewportFeaturesParams) AddUnsetField(field AccountSessionComponentsAppViewportFeaturesParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Configuration for the [app viewport](https://docs.stripe.com/connect/supported-embedded-components/app-viewport/) embedded component.
@@ -580,7 +606,20 @@ type AccountSessionCreateComponentsAccountOnboardingParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsAppInstallFeaturesParams struct {
 	// The list of apps allowed to be enabled in the embedded component.
-	AllowedApps []*string `form:"allowed_apps"`
+	AllowedApps []*string                                                          `form:"allowed_apps"`
+	UnsetFields []AccountSessionCreateComponentsAppInstallFeaturesParamsUnsetField `form:"-" json:"-"`
+}
+
+// AccountSessionCreateComponentsAppInstallFeaturesParamsUnsetField is the list of fields that can be cleared/unset on AccountSessionCreateComponentsAppInstallFeaturesParams.
+type AccountSessionCreateComponentsAppInstallFeaturesParamsUnsetField string
+
+const (
+	AccountSessionCreateComponentsAppInstallFeaturesParamsUnsetFieldAllowedApps AccountSessionCreateComponentsAppInstallFeaturesParamsUnsetField = "allowed_apps"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *AccountSessionCreateComponentsAppInstallFeaturesParams) AddUnsetField(field AccountSessionCreateComponentsAppInstallFeaturesParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Configuration for the [app install](https://docs.stripe.com/connect/supported-embedded-components/app-install/) embedded component.
@@ -594,7 +633,20 @@ type AccountSessionCreateComponentsAppInstallParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsAppViewportFeaturesParams struct {
 	// The list of apps allowed to be enabled in the embedded component.
-	AllowedApps []*string `form:"allowed_apps"`
+	AllowedApps []*string                                                           `form:"allowed_apps"`
+	UnsetFields []AccountSessionCreateComponentsAppViewportFeaturesParamsUnsetField `form:"-" json:"-"`
+}
+
+// AccountSessionCreateComponentsAppViewportFeaturesParamsUnsetField is the list of fields that can be cleared/unset on AccountSessionCreateComponentsAppViewportFeaturesParams.
+type AccountSessionCreateComponentsAppViewportFeaturesParamsUnsetField string
+
+const (
+	AccountSessionCreateComponentsAppViewportFeaturesParamsUnsetFieldAllowedApps AccountSessionCreateComponentsAppViewportFeaturesParamsUnsetField = "allowed_apps"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *AccountSessionCreateComponentsAppViewportFeaturesParams) AddUnsetField(field AccountSessionCreateComponentsAppViewportFeaturesParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Configuration for the [app viewport](https://docs.stripe.com/connect/supported-embedded-components/app-viewport/) embedded component.
