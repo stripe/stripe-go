@@ -60,7 +60,8 @@ type TopupParams struct {
 	// Extra information about a top-up for the source's bank statement. Limited to 15 ASCII characters.
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A string that identifies this top-up as part of a group.
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string                 `form:"transfer_group"`
+	UnsetFields   []TopupParamsUnsetField `form:"-" json:"-"`
 }
 
 // TopupParamsUnsetField is the list of fields that can be cleared/unset on TopupParams.
@@ -72,7 +73,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TopupParams) AddUnsetField(field TopupParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -107,7 +108,8 @@ type TopupCreateParams struct {
 	// Extra information about a top-up for the source's bank statement. Limited to 15 ASCII characters.
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A string that identifies this top-up as part of a group.
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string                       `form:"transfer_group"`
+	UnsetFields   []TopupCreateParamsUnsetField `form:"-" json:"-"`
 }
 
 // TopupCreateParamsUnsetField is the list of fields that can be cleared/unset on TopupCreateParams.
@@ -119,7 +121,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TopupCreateParams) AddUnsetField(field TopupCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -168,7 +170,8 @@ type TopupUpdateParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string             `form:"metadata"`
+	UnsetFields []TopupUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // TopupUpdateParamsUnsetField is the list of fields that can be cleared/unset on TopupUpdateParams.
@@ -180,7 +183,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TopupUpdateParams) AddUnsetField(field TopupUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

@@ -30,7 +30,8 @@ type TerminalLocationParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The phone number for the location.
-	Phone *string `form:"phone"`
+	Phone       *string                            `form:"phone"`
+	UnsetFields []TerminalLocationParamsUnsetField `form:"-" json:"-"`
 }
 
 // TerminalLocationParamsUnsetField is the list of fields that can be cleared/unset on TerminalLocationParams.
@@ -47,7 +48,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalLocationParams) AddUnsetField(field TerminalLocationParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -187,7 +188,8 @@ type TerminalLocationUpdateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The phone number for the location.
-	Phone *string `form:"phone"`
+	Phone       *string                                  `form:"phone"`
+	UnsetFields []TerminalLocationUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // TerminalLocationUpdateParamsUnsetField is the list of fields that can be cleared/unset on TerminalLocationUpdateParams.
@@ -204,7 +206,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalLocationUpdateParams) AddUnsetField(field TerminalLocationUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -280,7 +282,8 @@ type TerminalLocationCreateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The phone number for the location.
-	Phone *string `form:"phone"`
+	Phone       *string                                  `form:"phone"`
+	UnsetFields []TerminalLocationCreateParamsUnsetField `form:"-" json:"-"`
 }
 
 // TerminalLocationCreateParamsUnsetField is the list of fields that can be cleared/unset on TerminalLocationCreateParams.
@@ -292,7 +295,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalLocationCreateParams) AddUnsetField(field TerminalLocationCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

@@ -142,7 +142,8 @@ type ShippingRateParams struct {
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
 	TaxCode *string `form:"tax_code"`
 	// The type of calculation to use on the shipping rate.
-	Type *string `form:"type"`
+	Type        *string                        `form:"type"`
+	UnsetFields []ShippingRateParamsUnsetField `form:"-" json:"-"`
 }
 
 // ShippingRateParamsUnsetField is the list of fields that can be cleared/unset on ShippingRateParams.
@@ -154,7 +155,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *ShippingRateParams) AddUnsetField(field ShippingRateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -286,7 +287,8 @@ type ShippingRateUpdateParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string                              `form:"tax_behavior"`
+	UnsetFields []ShippingRateUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // ShippingRateUpdateParamsUnsetField is the list of fields that can be cleared/unset on ShippingRateUpdateParams.
@@ -298,7 +300,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *ShippingRateUpdateParams) AddUnsetField(field ShippingRateUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

@@ -310,7 +310,8 @@ type BankAccountParams struct {
 	// **DO NOT USE THIS FOR OTHER METHODS.**
 	PaymentMethod *string `form:"payment_method"`
 	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
-	RoutingNumber *string `form:"routing_number"`
+	RoutingNumber *string                       `form:"routing_number"`
+	UnsetFields   []BankAccountParamsUnsetField `form:"-" json:"-"`
 	// ID is used when tokenizing a bank account for shared customers
 	ID *string `form:"*"`
 }
@@ -388,7 +389,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BankAccountParams) AddUnsetField(field BankAccountParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -486,7 +487,8 @@ type BankAccountUpdateParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                   `form:"metadata"`
+	UnsetFields []BankAccountUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // BankAccountUpdateParamsUnsetField is the list of fields that can be cleared/unset on BankAccountUpdateParams.
@@ -499,7 +501,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BankAccountUpdateParams) AddUnsetField(field BankAccountUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -557,7 +559,8 @@ type BankAccountCreateParams struct {
 	// **DO NOT USE THIS FOR OTHER METHODS.**
 	PaymentMethod *string `form:"payment_method"`
 	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
-	RoutingNumber *string `form:"routing_number"`
+	RoutingNumber *string                             `form:"routing_number"`
+	UnsetFields   []BankAccountCreateParamsUnsetField `form:"-" json:"-"`
 }
 
 // AppendToAsSourceOrExternalAccount appends the given BankAccountCreateParams as
@@ -651,7 +654,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *BankAccountCreateParams) AddUnsetField(field BankAccountCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

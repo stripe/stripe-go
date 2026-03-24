@@ -95,7 +95,8 @@ type TaxRateParams struct {
 	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2), without country prefix. For example, "NY" for New York, United States.
 	State *string `form:"state"`
 	// The high-level tax type, such as `vat` or `sales_tax`.
-	TaxType *string `form:"tax_type"`
+	TaxType     *string                   `form:"tax_type"`
+	UnsetFields []TaxRateParamsUnsetField `form:"-" json:"-"`
 }
 
 // TaxRateParamsUnsetField is the list of fields that can be cleared/unset on TaxRateParams.
@@ -107,7 +108,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TaxRateParams) AddUnsetField(field TaxRateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -197,7 +198,8 @@ type TaxRateUpdateParams struct {
 	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2), without country prefix. For example, "NY" for New York, United States.
 	State *string `form:"state"`
 	// The high-level tax type, such as `vat` or `sales_tax`.
-	TaxType *string `form:"tax_type"`
+	TaxType     *string                         `form:"tax_type"`
+	UnsetFields []TaxRateUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // TaxRateUpdateParamsUnsetField is the list of fields that can be cleared/unset on TaxRateUpdateParams.
@@ -209,7 +211,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TaxRateUpdateParams) AddUnsetField(field TaxRateUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

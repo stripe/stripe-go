@@ -18,7 +18,8 @@ type FeeRefundParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string           `form:"metadata"`
+	UnsetFields []FeeRefundParamsUnsetField `form:"-" json:"-"`
 }
 
 // FeeRefundParamsUnsetField is the list of fields that can be cleared/unset on FeeRefundParams.
@@ -30,7 +31,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *FeeRefundParams) AddUnsetField(field FeeRefundParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -82,7 +83,8 @@ type FeeRefundUpdateParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string                 `form:"metadata"`
+	UnsetFields []FeeRefundUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
 // FeeRefundUpdateParamsUnsetField is the list of fields that can be cleared/unset on FeeRefundUpdateParams.
@@ -94,7 +96,7 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *FeeRefundUpdateParams) AddUnsetField(field FeeRefundUpdateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, string(field))
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
