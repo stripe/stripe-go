@@ -360,7 +360,7 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 }
 
 // marshalV2JSON marshals params to JSON for v2 POST requests. If the params
-// have NullFields set, those field names are explicitly included as null in
+// have EmptyFields set, those field names are explicitly included as null in
 // the JSON output, even if the corresponding struct field is nil/omitted.
 func marshalV2JSON(params ParamsContainer) ([]byte, error) {
 	data, err := json.Marshal(params)
@@ -369,17 +369,17 @@ func marshalV2JSON(params ParamsContainer) ([]byte, error) {
 	}
 
 	p := params.GetParams()
-	if p == nil || len(p.NullFields) == 0 {
+	if p == nil || len(p.EmptyFields) == 0 {
 		return data, nil
 	}
 
-	// Parse the marshaled JSON, inject null for each NullFields entry
+	// Parse the marshaled JSON, inject null for each EmptyFields entry
 	var m map[string]json.RawMessage
 	if err := json.Unmarshal(data, &m); err != nil {
 		return nil, err
 	}
 
-	for _, field := range p.NullFields {
+	for _, field := range p.EmptyFields {
 		m[field] = json.RawMessage("null")
 	}
 
@@ -401,6 +401,13 @@ func (s *BackendImplementation) Call(method, path, key string, params ParamsCont
 	// parameters are URL-encoded, and for POST requests, parameters are JSON-encoded.
 	var body []byte
 	if ver == V1APIMode || method != http.MethodPost {
+		// For v1 form encoding, EmptyFields entries are sent as field=
+		// (empty string) to clear the field value.
+		if commonParams != nil {
+			for _, field := range commonParams.EmptyFields {
+				bodyParams.Add(field, "")
+			}
+		}
 		body = []byte(bodyParams.Encode())
 	} else if params != nil && !(reflect.ValueOf(params).Kind() == reflect.Ptr && reflect.ValueOf(params).IsNil()) {
 		body, err = marshalV2JSON(params)

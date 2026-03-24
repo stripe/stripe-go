@@ -773,8 +773,8 @@ func TestCall_V2PathPostNilParams(t *testing.T) {
 	assert.Equal(t, message, response.Message)
 }
 
-// Test that NullFields causes explicit null values in v2 JSON POST body
-func TestCall_V2PathPostNullFields(t *testing.T) {
+// Test that EmptyFields causes explicit null values in v2 JSON POST body
+func TestCall_V2PathPostEmptyFields(t *testing.T) {
 	type testServerResponse struct {
 		APIResource
 		Message string `json:"message"`
@@ -798,7 +798,7 @@ func TestCall_V2PathPostNullFields(t *testing.T) {
 		assert.Equal(t, `"bar"`, string(raw["foo"]))
 		// "description" should be explicitly null
 		assert.Equal(t, "null", string(raw["description"]))
-		// "baz" (nil pointer, not in NullFields) should NOT be present
+		// "baz" (nil pointer, not in EmptyFields) should NOT be present
 		_, bazPresent := raw["baz"]
 		assert.False(t, bazPresent, "baz should not be present in JSON")
 
@@ -829,7 +829,7 @@ func TestCall_V2PathPostNullFields(t *testing.T) {
 		Foo: "bar",
 		// Description and Baz are both nil
 	}
-	params.AddNullField("description") // Explicitly send null for description
+	params.AddEmptyField("description") // Explicitly send null for description
 
 	var response testServerResponse
 	err := backend.Call(http.MethodPost, "/v2/hello", "sk_test_xyz", params, &response)
@@ -838,8 +838,8 @@ func TestCall_V2PathPostNullFields(t *testing.T) {
 	assert.Equal(t, message, response.Message)
 }
 
-// Test that NullFields has no effect on v1 requests (form-encoded)
-func TestCall_V1PathPostIgnoresNullFields(t *testing.T) {
+// Test that EmptyFields sends field= (empty string) in v1 form-encoded requests
+func TestCall_V1PathPostEmptyFields(t *testing.T) {
 	type testServerResponse struct {
 		APIResource
 		Message string `json:"message"`
@@ -849,12 +849,19 @@ func TestCall_V1PathPostIgnoresNullFields(t *testing.T) {
 		assert.Equal(t, http.MethodPost, r.Method)
 		assert.Equal(t, "/v1/hello", r.URL.Path)
 
-		// v1 uses form encoding, NullFields should be ignored
-		err := r.ParseForm()
+		body, err := io.ReadAll(r.Body)
 		assert.NoError(t, err)
-		assert.Equal(t, "bar", r.PostForm.Get("foo"))
-		// "description" should NOT be in form data (it's nil, form encoding skips nil)
-		assert.Empty(t, r.PostForm.Get("description"))
+		bodyStr := string(body)
+
+		// "foo" should be present with value "bar"
+		assert.Contains(t, bodyStr, "foo=bar")
+		// "description" should be present as empty string (description=)
+		assert.Contains(t, bodyStr, "description=")
+		// but "description" should NOT have a value after the =
+		// Parse to verify the value is empty
+		vals, err := url.ParseQuery(bodyStr)
+		assert.NoError(t, err)
+		assert.Equal(t, "", vals.Get("description"))
 
 		data, err := json.Marshal(testServerResponse{Message: "ok"})
 		assert.NoError(t, err)
@@ -881,7 +888,7 @@ func TestCall_V1PathPostIgnoresNullFields(t *testing.T) {
 	params := &myParams{
 		Foo: "bar",
 	}
-	params.AddNullField("description") // Should be ignored for v1
+	params.AddEmptyField("description") // Should send description= in v1
 
 	var response testServerResponse
 	err := backend.Call(http.MethodPost, "/v1/hello", "sk_test_xyz", params, &response)
@@ -898,7 +905,7 @@ func TestMarshalV2JSON(t *testing.T) {
 		Amount      *int64  `form:"amount" json:"amount,omitempty"`
 	}
 
-	t.Run("without NullFields", func(t *testing.T) {
+	t.Run("without EmptyFields", func(t *testing.T) {
 		params := &testParams{
 			Name: String("test"),
 		}
@@ -914,12 +921,12 @@ func TestMarshalV2JSON(t *testing.T) {
 		assert.False(t, hasDesc, "description should not be present")
 	})
 
-	t.Run("with NullFields", func(t *testing.T) {
+	t.Run("with EmptyFields", func(t *testing.T) {
 		params := &testParams{
 			Name: String("test"),
 		}
-		params.AddNullField("description")
-		params.AddNullField("amount")
+		params.AddEmptyField("description")
+		params.AddEmptyField("amount")
 
 		data, err := marshalV2JSON(params)
 		assert.NoError(t, err)
@@ -933,12 +940,12 @@ func TestMarshalV2JSON(t *testing.T) {
 		assert.Equal(t, "null", string(raw["amount"]))
 	})
 
-	t.Run("NullFields does not override set values", func(t *testing.T) {
+	t.Run("EmptyFields does not override set values", func(t *testing.T) {
 		params := &testParams{
 			Name:        String("test"),
 			Description: String("a description"),
 		}
-		params.AddNullField("description") // NullFields overrides even if set
+		params.AddEmptyField("description") // EmptyFields overrides even if set
 
 		data, err := marshalV2JSON(params)
 		assert.NoError(t, err)
@@ -947,7 +954,7 @@ func TestMarshalV2JSON(t *testing.T) {
 		err = json.Unmarshal(data, &raw)
 		assert.NoError(t, err)
 
-		// NullFields takes precedence — user explicitly asked for null
+		// EmptyFields takes precedence — user explicitly asked for null
 		assert.Equal(t, "null", string(raw["description"]))
 	})
 }

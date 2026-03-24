@@ -238,13 +238,13 @@ type Params struct {
 	// Deprecated: Please use Metadata in the surrounding struct instead.
 	Metadata map[string]string `form:"metadata" json:"-"`
 
-	// NullFields is a list of field names (using their JSON/API names, e.g.
-	// "description") that should be explicitly sent as null in the JSON
-	// request body. This is only relevant for v2 API POST requests where
-	// null has semantic meaning (e.g. clearing a field). Fields listed here
-	// will be included as "field_name": null even if the corresponding
-	// struct field is nil.
-	NullFields []string `form:"-" json:"-"`
+	// EmptyFields is a list of field names (using their JSON/API names, e.g.
+	// "description") that should be explicitly emptied (cleared) in the
+	// request. For v2 API POST requests (JSON-encoded), listed fields are
+	// sent as "field_name": null. For v1 API requests (form-encoded),
+	// listed fields are sent as field_name= (empty string). Fields listed
+	// here will be included even if the corresponding struct field is nil.
+	EmptyFields []string `form:"-" json:"-"`
 
 	// StripeAccount may contain the ID of a connected account. By including
 	// this field, the request is made as if it originated from the connected
@@ -307,11 +307,13 @@ func (p *Params) AddMetadata(key, value string) {
 	p.Metadata[key] = value
 }
 
-// AddNullField adds a field name to the list of fields that should be
-// explicitly sent as null in v2 JSON request bodies. The field name should
-// be the JSON/API field name (e.g. "description"), not the Go field name.
-func (p *Params) AddNullField(field string) {
-	p.NullFields = append(p.NullFields, field)
+// AddEmptyField adds a field name to the list of fields that should be
+// explicitly emptied (cleared) in the request. For v2 JSON requests, the
+// field is sent as null. For v1 form-encoded requests, the field is sent
+// as an empty string. The field name should be the JSON/API field name
+// (e.g. "description"), not the Go field name.
+func (p *Params) AddEmptyField(field string) {
+	p.EmptyFields = append(p.EmptyFields, field)
 }
 
 // GetParams returns a Params struct (itself). It exists because any structs
