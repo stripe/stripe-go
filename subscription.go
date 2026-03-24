@@ -431,7 +431,21 @@ type SubscriptionCancelCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
 	Comment *string `form:"comment"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
-	Feedback *string `form:"feedback"`
+	Feedback    *string                                                 `form:"feedback"`
+	UnsetFields []SubscriptionCancelCancellationDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionCancelCancellationDetailsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCancelCancellationDetailsParams.
+type SubscriptionCancelCancellationDetailsParamsUnsetField string
+
+const (
+	SubscriptionCancelCancellationDetailsParamsUnsetFieldComment  SubscriptionCancelCancellationDetailsParamsUnsetField = "comment"
+	SubscriptionCancelCancellationDetailsParamsUnsetFieldFeedback SubscriptionCancelCancellationDetailsParamsUnsetField = "feedback"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionCancelCancellationDetailsParams) AddUnsetField(field SubscriptionCancelCancellationDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Cancels a customer's subscription immediately. The customer won't be charged again for the subscription. After it's canceled, you can no longer update the subscription or its [metadata](https://docs.stripe.com/metadata).
@@ -554,6 +568,30 @@ type SubscriptionParams struct {
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionTrialSettingsParams `form:"trial_settings"`
+	UnsetFields   []SubscriptionParamsUnsetField   `form:"-" json:"-"`
+}
+
+// SubscriptionParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionParams.
+type SubscriptionParamsUnsetField string
+
+const (
+	SubscriptionParamsUnsetFieldApplicationFeePercent      SubscriptionParamsUnsetField = "application_fee_percent"
+	SubscriptionParamsUnsetFieldBillingThresholds          SubscriptionParamsUnsetField = "billing_thresholds"
+	SubscriptionParamsUnsetFieldCancelAt                   SubscriptionParamsUnsetField = "cancel_at"
+	SubscriptionParamsUnsetFieldDefaultSource              SubscriptionParamsUnsetField = "default_source"
+	SubscriptionParamsUnsetFieldDefaultTaxRates            SubscriptionParamsUnsetField = "default_tax_rates"
+	SubscriptionParamsUnsetFieldDescription                SubscriptionParamsUnsetField = "description"
+	SubscriptionParamsUnsetFieldDiscounts                  SubscriptionParamsUnsetField = "discounts"
+	SubscriptionParamsUnsetFieldMetadata                   SubscriptionParamsUnsetField = "metadata"
+	SubscriptionParamsUnsetFieldOnBehalfOf                 SubscriptionParamsUnsetField = "on_behalf_of"
+	SubscriptionParamsUnsetFieldPauseCollection            SubscriptionParamsUnsetField = "pause_collection"
+	SubscriptionParamsUnsetFieldPendingInvoiceItemInterval SubscriptionParamsUnsetField = "pending_invoice_item_interval"
+	SubscriptionParamsUnsetFieldTransferData               SubscriptionParamsUnsetField = "transfer_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionParams) AddUnsetField(field SubscriptionParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -658,7 +696,20 @@ type SubscriptionAddInvoiceItemParams struct {
 	// Quantity for this item. Defaults to 1.
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                                    `form:"tax_rates"`
+	UnsetFields []SubscriptionAddInvoiceItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionAddInvoiceItemParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionAddInvoiceItemParams.
+type SubscriptionAddInvoiceItemParamsUnsetField string
+
+const (
+	SubscriptionAddInvoiceItemParamsUnsetFieldTaxRates SubscriptionAddInvoiceItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionAddInvoiceItemParams) AddUnsetField(field SubscriptionAddInvoiceItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -735,7 +786,21 @@ type SubscriptionCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
 	Comment *string `form:"comment"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
-	Feedback *string `form:"feedback"`
+	Feedback    *string                                           `form:"feedback"`
+	UnsetFields []SubscriptionCancellationDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionCancellationDetailsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCancellationDetailsParams.
+type SubscriptionCancellationDetailsParamsUnsetField string
+
+const (
+	SubscriptionCancellationDetailsParamsUnsetFieldComment  SubscriptionCancellationDetailsParamsUnsetField = "comment"
+	SubscriptionCancellationDetailsParamsUnsetFieldFeedback SubscriptionCancellationDetailsParamsUnsetField = "feedback"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionCancellationDetailsParams) AddUnsetField(field SubscriptionCancellationDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Time span for the redeemed discount.
@@ -781,7 +846,20 @@ type SubscriptionInvoiceSettingsParams struct {
 	// The account tax IDs associated with the subscription. Will be set on invoices generated by the subscription.
 	AccountTaxIDs []*string `form:"account_tax_ids"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer *SubscriptionInvoiceSettingsIssuerParams `form:"issuer"`
+	Issuer      *SubscriptionInvoiceSettingsIssuerParams      `form:"issuer"`
+	UnsetFields []SubscriptionInvoiceSettingsParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionInvoiceSettingsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionInvoiceSettingsParams.
+type SubscriptionInvoiceSettingsParamsUnsetField string
+
+const (
+	SubscriptionInvoiceSettingsParamsUnsetFieldAccountTaxIDs SubscriptionInvoiceSettingsParamsUnsetField = "account_tax_ids"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionInvoiceSettingsParams) AddUnsetField(field SubscriptionInvoiceSettingsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // A list of up to 20 subscription items, each with an attached price.
@@ -1005,6 +1083,26 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	Upi *SubscriptionPaymentSettingsPaymentMethodOptionsUpiParams `form:"upi"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	UnsetFields   []SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
+}
+
+// SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionPaymentSettingsPaymentMethodOptionsParams.
+type SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField string
+
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldPayto           SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "payto"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionPaymentSettingsPaymentMethodOptionsParams) AddUnsetField(field SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Payment settings to pass to invoices created by the subscription.
@@ -1014,7 +1112,20 @@ type SubscriptionPaymentSettingsParams struct {
 	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Configure whether Stripe updates `subscription.default_payment_method` when payment succeeds. Defaults to `off` if unspecified.
-	SaveDefaultPaymentMethod *string `form:"save_default_payment_method"`
+	SaveDefaultPaymentMethod *string                                       `form:"save_default_payment_method"`
+	UnsetFields              []SubscriptionPaymentSettingsParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionPaymentSettingsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionPaymentSettingsParams.
+type SubscriptionPaymentSettingsParamsUnsetField string
+
+const (
+	SubscriptionPaymentSettingsParamsUnsetFieldPaymentMethodTypes SubscriptionPaymentSettingsParamsUnsetField = "payment_method_types"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionPaymentSettingsParams) AddUnsetField(field SubscriptionPaymentSettingsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
@@ -1278,7 +1389,20 @@ type SubscriptionUpdateAddInvoiceItemParams struct {
 	// Quantity for this item. Defaults to 1.
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                                          `form:"tax_rates"`
+	UnsetFields []SubscriptionUpdateAddInvoiceItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionUpdateAddInvoiceItemParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionUpdateAddInvoiceItemParams.
+type SubscriptionUpdateAddInvoiceItemParamsUnsetField string
+
+const (
+	SubscriptionUpdateAddInvoiceItemParamsUnsetFieldTaxRates SubscriptionUpdateAddInvoiceItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionUpdateAddInvoiceItemParams) AddUnsetField(field SubscriptionUpdateAddInvoiceItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1355,7 +1479,21 @@ type SubscriptionUpdateCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
 	Comment *string `form:"comment"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
-	Feedback *string `form:"feedback"`
+	Feedback    *string                                                 `form:"feedback"`
+	UnsetFields []SubscriptionUpdateCancellationDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionUpdateCancellationDetailsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionUpdateCancellationDetailsParams.
+type SubscriptionUpdateCancellationDetailsParamsUnsetField string
+
+const (
+	SubscriptionUpdateCancellationDetailsParamsUnsetFieldComment  SubscriptionUpdateCancellationDetailsParamsUnsetField = "comment"
+	SubscriptionUpdateCancellationDetailsParamsUnsetFieldFeedback SubscriptionUpdateCancellationDetailsParamsUnsetField = "feedback"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionUpdateCancellationDetailsParams) AddUnsetField(field SubscriptionUpdateCancellationDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Time span for the redeemed discount.
@@ -1401,7 +1539,20 @@ type SubscriptionUpdateInvoiceSettingsParams struct {
 	// The account tax IDs associated with the subscription. Will be set on invoices generated by the subscription.
 	AccountTaxIDs []*string `form:"account_tax_ids"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer *SubscriptionUpdateInvoiceSettingsIssuerParams `form:"issuer"`
+	Issuer      *SubscriptionUpdateInvoiceSettingsIssuerParams      `form:"issuer"`
+	UnsetFields []SubscriptionUpdateInvoiceSettingsParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionUpdateInvoiceSettingsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionUpdateInvoiceSettingsParams.
+type SubscriptionUpdateInvoiceSettingsParamsUnsetField string
+
+const (
+	SubscriptionUpdateInvoiceSettingsParamsUnsetFieldAccountTaxIDs SubscriptionUpdateInvoiceSettingsParamsUnsetField = "account_tax_ids"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionUpdateInvoiceSettingsParams) AddUnsetField(field SubscriptionUpdateInvoiceSettingsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
@@ -1497,7 +1648,23 @@ type SubscriptionUpdateItemParams struct {
 	// Quantity for this item.
 	Quantity *int64 `form:"quantity"`
 	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                                `form:"tax_rates"`
+	UnsetFields []SubscriptionUpdateItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionUpdateItemParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionUpdateItemParams.
+type SubscriptionUpdateItemParamsUnsetField string
+
+const (
+	SubscriptionUpdateItemParamsUnsetFieldBillingThresholds SubscriptionUpdateItemParamsUnsetField = "billing_thresholds"
+	SubscriptionUpdateItemParamsUnsetFieldDiscounts         SubscriptionUpdateItemParamsUnsetField = "discounts"
+	SubscriptionUpdateItemParamsUnsetFieldMetadata          SubscriptionUpdateItemParamsUnsetField = "metadata"
+	SubscriptionUpdateItemParamsUnsetFieldTaxRates          SubscriptionUpdateItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionUpdateItemParams) AddUnsetField(field SubscriptionUpdateItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1690,6 +1857,26 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	Upi *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiParams `form:"upi"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	UnsetFields   []SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
+}
+
+// SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField string
+
+const (
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPayto           SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "payto"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams) AddUnsetField(field SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Payment settings to pass to invoices created by the subscription.
@@ -1699,7 +1886,20 @@ type SubscriptionUpdatePaymentSettingsParams struct {
 	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Configure whether Stripe updates `subscription.default_payment_method` when payment succeeds. Defaults to `off` if unspecified.
-	SaveDefaultPaymentMethod *string `form:"save_default_payment_method"`
+	SaveDefaultPaymentMethod *string                                             `form:"save_default_payment_method"`
+	UnsetFields              []SubscriptionUpdatePaymentSettingsParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionUpdatePaymentSettingsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionUpdatePaymentSettingsParams.
+type SubscriptionUpdatePaymentSettingsParamsUnsetField string
+
+const (
+	SubscriptionUpdatePaymentSettingsParamsUnsetFieldPaymentMethodTypes SubscriptionUpdatePaymentSettingsParamsUnsetField = "payment_method_types"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionUpdatePaymentSettingsParams) AddUnsetField(field SubscriptionUpdatePaymentSettingsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
@@ -1838,6 +2038,30 @@ type SubscriptionUpdateParams struct {
 	TrialFromPlan *bool `form:"trial_from_plan"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionUpdateTrialSettingsParams `form:"trial_settings"`
+	UnsetFields   []SubscriptionUpdateParamsUnsetField   `form:"-" json:"-"`
+}
+
+// SubscriptionUpdateParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionUpdateParams.
+type SubscriptionUpdateParamsUnsetField string
+
+const (
+	SubscriptionUpdateParamsUnsetFieldApplicationFeePercent      SubscriptionUpdateParamsUnsetField = "application_fee_percent"
+	SubscriptionUpdateParamsUnsetFieldBillingThresholds          SubscriptionUpdateParamsUnsetField = "billing_thresholds"
+	SubscriptionUpdateParamsUnsetFieldCancelAt                   SubscriptionUpdateParamsUnsetField = "cancel_at"
+	SubscriptionUpdateParamsUnsetFieldDefaultSource              SubscriptionUpdateParamsUnsetField = "default_source"
+	SubscriptionUpdateParamsUnsetFieldDefaultTaxRates            SubscriptionUpdateParamsUnsetField = "default_tax_rates"
+	SubscriptionUpdateParamsUnsetFieldDescription                SubscriptionUpdateParamsUnsetField = "description"
+	SubscriptionUpdateParamsUnsetFieldDiscounts                  SubscriptionUpdateParamsUnsetField = "discounts"
+	SubscriptionUpdateParamsUnsetFieldMetadata                   SubscriptionUpdateParamsUnsetField = "metadata"
+	SubscriptionUpdateParamsUnsetFieldOnBehalfOf                 SubscriptionUpdateParamsUnsetField = "on_behalf_of"
+	SubscriptionUpdateParamsUnsetFieldPauseCollection            SubscriptionUpdateParamsUnsetField = "pause_collection"
+	SubscriptionUpdateParamsUnsetFieldPendingInvoiceItemInterval SubscriptionUpdateParamsUnsetField = "pending_invoice_item_interval"
+	SubscriptionUpdateParamsUnsetFieldTransferData               SubscriptionUpdateParamsUnsetField = "transfer_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionUpdateParams) AddUnsetField(field SubscriptionUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -1942,7 +2166,20 @@ type SubscriptionCreateAddInvoiceItemParams struct {
 	// Quantity for this item. Defaults to 1.
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                                          `form:"tax_rates"`
+	UnsetFields []SubscriptionCreateAddInvoiceItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionCreateAddInvoiceItemParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCreateAddInvoiceItemParams.
+type SubscriptionCreateAddInvoiceItemParamsUnsetField string
+
+const (
+	SubscriptionCreateAddInvoiceItemParamsUnsetFieldTaxRates SubscriptionCreateAddInvoiceItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionCreateAddInvoiceItemParams) AddUnsetField(field SubscriptionCreateAddInvoiceItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2085,7 +2322,20 @@ type SubscriptionCreateInvoiceSettingsParams struct {
 	// The account tax IDs associated with the subscription. Will be set on invoices generated by the subscription.
 	AccountTaxIDs []*string `form:"account_tax_ids"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer *SubscriptionCreateInvoiceSettingsIssuerParams `form:"issuer"`
+	Issuer      *SubscriptionCreateInvoiceSettingsIssuerParams      `form:"issuer"`
+	UnsetFields []SubscriptionCreateInvoiceSettingsParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionCreateInvoiceSettingsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCreateInvoiceSettingsParams.
+type SubscriptionCreateInvoiceSettingsParamsUnsetField string
+
+const (
+	SubscriptionCreateInvoiceSettingsParamsUnsetFieldAccountTaxIDs SubscriptionCreateInvoiceSettingsParamsUnsetField = "account_tax_ids"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionCreateInvoiceSettingsParams) AddUnsetField(field SubscriptionCreateInvoiceSettingsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
@@ -2370,6 +2620,26 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	Upi *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiParams `form:"upi"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	UnsetFields   []SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
+}
+
+// SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField string
+
+const (
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPayto           SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "payto"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams) AddUnsetField(field SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Payment settings to pass to invoices created by the subscription.
@@ -2379,7 +2649,20 @@ type SubscriptionCreatePaymentSettingsParams struct {
 	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Configure whether Stripe updates `subscription.default_payment_method` when payment succeeds. Defaults to `off` if unspecified.
-	SaveDefaultPaymentMethod *string `form:"save_default_payment_method"`
+	SaveDefaultPaymentMethod *string                                             `form:"save_default_payment_method"`
+	UnsetFields              []SubscriptionCreatePaymentSettingsParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionCreatePaymentSettingsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCreatePaymentSettingsParams.
+type SubscriptionCreatePaymentSettingsParamsUnsetField string
+
+const (
+	SubscriptionCreatePaymentSettingsParamsUnsetFieldPaymentMethodTypes SubscriptionCreatePaymentSettingsParamsUnsetField = "payment_method_types"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionCreatePaymentSettingsParams) AddUnsetField(field SubscriptionCreatePaymentSettingsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
@@ -2518,6 +2801,25 @@ type SubscriptionCreateParams struct {
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionCreateTrialSettingsParams `form:"trial_settings"`
+	UnsetFields   []SubscriptionCreateParamsUnsetField   `form:"-" json:"-"`
+}
+
+// SubscriptionCreateParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCreateParams.
+type SubscriptionCreateParamsUnsetField string
+
+const (
+	SubscriptionCreateParamsUnsetFieldApplicationFeePercent      SubscriptionCreateParamsUnsetField = "application_fee_percent"
+	SubscriptionCreateParamsUnsetFieldBillingThresholds          SubscriptionCreateParamsUnsetField = "billing_thresholds"
+	SubscriptionCreateParamsUnsetFieldDefaultTaxRates            SubscriptionCreateParamsUnsetField = "default_tax_rates"
+	SubscriptionCreateParamsUnsetFieldDiscounts                  SubscriptionCreateParamsUnsetField = "discounts"
+	SubscriptionCreateParamsUnsetFieldMetadata                   SubscriptionCreateParamsUnsetField = "metadata"
+	SubscriptionCreateParamsUnsetFieldOnBehalfOf                 SubscriptionCreateParamsUnsetField = "on_behalf_of"
+	SubscriptionCreateParamsUnsetFieldPendingInvoiceItemInterval SubscriptionCreateParamsUnsetField = "pending_invoice_item_interval"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionCreateParams) AddUnsetField(field SubscriptionCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -2880,6 +3182,10 @@ type SubscriptionPendingUpdate struct {
 	TrialEnd int64 `json:"trial_end"`
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
 	TrialFromPlan bool `json:"trial_from_plan"`
+}
+type SubscriptionPresentmentDetails struct {
+	// Currency used for customer payments.
+	PresentmentCurrency Currency `json:"presentment_currency"`
 }
 
 // Time period and invoice for a Subscription billed in advance.

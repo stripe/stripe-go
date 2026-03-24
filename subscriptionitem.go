@@ -300,7 +300,23 @@ type SubscriptionItemUpdateParams struct {
 	// The quantity you'd like to apply to the subscription item you're creating.
 	Quantity *int64 `form:"quantity"`
 	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                                `form:"tax_rates"`
+	UnsetFields []SubscriptionItemUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionItemUpdateParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionItemUpdateParams.
+type SubscriptionItemUpdateParamsUnsetField string
+
+const (
+	SubscriptionItemUpdateParamsUnsetFieldBillingThresholds SubscriptionItemUpdateParamsUnsetField = "billing_thresholds"
+	SubscriptionItemUpdateParamsUnsetFieldDiscounts         SubscriptionItemUpdateParamsUnsetField = "discounts"
+	SubscriptionItemUpdateParamsUnsetFieldMetadata          SubscriptionItemUpdateParamsUnsetField = "metadata"
+	SubscriptionItemUpdateParamsUnsetFieldTaxRates          SubscriptionItemUpdateParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionItemUpdateParams) AddUnsetField(field SubscriptionItemUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

@@ -66,7 +66,23 @@ type InvoiceItemParams struct {
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
 	// The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                      `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []InvoiceItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceItemParamsUnsetField is the list of fields that can be cleared/unset on InvoiceItemParams.
+type InvoiceItemParamsUnsetField string
+
+const (
+	InvoiceItemParamsUnsetFieldDiscounts InvoiceItemParamsUnsetField = "discounts"
+	InvoiceItemParamsUnsetFieldMetadata  InvoiceItemParamsUnsetField = "metadata"
+	InvoiceItemParamsUnsetFieldTaxCode   InvoiceItemParamsUnsetField = "tax_code"
+	InvoiceItemParamsUnsetFieldTaxRates  InvoiceItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceItemParams) AddUnsetField(field InvoiceItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -274,7 +290,23 @@ type InvoiceItemUpdateParams struct {
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
 	// The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                            `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []InvoiceItemUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceItemUpdateParamsUnsetField is the list of fields that can be cleared/unset on InvoiceItemUpdateParams.
+type InvoiceItemUpdateParamsUnsetField string
+
+const (
+	InvoiceItemUpdateParamsUnsetFieldDiscounts InvoiceItemUpdateParamsUnsetField = "discounts"
+	InvoiceItemUpdateParamsUnsetFieldMetadata  InvoiceItemUpdateParamsUnsetField = "metadata"
+	InvoiceItemUpdateParamsUnsetFieldTaxCode   InvoiceItemUpdateParamsUnsetField = "tax_code"
+	InvoiceItemUpdateParamsUnsetFieldTaxRates  InvoiceItemUpdateParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceItemUpdateParams) AddUnsetField(field InvoiceItemUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -393,7 +425,22 @@ type InvoiceItemCreateParams struct {
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item.
 	TaxRates []*string `form:"tax_rates"`
 	// The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                            `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []InvoiceItemCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceItemCreateParamsUnsetField is the list of fields that can be cleared/unset on InvoiceItemCreateParams.
+type InvoiceItemCreateParamsUnsetField string
+
+const (
+	InvoiceItemCreateParamsUnsetFieldDiscounts InvoiceItemCreateParamsUnsetField = "discounts"
+	InvoiceItemCreateParamsUnsetFieldMetadata  InvoiceItemCreateParamsUnsetField = "metadata"
+	InvoiceItemCreateParamsUnsetFieldTaxCode   InvoiceItemCreateParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceItemCreateParams) AddUnsetField(field InvoiceItemCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
