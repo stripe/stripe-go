@@ -106,6 +106,8 @@ type V2MoneyManagementOutboundPaymentParams struct {
 	RecipientNotification *V2MoneyManagementOutboundPaymentRecipientNotificationParams `form:"recipient_notification" json:"recipient_notification,omitempty"`
 	// The recipient verification id for this OutboundPayment. Only required for countries with regulatory mandates to verify recipient names before OutboundPayment creation.
 	RecipientVerification *string `form:"recipient_verification" json:"recipient_verification,omitempty"`
+	// The description that appears on the receiving end for an OutboundPayment (for example, on a bank statement). Must be between 3 and 22 characters long, and not contain profanity.
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// To which payout method to send the OutboundPayment.
 	To *V2MoneyManagementOutboundPaymentToParams `form:"to" json:"to,omitempty"`
 }
@@ -196,6 +198,8 @@ type V2MoneyManagementOutboundPaymentCreateParams struct {
 	RecipientNotification *V2MoneyManagementOutboundPaymentCreateRecipientNotificationParams `form:"recipient_notification" json:"recipient_notification,omitempty"`
 	// The recipient verification id for this OutboundPayment. Only required for countries with regulatory mandates to verify recipient names before OutboundPayment creation.
 	RecipientVerification *string `form:"recipient_verification" json:"recipient_verification,omitempty"`
+	// The description that appears on the receiving end for an OutboundPayment (for example, on a bank statement). Must be between 3 and 22 characters long, and not contain profanity.
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// To which payout method to send the OutboundPayment.
 	To *V2MoneyManagementOutboundPaymentCreateToParams `form:"to" json:"to"`
 }

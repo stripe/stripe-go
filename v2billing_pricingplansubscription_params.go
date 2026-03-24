@@ -19,13 +19,15 @@ type V2BillingPricingPlanSubscriptionListParams struct {
 	Params `form:"*"`
 	// Filter by Billing Cadence ID. Mutually exclusive with `payer`, `pricing_plan`, and `pricing_plan_version`.
 	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
+	// Expand to include additional data such as discount_details, billing_cadence_details, or pricing_plan_component_details.
+	Include []*string `form:"include" json:"include,omitempty"`
 	// Optionally set the maximum number of results per page. Defaults to 20.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// Filter by payer. Mutually exclusive with `billing_cadence`, `pricing_plan`, and `pricing_plan_version`.
 	Payer *V2BillingPricingPlanSubscriptionListPayerParams `form:"payer" json:"payer,omitempty"`
-	// Filter by PricingPlan ID. Mutually exlcusive with `billing_cadence`, `payer`, and `pricing_plan_version`.
+	// Filter by PricingPlan ID. Mutually exclusive with `billing_cadence`, `payer`, and `pricing_plan_version`.
 	PricingPlan *string `form:"pricing_plan" json:"pricing_plan,omitempty"`
-	// Filter by Pricing Plan Version ID. Mutually exlcusive with `billing_cadence`, `payer`, and `pricing_plan`.
+	// Filter by Pricing Plan Version ID. Mutually exclusive with `billing_cadence`, `payer`, and `pricing_plan`.
 	PricingPlanVersion *string `form:"pricing_plan_version" json:"pricing_plan_version,omitempty"`
 	// Filter by servicing status.
 	ServicingStatus *string `form:"servicing_status" json:"servicing_status,omitempty"`
@@ -36,6 +38,8 @@ type V2BillingPricingPlanSubscriptionParams struct {
 	Params `form:"*"`
 	// When set to true, the `servicing_status_transition.will_cancel_at` field will be cleared.
 	ClearCancelAt *bool `form:"clear_cancel_at" json:"clear_cancel_at,omitempty"`
+	// Expand to include additional data such as discount_details.
+	Include []*string `form:"include" json:"include,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 }
@@ -49,9 +53,18 @@ func (p *V2BillingPricingPlanSubscriptionParams) AddMetadata(key string, value *
 	p.Metadata[key] = value
 }
 
+// Remove Discounts from a Pricing Plan Subscription.
+type V2BillingPricingPlanSubscriptionRemoveDiscountsParams struct {
+	Params `form:"*"`
+	// Expand to include additional data such as discount_details.
+	Include []*string `form:"include" json:"include,omitempty"`
+}
+
 // Retrieve a Pricing Plan Subscription object.
 type V2BillingPricingPlanSubscriptionRetrieveParams struct {
 	Params `form:"*"`
+	// Expand to include additional data such as discount_details.
+	Include []*string `form:"include" json:"include,omitempty"`
 }
 
 // Update a Pricing Plan Subscription object.

@@ -32,6 +32,7 @@ type V2PaymentsOffSessionPaymentFailureReason string
 // List of values that V2PaymentsOffSessionPaymentFailureReason can take
 const (
 	V2PaymentsOffSessionPaymentFailureReasonAuthorizationExpired V2PaymentsOffSessionPaymentFailureReason = "authorization_expired"
+	V2PaymentsOffSessionPaymentFailureReasonNoValidPaymentMethod V2PaymentsOffSessionPaymentFailureReason = "no_valid_payment_method"
 	V2PaymentsOffSessionPaymentFailureReasonRejectedByPartner    V2PaymentsOffSessionPaymentFailureReason = "rejected_by_partner"
 	V2PaymentsOffSessionPaymentFailureReasonRetriesExhausted     V2PaymentsOffSessionPaymentFailureReason = "retries_exhausted"
 )

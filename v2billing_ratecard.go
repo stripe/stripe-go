@@ -8,18 +8,15 @@ package stripe
 
 import "time"
 
-// The interval for assessing service. For example, a monthly Rate Card with a rate of $1 for the first 10 "workloads"
-// and $2 thereafter means "$1 per workload up to 10 workloads during a month of service." This is similar to but
-// distinct from billing interval; the service interval deals with the rate at which the customer accumulates fees,
-// while the billing interval in Cadence deals with the rate the customer is billed.
-type V2BillingRateCardServiceInterval string
+// The interval for assessing service.
+type V2BillingRateCardServiceCycleInterval string
 
-// List of values that V2BillingRateCardServiceInterval can take
+// List of values that V2BillingRateCardServiceCycleInterval can take
 const (
-	V2BillingRateCardServiceIntervalDay   V2BillingRateCardServiceInterval = "day"
-	V2BillingRateCardServiceIntervalMonth V2BillingRateCardServiceInterval = "month"
-	V2BillingRateCardServiceIntervalWeek  V2BillingRateCardServiceInterval = "week"
-	V2BillingRateCardServiceIntervalYear  V2BillingRateCardServiceInterval = "year"
+	V2BillingRateCardServiceCycleIntervalDay   V2BillingRateCardServiceCycleInterval = "day"
+	V2BillingRateCardServiceCycleIntervalMonth V2BillingRateCardServiceCycleInterval = "month"
+	V2BillingRateCardServiceCycleIntervalWeek  V2BillingRateCardServiceCycleInterval = "week"
+	V2BillingRateCardServiceCycleIntervalYear  V2BillingRateCardServiceCycleInterval = "year"
 )
 
 // The Stripe Tax tax behavior - whether the rates are inclusive or exclusive of tax.
@@ -30,6 +27,18 @@ const (
 	V2BillingRateCardTaxBehaviorExclusive V2BillingRateCardTaxBehavior = "exclusive"
 	V2BillingRateCardTaxBehaviorInclusive V2BillingRateCardTaxBehavior = "inclusive"
 )
+
+// The service cycle configuration for this Rate Card. For example, a monthly Rate Card with a rate of $1 for the
+// first 10 "workloads" and $2 thereafter means "$1 per workload up to 10 workloads during a month of service."
+// This is similar to but distinct from billing interval; the service interval deals with the rate at which the
+// customer accumulates fees, while the billing interval in Cadence deals with the rate the customer is billed.
+type V2BillingRateCardServiceCycle struct {
+	// The interval for assessing service.
+	Interval V2BillingRateCardServiceCycleInterval `json:"interval"`
+	// The length of the interval for assessing service. For example, set this to 3 and `interval` to `"month"` in
+	// order to specify quarterly service.
+	IntervalCount int64 `json:"interval_count"`
+}
 
 // A Rate Card represents a versioned set of usage-based prices (rates). Each rate is associated with one Metered Item and
 // defines how much to charge for usage of that item. After you've set up a RateCard, you can subscribe customers to it
@@ -48,8 +57,6 @@ type V2BillingRateCard struct {
 	DisplayName string `json:"display_name"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// The ID of this rate card's most recently created version.
-	LatestVersion string `json:"latest_version"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// The ID of the Rate Card Version that will be used by all subscriptions when no specific version is specified.
@@ -60,14 +67,11 @@ type V2BillingRateCard struct {
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// The interval for assessing service. For example, a monthly Rate Card with a rate of $1 for the first 10 "workloads"
-	// and $2 thereafter means "$1 per workload up to 10 workloads during a month of service." This is similar to but
-	// distinct from billing interval; the service interval deals with the rate at which the customer accumulates fees,
-	// while the billing interval in Cadence deals with the rate the customer is billed.
-	ServiceInterval V2BillingRateCardServiceInterval `json:"service_interval"`
-	// The length of the interval for assessing service. For example, set this to 3 and `service_interval` to `"month"` in
-	// order to specify quarterly service.
-	ServiceIntervalCount int64 `json:"service_interval_count"`
+	// The service cycle configuration for this Rate Card. For example, a monthly Rate Card with a rate of $1 for the
+	// first 10 "workloads" and $2 thereafter means "$1 per workload up to 10 workloads during a month of service."
+	// This is similar to but distinct from billing interval; the service interval deals with the rate at which the
+	// customer accumulates fees, while the billing interval in Cadence deals with the rate the customer is billed.
+	ServiceCycle *V2BillingRateCardServiceCycle `json:"service_cycle"`
 	// The Stripe Tax tax behavior - whether the rates are inclusive or exclusive of tax.
 	TaxBehavior V2BillingRateCardTaxBehavior `json:"tax_behavior"`
 }

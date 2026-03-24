@@ -10,6 +10,52 @@ import (
 	"time"
 )
 
+// Categorical assessment of the delinquency risk based on probability.
+type V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel string
+
+// List of values that V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel can take
+const (
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelElevated    V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "elevated"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelHighest     V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "highest"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelLow         V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "low"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelNormal      V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "normal"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelNotAssessed V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "not_assessed"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelUnknown     V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "unknown"
+)
+
+// The effect this indicator had on the overall risk level.
+type V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorImpact string
+
+// List of values that V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorImpact can take
+const (
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorImpactDecrease       V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorImpact = "decrease"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorImpactNeutral        V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorImpact = "neutral"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorImpactSlightIncrease V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorImpact = "slight_increase"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorImpactStrongIncrease V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorImpact = "strong_increase"
+)
+
+// The name of the specific indicator used in the risk assessment.
+type V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator string
+
+// List of values that V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator can take
+const (
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorAccountBalance      V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "account_balance"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorAov                 V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "aov"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorChargeConcentration V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "charge_concentration"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorDisputes            V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "disputes"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorDisputeWindow       V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "dispute_window"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorDuplicates          V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "duplicates"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorExposure            V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "exposure"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorFirmographic        V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "firmographic"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorLifetimeMetrics     V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "lifetime_metrics"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorPaymentProcessing   V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "payment_processing"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorPaymentVolume       V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "payment_volume"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorPayouts             V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "payouts"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorRefunds             V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "refunds"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorTenure              V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "tenure"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorTransfers           V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "transfers"
+)
+
 // Open Enum.
 type V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode string
 
@@ -176,6 +222,19 @@ const (
 	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
 	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
 	V2CoreAccountLinkReturnedEventDataConfigurationStorer    V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
+)
+
+// Risk level for the fraudulent website signal. If evaluation could not run (like invalid website), we return unknown.
+type V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevel string
+
+// List of values that V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevel can take
+const (
+	V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevelElevated    V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevel = "elevated"
+	V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevelHighest     V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevel = "highest"
+	V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevelLow         V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevel = "low"
+	V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevelNormal      V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevel = "normal"
+	V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevelNotAssessed V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevel = "not_assessed"
+	V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevelUnknown     V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevel = "unknown"
 )
 
 // The HTTP method.
@@ -577,6 +636,55 @@ const (
 	V2PaymentsSettlementAllocationIntentErroredEventDataReasonCodeAmountMismatch V2PaymentsSettlementAllocationIntentErroredEventDataReasonCode = "amount_mismatch"
 )
 
+// The effect this indicator had on the overall risk level.
+type V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact string
+
+// List of values that V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact can take
+const (
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpactDecrease       V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact = "decrease"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpactNeutral        V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact = "neutral"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpactSlightIncrease V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact = "slight_increase"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpactStrongIncrease V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact = "strong_increase"
+)
+
+// The name of the specific indicator used in the risk assessment.
+type V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator string
+
+// List of values that V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator can take
+const (
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorBankAccount                           V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "bank_account"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorBusinessInformationAndAccountActivity V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "business_information_and_account_activity"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorDisputes                              V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "disputes"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorFailures                              V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "failures"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorGeolocation                           V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "geolocation"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorOther                                 V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "other"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorOtherRelatedAccounts                  V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "other_related_accounts"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorOtherTransactionActivity              V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "other_transaction_activity"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorOwnerEmail                            V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "owner_email"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicatorWebPresence                           V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator = "web_presence"
+)
+
+// Categorical assessment of the fraudulent merchant risk based on probability.
+type V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel string
+
+// List of values that V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel can take
+const (
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevelElevated    V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel = "elevated"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevelHighest     V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel = "highest"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevelLow         V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel = "low"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevelNormal      V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel = "normal"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevelNotAssessed V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel = "not_assessed"
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevelUnknown     V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel = "unknown"
+)
+
+// The type of account signal. Currently only fraudulent_merchant is supported.
+type V2SignalsAccountSignalFraudulentMerchantReadyEventDataType string
+
+// List of values that V2SignalsAccountSignalFraudulentMerchantReadyEventDataType can take
+const (
+	V2SignalsAccountSignalFraudulentMerchantReadyEventDataTypeFraudulentMerchant V2SignalsAccountSignalFraudulentMerchantReadyEventDataType = "fraudulent_merchant"
+)
+
 // V2CoreEvent is the interface implemented by V2 Events. To get the underlying Event,
 // use a type switch or type assertion to one of the concrete event types.
 type V2CoreEvent interface {
@@ -595,6 +703,28 @@ type V2CoreRawEvent struct {
 // Used for everything internal to the EventNotifications
 type eventNotificationParams struct {
 	Params `form:"*"`
+}
+
+// V1AccountSignalsIncludingDelinquencyCreatedEvent is the Go struct for the "v1.account_signals[delinquency].created" event.
+// Occurs when a delinquency signal is created for an account.
+type V1AccountSignalsIncludingDelinquencyCreatedEvent struct {
+	V2BaseEvent
+	Data V1AccountSignalsIncludingDelinquencyCreatedEventData `json:"data"`
+}
+
+// V1AccountSignalsIncludingDelinquencyCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.account_signals[delinquency].created"
+// Occurs when a delinquency signal is created for an account.
+type V1AccountSignalsIncludingDelinquencyCreatedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V1AccountSignalsIncludingDelinquencyCreatedEvent that created this Notification
+func (n *V1AccountSignalsIncludingDelinquencyCreatedEventNotification) FetchEvent(ctx context.Context) (*V1AccountSignalsIncludingDelinquencyCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1AccountSignalsIncludingDelinquencyCreatedEvent), nil
 }
 
 // V1BillingMeterErrorReportTriggeredEvent is the Go struct for the "v1.billing.meter.error_report_triggered" event.
@@ -3074,6 +3204,438 @@ func (n *V2CoreAccountPersonUpdatedEventNotification) FetchRelatedObject(ctx con
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2CoreAccountPerson{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreAccountSignalsFraudulentWebsiteReadyEvent is the Go struct for the "v2.core.account_signals.fraudulent_website_ready" event.
+// Occurs when a Fraudulent Website signal is ready for an account.
+type V2CoreAccountSignalsFraudulentWebsiteReadyEvent struct {
+	V2BaseEvent
+	Data V2CoreAccountSignalsFraudulentWebsiteReadyEventData `json:"data"`
+}
+
+// V2CoreAccountSignalsFraudulentWebsiteReadyEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account_signals.fraudulent_website_ready"
+// Occurs when a Fraudulent Website signal is ready for an account.
+type V2CoreAccountSignalsFraudulentWebsiteReadyEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2CoreAccountSignalsFraudulentWebsiteReadyEvent that created this Notification
+func (n *V2CoreAccountSignalsFraudulentWebsiteReadyEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountSignalsFraudulentWebsiteReadyEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountSignalsFraudulentWebsiteReadyEvent), nil
+}
+
+// V2CoreBatchJobBatchFailedEvent is the Go struct for the "v2.core.batch_job.batch_failed" event.
+// Occurs when a batch job fails.
+type V2CoreBatchJobBatchFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreBatchJob, error)
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (e *V2CoreBatchJobBatchFailedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreBatchJobBatchFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.batch_job.batch_failed"
+// Occurs when a batch job fails.
+type V2CoreBatchJobBatchFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreBatchJobBatchFailedEvent that created this Notification
+func (n *V2CoreBatchJobBatchFailedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobBatchFailedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreBatchJobBatchFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (n *V2CoreBatchJobBatchFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreBatchJob{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreBatchJobCanceledEvent is the Go struct for the "v2.core.batch_job.canceled" event.
+// Occurs when a batch job is canceled.
+type V2CoreBatchJobCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreBatchJob, error)
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (e *V2CoreBatchJobCanceledEvent) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreBatchJobCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.core.batch_job.canceled"
+// Occurs when a batch job is canceled.
+type V2CoreBatchJobCanceledEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreBatchJobCanceledEvent that created this Notification
+func (n *V2CoreBatchJobCanceledEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobCanceledEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreBatchJobCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (n *V2CoreBatchJobCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreBatchJob{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreBatchJobCompletedEvent is the Go struct for the "v2.core.batch_job.completed" event.
+// Occurs on completion of a batch job.
+type V2CoreBatchJobCompletedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreBatchJob, error)
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (e *V2CoreBatchJobCompletedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreBatchJobCompletedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.batch_job.completed"
+// Occurs on completion of a batch job.
+type V2CoreBatchJobCompletedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreBatchJobCompletedEvent that created this Notification
+func (n *V2CoreBatchJobCompletedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobCompletedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreBatchJobCompletedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (n *V2CoreBatchJobCompletedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreBatchJob{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreBatchJobCreatedEvent is the Go struct for the "v2.core.batch_job.created" event.
+// Occurs on creation of a batch job.
+type V2CoreBatchJobCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreBatchJob, error)
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (e *V2CoreBatchJobCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreBatchJobCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.batch_job.created"
+// Occurs on creation of a batch job.
+type V2CoreBatchJobCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreBatchJobCreatedEvent that created this Notification
+func (n *V2CoreBatchJobCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreBatchJobCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (n *V2CoreBatchJobCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreBatchJob{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreBatchJobReadyForUploadEvent is the Go struct for the "v2.core.batch_job.ready_for_upload" event.
+// Occurs on submission of a batch job.
+type V2CoreBatchJobReadyForUploadEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreBatchJob, error)
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (e *V2CoreBatchJobReadyForUploadEvent) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreBatchJobReadyForUploadEventNotification is the webhook payload you'll get when handling an event with type "v2.core.batch_job.ready_for_upload"
+// Occurs on submission of a batch job.
+type V2CoreBatchJobReadyForUploadEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreBatchJobReadyForUploadEvent that created this Notification
+func (n *V2CoreBatchJobReadyForUploadEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobReadyForUploadEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreBatchJobReadyForUploadEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (n *V2CoreBatchJobReadyForUploadEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreBatchJob{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreBatchJobTimeoutEvent is the Go struct for the "v2.core.batch_job.timeout" event.
+// Occurs when a batch job times out.
+type V2CoreBatchJobTimeoutEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreBatchJob, error)
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (e *V2CoreBatchJobTimeoutEvent) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreBatchJobTimeoutEventNotification is the webhook payload you'll get when handling an event with type "v2.core.batch_job.timeout"
+// Occurs when a batch job times out.
+type V2CoreBatchJobTimeoutEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreBatchJobTimeoutEvent that created this Notification
+func (n *V2CoreBatchJobTimeoutEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobTimeoutEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreBatchJobTimeoutEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (n *V2CoreBatchJobTimeoutEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreBatchJob{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreBatchJobUpdatedEvent is the Go struct for the "v2.core.batch_job.updated" event.
+// Occurs when a batch job is updated.
+type V2CoreBatchJobUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreBatchJob, error)
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (e *V2CoreBatchJobUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreBatchJobUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.batch_job.updated"
+// Occurs when a batch job is updated.
+type V2CoreBatchJobUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreBatchJobUpdatedEvent that created this Notification
+func (n *V2CoreBatchJobUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobUpdatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreBatchJobUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (n *V2CoreBatchJobUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreBatchJob{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreBatchJobUploadTimeoutEvent is the Go struct for the "v2.core.batch_job.upload_timeout" event.
+// Occurs when merchant fails to upload a file in time.
+type V2CoreBatchJobUploadTimeoutEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreBatchJob, error)
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (e *V2CoreBatchJobUploadTimeoutEvent) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreBatchJobUploadTimeoutEventNotification is the webhook payload you'll get when handling an event with type "v2.core.batch_job.upload_timeout"
+// Occurs when merchant fails to upload a file in time.
+type V2CoreBatchJobUploadTimeoutEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreBatchJobUploadTimeoutEvent that created this Notification
+func (n *V2CoreBatchJobUploadTimeoutEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobUploadTimeoutEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreBatchJobUploadTimeoutEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (n *V2CoreBatchJobUploadTimeoutEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreBatchJob{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreBatchJobValidatingEvent is the Go struct for the "v2.core.batch_job.validating" event.
+// Occurs when a batch job proceeds to the validation stage.
+type V2CoreBatchJobValidatingEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreBatchJob, error)
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (e *V2CoreBatchJobValidatingEvent) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreBatchJobValidatingEventNotification is the webhook payload you'll get when handling an event with type "v2.core.batch_job.validating"
+// Occurs when a batch job proceeds to the validation stage.
+type V2CoreBatchJobValidatingEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreBatchJobValidatingEvent that created this Notification
+func (n *V2CoreBatchJobValidatingEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobValidatingEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreBatchJobValidatingEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (n *V2CoreBatchJobValidatingEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreBatchJob{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreBatchJobValidationFailedEvent is the Go struct for the "v2.core.batch_job.validation_failed" event.
+// Occurs when a batch job fails on validation.
+type V2CoreBatchJobValidationFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreBatchJob, error)
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (e *V2CoreBatchJobValidationFailedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreBatchJobValidationFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.batch_job.validation_failed"
+// Occurs when a batch job fails on validation.
+type V2CoreBatchJobValidationFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreBatchJobValidationFailedEvent that created this Notification
+func (n *V2CoreBatchJobValidationFailedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobValidationFailedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreBatchJobValidationFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreBatchJob related to the event.
+func (n *V2CoreBatchJobValidationFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreBatchJob, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreBatchJob{}
 	err := n.client.backend.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -6526,6 +7088,54 @@ func (n *V2ReportingReportRunUpdatedEventNotification) FetchRelatedObject(ctx co
 	return relatedObj, err
 }
 
+// V2SignalsAccountSignalFraudulentMerchantReadyEvent is the Go struct for the "v2.signals.account_signal.fraudulent_merchant_ready" event.
+// Occurs when a fraudulent merchant signal is ready for an account.
+type V2SignalsAccountSignalFraudulentMerchantReadyEvent struct {
+	V2BaseEvent
+	Data V2SignalsAccountSignalFraudulentMerchantReadyEventData `json:"data"`
+}
+
+// V2SignalsAccountSignalFraudulentMerchantReadyEventNotification is the webhook payload you'll get when handling an event with type "v2.signals.account_signal.fraudulent_merchant_ready"
+// Occurs when a fraudulent merchant signal is ready for an account.
+type V2SignalsAccountSignalFraudulentMerchantReadyEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2SignalsAccountSignalFraudulentMerchantReadyEvent that created this Notification
+func (n *V2SignalsAccountSignalFraudulentMerchantReadyEventNotification) FetchEvent(ctx context.Context) (*V2SignalsAccountSignalFraudulentMerchantReadyEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2SignalsAccountSignalFraudulentMerchantReadyEvent), nil
+}
+
+// Array of objects representing individual factors that contributed to the calculated probability of delinquency.
+type V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicator struct {
+	// A brief explanation of how this indicator contributed to the delinquency probability.
+	Description string `json:"description"`
+	// The effect this indicator had on the overall risk level.
+	Impact V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorImpact `json:"impact"`
+	// The name of the specific indicator used in the risk assessment.
+	Indicator V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator `json:"indicator"`
+}
+
+// Occurs when a delinquency signal is created for an account.
+type V1AccountSignalsIncludingDelinquencyCreatedEventData struct {
+	// The account for which the signals belong to.
+	Account string `json:"account"`
+	// Time at which the signal was evaluated.
+	EvaluatedAt time.Time `json:"evaluated_at"`
+	// Array of objects representing individual factors that contributed to the calculated probability of delinquency.
+	Indicators []*V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicator `json:"indicators"`
+	// The probability of delinquency. Can be between 0.00 and 100.00.
+	Probability float64 `json:"probability,string,omitempty"`
+	// Categorical assessment of the delinquency risk based on probability.
+	RiskLevel V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel `json:"risk_level"`
+	// Unique identifier for the delinquency signal.
+	SignalID string `json:"signal_id"`
+}
+
 // The request causes the error.
 type V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeSampleErrorRequest struct {
 	// The request idempotency key.
@@ -6742,6 +7352,22 @@ type V2CoreAccountPersonDeletedEventData struct {
 type V2CoreAccountPersonUpdatedEventData struct {
 	// The ID of the v2 account.
 	AccountID string `json:"account_id"`
+}
+
+// Occurs when a Fraudulent Website signal is ready for an account.
+type V2CoreAccountSignalsFraudulentWebsiteReadyEventData struct {
+	// The account for which the signals belong to. Empty if this was an entityless request.
+	Account string `json:"account,omitempty"`
+	// Human readable description of concerns found in the website, produced by LLM. If risk_level is unknown, this explains why evaluation could not run.
+	Details string `json:"details"`
+	// Time at which the signal was evaluated.
+	EvaluatedAt time.Time `json:"evaluated_at"`
+	// Unique identifier for the fraudulent website evaluation request.
+	EvaluationID string `json:"evaluation_id"`
+	// Risk level for the fraudulent website signal. If evaluation could not run (like invalid website), we return unknown.
+	RiskLevel V2CoreAccountSignalsFraudulentWebsiteReadyEventDataRiskLevel `json:"risk_level"`
+	// Unique identifier for the fraudulent website signal.
+	SignalID string `json:"signal_id"`
 }
 
 // The top impacted connected accounts (only for platforms).
@@ -7406,10 +8032,51 @@ type V2PaymentsSettlementAllocationIntentSplitSettledEventData struct {
 	SettlementAllocationIntentID string `json:"settlement_allocation_intent_id"`
 }
 
+// Array of objects representing individual factors that contributed to the calculated probability. Maximum of 3.
+type V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicator struct {
+	// A brief explanation of how this indicator contributed to the fraudulent merchant probability.
+	Description string `json:"description"`
+	// The effect this indicator had on the overall risk level.
+	Impact V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorImpact `json:"impact"`
+	// The name of the specific indicator used in the risk assessment.
+	Indicator V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicatorIndicator `json:"indicator"`
+}
+
+// Fraudulent merchant signal data. Present when type is fraudulent_merchant.
+type V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchant struct {
+	// Array of objects representing individual factors that contributed to the calculated probability. Maximum of 3.
+	Indicators []*V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantIndicator `json:"indicators"`
+	// The probability of the merchant being fraudulent. Can be between 0.00 and 100.00. May be empty if the risk_level is UNKNOWN or NOT_ASSESSED.
+	Probability float64 `json:"probability,string,omitempty"`
+	// Categorical assessment of the fraudulent merchant risk based on probability.
+	RiskLevel V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchantRiskLevel `json:"risk_level"`
+}
+
+// Occurs when a fraudulent merchant signal is ready for an account.
+type V2SignalsAccountSignalFraudulentMerchantReadyEventData struct {
+	// Account ID that this signal is associated with.
+	Account string `json:"account"`
+	// Timestamp when the signal was evaluated.
+	EvaluatedAt time.Time `json:"evaluated_at"`
+	// Fraudulent merchant signal data. Present when type is fraudulent_merchant.
+	FraudulentMerchant *V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchant `json:"fraudulent_merchant,omitempty"`
+	// Unique identifier for this account signal.
+	ID string `json:"id"`
+	// The type of account signal. Currently only fraudulent_merchant is supported.
+	Type V2SignalsAccountSignalFraudulentMerchantReadyEventDataType `json:"type"`
+}
+
 // ConvertRawEvent converts a raw event to a concrete event type.
 // If the event type is not known, it returns the raw event.
 func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2CoreEvent, error) {
 	switch event.Type {
+	case "v1.account_signals[delinquency].created":
+		result := &V1AccountSignalsIncludingDelinquencyCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case "v1.billing.meter.error_report_triggered":
 		result := &V1BillingMeterErrorReportTriggeredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -8364,6 +9031,163 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
+		}
+		return result, nil
+	case "v2.core.account_signals.fraudulent_website_ready":
+		result := &V2CoreAccountSignalsFraudulentWebsiteReadyEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.batch_job.batch_failed":
+		result := &V2CoreBatchJobBatchFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
+			v := &V2CoreBatchJob{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.batch_job.canceled":
+		result := &V2CoreBatchJobCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
+			v := &V2CoreBatchJob{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.batch_job.completed":
+		result := &V2CoreBatchJobCompletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
+			v := &V2CoreBatchJob{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.batch_job.created":
+		result := &V2CoreBatchJobCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
+			v := &V2CoreBatchJob{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.batch_job.ready_for_upload":
+		result := &V2CoreBatchJobReadyForUploadEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
+			v := &V2CoreBatchJob{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.batch_job.timeout":
+		result := &V2CoreBatchJobTimeoutEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
+			v := &V2CoreBatchJob{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.batch_job.updated":
+		result := &V2CoreBatchJobUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
+			v := &V2CoreBatchJob{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.batch_job.upload_timeout":
+		result := &V2CoreBatchJobUploadTimeoutEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
+			v := &V2CoreBatchJob{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.batch_job.validating":
+		result := &V2CoreBatchJobValidatingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
+			v := &V2CoreBatchJob{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.batch_job.validation_failed":
+		result := &V2CoreBatchJobValidationFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreBatchJob, error) {
+			v := &V2CoreBatchJob{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
 		}
 		return result, nil
 	case "v2.core.claimable_sandbox.claimed":
@@ -9590,6 +10414,13 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.signals.account_signal.fraudulent_merchant_ready":
+		result := &V2SignalsAccountSignalFraudulentMerchantReadyEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
 	default:
 		return event, nil
 	}
@@ -9601,16 +10432,27 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 // so you should use [Client.ParseEventNotification] instead for initial handling.
 // This is useful in unit tests and working with EventNotifications that you've already validated the authenticity of.
 func EventNotificationFromJSON(payload []byte, client Client) (EventNotificationContainer, error) {
-	// we can pull the type out to base our matching on
 	var result = &struct {
-		Type string `json:"type"`
+		Type   string `json:"type"`
+		Object string `json:"object"`
 	}{}
 	if err := json.Unmarshal(payload, result); err != nil {
 		return nil, err
 	}
 
+	if result.Object == "event" {
+		return nil, fmt.Errorf("Did you use EventNotificationFromJSON to parse a webhook payload? If so, use ConstructEvent instead.")
+	}
+
 	// V2EventNotificationTypes: The beginning of the section generated from our OpenAPI spec
 	switch result.Type {
+	case "v1.account_signals[delinquency].created":
+		evt := V1AccountSignalsIncludingDelinquencyCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.billing.meter.error_report_triggered":
 		evt := V1BillingMeterErrorReportTriggeredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -10033,6 +10875,83 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.core.account_person.updated":
 		evt := V2CoreAccountPersonUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account_signals.fraudulent_website_ready":
+		evt := V2CoreAccountSignalsFraudulentWebsiteReadyEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.batch_job.batch_failed":
+		evt := V2CoreBatchJobBatchFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.batch_job.canceled":
+		evt := V2CoreBatchJobCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.batch_job.completed":
+		evt := V2CoreBatchJobCompletedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.batch_job.created":
+		evt := V2CoreBatchJobCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.batch_job.ready_for_upload":
+		evt := V2CoreBatchJobReadyForUploadEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.batch_job.timeout":
+		evt := V2CoreBatchJobTimeoutEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.batch_job.updated":
+		evt := V2CoreBatchJobUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.batch_job.upload_timeout":
+		evt := V2CoreBatchJobUploadTimeoutEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.batch_job.validating":
+		evt := V2CoreBatchJobValidatingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.batch_job.validation_failed":
+		evt := V2CoreBatchJobValidationFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -10733,6 +11652,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.reporting.report_run.updated":
 		evt := V2ReportingReportRunUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.signals.account_signal.fraudulent_merchant_ready":
+		evt := V2SignalsAccountSignalFraudulentMerchantReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

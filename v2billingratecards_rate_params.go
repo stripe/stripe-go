@@ -6,7 +6,7 @@
 
 package stripe
 
-// List all Rates associated with a Rate Card for a specific version (defaults to latest). Rates remain active for all subsequent versions until a new rate is created for the same Metered Item.
+// List all Rates associated with a Rate Card for a specific version. Defaults to latest. Rates remain active for all subsequent versions until a new rate is created for the same Metered Item.
 type V2BillingRateCardsRateListParams struct {
 	Params `form:"*"`
 	// The ID of the Rate Card to retrieve rates for.
@@ -44,7 +44,7 @@ type V2BillingRateCardsRateTierParams struct {
 // Apply a transformation to the reported usage or set quantity before computing the amount billed.
 type V2BillingRateCardsRateTransformQuantityParams struct {
 	// Divide usage by this number.
-	DivideBy *int64 `form:"divide_by" json:"divide_by"`
+	DivideBy *int64 `form:"divide_by" json:"divide_by,string"`
 	// After division, round the result up or down.
 	Round *string `form:"round" json:"round"`
 }
@@ -108,7 +108,7 @@ type V2BillingRateCardsRateCreateTierParams struct {
 // Apply a transformation to the reported usage or set quantity before computing the amount billed.
 type V2BillingRateCardsRateCreateTransformQuantityParams struct {
 	// Divide usage by this number.
-	DivideBy *int64 `form:"divide_by" json:"divide_by"`
+	DivideBy *int64 `form:"divide_by" json:"divide_by,string"`
 	// After division, round the result up or down.
 	Round *string `form:"round" json:"round"`
 }

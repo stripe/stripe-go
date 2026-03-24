@@ -15,9 +15,21 @@ type V2BillingIntentListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
-// When the apply action will take effect. Defaults to on_reserve if not specified.
+// When the apply action will take effect. If not specified, defaults to on_reserve.
 type V2BillingIntentActionApplyEffectiveAtParams struct {
+	// The timestamp at which the apply action will take effect. Only present if type is timestamp. Only allowed for discount actions.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// When the apply action will take effect.
+	Type *string `form:"type" json:"type"`
+}
+
+// Details for applying a discount.
+type V2BillingIntentActionApplyDiscountParams struct {
+	// The ID of the Coupon to apply.
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
+	// The ID of the PromotionCode to apply.
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
+	// Type of the discount.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -59,7 +71,7 @@ type V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmountParam
 	Type *string `form:"type" json:"type"`
 }
 
-// The configration for the overage rate for the custom pricing unit.
+// The configuration for the overage rate for the custom pricing unit.
 type V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendCustomPricingUnitOverageRateParams struct {
 	// ID of the custom pricing unit overage rate.
 	ID *string `form:"id" json:"id"`
@@ -69,7 +81,7 @@ type V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendCustomPrici
 type V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendParams struct {
 	// The maximum amount allowed for the billing period.
 	Amount *V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmountParams `form:"amount" json:"amount"`
-	// The configration for the overage rate for the custom pricing unit.
+	// The configuration for the overage rate for the custom pricing unit.
 	CustomPricingUnitOverageRate *V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendCustomPricingUnitOverageRateParams `form:"custom_pricing_unit_overage_rate" json:"custom_pricing_unit_overage_rate"`
 }
 
@@ -85,7 +97,9 @@ type V2BillingIntentActionApplySpendModifierRuleParams struct {
 
 // Details for an apply action.
 type V2BillingIntentActionApplyParams struct {
-	// When the apply action will take effect. Defaults to on_reserve if not specified.
+	// Details for applying a discount.
+	Discount *V2BillingIntentActionApplyDiscountParams `form:"discount" json:"discount,omitempty"`
+	// When the apply action will take effect. If not specified, defaults to on_reserve.
 	EffectiveAt *V2BillingIntentActionApplyEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for applying a discount rule to future invoices.
 	InvoiceDiscountRule *V2BillingIntentActionApplyInvoiceDiscountRuleParams `form:"invoice_discount_rule" json:"invoice_discount_rule,omitempty"`
@@ -219,7 +233,7 @@ type V2BillingIntentActionModifyParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// When the remove action will take effect. Defaults to on_reserve if not specified.
+// When the remove action will take effect. If not specified, defaults to on_reserve.
 type V2BillingIntentActionRemoveEffectiveAtParams struct {
 	// When the remove action will take effect.
 	Type *string `form:"type" json:"type"`
@@ -227,7 +241,7 @@ type V2BillingIntentActionRemoveEffectiveAtParams struct {
 
 // Details for a remove action.
 type V2BillingIntentActionRemoveParams struct {
-	// When the remove action will take effect. Defaults to on_reserve if not specified.
+	// When the remove action will take effect. If not specified, defaults to on_reserve.
 	EffectiveAt *V2BillingIntentActionRemoveEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// The ID of the discount rule to remove for future invoices.
 	InvoiceDiscountRule *string `form:"invoice_discount_rule" json:"invoice_discount_rule,omitempty"`
@@ -304,7 +318,7 @@ type V2BillingIntentActionSubscribeV1SubscriptionDetailsItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the price object.
 	Price *string `form:"price" json:"price"`
-	// Quantity for this item. If not provided, will default to 1.
+	// Quantity for this item. If not provided, defaults to 1.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 }
 
@@ -577,6 +591,8 @@ type V2BillingIntentParams struct {
 	CadenceData *V2BillingIntentCadenceDataParams `form:"cadence_data" json:"cadence_data,omitempty"`
 	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Select additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
 }
 
 // Cancel a Billing Intent.
@@ -599,11 +615,25 @@ type V2BillingIntentReleaseReservationParams struct {
 // Reserve a Billing Intent.
 type V2BillingIntentReserveParams struct {
 	Params `form:"*"`
+	// Select additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
 }
 
-// When the apply action will take effect. Defaults to on_reserve if not specified.
+// When the apply action will take effect. If not specified, defaults to on_reserve.
 type V2BillingIntentCreateActionApplyEffectiveAtParams struct {
+	// The timestamp at which the apply action will take effect. Only present if type is timestamp. Only allowed for discount actions.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// When the apply action will take effect.
+	Type *string `form:"type" json:"type"`
+}
+
+// Details for applying a discount.
+type V2BillingIntentCreateActionApplyDiscountParams struct {
+	// The ID of the Coupon to apply.
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
+	// The ID of the PromotionCode to apply.
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
+	// Type of the discount.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -645,7 +675,7 @@ type V2BillingIntentCreateActionApplySpendModifierRuleMaxBillingPeriodSpendAmoun
 	Type *string `form:"type" json:"type"`
 }
 
-// The configration for the overage rate for the custom pricing unit.
+// The configuration for the overage rate for the custom pricing unit.
 type V2BillingIntentCreateActionApplySpendModifierRuleMaxBillingPeriodSpendCustomPricingUnitOverageRateParams struct {
 	// ID of the custom pricing unit overage rate.
 	ID *string `form:"id" json:"id"`
@@ -655,7 +685,7 @@ type V2BillingIntentCreateActionApplySpendModifierRuleMaxBillingPeriodSpendCusto
 type V2BillingIntentCreateActionApplySpendModifierRuleMaxBillingPeriodSpendParams struct {
 	// The maximum amount allowed for the billing period.
 	Amount *V2BillingIntentCreateActionApplySpendModifierRuleMaxBillingPeriodSpendAmountParams `form:"amount" json:"amount"`
-	// The configration for the overage rate for the custom pricing unit.
+	// The configuration for the overage rate for the custom pricing unit.
 	CustomPricingUnitOverageRate *V2BillingIntentCreateActionApplySpendModifierRuleMaxBillingPeriodSpendCustomPricingUnitOverageRateParams `form:"custom_pricing_unit_overage_rate" json:"custom_pricing_unit_overage_rate"`
 }
 
@@ -671,7 +701,9 @@ type V2BillingIntentCreateActionApplySpendModifierRuleParams struct {
 
 // Details for an apply action.
 type V2BillingIntentCreateActionApplyParams struct {
-	// When the apply action will take effect. Defaults to on_reserve if not specified.
+	// Details for applying a discount.
+	Discount *V2BillingIntentCreateActionApplyDiscountParams `form:"discount" json:"discount,omitempty"`
+	// When the apply action will take effect. If not specified, defaults to on_reserve.
 	EffectiveAt *V2BillingIntentCreateActionApplyEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for applying a discount rule to future invoices.
 	InvoiceDiscountRule *V2BillingIntentCreateActionApplyInvoiceDiscountRuleParams `form:"invoice_discount_rule" json:"invoice_discount_rule,omitempty"`
@@ -805,7 +837,7 @@ type V2BillingIntentCreateActionModifyParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// When the remove action will take effect. Defaults to on_reserve if not specified.
+// When the remove action will take effect. If not specified, defaults to on_reserve.
 type V2BillingIntentCreateActionRemoveEffectiveAtParams struct {
 	// When the remove action will take effect.
 	Type *string `form:"type" json:"type"`
@@ -813,7 +845,7 @@ type V2BillingIntentCreateActionRemoveEffectiveAtParams struct {
 
 // Details for a remove action.
 type V2BillingIntentCreateActionRemoveParams struct {
-	// When the remove action will take effect. Defaults to on_reserve if not specified.
+	// When the remove action will take effect. If not specified, defaults to on_reserve.
 	EffectiveAt *V2BillingIntentCreateActionRemoveEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// The ID of the discount rule to remove for future invoices.
 	InvoiceDiscountRule *string `form:"invoice_discount_rule" json:"invoice_discount_rule,omitempty"`
@@ -890,7 +922,7 @@ type V2BillingIntentCreateActionSubscribeV1SubscriptionDetailsItemParams struct 
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the price object.
 	Price *string `form:"price" json:"price"`
-	// Quantity for this item. If not provided, will default to 1.
+	// Quantity for this item. If not provided, defaults to 1.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 }
 
@@ -1163,6 +1195,8 @@ type V2BillingIntentCreateParams struct {
 	CadenceData *V2BillingIntentCreateCadenceDataParams `form:"cadence_data" json:"cadence_data,omitempty"`
 	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency *string `form:"currency" json:"currency"`
+	// Select additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
 }
 
 // Retrieve a Billing Intent.

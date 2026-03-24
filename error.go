@@ -11,6 +11,7 @@ type InvalidPaymentMethodInvalidParam string
 // List of values that InvalidPaymentMethodInvalidParam can take
 const (
 	InvalidPaymentMethodInvalidParamAccountNumber        InvalidPaymentMethodInvalidParam = "account_number"
+	InvalidPaymentMethodInvalidParamCurrency             InvalidPaymentMethodInvalidParam = "currency"
 	InvalidPaymentMethodInvalidParamFedwireRoutingNumber InvalidPaymentMethodInvalidParam = "fedwire_routing_number"
 	InvalidPaymentMethodInvalidParamRoutingNumber        InvalidPaymentMethodInvalidParam = "routing_number"
 )

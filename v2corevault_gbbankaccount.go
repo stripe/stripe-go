@@ -141,5 +141,7 @@ type V2CoreVaultGBBankAccount struct {
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The Sort Code of the bank account.
-	SortCode string `json:"sort_code"`
+	SortCode string `json:"sort_code,omitempty"`
+	// The list of currencies supported by this bank account.
+	SupportedCurrencies []Currency `json:"supported_currencies"`
 }

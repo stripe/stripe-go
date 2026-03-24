@@ -71,25 +71,34 @@ type V2MoneyManagementTransactionFlowType string
 
 // List of values that V2MoneyManagementTransactionFlowType can take
 const (
-	V2MoneyManagementTransactionFlowTypeAdjustment           V2MoneyManagementTransactionFlowType = "adjustment"
-	V2MoneyManagementTransactionFlowTypeApplicationFee       V2MoneyManagementTransactionFlowType = "application_fee"
-	V2MoneyManagementTransactionFlowTypeApplicationFeeRefund V2MoneyManagementTransactionFlowType = "application_fee_refund"
-	V2MoneyManagementTransactionFlowTypeCharge               V2MoneyManagementTransactionFlowType = "charge"
-	V2MoneyManagementTransactionFlowTypeCurrencyConversion   V2MoneyManagementTransactionFlowType = "currency_conversion"
-	V2MoneyManagementTransactionFlowTypeDispute              V2MoneyManagementTransactionFlowType = "dispute"
-	V2MoneyManagementTransactionFlowTypeFeeTransaction       V2MoneyManagementTransactionFlowType = "fee_transaction"
-	V2MoneyManagementTransactionFlowTypeInboundTransfer      V2MoneyManagementTransactionFlowType = "inbound_transfer"
-	V2MoneyManagementTransactionFlowTypeOutboundPayment      V2MoneyManagementTransactionFlowType = "outbound_payment"
-	V2MoneyManagementTransactionFlowTypeOutboundTransfer     V2MoneyManagementTransactionFlowType = "outbound_transfer"
-	V2MoneyManagementTransactionFlowTypePayout               V2MoneyManagementTransactionFlowType = "payout"
-	V2MoneyManagementTransactionFlowTypeReceivedCredit       V2MoneyManagementTransactionFlowType = "received_credit"
-	V2MoneyManagementTransactionFlowTypeReceivedDebit        V2MoneyManagementTransactionFlowType = "received_debit"
-	V2MoneyManagementTransactionFlowTypeRefund               V2MoneyManagementTransactionFlowType = "refund"
-	V2MoneyManagementTransactionFlowTypeReserveHold          V2MoneyManagementTransactionFlowType = "reserve_hold"
-	V2MoneyManagementTransactionFlowTypeReserveRelease       V2MoneyManagementTransactionFlowType = "reserve_release"
-	V2MoneyManagementTransactionFlowTypeTopup                V2MoneyManagementTransactionFlowType = "topup"
-	V2MoneyManagementTransactionFlowTypeTransfer             V2MoneyManagementTransactionFlowType = "transfer"
-	V2MoneyManagementTransactionFlowTypeTransferReversal     V2MoneyManagementTransactionFlowType = "transfer_reversal"
+	V2MoneyManagementTransactionFlowTypeAdjustment                   V2MoneyManagementTransactionFlowType = "adjustment"
+	V2MoneyManagementTransactionFlowTypeApplicationFee               V2MoneyManagementTransactionFlowType = "application_fee"
+	V2MoneyManagementTransactionFlowTypeApplicationFeeRefund         V2MoneyManagementTransactionFlowType = "application_fee_refund"
+	V2MoneyManagementTransactionFlowTypeCharge                       V2MoneyManagementTransactionFlowType = "charge"
+	V2MoneyManagementTransactionFlowTypeCurrencyConversion           V2MoneyManagementTransactionFlowType = "currency_conversion"
+	V2MoneyManagementTransactionFlowTypeDispute                      V2MoneyManagementTransactionFlowType = "dispute"
+	V2MoneyManagementTransactionFlowTypeFeeTransaction               V2MoneyManagementTransactionFlowType = "fee_transaction"
+	V2MoneyManagementTransactionFlowTypeInboundTransfer              V2MoneyManagementTransactionFlowType = "inbound_transfer"
+	V2MoneyManagementTransactionFlowTypeOutboundPayment              V2MoneyManagementTransactionFlowType = "outbound_payment"
+	V2MoneyManagementTransactionFlowTypeOutboundTransfer             V2MoneyManagementTransactionFlowType = "outbound_transfer"
+	V2MoneyManagementTransactionFlowTypePayout                       V2MoneyManagementTransactionFlowType = "payout"
+	V2MoneyManagementTransactionFlowTypeReceivedCredit               V2MoneyManagementTransactionFlowType = "received_credit"
+	V2MoneyManagementTransactionFlowTypeReceivedDebit                V2MoneyManagementTransactionFlowType = "received_debit"
+	V2MoneyManagementTransactionFlowTypeRefund                       V2MoneyManagementTransactionFlowType = "refund"
+	V2MoneyManagementTransactionFlowTypeReserveHold                  V2MoneyManagementTransactionFlowType = "reserve_hold"
+	V2MoneyManagementTransactionFlowTypeReserveRelease               V2MoneyManagementTransactionFlowType = "reserve_release"
+	V2MoneyManagementTransactionFlowTypeTopup                        V2MoneyManagementTransactionFlowType = "topup"
+	V2MoneyManagementTransactionFlowTypeTransfer                     V2MoneyManagementTransactionFlowType = "transfer"
+	V2MoneyManagementTransactionFlowTypeTransferReversal             V2MoneyManagementTransactionFlowType = "transfer_reversal"
+	V2MoneyManagementTransactionFlowTypeTreasuryCreditReversal       V2MoneyManagementTransactionFlowType = "treasury_credit_reversal"
+	V2MoneyManagementTransactionFlowTypeTreasuryDebitReversal        V2MoneyManagementTransactionFlowType = "treasury_debit_reversal"
+	V2MoneyManagementTransactionFlowTypeTreasuryInboundTransfer      V2MoneyManagementTransactionFlowType = "treasury_inbound_transfer"
+	V2MoneyManagementTransactionFlowTypeTreasuryIssuingAuthorization V2MoneyManagementTransactionFlowType = "treasury_issuing_authorization"
+	V2MoneyManagementTransactionFlowTypeTreasuryOther                V2MoneyManagementTransactionFlowType = "treasury_other"
+	V2MoneyManagementTransactionFlowTypeTreasuryOutboundPayment      V2MoneyManagementTransactionFlowType = "treasury_outbound_payment"
+	V2MoneyManagementTransactionFlowTypeTreasuryOutboundTransfer     V2MoneyManagementTransactionFlowType = "treasury_outbound_transfer"
+	V2MoneyManagementTransactionFlowTypeTreasuryReceivedCredit       V2MoneyManagementTransactionFlowType = "treasury_received_credit"
+	V2MoneyManagementTransactionFlowTypeTreasuryReceivedDebit        V2MoneyManagementTransactionFlowType = "treasury_received_debit"
 )
 
 // Closed Enum. Current status of the Transaction.
@@ -115,6 +124,12 @@ type V2MoneyManagementTransactionBalanceImpact struct {
 	InboundPending Amount `json:"inbound_pending"`
 	// Impact to the outbound_pending balance.
 	OutboundPending Amount `json:"outbound_pending"`
+}
+
+// Counterparty to this Transaction.
+type V2MoneyManagementTransactionCounterparty struct {
+	// Name of the counterparty.
+	Name string `json:"name,omitempty"`
 }
 
 // Details about the Flow object that created the Transaction.
@@ -157,6 +172,22 @@ type V2MoneyManagementTransactionFlow struct {
 	Transfer string `json:"transfer,omitempty"`
 	// If applicable, the ID of the Transfer Reversal that created this Transaction.
 	TransferReversal string `json:"transfer_reversal,omitempty"`
+	// If applicable, the ID of the Treasury CreditReversal that created this Transaction.
+	TreasuryCreditReversal string `json:"treasury_credit_reversal,omitempty"`
+	// If applicable, the ID of the Treasury DebitReversal that created this Transaction.
+	TreasuryDebitReversal string `json:"treasury_debit_reversal,omitempty"`
+	// If applicable, the ID of the Treasury InboundTransfer that created this Transaction.
+	TreasuryInboundTransfer string `json:"treasury_inbound_transfer,omitempty"`
+	// If applicable, the ID of the Treasury IssuingAuthorization that created this Transaction.
+	TreasuryIssuingAuthorization string `json:"treasury_issuing_authorization,omitempty"`
+	// If applicable, the ID of the Treasury OutboundPayment that created this Transaction.
+	TreasuryOutboundPayment string `json:"treasury_outbound_payment,omitempty"`
+	// If applicable, the ID of the Treasury OutboundTransfer that created this Transaction.
+	TreasuryOutboundTransfer string `json:"treasury_outbound_transfer,omitempty"`
+	// If applicable, the ID of the Treasury ReceivedCredit that created this Transaction.
+	TreasuryReceivedCredit string `json:"treasury_received_credit,omitempty"`
+	// If applicable, the ID of the Treasury ReceivedDebit that created this Transaction.
+	TreasuryReceivedDebit string `json:"treasury_received_debit,omitempty"`
 	// Open Enum. Type of the flow that created the Transaction. The field matching this value will contain the ID of the flow.
 	Type V2MoneyManagementTransactionFlowType `json:"type"`
 }
@@ -179,8 +210,13 @@ type V2MoneyManagementTransaction struct {
 	BalanceImpact *V2MoneyManagementTransactionBalanceImpact `json:"balance_impact"`
 	// Open Enum. A descriptive category used to classify the Transaction.
 	Category V2MoneyManagementTransactionCategory `json:"category"`
+	// Counterparty to this Transaction.
+	Counterparty *V2MoneyManagementTransactionCounterparty `json:"counterparty,omitempty"`
 	// Time at which the object was created. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`
+	// Description of this Transaction. When applicable, the description is copied from the Flow object at the time
+	// of transaction creation.
+	Description string `json:"description,omitempty"`
 	// Indicates the FinancialAccount affected by this Transaction.
 	FinancialAccount string `json:"financial_account"`
 	// Details about the Flow object that created the Transaction.
@@ -199,4 +235,6 @@ type V2MoneyManagementTransaction struct {
 	Status V2MoneyManagementTransactionStatus `json:"status"`
 	// Timestamps for when the Transaction transitioned to a particular status.
 	StatusTransitions *V2MoneyManagementTransactionStatusTransitions `json:"status_transitions"`
+	// The v1 Treasury transaction associated with this transaction.
+	TreasuryTransaction string `json:"treasury_transaction,omitempty"`
 }

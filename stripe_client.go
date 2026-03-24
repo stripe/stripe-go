@@ -390,8 +390,6 @@ type Client struct {
 	V2BillingLicensedItems *v2BillingLicensedItemService
 	// V2BillingLicenseFees is the service used to invoke /v2/billing/license_fees APIs.
 	V2BillingLicenseFees *v2BillingLicenseFeeService
-	// V2BillingLicenseFeeSubscriptions is the service used to invoke licensefeesubscription related APIs.
-	V2BillingLicenseFeeSubscriptions *v2BillingLicenseFeeSubscriptionService
 	// V2BillingLicenseFeesVersions is the service used to invoke /v2/billing/license_fees/{license_fee_id}/versions APIs.
 	V2BillingLicenseFeesVersions *v2BillingLicenseFeesVersionService
 	// V2BillingMeteredItems is the service used to invoke /v2/billing/metered_items APIs.
@@ -412,8 +410,6 @@ type Client struct {
 	V2BillingPricingPlansComponents *v2BillingPricingPlansComponentService
 	// V2BillingPricingPlanSubscriptions is the service used to invoke /v2/billing/pricing_plan_subscriptions APIs.
 	V2BillingPricingPlanSubscriptions *v2BillingPricingPlanSubscriptionService
-	// V2BillingPricingPlanSubscriptionsComponents is the service used to invoke component related APIs.
-	V2BillingPricingPlanSubscriptionsComponents *v2BillingPricingPlanSubscriptionsComponentService
 	// V2BillingPricingPlansVersions is the service used to invoke /v2/billing/pricing_plans/{pricing_plan_id}/versions APIs.
 	V2BillingPricingPlansVersions *v2BillingPricingPlansVersionService
 	// V2BillingProfiles is the service used to invoke /v2/billing/profiles APIs.
@@ -430,6 +426,8 @@ type Client struct {
 	V2BillingRateCardsVersions *v2BillingRateCardsVersionService
 	// V2BillingServiceActions is the service used to invoke /v2/billing/service_actions APIs.
 	V2BillingServiceActions *v2BillingServiceActionService
+	// V2CoreAccountEvaluations is the service used to invoke /v2/core/account_evaluations APIs.
+	V2CoreAccountEvaluations *v2CoreAccountEvaluationService
 	// V2CoreAccountLinks is the service used to invoke /v2/core/account_links APIs.
 	V2CoreAccountLinks *v2CoreAccountLinkService
 	// V2CoreAccounts is the service used to invoke /v2/core/accounts APIs.
@@ -440,6 +438,8 @@ type Client struct {
 	V2CoreAccountsPersonTokens *v2CoreAccountsPersonTokenService
 	// V2CoreAccountTokens is the service used to invoke /v2/core/account_tokens APIs.
 	V2CoreAccountTokens *v2CoreAccountTokenService
+	// V2CoreBatchJobs is the service used to invoke /v2/core/batch_jobs APIs.
+	V2CoreBatchJobs *v2CoreBatchJobService
 	// V2CoreClaimableSandboxes is the service used to invoke /v2/core/claimable_sandboxes APIs.
 	V2CoreClaimableSandboxes *v2CoreClaimableSandboxService
 	// V2CoreConnectionSessions is the service used to invoke /v2/core/connection_sessions APIs.
@@ -732,7 +732,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2BillingIntentsActions = &v2BillingIntentsActionService{B: backends.API, Key: key}
 	client.V2BillingLicensedItems = &v2BillingLicensedItemService{B: backends.API, Key: key}
 	client.V2BillingLicenseFees = &v2BillingLicenseFeeService{B: backends.API, Key: key}
-	client.V2BillingLicenseFeeSubscriptions = &v2BillingLicenseFeeSubscriptionService{B: backends.API, Key: key}
 	client.V2BillingLicenseFeesVersions = &v2BillingLicenseFeesVersionService{B: backends.API, Key: key}
 	client.V2BillingMeteredItems = &v2BillingMeteredItemService{B: backends.API, Key: key}
 	client.V2BillingMeterEventAdjustments = &v2BillingMeterEventAdjustmentService{B: backends.API, Key: key}
@@ -743,7 +742,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2BillingPricingPlans = &v2BillingPricingPlanService{B: backends.API, Key: key}
 	client.V2BillingPricingPlansComponents = &v2BillingPricingPlansComponentService{B: backends.API, Key: key}
 	client.V2BillingPricingPlanSubscriptions = &v2BillingPricingPlanSubscriptionService{B: backends.API, Key: key}
-	client.V2BillingPricingPlanSubscriptionsComponents = &v2BillingPricingPlanSubscriptionsComponentService{B: backends.API, Key: key}
 	client.V2BillingPricingPlansVersions = &v2BillingPricingPlansVersionService{B: backends.API, Key: key}
 	client.V2BillingProfiles = &v2BillingProfileService{B: backends.API, Key: key}
 	client.V2BillingRateCards = &v2BillingRateCardService{B: backends.API, Key: key}
@@ -752,11 +750,13 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2BillingRateCardSubscriptions = &v2BillingRateCardSubscriptionService{B: backends.API, Key: key}
 	client.V2BillingRateCardsVersions = &v2BillingRateCardsVersionService{B: backends.API, Key: key}
 	client.V2BillingServiceActions = &v2BillingServiceActionService{B: backends.API, Key: key}
+	client.V2CoreAccountEvaluations = &v2CoreAccountEvaluationService{B: backends.API, Key: key}
 	client.V2CoreAccountLinks = &v2CoreAccountLinkService{B: backends.API, Key: key}
 	client.V2CoreAccounts = &v2CoreAccountService{B: backends.API, Key: key}
 	client.V2CoreAccountsPersons = &v2CoreAccountsPersonService{B: backends.API, Key: key}
 	client.V2CoreAccountsPersonTokens = &v2CoreAccountsPersonTokenService{B: backends.API, Key: key}
 	client.V2CoreAccountTokens = &v2CoreAccountTokenService{B: backends.API, Key: key}
+	client.V2CoreBatchJobs = &v2CoreBatchJobService{B: backends.API, Key: key}
 	client.V2CoreClaimableSandboxes = &v2CoreClaimableSandboxService{B: backends.API, Key: key}
 	client.V2CoreConnectionSessions = &v2CoreConnectionSessionService{B: backends.API, Key: key}
 	client.V2CoreEventDestinations = &v2CoreEventDestinationService{B: backends.API, Key: key}

@@ -71,25 +71,34 @@ type V2MoneyManagementTransactionEntryTransactionDetailsFlowType string
 
 // List of values that V2MoneyManagementTransactionEntryTransactionDetailsFlowType can take
 const (
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeAdjustment           V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "adjustment"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeApplicationFee       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "application_fee"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeApplicationFeeRefund V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "application_fee_refund"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeCharge               V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "charge"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeCurrencyConversion   V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "currency_conversion"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeDispute              V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "dispute"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeFeeTransaction       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "fee_transaction"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeInboundTransfer      V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "inbound_transfer"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundPayment      V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_payment"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundTransfer     V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_transfer"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypePayout               V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "payout"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedCredit       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_credit"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedDebit        V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_debit"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeRefund               V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "refund"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReserveHold          V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "reserve_hold"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReserveRelease       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "reserve_release"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTopup                V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "topup"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTransfer             V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "transfer"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTransferReversal     V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "transfer_reversal"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeAdjustment                   V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "adjustment"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeApplicationFee               V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "application_fee"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeApplicationFeeRefund         V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "application_fee_refund"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeCharge                       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "charge"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeCurrencyConversion           V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "currency_conversion"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeDispute                      V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "dispute"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeFeeTransaction               V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "fee_transaction"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeInboundTransfer              V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "inbound_transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundPayment              V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_payment"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundTransfer             V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypePayout                       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "payout"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedCredit               V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_credit"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedDebit                V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_debit"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeRefund                       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "refund"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReserveHold                  V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "reserve_hold"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReserveRelease               V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "reserve_release"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTopup                        V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "topup"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTransfer                     V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTransferReversal             V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "transfer_reversal"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTreasuryCreditReversal       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "treasury_credit_reversal"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTreasuryDebitReversal        V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "treasury_debit_reversal"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTreasuryInboundTransfer      V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "treasury_inbound_transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTreasuryIssuingAuthorization V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "treasury_issuing_authorization"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTreasuryOther                V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "treasury_other"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTreasuryOutboundPayment      V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "treasury_outbound_payment"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTreasuryOutboundTransfer     V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "treasury_outbound_transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTreasuryReceivedCredit       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "treasury_received_credit"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTreasuryReceivedDebit        V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "treasury_received_debit"
 )
 
 // The delta to the FinancialAccount's balance.
@@ -142,6 +151,22 @@ type V2MoneyManagementTransactionEntryTransactionDetailsFlow struct {
 	Transfer string `json:"transfer,omitempty"`
 	// If applicable, the ID of the Transfer Reversal that created this Transaction.
 	TransferReversal string `json:"transfer_reversal,omitempty"`
+	// If applicable, the ID of the Treasury CreditReversal that created this Transaction.
+	TreasuryCreditReversal string `json:"treasury_credit_reversal,omitempty"`
+	// If applicable, the ID of the Treasury DebitReversal that created this Transaction.
+	TreasuryDebitReversal string `json:"treasury_debit_reversal,omitempty"`
+	// If applicable, the ID of the Treasury InboundTransfer that created this Transaction.
+	TreasuryInboundTransfer string `json:"treasury_inbound_transfer,omitempty"`
+	// If applicable, the ID of the Treasury IssuingAuthorization that created this Transaction.
+	TreasuryIssuingAuthorization string `json:"treasury_issuing_authorization,omitempty"`
+	// If applicable, the ID of the Treasury OutboundPayment that created this Transaction.
+	TreasuryOutboundPayment string `json:"treasury_outbound_payment,omitempty"`
+	// If applicable, the ID of the Treasury OutboundTransfer that created this Transaction.
+	TreasuryOutboundTransfer string `json:"treasury_outbound_transfer,omitempty"`
+	// If applicable, the ID of the Treasury ReceivedCredit that created this Transaction.
+	TreasuryReceivedCredit string `json:"treasury_received_credit,omitempty"`
+	// If applicable, the ID of the Treasury ReceivedDebit that created this Transaction.
+	TreasuryReceivedDebit string `json:"treasury_received_debit,omitempty"`
 	// Open Enum. Type of the flow that created the Transaction. The field matching this value will contain the ID of the flow.
 	Type V2MoneyManagementTransactionEntryTransactionDetailsFlowType `json:"type"`
 }
@@ -175,4 +200,6 @@ type V2MoneyManagementTransactionEntry struct {
 	Transaction string `json:"transaction"`
 	// Details copied from the transaction that this TransactionEntry belongs to.
 	TransactionDetails *V2MoneyManagementTransactionEntryTransactionDetails `json:"transaction_details"`
+	// The v1 Treasury transaction entry associated with this transaction entry.
+	TreasuryTransactionEntry string `json:"treasury_transaction_entry,omitempty"`
 }

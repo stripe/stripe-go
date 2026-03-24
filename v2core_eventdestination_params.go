@@ -23,6 +23,16 @@ type V2CoreEventDestinationAmazonEventbridgeParams struct {
 	AwsRegion *string `form:"aws_region" json:"aws_region"`
 }
 
+// Azure Event Grid configuration.
+type V2CoreEventDestinationAzureEventGridParams struct {
+	// The Azure region.
+	AzureRegion *string `form:"azure_region" json:"azure_region"`
+	// The name of the Azure resource group.
+	AzureResourceGroupName *string `form:"azure_resource_group_name" json:"azure_resource_group_name"`
+	// The Azure subscription ID.
+	AzureSubscriptionID *string `form:"azure_subscription_id" json:"azure_subscription_id"`
+}
+
 // Webhook endpoint configuration.
 type V2CoreEventDestinationWebhookEndpointParams struct {
 	// The URL of the webhook endpoint.
@@ -34,13 +44,19 @@ type V2CoreEventDestinationParams struct {
 	Params `form:"*"`
 	// Amazon EventBridge configuration.
 	AmazonEventbridge *V2CoreEventDestinationAmazonEventbridgeParams `form:"amazon_eventbridge" json:"amazon_eventbridge,omitempty"`
+	// Azure Event Grid configuration.
+	AzureEventGrid *V2CoreEventDestinationAzureEventGridParams `form:"azure_event_grid" json:"azure_event_grid,omitempty"`
 	// An optional description of what the event destination is used for.
 	Description *string `form:"description" json:"description,omitempty"`
 	// The list of events to enable for this endpoint.
 	EnabledEvents []*string `form:"enabled_events" json:"enabled_events,omitempty"`
 	// Payload type of events being subscribed to.
 	EventPayload *string `form:"event_payload" json:"event_payload,omitempty"`
-	// Where events should be routed from.
+	// Specifies which accounts' events route to this destination.
+	// `@self`: Receive events from the account that owns the event destination.
+	// `@accounts`: Receive events emitted from other accounts you manage which includes your v1 and v2 accounts.
+	// `@organization_members`: Receive events from accounts directly linked to the organization.
+	// `@organization_members/@accounts`: Receive events from all accounts connected to any platform accounts in the organization.
 	EventsFrom []*string `form:"events_from" json:"events_from,omitempty"`
 	// Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
 	Include []*string `form:"include" json:"include,omitempty"`
@@ -88,6 +104,16 @@ type V2CoreEventDestinationCreateAmazonEventbridgeParams struct {
 	AwsRegion *string `form:"aws_region" json:"aws_region"`
 }
 
+// Azure Event Grid configuration.
+type V2CoreEventDestinationCreateAzureEventGridParams struct {
+	// The Azure region.
+	AzureRegion *string `form:"azure_region" json:"azure_region"`
+	// The name of the Azure resource group.
+	AzureResourceGroupName *string `form:"azure_resource_group_name" json:"azure_resource_group_name"`
+	// The Azure subscription ID.
+	AzureSubscriptionID *string `form:"azure_subscription_id" json:"azure_subscription_id"`
+}
+
 // Webhook endpoint configuration.
 type V2CoreEventDestinationCreateWebhookEndpointParams struct {
 	// The URL of the webhook endpoint.
@@ -99,13 +125,19 @@ type V2CoreEventDestinationCreateParams struct {
 	Params `form:"*"`
 	// Amazon EventBridge configuration.
 	AmazonEventbridge *V2CoreEventDestinationCreateAmazonEventbridgeParams `form:"amazon_eventbridge" json:"amazon_eventbridge,omitempty"`
+	// Azure Event Grid configuration.
+	AzureEventGrid *V2CoreEventDestinationCreateAzureEventGridParams `form:"azure_event_grid" json:"azure_event_grid,omitempty"`
 	// An optional description of what the event destination is used for.
 	Description *string `form:"description" json:"description,omitempty"`
 	// The list of events to enable for this endpoint.
 	EnabledEvents []*string `form:"enabled_events" json:"enabled_events"`
 	// Payload type of events being subscribed to.
 	EventPayload *string `form:"event_payload" json:"event_payload"`
-	// Where events should be routed from.
+	// Specifies which accounts' events route to this destination.
+	// `@self`: Receive events from the account that owns the event destination.
+	// `@accounts`: Receive events emitted from other accounts you manage which includes your v1 and v2 accounts.
+	// `@organization_members`: Receive events from accounts directly linked to the organization.
+	// `@organization_members/@accounts`: Receive events from all accounts connected to any platform accounts in the organization.
 	EventsFrom []*string `form:"events_from" json:"events_from,omitempty"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`

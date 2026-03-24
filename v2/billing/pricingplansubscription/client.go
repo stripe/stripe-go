@@ -46,6 +46,19 @@ func (c Client) Update(id string, params *stripe.V2BillingPricingPlanSubscriptio
 	return pricingplansubscription, err
 }
 
+// Remove Discounts from a Pricing Plan Subscription.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) RemoveDiscounts(id string, params *stripe.V2BillingPricingPlanSubscriptionRemoveDiscountsParams) (*stripe.V2BillingPricingPlanSubscription, error) {
+	path := stripe.FormatURLPath(
+		"/v2/billing/pricing_plan_subscriptions/%s/remove_discounts", id)
+	pricingplansubscription := &stripe.V2BillingPricingPlanSubscription{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, pricingplansubscription)
+	return pricingplansubscription, err
+}
+
 // List all Pricing Plan Subscription objects.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.

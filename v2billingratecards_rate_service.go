@@ -57,7 +57,7 @@ func (c v2BillingRateCardsRateService) Delete(ctx context.Context, id string, pa
 	return deletedObj, err
 }
 
-// List all Rates associated with a Rate Card for a specific version (defaults to latest). Rates remain active for all subsequent versions until a new rate is created for the same Metered Item.
+// List all Rates associated with a Rate Card for a specific version. Defaults to latest. Rates remain active for all subsequent versions until a new rate is created for the same Metered Item.
 func (c v2BillingRateCardsRateService) List(ctx context.Context, listParams *V2BillingRateCardsRateListParams) *V2List[*V2BillingRateCardRate] {
 	if listParams == nil {
 		listParams = &V2BillingRateCardsRateListParams{}

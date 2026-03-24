@@ -32,8 +32,12 @@ const (
 
 // Breakdown of the amount for this Billing Intent.
 type V2BillingIntentAmountDetails struct {
+	// The outstanding amount after discount, tax, and customer balance application.
+	AmountDue string `json:"amount_due"`
 	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency Currency `json:"currency"`
+	// The customer's account balance applied to the amount.
+	CustomerBalanceApplied string `json:"customer_balance_applied"`
 	// Amount of discount applied.
 	Discount string `json:"discount"`
 	// Amount of shipping charges.
@@ -46,6 +50,12 @@ type V2BillingIntentAmountDetails struct {
 	Total string `json:"total"`
 }
 
+// Invoice resources associated with this Billing Intent. Populated when include parameters are specified.
+type V2BillingIntentInvoiceResources struct {
+	// ID of a preview invoice showing the breakdown of line items. Null if the billing intent will not create an invoice. Only present when "invoice_resources.preview_invoice" is included.
+	PreviewInvoice string `json:"preview_invoice,omitempty"`
+}
+
 // Timestamps for status transitions of the Billing Intent.
 type V2BillingIntentStatusTransitions struct {
 	// Time at which the Billing Intent was canceled.
@@ -54,6 +64,8 @@ type V2BillingIntentStatusTransitions struct {
 	CommittedAt time.Time `json:"committed_at,omitempty"`
 	// Time at which the Billing Intent was drafted.
 	DraftedAt time.Time `json:"drafted_at,omitempty"`
+	// Time at which the Billing Intent will expire.
+	ExpiresAt time.Time `json:"expires_at"`
 	// Time at which the Billing Intent was reserved.
 	ReservedAt time.Time `json:"reserved_at,omitempty"`
 }
@@ -238,6 +250,8 @@ type V2BillingIntent struct {
 	Currency Currency `json:"currency"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// Invoice resources associated with this Billing Intent. Populated when include parameters are specified.
+	InvoiceResources *V2BillingIntentInvoiceResources `json:"invoice_resources,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
