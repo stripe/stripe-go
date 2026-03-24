@@ -118,7 +118,20 @@ type RefundParams struct {
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount).
 	//
 	// A transfer can be reversed only by the application that created the charge.
-	ReverseTransfer *bool `form:"reverse_transfer"`
+	ReverseTransfer *bool                    `form:"reverse_transfer"`
+	UnsetFields     []RefundParamsUnsetField `form:"-" json:"-"`
+}
+
+// RefundParamsUnsetField is the list of fields that can be cleared/unset on RefundParams.
+type RefundParamsUnsetField string
+
+const (
+	RefundParamsUnsetFieldMetadata RefundParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *RefundParams) AddUnsetField(field RefundParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -186,7 +199,20 @@ type RefundCreateParams struct {
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount).
 	//
 	// A transfer can be reversed only by the application that created the charge.
-	ReverseTransfer *bool `form:"reverse_transfer"`
+	ReverseTransfer *bool                          `form:"reverse_transfer"`
+	UnsetFields     []RefundCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// RefundCreateParamsUnsetField is the list of fields that can be cleared/unset on RefundCreateParams.
+type RefundCreateParamsUnsetField string
+
+const (
+	RefundCreateParamsUnsetFieldMetadata RefundCreateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *RefundCreateParams) AddUnsetField(field RefundCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -223,7 +249,20 @@ type RefundUpdateParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata    map[string]string              `form:"metadata"`
+	UnsetFields []RefundUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// RefundUpdateParamsUnsetField is the list of fields that can be cleared/unset on RefundUpdateParams.
+type RefundUpdateParamsUnsetField string
+
+const (
+	RefundUpdateParamsUnsetFieldMetadata RefundUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *RefundUpdateParams) AddUnsetField(field RefundUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

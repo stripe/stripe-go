@@ -295,10 +295,24 @@ type IssuingCardParams struct {
 	// Dictates whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`. If this card is being canceled because it was lost or stolen, this information should be provided as `cancellation_reason`.
 	Status *string `form:"status"`
 	// The type of card to issue. Possible values are `physical` or `virtual`.
-	Type *string `form:"type"`
+	Type        *string                       `form:"type"`
+	UnsetFields []IssuingCardParamsUnsetField `form:"-" json:"-"`
 	// The following parameter is only supported when updating a card
 	// Reason why the `status` of this card is `canceled`.
 	CancellationReason *string `form:"cancellation_reason"`
+}
+
+// IssuingCardParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardParams.
+type IssuingCardParamsUnsetField string
+
+const (
+	IssuingCardParamsUnsetFieldMetadata   IssuingCardParamsUnsetField = "metadata"
+	IssuingCardParamsUnsetFieldSecondLine IssuingCardParamsUnsetField = "second_line"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingCardParams) AddUnsetField(field IssuingCardParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -425,7 +439,20 @@ type IssuingCardCreateParams struct {
 	// Whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`.
 	Status *string `form:"status"`
 	// The type of card to issue. Possible values are `physical` or `virtual`.
-	Type *string `form:"type"`
+	Type        *string                             `form:"type"`
+	UnsetFields []IssuingCardCreateParamsUnsetField `form:"-" json:"-"`
+}
+
+// IssuingCardCreateParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardCreateParams.
+type IssuingCardCreateParamsUnsetField string
+
+const (
+	IssuingCardCreateParamsUnsetFieldSecondLine IssuingCardCreateParamsUnsetField = "second_line"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingCardCreateParams) AddUnsetField(field IssuingCardCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -533,7 +560,20 @@ type IssuingCardUpdateParams struct {
 	// Rules that control spending for this card. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardUpdateSpendingControlsParams `form:"spending_controls"`
 	// Dictates whether authorizations can be approved on this card. May be blocked from activating cards depending on past-due Cardholder requirements. Defaults to `inactive`. If this card is being canceled because it was lost or stolen, this information should be provided as `cancellation_reason`.
-	Status *string `form:"status"`
+	Status      *string                             `form:"status"`
+	UnsetFields []IssuingCardUpdateParamsUnsetField `form:"-" json:"-"`
+}
+
+// IssuingCardUpdateParamsUnsetField is the list of fields that can be cleared/unset on IssuingCardUpdateParams.
+type IssuingCardUpdateParamsUnsetField string
+
+const (
+	IssuingCardUpdateParamsUnsetFieldMetadata IssuingCardUpdateParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *IssuingCardUpdateParams) AddUnsetField(field IssuingCardUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

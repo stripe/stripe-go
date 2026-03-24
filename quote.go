@@ -271,7 +271,21 @@ type QuoteLineItemParams struct {
 	// The quantity of the line item.
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the quote do not apply to this line item.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                       `form:"tax_rates"`
+	UnsetFields []QuoteLineItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// QuoteLineItemParamsUnsetField is the list of fields that can be cleared/unset on QuoteLineItemParams.
+type QuoteLineItemParamsUnsetField string
+
+const (
+	QuoteLineItemParamsUnsetFieldDiscounts QuoteLineItemParamsUnsetField = "discounts"
+	QuoteLineItemParamsUnsetFieldTaxRates  QuoteLineItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *QuoteLineItemParams) AddUnsetField(field QuoteLineItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Configure behavior for flexible billing mode.
@@ -300,7 +314,22 @@ type QuoteSubscriptionDataParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
-	TrialPeriodDays *int64 `form:"trial_period_days"`
+	TrialPeriodDays *int64                                  `form:"trial_period_days"`
+	UnsetFields     []QuoteSubscriptionDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// QuoteSubscriptionDataParamsUnsetField is the list of fields that can be cleared/unset on QuoteSubscriptionDataParams.
+type QuoteSubscriptionDataParamsUnsetField string
+
+const (
+	QuoteSubscriptionDataParamsUnsetFieldDescription     QuoteSubscriptionDataParamsUnsetField = "description"
+	QuoteSubscriptionDataParamsUnsetFieldEffectiveDate   QuoteSubscriptionDataParamsUnsetField = "effective_date"
+	QuoteSubscriptionDataParamsUnsetFieldTrialPeriodDays QuoteSubscriptionDataParamsUnsetField = "trial_period_days"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *QuoteSubscriptionDataParams) AddUnsetField(field QuoteSubscriptionDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -374,6 +403,27 @@ type QuoteParams struct {
 	TestClock *string `form:"test_clock"`
 	// The data with which to automatically create a Transfer for each of the invoices.
 	TransferData *QuoteTransferDataParams `form:"transfer_data"`
+	UnsetFields  []QuoteParamsUnsetField  `form:"-" json:"-"`
+}
+
+// QuoteParamsUnsetField is the list of fields that can be cleared/unset on QuoteParams.
+type QuoteParamsUnsetField string
+
+const (
+	QuoteParamsUnsetFieldApplicationFeeAmount  QuoteParamsUnsetField = "application_fee_amount"
+	QuoteParamsUnsetFieldApplicationFeePercent QuoteParamsUnsetField = "application_fee_percent"
+	QuoteParamsUnsetFieldDefaultTaxRates       QuoteParamsUnsetField = "default_tax_rates"
+	QuoteParamsUnsetFieldDescription           QuoteParamsUnsetField = "description"
+	QuoteParamsUnsetFieldDiscounts             QuoteParamsUnsetField = "discounts"
+	QuoteParamsUnsetFieldFooter                QuoteParamsUnsetField = "footer"
+	QuoteParamsUnsetFieldHeader                QuoteParamsUnsetField = "header"
+	QuoteParamsUnsetFieldOnBehalfOf            QuoteParamsUnsetField = "on_behalf_of"
+	QuoteParamsUnsetFieldTransferData          QuoteParamsUnsetField = "transfer_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *QuoteParams) AddUnsetField(field QuoteParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -561,7 +611,21 @@ type QuoteCreateLineItemParams struct {
 	// The quantity of the line item.
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the quote do not apply to this line item.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                             `form:"tax_rates"`
+	UnsetFields []QuoteCreateLineItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// QuoteCreateLineItemParamsUnsetField is the list of fields that can be cleared/unset on QuoteCreateLineItemParams.
+type QuoteCreateLineItemParamsUnsetField string
+
+const (
+	QuoteCreateLineItemParamsUnsetFieldDiscounts QuoteCreateLineItemParamsUnsetField = "discounts"
+	QuoteCreateLineItemParamsUnsetFieldTaxRates  QuoteCreateLineItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *QuoteCreateLineItemParams) AddUnsetField(field QuoteCreateLineItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Configure behavior for flexible billing mode.
@@ -590,7 +654,21 @@ type QuoteCreateSubscriptionDataParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
-	TrialPeriodDays *int64 `form:"trial_period_days"`
+	TrialPeriodDays *int64                                        `form:"trial_period_days"`
+	UnsetFields     []QuoteCreateSubscriptionDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// QuoteCreateSubscriptionDataParamsUnsetField is the list of fields that can be cleared/unset on QuoteCreateSubscriptionDataParams.
+type QuoteCreateSubscriptionDataParamsUnsetField string
+
+const (
+	QuoteCreateSubscriptionDataParamsUnsetFieldEffectiveDate   QuoteCreateSubscriptionDataParamsUnsetField = "effective_date"
+	QuoteCreateSubscriptionDataParamsUnsetFieldTrialPeriodDays QuoteCreateSubscriptionDataParamsUnsetField = "trial_period_days"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *QuoteCreateSubscriptionDataParams) AddUnsetField(field QuoteCreateSubscriptionDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -664,6 +742,27 @@ type QuoteCreateParams struct {
 	TestClock *string `form:"test_clock"`
 	// The data with which to automatically create a Transfer for each of the invoices.
 	TransferData *QuoteCreateTransferDataParams `form:"transfer_data"`
+	UnsetFields  []QuoteCreateParamsUnsetField  `form:"-" json:"-"`
+}
+
+// QuoteCreateParamsUnsetField is the list of fields that can be cleared/unset on QuoteCreateParams.
+type QuoteCreateParamsUnsetField string
+
+const (
+	QuoteCreateParamsUnsetFieldApplicationFeeAmount  QuoteCreateParamsUnsetField = "application_fee_amount"
+	QuoteCreateParamsUnsetFieldApplicationFeePercent QuoteCreateParamsUnsetField = "application_fee_percent"
+	QuoteCreateParamsUnsetFieldDefaultTaxRates       QuoteCreateParamsUnsetField = "default_tax_rates"
+	QuoteCreateParamsUnsetFieldDescription           QuoteCreateParamsUnsetField = "description"
+	QuoteCreateParamsUnsetFieldDiscounts             QuoteCreateParamsUnsetField = "discounts"
+	QuoteCreateParamsUnsetFieldFooter                QuoteCreateParamsUnsetField = "footer"
+	QuoteCreateParamsUnsetFieldHeader                QuoteCreateParamsUnsetField = "header"
+	QuoteCreateParamsUnsetFieldOnBehalfOf            QuoteCreateParamsUnsetField = "on_behalf_of"
+	QuoteCreateParamsUnsetFieldTransferData          QuoteCreateParamsUnsetField = "transfer_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *QuoteCreateParams) AddUnsetField(field QuoteCreateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
@@ -781,7 +880,21 @@ type QuoteUpdateLineItemParams struct {
 	// The quantity of the line item.
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the quote do not apply to this line item.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates    []*string                             `form:"tax_rates"`
+	UnsetFields []QuoteUpdateLineItemParamsUnsetField `form:"-" json:"-"`
+}
+
+// QuoteUpdateLineItemParamsUnsetField is the list of fields that can be cleared/unset on QuoteUpdateLineItemParams.
+type QuoteUpdateLineItemParamsUnsetField string
+
+const (
+	QuoteUpdateLineItemParamsUnsetFieldDiscounts QuoteUpdateLineItemParamsUnsetField = "discounts"
+	QuoteUpdateLineItemParamsUnsetFieldTaxRates  QuoteUpdateLineItemParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *QuoteUpdateLineItemParams) AddUnsetField(field QuoteUpdateLineItemParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
@@ -794,7 +907,22 @@ type QuoteUpdateSubscriptionDataParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
-	TrialPeriodDays *int64 `form:"trial_period_days"`
+	TrialPeriodDays *int64                                        `form:"trial_period_days"`
+	UnsetFields     []QuoteUpdateSubscriptionDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// QuoteUpdateSubscriptionDataParamsUnsetField is the list of fields that can be cleared/unset on QuoteUpdateSubscriptionDataParams.
+type QuoteUpdateSubscriptionDataParamsUnsetField string
+
+const (
+	QuoteUpdateSubscriptionDataParamsUnsetFieldDescription     QuoteUpdateSubscriptionDataParamsUnsetField = "description"
+	QuoteUpdateSubscriptionDataParamsUnsetFieldEffectiveDate   QuoteUpdateSubscriptionDataParamsUnsetField = "effective_date"
+	QuoteUpdateSubscriptionDataParamsUnsetFieldTrialPeriodDays QuoteUpdateSubscriptionDataParamsUnsetField = "trial_period_days"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *QuoteUpdateSubscriptionDataParams) AddUnsetField(field QuoteUpdateSubscriptionDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -864,6 +992,27 @@ type QuoteUpdateParams struct {
 	SubscriptionData *QuoteUpdateSubscriptionDataParams `form:"subscription_data"`
 	// The data with which to automatically create a Transfer for each of the invoices.
 	TransferData *QuoteUpdateTransferDataParams `form:"transfer_data"`
+	UnsetFields  []QuoteUpdateParamsUnsetField  `form:"-" json:"-"`
+}
+
+// QuoteUpdateParamsUnsetField is the list of fields that can be cleared/unset on QuoteUpdateParams.
+type QuoteUpdateParamsUnsetField string
+
+const (
+	QuoteUpdateParamsUnsetFieldApplicationFeeAmount  QuoteUpdateParamsUnsetField = "application_fee_amount"
+	QuoteUpdateParamsUnsetFieldApplicationFeePercent QuoteUpdateParamsUnsetField = "application_fee_percent"
+	QuoteUpdateParamsUnsetFieldDefaultTaxRates       QuoteUpdateParamsUnsetField = "default_tax_rates"
+	QuoteUpdateParamsUnsetFieldDescription           QuoteUpdateParamsUnsetField = "description"
+	QuoteUpdateParamsUnsetFieldDiscounts             QuoteUpdateParamsUnsetField = "discounts"
+	QuoteUpdateParamsUnsetFieldFooter                QuoteUpdateParamsUnsetField = "footer"
+	QuoteUpdateParamsUnsetFieldHeader                QuoteUpdateParamsUnsetField = "header"
+	QuoteUpdateParamsUnsetFieldOnBehalfOf            QuoteUpdateParamsUnsetField = "on_behalf_of"
+	QuoteUpdateParamsUnsetFieldTransferData          QuoteUpdateParamsUnsetField = "transfer_data"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *QuoteUpdateParams) AddUnsetField(field QuoteUpdateParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.

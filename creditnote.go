@@ -171,7 +171,21 @@ type CreditNoteLineParams struct {
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                         `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []CreditNoteLineParamsUnsetField `form:"-" json:"-"`
+}
+
+// CreditNoteLineParamsUnsetField is the list of fields that can be cleared/unset on CreditNoteLineParams.
+type CreditNoteLineParamsUnsetField string
+
+const (
+	CreditNoteLineParamsUnsetFieldTaxAmounts CreditNoteLineParamsUnsetField = "tax_amounts"
+	CreditNoteLineParamsUnsetFieldTaxRates   CreditNoteLineParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CreditNoteLineParams) AddUnsetField(field CreditNoteLineParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -297,7 +311,21 @@ type CreditNotePreviewLineParams struct {
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                                `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []CreditNotePreviewLineParamsUnsetField `form:"-" json:"-"`
+}
+
+// CreditNotePreviewLineParamsUnsetField is the list of fields that can be cleared/unset on CreditNotePreviewLineParams.
+type CreditNotePreviewLineParamsUnsetField string
+
+const (
+	CreditNotePreviewLineParamsUnsetFieldTaxAmounts CreditNotePreviewLineParamsUnsetField = "tax_amounts"
+	CreditNotePreviewLineParamsUnsetFieldTaxRates   CreditNotePreviewLineParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CreditNotePreviewLineParams) AddUnsetField(field CreditNotePreviewLineParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -413,7 +441,21 @@ type CreditNotePreviewLinesLineParams struct {
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                                     `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []CreditNotePreviewLinesLineParamsUnsetField `form:"-" json:"-"`
+}
+
+// CreditNotePreviewLinesLineParamsUnsetField is the list of fields that can be cleared/unset on CreditNotePreviewLinesLineParams.
+type CreditNotePreviewLinesLineParamsUnsetField string
+
+const (
+	CreditNotePreviewLinesLineParamsUnsetFieldTaxAmounts CreditNotePreviewLinesLineParamsUnsetField = "tax_amounts"
+	CreditNotePreviewLinesLineParamsUnsetFieldTaxRates   CreditNotePreviewLinesLineParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CreditNotePreviewLinesLineParams) AddUnsetField(field CreditNotePreviewLinesLineParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -554,7 +596,21 @@ type CreditNoteCreateLineParams struct {
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                               `form:"unit_amount_decimal,high_precision"`
+	UnsetFields       []CreditNoteCreateLineParamsUnsetField `form:"-" json:"-"`
+}
+
+// CreditNoteCreateLineParamsUnsetField is the list of fields that can be cleared/unset on CreditNoteCreateLineParams.
+type CreditNoteCreateLineParamsUnsetField string
+
+const (
+	CreditNoteCreateLineParamsUnsetFieldTaxAmounts CreditNoteCreateLineParamsUnsetField = "tax_amounts"
+	CreditNoteCreateLineParamsUnsetFieldTaxRates   CreditNoteCreateLineParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CreditNoteCreateLineParams) AddUnsetField(field CreditNoteCreateLineParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
