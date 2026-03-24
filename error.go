@@ -189,6 +189,7 @@ const (
 	ErrorCodeSEPAUnsupportedAccount                                      ErrorCode = "sepa_unsupported_account"
 	ErrorCodeSKUInactive                                                 ErrorCode = "sku_inactive"
 	ErrorCodeSecretKeyRequired                                           ErrorCode = "secret_key_required"
+	ErrorCodeServicePeriodCouponWithMeteredTieredItemUnsupported         ErrorCode = "service_period_coupon_with_metered_tiered_item_unsupported"
 	ErrorCodeSetupAttemptFailed                                          ErrorCode = "setup_attempt_failed"
 	ErrorCodeSetupIntentAuthenticationFailure                            ErrorCode = "setup_intent_authentication_failure"
 	ErrorCodeSetupIntentInvalidParameter                                 ErrorCode = "setup_intent_invalid_parameter"

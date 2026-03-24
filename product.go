@@ -567,7 +567,7 @@ type Product struct {
 	ID string `json:"id"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 	Images []string `json:"images"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://docs.stripe.com/payments/checkout/pricing-table).
 	MarketingFeatures []*ProductMarketingFeature `json:"marketing_features"`

@@ -12,7 +12,7 @@ type EntitlementsActiveEntitlementSummary struct {
 	Customer string `json:"customer"`
 	// The list of entitlements this customer has.
 	Entitlements *EntitlementsActiveEntitlementList `json:"entitlements"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
