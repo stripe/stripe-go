@@ -120,40 +120,40 @@ type CardParams struct {
 	Account  *string `form:"-"` // Included in URL
 	Customer *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account.
-	AccountHolderName *string `form:"account_holder_name"`
+	AccountHolderName *string `form:"account_holder_name" json:"account_holder_name,omitempty"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
-	AccountHolderType *string `form:"account_holder_type"`
+	AccountHolderType *string `form:"account_holder_type" json:"account_holder_type,omitempty"`
 	// City / District / Suburb / Town / Village.
-	AddressCity *string `form:"address_city"`
+	AddressCity *string `form:"address_city" json:"address_city,omitempty"`
 	// Billing address country, if provided when creating card.
-	AddressCountry *string `form:"address_country"`
+	AddressCountry *string `form:"address_country" json:"address_country,omitempty"`
 	// Address line 1 (Street address/PO Box/Company name).
-	AddressLine1 *string `form:"address_line1"`
+	AddressLine1 *string `form:"address_line1" json:"address_line1,omitempty"`
 	// Address line 2 (Apartment/Suite/Unit/Building).
-	AddressLine2 *string `form:"address_line2"`
+	AddressLine2 *string `form:"address_line2" json:"address_line2,omitempty"`
 	// State/County/Province/Region.
-	AddressState *string `form:"address_state"`
+	AddressState *string `form:"address_state" json:"address_state,omitempty"`
 	// ZIP or postal code.
-	AddressZip *string `form:"address_zip"`
+	AddressZip *string `form:"address_zip" json:"address_zip,omitempty"`
 	// Required when adding a card to an account (not applicable to customers or recipients). The card (which must be a debit card) can be used as a transfer destination for funds in this currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Card security code. Highly recommended to always include this value, but it's required only for accounts based in European countries.
-	CVC *string `form:"cvc"`
+	CVC *string `form:"cvc" json:"cvc,omitempty"`
 	// Applicable only on accounts (not customers or recipients). If you set this to `true` (or if this is the first external account being added in this currency), this card will become the default external account for its currency.
-	DefaultForCurrency *bool `form:"default_for_currency"`
+	DefaultForCurrency *bool `form:"default_for_currency" json:"default_for_currency,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Two-digit number representing the card's expiration month.
-	ExpMonth *string `form:"exp_month"`
+	ExpMonth *string `form:"exp_month" json:"exp_month,omitempty"`
 	// Two- or -four-digit number representing the card's expiration year.
-	ExpYear *string `form:"exp_year"`
+	ExpYear *string `form:"exp_year" json:"exp_year,omitempty"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Cardholder's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The card number, as a string without any separators.
-	Number      *string                `form:"number"`
-	Owner       *CardOwnerParams       `form:"owner"`
+	Number      *string                `form:"number" json:"number,omitempty"`
+	Owner       *CardOwnerParams       `form:"owner" json:"owner,omitempty"`
 	UnsetFields []CardParamsUnsetField `form:"-" json:"-"`
 	// ID is used when tokenizing a card for shared customers
 	ID string `form:"*"`
@@ -281,21 +281,21 @@ func (p *CardParams) AddMetadata(key string, value string) {
 
 type CardOwnerParams struct {
 	// Owner's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Owner's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Owner's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Owner's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 type CardListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
 	Account    *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	Object *string   `form:"object"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	Object *string   `form:"object" json:"object,omitempty"`
 }
 
 // AppendTo implements custom encoding logic for CardListParams
@@ -318,7 +318,7 @@ type CardDeleteParams struct {
 	Account  *string `form:"-"` // Included in URL
 	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -328,13 +328,13 @@ func (p *CardDeleteParams) AddExpand(f string) {
 
 type CardUpdateOwnerParams struct {
 	// Owner's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Owner's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Owner's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Owner's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Update a specified source for a given customer.
@@ -343,29 +343,29 @@ type CardUpdateParams struct {
 	Account  *string `form:"-"` // Included in URL
 	Customer *string `form:"-"` // Included in URL
 	// City/District/Suburb/Town/Village.
-	AddressCity *string `form:"address_city"`
+	AddressCity *string `form:"address_city" json:"address_city,omitempty"`
 	// Billing address country, if provided when creating card.
-	AddressCountry *string `form:"address_country"`
+	AddressCountry *string `form:"address_country" json:"address_country,omitempty"`
 	// Address line 1 (Street address/PO Box/Company name).
-	AddressLine1 *string `form:"address_line1"`
+	AddressLine1 *string `form:"address_line1" json:"address_line1,omitempty"`
 	// Address line 2 (Apartment/Suite/Unit/Building).
-	AddressLine2 *string `form:"address_line2"`
+	AddressLine2 *string `form:"address_line2" json:"address_line2,omitempty"`
 	// State/County/Province/Region.
-	AddressState *string `form:"address_state"`
+	AddressState *string `form:"address_state" json:"address_state,omitempty"`
 	// ZIP or postal code.
-	AddressZip *string `form:"address_zip"`
+	AddressZip *string `form:"address_zip" json:"address_zip,omitempty"`
 	// Applicable only on accounts (not customers or recipients). If you set this to `true` (or if this is the first external account being added in this currency), this card will become the default external account for its currency.
-	DefaultForCurrency *bool `form:"default_for_currency"`
+	DefaultForCurrency *bool `form:"default_for_currency" json:"default_for_currency,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Two digit number representing the card's expiration month.
-	ExpMonth *string `form:"exp_month"`
+	ExpMonth *string `form:"exp_month" json:"exp_month,omitempty"`
 	// Four digit number representing the card's expiration year.
-	ExpYear *string `form:"exp_year"`
+	ExpYear *string `form:"exp_year" json:"exp_year,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Cardholder name.
-	Name        *string                      `form:"name"`
+	Name        *string                      `form:"name" json:"name,omitempty"`
 	UnsetFields []CardUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -402,35 +402,35 @@ type CardCreateParams struct {
 	Customer *string `form:"-"` // Included in URL
 	Token    *string `form:"-"` // Included in URL
 	// City / District / Suburb / Town / Village.
-	AddressCity *string `form:"address_city"`
+	AddressCity *string `form:"address_city" json:"address_city,omitempty"`
 	// Billing address country, if provided.
-	AddressCountry *string `form:"address_country"`
+	AddressCountry *string `form:"address_country" json:"address_country,omitempty"`
 	// Address line 1 (Street address/PO Box/Company name).
-	AddressLine1 *string `form:"address_line1"`
+	AddressLine1 *string `form:"address_line1" json:"address_line1,omitempty"`
 	// Address line 2 (Apartment/Suite/Unit/Building).
-	AddressLine2 *string `form:"address_line2"`
+	AddressLine2 *string `form:"address_line2" json:"address_line2,omitempty"`
 	// State/County/Province/Region.
-	AddressState *string `form:"address_state"`
+	AddressState *string `form:"address_state" json:"address_state,omitempty"`
 	// ZIP or postal code.
-	AddressZip *string `form:"address_zip"`
+	AddressZip *string `form:"address_zip" json:"address_zip,omitempty"`
 	// Required when adding a card to an account (not applicable to customers or recipients). The card (which must be a debit card) can be used as a transfer destination for funds in this currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Card security code. Highly recommended to always include this value, but it's required only for accounts based in European countries.
-	CVC *string `form:"cvc"`
+	CVC *string `form:"cvc" json:"cvc,omitempty"`
 	// Applicable only on accounts (not customers or recipients). If you set this to `true` (or if this is the first external account being added in this currency), this card will become the default external account for its currency.
-	DefaultForCurrency *bool `form:"default_for_currency"`
+	DefaultForCurrency *bool `form:"default_for_currency" json:"default_for_currency,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Two-digit number representing the card's expiration month.
-	ExpMonth *string `form:"exp_month"`
+	ExpMonth *string `form:"exp_month" json:"exp_month"`
 	// Two- or -four-digit number representing the card's expiration year.
-	ExpYear *string `form:"exp_year"`
+	ExpYear *string `form:"exp_year" json:"exp_year"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Cardholder's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The card number, as a string without any separators.
-	Number      *string                      `form:"number"`
+	Number      *string                      `form:"number" json:"number"`
 	UnsetFields []CardCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -591,7 +591,7 @@ type CardNetworks struct {
 // Related guide: [Card payments with Sources](https://docs.stripe.com/sources/cards)
 type Card struct {
 	APIResource
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// City/District/Suburb/Town/Village.
 	AddressCity string `json:"address_city"`
 	// Billing address country, if provided when creating card.
@@ -609,28 +609,28 @@ type Card struct {
 	// If `address_zip` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressZipCheck CardAddressZipCheck `json:"address_zip_check"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
-	AllowRedisplay CardAllowRedisplay `json:"allow_redisplay"`
+	AllowRedisplay CardAllowRedisplay `json:"allow_redisplay,omitempty"`
 	// A set of available payout methods for this card. Only values from this set should be passed as the `method` when creating a payout.
-	AvailablePayoutMethods []CardAvailablePayoutMethod `json:"available_payout_methods"`
+	AvailablePayoutMethods []CardAvailablePayoutMethod `json:"available_payout_methods,omitempty"`
 	// Card brand. Can be `American Express`, `Cartes Bancaires`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
 	Brand CardBrand `json:"brand"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// Three-letter [ISO code for currency](https://www.iso.org/iso-4217-currency-codes.html) in lowercase. Must be a [supported currency](https://docs.stripe.com/currencies). Only applicable on accounts (not customers or recipients). The card can be used as a transfer destination for funds in this currency. This property is only available when returned as an [External Account](https://docs.stripe.com/api/external_account_cards/object) where [controller.is_controller](https://docs.stripe.com/api/accounts/object#account_object-controller-is_controller) is `true`.
-	Currency Currency `json:"currency"`
+	Currency Currency `json:"currency,omitempty"`
 	// The customer that this card belongs to. This attribute will not be in the card object if the card belongs to an account or recipient instead.
-	Customer *Customer `json:"customer"`
+	Customer *Customer `json:"customer,omitempty"`
 	// If a CVC was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`. A result of unchecked indicates that CVC was provided but hasn't been checked yet. Checks are typically performed when attaching a card to a Customer object, or when creating a charge. For more details, see [Check if a card is valid without a charge](https://support.stripe.com/questions/check-if-a-card-is-valid-without-a-charge).
 	CVCCheck CardCVCCheck `json:"cvc_check"`
 	// Whether this card is the default external account for its currency. This property is only available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
-	DefaultForCurrency bool `json:"default_for_currency"`
-	Deleted            bool `json:"deleted"`
+	DefaultForCurrency bool `json:"default_for_currency,omitempty"`
+	Deleted            bool `json:"deleted,omitempty"`
 	// Description is a succinct summary of the card's information.
 	//
 	// Please note that this field is for internal use only and is not returned
 	// as part of standard API requests.
 	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// (For tokenized numbers only.) The last four digits of the device account number.
 	DynamicLast4 string `json:"dynamic_last4"`
 	// Two-digit number representing the card's expiration month.
@@ -640,7 +640,7 @@ type Card struct {
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
-	Fingerprint string `json:"fingerprint"`
+	Fingerprint string `json:"fingerprint,omitempty"`
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 	Funding CardFunding `json:"funding"`
 	// Unique identifier for the object.
@@ -650,26 +650,26 @@ type Card struct {
 	// Please note that this field is for internal use only and is not returned
 	// as part of standard API requests.
 	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
-	IIN string `json:"iin"`
+	IIN string `json:"iin,omitempty"`
 	// Issuer is a bank or financial institution that provides the card.
 	//
 	// Please note that this field is for internal use only and is not returned
 	// as part of standard API requests.
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Cardholder name.
 	Name     string        `json:"name"`
-	Networks *CardNetworks `json:"networks"`
+	Networks *CardNetworks `json:"networks,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Status of a card based on the card issuer.
 	RegulatedStatus CardRegulatedStatus `json:"regulated_status"`
 	// For external accounts that are cards, possible values are `new` and `errored`. If a payout fails, the status is set to `errored` and [scheduled payouts](https://stripe.com/docs/payouts#payout-schedule) are stopped until account details are updated.
-	Status string `json:"status"`
+	Status string `json:"status,omitempty"`
 	// If the card number is tokenized, this is the method that was used. Can be `android_pay` (includes Google Pay), `apple_pay`, `masterpass`, `visa_checkout`, or null.
 	TokenizationMethod CardTokenizationMethod `json:"tokenization_method"`
 }

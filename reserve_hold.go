@@ -48,7 +48,7 @@ type ReserveHold struct {
 	// Amount reserved. A positive integer representing how much is reserved in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
 	// Amount in cents that can be released from this ReserveHold
-	AmountReleasable int64 `json:"amount_releasable"`
+	AmountReleasable int64 `json:"amount_releasable,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Indicates which party created this ReserveHold.
@@ -58,11 +58,11 @@ type ReserveHold struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Whether there are any funds available to release on this ReserveHold. Note that if the ReserveHold is in the process of being released, this could be false, even though the funds haven't been fully released yet.
-	IsReleasable bool `json:"is_releasable"`
+	IsReleasable bool `json:"is_releasable,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The reason for the ReserveHold.

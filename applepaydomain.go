@@ -9,9 +9,9 @@ package stripe
 // Delete an apple pay domain.
 type ApplePayDomainParams struct {
 	Params     `form:"*"`
-	DomainName *string `form:"domain_name"`
+	DomainName *string `form:"domain_name" json:"domain_name,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -22,9 +22,9 @@ func (p *ApplePayDomainParams) AddExpand(f string) {
 // List apple pay domains.
 type ApplePayDomainListParams struct {
 	ListParams `form:"*"`
-	DomainName *string `form:"domain_name"`
+	DomainName *string `form:"domain_name" json:"domain_name,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -41,7 +41,7 @@ type ApplePayDomainDeleteParams struct {
 type ApplePayDomainRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -52,9 +52,9 @@ func (p *ApplePayDomainRetrieveParams) AddExpand(f string) {
 // Create an apple pay domain.
 type ApplePayDomainCreateParams struct {
 	Params     `form:"*"`
-	DomainName *string `form:"domain_name"`
+	DomainName *string `form:"domain_name" json:"domain_name"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -66,7 +66,7 @@ type ApplePayDomain struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created    int64  `json:"created"`
-	Deleted    bool   `json:"deleted"`
+	Deleted    bool   `json:"deleted,omitempty"`
 	DomainName string `json:"domain_name"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

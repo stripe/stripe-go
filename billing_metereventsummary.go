@@ -12,15 +12,15 @@ type BillingMeterEventSummaryListParams struct {
 	// Unique identifier for the object.
 	ID *string `form:"-"` // Included in URL
 	// The customer for which to fetch event summaries.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer"`
 	// The timestamp from when to stop aggregating meter events (exclusive). Must be aligned with minute boundaries.
-	EndTime *int64 `form:"end_time"`
+	EndTime *int64 `form:"end_time" json:"end_time"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The timestamp from when to start aggregating meter events (inclusive). Must be aligned with minute boundaries.
-	StartTime *int64 `form:"start_time"`
+	StartTime *int64 `form:"start_time" json:"start_time"`
 	// Specifies what granularity to use when generating event summaries. If not specified, a single event summary would be returned for the specified time range. For hourly granularity, start and end times must align with hour boundaries (e.g., 00:00, 01:00, ..., 23:00). For daily granularity, start and end times must align with UTC day boundaries (00:00 UTC).
-	ValueGroupingWindow *string `form:"value_grouping_window"`
+	ValueGroupingWindow *string `form:"value_grouping_window" json:"value_grouping_window,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

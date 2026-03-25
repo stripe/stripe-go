@@ -51,22 +51,22 @@ const (
 // Only return personalization designs with the given preferences.
 type IssuingPersonalizationDesignListPreferencesParams struct {
 	// Only return the personalization design that's set as the default. A connected account uses the Connect platform's default design if no personalization design is set as the default.
-	IsDefault *bool `form:"is_default"`
+	IsDefault *bool `form:"is_default" json:"is_default,omitempty"`
 	// Only return the personalization design that is set as the Connect platform's default. This parameter is only applicable to connected accounts.
-	IsPlatformDefault *bool `form:"is_platform_default"`
+	IsPlatformDefault *bool `form:"is_platform_default" json:"is_platform_default,omitempty"`
 }
 
 // Returns a list of personalization design objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingPersonalizationDesignListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return personalization designs with the given lookup keys.
-	LookupKeys []*string `form:"lookup_keys"`
+	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
 	// Only return personalization designs with the given preferences.
-	Preferences *IssuingPersonalizationDesignListPreferencesParams `form:"preferences"`
+	Preferences *IssuingPersonalizationDesignListPreferencesParams `form:"preferences" json:"preferences,omitempty"`
 	// Only return personalization designs with the given status.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -77,13 +77,13 @@ func (p *IssuingPersonalizationDesignListParams) AddExpand(f string) {
 // Hash containing carrier text, for use with physical bundles that support carrier text.
 type IssuingPersonalizationDesignCarrierTextParams struct {
 	// The footer body text of the carrier letter.
-	FooterBody *string `form:"footer_body"`
+	FooterBody *string `form:"footer_body" json:"footer_body,omitempty"`
 	// The footer title text of the carrier letter.
-	FooterTitle *string `form:"footer_title"`
+	FooterTitle *string `form:"footer_title" json:"footer_title,omitempty"`
 	// The header body text of the carrier letter.
-	HeaderBody *string `form:"header_body"`
+	HeaderBody *string `form:"header_body" json:"header_body,omitempty"`
 	// The header title text of the carrier letter.
-	HeaderTitle *string                                                   `form:"header_title"`
+	HeaderTitle *string                                                   `form:"header_title" json:"header_title,omitempty"`
 	UnsetFields []IssuingPersonalizationDesignCarrierTextParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -105,30 +105,30 @@ func (p *IssuingPersonalizationDesignCarrierTextParams) AddUnsetField(field Issu
 // Information on whether this personalization design is used to create cards when one is not specified.
 type IssuingPersonalizationDesignPreferencesParams struct {
 	// Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
-	IsDefault *bool `form:"is_default"`
+	IsDefault *bool `form:"is_default" json:"is_default"`
 }
 
 // Creates a personalization design object.
 type IssuingPersonalizationDesignParams struct {
 	Params `form:"*"`
 	// The file for the card logo, for use with physical bundles that support card logos. Must have a `purpose` value of `issuing_logo`.
-	CardLogo *string `form:"card_logo"`
+	CardLogo *string `form:"card_logo" json:"card_logo,omitempty"`
 	// Hash containing carrier text, for use with physical bundles that support carrier text.
-	CarrierText *IssuingPersonalizationDesignCarrierTextParams `form:"carrier_text"`
+	CarrierText *IssuingPersonalizationDesignCarrierTextParams `form:"carrier_text" json:"carrier_text,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters.
-	LookupKey *string `form:"lookup_key"`
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Friendly display name. Providing an empty string will set the field to null.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The physical bundle object belonging to this personalization design.
-	PhysicalBundle *string `form:"physical_bundle"`
+	PhysicalBundle *string `form:"physical_bundle" json:"physical_bundle,omitempty"`
 	// Information on whether this personalization design is used to create cards when one is not specified.
-	Preferences *IssuingPersonalizationDesignPreferencesParams `form:"preferences"`
+	Preferences *IssuingPersonalizationDesignPreferencesParams `form:"preferences" json:"preferences,omitempty"`
 	// If set to true, will atomically remove the lookup key from the existing personalization design, and assign it to this personalization design.
-	TransferLookupKey *bool                                          `form:"transfer_lookup_key"`
+	TransferLookupKey *bool                                          `form:"transfer_lookup_key" json:"transfer_lookup_key,omitempty"`
 	UnsetFields       []IssuingPersonalizationDesignParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -164,13 +164,13 @@ func (p *IssuingPersonalizationDesignParams) AddMetadata(key string, value strin
 // Hash containing carrier text, for use with physical bundles that support carrier text.
 type IssuingPersonalizationDesignCreateCarrierTextParams struct {
 	// The footer body text of the carrier letter.
-	FooterBody *string `form:"footer_body"`
+	FooterBody *string `form:"footer_body" json:"footer_body,omitempty"`
 	// The footer title text of the carrier letter.
-	FooterTitle *string `form:"footer_title"`
+	FooterTitle *string `form:"footer_title" json:"footer_title,omitempty"`
 	// The header body text of the carrier letter.
-	HeaderBody *string `form:"header_body"`
+	HeaderBody *string `form:"header_body" json:"header_body,omitempty"`
 	// The header title text of the carrier letter.
-	HeaderTitle *string                                                         `form:"header_title"`
+	HeaderTitle *string                                                         `form:"header_title" json:"header_title,omitempty"`
 	UnsetFields []IssuingPersonalizationDesignCreateCarrierTextParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -192,30 +192,30 @@ func (p *IssuingPersonalizationDesignCreateCarrierTextParams) AddUnsetField(fiel
 // Information on whether this personalization design is used to create cards when one is not specified.
 type IssuingPersonalizationDesignCreatePreferencesParams struct {
 	// Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
-	IsDefault *bool `form:"is_default"`
+	IsDefault *bool `form:"is_default" json:"is_default"`
 }
 
 // Creates a personalization design object.
 type IssuingPersonalizationDesignCreateParams struct {
 	Params `form:"*"`
 	// The file for the card logo, for use with physical bundles that support card logos. Must have a `purpose` value of `issuing_logo`.
-	CardLogo *string `form:"card_logo"`
+	CardLogo *string `form:"card_logo" json:"card_logo,omitempty"`
 	// Hash containing carrier text, for use with physical bundles that support carrier text.
-	CarrierText *IssuingPersonalizationDesignCreateCarrierTextParams `form:"carrier_text"`
+	CarrierText *IssuingPersonalizationDesignCreateCarrierTextParams `form:"carrier_text" json:"carrier_text,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters.
-	LookupKey *string `form:"lookup_key"`
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Friendly display name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The physical bundle object belonging to this personalization design.
-	PhysicalBundle *string `form:"physical_bundle"`
+	PhysicalBundle *string `form:"physical_bundle" json:"physical_bundle"`
 	// Information on whether this personalization design is used to create cards when one is not specified.
-	Preferences *IssuingPersonalizationDesignCreatePreferencesParams `form:"preferences"`
+	Preferences *IssuingPersonalizationDesignCreatePreferencesParams `form:"preferences" json:"preferences,omitempty"`
 	// If set to true, will atomically remove the lookup key from the existing personalization design, and assign it to this personalization design.
-	TransferLookupKey *bool `form:"transfer_lookup_key"`
+	TransferLookupKey *bool `form:"transfer_lookup_key" json:"transfer_lookup_key,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -236,7 +236,7 @@ func (p *IssuingPersonalizationDesignCreateParams) AddMetadata(key string, value
 type IssuingPersonalizationDesignRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -247,13 +247,13 @@ func (p *IssuingPersonalizationDesignRetrieveParams) AddExpand(f string) {
 // Hash containing carrier text, for use with physical bundles that support carrier text.
 type IssuingPersonalizationDesignUpdateCarrierTextParams struct {
 	// The footer body text of the carrier letter.
-	FooterBody *string `form:"footer_body"`
+	FooterBody *string `form:"footer_body" json:"footer_body,omitempty"`
 	// The footer title text of the carrier letter.
-	FooterTitle *string `form:"footer_title"`
+	FooterTitle *string `form:"footer_title" json:"footer_title,omitempty"`
 	// The header body text of the carrier letter.
-	HeaderBody *string `form:"header_body"`
+	HeaderBody *string `form:"header_body" json:"header_body,omitempty"`
 	// The header title text of the carrier letter.
-	HeaderTitle *string                                                         `form:"header_title"`
+	HeaderTitle *string                                                         `form:"header_title" json:"header_title,omitempty"`
 	UnsetFields []IssuingPersonalizationDesignUpdateCarrierTextParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -275,30 +275,30 @@ func (p *IssuingPersonalizationDesignUpdateCarrierTextParams) AddUnsetField(fiel
 // Information on whether this personalization design is used to create cards when one is not specified.
 type IssuingPersonalizationDesignUpdatePreferencesParams struct {
 	// Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
-	IsDefault *bool `form:"is_default"`
+	IsDefault *bool `form:"is_default" json:"is_default"`
 }
 
 // Updates a card personalization object.
 type IssuingPersonalizationDesignUpdateParams struct {
 	Params `form:"*"`
 	// The file for the card logo, for use with physical bundles that support card logos. Must have a `purpose` value of `issuing_logo`.
-	CardLogo *string `form:"card_logo"`
+	CardLogo *string `form:"card_logo" json:"card_logo,omitempty"`
 	// Hash containing carrier text, for use with physical bundles that support carrier text.
-	CarrierText *IssuingPersonalizationDesignUpdateCarrierTextParams `form:"carrier_text"`
+	CarrierText *IssuingPersonalizationDesignUpdateCarrierTextParams `form:"carrier_text" json:"carrier_text,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters.
-	LookupKey *string `form:"lookup_key"`
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Friendly display name. Providing an empty string will set the field to null.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The physical bundle object belonging to this personalization design.
-	PhysicalBundle *string `form:"physical_bundle"`
+	PhysicalBundle *string `form:"physical_bundle" json:"physical_bundle,omitempty"`
 	// Information on whether this personalization design is used to create cards when one is not specified.
-	Preferences *IssuingPersonalizationDesignUpdatePreferencesParams `form:"preferences"`
+	Preferences *IssuingPersonalizationDesignUpdatePreferencesParams `form:"preferences" json:"preferences,omitempty"`
 	// If set to true, will atomically remove the lookup key from the existing personalization design, and assign it to this personalization design.
-	TransferLookupKey *bool                                                `form:"transfer_lookup_key"`
+	TransferLookupKey *bool                                                `form:"transfer_lookup_key" json:"transfer_lookup_key,omitempty"`
 	UnsetFields       []IssuingPersonalizationDesignUpdateParamsUnsetField `form:"-" json:"-"`
 }
 

@@ -590,7 +590,7 @@ const (
 type PaymentRecordParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -602,11 +602,11 @@ func (p *PaymentRecordParams) AddExpand(f string) {
 type PaymentRecordReportPaymentAttemptFailedParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// When the reported payment failed. Measured in seconds since the Unix epoch.
-	FailedAt *int64 `form:"failed_at"`
+	FailedAt *int64 `form:"failed_at" json:"failed_at"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                                         `form:"metadata"`
+	Metadata    map[string]string                                         `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []PaymentRecordReportPaymentAttemptFailedParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -640,11 +640,11 @@ func (p *PaymentRecordReportPaymentAttemptFailedParams) AddMetadata(key string, 
 type PaymentRecordReportPaymentAttemptGuaranteedParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// When the reported payment was guaranteed. Measured in seconds since the Unix epoch.
-	GuaranteedAt *int64 `form:"guaranteed_at"`
+	GuaranteedAt *int64 `form:"guaranteed_at" json:"guaranteed_at"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                                             `form:"metadata"`
+	Metadata    map[string]string                                             `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []PaymentRecordReportPaymentAttemptGuaranteedParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -677,43 +677,43 @@ func (p *PaymentRecordReportPaymentAttemptGuaranteedParams) AddMetadata(key stri
 // The billing details associated with the method of payment.
 type PaymentRecordReportPaymentAttemptPaymentMethodDetailsBillingDetailsParams struct {
 	// The billing address associated with the method of payment.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The billing email associated with the method of payment.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The billing name associated with the method of payment.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The billing phone number associated with the method of payment.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Information about the custom (user-defined) payment method used to make this payment.
 type PaymentRecordReportPaymentAttemptPaymentMethodDetailsCustomParams struct {
 	// Display name for the custom (user-defined) payment method type used to make this payment.
-	DisplayName *string `form:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// The custom payment method type associated with this payment.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Information about the Payment Method debited for this payment.
 type PaymentRecordReportPaymentAttemptPaymentMethodDetailsParams struct {
 	// The billing details associated with the method of payment.
-	BillingDetails *PaymentRecordReportPaymentAttemptPaymentMethodDetailsBillingDetailsParams `form:"billing_details"`
+	BillingDetails *PaymentRecordReportPaymentAttemptPaymentMethodDetailsBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
 	// Information about the custom (user-defined) payment method used to make this payment.
-	Custom *PaymentRecordReportPaymentAttemptPaymentMethodDetailsCustomParams `form:"custom"`
+	Custom *PaymentRecordReportPaymentAttemptPaymentMethodDetailsCustomParams `form:"custom" json:"custom,omitempty"`
 	// ID of the Stripe Payment Method used to make this payment.
-	PaymentMethod *string `form:"payment_method"`
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The type of the payment method details. An additional hash is included on the payment_method_details with a name matching this value. It contains additional information specific to the type.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Shipping information for this payment.
 type PaymentRecordReportPaymentAttemptShippingDetailsParams struct {
 	// The physical shipping address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The shipping recipient's name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The shipping recipient's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Report a new payment attempt on the specified Payment Record. A new payment
@@ -722,23 +722,23 @@ type PaymentRecordReportPaymentAttemptShippingDetailsParams struct {
 type PaymentRecordReportPaymentAttemptParams struct {
 	Params `form:"*"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Information about the payment attempt failure.
-	Failed *PaymentRecordReportPaymentAttemptFailedParams `form:"failed"`
+	Failed *PaymentRecordReportPaymentAttemptFailedParams `form:"failed" json:"failed,omitempty"`
 	// Information about the payment attempt guarantee.
-	Guaranteed *PaymentRecordReportPaymentAttemptGuaranteedParams `form:"guaranteed"`
+	Guaranteed *PaymentRecordReportPaymentAttemptGuaranteedParams `form:"guaranteed" json:"guaranteed,omitempty"`
 	// When the reported payment was initiated. Measured in seconds since the Unix epoch.
-	InitiatedAt *int64 `form:"initiated_at"`
+	InitiatedAt *int64 `form:"initiated_at" json:"initiated_at"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The outcome of the reported payment.
-	Outcome *string `form:"outcome"`
+	Outcome *string `form:"outcome" json:"outcome,omitempty"`
 	// Information about the Payment Method debited for this payment.
-	PaymentMethodDetails *PaymentRecordReportPaymentAttemptPaymentMethodDetailsParams `form:"payment_method_details"`
+	PaymentMethodDetails *PaymentRecordReportPaymentAttemptPaymentMethodDetailsParams `form:"payment_method_details" json:"payment_method_details,omitempty"`
 	// Shipping information for this payment.
-	ShippingDetails *PaymentRecordReportPaymentAttemptShippingDetailsParams `form:"shipping_details"`
+	ShippingDetails *PaymentRecordReportPaymentAttemptShippingDetailsParams `form:"shipping_details" json:"shipping_details,omitempty"`
 	UnsetFields     []PaymentRecordReportPaymentAttemptParamsUnsetField     `form:"-" json:"-"`
 }
 
@@ -774,11 +774,11 @@ func (p *PaymentRecordReportPaymentAttemptParams) AddMetadata(key string, value 
 type PaymentRecordReportPaymentAttemptCanceledParams struct {
 	Params `form:"*"`
 	// When the reported payment was canceled. Measured in seconds since the Unix epoch.
-	CanceledAt *int64 `form:"canceled_at"`
+	CanceledAt *int64 `form:"canceled_at" json:"canceled_at"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                                           `form:"metadata"`
+	Metadata    map[string]string                                           `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []PaymentRecordReportPaymentAttemptCanceledParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -811,38 +811,38 @@ func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddMetadata(key string
 // Customer information for this payment.
 type PaymentRecordReportPaymentAttemptInformationalCustomerDetailsParams struct {
 	// The customer who made the payment.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The customer's phone number.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The customer's name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The customer's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Shipping information for this payment.
 type PaymentRecordReportPaymentAttemptInformationalShippingDetailsParams struct {
 	// The physical shipping address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The shipping recipient's name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The shipping recipient's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Report informational updates on the specified Payment Record.
 type PaymentRecordReportPaymentAttemptInformationalParams struct {
 	Params `form:"*"`
 	// Customer information for this payment.
-	CustomerDetails *PaymentRecordReportPaymentAttemptInformationalCustomerDetailsParams `form:"customer_details"`
+	CustomerDetails *PaymentRecordReportPaymentAttemptInformationalCustomerDetailsParams `form:"customer_details" json:"customer_details,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Shipping information for this payment.
-	ShippingDetails *PaymentRecordReportPaymentAttemptInformationalShippingDetailsParams `form:"shipping_details"`
+	ShippingDetails *PaymentRecordReportPaymentAttemptInformationalShippingDetailsParams `form:"shipping_details" json:"shipping_details,omitempty"`
 	UnsetFields     []PaymentRecordReportPaymentAttemptInformationalParamsUnsetField     `form:"-" json:"-"`
 }
 
@@ -877,29 +877,29 @@ func (p *PaymentRecordReportPaymentAttemptInformationalParams) AddMetadata(key s
 // A positive integer in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) representing how much of this payment to refund. Can refund only up to the remaining, unrefunded amount of the payment.
 type PaymentRecordReportRefundAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Information about the custom processor used to make this refund.
 type PaymentRecordReportRefundProcessorDetailsCustomParams struct {
 	// A reference to the external refund. This field must be unique across all refunds.
-	RefundReference *string `form:"refund_reference"`
+	RefundReference *string `form:"refund_reference" json:"refund_reference"`
 }
 
 // Processor information for this refund.
 type PaymentRecordReportRefundProcessorDetailsParams struct {
 	// Information about the custom processor used to make this refund.
-	Custom *PaymentRecordReportRefundProcessorDetailsCustomParams `form:"custom"`
+	Custom *PaymentRecordReportRefundProcessorDetailsCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Information about the payment attempt refund.
 type PaymentRecordReportRefundRefundedParams struct {
 	// When the reported refund completed. Measured in seconds since the Unix epoch.
-	RefundedAt *int64 `form:"refunded_at"`
+	RefundedAt *int64 `form:"refunded_at" json:"refunded_at"`
 }
 
 // Report that the most recent payment attempt on the specified Payment Record
@@ -908,19 +908,19 @@ type PaymentRecordReportRefundRefundedParams struct {
 type PaymentRecordReportRefundParams struct {
 	Params `form:"*"`
 	// A positive integer in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) representing how much of this payment to refund. Can refund only up to the remaining, unrefunded amount of the payment.
-	Amount *PaymentRecordReportRefundAmountParams `form:"amount"`
+	Amount *PaymentRecordReportRefundAmountParams `form:"amount" json:"amount,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// When the reported refund was initiated. Measured in seconds since the Unix epoch.
-	InitiatedAt *int64 `form:"initiated_at"`
+	InitiatedAt *int64 `form:"initiated_at" json:"initiated_at,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The outcome of the reported refund.
-	Outcome *string `form:"outcome"`
+	Outcome *string `form:"outcome" json:"outcome"`
 	// Processor information for this refund.
-	ProcessorDetails *PaymentRecordReportRefundProcessorDetailsParams `form:"processor_details"`
+	ProcessorDetails *PaymentRecordReportRefundProcessorDetailsParams `form:"processor_details" json:"processor_details"`
 	// Information about the payment attempt refund.
-	Refunded    *PaymentRecordReportRefundRefundedParams    `form:"refunded"`
+	Refunded    *PaymentRecordReportRefundRefundedParams    `form:"refunded" json:"refunded"`
 	UnsetFields []PaymentRecordReportRefundParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -953,89 +953,89 @@ func (p *PaymentRecordReportRefundParams) AddMetadata(key string, value string) 
 // The amount you initially requested for this payment.
 type PaymentRecordReportPaymentAmountRequestedParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Customer information for this payment.
 type PaymentRecordReportPaymentCustomerDetailsParams struct {
 	// The customer who made the payment.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The customer's phone number.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The customer's name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The customer's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Information about the payment attempt failure.
 type PaymentRecordReportPaymentFailedParams struct {
 	// When the reported payment failed. Measured in seconds since the Unix epoch.
-	FailedAt *int64 `form:"failed_at"`
+	FailedAt *int64 `form:"failed_at" json:"failed_at"`
 }
 
 // Information about the payment attempt guarantee.
 type PaymentRecordReportPaymentGuaranteedParams struct {
 	// When the reported payment was guaranteed. Measured in seconds since the Unix epoch.
-	GuaranteedAt *int64 `form:"guaranteed_at"`
+	GuaranteedAt *int64 `form:"guaranteed_at" json:"guaranteed_at"`
 }
 
 // The billing details associated with the method of payment.
 type PaymentRecordReportPaymentPaymentMethodDetailsBillingDetailsParams struct {
 	// The billing address associated with the method of payment.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The billing email associated with the method of payment.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The billing name associated with the method of payment.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The billing phone number associated with the method of payment.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Information about the custom (user-defined) payment method used to make this payment.
 type PaymentRecordReportPaymentPaymentMethodDetailsCustomParams struct {
 	// Display name for the custom (user-defined) payment method type used to make this payment.
-	DisplayName *string `form:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// The custom payment method type associated with this payment.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Information about the Payment Method debited for this payment.
 type PaymentRecordReportPaymentPaymentMethodDetailsParams struct {
 	// The billing details associated with the method of payment.
-	BillingDetails *PaymentRecordReportPaymentPaymentMethodDetailsBillingDetailsParams `form:"billing_details"`
+	BillingDetails *PaymentRecordReportPaymentPaymentMethodDetailsBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
 	// Information about the custom (user-defined) payment method used to make this payment.
-	Custom *PaymentRecordReportPaymentPaymentMethodDetailsCustomParams `form:"custom"`
+	Custom *PaymentRecordReportPaymentPaymentMethodDetailsCustomParams `form:"custom" json:"custom,omitempty"`
 	// ID of the Stripe Payment Method used to make this payment.
-	PaymentMethod *string `form:"payment_method"`
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The type of the payment method details. An additional hash is included on the payment_method_details with a name matching this value. It contains additional information specific to the type.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Information about the custom processor used to make this payment.
 type PaymentRecordReportPaymentProcessorDetailsCustomParams struct {
 	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
-	PaymentReference *string `form:"payment_reference"`
+	PaymentReference *string `form:"payment_reference" json:"payment_reference"`
 }
 
 // Processor information for this payment.
 type PaymentRecordReportPaymentProcessorDetailsParams struct {
 	// Information about the custom processor used to make this payment.
-	Custom *PaymentRecordReportPaymentProcessorDetailsCustomParams `form:"custom"`
+	Custom *PaymentRecordReportPaymentProcessorDetailsCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Shipping information for this payment.
 type PaymentRecordReportPaymentShippingDetailsParams struct {
 	// The physical shipping address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The shipping recipient's name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The shipping recipient's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Report a new Payment Record. You may report a Payment Record as it is
@@ -1045,31 +1045,31 @@ type PaymentRecordReportPaymentShippingDetailsParams struct {
 type PaymentRecordReportPaymentParams struct {
 	Params `form:"*"`
 	// The amount you initially requested for this payment.
-	AmountRequested *PaymentRecordReportPaymentAmountRequestedParams `form:"amount_requested"`
+	AmountRequested *PaymentRecordReportPaymentAmountRequestedParams `form:"amount_requested" json:"amount_requested"`
 	// Customer information for this payment.
-	CustomerDetails *PaymentRecordReportPaymentCustomerDetailsParams `form:"customer_details"`
+	CustomerDetails *PaymentRecordReportPaymentCustomerDetailsParams `form:"customer_details" json:"customer_details,omitempty"`
 	// Indicates whether the customer was present in your checkout flow during this payment.
-	CustomerPresence *string `form:"customer_presence"`
+	CustomerPresence *string `form:"customer_presence" json:"customer_presence,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Information about the payment attempt failure.
-	Failed *PaymentRecordReportPaymentFailedParams `form:"failed"`
+	Failed *PaymentRecordReportPaymentFailedParams `form:"failed" json:"failed,omitempty"`
 	// Information about the payment attempt guarantee.
-	Guaranteed *PaymentRecordReportPaymentGuaranteedParams `form:"guaranteed"`
+	Guaranteed *PaymentRecordReportPaymentGuaranteedParams `form:"guaranteed" json:"guaranteed,omitempty"`
 	// When the reported payment was initiated. Measured in seconds since the Unix epoch.
-	InitiatedAt *int64 `form:"initiated_at"`
+	InitiatedAt *int64 `form:"initiated_at" json:"initiated_at"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The outcome of the reported payment.
-	Outcome *string `form:"outcome"`
+	Outcome *string `form:"outcome" json:"outcome,omitempty"`
 	// Information about the Payment Method debited for this payment.
-	PaymentMethodDetails *PaymentRecordReportPaymentPaymentMethodDetailsParams `form:"payment_method_details"`
+	PaymentMethodDetails *PaymentRecordReportPaymentPaymentMethodDetailsParams `form:"payment_method_details" json:"payment_method_details"`
 	// Processor information for this payment.
-	ProcessorDetails *PaymentRecordReportPaymentProcessorDetailsParams `form:"processor_details"`
+	ProcessorDetails *PaymentRecordReportPaymentProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
 	// Shipping information for this payment.
-	ShippingDetails *PaymentRecordReportPaymentShippingDetailsParams `form:"shipping_details"`
+	ShippingDetails *PaymentRecordReportPaymentShippingDetailsParams `form:"shipping_details" json:"shipping_details,omitempty"`
 	UnsetFields     []PaymentRecordReportPaymentParamsUnsetField     `form:"-" json:"-"`
 }
 
@@ -1103,7 +1103,7 @@ func (p *PaymentRecordReportPaymentParams) AddMetadata(key string, value string)
 type PaymentRecordRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1206,7 +1206,7 @@ type PaymentRecordPaymentMethodDetailsACSSDebit struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Institution number of the bank account
@@ -1214,15 +1214,15 @@ type PaymentRecordPaymentMethodDetailsACSSDebit struct {
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate string `json:"mandate"`
+	Mandate string `json:"mandate,omitempty"`
 	// Transit number of the bank account.
 	TransitNumber string `json:"transit_number"`
 }
 type PaymentRecordPaymentMethodDetailsAffirm struct {
 	// ID of the location that this reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// ID of the reader this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// The Affirm transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -1234,7 +1234,7 @@ type PaymentRecordPaymentMethodDetailsAfterpayClearpay struct {
 }
 type PaymentRecordPaymentMethodDetailsAlipay struct {
 	// Uniquely identifies this particular Alipay account. You can use this attribute to check whether two Alipay accounts are the same.
-	BuyerID string `json:"buyer_id"`
+	BuyerID string `json:"buyer_id,omitempty"`
 	// Uniquely identifies this particular Alipay account. You can use this attribute to check whether two Alipay accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Transaction ID of this particular Alipay transaction.
@@ -1245,7 +1245,7 @@ type PaymentRecordPaymentMethodDetailsAlmaInstallments struct {
 	Count int64 `json:"count"`
 }
 type PaymentRecordPaymentMethodDetailsAlma struct {
-	Installments *PaymentRecordPaymentMethodDetailsAlmaInstallments `json:"installments"`
+	Installments *PaymentRecordPaymentMethodDetailsAlmaInstallments `json:"installments,omitempty"`
 	// The Alma transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -1264,12 +1264,12 @@ type PaymentRecordPaymentMethodDetailsAmazonPayFundingCard struct {
 	Last4 string `json:"last4"`
 }
 type PaymentRecordPaymentMethodDetailsAmazonPayFunding struct {
-	Card *PaymentRecordPaymentMethodDetailsAmazonPayFundingCard `json:"card"`
+	Card *PaymentRecordPaymentMethodDetailsAmazonPayFundingCard `json:"card,omitempty"`
 	// funding type of the underlying payment method.
 	Type PaymentRecordPaymentMethodDetailsAmazonPayFundingType `json:"type"`
 }
 type PaymentRecordPaymentMethodDetailsAmazonPay struct {
-	Funding *PaymentRecordPaymentMethodDetailsAmazonPayFunding `json:"funding"`
+	Funding *PaymentRecordPaymentMethodDetailsAmazonPayFunding `json:"funding,omitempty"`
 	// The Amazon Pay transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -1277,17 +1277,17 @@ type PaymentRecordPaymentMethodDetailsAUBECSDebit struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate string `json:"mandate"`
+	Mandate string `json:"mandate,omitempty"`
 }
 type PaymentRecordPaymentMethodDetailsBACSDebit struct {
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
@@ -1399,10 +1399,10 @@ type PaymentRecordPaymentMethodDetailsCardWalletGooglePay struct{}
 
 // If this Card is part of a card wallet, this contains the details of the card wallet.
 type PaymentRecordPaymentMethodDetailsCardWallet struct {
-	ApplePay *PaymentRecordPaymentMethodDetailsCardWalletApplePay `json:"apple_pay"`
+	ApplePay *PaymentRecordPaymentMethodDetailsCardWalletApplePay `json:"apple_pay,omitempty"`
 	// (For tokenized numbers only.) The last four digits of the device account number.
-	DynamicLast4 string                                                `json:"dynamic_last4"`
-	GooglePay    *PaymentRecordPaymentMethodDetailsCardWalletGooglePay `json:"google_pay"`
+	DynamicLast4 string                                                `json:"dynamic_last4,omitempty"`
+	GooglePay    *PaymentRecordPaymentMethodDetailsCardWalletGooglePay `json:"google_pay,omitempty"`
 	// The type of the card wallet, one of `apple_pay` or `google_pay`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 	Type string `json:"type"`
 }
@@ -1414,7 +1414,7 @@ type PaymentRecordPaymentMethodDetailsCard struct {
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand PaymentRecordPaymentMethodDetailsCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
-	CaptureBefore int64 `json:"capture_before"`
+	CaptureBefore int64 `json:"capture_before,omitempty"`
 	// Check results by Card networks on Card address and CVC at time of payment.
 	Checks *PaymentRecordPaymentMethodDetailsCardChecks `json:"checks"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
@@ -1428,7 +1428,7 @@ type PaymentRecordPaymentMethodDetailsCard struct {
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
-	Fingerprint string `json:"fingerprint"`
+	Fingerprint string `json:"fingerprint,omitempty"`
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 	Funding PaymentRecordPaymentMethodDetailsCardFunding `json:"funding"`
 	// Issuer identification number of the card.
@@ -1440,7 +1440,7 @@ type PaymentRecordPaymentMethodDetailsCard struct {
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// True if this payment was marked as MOTO and out of scope for SCA.
-	MOTO bool `json:"moto"`
+	MOTO bool `json:"moto,omitempty"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network PaymentRecordPaymentMethodDetailsCardNetwork `json:"network"`
 	// Advice code from the card network for the failed payment.
@@ -1448,7 +1448,7 @@ type PaymentRecordPaymentMethodDetailsCard struct {
 	// Decline code from the card network for the failed payment.
 	NetworkDeclineCode string `json:"network_decline_code"`
 	// If this card has network token credentials, this contains the details of the network token credentials.
-	NetworkToken *PaymentRecordPaymentMethodDetailsCardNetworkToken `json:"network_token"`
+	NetworkToken *PaymentRecordPaymentMethodDetailsCardNetworkToken `json:"network_token,omitempty"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
 	// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
@@ -1470,7 +1470,7 @@ type PaymentRecordPaymentMethodDetailsCardPresentOffline struct {
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type PaymentRecordPaymentMethodDetailsCardPresentReceipt struct {
 	// The type of account being debited or credited
-	AccountType PaymentRecordPaymentMethodDetailsCardPresentReceiptAccountType `json:"account_type"`
+	AccountType PaymentRecordPaymentMethodDetailsCardPresentReceiptAccountType `json:"account_type,omitempty"`
 	// The Application Cryptogram, a unique value generated by the card to authenticate the transaction with issuers.
 	ApplicationCryptogram string `json:"application_cryptogram"`
 	// The Application Identifier (AID) on the card used to determine which networks are eligible to process the transaction. Referenced from EMV tag 9F12, data encoded on the card's chip.
@@ -1500,13 +1500,13 @@ type PaymentRecordPaymentMethodDetailsCardPresent struct {
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
 	// When using manual capture, a future timestamp after which the charge will be automatically refunded if uncaptured.
-	CaptureBefore int64 `json:"capture_before"`
+	CaptureBefore int64 `json:"capture_before,omitempty"`
 	// The cardholder name as read from the card, in [ISO 7813](https://en.wikipedia.org/wiki/ISO/IEC_7813) format. May include alphanumeric characters, special characters and first/last name separator (`/`). In some cases, the cardholder name may not be available depending on how the issuer has configured the card. Cardholder name is typically not available on swipe or contactless payments, such as those made with Apple Pay and Google Pay.
 	CardholderName string `json:"cardholder_name"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Authorization response cryptogram.
 	EmvAuthData string `json:"emv_auth_data"`
 	// Two-digit number representing the card's expiration month.
@@ -1522,15 +1522,15 @@ type PaymentRecordPaymentMethodDetailsCardPresent struct {
 	// ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
 	GeneratedCard string `json:"generated_card"`
 	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
-	IIN string `json:"iin"`
+	IIN string `json:"iin,omitempty"`
 	// Whether this [PaymentIntent](https://docs.stripe.com/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
 	IncrementalAuthorizationSupported bool `json:"incremental_authorization_supported"`
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -1542,12 +1542,12 @@ type PaymentRecordPaymentMethodDetailsCardPresent struct {
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// How card details were read in this transaction.
 	ReadMethod PaymentRecordPaymentMethodDetailsCardPresentReadMethod `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *PaymentRecordPaymentMethodDetailsCardPresentReceipt `json:"receipt"`
-	Wallet  *PaymentRecordPaymentMethodDetailsCardPresentWallet  `json:"wallet"`
+	Wallet  *PaymentRecordPaymentMethodDetailsCardPresentWallet  `json:"wallet,omitempty"`
 }
 type PaymentRecordPaymentMethodDetailsCashApp struct {
 	// A unique and immutable identifier assigned by Cash App to every buyer.
@@ -1559,13 +1559,13 @@ type PaymentRecordPaymentMethodDetailsCashApp struct {
 }
 type PaymentRecordPaymentMethodDetailsCrypto struct {
 	// The wallet address of the customer.
-	BuyerAddress string `json:"buyer_address"`
+	BuyerAddress string `json:"buyer_address,omitempty"`
 	// The blockchain network that the transaction was sent on.
-	Network PaymentRecordPaymentMethodDetailsCryptoNetwork `json:"network"`
+	Network PaymentRecordPaymentMethodDetailsCryptoNetwork `json:"network,omitempty"`
 	// The token currency that the transaction was sent with.
-	TokenCurrency PaymentRecordPaymentMethodDetailsCryptoTokenCurrency `json:"token_currency"`
+	TokenCurrency PaymentRecordPaymentMethodDetailsCryptoTokenCurrency `json:"token_currency,omitempty"`
 	// The blockchain transaction hash of the crypto payment.
-	TransactionHash string `json:"transaction_hash"`
+	TransactionHash string `json:"transaction_hash,omitempty"`
 }
 
 // Custom Payment Methods represent Payment Method types not modeled directly in
@@ -1628,7 +1628,7 @@ type PaymentRecordPaymentMethodDetailsIDEAL struct {
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type PaymentRecordPaymentMethodDetailsInteracPresentReceipt struct {
 	// The type of account being debited or credited
-	AccountType PaymentRecordPaymentMethodDetailsInteracPresentReceiptAccountType `json:"account_type"`
+	AccountType PaymentRecordPaymentMethodDetailsInteracPresentReceiptAccountType `json:"account_type,omitempty"`
 	// The Application Cryptogram, a unique value generated by the card to authenticate the transaction with issuers.
 	ApplicationCryptogram string `json:"application_cryptogram"`
 	// The Application Identifier (AID) on the card used to determine which networks are eligible to process the transaction. Referenced from EMV tag 9F12, data encoded on the card's chip.
@@ -1654,7 +1654,7 @@ type PaymentRecordPaymentMethodDetailsInteracPresent struct {
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Authorization response cryptogram.
 	EmvAuthData string `json:"emv_auth_data"`
 	// Two-digit number representing the card's expiration month.
@@ -1670,13 +1670,13 @@ type PaymentRecordPaymentMethodDetailsInteracPresent struct {
 	// ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
 	GeneratedCard string `json:"generated_card"`
 	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
-	IIN string `json:"iin"`
+	IIN string `json:"iin,omitempty"`
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -1684,7 +1684,7 @@ type PaymentRecordPaymentMethodDetailsInteracPresent struct {
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// How card details were read in this transaction.
 	ReadMethod PaymentRecordPaymentMethodDetailsInteracPresentReadMethod `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
@@ -1784,7 +1784,7 @@ type PaymentRecordPaymentMethodDetailsNzBankAccount struct {
 	// The numeric code for the bank account's bank branch.
 	BranchCode string `json:"branch_code"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// The suffix of the bank account number.
@@ -1813,9 +1813,9 @@ type PaymentRecordPaymentMethodDetailsPayco struct {
 }
 type PaymentRecordPaymentMethodDetailsPayNow struct {
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// Reference number associated with this PayNow payment
 	Reference string `json:"reference"`
 }
@@ -1849,13 +1849,13 @@ type PaymentRecordPaymentMethodDetailsPayto struct {
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate string `json:"mandate"`
+	Mandate string `json:"mandate,omitempty"`
 	// The PayID alias for the bank account.
 	PayID string `json:"pay_id"`
 }
 type PaymentRecordPaymentMethodDetailsPix struct {
 	// Unique transaction id generated by BCB
-	BankTransactionID string `json:"bank_transaction_id"`
+	BankTransactionID string `json:"bank_transaction_id,omitempty"`
 }
 type PaymentRecordPaymentMethodDetailsPromptPay struct {
 	// Bill reference generated by PromptPay
@@ -1876,12 +1876,12 @@ type PaymentRecordPaymentMethodDetailsRevolutPayFundingCard struct {
 	Last4 string `json:"last4"`
 }
 type PaymentRecordPaymentMethodDetailsRevolutPayFunding struct {
-	Card *PaymentRecordPaymentMethodDetailsRevolutPayFundingCard `json:"card"`
+	Card *PaymentRecordPaymentMethodDetailsRevolutPayFundingCard `json:"card,omitempty"`
 	// funding type of the underlying payment method.
 	Type PaymentRecordPaymentMethodDetailsRevolutPayFundingType `json:"type"`
 }
 type PaymentRecordPaymentMethodDetailsRevolutPay struct {
-	Funding *PaymentRecordPaymentMethodDetailsRevolutPayFunding `json:"funding"`
+	Funding *PaymentRecordPaymentMethodDetailsRevolutPayFunding `json:"funding,omitempty"`
 	// The Revolut Pay transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -1911,7 +1911,7 @@ type PaymentRecordPaymentMethodDetailsSEPADebit struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four characters of the IBAN.
@@ -1961,13 +1961,13 @@ type PaymentRecordPaymentMethodDetailsUSBankAccount struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate *Mandate `json:"mandate"`
+	Mandate *Mandate `json:"mandate,omitempty"`
 	// The ACH payment reference for this transaction.
 	PaymentReference string `json:"payment_reference"`
 	// The routing number for the bank account.
@@ -1978,9 +1978,9 @@ type PaymentRecordPaymentMethodDetailsWeChatPay struct {
 	// Uniquely identifies this particular WeChat Pay account. You can use this attribute to check whether two WeChat accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// Transaction ID of this particular WeChat Pay transaction.
 	TransactionID string `json:"transaction_id"`
 }
@@ -1988,77 +1988,77 @@ type PaymentRecordPaymentMethodDetailsZip struct{}
 
 // Information about the Payment Method debited for this payment.
 type PaymentRecordPaymentMethodDetails struct {
-	ACHCreditTransfer *PaymentRecordPaymentMethodDetailsACHCreditTransfer `json:"ach_credit_transfer"`
-	ACHDebit          *PaymentRecordPaymentMethodDetailsACHDebit          `json:"ach_debit"`
-	ACSSDebit         *PaymentRecordPaymentMethodDetailsACSSDebit         `json:"acss_debit"`
-	Affirm            *PaymentRecordPaymentMethodDetailsAffirm            `json:"affirm"`
-	AfterpayClearpay  *PaymentRecordPaymentMethodDetailsAfterpayClearpay  `json:"afterpay_clearpay"`
-	Alipay            *PaymentRecordPaymentMethodDetailsAlipay            `json:"alipay"`
-	Alma              *PaymentRecordPaymentMethodDetailsAlma              `json:"alma"`
-	AmazonPay         *PaymentRecordPaymentMethodDetailsAmazonPay         `json:"amazon_pay"`
-	AUBECSDebit       *PaymentRecordPaymentMethodDetailsAUBECSDebit       `json:"au_becs_debit"`
-	BACSDebit         *PaymentRecordPaymentMethodDetailsBACSDebit         `json:"bacs_debit"`
-	Bancontact        *PaymentRecordPaymentMethodDetailsBancontact        `json:"bancontact"`
-	Billie            *PaymentRecordPaymentMethodDetailsBillie            `json:"billie"`
+	ACHCreditTransfer *PaymentRecordPaymentMethodDetailsACHCreditTransfer `json:"ach_credit_transfer,omitempty"`
+	ACHDebit          *PaymentRecordPaymentMethodDetailsACHDebit          `json:"ach_debit,omitempty"`
+	ACSSDebit         *PaymentRecordPaymentMethodDetailsACSSDebit         `json:"acss_debit,omitempty"`
+	Affirm            *PaymentRecordPaymentMethodDetailsAffirm            `json:"affirm,omitempty"`
+	AfterpayClearpay  *PaymentRecordPaymentMethodDetailsAfterpayClearpay  `json:"afterpay_clearpay,omitempty"`
+	Alipay            *PaymentRecordPaymentMethodDetailsAlipay            `json:"alipay,omitempty"`
+	Alma              *PaymentRecordPaymentMethodDetailsAlma              `json:"alma,omitempty"`
+	AmazonPay         *PaymentRecordPaymentMethodDetailsAmazonPay         `json:"amazon_pay,omitempty"`
+	AUBECSDebit       *PaymentRecordPaymentMethodDetailsAUBECSDebit       `json:"au_becs_debit,omitempty"`
+	BACSDebit         *PaymentRecordPaymentMethodDetailsBACSDebit         `json:"bacs_debit,omitempty"`
+	Bancontact        *PaymentRecordPaymentMethodDetailsBancontact        `json:"bancontact,omitempty"`
+	Billie            *PaymentRecordPaymentMethodDetailsBillie            `json:"billie,omitempty"`
 	// The billing details associated with the method of payment.
 	BillingDetails *PaymentRecordPaymentMethodDetailsBillingDetails `json:"billing_details"`
-	BLIK           *PaymentRecordPaymentMethodDetailsBLIK           `json:"blik"`
-	Boleto         *PaymentRecordPaymentMethodDetailsBoleto         `json:"boleto"`
+	BLIK           *PaymentRecordPaymentMethodDetailsBLIK           `json:"blik,omitempty"`
+	Boleto         *PaymentRecordPaymentMethodDetailsBoleto         `json:"boleto,omitempty"`
 	// Details of the card used for this payment attempt.
-	Card        *PaymentRecordPaymentMethodDetailsCard        `json:"card"`
-	CardPresent *PaymentRecordPaymentMethodDetailsCardPresent `json:"card_present"`
-	CashApp     *PaymentRecordPaymentMethodDetailsCashApp     `json:"cashapp"`
-	Crypto      *PaymentRecordPaymentMethodDetailsCrypto      `json:"crypto"`
+	Card        *PaymentRecordPaymentMethodDetailsCard        `json:"card,omitempty"`
+	CardPresent *PaymentRecordPaymentMethodDetailsCardPresent `json:"card_present,omitempty"`
+	CashApp     *PaymentRecordPaymentMethodDetailsCashApp     `json:"cashapp,omitempty"`
+	Crypto      *PaymentRecordPaymentMethodDetailsCrypto      `json:"crypto,omitempty"`
 	// Custom Payment Methods represent Payment Method types not modeled directly in
 	// the Stripe API. This resource consists of details about the custom payment method
 	// used for this payment attempt.
-	Custom          *PaymentRecordPaymentMethodDetailsCustom          `json:"custom"`
-	CustomerBalance *PaymentRecordPaymentMethodDetailsCustomerBalance `json:"customer_balance"`
-	EPS             *PaymentRecordPaymentMethodDetailsEPS             `json:"eps"`
-	FPX             *PaymentRecordPaymentMethodDetailsFPX             `json:"fpx"`
-	Giropay         *PaymentRecordPaymentMethodDetailsGiropay         `json:"giropay"`
-	Grabpay         *PaymentRecordPaymentMethodDetailsGrabpay         `json:"grabpay"`
-	IDEAL           *PaymentRecordPaymentMethodDetailsIDEAL           `json:"ideal"`
-	InteracPresent  *PaymentRecordPaymentMethodDetailsInteracPresent  `json:"interac_present"`
-	KakaoPay        *PaymentRecordPaymentMethodDetailsKakaoPay        `json:"kakao_pay"`
-	Klarna          *PaymentRecordPaymentMethodDetailsKlarna          `json:"klarna"`
-	Konbini         *PaymentRecordPaymentMethodDetailsKonbini         `json:"konbini"`
-	KrCard          *PaymentRecordPaymentMethodDetailsKrCard          `json:"kr_card"`
-	Link            *PaymentRecordPaymentMethodDetailsLink            `json:"link"`
-	MbWay           *PaymentRecordPaymentMethodDetailsMbWay           `json:"mb_way"`
-	Mobilepay       *PaymentRecordPaymentMethodDetailsMobilepay       `json:"mobilepay"`
-	Multibanco      *PaymentRecordPaymentMethodDetailsMultibanco      `json:"multibanco"`
-	NaverPay        *PaymentRecordPaymentMethodDetailsNaverPay        `json:"naver_pay"`
-	NzBankAccount   *PaymentRecordPaymentMethodDetailsNzBankAccount   `json:"nz_bank_account"`
-	OXXO            *PaymentRecordPaymentMethodDetailsOXXO            `json:"oxxo"`
-	P24             *PaymentRecordPaymentMethodDetailsP24             `json:"p24"`
-	PayByBank       *PaymentRecordPaymentMethodDetailsPayByBank       `json:"pay_by_bank"`
-	Payco           *PaymentRecordPaymentMethodDetailsPayco           `json:"payco"`
+	Custom          *PaymentRecordPaymentMethodDetailsCustom          `json:"custom,omitempty"`
+	CustomerBalance *PaymentRecordPaymentMethodDetailsCustomerBalance `json:"customer_balance,omitempty"`
+	EPS             *PaymentRecordPaymentMethodDetailsEPS             `json:"eps,omitempty"`
+	FPX             *PaymentRecordPaymentMethodDetailsFPX             `json:"fpx,omitempty"`
+	Giropay         *PaymentRecordPaymentMethodDetailsGiropay         `json:"giropay,omitempty"`
+	Grabpay         *PaymentRecordPaymentMethodDetailsGrabpay         `json:"grabpay,omitempty"`
+	IDEAL           *PaymentRecordPaymentMethodDetailsIDEAL           `json:"ideal,omitempty"`
+	InteracPresent  *PaymentRecordPaymentMethodDetailsInteracPresent  `json:"interac_present,omitempty"`
+	KakaoPay        *PaymentRecordPaymentMethodDetailsKakaoPay        `json:"kakao_pay,omitempty"`
+	Klarna          *PaymentRecordPaymentMethodDetailsKlarna          `json:"klarna,omitempty"`
+	Konbini         *PaymentRecordPaymentMethodDetailsKonbini         `json:"konbini,omitempty"`
+	KrCard          *PaymentRecordPaymentMethodDetailsKrCard          `json:"kr_card,omitempty"`
+	Link            *PaymentRecordPaymentMethodDetailsLink            `json:"link,omitempty"`
+	MbWay           *PaymentRecordPaymentMethodDetailsMbWay           `json:"mb_way,omitempty"`
+	Mobilepay       *PaymentRecordPaymentMethodDetailsMobilepay       `json:"mobilepay,omitempty"`
+	Multibanco      *PaymentRecordPaymentMethodDetailsMultibanco      `json:"multibanco,omitempty"`
+	NaverPay        *PaymentRecordPaymentMethodDetailsNaverPay        `json:"naver_pay,omitempty"`
+	NzBankAccount   *PaymentRecordPaymentMethodDetailsNzBankAccount   `json:"nz_bank_account,omitempty"`
+	OXXO            *PaymentRecordPaymentMethodDetailsOXXO            `json:"oxxo,omitempty"`
+	P24             *PaymentRecordPaymentMethodDetailsP24             `json:"p24,omitempty"`
+	PayByBank       *PaymentRecordPaymentMethodDetailsPayByBank       `json:"pay_by_bank,omitempty"`
+	Payco           *PaymentRecordPaymentMethodDetailsPayco           `json:"payco,omitempty"`
 	// ID of the Stripe PaymentMethod used to make this payment.
 	PaymentMethod      string                                               `json:"payment_method"`
-	PayNow             *PaymentRecordPaymentMethodDetailsPayNow             `json:"paynow"`
-	Paypal             *PaymentRecordPaymentMethodDetailsPaypal             `json:"paypal"`
-	Payto              *PaymentRecordPaymentMethodDetailsPayto              `json:"payto"`
-	Pix                *PaymentRecordPaymentMethodDetailsPix                `json:"pix"`
-	PromptPay          *PaymentRecordPaymentMethodDetailsPromptPay          `json:"promptpay"`
-	RevolutPay         *PaymentRecordPaymentMethodDetailsRevolutPay         `json:"revolut_pay"`
-	SamsungPay         *PaymentRecordPaymentMethodDetailsSamsungPay         `json:"samsung_pay"`
-	Satispay           *PaymentRecordPaymentMethodDetailsSatispay           `json:"satispay"`
-	SEPACreditTransfer *PaymentRecordPaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer"`
-	SEPADebit          *PaymentRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit"`
-	Sofort             *PaymentRecordPaymentMethodDetailsSofort             `json:"sofort"`
-	StripeAccount      *PaymentRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account"`
-	Swish              *PaymentRecordPaymentMethodDetailsSwish              `json:"swish"`
-	TWINT              *PaymentRecordPaymentMethodDetailsTWINT              `json:"twint"`
+	PayNow             *PaymentRecordPaymentMethodDetailsPayNow             `json:"paynow,omitempty"`
+	Paypal             *PaymentRecordPaymentMethodDetailsPaypal             `json:"paypal,omitempty"`
+	Payto              *PaymentRecordPaymentMethodDetailsPayto              `json:"payto,omitempty"`
+	Pix                *PaymentRecordPaymentMethodDetailsPix                `json:"pix,omitempty"`
+	PromptPay          *PaymentRecordPaymentMethodDetailsPromptPay          `json:"promptpay,omitempty"`
+	RevolutPay         *PaymentRecordPaymentMethodDetailsRevolutPay         `json:"revolut_pay,omitempty"`
+	SamsungPay         *PaymentRecordPaymentMethodDetailsSamsungPay         `json:"samsung_pay,omitempty"`
+	Satispay           *PaymentRecordPaymentMethodDetailsSatispay           `json:"satispay,omitempty"`
+	SEPACreditTransfer *PaymentRecordPaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
+	SEPADebit          *PaymentRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
+	Sofort             *PaymentRecordPaymentMethodDetailsSofort             `json:"sofort,omitempty"`
+	StripeAccount      *PaymentRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`
+	Swish              *PaymentRecordPaymentMethodDetailsSwish              `json:"swish,omitempty"`
+	TWINT              *PaymentRecordPaymentMethodDetailsTWINT              `json:"twint,omitempty"`
 	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
 	Type          string                                          `json:"type"`
-	Upi           *PaymentRecordPaymentMethodDetailsUpi           `json:"upi"`
-	USBankAccount *PaymentRecordPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
-	WeChat        *PaymentRecordPaymentMethodDetailsWeChat        `json:"wechat"`
-	WeChatPay     *PaymentRecordPaymentMethodDetailsWeChatPay     `json:"wechat_pay"`
-	Zip           *PaymentRecordPaymentMethodDetailsZip           `json:"zip"`
+	Upi           *PaymentRecordPaymentMethodDetailsUpi           `json:"upi,omitempty"`
+	USBankAccount *PaymentRecordPaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
+	WeChat        *PaymentRecordPaymentMethodDetailsWeChat        `json:"wechat,omitempty"`
+	WeChatPay     *PaymentRecordPaymentMethodDetailsWeChatPay     `json:"wechat_pay,omitempty"`
+	Zip           *PaymentRecordPaymentMethodDetailsZip           `json:"zip,omitempty"`
 }
 
 // Custom processors represent payment processors not modeled directly in
@@ -2074,7 +2074,7 @@ type PaymentRecordProcessorDetails struct {
 	// Custom processors represent payment processors not modeled directly in
 	// the Stripe API. This resource consists of details about the custom processor
 	// used for this payment attempt.
-	Custom *PaymentRecordProcessorDetailsCustom `json:"custom"`
+	Custom *PaymentRecordProcessorDetailsCustom `json:"custom,omitempty"`
 	// The processor used for this payment attempt.
 	Type PaymentRecordProcessorDetailsType `json:"type"`
 }

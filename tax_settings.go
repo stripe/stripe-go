@@ -40,11 +40,11 @@ const (
 type TaxSettingsParams struct {
 	Params `form:"*"`
 	// Default configuration to be used on Stripe Tax calculations.
-	Defaults *TaxSettingsDefaultsParams `form:"defaults"`
+	Defaults *TaxSettingsDefaultsParams `form:"defaults" json:"defaults,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The place where your business is located.
-	HeadOffice *TaxSettingsHeadOfficeParams `form:"head_office"`
+	HeadOffice *TaxSettingsHeadOfficeParams `form:"head_office" json:"head_office,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -55,22 +55,22 @@ func (p *TaxSettingsParams) AddExpand(f string) {
 // Default configuration to be used on Stripe Tax calculations.
 type TaxSettingsDefaultsParams struct {
 	// Specifies the default [tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#tax-behavior) to be used when the item's price has unspecified tax behavior. One of inclusive, exclusive, or inferred_by_currency. Once specified, it cannot be changed back to null.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 }
 
 // The place where your business is located.
 type TaxSettingsHeadOfficeParams struct {
 	// The location of the business for tax purposes.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 }
 
 // Retrieves Tax Settings for a merchant.
 type TaxSettingsRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -81,26 +81,26 @@ func (p *TaxSettingsRetrieveParams) AddExpand(f string) {
 // Default configuration to be used on Stripe Tax calculations.
 type TaxSettingsUpdateDefaultsParams struct {
 	// Specifies the default [tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#tax-behavior) to be used when the item's price has unspecified tax behavior. One of inclusive, exclusive, or inferred_by_currency. Once specified, it cannot be changed back to null.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 }
 
 // The place where your business is located.
 type TaxSettingsUpdateHeadOfficeParams struct {
 	// The location of the business for tax purposes.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 }
 
 // Updates Tax Settings parameters used in tax calculations. All parameters are editable but none can be removed once set.
 type TaxSettingsUpdateParams struct {
 	Params `form:"*"`
 	// Default configuration to be used on Stripe Tax calculations.
-	Defaults *TaxSettingsUpdateDefaultsParams `form:"defaults"`
+	Defaults *TaxSettingsUpdateDefaultsParams `form:"defaults" json:"defaults,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The place where your business is located.
-	HeadOffice *TaxSettingsUpdateHeadOfficeParams `form:"head_office"`
+	HeadOffice *TaxSettingsUpdateHeadOfficeParams `form:"head_office" json:"head_office,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -127,8 +127,8 @@ type TaxSettingsStatusDetailsPending struct {
 	MissingFields []string `json:"missing_fields"`
 }
 type TaxSettingsStatusDetails struct {
-	Active  *TaxSettingsStatusDetailsActive  `json:"active"`
-	Pending *TaxSettingsStatusDetailsPending `json:"pending"`
+	Active  *TaxSettingsStatusDetailsActive  `json:"active,omitempty"`
+	Pending *TaxSettingsStatusDetailsPending `json:"pending,omitempty"`
 }
 
 // You can use Tax `Settings` to manage configurations used by Stripe Tax calculations.

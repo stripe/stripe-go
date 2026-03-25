@@ -92,19 +92,19 @@ const (
 type PayoutListParams struct {
 	ListParams `form:"*"`
 	// Only return payouts that are expected to arrive during the given date interval.
-	ArrivalDate *int64 `form:"arrival_date"`
+	ArrivalDate *int64 `form:"arrival_date" json:"arrival_date,omitempty"`
 	// Only return payouts that are expected to arrive during the given date interval.
-	ArrivalDateRange *RangeQueryParams `form:"arrival_date"`
+	ArrivalDateRange *RangeQueryParams `form:"arrival_date" json:"-"`
 	// Only return payouts that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return payouts that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// The ID of an external account - only return payouts sent to this external account.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return payouts that have the given status: `pending`, `paid`, `failed`, or `canceled`.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -120,25 +120,25 @@ func (p *PayoutListParams) AddExpand(f string) {
 type PayoutParams struct {
 	Params `form:"*"`
 	// A positive integer in cents representing how much to payout.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The ID of a bank account or a card to send the payout to. If you don't provide a destination, we use the default external account for the specified currency.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The method used to send this payout, which is `standard` or `instant`. We support `instant` for payouts to debit cards and bank accounts in certain countries. Learn more about [bank support for Instant Payouts](https://stripe.com/docs/payouts/instant-payouts-banks).
-	Method *string `form:"method"`
+	Method *string `form:"method" json:"method,omitempty"`
 	// The ID of a v2 FinancialAccount to send funds to.
-	PayoutMethod *string `form:"payout_method"`
+	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
 	// The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the Balances API. One of `bank_account`, `card`, or `fpx`.
-	SourceType *string `form:"source_type"`
+	SourceType *string `form:"source_type" json:"source_type,omitempty"`
 	// A string that displays on the recipient's bank or card statement (up to 22 characters). A `statement_descriptor` that's longer than 22 characters return an error. Most banks truncate this information and display it inconsistently. Some banks might not display it at all.
-	StatementDescriptor *string                  `form:"statement_descriptor"`
+	StatementDescriptor *string                  `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	UnsetFields         []PayoutParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -174,9 +174,9 @@ func (p *PayoutParams) AddMetadata(key string, value string) {
 type PayoutReverseParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -201,25 +201,25 @@ func (p *PayoutReverseParams) AddMetadata(key string, value string) {
 type PayoutCreateParams struct {
 	Params `form:"*"`
 	// A positive integer in cents representing how much to payout.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The ID of a bank account or a card to send the payout to. If you don't provide a destination, we use the default external account for the specified currency.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The method used to send this payout, which is `standard` or `instant`. We support `instant` for payouts to debit cards and bank accounts in certain countries. Learn more about [bank support for Instant Payouts](https://stripe.com/docs/payouts/instant-payouts-banks).
-	Method *string `form:"method"`
+	Method *string `form:"method" json:"method,omitempty"`
 	// The ID of a v2 FinancialAccount to send funds to.
-	PayoutMethod *string `form:"payout_method"`
+	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
 	// The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the Balances API. One of `bank_account`, `card`, or `fpx`.
-	SourceType *string `form:"source_type"`
+	SourceType *string `form:"source_type" json:"source_type,omitempty"`
 	// A string that displays on the recipient's bank or card statement (up to 22 characters). A `statement_descriptor` that's longer than 22 characters return an error. Most banks truncate this information and display it inconsistently. Some banks might not display it at all.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -252,7 +252,7 @@ func (p *PayoutCancelParams) AddExpand(f string) {
 type PayoutRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -264,9 +264,9 @@ func (p *PayoutRetrieveParams) AddExpand(f string) {
 type PayoutUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string              `form:"metadata"`
+	Metadata    map[string]string              `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []PayoutUpdateParamsUnsetField `form:"-" json:"-"`
 }
 

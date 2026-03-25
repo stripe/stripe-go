@@ -43,11 +43,11 @@ const (
 type BillingAlertListParams struct {
 	ListParams `form:"*"`
 	// Filter results to only include this type of alert.
-	AlertType *string `form:"alert_type"`
+	AlertType *string `form:"alert_type" json:"alert_type,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Filter results to only include alerts with the given meter.
-	Meter *string `form:"meter"`
+	Meter *string `form:"meter" json:"meter,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -58,34 +58,34 @@ func (p *BillingAlertListParams) AddExpand(f string) {
 // The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
 type BillingAlertUsageThresholdFilterParams struct {
 	// Limit the scope to this usage alert only to this customer.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// What type of filter is being applied to this usage alert.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The configuration of the usage threshold.
 type BillingAlertUsageThresholdParams struct {
 	// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
-	Filters []*BillingAlertUsageThresholdFilterParams `form:"filters"`
+	Filters []*BillingAlertUsageThresholdFilterParams `form:"filters" json:"filters,omitempty"`
 	// Defines the threshold value that triggers the alert.
-	GTE *int64 `form:"gte"`
+	GTE *int64 `form:"gte" json:"gte"`
 	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
-	Meter *string `form:"meter"`
+	Meter *string `form:"meter" json:"meter"`
 	// Defines how the alert will behave.
-	Recurrence *string `form:"recurrence"`
+	Recurrence *string `form:"recurrence" json:"recurrence"`
 }
 
 // Creates a billing alert
 type BillingAlertParams struct {
 	Params `form:"*"`
 	// The type of alert to create.
-	AlertType *string `form:"alert_type"`
+	AlertType *string `form:"alert_type" json:"alert_type,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The title of the alert.
-	Title *string `form:"title"`
+	Title *string `form:"title" json:"title,omitempty"`
 	// The configuration of the usage threshold.
-	UsageThreshold *BillingAlertUsageThresholdParams `form:"usage_threshold"`
+	UsageThreshold *BillingAlertUsageThresholdParams `form:"usage_threshold" json:"usage_threshold,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -97,7 +97,7 @@ func (p *BillingAlertParams) AddExpand(f string) {
 type BillingAlertActivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -109,7 +109,7 @@ func (p *BillingAlertActivateParams) AddExpand(f string) {
 type BillingAlertArchiveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -121,7 +121,7 @@ func (p *BillingAlertArchiveParams) AddExpand(f string) {
 type BillingAlertDeactivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -132,34 +132,34 @@ func (p *BillingAlertDeactivateParams) AddExpand(f string) {
 // The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
 type BillingAlertCreateUsageThresholdFilterParams struct {
 	// Limit the scope to this usage alert only to this customer.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// What type of filter is being applied to this usage alert.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The configuration of the usage threshold.
 type BillingAlertCreateUsageThresholdParams struct {
 	// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
-	Filters []*BillingAlertCreateUsageThresholdFilterParams `form:"filters"`
+	Filters []*BillingAlertCreateUsageThresholdFilterParams `form:"filters" json:"filters,omitempty"`
 	// Defines the threshold value that triggers the alert.
-	GTE *int64 `form:"gte"`
+	GTE *int64 `form:"gte" json:"gte"`
 	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
-	Meter *string `form:"meter"`
+	Meter *string `form:"meter" json:"meter"`
 	// Defines how the alert will behave.
-	Recurrence *string `form:"recurrence"`
+	Recurrence *string `form:"recurrence" json:"recurrence"`
 }
 
 // Creates a billing alert
 type BillingAlertCreateParams struct {
 	Params `form:"*"`
 	// The type of alert to create.
-	AlertType *string `form:"alert_type"`
+	AlertType *string `form:"alert_type" json:"alert_type"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The title of the alert.
-	Title *string `form:"title"`
+	Title *string `form:"title" json:"title"`
 	// The configuration of the usage threshold.
-	UsageThreshold *BillingAlertCreateUsageThresholdParams `form:"usage_threshold"`
+	UsageThreshold *BillingAlertCreateUsageThresholdParams `form:"usage_threshold" json:"usage_threshold,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -171,7 +171,7 @@ func (p *BillingAlertCreateParams) AddExpand(f string) {
 type BillingAlertRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

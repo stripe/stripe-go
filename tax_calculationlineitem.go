@@ -136,7 +136,7 @@ type TaxCalculationLineItem struct {
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
 	TaxBehavior TaxCalculationLineItemTaxBehavior `json:"tax_behavior"`
 	// Detailed account of taxes relevant to this line item.
-	TaxBreakdown []*TaxCalculationLineItemTaxBreakdown `json:"tax_breakdown"`
+	TaxBreakdown []*TaxCalculationLineItemTaxBreakdown `json:"tax_breakdown,omitempty"`
 	// The [tax code](https://docs.stripe.com/tax/tax-categories) ID used for this resource.
 	TaxCode string `json:"tax_code"`
 }

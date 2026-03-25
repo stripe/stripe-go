@@ -188,17 +188,17 @@ const (
 type IssuingAuthorizationListParams struct {
 	ListParams `form:"*"`
 	// Only return authorizations that belong to the given card.
-	Card *string `form:"card"`
+	Card *string `form:"card" json:"card,omitempty"`
 	// Only return authorizations that belong to the given cardholder.
-	Cardholder *string `form:"cardholder"`
+	Cardholder *string `form:"cardholder" json:"cardholder,omitempty"`
 	// Only return authorizations that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return authorizations that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return authorizations with the given status. One of `pending`, `closed`, or `reversed`.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -210,9 +210,9 @@ func (p *IssuingAuthorizationListParams) AddExpand(f string) {
 type IssuingAuthorizationParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                      `form:"metadata"`
+	Metadata    map[string]string                      `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []IssuingAuthorizationParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -247,11 +247,11 @@ func (p *IssuingAuthorizationParams) AddMetadata(key string, value string) {
 type IssuingAuthorizationApproveParams struct {
 	Params `form:"*"`
 	// If the authorization's `pending_request.is_amount_controllable` property is `true`, you may provide this value to control how much to hold for the authorization. Must be positive (use [`decline`](https://docs.stripe.com/api/issuing/authorizations/decline) to decline an authorization request).
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                             `form:"metadata"`
+	Metadata    map[string]string                             `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []IssuingAuthorizationApproveParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -286,9 +286,9 @@ func (p *IssuingAuthorizationApproveParams) AddMetadata(key string, value string
 type IssuingAuthorizationDeclineParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                             `form:"metadata"`
+	Metadata    map[string]string                             `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []IssuingAuthorizationDeclineParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -322,7 +322,7 @@ func (p *IssuingAuthorizationDeclineParams) AddMetadata(key string, value string
 type IssuingAuthorizationRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -334,9 +334,9 @@ func (p *IssuingAuthorizationRetrieveParams) AddExpand(f string) {
 type IssuingAuthorizationUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                            `form:"metadata"`
+	Metadata    map[string]string                            `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []IssuingAuthorizationUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -605,7 +605,7 @@ type IssuingAuthorization struct {
 	// Fleet-specific information for authorizations using Fleet cards.
 	Fleet *IssuingAuthorizationFleet `json:"fleet"`
 	// Fraud challenges sent to the cardholder, if this authorization was declined for fraud risk reasons.
-	FraudChallenges []*IssuingAuthorizationFraudChallenge `json:"fraud_challenges"`
+	FraudChallenges []*IssuingAuthorizationFraudChallenge `json:"fraud_challenges,omitempty"`
 	// Information about fuel that was purchased with this transaction. Typically this information is received from the merchant after the authorization has been approved and the fuel dispensed.
 	Fuel *IssuingAuthorizationFuel `json:"fuel"`
 	// Unique identifier for the object.
@@ -630,11 +630,11 @@ type IssuingAuthorization struct {
 	// The current status of the authorization in its lifecycle.
 	Status IssuingAuthorizationStatus `json:"status"`
 	// [Token](https://docs.stripe.com/api/issuing/tokens/object) object used for this authorization. If a network token was not used for this authorization, this field will be null.
-	Token *IssuingToken `json:"token"`
+	Token *IssuingToken `json:"token,omitempty"`
 	// List of [transactions](https://docs.stripe.com/api/issuing/transactions) associated with this authorization.
 	Transactions []*IssuingTransaction `json:"transactions"`
 	// [Treasury](https://docs.stripe.com/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://docs.stripe.com/api/treasury/financial_accounts).
-	Treasury         *IssuingAuthorizationTreasury         `json:"treasury"`
+	Treasury         *IssuingAuthorizationTreasury         `json:"treasury,omitempty"`
 	VerificationData *IssuingAuthorizationVerificationData `json:"verification_data"`
 	// Whether the authorization bypassed fraud risk checks because the cardholder has previously completed a fraud challenge on a similar high-risk authorization from the same merchant.
 	VerifiedByFraudChallenge bool `json:"verified_by_fraud_challenge"`

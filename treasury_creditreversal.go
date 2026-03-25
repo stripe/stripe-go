@@ -29,13 +29,13 @@ const (
 type TreasuryCreditReversalListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Returns objects associated with this FinancialAccount.
-	FinancialAccount *string `form:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 	// Only return CreditReversals for the ReceivedCredit ID.
-	ReceivedCredit *string `form:"received_credit"`
+	ReceivedCredit *string `form:"received_credit" json:"received_credit,omitempty"`
 	// Only return CreditReversals for a given status.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -47,11 +47,11 @@ func (p *TreasuryCreditReversalListParams) AddExpand(f string) {
 type TreasuryCreditReversalParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ReceivedCredit to reverse.
-	ReceivedCredit *string `form:"received_credit"`
+	ReceivedCredit *string `form:"received_credit" json:"received_credit,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -72,11 +72,11 @@ func (p *TreasuryCreditReversalParams) AddMetadata(key string, value string) {
 type TreasuryCreditReversalCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ReceivedCredit to reverse.
-	ReceivedCredit *string `form:"received_credit"`
+	ReceivedCredit *string `form:"received_credit" json:"received_credit"`
 }
 
 // AddExpand appends a new field to expand.
@@ -97,7 +97,7 @@ func (p *TreasuryCreditReversalCreateParams) AddMetadata(key string, value strin
 type TreasuryCreditReversalRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

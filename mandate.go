@@ -165,7 +165,7 @@ const (
 type MandateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -177,7 +177,7 @@ func (p *MandateParams) AddExpand(f string) {
 type MandateRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -195,15 +195,15 @@ type MandateCustomerAcceptanceOnline struct {
 type MandateCustomerAcceptance struct {
 	// The time that the customer accepts the mandate.
 	AcceptedAt int64                             `json:"accepted_at"`
-	Offline    *MandateCustomerAcceptanceOffline `json:"offline"`
-	Online     *MandateCustomerAcceptanceOnline  `json:"online"`
+	Offline    *MandateCustomerAcceptanceOffline `json:"offline,omitempty"`
+	Online     *MandateCustomerAcceptanceOnline  `json:"online,omitempty"`
 	// The mandate includes the type of customer acceptance information, such as: `online` or `offline`.
 	Type MandateCustomerAcceptanceType `json:"type"`
 }
 type MandateMultiUse struct{}
 type MandatePaymentMethodDetailsACSSDebit struct {
 	// List of Stripe products where this mandate can be selected automatically.
-	DefaultFor []MandatePaymentMethodDetailsACSSDebitDefaultFor `json:"default_for"`
+	DefaultFor []MandatePaymentMethodDetailsACSSDebitDefaultFor `json:"default_for,omitempty"`
 	// Description of the interval. Only required if the 'payment_schedule' parameter is 'interval' or 'combined'.
 	IntervalDescription string `json:"interval_description"`
 	// Payment schedule for the mandate.
@@ -279,29 +279,29 @@ type MandatePaymentMethodDetailsUpi struct {
 }
 type MandatePaymentMethodDetailsUSBankAccount struct {
 	// Mandate collection method
-	CollectionMethod MandatePaymentMethodDetailsUSBankAccountCollectionMethod `json:"collection_method"`
+	CollectionMethod MandatePaymentMethodDetailsUSBankAccountCollectionMethod `json:"collection_method,omitempty"`
 }
 type MandatePaymentMethodDetails struct {
-	ACSSDebit     *MandatePaymentMethodDetailsACSSDebit     `json:"acss_debit"`
-	AmazonPay     *MandatePaymentMethodDetailsAmazonPay     `json:"amazon_pay"`
-	AUBECSDebit   *MandatePaymentMethodDetailsAUBECSDebit   `json:"au_becs_debit"`
-	BACSDebit     *MandatePaymentMethodDetailsBACSDebit     `json:"bacs_debit"`
-	Card          *MandatePaymentMethodDetailsCard          `json:"card"`
-	CashApp       *MandatePaymentMethodDetailsCashApp       `json:"cashapp"`
-	KakaoPay      *MandatePaymentMethodDetailsKakaoPay      `json:"kakao_pay"`
-	Klarna        *MandatePaymentMethodDetailsKlarna        `json:"klarna"`
-	KrCard        *MandatePaymentMethodDetailsKrCard        `json:"kr_card"`
-	Link          *MandatePaymentMethodDetailsLink          `json:"link"`
-	NaverPay      *MandatePaymentMethodDetailsNaverPay      `json:"naver_pay"`
-	NzBankAccount *MandatePaymentMethodDetailsNzBankAccount `json:"nz_bank_account"`
-	Paypal        *MandatePaymentMethodDetailsPaypal        `json:"paypal"`
-	Payto         *MandatePaymentMethodDetailsPayto         `json:"payto"`
-	RevolutPay    *MandatePaymentMethodDetailsRevolutPay    `json:"revolut_pay"`
-	SEPADebit     *MandatePaymentMethodDetailsSEPADebit     `json:"sepa_debit"`
+	ACSSDebit     *MandatePaymentMethodDetailsACSSDebit     `json:"acss_debit,omitempty"`
+	AmazonPay     *MandatePaymentMethodDetailsAmazonPay     `json:"amazon_pay,omitempty"`
+	AUBECSDebit   *MandatePaymentMethodDetailsAUBECSDebit   `json:"au_becs_debit,omitempty"`
+	BACSDebit     *MandatePaymentMethodDetailsBACSDebit     `json:"bacs_debit,omitempty"`
+	Card          *MandatePaymentMethodDetailsCard          `json:"card,omitempty"`
+	CashApp       *MandatePaymentMethodDetailsCashApp       `json:"cashapp,omitempty"`
+	KakaoPay      *MandatePaymentMethodDetailsKakaoPay      `json:"kakao_pay,omitempty"`
+	Klarna        *MandatePaymentMethodDetailsKlarna        `json:"klarna,omitempty"`
+	KrCard        *MandatePaymentMethodDetailsKrCard        `json:"kr_card,omitempty"`
+	Link          *MandatePaymentMethodDetailsLink          `json:"link,omitempty"`
+	NaverPay      *MandatePaymentMethodDetailsNaverPay      `json:"naver_pay,omitempty"`
+	NzBankAccount *MandatePaymentMethodDetailsNzBankAccount `json:"nz_bank_account,omitempty"`
+	Paypal        *MandatePaymentMethodDetailsPaypal        `json:"paypal,omitempty"`
+	Payto         *MandatePaymentMethodDetailsPayto         `json:"payto,omitempty"`
+	RevolutPay    *MandatePaymentMethodDetailsRevolutPay    `json:"revolut_pay,omitempty"`
+	SEPADebit     *MandatePaymentMethodDetailsSEPADebit     `json:"sepa_debit,omitempty"`
 	// This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method.
 	Type          MandatePaymentMethodDetailsType           `json:"type"`
-	Upi           *MandatePaymentMethodDetailsUpi           `json:"upi"`
-	USBankAccount *MandatePaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
+	Upi           *MandatePaymentMethodDetailsUpi           `json:"upi,omitempty"`
+	USBankAccount *MandatePaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
 }
 type MandateSingleUse struct {
 	// The amount of the payment on a single use mandate.
@@ -318,15 +318,15 @@ type Mandate struct {
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool             `json:"livemode"`
-	MultiUse *MandateMultiUse `json:"multi_use"`
+	MultiUse *MandateMultiUse `json:"multi_use,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The account (if any) that the mandate is intended for.
-	OnBehalfOf string `json:"on_behalf_of"`
+	OnBehalfOf string `json:"on_behalf_of,omitempty"`
 	// ID of the payment method associated with this mandate.
 	PaymentMethod        *PaymentMethod               `json:"payment_method"`
 	PaymentMethodDetails *MandatePaymentMethodDetails `json:"payment_method_details"`
-	SingleUse            *MandateSingleUse            `json:"single_use"`
+	SingleUse            *MandateSingleUse            `json:"single_use,omitempty"`
 	// The mandate status indicates whether or not you can use it to initiate a payment.
 	Status MandateStatus `json:"status"`
 	// The type of the mandate.

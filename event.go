@@ -283,17 +283,17 @@ const (
 type EventListParams struct {
 	ListParams `form:"*"`
 	// Only return events that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return events that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Filter events by whether all webhooks were successfully delivered. If false, events which are still pending or have failed all delivery attempts to a webhook endpoint will be returned.
-	DeliverySuccess *bool `form:"delivery_success"`
+	DeliverySuccess *bool `form:"delivery_success" json:"delivery_success,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A string containing a specific event name, or group of events using * as a wildcard. The list will be filtered to include only events with a matching event property.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 	// An array of up to 20 strings containing specific event names. The list will be filtered to include only events with a matching event property. You may pass either `type` or `types`, but not both.
-	Types []*string `form:"types"`
+	Types []*string `form:"types" json:"types,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -305,7 +305,7 @@ func (p *EventListParams) AddExpand(f string) {
 type EventParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -317,7 +317,7 @@ func (p *EventParams) AddExpand(f string) {
 type EventRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -332,7 +332,7 @@ type EventData struct {
 	// Object containing the API resource relevant to the event. For example, an `invoice.created` event will have a full [invoice object](https://api.stripe.com#invoice_object) as the value of the object key.
 	Object map[string]interface{} `json:"-"`
 	// Object containing the names of the updated attributes and their values prior to the event (only included in events of type `*.updated`). If an array attribute has any updated elements, this object contains the entire array. In Stripe API versions 2017-04-06 or earlier, an updated array attribute in this object includes only the updated array elements.
-	PreviousAttributes map[string]interface{} `json:"previous_attributes"`
+	PreviousAttributes map[string]interface{} `json:"previous_attributes,omitempty"`
 	Raw                json.RawMessage        `json:"object"`
 }
 
@@ -371,11 +371,11 @@ type EventRequest struct {
 type Event struct {
 	APIResource
 	// The connected account that originates the event.
-	Account string `json:"account"`
+	Account string `json:"account,omitempty"`
 	// The Stripe API version used to render `data` when the event was created. The contents of `data` never change, so this value remains static regardless of the API version currently in use. This property is populated only for events created on or after October 31, 2014.
 	APIVersion string `json:"api_version"`
 	// Authentication context needed to fetch the event or related object.
-	Context string `json:"context"`
+	Context string `json:"context,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64      `json:"created"`
 	Data    *EventData `json:"data"`

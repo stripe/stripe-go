@@ -75,7 +75,7 @@ type LineItem struct {
 	// An arbitrary string attached to the object. Often useful for displaying to users. Defaults to product name.
 	Description string `json:"description"`
 	// The discounts applied to the line item.
-	Discounts []*LineItemDiscount `json:"discounts"`
+	Discounts []*LineItemDiscount `json:"discounts,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -87,7 +87,7 @@ type LineItem struct {
 	// The quantity of products being purchased.
 	Quantity int64 `json:"quantity"`
 	// The taxes applied to the line item.
-	Taxes []*LineItemTax `json:"taxes"`
+	Taxes []*LineItemTax `json:"taxes,omitempty"`
 }
 
 // LineItemList is a list of LineItems as retrieved from a list endpoint.

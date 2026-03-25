@@ -69,19 +69,19 @@ const (
 type IssuingCardholderListParams struct {
 	ListParams `form:"*"`
 	// Only return cardholders that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return cardholders that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Only return cardholders that have the given email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return cardholders that have the given phone number.
-	PhoneNumber *string `form:"phone_number"`
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
 	// Only return cardholders that have the given status. One of `active`, `inactive`, or `blocked`.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 	// Only return cardholders that have the given type. One of `individual` or `company`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -92,23 +92,23 @@ func (p *IssuingCardholderListParams) AddExpand(f string) {
 // The cardholder's billing address.
 type IssuingCardholderBillingParams struct {
 	// The cardholder's billing address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 }
 
 // Additional information about a `company` cardholder.
 type IssuingCardholderCompanyParams struct {
 	// The entity's business ID number.
-	TaxID *string `form:"tax_id"`
+	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 }
 
 // Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
-	Date *int64 `form:"date"`
+	Date *int64 `form:"date" json:"date,omitempty"`
 	// The IP address from which the cardholder accepted the Authorized User Terms.
-	IP *string `form:"ip"`
+	IP *string `form:"ip" json:"ip,omitempty"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
-	UserAgent   *string                                                                     `form:"user_agent"`
+	UserAgent   *string                                                                     `form:"user_agent" json:"user_agent,omitempty"`
 	UnsetFields []IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -127,101 +127,101 @@ func (p *IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams) AddUns
 // Information related to the card_issuing program for this cardholder.
 type IssuingCardholderIndividualCardIssuingParams struct {
 	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
-	UserTermsAcceptance *IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance"`
+	UserTermsAcceptance *IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance" json:"user_terms_acceptance,omitempty"`
 }
 
 // The date of birth of this cardholder. Cardholders must be older than 13 years old.
 type IssuingCardholderIndividualDOBParams struct {
 	// The day of birth, between 1 and 31.
-	Day *int64 `form:"day"`
+	Day *int64 `form:"day" json:"day"`
 	// The month of birth, between 1 and 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month"`
 	// The four-digit year of birth.
-	Year *int64 `form:"year"`
+	Year *int64 `form:"year" json:"year"`
 }
 
 // An identifying document, either a passport or local ID card.
 type IssuingCardholderIndividualVerificationDocumentParams struct {
 	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
-	Back *string `form:"back"`
+	Back *string `form:"back" json:"back,omitempty"`
 	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
-	Front *string `form:"front"`
+	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // Government-issued ID document for this cardholder.
 type IssuingCardholderIndividualVerificationParams struct {
 	// An identifying document, either a passport or local ID card.
-	Document *IssuingCardholderIndividualVerificationDocumentParams `form:"document"`
+	Document *IssuingCardholderIndividualVerificationDocumentParams `form:"document" json:"document,omitempty"`
 }
 
 // Additional information about an `individual` cardholder.
 type IssuingCardholderIndividualParams struct {
 	// Information related to the card_issuing program for this cardholder.
-	CardIssuing *IssuingCardholderIndividualCardIssuingParams `form:"card_issuing"`
+	CardIssuing *IssuingCardholderIndividualCardIssuingParams `form:"card_issuing" json:"card_issuing,omitempty"`
 	// The date of birth of this cardholder. Cardholders must be older than 13 years old.
-	DOB *IssuingCardholderIndividualDOBParams `form:"dob"`
+	DOB *IssuingCardholderIndividualDOBParams `form:"dob" json:"dob,omitempty"`
 	// The first name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
-	FirstName *string `form:"first_name"`
+	FirstName *string `form:"first_name" json:"first_name,omitempty"`
 	// The last name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
-	LastName *string `form:"last_name"`
+	LastName *string `form:"last_name" json:"last_name,omitempty"`
 	// Government-issued ID document for this cardholder.
-	Verification *IssuingCardholderIndividualVerificationParams `form:"verification"`
+	Verification *IssuingCardholderIndividualVerificationParams `form:"verification" json:"verification,omitempty"`
 }
 
 // Limit spending with amount-based rules that apply across this cardholder's cards.
 type IssuingCardholderSpendingControlsSpendingLimitParams struct {
 	// Maximum amount allowed to spend per interval.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
-	Categories []*string `form:"categories"`
+	Categories []*string `form:"categories" json:"categories,omitempty"`
 	// Interval (or event) to which the amount applies.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 }
 
 // Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 type IssuingCardholderSpendingControlsParams struct {
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
-	AllowedCategories []*string `form:"allowed_categories"`
+	AllowedCategories []*string `form:"allowed_categories" json:"allowed_categories,omitempty"`
 	// Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
-	AllowedMerchantCountries []*string `form:"allowed_merchant_countries"`
+	AllowedMerchantCountries []*string `form:"allowed_merchant_countries" json:"allowed_merchant_countries,omitempty"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
-	BlockedCategories []*string `form:"blocked_categories"`
+	BlockedCategories []*string `form:"blocked_categories" json:"blocked_categories,omitempty"`
 	// Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
-	BlockedMerchantCountries []*string `form:"blocked_merchant_countries"`
+	BlockedMerchantCountries []*string `form:"blocked_merchant_countries" json:"blocked_merchant_countries,omitempty"`
 	// Limit spending with amount-based rules that apply across this cardholder's cards.
-	SpendingLimits []*IssuingCardholderSpendingControlsSpendingLimitParams `form:"spending_limits"`
+	SpendingLimits []*IssuingCardholderSpendingControlsSpendingLimitParams `form:"spending_limits" json:"spending_limits,omitempty"`
 	// Currency of amounts within `spending_limits`. Defaults to your merchant country's currency.
-	SpendingLimitsCurrency *string `form:"spending_limits_currency"`
+	SpendingLimitsCurrency *string `form:"spending_limits_currency" json:"spending_limits_currency,omitempty"`
 }
 
 // Creates a new Issuing Cardholder object that can be issued cards.
 type IssuingCardholderParams struct {
 	Params `form:"*"`
 	// The cardholder's billing address.
-	Billing *IssuingCardholderBillingParams `form:"billing"`
+	Billing *IssuingCardholderBillingParams `form:"billing" json:"billing,omitempty"`
 	// Additional information about a `company` cardholder.
-	Company *IssuingCardholderCompanyParams `form:"company"`
+	Company *IssuingCardholderCompanyParams `form:"company" json:"company,omitempty"`
 	// The cardholder's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Additional information about an `individual` cardholder.
-	Individual *IssuingCardholderIndividualParams `form:"individual"`
+	Individual *IssuingCardholderIndividualParams `form:"individual" json:"individual,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The cardholder's name. This will be printed on cards issued to them. The maximum length of this field is 24 characters. This field cannot contain any special characters or numbers.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The cardholder's phone number. This will be transformed to [E.164](https://en.wikipedia.org/wiki/E.164) if it is not provided in that format already. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://docs.stripe.com/issuing/3d-secure#when-is-3d-secure-applied) for more details.
-	PhoneNumber *string `form:"phone_number"`
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
 	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `da`, `de`, `en`, `es`, `fr`, `it`, `pl`, or `sv`.
 	//  This changes the language of the [3D Secure flow](https://docs.stripe.com/issuing/3d-secure) and one-time password messages sent to the cardholder.
-	PreferredLocales []*string `form:"preferred_locales"`
+	PreferredLocales []*string `form:"preferred_locales" json:"preferred_locales,omitempty"`
 	// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
-	SpendingControls *IssuingCardholderSpendingControlsParams `form:"spending_controls"`
+	SpendingControls *IssuingCardholderSpendingControlsParams `form:"spending_controls" json:"spending_controls,omitempty"`
 	// Specifies whether to permit authorizations on this cardholder's cards. Defaults to `active`.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 	// One of `individual` or `company`. See [Choose a cardholder type](https://docs.stripe.com/issuing/other/choose-cardholder) for more details.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -241,23 +241,23 @@ func (p *IssuingCardholderParams) AddMetadata(key string, value string) {
 // The cardholder's billing address.
 type IssuingCardholderCreateBillingParams struct {
 	// The cardholder's billing address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 }
 
 // Additional information about a `company` cardholder.
 type IssuingCardholderCreateCompanyParams struct {
 	// The entity's business ID number.
-	TaxID *string `form:"tax_id"`
+	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 }
 
 // Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
-	Date *int64 `form:"date"`
+	Date *int64 `form:"date" json:"date,omitempty"`
 	// The IP address from which the cardholder accepted the Authorized User Terms.
-	IP *string `form:"ip"`
+	IP *string `form:"ip" json:"ip,omitempty"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
-	UserAgent   *string                                                                           `form:"user_agent"`
+	UserAgent   *string                                                                           `form:"user_agent" json:"user_agent,omitempty"`
 	UnsetFields []IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -276,101 +276,101 @@ func (p *IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams) 
 // Information related to the card_issuing program for this cardholder.
 type IssuingCardholderCreateIndividualCardIssuingParams struct {
 	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
-	UserTermsAcceptance *IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance"`
+	UserTermsAcceptance *IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance" json:"user_terms_acceptance,omitempty"`
 }
 
 // The date of birth of this cardholder. Cardholders must be older than 13 years old.
 type IssuingCardholderCreateIndividualDOBParams struct {
 	// The day of birth, between 1 and 31.
-	Day *int64 `form:"day"`
+	Day *int64 `form:"day" json:"day"`
 	// The month of birth, between 1 and 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month"`
 	// The four-digit year of birth.
-	Year *int64 `form:"year"`
+	Year *int64 `form:"year" json:"year"`
 }
 
 // An identifying document, either a passport or local ID card.
 type IssuingCardholderCreateIndividualVerificationDocumentParams struct {
 	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
-	Back *string `form:"back"`
+	Back *string `form:"back" json:"back,omitempty"`
 	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
-	Front *string `form:"front"`
+	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // Government-issued ID document for this cardholder.
 type IssuingCardholderCreateIndividualVerificationParams struct {
 	// An identifying document, either a passport or local ID card.
-	Document *IssuingCardholderCreateIndividualVerificationDocumentParams `form:"document"`
+	Document *IssuingCardholderCreateIndividualVerificationDocumentParams `form:"document" json:"document,omitempty"`
 }
 
 // Additional information about an `individual` cardholder.
 type IssuingCardholderCreateIndividualParams struct {
 	// Information related to the card_issuing program for this cardholder.
-	CardIssuing *IssuingCardholderCreateIndividualCardIssuingParams `form:"card_issuing"`
+	CardIssuing *IssuingCardholderCreateIndividualCardIssuingParams `form:"card_issuing" json:"card_issuing,omitempty"`
 	// The date of birth of this cardholder. Cardholders must be older than 13 years old.
-	DOB *IssuingCardholderCreateIndividualDOBParams `form:"dob"`
+	DOB *IssuingCardholderCreateIndividualDOBParams `form:"dob" json:"dob,omitempty"`
 	// The first name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
-	FirstName *string `form:"first_name"`
+	FirstName *string `form:"first_name" json:"first_name,omitempty"`
 	// The last name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
-	LastName *string `form:"last_name"`
+	LastName *string `form:"last_name" json:"last_name,omitempty"`
 	// Government-issued ID document for this cardholder.
-	Verification *IssuingCardholderCreateIndividualVerificationParams `form:"verification"`
+	Verification *IssuingCardholderCreateIndividualVerificationParams `form:"verification" json:"verification,omitempty"`
 }
 
 // Limit spending with amount-based rules that apply across this cardholder's cards.
 type IssuingCardholderCreateSpendingControlsSpendingLimitParams struct {
 	// Maximum amount allowed to spend per interval.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
-	Categories []*string `form:"categories"`
+	Categories []*string `form:"categories" json:"categories,omitempty"`
 	// Interval (or event) to which the amount applies.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 }
 
 // Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 type IssuingCardholderCreateSpendingControlsParams struct {
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
-	AllowedCategories []*string `form:"allowed_categories"`
+	AllowedCategories []*string `form:"allowed_categories" json:"allowed_categories,omitempty"`
 	// Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
-	AllowedMerchantCountries []*string `form:"allowed_merchant_countries"`
+	AllowedMerchantCountries []*string `form:"allowed_merchant_countries" json:"allowed_merchant_countries,omitempty"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
-	BlockedCategories []*string `form:"blocked_categories"`
+	BlockedCategories []*string `form:"blocked_categories" json:"blocked_categories,omitempty"`
 	// Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
-	BlockedMerchantCountries []*string `form:"blocked_merchant_countries"`
+	BlockedMerchantCountries []*string `form:"blocked_merchant_countries" json:"blocked_merchant_countries,omitempty"`
 	// Limit spending with amount-based rules that apply across this cardholder's cards.
-	SpendingLimits []*IssuingCardholderCreateSpendingControlsSpendingLimitParams `form:"spending_limits"`
+	SpendingLimits []*IssuingCardholderCreateSpendingControlsSpendingLimitParams `form:"spending_limits" json:"spending_limits,omitempty"`
 	// Currency of amounts within `spending_limits`. Defaults to your merchant country's currency.
-	SpendingLimitsCurrency *string `form:"spending_limits_currency"`
+	SpendingLimitsCurrency *string `form:"spending_limits_currency" json:"spending_limits_currency,omitempty"`
 }
 
 // Creates a new Issuing Cardholder object that can be issued cards.
 type IssuingCardholderCreateParams struct {
 	Params `form:"*"`
 	// The cardholder's billing address.
-	Billing *IssuingCardholderCreateBillingParams `form:"billing"`
+	Billing *IssuingCardholderCreateBillingParams `form:"billing" json:"billing"`
 	// Additional information about a `company` cardholder.
-	Company *IssuingCardholderCreateCompanyParams `form:"company"`
+	Company *IssuingCardholderCreateCompanyParams `form:"company" json:"company,omitempty"`
 	// The cardholder's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Additional information about an `individual` cardholder.
-	Individual *IssuingCardholderCreateIndividualParams `form:"individual"`
+	Individual *IssuingCardholderCreateIndividualParams `form:"individual" json:"individual,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The cardholder's name. This will be printed on cards issued to them. The maximum length of this field is 24 characters. This field cannot contain any special characters or numbers.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// The cardholder's phone number. This will be transformed to [E.164](https://en.wikipedia.org/wiki/E.164) if it is not provided in that format already. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://docs.stripe.com/issuing/3d-secure#when-is-3d-secure-applied) for more details.
-	PhoneNumber *string `form:"phone_number"`
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
 	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `da`, `de`, `en`, `es`, `fr`, `it`, `pl`, or `sv`.
 	//  This changes the language of the [3D Secure flow](https://docs.stripe.com/issuing/3d-secure) and one-time password messages sent to the cardholder.
-	PreferredLocales []*string `form:"preferred_locales"`
+	PreferredLocales []*string `form:"preferred_locales" json:"preferred_locales,omitempty"`
 	// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
-	SpendingControls *IssuingCardholderCreateSpendingControlsParams `form:"spending_controls"`
+	SpendingControls *IssuingCardholderCreateSpendingControlsParams `form:"spending_controls" json:"spending_controls,omitempty"`
 	// Specifies whether to permit authorizations on this cardholder's cards. Defaults to `active`.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 	// One of `individual` or `company`. See [Choose a cardholder type](https://docs.stripe.com/issuing/other/choose-cardholder) for more details.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -391,7 +391,7 @@ func (p *IssuingCardholderCreateParams) AddMetadata(key string, value string) {
 type IssuingCardholderRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -402,23 +402,23 @@ func (p *IssuingCardholderRetrieveParams) AddExpand(f string) {
 // The cardholder's billing address.
 type IssuingCardholderUpdateBillingParams struct {
 	// The cardholder's billing address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 }
 
 // Additional information about a `company` cardholder.
 type IssuingCardholderUpdateCompanyParams struct {
 	// The entity's business ID number.
-	TaxID *string `form:"tax_id"`
+	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 }
 
 // Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
-	Date *int64 `form:"date"`
+	Date *int64 `form:"date" json:"date,omitempty"`
 	// The IP address from which the cardholder accepted the Authorized User Terms.
-	IP *string `form:"ip"`
+	IP *string `form:"ip" json:"ip,omitempty"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
-	UserAgent   *string                                                                           `form:"user_agent"`
+	UserAgent   *string                                                                           `form:"user_agent" json:"user_agent,omitempty"`
 	UnsetFields []IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -437,97 +437,97 @@ func (p *IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams) 
 // Information related to the card_issuing program for this cardholder.
 type IssuingCardholderUpdateIndividualCardIssuingParams struct {
 	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
-	UserTermsAcceptance *IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance"`
+	UserTermsAcceptance *IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance" json:"user_terms_acceptance,omitempty"`
 }
 
 // The date of birth of this cardholder. Cardholders must be older than 13 years old.
 type IssuingCardholderUpdateIndividualDOBParams struct {
 	// The day of birth, between 1 and 31.
-	Day *int64 `form:"day"`
+	Day *int64 `form:"day" json:"day"`
 	// The month of birth, between 1 and 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month"`
 	// The four-digit year of birth.
-	Year *int64 `form:"year"`
+	Year *int64 `form:"year" json:"year"`
 }
 
 // An identifying document, either a passport or local ID card.
 type IssuingCardholderUpdateIndividualVerificationDocumentParams struct {
 	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
-	Back *string `form:"back"`
+	Back *string `form:"back" json:"back,omitempty"`
 	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`.
-	Front *string `form:"front"`
+	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // Government-issued ID document for this cardholder.
 type IssuingCardholderUpdateIndividualVerificationParams struct {
 	// An identifying document, either a passport or local ID card.
-	Document *IssuingCardholderUpdateIndividualVerificationDocumentParams `form:"document"`
+	Document *IssuingCardholderUpdateIndividualVerificationDocumentParams `form:"document" json:"document,omitempty"`
 }
 
 // Additional information about an `individual` cardholder.
 type IssuingCardholderUpdateIndividualParams struct {
 	// Information related to the card_issuing program for this cardholder.
-	CardIssuing *IssuingCardholderUpdateIndividualCardIssuingParams `form:"card_issuing"`
+	CardIssuing *IssuingCardholderUpdateIndividualCardIssuingParams `form:"card_issuing" json:"card_issuing,omitempty"`
 	// The date of birth of this cardholder. Cardholders must be older than 13 years old.
-	DOB *IssuingCardholderUpdateIndividualDOBParams `form:"dob"`
+	DOB *IssuingCardholderUpdateIndividualDOBParams `form:"dob" json:"dob,omitempty"`
 	// The first name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
-	FirstName *string `form:"first_name"`
+	FirstName *string `form:"first_name" json:"first_name,omitempty"`
 	// The last name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.
-	LastName *string `form:"last_name"`
+	LastName *string `form:"last_name" json:"last_name,omitempty"`
 	// Government-issued ID document for this cardholder.
-	Verification *IssuingCardholderUpdateIndividualVerificationParams `form:"verification"`
+	Verification *IssuingCardholderUpdateIndividualVerificationParams `form:"verification" json:"verification,omitempty"`
 }
 
 // Limit spending with amount-based rules that apply across this cardholder's cards.
 type IssuingCardholderUpdateSpendingControlsSpendingLimitParams struct {
 	// Maximum amount allowed to spend per interval.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
-	Categories []*string `form:"categories"`
+	Categories []*string `form:"categories" json:"categories,omitempty"`
 	// Interval (or event) to which the amount applies.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 }
 
 // Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 type IssuingCardholderUpdateSpendingControlsParams struct {
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
-	AllowedCategories []*string `form:"allowed_categories"`
+	AllowedCategories []*string `form:"allowed_categories" json:"allowed_categories,omitempty"`
 	// Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
-	AllowedMerchantCountries []*string `form:"allowed_merchant_countries"`
+	AllowedMerchantCountries []*string `form:"allowed_merchant_countries" json:"allowed_merchant_countries,omitempty"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
-	BlockedCategories []*string `form:"blocked_categories"`
+	BlockedCategories []*string `form:"blocked_categories" json:"blocked_categories,omitempty"`
 	// Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
-	BlockedMerchantCountries []*string `form:"blocked_merchant_countries"`
+	BlockedMerchantCountries []*string `form:"blocked_merchant_countries" json:"blocked_merchant_countries,omitempty"`
 	// Limit spending with amount-based rules that apply across this cardholder's cards.
-	SpendingLimits []*IssuingCardholderUpdateSpendingControlsSpendingLimitParams `form:"spending_limits"`
+	SpendingLimits []*IssuingCardholderUpdateSpendingControlsSpendingLimitParams `form:"spending_limits" json:"spending_limits,omitempty"`
 	// Currency of amounts within `spending_limits`. Defaults to your merchant country's currency.
-	SpendingLimitsCurrency *string `form:"spending_limits_currency"`
+	SpendingLimitsCurrency *string `form:"spending_limits_currency" json:"spending_limits_currency,omitempty"`
 }
 
 // Updates the specified Issuing Cardholder object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 type IssuingCardholderUpdateParams struct {
 	Params `form:"*"`
 	// The cardholder's billing address.
-	Billing *IssuingCardholderUpdateBillingParams `form:"billing"`
+	Billing *IssuingCardholderUpdateBillingParams `form:"billing" json:"billing,omitempty"`
 	// Additional information about a `company` cardholder.
-	Company *IssuingCardholderUpdateCompanyParams `form:"company"`
+	Company *IssuingCardholderUpdateCompanyParams `form:"company" json:"company,omitempty"`
 	// The cardholder's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Additional information about an `individual` cardholder.
-	Individual *IssuingCardholderUpdateIndividualParams `form:"individual"`
+	Individual *IssuingCardholderUpdateIndividualParams `form:"individual" json:"individual,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The cardholder's phone number. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://docs.stripe.com/issuing/3d-secure) for more details.
-	PhoneNumber *string `form:"phone_number"`
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
 	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `da`, `de`, `en`, `es`, `fr`, `it`, `pl`, or `sv`.
 	//  This changes the language of the [3D Secure flow](https://docs.stripe.com/issuing/3d-secure) and one-time password messages sent to the cardholder.
-	PreferredLocales []*string `form:"preferred_locales"`
+	PreferredLocales []*string `form:"preferred_locales" json:"preferred_locales,omitempty"`
 	// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
-	SpendingControls *IssuingCardholderUpdateSpendingControlsParams `form:"spending_controls"`
+	SpendingControls *IssuingCardholderUpdateSpendingControlsParams `form:"spending_controls" json:"spending_controls,omitempty"`
 	// Specifies whether to permit authorizations on this cardholder's cards.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -597,7 +597,7 @@ type IssuingCardholderIndividualVerification struct {
 // Additional information about an `individual` cardholder.
 type IssuingCardholderIndividual struct {
 	// Information related to the card_issuing program for this cardholder.
-	CardIssuing *IssuingCardholderIndividualCardIssuing `json:"card_issuing"`
+	CardIssuing *IssuingCardholderIndividualCardIssuing `json:"card_issuing,omitempty"`
 	// The date of birth of this cardholder.
 	DOB *IssuingCardholderIndividualDOB `json:"dob"`
 	// The first name of this cardholder. Required before activating Cards. This field cannot contain any numbers, special characters (except periods, commas, hyphens, spaces and apostrophes) or non-latin letters.

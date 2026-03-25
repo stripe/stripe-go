@@ -59,18 +59,18 @@ type ReservePlan struct {
 	Currency Currency `json:"currency"`
 	// Time at which the ReservePlan was disabled.
 	DisabledAt   int64                    `json:"disabled_at"`
-	FixedRelease *ReservePlanFixedRelease `json:"fixed_release"`
+	FixedRelease *ReservePlanFixedRelease `json:"fixed_release,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The percent of each Charge to reserve.
 	Percent        int64                      `json:"percent"`
-	RollingRelease *ReservePlanRollingRelease `json:"rolling_release"`
+	RollingRelease *ReservePlanRollingRelease `json:"rolling_release,omitempty"`
 	// The current status of the ReservePlan. The ReservePlan only affects charges if it is `active`.
 	Status ReservePlanStatus `json:"status"`
 	// The type of the ReservePlan.
