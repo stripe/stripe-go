@@ -149,6 +149,15 @@ const (
 	ChargePaymentMethodDetailsCardPartialAuthorizationStatusPartiallyAuthorized ChargePaymentMethodDetailsCardPartialAuthorizationStatus = "partially_authorized"
 )
 
+// Indicates whether or not the reauthorization feature is supported.
+type ChargePaymentMethodDetailsCardReauthorizationStatus string
+
+// List of values that ChargePaymentMethodDetailsCardReauthorizationStatus can take
+const (
+	ChargePaymentMethodDetailsCardReauthorizationStatusAvailable   ChargePaymentMethodDetailsCardReauthorizationStatus = "available"
+	ChargePaymentMethodDetailsCardReauthorizationStatusUnavailable ChargePaymentMethodDetailsCardReauthorizationStatus = "unavailable"
+)
+
 // Status of a card based on the card issuer.
 type ChargePaymentMethodDetailsCardRegulatedStatus string
 
@@ -218,15 +227,6 @@ const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonRejected            ChargePaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
 )
 
-// Indicates whether or not the reauthorization feature is supported.
-type ChargePaymentMethodDetailsCardReauthorizationStatus string
-
-// List of values that ChargePaymentMethodDetailsCardReauthorizationStatus can take
-const (
-	ChargePaymentMethodDetailsCardReauthorizationStatusAvailable   ChargePaymentMethodDetailsCardReauthorizationStatus = "available"
-	ChargePaymentMethodDetailsCardReauthorizationStatusUnavailable ChargePaymentMethodDetailsCardReauthorizationStatus = "unavailable"
-)
-
 // Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 type ChargePaymentMethodDetailsCardPresentNetwork string
 
@@ -252,6 +252,15 @@ const (
 	ChargePaymentMethodDetailsCardPresentOfflineTypeDeferred ChargePaymentMethodDetailsCardPresentOfflineType = "deferred"
 )
 
+// Indicates whether or not the reauthorization feature is supported.
+type ChargePaymentMethodDetailsCardPresentReauthorizationStatus string
+
+// List of values that ChargePaymentMethodDetailsCardPresentReauthorizationStatus can take
+const (
+	ChargePaymentMethodDetailsCardPresentReauthorizationStatusAvailable   ChargePaymentMethodDetailsCardPresentReauthorizationStatus = "available"
+	ChargePaymentMethodDetailsCardPresentReauthorizationStatusUnavailable ChargePaymentMethodDetailsCardPresentReauthorizationStatus = "unavailable"
+)
+
 // The type of account being debited or credited
 type ChargePaymentMethodDetailsCardPresentReceiptAccountType string
 
@@ -274,15 +283,6 @@ const (
 	ChargePaymentMethodDetailsCardPresentWalletTypeUnknown    ChargePaymentMethodDetailsCardPresentWalletType = "unknown"
 )
 
-// Indicates whether or not the reauthorization feature is supported.
-type ChargePaymentMethodDetailsCardPresentReauthorizationStatus string
-
-// List of values that ChargePaymentMethodDetailsCardPresentReauthorizationStatus can take
-const (
-	ChargePaymentMethodDetailsCardPresentReauthorizationStatusAvailable   ChargePaymentMethodDetailsCardPresentReauthorizationStatus = "available"
-	ChargePaymentMethodDetailsCardPresentReauthorizationStatusUnavailable ChargePaymentMethodDetailsCardPresentReauthorizationStatus = "unavailable"
-)
-
 // The blockchain network that the transaction was sent on.
 type ChargePaymentMethodDetailsCryptoNetwork string
 
@@ -292,6 +292,7 @@ const (
 	ChargePaymentMethodDetailsCryptoNetworkEthereum ChargePaymentMethodDetailsCryptoNetwork = "ethereum"
 	ChargePaymentMethodDetailsCryptoNetworkPolygon  ChargePaymentMethodDetailsCryptoNetwork = "polygon"
 	ChargePaymentMethodDetailsCryptoNetworkSolana   ChargePaymentMethodDetailsCryptoNetwork = "solana"
+	ChargePaymentMethodDetailsCryptoNetworkTempo    ChargePaymentMethodDetailsCryptoNetwork = "tempo"
 )
 
 // The token currency that the transaction was sent with.
@@ -393,16 +394,6 @@ type ChargePaymentMethodDetailsRevolutPayFundingType string
 // List of values that ChargePaymentMethodDetailsRevolutPayFundingType can take
 const (
 	ChargePaymentMethodDetailsRevolutPayFundingTypeCard ChargePaymentMethodDetailsRevolutPayFundingType = "card"
-)
-
-// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
-type ChargePaymentMethodDetailsStripeBalanceSourceType string
-
-// List of values that ChargePaymentMethodDetailsStripeBalanceSourceType can take
-const (
-	ChargePaymentMethodDetailsStripeBalanceSourceTypeBankAccount ChargePaymentMethodDetailsStripeBalanceSourceType = "bank_account"
-	ChargePaymentMethodDetailsStripeBalanceSourceTypeCard        ChargePaymentMethodDetailsStripeBalanceSourceType = "card"
-	ChargePaymentMethodDetailsStripeBalanceSourceTypeFPX         ChargePaymentMethodDetailsStripeBalanceSourceType = "fpx"
 )
 
 // The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
@@ -1443,8 +1434,6 @@ type ChargePaymentDetailsParams struct {
 	LodgingData []*ChargePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
-	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
-	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference" json:"order_reference,omitempty"`
 	// Subscription details for this PaymentIntent
@@ -2298,8 +2287,6 @@ type ChargeCapturePaymentDetailsParams struct {
 	// Lodging data for this PaymentIntent.
 	LodgingData []*ChargeCapturePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
-	//
-	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference" json:"order_reference,omitempty"`
@@ -3330,8 +3317,6 @@ type ChargeUpdatePaymentDetailsParams struct {
 	LodgingData []*ChargeUpdatePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
-	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
-	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference" json:"order_reference,omitempty"`
 	// Subscription details for this PaymentIntent
@@ -3701,6 +3686,12 @@ type ChargePaymentMethodDetailsCardPartialAuthorization struct {
 	Status ChargePaymentMethodDetailsCardPartialAuthorizationStatus `json:"status"`
 }
 
+// Whether the PaymentIntent can be reauthorized or not.
+type ChargePaymentMethodDetailsCardReauthorization struct {
+	// Indicates whether or not the reauthorization feature is supported.
+	Status ChargePaymentMethodDetailsCardReauthorizationStatus `json:"status"`
+}
+
 // Populated if this transaction used 3D Secure authentication.
 type ChargePaymentMethodDetailsCardThreeDSecure struct {
 	// For authenticated transactions: how the customer was authenticated by
@@ -3764,12 +3755,6 @@ type ChargePaymentMethodDetailsCardWallet struct {
 	// The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 	Type         PaymentMethodCardWalletType                       `json:"type"`
 	VisaCheckout *ChargePaymentMethodDetailsCardWalletVisaCheckout `json:"visa_checkout,omitempty"`
-}
-
-// Whether the PaymentIntent can be reauthorized or not.
-type ChargePaymentMethodDetailsCardReauthorization struct {
-	// Indicates whether or not the reauthorization feature is supported.
-	Status ChargePaymentMethodDetailsCardReauthorizationStatus `json:"status"`
 }
 type ChargePaymentMethodDetailsCard struct {
 	// The authorized amount.
@@ -3847,6 +3832,12 @@ type ChargePaymentMethodDetailsCardPresentOffline struct {
 	Type ChargePaymentMethodDetailsCardPresentOfflineType `json:"type"`
 }
 
+// Whether the PaymentIntent can be reauthorized or not.
+type ChargePaymentMethodDetailsCardPresentReauthorization struct {
+	// Indicates whether or not the reauthorization feature is supported.
+	Status ChargePaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
+}
+
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type ChargePaymentMethodDetailsCardPresentReceipt struct {
 	// The type of account being debited or credited
@@ -3871,12 +3862,6 @@ type ChargePaymentMethodDetailsCardPresentReceipt struct {
 type ChargePaymentMethodDetailsCardPresentWallet struct {
 	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
 	Type ChargePaymentMethodDetailsCardPresentWalletType `json:"type"`
-}
-
-// Whether the PaymentIntent can be reauthorized or not.
-type ChargePaymentMethodDetailsCardPresentReauthorization struct {
-	// Indicates whether or not the reauthorization feature is supported.
-	Status ChargePaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
 }
 type ChargePaymentMethodDetailsCardPresent struct {
 	// The authorized amount
@@ -4370,8 +4355,6 @@ type ChargePaymentMethodDetailsStripeAccount struct{}
 type ChargePaymentMethodDetailsStripeBalance struct {
 	// The connected account ID whose Stripe balance to use as the source of payment
 	Account string `json:"account,omitempty"`
-	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
-	SourceType ChargePaymentMethodDetailsStripeBalanceSourceType `json:"source_type"`
 }
 type ChargePaymentMethodDetailsSwish struct {
 	// Uniquely identifies the payer's Swish account. You can use this attribute to check whether two Swish transactions were paid for by the same payer
@@ -4382,6 +4365,10 @@ type ChargePaymentMethodDetailsSwish struct {
 	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
 }
 type ChargePaymentMethodDetailsTWINT struct{}
+type ChargePaymentMethodDetailsUpi struct {
+	// Customer's unique Virtual Payment Address.
+	Vpa string `json:"vpa"`
+}
 type ChargePaymentMethodDetailsUSBankAccount struct {
 	// Account holder type: individual or company.
 	AccountHolderType ChargePaymentMethodDetailsUSBankAccountAccountHolderType `json:"account_holder_type"`
@@ -4481,6 +4468,7 @@ type ChargePaymentMethodDetails struct {
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
 	Type          ChargePaymentMethodDetailsType           `json:"type"`
+	Upi           *ChargePaymentMethodDetailsUpi           `json:"upi,omitempty"`
 	USBankAccount *ChargePaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
 	WeChat        *ChargePaymentMethodDetailsWeChat        `json:"wechat,omitempty"`
 	WeChatPay     *ChargePaymentMethodDetailsWeChatPay     `json:"wechat_pay,omitempty"`
@@ -4556,7 +4544,7 @@ type Charge struct {
 	// Unique identifier for the object.
 	ID     string        `json:"id"`
 	Level3 *ChargeLevel3 `json:"level3,omitempty"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

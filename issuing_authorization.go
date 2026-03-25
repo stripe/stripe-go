@@ -134,56 +134,6 @@ const (
 	IssuingAuthorizationStatusReversed IssuingAuthorizationStatus = "reversed"
 )
 
-// Whether the cardholder provided an address first line and if it matched the cardholder's `billing.address.line1`.
-type IssuingAuthorizationVerificationDataCheck string
-
-// List of values that IssuingAuthorizationVerificationDataCheck can take
-const (
-	IssuingAuthorizationVerificationDataCheckMatch       IssuingAuthorizationVerificationDataCheck = "match"
-	IssuingAuthorizationVerificationDataCheckMismatch    IssuingAuthorizationVerificationDataCheck = "mismatch"
-	IssuingAuthorizationVerificationDataCheckNotProvided IssuingAuthorizationVerificationDataCheck = "not_provided"
-)
-
-// The entity that requested the exemption, either the acquiring merchant or the Issuing user.
-type IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy string
-
-// List of values that IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy can take
-const (
-	IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedByAcquirer IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy = "acquirer"
-	IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedByIssuer   IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy = "issuer"
-)
-
-// The specific exemption claimed for this authorization.
-type IssuingAuthorizationVerificationDataAuthenticationExemptionType string
-
-// List of values that IssuingAuthorizationVerificationDataAuthenticationExemptionType can take
-const (
-	IssuingAuthorizationVerificationDataAuthenticationExemptionTypeLowValueTransaction     IssuingAuthorizationVerificationDataAuthenticationExemptionType = "low_value_transaction"
-	IssuingAuthorizationVerificationDataAuthenticationExemptionTypeTransactionRiskAnalysis IssuingAuthorizationVerificationDataAuthenticationExemptionType = "transaction_risk_analysis"
-	IssuingAuthorizationVerificationDataAuthenticationExemptionTypeUnknown                 IssuingAuthorizationVerificationDataAuthenticationExemptionType = "unknown"
-)
-
-// The outcome of the 3D Secure authentication request.
-type IssuingAuthorizationVerificationDataThreeDSecureResult string
-
-// List of values that IssuingAuthorizationVerificationDataThreeDSecureResult can take
-const (
-	IssuingAuthorizationVerificationDataThreeDSecureResultAttemptAcknowledged IssuingAuthorizationVerificationDataThreeDSecureResult = "attempt_acknowledged"
-	IssuingAuthorizationVerificationDataThreeDSecureResultAuthenticated       IssuingAuthorizationVerificationDataThreeDSecureResult = "authenticated"
-	IssuingAuthorizationVerificationDataThreeDSecureResultFailed              IssuingAuthorizationVerificationDataThreeDSecureResult = "failed"
-	IssuingAuthorizationVerificationDataThreeDSecureResultRequired            IssuingAuthorizationVerificationDataThreeDSecureResult = "required"
-)
-
-// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`. Will populate as `null` when no digital wallet was utilized.
-type IssuingAuthorizationWallet string
-
-// List of values that IssuingAuthorizationWallet can take
-const (
-	IssuingAuthorizationWalletApplePay   IssuingAuthorizationWallet = "apple_pay"
-	IssuingAuthorizationWalletGooglePay  IssuingAuthorizationWallet = "google_pay"
-	IssuingAuthorizationWalletSamsungPay IssuingAuthorizationWallet = "samsung_pay"
-)
-
 // The ISO 639-1 language code of the device associated with the tokenization request.
 type IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage string
 
@@ -437,6 +387,56 @@ const (
 	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecisionApprove     IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision = "approve"
 	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecisionDecline     IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision = "decline"
 	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecisionRequireAuth IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision = "require_auth"
+)
+
+// Whether the cardholder provided an address first line and if it matched the cardholder's `billing.address.line1`.
+type IssuingAuthorizationVerificationDataCheck string
+
+// List of values that IssuingAuthorizationVerificationDataCheck can take
+const (
+	IssuingAuthorizationVerificationDataCheckMatch       IssuingAuthorizationVerificationDataCheck = "match"
+	IssuingAuthorizationVerificationDataCheckMismatch    IssuingAuthorizationVerificationDataCheck = "mismatch"
+	IssuingAuthorizationVerificationDataCheckNotProvided IssuingAuthorizationVerificationDataCheck = "not_provided"
+)
+
+// The entity that requested the exemption, either the acquiring merchant or the Issuing user.
+type IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy string
+
+// List of values that IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy can take
+const (
+	IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedByAcquirer IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy = "acquirer"
+	IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedByIssuer   IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy = "issuer"
+)
+
+// The specific exemption claimed for this authorization.
+type IssuingAuthorizationVerificationDataAuthenticationExemptionType string
+
+// List of values that IssuingAuthorizationVerificationDataAuthenticationExemptionType can take
+const (
+	IssuingAuthorizationVerificationDataAuthenticationExemptionTypeLowValueTransaction     IssuingAuthorizationVerificationDataAuthenticationExemptionType = "low_value_transaction"
+	IssuingAuthorizationVerificationDataAuthenticationExemptionTypeTransactionRiskAnalysis IssuingAuthorizationVerificationDataAuthenticationExemptionType = "transaction_risk_analysis"
+	IssuingAuthorizationVerificationDataAuthenticationExemptionTypeUnknown                 IssuingAuthorizationVerificationDataAuthenticationExemptionType = "unknown"
+)
+
+// The outcome of the 3D Secure authentication request.
+type IssuingAuthorizationVerificationDataThreeDSecureResult string
+
+// List of values that IssuingAuthorizationVerificationDataThreeDSecureResult can take
+const (
+	IssuingAuthorizationVerificationDataThreeDSecureResultAttemptAcknowledged IssuingAuthorizationVerificationDataThreeDSecureResult = "attempt_acknowledged"
+	IssuingAuthorizationVerificationDataThreeDSecureResultAuthenticated       IssuingAuthorizationVerificationDataThreeDSecureResult = "authenticated"
+	IssuingAuthorizationVerificationDataThreeDSecureResultFailed              IssuingAuthorizationVerificationDataThreeDSecureResult = "failed"
+	IssuingAuthorizationVerificationDataThreeDSecureResultRequired            IssuingAuthorizationVerificationDataThreeDSecureResult = "required"
+)
+
+// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`. Will populate as `null` when no digital wallet was utilized.
+type IssuingAuthorizationWallet string
+
+// List of values that IssuingAuthorizationWallet can take
+const (
+	IssuingAuthorizationWalletApplePay   IssuingAuthorizationWallet = "apple_pay"
+	IssuingAuthorizationWalletGooglePay  IssuingAuthorizationWallet = "google_pay"
+	IssuingAuthorizationWalletSamsungPay IssuingAuthorizationWallet = "samsung_pay"
 )
 
 // Returns a list of Issuing Authorization objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
@@ -791,46 +791,6 @@ type IssuingAuthorizationRequestHistory struct {
 	// Time when the card network received an authorization request from the acquirer in UTC. Referred to by networks as transmission time.
 	RequestedAt int64 `json:"requested_at"`
 }
-
-// [Treasury](https://docs.stripe.com/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://docs.stripe.com/api/treasury/financial_accounts).
-type IssuingAuthorizationTreasury struct {
-	// The array of [ReceivedCredits](https://docs.stripe.com/api/treasury/received_credits) associated with this authorization
-	ReceivedCredits []string `json:"received_credits"`
-	// The array of [ReceivedDebits](https://docs.stripe.com/api/treasury/received_debits) associated with this authorization
-	ReceivedDebits []string `json:"received_debits"`
-	// The Treasury [Transaction](https://docs.stripe.com/api/treasury/transactions) associated with this authorization
-	Transaction string `json:"transaction"`
-}
-
-// The exemption applied to this authorization.
-type IssuingAuthorizationVerificationDataAuthenticationExemption struct {
-	// The entity that requested the exemption, either the acquiring merchant or the Issuing user.
-	ClaimedBy IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy `json:"claimed_by"`
-	// The specific exemption claimed for this authorization.
-	Type IssuingAuthorizationVerificationDataAuthenticationExemptionType `json:"type"`
-}
-
-// 3D Secure details.
-type IssuingAuthorizationVerificationDataThreeDSecure struct {
-	// The outcome of the 3D Secure authentication request.
-	Result IssuingAuthorizationVerificationDataThreeDSecureResult `json:"result"`
-}
-type IssuingAuthorizationVerificationData struct {
-	// Whether the cardholder provided an address first line and if it matched the cardholder's `billing.address.line1`.
-	AddressLine1Check IssuingAuthorizationVerificationDataCheck `json:"address_line1_check"`
-	// Whether the cardholder provided a postal code and if it matched the cardholder's `billing.address.postal_code`.
-	AddressPostalCodeCheck IssuingAuthorizationVerificationDataCheck `json:"address_postal_code_check"`
-	// The exemption applied to this authorization.
-	AuthenticationExemption *IssuingAuthorizationVerificationDataAuthenticationExemption `json:"authentication_exemption"`
-	// Whether the cardholder provided a CVC and if it matched Stripe's record.
-	CVCCheck IssuingAuthorizationVerificationDataCheck `json:"cvc_check"`
-	// Whether the cardholder provided an expiry date and if it matched Stripe's record.
-	ExpiryCheck IssuingAuthorizationVerificationDataCheck `json:"expiry_check"`
-	// The postal code submitted as part of the authorization used for postal code verification.
-	PostalCode string `json:"postal_code"`
-	// 3D Secure details.
-	ThreeDSecure *IssuingAuthorizationVerificationDataThreeDSecure `json:"three_d_secure"`
-}
 type IssuingAuthorizationTokenDetailsNetworkDataDevice struct {
 	// The IP address of the device at provisioning time.
 	IPAddress string `json:"ip_address,omitempty"`
@@ -887,6 +847,46 @@ type IssuingAuthorizationTokenDetails struct {
 	NetworkData       *IssuingAuthorizationTokenDetailsNetworkData `json:"network_data,omitempty"`
 }
 
+// [Treasury](https://docs.stripe.com/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://docs.stripe.com/api/treasury/financial_accounts).
+type IssuingAuthorizationTreasury struct {
+	// The array of [ReceivedCredits](https://docs.stripe.com/api/treasury/received_credits) associated with this authorization
+	ReceivedCredits []string `json:"received_credits"`
+	// The array of [ReceivedDebits](https://docs.stripe.com/api/treasury/received_debits) associated with this authorization
+	ReceivedDebits []string `json:"received_debits"`
+	// The Treasury [Transaction](https://docs.stripe.com/api/treasury/transactions) associated with this authorization
+	Transaction string `json:"transaction"`
+}
+
+// The exemption applied to this authorization.
+type IssuingAuthorizationVerificationDataAuthenticationExemption struct {
+	// The entity that requested the exemption, either the acquiring merchant or the Issuing user.
+	ClaimedBy IssuingAuthorizationVerificationDataAuthenticationExemptionClaimedBy `json:"claimed_by"`
+	// The specific exemption claimed for this authorization.
+	Type IssuingAuthorizationVerificationDataAuthenticationExemptionType `json:"type"`
+}
+
+// 3D Secure details.
+type IssuingAuthorizationVerificationDataThreeDSecure struct {
+	// The outcome of the 3D Secure authentication request.
+	Result IssuingAuthorizationVerificationDataThreeDSecureResult `json:"result"`
+}
+type IssuingAuthorizationVerificationData struct {
+	// Whether the cardholder provided an address first line and if it matched the cardholder's `billing.address.line1`.
+	AddressLine1Check IssuingAuthorizationVerificationDataCheck `json:"address_line1_check"`
+	// Whether the cardholder provided a postal code and if it matched the cardholder's `billing.address.postal_code`.
+	AddressPostalCodeCheck IssuingAuthorizationVerificationDataCheck `json:"address_postal_code_check"`
+	// The exemption applied to this authorization.
+	AuthenticationExemption *IssuingAuthorizationVerificationDataAuthenticationExemption `json:"authentication_exemption"`
+	// Whether the cardholder provided a CVC and if it matched Stripe's record.
+	CVCCheck IssuingAuthorizationVerificationDataCheck `json:"cvc_check"`
+	// Whether the cardholder provided an expiry date and if it matched Stripe's record.
+	ExpiryCheck IssuingAuthorizationVerificationDataCheck `json:"expiry_check"`
+	// The postal code submitted as part of the authorization used for postal code verification.
+	PostalCode string `json:"postal_code"`
+	// 3D Secure details.
+	ThreeDSecure *IssuingAuthorizationVerificationDataThreeDSecure `json:"three_d_secure"`
+}
+
 // When an [issued card](https://docs.stripe.com/issuing) is used to make a purchase, an Issuing `Authorization`
 // object is created. [Authorizations](https://docs.stripe.com/issuing/purchases/authorizations) must be approved for the
 // purchase to be completed successfully.
@@ -920,7 +920,7 @@ type IssuingAuthorization struct {
 	Fuel *IssuingAuthorizationFuel `json:"fuel"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// The total amount that was authorized or rejected. This amount is in the `merchant_currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). `merchant_amount` should be the same as `amount`, unless `merchant_currency` and `currency` are different.
 	MerchantAmount int64 `json:"merchant_amount"`

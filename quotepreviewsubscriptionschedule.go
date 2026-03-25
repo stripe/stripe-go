@@ -91,8 +91,9 @@ type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityType st
 
 // List of values that QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityType can take
 const (
-	QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityTypeAccount QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityType = "account"
-	QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityTypeSelf    QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityType = "self"
+	QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityTypeAccount     QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityType = "account"
+	QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityTypeApplication QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityType = "application"
+	QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityTypeSelf        QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityType = "self"
 )
 
 // Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
@@ -118,8 +119,9 @@ type QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType st
 
 // List of values that QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType can take
 const (
-	QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerTypeAccount QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType = "account"
-	QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerTypeSelf    QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType = "self"
+	QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerTypeAccount     QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType = "account"
+	QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerTypeApplication QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType = "application"
+	QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerTypeSelf        QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType = "self"
 )
 
 // Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
@@ -191,8 +193,9 @@ type QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityType string
 
 // List of values that QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityType can take
 const (
-	QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityTypeAccount QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityType = "account"
-	QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityTypeSelf    QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityType = "self"
+	QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityTypeAccount     QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityType = "account"
+	QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityTypeApplication QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityType = "application"
+	QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityTypeSelf        QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityType = "self"
 )
 
 // Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
@@ -254,8 +257,9 @@ type QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuerType string
 
 // List of values that QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuerType can take
 const (
-	QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuerTypeAccount QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuerType = "account"
-	QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuerTypeSelf    QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuerType = "self"
+	QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuerTypeAccount     QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuerType = "account"
+	QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuerTypeApplication QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuerType = "application"
+	QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuerTypeSelf        QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuerType = "self"
 )
 
 // The discount end type.
@@ -294,7 +298,7 @@ const (
 	QuotePreviewSubscriptionSchedulePhaseItemTrialTypePaid QuotePreviewSubscriptionSchedulePhaseItemTrialType = "paid"
 )
 
-// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+// The payment collection behavior for this subscription while paused.
 type QuotePreviewSubscriptionSchedulePhasePauseCollectionBehavior string
 
 // List of values that QuotePreviewSubscriptionSchedulePhasePauseCollectionBehavior can take
@@ -751,7 +755,7 @@ type QuotePreviewSubscriptionSchedulePhaseItem struct {
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type QuotePreviewSubscriptionSchedulePhasePauseCollection struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior QuotePreviewSubscriptionSchedulePhasePauseCollectionBehavior `json:"behavior"`
 }
 
@@ -868,7 +872,7 @@ type QuotePreviewSubscriptionSchedule struct {
 	LastPriceMigrationError *QuotePreviewSubscriptionScheduleLastPriceMigrationError `json:"last_price_migration_error,omitempty"`
 	// The most recent invoice this subscription schedule has generated.
 	LatestInvoice *Invoice `json:"latest_invoice,omitempty"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

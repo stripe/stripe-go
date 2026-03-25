@@ -84,7 +84,7 @@ type BillingMeterEventAdjustment struct {
 	Cancel *BillingMeterEventAdjustmentCancel `json:"cancel"`
 	// The name of the meter event. Corresponds with the `event_name` field on a meter.
 	EventName string `json:"event_name"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

@@ -6,6 +6,24 @@
 
 package stripe
 
+// The type of the attribution source.
+type DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType string
+
+// List of values that DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType can take
+const (
+	DelegatedCheckoutRequestedSessionAffiliateAttributionSourceTypePlatform DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType = "platform"
+	DelegatedCheckoutRequestedSessionAffiliateAttributionSourceTypeURL      DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType = "url"
+)
+
+// Whether this is the first or last touchpoint.
+type DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint string
+
+// List of values that DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint can take
+const (
+	DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpointFirst DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint = "first"
+	DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpointLast  DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint = "last"
+)
+
 // The content type of the disclosure.
 type DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureContentType string
 
@@ -40,24 +58,6 @@ const (
 	DelegatedCheckoutRequestedSessionStatusCompleted DelegatedCheckoutRequestedSessionStatus = "completed"
 	DelegatedCheckoutRequestedSessionStatusExpired   DelegatedCheckoutRequestedSessionStatus = "expired"
 	DelegatedCheckoutRequestedSessionStatusOpen      DelegatedCheckoutRequestedSessionStatus = "open"
-)
-
-// The type of the attribution source.
-type DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType string
-
-// List of values that DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType can take
-const (
-	DelegatedCheckoutRequestedSessionAffiliateAttributionSourceTypePlatform DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType = "platform"
-	DelegatedCheckoutRequestedSessionAffiliateAttributionSourceTypeURL      DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType = "url"
-)
-
-// Whether this is the first or last touchpoint.
-type DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint string
-
-// List of values that DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint can take
-const (
-	DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpointFirst DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint = "first"
-	DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpointLast  DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint = "last"
 )
 
 // Retrieves a requested session
@@ -118,16 +118,16 @@ func (p *DelegatedCheckoutRequestedSessionParams) AddMetadata(key string, value 
 	p.Metadata[key] = value
 }
 
-// The shipping fulfillment option.
-type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShippingParams struct {
-	// The shipping option identifier.
-	ShippingOption *string `form:"shipping_option" json:"shipping_option"`
-}
-
 // The digital fulfillment option.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionDigitalParams struct {
 	// The digital option identifier.
 	DigitalOption *string `form:"digital_option" json:"digital_option"`
+}
+
+// The shipping fulfillment option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShippingParams struct {
+	// The shipping option identifier.
+	ShippingOption *string `form:"shipping_option" json:"shipping_option"`
 }
 
 // The fulfillment option to select.
@@ -224,12 +224,6 @@ type DelegatedCheckoutRequestedSessionPaymentMethodDataParams struct {
 	Type *string `form:"type" json:"type,omitempty"`
 }
 
-// The details of the seller.
-type DelegatedCheckoutRequestedSessionSellerDetailsParams struct {
-	// The network profile for the seller.
-	NetworkProfile *string `form:"network_profile" json:"network_profile"`
-}
-
 // Context about where the attribution originated.
 type DelegatedCheckoutRequestedSessionAffiliateAttributionSourceParams struct {
 	// The platform where the attribution originated.
@@ -260,6 +254,48 @@ type DelegatedCheckoutRequestedSessionAffiliateAttributionParams struct {
 	SharedMetadata map[string]string `form:"shared_metadata" json:"shared_metadata,omitempty"`
 	// Context about where the attribution originated.
 	Source *DelegatedCheckoutRequestedSessionAffiliateAttributionSourceParams `form:"source" json:"source,omitempty"`
+	// Agent-scoped sub-tracking identifier.
+	SubID *string `form:"sub_id" json:"sub_id,omitempty"`
+	// Whether this is the first or last touchpoint.
+	Touchpoint *string `form:"touchpoint" json:"touchpoint"`
+}
+
+// The details of the seller.
+type DelegatedCheckoutRequestedSessionSellerDetailsParams struct {
+	// The network profile for the seller.
+	NetworkProfile *string `form:"network_profile" json:"network_profile"`
+}
+
+// Context about where the attribution originated.
+type DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionSourceParams struct {
+	// The platform where the attribution originated.
+	Platform *string `form:"platform" json:"platform,omitempty"`
+	// The type of the attribution source.
+	Type *string `form:"type" json:"type"`
+	// The URL where the attribution originated.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// Affiliate attribution data associated with this requested session.
+type DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionParams struct {
+	// Agent-scoped campaign identifier.
+	CampaignID *string `form:"campaign_id" json:"campaign_id,omitempty"`
+	// Agent-scoped creative identifier.
+	CreativeID *string `form:"creative_id" json:"creative_id,omitempty"`
+	// Timestamp when the attribution token expires.
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at"`
+	// Agent-issued secret to validate the legitimacy of the source of this data.
+	IdentificationToken *string `form:"identification_token" json:"identification_token"`
+	// Timestamp for when the attribution token was issued.
+	IssuedAt *int64 `form:"issued_at" json:"issued_at"`
+	// Identifier for the attribution agent / affiliate network namespace.
+	Provider *string `form:"provider" json:"provider"`
+	// Agent-scoped affiliate/publisher identifier.
+	PublisherID *string `form:"publisher_id" json:"publisher_id,omitempty"`
+	// Freeform key/value pairs for additional non-sensitive per-agent data.
+	SharedMetadata map[string]string `form:"shared_metadata" json:"shared_metadata,omitempty"`
+	// Context about where the attribution originated.
+	Source *DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionSourceParams `form:"source" json:"source,omitempty"`
 	// Agent-scoped sub-tracking identifier.
 	SubID *string `form:"sub_id" json:"sub_id,omitempty"`
 	// Whether this is the first or last touchpoint.
@@ -320,42 +356,6 @@ type DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams struct {
 	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams `form:"client_device_metadata_details" json:"client_device_metadata_details,omitempty"`
 }
 
-// Context about where the attribution originated.
-type DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionSourceParams struct {
-	// The platform where the attribution originated.
-	Platform *string `form:"platform" json:"platform,omitempty"`
-	// The type of the attribution source.
-	Type *string `form:"type" json:"type"`
-	// The URL where the attribution originated.
-	URL *string `form:"url" json:"url,omitempty"`
-}
-
-// Affiliate attribution data associated with this requested session.
-type DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionParams struct {
-	// Agent-scoped campaign identifier.
-	CampaignID *string `form:"campaign_id" json:"campaign_id,omitempty"`
-	// Agent-scoped creative identifier.
-	CreativeID *string `form:"creative_id" json:"creative_id,omitempty"`
-	// Timestamp when the attribution token expires.
-	ExpiresAt *int64 `form:"expires_at" json:"expires_at"`
-	// Agent-issued secret to validate the legitimacy of the source of this data.
-	IdentificationToken *string `form:"identification_token" json:"identification_token"`
-	// Timestamp for when the attribution token was issued.
-	IssuedAt *int64 `form:"issued_at" json:"issued_at"`
-	// Identifier for the attribution agent / affiliate network namespace.
-	Provider *string `form:"provider" json:"provider"`
-	// Agent-scoped affiliate/publisher identifier.
-	PublisherID *string `form:"publisher_id" json:"publisher_id,omitempty"`
-	// Freeform key/value pairs for additional non-sensitive per-agent data.
-	SharedMetadata map[string]string `form:"shared_metadata" json:"shared_metadata,omitempty"`
-	// Context about where the attribution originated.
-	Source *DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionSourceParams `form:"source" json:"source,omitempty"`
-	// Agent-scoped sub-tracking identifier.
-	SubID *string `form:"sub_id" json:"sub_id,omitempty"`
-	// Whether this is the first or last touchpoint.
-	Touchpoint *string `form:"touchpoint" json:"touchpoint"`
-}
-
 // Confirms a requested session
 type DelegatedCheckoutRequestedSessionConfirmParams struct {
 	Params `form:"*"`
@@ -400,16 +400,16 @@ func (p *DelegatedCheckoutRequestedSessionRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// The shipping fulfillment option.
-type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionShippingParams struct {
-	// The shipping option identifier.
-	ShippingOption *string `form:"shipping_option" json:"shipping_option"`
-}
-
 // The digital fulfillment option.
 type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionDigitalParams struct {
 	// The digital option identifier.
 	DigitalOption *string `form:"digital_option" json:"digital_option"`
+}
+
+// The shipping fulfillment option.
+type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionShippingParams struct {
+	// The shipping option identifier.
+	ShippingOption *string `form:"shipping_option" json:"shipping_option"`
 }
 
 // The fulfillment option to select.
@@ -552,6 +552,42 @@ func (p *DelegatedCheckoutRequestedSessionUpdateParams) AddMetadata(key string, 
 	p.Metadata[key] = value
 }
 
+// Context about where the attribution originated.
+type DelegatedCheckoutRequestedSessionCreateAffiliateAttributionSourceParams struct {
+	// The platform where the attribution originated.
+	Platform *string `form:"platform" json:"platform,omitempty"`
+	// The type of the attribution source.
+	Type *string `form:"type" json:"type"`
+	// The URL where the attribution originated.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// Affiliate attribution data associated with this requested session.
+type DelegatedCheckoutRequestedSessionCreateAffiliateAttributionParams struct {
+	// Agent-scoped campaign identifier.
+	CampaignID *string `form:"campaign_id" json:"campaign_id,omitempty"`
+	// Agent-scoped creative identifier.
+	CreativeID *string `form:"creative_id" json:"creative_id,omitempty"`
+	// Timestamp when the attribution token expires.
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at"`
+	// Agent-issued secret to validate the legitimacy of the source of this data.
+	IdentificationToken *string `form:"identification_token" json:"identification_token"`
+	// Timestamp for when the attribution token was issued.
+	IssuedAt *int64 `form:"issued_at" json:"issued_at"`
+	// Identifier for the attribution agent / affiliate network namespace.
+	Provider *string `form:"provider" json:"provider"`
+	// Agent-scoped affiliate/publisher identifier.
+	PublisherID *string `form:"publisher_id" json:"publisher_id,omitempty"`
+	// Freeform key/value pairs for additional non-sensitive per-agent data.
+	SharedMetadata map[string]string `form:"shared_metadata" json:"shared_metadata,omitempty"`
+	// Context about where the attribution originated.
+	Source *DelegatedCheckoutRequestedSessionCreateAffiliateAttributionSourceParams `form:"source" json:"source,omitempty"`
+	// Agent-scoped sub-tracking identifier.
+	SubID *string `form:"sub_id" json:"sub_id,omitempty"`
+	// Whether this is the first or last touchpoint.
+	Touchpoint *string `form:"touchpoint" json:"touchpoint"`
+}
+
 // The details of the fulfillment.
 type DelegatedCheckoutRequestedSessionCreateFulfillmentDetailsParams struct {
 	// The customer's address.
@@ -612,42 +648,6 @@ type DelegatedCheckoutRequestedSessionCreateSellerDetailsParams struct {
 	NetworkProfile *string `form:"network_profile" json:"network_profile"`
 }
 
-// Context about where the attribution originated.
-type DelegatedCheckoutRequestedSessionCreateAffiliateAttributionSourceParams struct {
-	// The platform where the attribution originated.
-	Platform *string `form:"platform" json:"platform,omitempty"`
-	// The type of the attribution source.
-	Type *string `form:"type" json:"type"`
-	// The URL where the attribution originated.
-	URL *string `form:"url" json:"url,omitempty"`
-}
-
-// Affiliate attribution data associated with this requested session.
-type DelegatedCheckoutRequestedSessionCreateAffiliateAttributionParams struct {
-	// Agent-scoped campaign identifier.
-	CampaignID *string `form:"campaign_id" json:"campaign_id,omitempty"`
-	// Agent-scoped creative identifier.
-	CreativeID *string `form:"creative_id" json:"creative_id,omitempty"`
-	// Timestamp when the attribution token expires.
-	ExpiresAt *int64 `form:"expires_at" json:"expires_at"`
-	// Agent-issued secret to validate the legitimacy of the source of this data.
-	IdentificationToken *string `form:"identification_token" json:"identification_token"`
-	// Timestamp for when the attribution token was issued.
-	IssuedAt *int64 `form:"issued_at" json:"issued_at"`
-	// Identifier for the attribution agent / affiliate network namespace.
-	Provider *string `form:"provider" json:"provider"`
-	// Agent-scoped affiliate/publisher identifier.
-	PublisherID *string `form:"publisher_id" json:"publisher_id,omitempty"`
-	// Freeform key/value pairs for additional non-sensitive per-agent data.
-	SharedMetadata map[string]string `form:"shared_metadata" json:"shared_metadata,omitempty"`
-	// Context about where the attribution originated.
-	Source *DelegatedCheckoutRequestedSessionCreateAffiliateAttributionSourceParams `form:"source" json:"source,omitempty"`
-	// Agent-scoped sub-tracking identifier.
-	SubID *string `form:"sub_id" json:"sub_id,omitempty"`
-	// Whether this is the first or last touchpoint.
-	Touchpoint *string `form:"touchpoint" json:"touchpoint"`
-}
-
 // Creates a requested session
 type DelegatedCheckoutRequestedSessionCreateParams struct {
 	Params `form:"*"`
@@ -691,26 +691,40 @@ func (p *DelegatedCheckoutRequestedSessionCreateParams) AddMetadata(key string, 
 	p.Metadata[key] = value
 }
 
-// The shipping options.
-type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShippingShippingOption struct {
-	// The description of the shipping option.
-	Description string `json:"description"`
-	// The display name of the shipping option.
-	DisplayName string `json:"display_name"`
-	// The earliest delivery time of the shipping option.
-	EarliestDeliveryTime int64 `json:"earliest_delivery_time"`
-	// The key of the shipping option.
-	Key string `json:"key"`
-	// The latest delivery time of the shipping option.
-	LatestDeliveryTime int64 `json:"latest_delivery_time"`
-	// The shipping amount of the shipping option.
-	ShippingAmount int64 `json:"shipping_amount"`
+// Context about where the attribution originated.
+type DelegatedCheckoutRequestedSessionAffiliateAttributionSource struct {
+	// The platform of the attribution source.
+	Platform string `json:"platform"`
+	// The type of the attribution source.
+	Type DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType `json:"type"`
+	// The URL of the attribution source.
+	URL string `json:"url"`
 }
 
-// The shipping option.
-type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShipping struct {
-	// The shipping options.
-	ShippingOptions []*DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShippingShippingOption `json:"shipping_options"`
+// Affiliate attribution data associated with this requested session.
+type DelegatedCheckoutRequestedSessionAffiliateAttribution struct {
+	// Agent-scoped campaign identifier.
+	CampaignID string `json:"campaign_id"`
+	// Agent-scoped creative identifier.
+	CreativeID string `json:"creative_id"`
+	// Timestamp when the attribution token expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// Agent-issued secret to validate the legitimacy of the source of this data.
+	IdentificationToken string `json:"identification_token"`
+	// Timestamp for when the attribution token was issued.
+	IssuedAt int64 `json:"issued_at"`
+	// Identifier for the attribution agent / affiliate network namespace.
+	Provider string `json:"provider"`
+	// Agent-scoped affiliate/publisher identifier.
+	PublisherID string `json:"publisher_id"`
+	// Freeform key/value pairs for additional non-sensitive per-agent data.
+	SharedMetadata map[string]string `json:"shared_metadata"`
+	// Context about where the attribution originated.
+	Source *DelegatedCheckoutRequestedSessionAffiliateAttributionSource `json:"source"`
+	// Agent-scoped sub-tracking identifier.
+	SubID string `json:"sub_id"`
+	// Whether this is the first or last touchpoint.
+	Touchpoint DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint `json:"touchpoint"`
 }
 
 // The digital options.
@@ -723,12 +737,38 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionDigital
 	DisplayName string `json:"display_name"`
 	// The key of the digital fulfillment option.
 	Key string `json:"key"`
+	// The line item keys associated with this digital fulfillment option.
+	LineItemKeys []string `json:"line_item_keys"`
 }
 
 // The digital fulfillment option.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionDigital struct {
 	// The digital options.
 	DigitalOptions []*DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionDigitalDigitalOption `json:"digital_options"`
+}
+
+// The shipping options.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShippingShippingOption struct {
+	// The description of the shipping option.
+	Description string `json:"description"`
+	// The display name of the shipping option.
+	DisplayName string `json:"display_name"`
+	// The earliest delivery time of the shipping option.
+	EarliestDeliveryTime int64 `json:"earliest_delivery_time"`
+	// The key of the shipping option.
+	Key string `json:"key"`
+	// The latest delivery time of the shipping option.
+	LatestDeliveryTime int64 `json:"latest_delivery_time"`
+	// The line item keys associated with this shipping option.
+	LineItemKeys []string `json:"line_item_keys"`
+	// The shipping amount of the shipping option.
+	ShippingAmount int64 `json:"shipping_amount"`
+}
+
+// The shipping option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShipping struct {
+	// The shipping options.
+	ShippingOptions []*DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShippingShippingOption `json:"shipping_options"`
 }
 
 // The fulfillment options.
@@ -741,24 +781,48 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOption struct
 	Type string `json:"type"`
 }
 
-// The shipping option.
-type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShipping struct {
-	// The shipping option.
-	ShippingOption string `json:"shipping_option"`
-}
-
 // The digital fulfillment option.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionDigital struct {
 	// The digital option.
 	DigitalOption string `json:"digital_option"`
 }
 
-// The fulfillment option.
+// The shipping option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShipping struct {
+	// The shipping option.
+	ShippingOption string `json:"shipping_option"`
+}
+
+// The selected fulfillment option.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOption struct {
 	// The digital fulfillment option.
 	Digital *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionDigital `json:"digital"`
 	// The shipping option.
 	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShipping `json:"shipping"`
+	// The type of the selected fulfillment option.
+	Type string `json:"type"`
+}
+
+// The digital fulfillment option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideDigital struct {
+	// The digital option.
+	DigitalOption string `json:"digital_option"`
+}
+
+// The shipping option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideShipping struct {
+	// The shipping option.
+	ShippingOption string `json:"shipping_option"`
+}
+
+// Per-item fulfillment option overrides.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverride struct {
+	// The digital fulfillment option.
+	Digital *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideDigital `json:"digital"`
+	// The line items this fulfillment option applies to.
+	LineItemKeys []string `json:"line_item_keys"`
+	// The shipping option.
+	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideShipping `json:"shipping"`
 	// The type of the selected fulfillment option.
 	Type string `json:"type"`
 }
@@ -775,8 +839,10 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetails struct {
 	Name string `json:"name"`
 	// The phone number for the fulfillment details.
 	Phone string `json:"phone"`
-	// The fulfillment option.
+	// The selected fulfillment option.
 	SelectedFulfillmentOption *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOption `json:"selected_fulfillment_option"`
+	// Per-item fulfillment option overrides.
+	SelectedFulfillmentOptionOverrides []*DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverride `json:"selected_fulfillment_option_overrides"`
 }
 
 // Custom attributes for the product.
@@ -925,42 +991,6 @@ type DelegatedCheckoutRequestedSessionTotalDetails struct {
 	AmountTax int64 `json:"amount_tax"`
 	// The applicable fees of the total details.
 	ApplicableFees []*DelegatedCheckoutRequestedSessionTotalDetailsApplicableFee `json:"applicable_fees"`
-}
-
-// Context about where the attribution originated.
-type DelegatedCheckoutRequestedSessionAffiliateAttributionSource struct {
-	// The platform of the attribution source.
-	Platform string `json:"platform"`
-	// The type of the attribution source.
-	Type DelegatedCheckoutRequestedSessionAffiliateAttributionSourceType `json:"type"`
-	// The URL of the attribution source.
-	URL string `json:"url"`
-}
-
-// Affiliate attribution data associated with this requested session.
-type DelegatedCheckoutRequestedSessionAffiliateAttribution struct {
-	// Agent-scoped campaign identifier.
-	CampaignID string `json:"campaign_id"`
-	// Agent-scoped creative identifier.
-	CreativeID string `json:"creative_id"`
-	// Timestamp when the attribution token expires.
-	ExpiresAt int64 `json:"expires_at"`
-	// Agent-issued secret to validate the legitimacy of the source of this data.
-	IdentificationToken string `json:"identification_token"`
-	// Timestamp for when the attribution token was issued.
-	IssuedAt int64 `json:"issued_at"`
-	// Identifier for the attribution agent / affiliate network namespace.
-	Provider string `json:"provider"`
-	// Agent-scoped affiliate/publisher identifier.
-	PublisherID string `json:"publisher_id"`
-	// Freeform key/value pairs for additional non-sensitive per-agent data.
-	SharedMetadata map[string]string `json:"shared_metadata"`
-	// Context about where the attribution originated.
-	Source *DelegatedCheckoutRequestedSessionAffiliateAttributionSource `json:"source"`
-	// Agent-scoped sub-tracking identifier.
-	SubID string `json:"sub_id"`
-	// Whether this is the first or last touchpoint.
-	Touchpoint DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint `json:"touchpoint"`
 }
 
 // A requested session is a session that has been requested by a customer.

@@ -85,7 +85,7 @@ func (p *BillingAnalyticsMeterUsageRetrieveParams) AddExpand(f string) {
 // A billing meter usage event represents an aggregated view of a customer's billing meter events within a specified timeframe.
 type BillingAnalyticsMeterUsage struct {
 	APIResource
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

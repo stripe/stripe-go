@@ -154,8 +154,22 @@ type PlanProductTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code" json:"tax_code"`
+	TaxCode     *string                                 `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []PlanProductTaxDetailsParamsUnsetField `form:"-" json:"-"`
 }
+
+// PlanProductTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PlanProductTaxDetailsParams.
+type PlanProductTaxDetailsParamsUnsetField string
+
+const (
+	PlanProductTaxDetailsParamsUnsetFieldTaxCode PlanProductTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PlanProductTaxDetailsParams) AddUnsetField(field PlanProductTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 type PlanProductParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
 	Active *bool `form:"active" json:"active,omitempty"`
@@ -287,8 +301,22 @@ type PlanCreateProductTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code" json:"tax_code"`
+	TaxCode     *string                                       `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []PlanCreateProductTaxDetailsParamsUnsetField `form:"-" json:"-"`
 }
+
+// PlanCreateProductTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PlanCreateProductTaxDetailsParams.
+type PlanCreateProductTaxDetailsParamsUnsetField string
+
+const (
+	PlanCreateProductTaxDetailsParamsUnsetFieldTaxCode PlanCreateProductTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PlanCreateProductTaxDetailsParams) AddUnsetField(field PlanCreateProductTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 type PlanCreateProductParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
 	Active *bool `form:"active" json:"active,omitempty"`
@@ -475,7 +503,7 @@ type Plan struct {
 	Interval PlanInterval `json:"interval"`
 	// The number of intervals (specified in the `interval` attribute) between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months.
 	IntervalCount int64 `json:"interval_count"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

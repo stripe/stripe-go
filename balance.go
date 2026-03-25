@@ -115,6 +115,46 @@ type BalanceRefundAndDisputePrefunding struct {
 	// Funds that are pending
 	Pending []*BalanceRefundAndDisputePrefundingPending `json:"pending"`
 }
+type BalanceRiskReservedAvailableSourceTypes struct {
+	// Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+	BankAccount int64 `json:"bank_account,omitempty"`
+	// Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+	Card int64 `json:"card,omitempty"`
+	// Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+	FPX int64 `json:"fpx,omitempty"`
+}
+
+// Funds that are available for use.
+type BalanceRiskReservedAvailable struct {
+	// Balance amount.
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency    Currency                                 `json:"currency"`
+	SourceTypes *BalanceRiskReservedAvailableSourceTypes `json:"source_types,omitempty"`
+}
+type BalanceRiskReservedPendingSourceTypes struct {
+	// Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+	BankAccount int64 `json:"bank_account,omitempty"`
+	// Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+	Card int64 `json:"card,omitempty"`
+	// Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+	FPX int64 `json:"fpx,omitempty"`
+}
+
+// Funds that are pending
+type BalanceRiskReservedPending struct {
+	// Balance amount.
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency    Currency                               `json:"currency"`
+	SourceTypes *BalanceRiskReservedPendingSourceTypes `json:"source_types,omitempty"`
+}
+type BalanceRiskReserved struct {
+	// Funds that are available for use.
+	Available []*BalanceRiskReservedAvailable `json:"available"`
+	// Funds that are pending
+	Pending []*BalanceRiskReservedPending `json:"pending"`
+}
 type BalanceTransitBalancesTotalAvailableSourceTypes struct {
 	// Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
 	BankAccount int64 `json:"bank_account,omitempty"`
@@ -171,12 +211,13 @@ type Balance struct {
 	// Funds that you can pay out using Instant Payouts.
 	InstantAvailable []*BalanceAmount `json:"instant_available,omitempty"`
 	Issuing          *BalanceIssuing  `json:"issuing,omitempty"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Funds that aren't available in the balance yet. You can find the pending balance for each currency and each payment type in the `source_types` property.
 	Pending                    []*BalanceAmount                   `json:"pending"`
 	RefundAndDisputePrefunding *BalanceRefundAndDisputePrefunding `json:"refund_and_dispute_prefunding,omitempty"`
+	RiskReserved               *BalanceRiskReserved               `json:"risk_reserved,omitempty"`
 	TransitBalancesTotal       *BalanceTransitBalancesTotal       `json:"transit_balances_total,omitempty"`
 }

@@ -13,7 +13,18 @@ type SharedPaymentGrantedTokenDeactivatedReason string
 const (
 	SharedPaymentGrantedTokenDeactivatedReasonConsumed SharedPaymentGrantedTokenDeactivatedReason = "consumed"
 	SharedPaymentGrantedTokenDeactivatedReasonExpired  SharedPaymentGrantedTokenDeactivatedReason = "expired"
+	SharedPaymentGrantedTokenDeactivatedReasonResolved SharedPaymentGrantedTokenDeactivatedReason = "resolved"
 	SharedPaymentGrantedTokenDeactivatedReasonRevoked  SharedPaymentGrantedTokenDeactivatedReason = "revoked"
+)
+
+// The recurring interval at which the shared payment token's amount usage restrictions reset.
+type SharedPaymentGrantedTokenUsageLimitsRecurringInterval string
+
+// List of values that SharedPaymentGrantedTokenUsageLimitsRecurringInterval can take
+const (
+	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalMonth SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "month"
+	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalWeek  SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "week"
+	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalYear  SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "year"
 )
 
 // Retrieves an existing SharedPaymentGrantedToken object
@@ -62,6 +73,8 @@ type SharedPaymentGrantedTokenUsageLimits struct {
 	ExpiresAt int64 `json:"expires_at"`
 	// Max amount that can be captured using this SharedPaymentToken.
 	MaxAmount int64 `json:"max_amount"`
+	// The recurring interval at which the shared payment token's amount usage restrictions reset.
+	RecurringInterval SharedPaymentGrantedTokenUsageLimitsRecurringInterval `json:"recurring_interval,omitempty"`
 }
 
 // SharedPaymentGrantedToken is the view-only resource of a SharedPaymentIssuedToken, which is a limited-use reference to a PaymentMethod.

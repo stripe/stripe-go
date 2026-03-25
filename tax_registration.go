@@ -2292,6 +2292,12 @@ type TaxRegistrationCountryOptionsUgParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Options for the home rule tax registration.
+type TaxRegistrationCountryOptionsUSHomeRuleTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=home_rule_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
 // Options for the local amusement tax registration.
 type TaxRegistrationCountryOptionsUSLocalAmusementTaxParams struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `02154` (Arlington Heights), `05248` (Bensenville), `06613` (Bloomington), `10906` (Campton Hills), `14000` (Chicago), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), `64421` (Riverside), `65806` (Roselle), and `68081` (Schiller Park).
@@ -2316,12 +2322,6 @@ type TaxRegistrationCountryOptionsUSStateSalesTaxElectionParams struct {
 type TaxRegistrationCountryOptionsUSStateSalesTaxParams struct {
 	// Elections for the state sales tax registration.
 	Elections []*TaxRegistrationCountryOptionsUSStateSalesTaxElectionParams `form:"elections" json:"elections"`
-}
-
-// Options for the home rule tax registration.
-type TaxRegistrationCountryOptionsUSHomeRuleTaxParams struct {
-	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=home_rule_tax#registration-types).
-	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
 // Options for the registration in US.
@@ -3655,6 +3655,12 @@ type TaxRegistrationCreateCountryOptionsUgParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Options for the home rule tax registration.
+type TaxRegistrationCreateCountryOptionsUSHomeRuleTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=home_rule_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
 // Options for the local amusement tax registration.
 type TaxRegistrationCreateCountryOptionsUSLocalAmusementTaxParams struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `02154` (Arlington Heights), `05248` (Bensenville), `06613` (Bloomington), `10906` (Campton Hills), `14000` (Chicago), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), `64421` (Riverside), `65806` (Roselle), and `68081` (Schiller Park).
@@ -3679,12 +3685,6 @@ type TaxRegistrationCreateCountryOptionsUSStateSalesTaxElectionParams struct {
 type TaxRegistrationCreateCountryOptionsUSStateSalesTaxParams struct {
 	// Elections for the state sales tax registration.
 	Elections []*TaxRegistrationCreateCountryOptionsUSStateSalesTaxElectionParams `form:"elections" json:"elections"`
-}
-
-// Options for the home rule tax registration.
-type TaxRegistrationCreateCountryOptionsUSHomeRuleTaxParams struct {
-	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=home_rule_tax#registration-types).
-	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
 // Options for the registration in US.
@@ -4624,6 +4624,10 @@ type TaxRegistrationCountryOptionsUSGrossReceiptsTax struct {
 	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=gross_receipts_tax#registration-types) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
 }
+type TaxRegistrationCountryOptionsUSHomeRuleTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=home_rule_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
 type TaxRegistrationCountryOptionsUSHospitalityTax struct {
 	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=hospitality_tax#registration-types) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
@@ -4658,10 +4662,6 @@ type TaxRegistrationCountryOptionsUSStateSalesTax struct {
 }
 type TaxRegistrationCountryOptionsUSTourismTax struct {
 	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=tourism_tax#registration-types) representing the local jurisdiction.
-	Jurisdiction string `json:"jurisdiction"`
-}
-type TaxRegistrationCountryOptionsUSHomeRuleTax struct {
-	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=home_rule_tax#registration-types) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
 }
 type TaxRegistrationCountryOptionsUS struct {
@@ -4828,7 +4828,7 @@ type TaxRegistration struct {
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

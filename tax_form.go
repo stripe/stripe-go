@@ -198,7 +198,7 @@ type TaxForm struct {
 	GBMrdp         *TaxFormGBMrdp         `json:"gb_mrdp,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool           `json:"livemode"`
 	NzMrdp   *TaxFormNzMrdp `json:"nz_mrdp,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.

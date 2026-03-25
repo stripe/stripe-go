@@ -17,6 +17,16 @@ const (
 	PaymentIntentAmountDetailsErrorCodeAmountDetailsTaxShippingDiscountGreaterThanAmount PaymentIntentAmountDetailsErrorCode = "amount_details_tax_shipping_discount_greater_than_amount"
 )
 
+// Indicate whether to enforce validations on the surcharge amount.
+type PaymentIntentAmountDetailsSurchargeEnforceValidation string
+
+// List of values that PaymentIntentAmountDetailsSurchargeEnforceValidation can take
+const (
+	PaymentIntentAmountDetailsSurchargeEnforceValidationAutomatic PaymentIntentAmountDetailsSurchargeEnforceValidation = "automatic"
+	PaymentIntentAmountDetailsSurchargeEnforceValidationDisabled  PaymentIntentAmountDetailsSurchargeEnforceValidation = "disabled"
+	PaymentIntentAmountDetailsSurchargeEnforceValidationEnabled   PaymentIntentAmountDetailsSurchargeEnforceValidation = "enabled"
+)
+
 // Controls whether this PaymentIntent will accept redirect-based payment methods.
 //
 // Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://docs.stripe.com/api/payment_intents/confirm) this PaymentIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the payment.
@@ -120,9 +130,34 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeStripeBalance    PaymentIntentExcludedPaymentMethodType = "stripe_balance"
 	PaymentIntentExcludedPaymentMethodTypeSwish            PaymentIntentExcludedPaymentMethodType = "swish"
 	PaymentIntentExcludedPaymentMethodTypeTWINT            PaymentIntentExcludedPaymentMethodType = "twint"
+	PaymentIntentExcludedPaymentMethodTypeUpi              PaymentIntentExcludedPaymentMethodType = "upi"
 	PaymentIntentExcludedPaymentMethodTypeUSBankAccount    PaymentIntentExcludedPaymentMethodType = "us_bank_account"
 	PaymentIntentExcludedPaymentMethodTypeWeChatPay        PaymentIntentExcludedPaymentMethodType = "wechat_pay"
 	PaymentIntentExcludedPaymentMethodTypeZip              PaymentIntentExcludedPaymentMethodType = "zip"
+)
+
+// The supported token currency. Supported token currencies include: `usdc`.
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency string
+
+// List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency can take
+const (
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency = "usdc"
+)
+
+// The supported token currency. Supported token currencies include: `usdc`.
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency string
+
+// List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency can take
+const (
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency = "usdc"
+)
+
+// The supported token currency. Supported token currencies include: `usdc`.
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency string
+
+// List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency can take
+const (
+	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency = "usdc"
 )
 
 // The payment networks supported by this FinancialAddress
@@ -184,30 +219,6 @@ type PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType string
 const (
 	PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositTypeAmounts        PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType = "amounts"
 	PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositTypeDescriptorCode PaymentIntentNextActionVerifyWithMicrodepositsMicrodepositType = "descriptor_code"
-)
-
-// The supported token currency. Supported token currencies include: `usdc`.
-type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency string
-
-// List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency can take
-const (
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency = "usdc"
-)
-
-// The supported token currency. Supported token currencies include: `usdc`.
-type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency string
-
-// List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency can take
-const (
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency = "usdc"
-)
-
-// The supported token currency. Supported token currencies include: `usdc`.
-type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency string
-
-// List of values that PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency can take
-const (
-	PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrencyUsdc PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency = "usdc"
 )
 
 // The delivery method for the payment
@@ -506,7 +517,7 @@ const (
 	PaymentIntentPaymentMethodOptionsACSSDebitSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsACSSDebitSetupFutureUsage = "on_session"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod string
 
 // List of values that PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod can take
@@ -821,6 +832,15 @@ const (
 	PaymentIntentPaymentMethodOptionsCardRequestPartialAuthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestPartialAuthorization = "never"
 )
 
+// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
+type PaymentIntentPaymentMethodOptionsCardRequestReauthorization string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardRequestReauthorization can take
+const (
+	PaymentIntentPaymentMethodOptionsCardRequestReauthorizationIfAvailable PaymentIntentPaymentMethodOptionsCardRequestReauthorization = "if_available"
+	PaymentIntentPaymentMethodOptionsCardRequestReauthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestReauthorization = "never"
+)
+
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
@@ -847,15 +867,6 @@ const (
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "on_session"
 )
 
-// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
-type PaymentIntentPaymentMethodOptionsCardRequestReauthorization string
-
-// List of values that PaymentIntentPaymentMethodOptionsCardRequestReauthorization can take
-const (
-	PaymentIntentPaymentMethodOptionsCardRequestReauthorizationIfAvailable PaymentIntentPaymentMethodOptionsCardRequestReauthorization = "if_available"
-	PaymentIntentPaymentMethodOptionsCardRequestReauthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestReauthorization = "never"
-)
-
 // Controls when the funds will be captured from the customer's account.
 type PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod string
 
@@ -865,15 +876,6 @@ const (
 	PaymentIntentPaymentMethodOptionsCardPresentCaptureMethodManualPreferred PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod = "manual_preferred"
 )
 
-// Requested routing priority
-type PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority string
-
-// List of values that PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority can take
-const (
-	PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriorityDomestic      PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority = "domestic"
-	PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriorityInternational PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority = "international"
-)
-
 // Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorization string
 
@@ -881,6 +883,15 @@ type PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorization string
 const (
 	PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorizationIfAvailable PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorization = "if_available"
 	PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorizationNever       PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorization = "never"
+)
+
+// Requested routing priority
+type PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriorityDomestic      PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority = "domestic"
+	PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriorityInternational PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority = "international"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -907,20 +918,6 @@ const (
 	PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage = "on_session"
 )
 
-// Indicates that you intend to make future payments with this PaymentIntent's payment method.
-//
-// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
-//
-// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
-//
-// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-type PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage string
-
-// List of values that PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage can take
-const (
-	PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsageNone PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage = "none"
-)
-
 // The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
 type PaymentIntentPaymentMethodOptionsCryptoDepositOptionsNetwork string
 
@@ -938,6 +935,20 @@ type PaymentIntentPaymentMethodOptionsCryptoMode string
 const (
 	PaymentIntentPaymentMethodOptionsCryptoModeDefault PaymentIntentPaymentMethodOptionsCryptoMode = "default"
 	PaymentIntentPaymentMethodOptionsCryptoModeDeposit PaymentIntentPaymentMethodOptionsCryptoMode = "deposit"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsageNone PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage = "none"
 )
 
 // List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
@@ -1644,6 +1655,21 @@ const (
 	PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsageNone PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage = "none"
 )
 
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsUpiSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsUpiSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsUpiSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsUpiSetupFutureUsage = "off_session"
+	PaymentIntentPaymentMethodOptionsUpiSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsUpiSetupFutureUsage = "on_session"
+)
+
 // The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
 
@@ -1719,7 +1745,7 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurposeUnspecified PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose = "unspecified"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod string
 
 // List of values that PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod can take
@@ -1943,6 +1969,28 @@ func (p *PaymentIntentAmountDetailsShippingParams) AddUnsetField(field PaymentIn
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Contains information about the surcharge portion of the amount.
+type PaymentIntentAmountDetailsSurchargeParams struct {
+	// Portion of the amount that corresponds to a surcharge.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Indicate whether to enforce validations on the surcharge amount.
+	EnforceValidation *string                                               `form:"enforce_validation" json:"enforce_validation,omitempty"`
+	UnsetFields       []PaymentIntentAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentAmountDetailsSurchargeParams.
+type PaymentIntentAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Contains information about the tax portion of the amount.
 type PaymentIntentAmountDetailsTaxParams struct {
 	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
@@ -1967,6 +2015,8 @@ type PaymentIntentAmountDetailsParams struct {
 	LineItems []*PaymentIntentAmountDetailsLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentAmountDetailsShippingParams `form:"shipping" json:"shipping,omitempty"`
+	// Contains information about the surcharge portion of the amount.
+	Surcharge *PaymentIntentAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
 	// Contains information about the tax portion of the amount.
 	Tax         *PaymentIntentAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
 	UnsetFields []PaymentIntentAmountDetailsParamsUnsetField `form:"-" json:"-"`
@@ -1979,6 +2029,7 @@ const (
 	PaymentIntentAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentAmountDetailsParamsUnsetField = "discount_amount"
 	PaymentIntentAmountDetailsParamsUnsetFieldLineItems      PaymentIntentAmountDetailsParamsUnsetField = "line_items"
 	PaymentIntentAmountDetailsParamsUnsetFieldShipping       PaymentIntentAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentAmountDetailsParamsUnsetFieldTax            PaymentIntentAmountDetailsParamsUnsetField = "tax"
 )
 
@@ -2898,8 +2949,6 @@ type PaymentIntentPaymentDetailsParams struct {
 	LodgingData []*PaymentIntentPaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
-	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
-	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference" json:"order_reference,omitempty"`
 	// Subscription details for this PaymentIntent
@@ -3081,6 +3130,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	TWINT *PaymentMethodTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type" json:"type"`
+	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+	Upi *PaymentMethodUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -3141,7 +3192,7 @@ type PaymentIntentPaymentMethodOptionsACSSDebitParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string                                                      `form:"verification_method" json:"verification_method,omitempty"`
 	UnsetFields        []PaymentIntentPaymentMethodOptionsACSSDebitParamsUnsetField `form:"-" json:"-"`
 }
@@ -3540,7 +3591,7 @@ func (p *PaymentIntentPaymentMethodOptionsCardInstallmentsParams) AddUnsetField(
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type PaymentIntentPaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount *int64 `form:"amount" json:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type" json:"amount_type"`
@@ -5047,7 +5098,7 @@ type PaymentIntentPaymentMethodOptionsPixMandateOptionsParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
 	EndDate *string `form:"end_date" json:"end_date,omitempty"`
-	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
 	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
 	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
 	Reference *string `form:"reference" json:"reference,omitempty"`
@@ -5280,8 +5331,16 @@ func (p *PaymentIntentPaymentMethodOptionsSofortParams) AddUnsetField(field Paym
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Additional fields for mandate creation.
+type PaymentIntentPaymentMethodOptionsStripeBalanceMandateOptionsParams struct {
+	// The ID of the Stripe Balance Debit Agreement used for this mandate.
+	StripeBalanceDebitAgreement *string `form:"stripe_balance_debit_agreement" json:"stripe_balance_debit_agreement,omitempty"`
+}
+
 // If this is a `stripe_balance` PaymentMethod, this sub-hash contains details about the Stripe Balance payment method options.
 type PaymentIntentPaymentMethodOptionsStripeBalanceParams struct {
+	// Additional fields for mandate creation.
+	MandateOptions *PaymentIntentPaymentMethodOptionsStripeBalanceMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5348,6 +5407,38 @@ type PaymentIntentPaymentMethodOptionsTWINTParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
+// Configuration options for setting up an eMandate
+type PaymentIntentPaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+}
+
+// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
+type PaymentIntentPaymentMethodOptionsUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions   *PaymentIntentPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	SetupFutureUsage *string                                                   `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentPaymentMethodOptionsUpiParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsUpiParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsUpiParams.
+type PaymentIntentPaymentMethodOptionsUpiParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsUpiParamsUnsetFieldSetupFutureUsage PaymentIntentPaymentMethodOptionsUpiParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsUpiParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsUpiParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Provide filters for the linked accounts that the customer can select for the payment method.
@@ -5425,7 +5516,7 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountParams struct {
 	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
 	// The purpose of the transaction.
 	TransactionPurpose *string `form:"transaction_purpose" json:"transaction_purpose,omitempty"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string                                                          `form:"verification_method" json:"verification_method,omitempty"`
 	UnsetFields        []PaymentIntentPaymentMethodOptionsUSBankAccountParamsUnsetField `form:"-" json:"-"`
 }
@@ -5589,6 +5680,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Swish *PaymentIntentPaymentMethodOptionsSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
 	TWINT *PaymentIntentPaymentMethodOptionsTWINTParams `form:"twint" json:"twint,omitempty"`
+	// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
+	Upi *PaymentIntentPaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *PaymentIntentPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
@@ -5658,6 +5751,7 @@ const (
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldStripeBalance    PaymentIntentPaymentMethodOptionsParamsUnsetField = "stripe_balance"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldSwish            PaymentIntentPaymentMethodOptionsParamsUnsetField = "swish"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldTWINT            PaymentIntentPaymentMethodOptionsParamsUnsetField = "twint"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentPaymentMethodOptionsParamsUnsetField = "upi"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldUSBankAccount    PaymentIntentPaymentMethodOptionsParamsUnsetField = "us_bank_account"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldWeChatPay        PaymentIntentPaymentMethodOptionsParamsUnsetField = "wechat_pay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldZip              PaymentIntentPaymentMethodOptionsParamsUnsetField = "zip"
@@ -5901,7 +5995,7 @@ func (p *PaymentIntentApplyCustomerBalanceParams) AddExpand(f string) {
 //
 // After it's canceled, no additional charges are made by the PaymentIntent and any operations on the PaymentIntent fail with an error. For PaymentIntents with a status of requires_capture, the remaining amount_capturable is automatically refunded.
 //
-// You can't cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://docs.stripe.com/docs/api/checkout/sessions/expire) instead.
+// You can directly cancel the PaymentIntent for a Checkout Session only when the PaymentIntent has a status of requires_capture. Otherwise, you must [expire the Checkout Session](https://docs.stripe.com/docs/api/checkout/sessions/expire).
 type PaymentIntentCancelParams struct {
 	Params `form:"*"`
 	// Reason for canceling this PaymentIntent. Possible values are: `duplicate`, `fraudulent`, `requested_by_customer`, or `abandoned`
@@ -6018,6 +6112,28 @@ func (p *PaymentIntentCaptureAmountDetailsShippingParams) AddUnsetField(field Pa
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Contains information about the surcharge portion of the amount.
+type PaymentIntentCaptureAmountDetailsSurchargeParams struct {
+	// Portion of the amount that corresponds to a surcharge.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Indicate whether to enforce validations on the surcharge amount.
+	EnforceValidation *string                                                      `form:"enforce_validation" json:"enforce_validation,omitempty"`
+	UnsetFields       []PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCaptureAmountDetailsSurchargeParams.
+type PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCaptureAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentCaptureAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Contains information about the tax portion of the amount.
 type PaymentIntentCaptureAmountDetailsTaxParams struct {
 	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
@@ -6042,6 +6158,8 @@ type PaymentIntentCaptureAmountDetailsParams struct {
 	LineItems []*PaymentIntentCaptureAmountDetailsLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentCaptureAmountDetailsShippingParams `form:"shipping" json:"shipping,omitempty"`
+	// Contains information about the surcharge portion of the amount.
+	Surcharge *PaymentIntentCaptureAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
 	// Contains information about the tax portion of the amount.
 	Tax         *PaymentIntentCaptureAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
 	UnsetFields []PaymentIntentCaptureAmountDetailsParamsUnsetField `form:"-" json:"-"`
@@ -6054,6 +6172,7 @@ const (
 	PaymentIntentCaptureAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentCaptureAmountDetailsParamsUnsetField = "discount_amount"
 	PaymentIntentCaptureAmountDetailsParamsUnsetFieldLineItems      PaymentIntentCaptureAmountDetailsParamsUnsetField = "line_items"
 	PaymentIntentCaptureAmountDetailsParamsUnsetFieldShipping       PaymentIntentCaptureAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentCaptureAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentCaptureAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentCaptureAmountDetailsParamsUnsetFieldTax            PaymentIntentCaptureAmountDetailsParamsUnsetField = "tax"
 )
 
@@ -6907,8 +7026,6 @@ type PaymentIntentCapturePaymentDetailsParams struct {
 	LodgingData []*PaymentIntentCapturePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
-	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
-	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference" json:"order_reference,omitempty"`
 	// Subscription details for this PaymentIntent
@@ -7103,6 +7220,28 @@ func (p *PaymentIntentConfirmAmountDetailsShippingParams) AddUnsetField(field Pa
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Contains information about the surcharge portion of the amount.
+type PaymentIntentConfirmAmountDetailsSurchargeParams struct {
+	// Portion of the amount that corresponds to a surcharge.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Indicate whether to enforce validations on the surcharge amount.
+	EnforceValidation *string                                                      `form:"enforce_validation" json:"enforce_validation,omitempty"`
+	UnsetFields       []PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentConfirmAmountDetailsSurchargeParams.
+type PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentConfirmAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentConfirmAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Contains information about the tax portion of the amount.
 type PaymentIntentConfirmAmountDetailsTaxParams struct {
 	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
@@ -7127,6 +7266,8 @@ type PaymentIntentConfirmAmountDetailsParams struct {
 	LineItems []*PaymentIntentConfirmAmountDetailsLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentConfirmAmountDetailsShippingParams `form:"shipping" json:"shipping,omitempty"`
+	// Contains information about the surcharge portion of the amount.
+	Surcharge *PaymentIntentConfirmAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
 	// Contains information about the tax portion of the amount.
 	Tax         *PaymentIntentConfirmAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
 	UnsetFields []PaymentIntentConfirmAmountDetailsParamsUnsetField `form:"-" json:"-"`
@@ -7139,6 +7280,7 @@ const (
 	PaymentIntentConfirmAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentConfirmAmountDetailsParamsUnsetField = "discount_amount"
 	PaymentIntentConfirmAmountDetailsParamsUnsetFieldLineItems      PaymentIntentConfirmAmountDetailsParamsUnsetField = "line_items"
 	PaymentIntentConfirmAmountDetailsParamsUnsetFieldShipping       PaymentIntentConfirmAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentConfirmAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentConfirmAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentConfirmAmountDetailsParamsUnsetFieldTax            PaymentIntentConfirmAmountDetailsParamsUnsetField = "tax"
 )
 
@@ -8019,8 +8161,6 @@ type PaymentIntentConfirmPaymentDetailsParams struct {
 	LodgingData []*PaymentIntentConfirmPaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
-	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
-	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference" json:"order_reference,omitempty"`
 	// Subscription details for this PaymentIntent
@@ -8172,6 +8312,178 @@ func (p *PaymentIntentConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// This sub-hash contains line item details that are specific to the `card` payment method.
+type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
+	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+}
+
+// This sub-hash contains line item details that are specific to the `card_present` payment method.
+type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
+	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+}
+
+// This sub-hash contains line item details that are specific to the `klarna` payment method.
+type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
+	// URL to an image for the product. Max length, 4096 characters.
+	ImageURL *string `form:"image_url" json:"image_url,omitempty"`
+	// URL to the product page. Max length, 4096 characters.
+	ProductURL *string `form:"product_url" json:"product_url,omitempty"`
+	// Unique reference for this line item to correlate it with your system's internal records. The field is displayed in the Klarna Consumer App if passed.
+	Reference *string `form:"reference" json:"reference,omitempty"`
+	// Reference for the subscription this line item is for.
+	SubscriptionReference *string `form:"subscription_reference" json:"subscription_reference,omitempty"`
+}
+
+// This sub-hash contains line item details that are specific to the `paypal` payment method.
+type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
+	// Type of the line item.
+	Category *string `form:"category" json:"category,omitempty"`
+	// Description of the line item.
+	Description *string `form:"description" json:"description,omitempty"`
+	// The Stripe account ID of the connected account that sells the item.
+	SoldBy *string `form:"sold_by" json:"sold_by,omitempty"`
+}
+
+// Payment method-specific information for line items.
+type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsParams struct {
+	// This sub-hash contains line item details that are specific to the `card` payment method.
+	Card *PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
+	// This sub-hash contains line item details that are specific to the `card_present` payment method.
+	CardPresent *PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present" json:"card_present,omitempty"`
+	// This sub-hash contains line item details that are specific to the `klarna` payment method.
+	Klarna *PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna" json:"klarna,omitempty"`
+	// This sub-hash contains line item details that are specific to the `paypal` payment method.
+	Paypal *PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal" json:"paypal,omitempty"`
+}
+
+// Contains information about the tax on the item.
+type PaymentIntentDecrementAuthorizationAmountDetailsLineItemTaxParams struct {
+	// The total amount of tax on a single line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[tax][total_tax_amount]` field.
+	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount"`
+}
+
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
+type PaymentIntentDecrementAuthorizationAmountDetailsLineItemParams struct {
+	// The discount applied on this line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[discount_amount]` field.
+	DiscountAmount *int64 `form:"discount_amount" json:"discount_amount,omitempty"`
+	// Payment method-specific information for line items.
+	PaymentMethodOptions *PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
+	// The product code of the line item, such as an SKU. Required for L3 rates. At most 12 characters long.
+	ProductCode *string `form:"product_code" json:"product_code,omitempty"`
+	// The product name of the line item. Required for L3 rates. At most 1024 characters long.
+	//
+	// For Cards, this field is truncated to 26 alphanumeric characters before being sent to the card networks. For PayPal, this field is truncated to 127 characters.
+	ProductName *string `form:"product_name" json:"product_name"`
+	// The quantity of items. Required for L3 rates. An integer greater than 0.
+	Quantity *int64 `form:"quantity" json:"quantity"`
+	// Contains information about the tax on the item.
+	Tax *PaymentIntentDecrementAuthorizationAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
+	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
+	UnitCost *int64 `form:"unit_cost" json:"unit_cost"`
+	// A unit of measure for the line item, such as gallons, feet, meters, etc.
+	UnitOfMeasure *string `form:"unit_of_measure" json:"unit_of_measure,omitempty"`
+}
+
+// Contains information about the shipping portion of the amount.
+type PaymentIntentDecrementAuthorizationAmountDetailsShippingParams struct {
+	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	ToPostalCode *string                                                                    `form:"to_postal_code" json:"to_postal_code,omitempty"`
+	UnsetFields  []PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentDecrementAuthorizationAmountDetailsShippingParams.
+type PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField string
+
+const (
+	PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetFieldAmount         PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField = "amount"
+	PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetFieldFromPostalCode PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField = "from_postal_code"
+	PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetFieldToPostalCode   PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField = "to_postal_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentDecrementAuthorizationAmountDetailsShippingParams) AddUnsetField(field PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Contains information about the surcharge portion of the amount.
+type PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParams struct {
+	// Portion of the amount that corresponds to a surcharge.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Indicate whether to enforce validations on the surcharge amount.
+	EnforceValidation *string                                                                     `form:"enforce_validation" json:"enforce_validation,omitempty"`
+	UnsetFields       []PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParams.
+type PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Contains information about the tax portion of the amount.
+type PaymentIntentDecrementAuthorizationAmountDetailsTaxParams struct {
+	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][tax][total_tax_amount]` field.
+	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount"`
+}
+
+// Provides industry-specific information about the amount.
+type PaymentIntentDecrementAuthorizationAmountDetailsParams struct {
+	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
+	//
+	// This field is mutually exclusive with the `amount_details[line_items][#][discount_amount]` field.
+	DiscountAmount *int64 `form:"discount_amount" json:"discount_amount,omitempty"`
+	// Set to `false` to return arithmetic validation errors in the response without failing the request. Use this when you want the operation to proceed regardless of arithmetic errors in the line item data.
+	//
+	// Omit or set to `true` to immediately return a 400 error when arithmetic validation fails. Use this for strict validation that prevents processing with line item data that has arithmetic inconsistencies.
+	//
+	// For card payments, Stripe doesn't send line item data to card networks if there's an arithmetic validation error.
+	EnforceArithmeticValidation *bool `form:"enforce_arithmetic_validation" json:"enforce_arithmetic_validation,omitempty"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
+	LineItems []*PaymentIntentDecrementAuthorizationAmountDetailsLineItemParams `form:"line_items" json:"line_items,omitempty"`
+	// Contains information about the shipping portion of the amount.
+	Shipping *PaymentIntentDecrementAuthorizationAmountDetailsShippingParams `form:"shipping" json:"shipping,omitempty"`
+	// Contains information about the surcharge portion of the amount.
+	Surcharge *PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
+	// Contains information about the tax portion of the amount.
+	Tax         *PaymentIntentDecrementAuthorizationAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
+	UnsetFields []PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentDecrementAuthorizationAmountDetailsParams.
+type PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField string
+
+const (
+	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "discount_amount"
+	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldLineItems      PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "line_items"
+	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldShipping       PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "surcharge"
+	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldTax            PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "tax"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentDecrementAuthorizationAmountDetailsParams) AddUnsetField(field PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Tax arguments for automations
 type PaymentIntentDecrementAuthorizationHooksInputsTaxParams struct {
 	// The [TaxCalculation](https://docs.stripe.com/api/tax/calculations) id
@@ -8203,6 +8515,32 @@ type PaymentIntentDecrementAuthorizationHooksParams struct {
 	Inputs *PaymentIntentDecrementAuthorizationHooksInputsParams `form:"inputs" json:"inputs,omitempty"`
 }
 
+// Provides industry-specific information about the charge.
+type PaymentIntentDecrementAuthorizationPaymentDetailsParams struct {
+	// A unique value to identify the customer. This field is available only for card payments.
+	//
+	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
+	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
+	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
+	//
+	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
+	OrderReference *string                                                             `form:"order_reference" json:"order_reference,omitempty"`
+	UnsetFields    []PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentDecrementAuthorizationPaymentDetailsParams.
+type PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetField string
+
+const (
+	PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetField = "order_reference"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentDecrementAuthorizationPaymentDetailsParams) AddUnsetField(field PaymentIntentDecrementAuthorizationPaymentDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // The parameters used to automatically create a transfer after the payment is captured.
 // Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 type PaymentIntentDecrementAuthorizationTransferDataParams struct {
@@ -8230,6 +8568,8 @@ type PaymentIntentDecrementAuthorizationParams struct {
 	Params `form:"*"`
 	// The updated total amount that you intend to collect from the cardholder. This amount must be smaller than the currently authorized amount and greater than the already captured amount.
 	Amount *int64 `form:"amount" json:"amount"`
+	// Provides industry-specific information about the amount.
+	AmountDetails *PaymentIntentDecrementAuthorizationAmountDetailsParams `form:"amount_details" json:"amount_details,omitempty"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -8240,6 +8580,8 @@ type PaymentIntentDecrementAuthorizationParams struct {
 	Hooks *PaymentIntentDecrementAuthorizationHooksParams `form:"hooks" json:"hooks,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Provides industry-specific information about the charge.
+	PaymentDetails *PaymentIntentDecrementAuthorizationPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// The parameters used to automatically create a transfer after the payment is captured.
 	// Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	TransferData *PaymentIntentDecrementAuthorizationTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
@@ -8362,6 +8704,28 @@ func (p *PaymentIntentIncrementAuthorizationAmountDetailsShippingParams) AddUnse
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Contains information about the surcharge portion of the amount.
+type PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParams struct {
+	// Portion of the amount that corresponds to a surcharge.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Indicate whether to enforce validations on the surcharge amount.
+	EnforceValidation *string                                                                     `form:"enforce_validation" json:"enforce_validation,omitempty"`
+	UnsetFields       []PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParams.
+type PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Contains information about the tax portion of the amount.
 type PaymentIntentIncrementAuthorizationAmountDetailsTaxParams struct {
 	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
@@ -8386,6 +8750,8 @@ type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
 	LineItems []*PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentIncrementAuthorizationAmountDetailsShippingParams `form:"shipping" json:"shipping,omitempty"`
+	// Contains information about the surcharge portion of the amount.
+	Surcharge *PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
 	// Contains information about the tax portion of the amount.
 	Tax         *PaymentIntentIncrementAuthorizationAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
 	UnsetFields []PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField `form:"-" json:"-"`
@@ -8398,6 +8764,7 @@ const (
 	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "discount_amount"
 	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldLineItems      PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "line_items"
 	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldShipping       PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldTax            PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "tax"
 )
 
@@ -8444,8 +8811,6 @@ type PaymentIntentIncrementAuthorizationPaymentDetailsParams struct {
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
-	//
-	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string                                                             `form:"order_reference" json:"order_reference,omitempty"`
@@ -8728,6 +9093,28 @@ func (p *PaymentIntentCreateAmountDetailsShippingParams) AddUnsetField(field Pay
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Contains information about the surcharge portion of the amount.
+type PaymentIntentCreateAmountDetailsSurchargeParams struct {
+	// Portion of the amount that corresponds to a surcharge.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Indicate whether to enforce validations on the surcharge amount.
+	EnforceValidation *string                                                     `form:"enforce_validation" json:"enforce_validation,omitempty"`
+	UnsetFields       []PaymentIntentCreateAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreateAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreateAmountDetailsSurchargeParams.
+type PaymentIntentCreateAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentCreateAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentCreateAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentCreateAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentCreateAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreateAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentCreateAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Contains information about the tax portion of the amount.
 type PaymentIntentCreateAmountDetailsTaxParams struct {
 	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
@@ -8752,6 +9139,8 @@ type PaymentIntentCreateAmountDetailsParams struct {
 	LineItems []*PaymentIntentCreateAmountDetailsLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentCreateAmountDetailsShippingParams `form:"shipping" json:"shipping,omitempty"`
+	// Contains information about the surcharge portion of the amount.
+	Surcharge *PaymentIntentCreateAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
 	// Contains information about the tax portion of the amount.
 	Tax         *PaymentIntentCreateAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
 	UnsetFields []PaymentIntentCreateAmountDetailsParamsUnsetField `form:"-" json:"-"`
@@ -8764,6 +9153,7 @@ const (
 	PaymentIntentCreateAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentCreateAmountDetailsParamsUnsetField = "discount_amount"
 	PaymentIntentCreateAmountDetailsParamsUnsetFieldLineItems      PaymentIntentCreateAmountDetailsParamsUnsetField = "line_items"
 	PaymentIntentCreateAmountDetailsParamsUnsetFieldShipping       PaymentIntentCreateAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentCreateAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentCreateAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentCreateAmountDetailsParamsUnsetFieldTax            PaymentIntentCreateAmountDetailsParamsUnsetField = "tax"
 )
 
@@ -9683,8 +10073,6 @@ type PaymentIntentCreatePaymentDetailsParams struct {
 	LodgingData []*PaymentIntentCreatePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
-	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
-	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference" json:"order_reference,omitempty"`
 	// Subscription details for this PaymentIntent
@@ -9866,6 +10254,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	TWINT *PaymentMethodTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type" json:"type"`
+	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+	Upi *PaymentMethodUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -9926,7 +10316,7 @@ type PaymentIntentCreatePaymentMethodOptionsACSSDebitParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string                                                            `form:"verification_method" json:"verification_method,omitempty"`
 	UnsetFields        []PaymentIntentCreatePaymentMethodOptionsACSSDebitParamsUnsetField `form:"-" json:"-"`
 }
@@ -10325,7 +10715,7 @@ func (p *PaymentIntentCreatePaymentMethodOptionsCardInstallmentsParams) AddUnset
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type PaymentIntentCreatePaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount *int64 `form:"amount" json:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type" json:"amount_type"`
@@ -11832,7 +12222,7 @@ type PaymentIntentCreatePaymentMethodOptionsPixMandateOptionsParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
 	EndDate *string `form:"end_date" json:"end_date,omitempty"`
-	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
 	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
 	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
 	Reference *string `form:"reference" json:"reference,omitempty"`
@@ -12065,8 +12455,16 @@ func (p *PaymentIntentCreatePaymentMethodOptionsSofortParams) AddUnsetField(fiel
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Additional fields for mandate creation.
+type PaymentIntentCreatePaymentMethodOptionsStripeBalanceMandateOptionsParams struct {
+	// The ID of the Stripe Balance Debit Agreement used for this mandate.
+	StripeBalanceDebitAgreement *string `form:"stripe_balance_debit_agreement" json:"stripe_balance_debit_agreement,omitempty"`
+}
+
 // If this is a `stripe_balance` PaymentMethod, this sub-hash contains details about the Stripe Balance payment method options.
 type PaymentIntentCreatePaymentMethodOptionsStripeBalanceParams struct {
+	// Additional fields for mandate creation.
+	MandateOptions *PaymentIntentCreatePaymentMethodOptionsStripeBalanceMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -12133,6 +12531,38 @@ type PaymentIntentCreatePaymentMethodOptionsTWINTParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
+// Configuration options for setting up an eMandate
+type PaymentIntentCreatePaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+}
+
+// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
+type PaymentIntentCreatePaymentMethodOptionsUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions   *PaymentIntentCreatePaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	SetupFutureUsage *string                                                         `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsUpiParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsUpiParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsUpiParams.
+type PaymentIntentCreatePaymentMethodOptionsUpiParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsUpiParamsUnsetFieldSetupFutureUsage PaymentIntentCreatePaymentMethodOptionsUpiParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsUpiParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsUpiParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Provide filters for the linked accounts that the customer can select for the payment method.
@@ -12210,7 +12640,7 @@ type PaymentIntentCreatePaymentMethodOptionsUSBankAccountParams struct {
 	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
 	// The purpose of the transaction.
 	TransactionPurpose *string `form:"transaction_purpose" json:"transaction_purpose,omitempty"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string                                                                `form:"verification_method" json:"verification_method,omitempty"`
 	UnsetFields        []PaymentIntentCreatePaymentMethodOptionsUSBankAccountParamsUnsetField `form:"-" json:"-"`
 }
@@ -12374,6 +12804,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	Swish *PaymentIntentCreatePaymentMethodOptionsSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
 	TWINT *PaymentIntentCreatePaymentMethodOptionsTWINTParams `form:"twint" json:"twint,omitempty"`
+	// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
+	Upi *PaymentIntentCreatePaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *PaymentIntentCreatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
@@ -12443,6 +12875,7 @@ const (
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldStripeBalance    PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "stripe_balance"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldSwish            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "swish"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldTWINT            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "twint"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "upi"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldUSBankAccount    PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "us_bank_account"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldWeChatPay        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "wechat_pay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldZip              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "zip"
@@ -12760,6 +13193,28 @@ func (p *PaymentIntentUpdateAmountDetailsShippingParams) AddUnsetField(field Pay
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Contains information about the surcharge portion of the amount.
+type PaymentIntentUpdateAmountDetailsSurchargeParams struct {
+	// Portion of the amount that corresponds to a surcharge.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Indicate whether to enforce validations on the surcharge amount.
+	EnforceValidation *string                                                     `form:"enforce_validation" json:"enforce_validation,omitempty"`
+	UnsetFields       []PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdateAmountDetailsSurchargeParams.
+type PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetField string
+
+const (
+	PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetFieldAmount            PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetField = "amount"
+	PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetFieldEnforceValidation PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetField = "enforce_validation"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdateAmountDetailsSurchargeParams) AddUnsetField(field PaymentIntentUpdateAmountDetailsSurchargeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Contains information about the tax portion of the amount.
 type PaymentIntentUpdateAmountDetailsTaxParams struct {
 	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
@@ -12784,6 +13239,8 @@ type PaymentIntentUpdateAmountDetailsParams struct {
 	LineItems []*PaymentIntentUpdateAmountDetailsLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Contains information about the shipping portion of the amount.
 	Shipping *PaymentIntentUpdateAmountDetailsShippingParams `form:"shipping" json:"shipping,omitempty"`
+	// Contains information about the surcharge portion of the amount.
+	Surcharge *PaymentIntentUpdateAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
 	// Contains information about the tax portion of the amount.
 	Tax         *PaymentIntentUpdateAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
 	UnsetFields []PaymentIntentUpdateAmountDetailsParamsUnsetField `form:"-" json:"-"`
@@ -12796,6 +13253,7 @@ const (
 	PaymentIntentUpdateAmountDetailsParamsUnsetFieldDiscountAmount PaymentIntentUpdateAmountDetailsParamsUnsetField = "discount_amount"
 	PaymentIntentUpdateAmountDetailsParamsUnsetFieldLineItems      PaymentIntentUpdateAmountDetailsParamsUnsetField = "line_items"
 	PaymentIntentUpdateAmountDetailsParamsUnsetFieldShipping       PaymentIntentUpdateAmountDetailsParamsUnsetField = "shipping"
+	PaymentIntentUpdateAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentUpdateAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentUpdateAmountDetailsParamsUnsetFieldTax            PaymentIntentUpdateAmountDetailsParamsUnsetField = "tax"
 )
 
@@ -13698,8 +14156,6 @@ type PaymentIntentUpdatePaymentDetailsParams struct {
 	LodgingData []*PaymentIntentUpdatePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
-	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
-	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference *string `form:"order_reference" json:"order_reference,omitempty"`
 	// Subscription details for this PaymentIntent
@@ -13881,6 +14337,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	TWINT *PaymentMethodTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type" json:"type"`
+	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+	Upi *PaymentMethodUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -13941,7 +14399,7 @@ type PaymentIntentUpdatePaymentMethodOptionsACSSDebitParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string                                                            `form:"verification_method" json:"verification_method,omitempty"`
 	UnsetFields        []PaymentIntentUpdatePaymentMethodOptionsACSSDebitParamsUnsetField `form:"-" json:"-"`
 }
@@ -14340,7 +14798,7 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsCardInstallmentsParams) AddUnset
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type PaymentIntentUpdatePaymentMethodOptionsCardMandateOptionsParams struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount *int64 `form:"amount" json:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType *string `form:"amount_type" json:"amount_type"`
@@ -15847,7 +16305,7 @@ type PaymentIntentUpdatePaymentMethodOptionsPixMandateOptionsParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
 	EndDate *string `form:"end_date" json:"end_date,omitempty"`
-	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
 	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
 	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
 	Reference *string `form:"reference" json:"reference,omitempty"`
@@ -16080,8 +16538,16 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsSofortParams) AddUnsetField(fiel
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Additional fields for mandate creation.
+type PaymentIntentUpdatePaymentMethodOptionsStripeBalanceMandateOptionsParams struct {
+	// The ID of the Stripe Balance Debit Agreement used for this mandate.
+	StripeBalanceDebitAgreement *string `form:"stripe_balance_debit_agreement" json:"stripe_balance_debit_agreement,omitempty"`
+}
+
 // If this is a `stripe_balance` PaymentMethod, this sub-hash contains details about the Stripe Balance payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsStripeBalanceParams struct {
+	// Additional fields for mandate creation.
+	MandateOptions *PaymentIntentUpdatePaymentMethodOptionsStripeBalanceMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -16148,6 +16614,38 @@ type PaymentIntentUpdatePaymentMethodOptionsTWINTParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
+// Configuration options for setting up an eMandate
+type PaymentIntentUpdatePaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+}
+
+// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions   *PaymentIntentUpdatePaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	SetupFutureUsage *string                                                         `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsUpiParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsUpiParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsUpiParams.
+type PaymentIntentUpdatePaymentMethodOptionsUpiParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsUpiParamsUnsetFieldSetupFutureUsage PaymentIntentUpdatePaymentMethodOptionsUpiParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsUpiParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsUpiParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Provide filters for the linked accounts that the customer can select for the payment method.
@@ -16225,7 +16723,7 @@ type PaymentIntentUpdatePaymentMethodOptionsUSBankAccountParams struct {
 	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
 	// The purpose of the transaction.
 	TransactionPurpose *string `form:"transaction_purpose" json:"transaction_purpose,omitempty"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod *string                                                                `form:"verification_method" json:"verification_method,omitempty"`
 	UnsetFields        []PaymentIntentUpdatePaymentMethodOptionsUSBankAccountParamsUnsetField `form:"-" json:"-"`
 }
@@ -16389,6 +16887,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	Swish *PaymentIntentUpdatePaymentMethodOptionsSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
 	TWINT *PaymentIntentUpdatePaymentMethodOptionsTWINTParams `form:"twint" json:"twint,omitempty"`
+	// If this is a `upi` PaymentIntent, this sub-hash contains details about the UPI payment method options.
+	Upi *PaymentIntentUpdatePaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *PaymentIntentUpdatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
@@ -16458,6 +16958,7 @@ const (
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldStripeBalance    PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "stripe_balance"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldSwish            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "swish"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldTWINT            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "twint"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "upi"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldUSBankAccount    PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "us_bank_account"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldWeChatPay        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "wechat_pay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldZip              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "zip"
@@ -16613,6 +17114,16 @@ type PaymentIntentAmountDetailsShipping struct {
 	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
 	ToPostalCode string `json:"to_postal_code"`
 }
+type PaymentIntentAmountDetailsSurcharge struct {
+	// Portion of the amount that corresponds to a surcharge.
+	Amount int64 `json:"amount,omitempty"`
+	// Indicate whether to enforce validations on the surcharge amount.
+	EnforceValidation PaymentIntentAmountDetailsSurchargeEnforceValidation `json:"enforce_validation,omitempty"`
+	// The maximum amount allowed for the surcharge.
+	MaximumAmount int64 `json:"maximum_amount,omitempty"`
+	// The status of the surcharge.
+	Status string `json:"status,omitempty"`
+}
 type PaymentIntentAmountDetailsTax struct {
 	// The total amount of tax on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L2 rates. An integer greater than or equal to 0.
 	//
@@ -16632,6 +17143,7 @@ type PaymentIntentAmountDetails struct {
 	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 200 line items.
 	LineItems *PaymentIntentAmountDetailsLineItemList `json:"line_items,omitempty"`
 	Shipping  *PaymentIntentAmountDetailsShipping     `json:"shipping,omitempty"`
+	Surcharge *PaymentIntentAmountDetailsSurcharge    `json:"surcharge,omitempty"`
 	Tax       *PaymentIntentAmountDetailsTax          `json:"tax,omitempty"`
 	Tip       *PaymentIntentAmountDetailsTip          `json:"tip,omitempty"`
 }
@@ -16711,6 +17223,56 @@ type PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCode struct {
 	// The url for mobile redirect based auth
 	MobileAuthURL string                                                             `json:"mobile_auth_url"`
 	QRCode        *PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
+}
+
+// The token currencies supported on this network.
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedToken struct {
+	// The on-chain contract address for the supported token currency on this specific network.
+	TokenContractAddress string `json:"token_contract_address"`
+	// The supported token currency. Supported token currencies include: `usdc`.
+	TokenCurrency PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency `json:"token_currency"`
+}
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBase struct {
+	// Address of the deposit address.
+	Address string `json:"address"`
+	// The token currencies supported on this network.
+	SupportedTokens []*PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedToken `json:"supported_tokens"`
+}
+
+// The token currencies supported on this network.
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedToken struct {
+	// The on-chain contract address for the supported token currency on this specific network.
+	TokenContractAddress string `json:"token_contract_address"`
+	// The supported token currency. Supported token currencies include: `usdc`.
+	TokenCurrency PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency `json:"token_currency"`
+}
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolana struct {
+	// Address of the deposit address.
+	Address string `json:"address"`
+	// The token currencies supported on this network.
+	SupportedTokens []*PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedToken `json:"supported_tokens"`
+}
+
+// The token currencies supported on this network.
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedToken struct {
+	// The on-chain contract address for the supported token currency on this specific network.
+	TokenContractAddress string `json:"token_contract_address"`
+	// The supported token currency. Supported token currencies include: `usdc`.
+	TokenCurrency PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency `json:"token_currency"`
+}
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempo struct {
+	// Address of the deposit address.
+	Address string `json:"address"`
+	// The token currencies supported on this network.
+	SupportedTokens []*PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedToken `json:"supported_tokens"`
+}
+type PaymentIntentNextActionCryptoDisplayDetailsDepositAddresses struct {
+	Base   *PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBase   `json:"base,omitempty"`
+	Solana *PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolana `json:"solana,omitempty"`
+	Tempo  *PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempo  `json:"tempo,omitempty"`
+}
+type PaymentIntentNextActionCryptoDisplayDetails struct {
+	DepositAddresses *PaymentIntentNextActionCryptoDisplayDetailsDepositAddresses `json:"deposit_addresses"`
 }
 
 // ABA Records contain U.S. bank account details per the ABA format.
@@ -16958,6 +17520,19 @@ type PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCode struct {
 	MobileAuthURL string                                                           `json:"mobile_auth_url"`
 	QRCode        *PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
+type PaymentIntentNextActionUpiHandleRedirectOrDisplayQRCodeQRCode struct {
+	// The date (unix timestamp) when the QR code expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// The image_url_png string used to render QR code
+	ImageURLPNG string `json:"image_url_png"`
+	// The image_url_svg string used to render QR code
+	ImageURLSVG string `json:"image_url_svg"`
+}
+type PaymentIntentNextActionUpiHandleRedirectOrDisplayQRCode struct {
+	// The URL to the hosted UPI instructions page, which allows customers to view the QR code.
+	HostedInstructionsURL string                                                         `json:"hosted_instructions_url"`
+	QRCode                *PaymentIntentNextActionUpiHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
+}
 
 // When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
 type PaymentIntentNextActionUseStripeSDK struct{}
@@ -17002,56 +17577,6 @@ type PaymentIntentNextActionWeChatPayRedirectToIOSApp struct {
 	NativeURL string `json:"native_url"`
 }
 
-// The token currencies supported on this network.
-type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedToken struct {
-	// The on-chain contract address for the supported token currency on this specific network.
-	TokenContractAddress string `json:"token_contract_address"`
-	// The supported token currency. Supported token currencies include: `usdc`.
-	TokenCurrency PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTokenTokenCurrency `json:"token_currency"`
-}
-type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBase struct {
-	// Address of the deposit address.
-	Address string `json:"address"`
-	// The token currencies supported on this network.
-	SupportedTokens []*PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedToken `json:"supported_tokens"`
-}
-
-// The token currencies supported on this network.
-type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedToken struct {
-	// The on-chain contract address for the supported token currency on this specific network.
-	TokenContractAddress string `json:"token_contract_address"`
-	// The supported token currency. Supported token currencies include: `usdc`.
-	TokenCurrency PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedTokenTokenCurrency `json:"token_currency"`
-}
-type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolana struct {
-	// Address of the deposit address.
-	Address string `json:"address"`
-	// The token currencies supported on this network.
-	SupportedTokens []*PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedToken `json:"supported_tokens"`
-}
-
-// The token currencies supported on this network.
-type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedToken struct {
-	// The on-chain contract address for the supported token currency on this specific network.
-	TokenContractAddress string `json:"token_contract_address"`
-	// The supported token currency. Supported token currencies include: `usdc`.
-	TokenCurrency PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTokenTokenCurrency `json:"token_currency"`
-}
-type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempo struct {
-	// Address of the deposit address.
-	Address string `json:"address"`
-	// The token currencies supported on this network.
-	SupportedTokens []*PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedToken `json:"supported_tokens"`
-}
-type PaymentIntentNextActionCryptoDisplayDetailsDepositAddresses struct {
-	Base   *PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBase   `json:"base,omitempty"`
-	Solana *PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolana `json:"solana,omitempty"`
-	Tempo  *PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempo  `json:"tempo,omitempty"`
-}
-type PaymentIntentNextActionCryptoDisplayDetails struct {
-	DepositAddresses *PaymentIntentNextActionCryptoDisplayDetailsDepositAddresses `json:"deposit_addresses"`
-}
-
 // If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source.
 type PaymentIntentNextAction struct {
 	AlipayHandleRedirect                 *PaymentIntentNextActionAlipayHandleRedirect                 `json:"alipay_handle_redirect,omitempty"`
@@ -17069,7 +17594,8 @@ type PaymentIntentNextAction struct {
 	RedirectToURL                        *PaymentIntentNextActionRedirectToURL                        `json:"redirect_to_url,omitempty"`
 	SwishHandleRedirectOrDisplayQRCode   *PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCode   `json:"swish_handle_redirect_or_display_qr_code,omitempty"`
 	// Type of the next action to perform. Refer to the other child attributes under `next_action` for available values. Examples include: `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
-	Type PaymentIntentNextActionType `json:"type"`
+	Type                             PaymentIntentNextActionType                              `json:"type"`
+	UpiHandleRedirectOrDisplayQRCode *PaymentIntentNextActionUpiHandleRedirectOrDisplayQRCode `json:"upi_handle_redirect_or_display_qr_code,omitempty"`
 	// When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
 	UseStripeSDK                  *PaymentIntentNextActionUseStripeSDK                  `json:"use_stripe_sdk,omitempty"`
 	VerifyWithMicrodeposits       *PaymentIntentNextActionVerifyWithMicrodeposits       `json:"verify_with_microdeposits,omitempty"`
@@ -17635,8 +18161,6 @@ type PaymentIntentPaymentDetails struct {
 	LodgingData       []*PaymentIntentPaymentDetailsLodgingDatum `json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
-	// Required when the Payment Method Types array contains `card`, including when [automatic_payment_methods.enabled](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-automatic_payment_methods-enabled) is set to `true`.
-	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
 	OrderReference string                                   `json:"order_reference"`
 	Subscription   *PaymentIntentPaymentDetailsSubscription `json:"subscription,omitempty"`
@@ -17671,7 +18195,7 @@ type PaymentIntentPaymentMethodOptionsACSSDebit struct {
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsACSSDebitSetupFutureUsage `json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date,omitempty"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsAffirm struct {
@@ -17822,7 +18346,7 @@ type PaymentIntentPaymentMethodOptionsCardInstallments struct {
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type PaymentIntentPaymentMethodOptionsCardMandateOptions struct {
-	// Amount to be charged for future payments.
+	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount int64 `json:"amount"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
 	AmountType PaymentIntentPaymentMethodOptionsCardMandateOptionsAmountType `json:"amount_type"`
@@ -18386,7 +18910,12 @@ type PaymentIntentPaymentMethodOptionsSofort struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsSofortSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsStripeBalanceMandateOptions struct {
+	// The ID of the Stripe Balance Debit Agreement used for this mandate.
+	StripeBalanceDebitAgreement string `json:"stripe_balance_debit_agreement,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsStripeBalance struct {
+	MandateOptions *PaymentIntentPaymentMethodOptionsStripeBalanceMandateOptions `json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -18417,6 +18946,16 @@ type PaymentIntentPaymentMethodOptionsTWINT struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage `json:"setup_future_usage,omitempty"`
+}
+type PaymentIntentPaymentMethodOptionsUpi struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsUpiSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
@@ -18457,7 +18996,7 @@ type PaymentIntentPaymentMethodOptionsUSBankAccount struct {
 	TargetDate string `json:"target_date,omitempty"`
 	// The purpose of the transaction.
 	TransactionPurpose PaymentIntentPaymentMethodOptionsUSBankAccountTransactionPurpose `json:"transaction_purpose,omitempty"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsWeChatPay struct {
@@ -18543,6 +19082,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	StripeBalance    *PaymentIntentPaymentMethodOptionsStripeBalance    `json:"stripe_balance,omitempty"`
 	Swish            *PaymentIntentPaymentMethodOptionsSwish            `json:"swish,omitempty"`
 	TWINT            *PaymentIntentPaymentMethodOptionsTWINT            `json:"twint,omitempty"`
+	Upi              *PaymentIntentPaymentMethodOptionsUpi              `json:"upi,omitempty"`
 	USBankAccount    *PaymentIntentPaymentMethodOptionsUSBankAccount    `json:"us_bank_account,omitempty"`
 	WeChatPay        *PaymentIntentPaymentMethodOptionsWeChatPay        `json:"wechat_pay,omitempty"`
 	Zip              *PaymentIntentPaymentMethodOptionsZip              `json:"zip,omitempty"`
@@ -18658,7 +19198,7 @@ type PaymentIntent struct {
 	LastPaymentError *Error `json:"last_payment_error"`
 	// ID of the latest [Charge object](https://docs.stripe.com/api/charges) created by this PaymentIntent. This property is `null` until PaymentIntent confirmation is attempted.
 	LatestCharge *Charge `json:"latest_charge"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Settings for Managed Payments.
 	ManagedPayments *PaymentIntentManagedPayments `json:"managed_payments,omitempty"`

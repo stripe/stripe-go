@@ -55,6 +55,15 @@ const (
 	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReadMethodMagneticStripeTrack2     ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReadMethod = "magnetic_stripe_track2"
 )
 
+// Indicates whether or not the reauthorization feature is supported.
+type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus can take
+const (
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatusAvailable   ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus = "available"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatusUnavailable ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus = "unavailable"
+)
+
 // The type of account being debited or credited
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountType string
 
@@ -75,15 +84,6 @@ const (
 	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeGooglePay  ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "google_pay"
 	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeSamsungPay ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "samsung_pay"
 	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeUnknown    ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "unknown"
-)
-
-// Indicates whether or not the reauthorization feature is supported.
-type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus string
-
-// List of values that ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus can take
-const (
-	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatusAvailable   ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus = "available"
-	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatusUnavailable ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus = "unavailable"
 )
 
 // Status of a card based on the card issuer.
@@ -362,16 +362,6 @@ const (
 	ConfirmationTokenPaymentMethodPreviewP24BankVolkswagenBank       ConfirmationTokenPaymentMethodPreviewP24Bank = "volkswagen_bank"
 )
 
-// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
-type ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceType string
-
-// List of values that ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceType can take
-const (
-	ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceTypeBankAccount ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceType = "bank_account"
-	ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceTypeCard        ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceType = "card"
-	ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceTypeFPX         ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceType = "fpx"
-)
-
 // The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 type ConfirmationTokenPaymentMethodPreviewType string
 
@@ -434,6 +424,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeStripeBalance    ConfirmationTokenPaymentMethodPreviewType = "stripe_balance"
 	ConfirmationTokenPaymentMethodPreviewTypeSwish            ConfirmationTokenPaymentMethodPreviewType = "swish"
 	ConfirmationTokenPaymentMethodPreviewTypeTWINT            ConfirmationTokenPaymentMethodPreviewType = "twint"
+	ConfirmationTokenPaymentMethodPreviewTypeUpi              ConfirmationTokenPaymentMethodPreviewType = "upi"
 	ConfirmationTokenPaymentMethodPreviewTypeUSBankAccount    ConfirmationTokenPaymentMethodPreviewType = "us_bank_account"
 	ConfirmationTokenPaymentMethodPreviewTypeWeChatPay        ConfirmationTokenPaymentMethodPreviewType = "wechat_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeZip              ConfirmationTokenPaymentMethodPreviewType = "zip"
@@ -662,6 +653,12 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	Type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType `json:"type"`
 }
 
+// Whether the PaymentIntent can be reauthorized or not.
+type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorization struct {
+	// Indicates whether or not the reauthorization feature is supported.
+	Status ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
+}
+
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceipt struct {
 	// The type of account being debited or credited
@@ -686,12 +683,6 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWallet struct {
 	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
 	Type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType `json:"type"`
-}
-
-// Whether the PaymentIntent can be reauthorized or not.
-type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorization struct {
-	// Indicates whether or not the reauthorization feature is supported.
-	Status ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
 }
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
@@ -1124,11 +1115,13 @@ type ConfirmationTokenPaymentMethodPreviewSofort struct {
 type ConfirmationTokenPaymentMethodPreviewStripeBalance struct {
 	// The connected account ID whose Stripe balance to use as the source of payment
 	Account string `json:"account,omitempty"`
-	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
-	SourceType ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceType `json:"source_type"`
 }
 type ConfirmationTokenPaymentMethodPreviewSwish struct{}
 type ConfirmationTokenPaymentMethodPreviewTWINT struct{}
+type ConfirmationTokenPaymentMethodPreviewUpi struct {
+	// Customer's unique Virtual Payment Address
+	Vpa string `json:"vpa"`
+}
 
 // Contains information about US bank account networks that can be used.
 type ConfirmationTokenPaymentMethodPreviewUSBankAccountNetworks struct {
@@ -1239,6 +1232,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	TWINT           *ConfirmationTokenPaymentMethodPreviewTWINT           `json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          ConfirmationTokenPaymentMethodPreviewType           `json:"type"`
+	Upi           *ConfirmationTokenPaymentMethodPreviewUpi           `json:"upi,omitempty"`
 	USBankAccount *ConfirmationTokenPaymentMethodPreviewUSBankAccount `json:"us_bank_account,omitempty"`
 	WeChatPay     *ConfirmationTokenPaymentMethodPreviewWeChatPay     `json:"wechat_pay,omitempty"`
 	Zip           *ConfirmationTokenPaymentMethodPreviewZip           `json:"zip,omitempty"`
@@ -1268,7 +1262,7 @@ type ConfirmationToken struct {
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Data used for generating a Mandate.
 	MandateData *ConfirmationTokenMandateData `json:"mandate_data,omitempty"`

@@ -16,8 +16,9 @@ type QuoteAutomaticTaxLiabilityType string
 
 // List of values that QuoteAutomaticTaxLiabilityType can take
 const (
-	QuoteAutomaticTaxLiabilityTypeAccount QuoteAutomaticTaxLiabilityType = "account"
-	QuoteAutomaticTaxLiabilityTypeSelf    QuoteAutomaticTaxLiabilityType = "self"
+	QuoteAutomaticTaxLiabilityTypeAccount     QuoteAutomaticTaxLiabilityType = "account"
+	QuoteAutomaticTaxLiabilityTypeApplication QuoteAutomaticTaxLiabilityType = "application"
+	QuoteAutomaticTaxLiabilityTypeSelf        QuoteAutomaticTaxLiabilityType = "self"
 )
 
 // The status of the most recent automated tax calculation for this quote.
@@ -118,8 +119,9 @@ type QuoteInvoiceSettingsIssuerType string
 
 // List of values that QuoteInvoiceSettingsIssuerType can take
 const (
-	QuoteInvoiceSettingsIssuerTypeAccount QuoteInvoiceSettingsIssuerType = "account"
-	QuoteInvoiceSettingsIssuerTypeSelf    QuoteInvoiceSettingsIssuerType = "self"
+	QuoteInvoiceSettingsIssuerTypeAccount     QuoteInvoiceSettingsIssuerType = "account"
+	QuoteInvoiceSettingsIssuerTypeApplication QuoteInvoiceSettingsIssuerType = "application"
+	QuoteInvoiceSettingsIssuerTypeSelf        QuoteInvoiceSettingsIssuerType = "self"
 )
 
 // The status of the quote.
@@ -1025,7 +1027,7 @@ type QuoteLineEndsAtParams struct {
 
 // Details of the pause_collection behavior to apply to the amendment.
 type QuoteLineSetPauseCollectionSetParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior" json:"behavior"`
 }
 
@@ -2270,7 +2272,7 @@ type QuoteCreateLineEndsAtParams struct {
 
 // Details of the pause_collection behavior to apply to the amendment.
 type QuoteCreateLineSetPauseCollectionSetParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior" json:"behavior"`
 }
 
@@ -3358,7 +3360,7 @@ type QuoteUpdateLineEndsAtParams struct {
 
 // Details of the pause_collection behavior to apply to the amendment.
 type QuoteUpdateLineSetPauseCollectionSetParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior" json:"behavior"`
 }
 
@@ -4558,7 +4560,7 @@ type Quote struct {
 	LineItems *LineItemList `json:"line_items,omitempty"`
 	// A list of [quote lines](https://docs.stripe.com/api/quote_lines) on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
 	Lines []string `json:"lines,omitempty"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

@@ -166,6 +166,18 @@ type BillingCreditBalanceSummaryBalanceAvailableBalance struct {
 	Type BillingCreditBalanceSummaryBalanceAvailableBalanceType `json:"type"`
 }
 
+// The details of the most recent meter event included in the balance update.
+type BillingCreditBalanceSummaryBalanceBalanceUpdateDetailsLatestMeterEvent struct {
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created,omitempty"`
+	// Maximum event time across all meter events that were processed and included in the balance update. Measured in seconds since the Unix epoch.
+	Timestamp int64 `json:"timestamp,omitempty"`
+}
+type BillingCreditBalanceSummaryBalanceBalanceUpdateDetails struct {
+	// The details of the most recent meter event included in the balance update.
+	LatestMeterEvent *BillingCreditBalanceSummaryBalanceBalanceUpdateDetailsLatestMeterEvent `json:"latest_meter_event"`
+}
+
 // The custom pricing unit object.
 type BillingCreditBalanceSummaryBalanceLedgerBalanceCustomPricingUnitCustomPricingUnitDetails struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -208,18 +220,6 @@ type BillingCreditBalanceSummaryBalanceLedgerBalance struct {
 	Type BillingCreditBalanceSummaryBalanceLedgerBalanceType `json:"type"`
 }
 
-// The details of the most recent meter event included in the balance update.
-type BillingCreditBalanceSummaryBalanceBalanceUpdateDetailsLatestMeterEvent struct {
-	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created,omitempty"`
-	// Maximum event time across all meter events that were processed and included in the balance update. Measured in seconds since the Unix epoch.
-	Timestamp int64 `json:"timestamp,omitempty"`
-}
-type BillingCreditBalanceSummaryBalanceBalanceUpdateDetails struct {
-	// The details of the most recent meter event included in the balance update.
-	LatestMeterEvent *BillingCreditBalanceSummaryBalanceBalanceUpdateDetailsLatestMeterEvent `json:"latest_meter_event"`
-}
-
 // The billing credit balances. One entry per credit grant currency. If a customer only has credit grants in a single currency, then this will have a single balance entry.
 type BillingCreditBalanceSummaryBalance struct {
 	AvailableBalance     *BillingCreditBalanceSummaryBalanceAvailableBalance     `json:"available_balance"`
@@ -236,7 +236,7 @@ type BillingCreditBalanceSummary struct {
 	Customer *Customer `json:"customer"`
 	// The account the balance is for.
 	CustomerAccount string `json:"customer_account"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

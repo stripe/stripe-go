@@ -130,8 +130,10 @@ type CreditNoteLineItem struct {
 	ID string `json:"id"`
 	// ID of the invoice line item being credited
 	InvoiceLineItem string `json:"invoice_line_item,omitempty"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The pretax credit amounts (ex: discount, credit grants, etc) for this line item.
