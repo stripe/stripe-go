@@ -216,6 +216,15 @@ const (
 	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehaviorProrated V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehavior = "prorated"
 )
 
+// Controls credit grant creation behavior during partial periods. If not specified, defaults to full_credits.
+type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehavior string
+
+// List of values that V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehavior can take
+const (
+	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehaviorFullCredits V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehavior = "full_credits"
+	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehaviorNone        V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehavior = "none"
+)
+
 // When the remove action will take effect.
 type V2BillingIntentActionRemoveEffectiveAtType string
 
@@ -278,6 +287,15 @@ type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartia
 const (
 	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehaviorNone     V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehavior = "none"
 	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehaviorProrated V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehavior = "prorated"
+)
+
+// Controls credit grant creation behavior during partial periods. If not specified, defaults to full_credits.
+type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehavior string
+
+// List of values that V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehavior can take
+const (
+	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehaviorFullCredits V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehavior = "full_credits"
+	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehaviorNone        V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehavior = "none"
 )
 
 // When the apply action will take effect. If not specified, defaults to on_reserve.
@@ -464,10 +482,18 @@ type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPe
 	DebitProrationBehavior V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehavior `json:"debit_proration_behavior"`
 }
 
+// Overrides the behavior for recurring credit grant components when the action takes effect during the service period.
+type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrant struct {
+	// Controls credit grant creation behavior during partial periods. If not specified, defaults to full_credits.
+	CreateBehavior V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehavior `json:"create_behavior"`
+}
+
 // Configurations for behaviors when the action takes effect during the service period.
 type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior struct {
 	// Overrides the behavior for license fee components when the action takes effect during the service period.
 	LicenseFee *V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFee `json:"license_fee,omitempty"`
+	// Overrides the behavior for recurring credit grant components when the action takes effect during the service period.
+	RecurringCreditGrant *V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrant `json:"recurring_credit_grant,omitempty"`
 	// The type of behavior to override.
 	Type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType `json:"type"`
 }
@@ -546,10 +572,18 @@ type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartia
 	DebitProrationBehavior V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehavior `json:"debit_proration_behavior"`
 }
 
+// Overrides the behavior for recurring credit grant components when the action takes effect during the service period.
+type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrant struct {
+	// Controls credit grant creation behavior during partial periods. If not specified, defaults to full_credits.
+	CreateBehavior V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehavior `json:"create_behavior"`
+}
+
 // Configurations for behaviors when the action takes effect during the service period.
 type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior struct {
 	// Overrides the behavior for license fee components when the action takes effect during the service period.
 	LicenseFee *V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFee `json:"license_fee,omitempty"`
+	// Overrides the behavior for recurring credit grant components when the action takes effect during the service period.
+	RecurringCreditGrant *V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrant `json:"recurring_credit_grant,omitempty"`
 	// The type of behavior to override.
 	Type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType `json:"type"`
 }
