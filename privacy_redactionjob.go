@@ -35,7 +35,8 @@ type PrivacyRedactionJobListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	Status *string   `form:"status"`
+	// If provided, only RedactionJob objects with the given status will be returned.
+	Status *string `form:"status"`
 }
 
 // AddExpand appends a new field to expand.
