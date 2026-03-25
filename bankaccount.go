@@ -264,43 +264,43 @@ type BankAccountParams struct {
 	// accounts are nested.
 	Account *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account. This field is required when attaching the bank account to a `Customer` object.
-	AccountHolderName *string `form:"account_holder_name"`
+	AccountHolderName *string `form:"account_holder_name" json:"account_holder_name,omitempty"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
-	AccountHolderType *string `form:"account_holder_type"`
+	AccountHolderType *string `form:"account_holder_type" json:"account_holder_type,omitempty"`
 	// The account number for the bank account, in string form. Must be a checking account.
-	AccountNumber *string `form:"account_number"`
+	AccountNumber *string `form:"account_number" json:"account_number,omitempty"`
 	// The bank account type. This can only be `checking` or `savings` in most countries. In Japan, this can only be `futsu` or `toza`.
-	AccountType *string `form:"account_type"`
+	AccountType *string `form:"account_type" json:"account_type,omitempty"`
 	// City/District/Suburb/Town/Village.
-	AddressCity *string `form:"address_city"`
+	AddressCity *string `form:"address_city" json:"address_city,omitempty"`
 	// Billing address country, if provided when creating card.
-	AddressCountry *string `form:"address_country"`
+	AddressCountry *string `form:"address_country" json:"address_country,omitempty"`
 	// Address line 1 (Street address/PO Box/Company name).
-	AddressLine1 *string `form:"address_line1"`
+	AddressLine1 *string `form:"address_line1" json:"address_line1,omitempty"`
 	// Address line 2 (Apartment/Suite/Unit/Building).
-	AddressLine2 *string `form:"address_line2"`
+	AddressLine2 *string `form:"address_line2" json:"address_line2,omitempty"`
 	// State/County/Province/Region.
-	AddressState *string `form:"address_state"`
+	AddressState *string `form:"address_state" json:"address_state,omitempty"`
 	// ZIP or postal code.
-	AddressZip *string `form:"address_zip"`
+	AddressZip *string `form:"address_zip" json:"address_zip,omitempty"`
 	// The country in which the bank account is located.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The currency the bank account is in. This must be a country/currency pairing that [Stripe supports](https://stripe.com/docs/payouts).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// When set to true, or if this is the first external account added in this currency, this account becomes the default external account for its currency.
-	DefaultForCurrency *bool `form:"default_for_currency"`
+	DefaultForCurrency *bool `form:"default_for_currency" json:"default_for_currency,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
-	Documents *BankAccountDocumentsParams `form:"documents"`
+	Documents *BankAccountDocumentsParams `form:"documents" json:"documents,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Two digit number representing the card's expiration month.
-	ExpMonth *string `form:"exp_month"`
+	ExpMonth *string `form:"exp_month" json:"exp_month,omitempty"`
 	// Four digit number representing the card's expiration year.
-	ExpYear *string `form:"exp_year"`
+	ExpYear *string `form:"exp_year" json:"exp_year,omitempty"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Cardholder name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The ID of a Payment Method with a `type` of `us_bank_account`. The Payment Method's bank account information will be copied and
 	// returned as a Bank Account Token. This parameter is exclusive with respect to all other parameters in the `bank_account` hash.
 	// You must include the top-level `customer` parameter if the Payment Method is attached to a `Customer` object. If the Payment
@@ -308,9 +308,9 @@ type BankAccountParams struct {
 	// created by a Setup Intent with `attach_to_self=true`.
 	// This is used for TokenParams.BankAccountParams only and will be removed in the next major version.
 	// **DO NOT USE THIS FOR OTHER METHODS.**
-	PaymentMethod *string `form:"payment_method"`
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
-	RoutingNumber *string                       `form:"routing_number"`
+	RoutingNumber *string                       `form:"routing_number" json:"routing_number,omitempty"`
 	UnsetFields   []BankAccountParamsUnsetField `form:"-" json:"-"`
 	// ID is used when tokenizing a bank account for shared customers
 	ID *string `form:"*"`
@@ -409,13 +409,13 @@ func (p *BankAccountParams) AddMetadata(key string, value string) {
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
 type BankAccountDocumentsBankAccountOwnershipVerificationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // Documents that may be submitted to satisfy various informational requests.
 type BankAccountDocumentsParams struct {
 	// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
-	BankAccountOwnershipVerification *BankAccountDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification"`
+	BankAccountOwnershipVerification *BankAccountDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification" json:"bank_account_ownership_verification,omitempty"`
 }
 type BankAccountListParams struct {
 	ListParams `form:"*"`
@@ -426,9 +426,9 @@ type BankAccountListParams struct {
 	// nested. Either Account or Customer should be populated.
 	Account *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Filter according to a particular object type. Valid values are "bank_account" or "card".
-	Object *string `form:"object"`
+	Object *string `form:"object" json:"object,omitempty"`
 }
 
 // AppendTo implements custom encoding logic for BankAccountListParams
@@ -453,13 +453,13 @@ type BankAccountDeleteParams struct {
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
 type BankAccountUpdateDocumentsBankAccountOwnershipVerificationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // Documents that may be submitted to satisfy various informational requests.
 type BankAccountUpdateDocumentsParams struct {
 	// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
-	BankAccountOwnershipVerification *BankAccountUpdateDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification"`
+	BankAccountOwnershipVerification *BankAccountUpdateDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification" json:"bank_account_ownership_verification,omitempty"`
 }
 
 // Updates the metadata, account holder name, account holder type of a bank account belonging to
@@ -475,19 +475,19 @@ type BankAccountUpdateParams struct {
 	Customer *string `form:"-"` // Included in URL
 	Account  *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account.
-	AccountHolderName *string `form:"account_holder_name"`
+	AccountHolderName *string `form:"account_holder_name" json:"account_holder_name,omitempty"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
-	AccountHolderType *string `form:"account_holder_type"`
+	AccountHolderType *string `form:"account_holder_type" json:"account_holder_type,omitempty"`
 	// The bank account type. This can only be `checking` or `savings` in most countries. In Japan, this can only be `futsu` or `toza`.
-	AccountType *string `form:"account_type"`
+	AccountType *string `form:"account_type" json:"account_type,omitempty"`
 	// When set to true, this becomes the default external account for its currency.
-	DefaultForCurrency *bool `form:"default_for_currency"`
+	DefaultForCurrency *bool `form:"default_for_currency" json:"default_for_currency,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
-	Documents *BankAccountUpdateDocumentsParams `form:"documents"`
+	Documents *BankAccountUpdateDocumentsParams `form:"documents" json:"documents,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                   `form:"metadata"`
+	Metadata    map[string]string                   `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []BankAccountUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -520,11 +520,11 @@ func (p *BankAccountUpdateParams) AddMetadata(key string, value string) {
 
 // Documents that may be submitted to satisfy various informational requests.
 type BankAccountCreateDocumentsBankAccountOwnershipVerificationParams struct {
-	Files []*string `form:"files"`
+	Files []*string `form:"files" json:"files,omitempty"`
 }
 type BankAccountCreateDocumentsParams struct {
 	// Documents that may be submitted to satisfy various informational requests.
-	BankAccountOwnershipVerification *BankAccountCreateDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification"`
+	BankAccountOwnershipVerification *BankAccountCreateDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification" json:"bank_account_ownership_verification,omitempty"`
 }
 
 // Create creates a new bank account
@@ -534,22 +534,22 @@ type BankAccountCreateParams struct {
 	Customer *string `form:"-"` // Included in URL
 	Token    *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account. This field is required when attaching the bank account to a `Customer` object.
-	AccountHolderName *string `form:"account_holder_name"`
+	AccountHolderName *string `form:"account_holder_name" json:"account_holder_name,omitempty"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
-	AccountHolderType *string `form:"account_holder_type"`
+	AccountHolderType *string `form:"account_holder_type" json:"account_holder_type,omitempty"`
 	// The account number for the bank account, in string form. Must be a checking account.
-	AccountNumber *string `form:"account_number"`
+	AccountNumber *string `form:"account_number" json:"account_number"`
 	// The country in which the bank account is located.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country"`
 	// The currency the bank account is in. This must be a country/currency pairing that [Stripe supports](https://stripe.com/docs/payouts).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// When set to true, or if this is the first external account added in this currency, this account becomes the default external account for its currency.
-	DefaultForCurrency *bool                             `form:"default_for_currency"`
-	Documents          *BankAccountCreateDocumentsParams `form:"documents"`
+	DefaultForCurrency *bool                             `form:"default_for_currency" json:"default_for_currency,omitempty"`
+	Documents          *BankAccountCreateDocumentsParams `form:"documents" json:"documents,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of a Payment Method with a `type` of `us_bank_account`. The Payment Method's bank account information will be copied and
 	// returned as a Bank Account Token. This parameter is exclusive with respect to all other parameters in the `bank_account` hash.
 	// You must include the top-level `customer` parameter if the Payment Method is attached to a `Customer` object. If the Payment
@@ -557,9 +557,9 @@ type BankAccountCreateParams struct {
 	// created by a Setup Intent with `attach_to_self=true`.
 	// This is used for TokenParams.BankAccountParams only and will be removed in the next major version.
 	// **DO NOT USE THIS FOR OTHER METHODS.**
-	PaymentMethod *string `form:"payment_method"`
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
-	RoutingNumber *string                             `form:"routing_number"`
+	RoutingNumber *string                             `form:"routing_number" json:"routing_number,omitempty"`
 	UnsetFields   []BankAccountCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -732,7 +732,7 @@ type BankAccountRequirements struct {
 type BankAccount struct {
 	APIResource
 	// The account this bank account belongs to. Only applicable on Accounts (not customers or recipients) This property is only available when returned as an [External Account](https://docs.stripe.com/api/external_account_bank_accounts/object) where [controller.is_controller](https://docs.stripe.com/api/accounts/object#account_object-controller-is_controller) is `true`.
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// The name of the person or business that owns the bank account.
 	AccountHolderName string `json:"account_holder_name"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
@@ -740,7 +740,7 @@ type BankAccount struct {
 	// The bank account type. This can only be `checking` or `savings` in most countries. In Japan, this can only be `futsu` or `toza`.
 	AccountType string `json:"account_type"`
 	// A set of available payout methods for this bank account. Only values from this set should be passed as the `method` when creating a payout.
-	AvailablePayoutMethods []BankAccountAvailablePayoutMethod `json:"available_payout_methods"`
+	AvailablePayoutMethods []BankAccountAvailablePayoutMethod `json:"available_payout_methods,omitempty"`
 	// Name of the bank associated with the routing number (e.g., `WELLS FARGO`).
 	BankName string `json:"bank_name"`
 	// Two-letter ISO code representing the country the bank account is located in.
@@ -748,24 +748,24 @@ type BankAccount struct {
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/payouts) paid out to the bank account.
 	Currency Currency `json:"currency"`
 	// The ID of the customer that the bank account is associated with.
-	Customer *Customer `json:"customer"`
+	Customer *Customer `json:"customer,omitempty"`
 	// Whether this bank account is the default external account for its currency.
-	DefaultForCurrency bool `json:"default_for_currency"`
-	Deleted            bool `json:"deleted"`
+	DefaultForCurrency bool `json:"default_for_currency,omitempty"`
+	Deleted            bool `json:"deleted,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Information about the [upcoming new requirements for the bank account](https://docs.stripe.com/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.
-	FutureRequirements *BankAccountFutureRequirements `json:"future_requirements"`
+	FutureRequirements *BankAccountFutureRequirements `json:"future_requirements,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Information about the requirements for the bank account, including what information needs to be collected.
-	Requirements *BankAccountRequirements `json:"requirements"`
+	Requirements *BankAccountRequirements `json:"requirements,omitempty"`
 	// The routing transit number for the bank account.
 	RoutingNumber string `json:"routing_number"`
 	// For bank accounts, possible values are `new`, `validated`, `verified`, `verification_failed`, `tokenized_account_number_deactivated` or `errored`. A bank account that hasn't had any activity or validation performed is `new`. If Stripe can determine that the bank account exists, its status will be `validated`. Note that there often isn't enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be `verified`. If the verification failed for any reason, such as microdeposit failure, the status will be `verification_failed`. If the status is `tokenized_account_number_deactivated`, the account utilizes a tokenized account number which has been deactivated due to expiration or revocation. This account will need to be reverified to continue using it for money movement. If a payout sent to this bank account fails, we'll set the status to `errored` and will not continue to send [scheduled payouts](https://stripe.com/docs/payouts#payout-schedule) until the bank details are updated.

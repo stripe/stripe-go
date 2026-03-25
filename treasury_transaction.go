@@ -53,28 +53,28 @@ const (
 // A filter for the `status_transitions.posted_at` timestamp. When using this filter, `status=posted` and `order_by=posted_at` must also be specified.
 type TreasuryTransactionListStatusTransitionsParams struct {
 	// Returns Transactions with `posted_at` within the specified range.
-	PostedAt *int64 `form:"posted_at"`
+	PostedAt *int64 `form:"posted_at" json:"posted_at,omitempty"`
 	// Returns Transactions with `posted_at` within the specified range.
-	PostedAtRange *RangeQueryParams `form:"posted_at"`
+	PostedAtRange *RangeQueryParams `form:"posted_at" json:"-"`
 }
 
 // Retrieves a list of Transaction objects.
 type TreasuryTransactionListParams struct {
 	ListParams `form:"*"`
 	// Only return Transactions that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return Transactions that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Returns objects associated with this FinancialAccount.
-	FinancialAccount *string `form:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 	// The results are in reverse chronological order by `created` or `posted_at`. The default is `created`.
-	OrderBy *string `form:"order_by"`
+	OrderBy *string `form:"order_by" json:"order_by,omitempty"`
 	// Only return Transactions that have the given status: `open`, `posted`, or `void`.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 	// A filter for the `status_transitions.posted_at` timestamp. When using this filter, `status=posted` and `order_by=posted_at` must also be specified.
-	StatusTransitions *TreasuryTransactionListStatusTransitionsParams `form:"status_transitions"`
+	StatusTransitions *TreasuryTransactionListStatusTransitionsParams `form:"status_transitions" json:"status_transitions,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -86,7 +86,7 @@ func (p *TreasuryTransactionListParams) AddExpand(f string) {
 type TreasuryTransactionParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -98,7 +98,7 @@ func (p *TreasuryTransactionParams) AddExpand(f string) {
 type TreasuryTransactionRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -119,35 +119,35 @@ type TreasuryTransactionBalanceImpact struct {
 // Details of the flow that created the Transaction.
 type TreasuryTransactionFlowDetails struct {
 	// You can reverse some [ReceivedCredits](https://api.stripe.com#received_credits) depending on their network and source flow. Reversing a ReceivedCredit leads to the creation of a new object known as a CreditReversal.
-	CreditReversal *TreasuryCreditReversal `json:"credit_reversal"`
+	CreditReversal *TreasuryCreditReversal `json:"credit_reversal,omitempty"`
 	// You can reverse some [ReceivedDebits](https://api.stripe.com#received_debits) depending on their network and source flow. Reversing a ReceivedDebit leads to the creation of a new object known as a DebitReversal.
-	DebitReversal *TreasuryDebitReversal `json:"debit_reversal"`
+	DebitReversal *TreasuryDebitReversal `json:"debit_reversal,omitempty"`
 	// Use [InboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://api.stripe.com#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
 	//
 	// Related guide: [Moving money with Treasury using InboundTransfer objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers)
-	InboundTransfer *TreasuryInboundTransfer `json:"inbound_transfer"`
+	InboundTransfer *TreasuryInboundTransfer `json:"inbound_transfer,omitempty"`
 	// When an [issued card](https://docs.stripe.com/issuing) is used to make a purchase, an Issuing `Authorization`
 	// object is created. [Authorizations](https://docs.stripe.com/issuing/purchases/authorizations) must be approved for the
 	// purchase to be completed successfully.
 	//
 	// Related guide: [Issued card authorizations](https://docs.stripe.com/issuing/purchases/authorizations)
-	IssuingAuthorization *IssuingAuthorization `json:"issuing_authorization"`
+	IssuingAuthorization *IssuingAuthorization `json:"issuing_authorization,omitempty"`
 	// Use [OutboundPayments](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-payments) to send funds to another party's external bank account or [FinancialAccount](https://api.stripe.com#financial_accounts). To send money to an account belonging to the same user, use an [OutboundTransfer](https://api.stripe.com#outbound_transfers).
 	//
 	// Simulate OutboundPayment state changes with the `/v1/test_helpers/treasury/outbound_payments` endpoints. These methods can only be called on test mode objects.
 	//
 	// Related guide: [Moving money with Treasury using OutboundPayment objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-payments)
-	OutboundPayment *TreasuryOutboundPayment `json:"outbound_payment"`
+	OutboundPayment *TreasuryOutboundPayment `json:"outbound_payment,omitempty"`
 	// Use [OutboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-transfers) to transfer funds from a [FinancialAccount](https://api.stripe.com#financial_accounts) to a PaymentMethod belonging to the same entity. To send funds to a different party, use [OutboundPayments](https://api.stripe.com#outbound_payments) instead. You can send funds over ACH rails or through a domestic wire transfer to a user's own external bank account.
 	//
 	// Simulate OutboundTransfer state changes with the `/v1/test_helpers/treasury/outbound_transfers` endpoints. These methods can only be called on test mode objects.
 	//
 	// Related guide: [Moving money with Treasury using OutboundTransfer objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-transfers)
-	OutboundTransfer *TreasuryOutboundTransfer `json:"outbound_transfer"`
+	OutboundTransfer *TreasuryOutboundTransfer `json:"outbound_transfer,omitempty"`
 	// ReceivedCredits represent funds sent to a [FinancialAccount](https://api.stripe.com#financial_accounts) (for example, via ACH or wire). These money movements are not initiated from the FinancialAccount.
-	ReceivedCredit *TreasuryReceivedCredit `json:"received_credit"`
+	ReceivedCredit *TreasuryReceivedCredit `json:"received_credit,omitempty"`
 	// ReceivedDebits represent funds pulled from a [FinancialAccount](https://api.stripe.com#financial_accounts). These are not initiated from the FinancialAccount.
-	ReceivedDebit *TreasuryReceivedDebit `json:"received_debit"`
+	ReceivedDebit *TreasuryReceivedDebit `json:"received_debit,omitempty"`
 	// Type of the flow that created the Transaction. Set to the same value as `flow_type`.
 	Type TreasuryTransactionFlowDetailsType `json:"type"`
 }
@@ -172,13 +172,13 @@ type TreasuryTransaction struct {
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
 	// A list of TransactionEntries that are part of this Transaction. This cannot be expanded in any list endpoints.
-	Entries *TreasuryTransactionEntryList `json:"entries"`
+	Entries *TreasuryTransactionEntryList `json:"entries,omitempty"`
 	// The FinancialAccount associated with this object.
 	FinancialAccount string `json:"financial_account"`
 	// ID of the flow that created the Transaction.
 	Flow string `json:"flow"`
 	// Details of the flow that created the Transaction.
-	FlowDetails *TreasuryTransactionFlowDetails `json:"flow_details"`
+	FlowDetails *TreasuryTransactionFlowDetails `json:"flow_details,omitempty"`
 	// Type of the flow that created the Transaction.
 	FlowType TreasuryTransactionFlowType `json:"flow_type"`
 	// Unique identifier for the object.

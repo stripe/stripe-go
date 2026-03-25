@@ -12,11 +12,11 @@ import "encoding/json"
 type EntitlementsFeatureListParams struct {
 	ListParams `form:"*"`
 	// If set, filter results to only include features with the given archive status.
-	Archived *bool `form:"archived"`
+	Archived *bool `form:"archived" json:"archived,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// If set, filter results to only include features with the given lookup_key.
-	LookupKey *string `form:"lookup_key"`
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -28,15 +28,15 @@ func (p *EntitlementsFeatureListParams) AddExpand(f string) {
 type EntitlementsFeatureParams struct {
 	Params `form:"*"`
 	// Inactive features cannot be attached to new products and will not be returned from the features list endpoint.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A unique key you provide as your own system identifier. This may be up to 80 characters.
-	LookupKey *string `form:"lookup_key"`
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The feature's name, for your own purpose, not meant to be displayable to the customer.
-	Name        *string                               `form:"name"`
+	Name        *string                               `form:"name" json:"name,omitempty"`
 	UnsetFields []EntitlementsFeatureParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -70,13 +70,13 @@ func (p *EntitlementsFeatureParams) AddMetadata(key string, value string) {
 type EntitlementsFeatureCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A unique key you provide as your own system identifier. This may be up to 80 characters.
-	LookupKey *string `form:"lookup_key"`
+	LookupKey *string `form:"lookup_key" json:"lookup_key"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The feature's name, for your own purpose, not meant to be displayable to the customer.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // AddExpand appends a new field to expand.
@@ -97,7 +97,7 @@ func (p *EntitlementsFeatureCreateParams) AddMetadata(key string, value string) 
 type EntitlementsFeatureRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -109,13 +109,13 @@ func (p *EntitlementsFeatureRetrieveParams) AddExpand(f string) {
 type EntitlementsFeatureUpdateParams struct {
 	Params `form:"*"`
 	// Inactive features cannot be attached to new products and will not be returned from the features list endpoint.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The feature's name, for your own purpose, not meant to be displayable to the customer.
-	Name        *string                                     `form:"name"`
+	Name        *string                                     `form:"name" json:"name,omitempty"`
 	UnsetFields []EntitlementsFeatureUpdateParamsUnsetField `form:"-" json:"-"`
 }
 

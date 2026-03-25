@@ -92,11 +92,11 @@ const (
 type TreasuryOutboundTransferListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Returns objects associated with this FinancialAccount.
-	FinancialAccount *string `form:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 	// Only return OutboundTransfers that have the given status: `processing`, `canceled`, `failed`, `posted`, or `returned`.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -107,21 +107,21 @@ func (p *TreasuryOutboundTransferListParams) AddExpand(f string) {
 // Hash used to generate the PaymentMethod to be used for this OutboundTransfer. Exclusive with `destination_payment_method`.
 type TreasuryOutboundTransferDestinationPaymentMethodDataParams struct {
 	// Required if type is set to `financial_account`. The FinancialAccount ID to send funds to.
-	FinancialAccount *string `form:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
 	// The type of the destination.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Optional fields for `us_bank_account`.
 type TreasuryOutboundTransferDestinationPaymentMethodOptionsUSBankAccountParams struct {
 	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://docs.stripe.com/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
-	Network *string `form:"network"`
+	Network *string `form:"network" json:"network,omitempty"`
 }
 
 // Hash describing payment method configuration details.
 type TreasuryOutboundTransferDestinationPaymentMethodOptionsParams struct {
 	// Optional fields for `us_bank_account`.
-	USBankAccount *TreasuryOutboundTransferDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	USBankAccount *TreasuryOutboundTransferDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	UnsetFields   []TreasuryOutboundTransferDestinationPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
 }
 
@@ -141,25 +141,25 @@ func (p *TreasuryOutboundTransferDestinationPaymentMethodOptionsParams) AddUnset
 type TreasuryOutboundTransferParams struct {
 	Params `form:"*"`
 	// Amount (in cents) to be transferred.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The PaymentMethod to use as the payment instrument for the OutboundTransfer.
-	DestinationPaymentMethod *string `form:"destination_payment_method"`
+	DestinationPaymentMethod *string `form:"destination_payment_method" json:"destination_payment_method,omitempty"`
 	// Hash used to generate the PaymentMethod to be used for this OutboundTransfer. Exclusive with `destination_payment_method`.
-	DestinationPaymentMethodData *TreasuryOutboundTransferDestinationPaymentMethodDataParams `form:"destination_payment_method_data"`
+	DestinationPaymentMethodData *TreasuryOutboundTransferDestinationPaymentMethodDataParams `form:"destination_payment_method_data" json:"destination_payment_method_data,omitempty"`
 	// Hash describing payment method configuration details.
-	DestinationPaymentMethodOptions *TreasuryOutboundTransferDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options"`
+	DestinationPaymentMethodOptions *TreasuryOutboundTransferDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options" json:"destination_payment_method_options,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The FinancialAccount to pull funds from.
-	FinancialAccount *string `form:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Statement descriptor to be shown on the receiving end of an OutboundTransfer. Maximum 10 characters for `ach` transfers or 140 characters for `us_domestic_wire` transfers. The default value is "transfer". Can only include -#.$&*, spaces, and alphanumeric characters.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -180,7 +180,7 @@ func (p *TreasuryOutboundTransferParams) AddMetadata(key string, value string) {
 type TreasuryOutboundTransferCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -191,21 +191,21 @@ func (p *TreasuryOutboundTransferCancelParams) AddExpand(f string) {
 // Hash used to generate the PaymentMethod to be used for this OutboundTransfer. Exclusive with `destination_payment_method`.
 type TreasuryOutboundTransferCreateDestinationPaymentMethodDataParams struct {
 	// Required if type is set to `financial_account`. The FinancialAccount ID to send funds to.
-	FinancialAccount *string `form:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
 	// The type of the destination.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Optional fields for `us_bank_account`.
 type TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsUSBankAccountParams struct {
 	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://docs.stripe.com/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
-	Network *string `form:"network"`
+	Network *string `form:"network" json:"network,omitempty"`
 }
 
 // Hash describing payment method configuration details.
 type TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParams struct {
 	// Optional fields for `us_bank_account`.
-	USBankAccount *TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	USBankAccount *TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	UnsetFields   []TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
 }
 
@@ -225,25 +225,25 @@ func (p *TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParams) Ad
 type TreasuryOutboundTransferCreateParams struct {
 	Params `form:"*"`
 	// Amount (in cents) to be transferred.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The PaymentMethod to use as the payment instrument for the OutboundTransfer.
-	DestinationPaymentMethod *string `form:"destination_payment_method"`
+	DestinationPaymentMethod *string `form:"destination_payment_method" json:"destination_payment_method,omitempty"`
 	// Hash used to generate the PaymentMethod to be used for this OutboundTransfer. Exclusive with `destination_payment_method`.
-	DestinationPaymentMethodData *TreasuryOutboundTransferCreateDestinationPaymentMethodDataParams `form:"destination_payment_method_data"`
+	DestinationPaymentMethodData *TreasuryOutboundTransferCreateDestinationPaymentMethodDataParams `form:"destination_payment_method_data" json:"destination_payment_method_data,omitempty"`
 	// Hash describing payment method configuration details.
-	DestinationPaymentMethodOptions *TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options"`
+	DestinationPaymentMethodOptions *TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options" json:"destination_payment_method_options,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The FinancialAccount to pull funds from.
-	FinancialAccount *string `form:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Statement descriptor to be shown on the receiving end of an OutboundTransfer. Maximum 10 characters for `ach` transfers or 140 characters for `us_domestic_wire` transfers. The default value is "transfer". Can only include -#.$&*, spaces, and alphanumeric characters.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -264,7 +264,7 @@ func (p *TreasuryOutboundTransferCreateParams) AddMetadata(key string, value str
 type TreasuryOutboundTransferRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -297,7 +297,7 @@ type TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccount struct
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate *Mandate `json:"mandate"`
+	Mandate *Mandate `json:"mandate,omitempty"`
 	// The network rails used. See the [docs](https://docs.stripe.com/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
 	Network TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetwork `json:"network"`
 	// Routing number of the bank account.
@@ -305,10 +305,10 @@ type TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccount struct
 }
 type TreasuryOutboundTransferDestinationPaymentMethodDetails struct {
 	BillingDetails   *TreasuryOutboundTransferDestinationPaymentMethodDetailsBillingDetails   `json:"billing_details"`
-	FinancialAccount *TreasuryOutboundTransferDestinationPaymentMethodDetailsFinancialAccount `json:"financial_account"`
+	FinancialAccount *TreasuryOutboundTransferDestinationPaymentMethodDetailsFinancialAccount `json:"financial_account,omitempty"`
 	// The type of the payment method used in the OutboundTransfer.
 	Type          TreasuryOutboundTransferDestinationPaymentMethodDetailsType           `json:"type"`
-	USBankAccount *TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
+	USBankAccount *TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
 }
 
 // Details about a returned OutboundTransfer. Only set when the status is `returned`.
@@ -343,10 +343,10 @@ type TreasuryOutboundTransferTrackingDetailsUSDomesticWire struct {
 
 // Details about network-specific tracking information if available.
 type TreasuryOutboundTransferTrackingDetails struct {
-	ACH *TreasuryOutboundTransferTrackingDetailsACH `json:"ach"`
+	ACH *TreasuryOutboundTransferTrackingDetailsACH `json:"ach,omitempty"`
 	// The US bank account network used to send funds.
 	Type           TreasuryOutboundTransferTrackingDetailsType            `json:"type"`
-	USDomesticWire *TreasuryOutboundTransferTrackingDetailsUSDomesticWire `json:"us_domestic_wire"`
+	USDomesticWire *TreasuryOutboundTransferTrackingDetailsUSDomesticWire `json:"us_domestic_wire,omitempty"`
 }
 
 // Use [OutboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-transfers) to transfer funds from a [FinancialAccount](https://api.stripe.com#financial_accounts) to a PaymentMethod belonging to the same entity. To send funds to a different party, use [OutboundPayments](https://api.stripe.com#outbound_payments) instead. You can send funds over ACH rails or through a domestic wire transfer to a user's own external bank account.

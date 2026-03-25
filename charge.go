@@ -410,17 +410,17 @@ const (
 type ChargeListParams struct {
 	ListParams `form:"*"`
 	// Only return charges that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return charges that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Only return charges for the customer specified by this customer ID.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return charges that were created by the PaymentIntent specified by this PaymentIntent ID.
-	PaymentIntent *string `form:"payment_intent"`
+	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
 	// Only return charges for this transfer group, limited to 100.
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string `form:"transfer_group" json:"transfer_group,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -430,40 +430,40 @@ func (p *ChargeListParams) AddExpand(f string) {
 
 type ChargeDestinationParams struct {
 	// ID of an existing, connected Stripe account.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account"`
 	// The amount to transfer to the destination account without creating an `Application Fee` object. Cannot be combined with the `application_fee` parameter. Must be less than or equal to the charge amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 }
 
 // Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type ChargeRadarOptionsParams struct {
 	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
-	Session *string `form:"session"`
+	Session *string `form:"session" json:"session,omitempty"`
 }
 
 // An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 type ChargeTransferDataParams struct {
 	// The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// This parameter can only be used on Charge creation.
 	// ID of an existing, connected Stripe account.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 type ChargeLevel3LineItemParams struct {
-	DiscountAmount     *int64  `form:"discount_amount"`
-	ProductCode        *string `form:"product_code"`
-	ProductDescription *string `form:"product_description"`
-	Quantity           *int64  `form:"quantity"`
-	TaxAmount          *int64  `form:"tax_amount"`
-	UnitCost           *int64  `form:"unit_cost"`
+	DiscountAmount     *int64  `form:"discount_amount" json:"discount_amount,omitempty"`
+	ProductCode        *string `form:"product_code" json:"product_code,omitempty"`
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
+	Quantity           *int64  `form:"quantity" json:"quantity,omitempty"`
+	TaxAmount          *int64  `form:"tax_amount" json:"tax_amount,omitempty"`
+	UnitCost           *int64  `form:"unit_cost" json:"unit_cost,omitempty"`
 }
 type ChargeLevel3Params struct {
-	CustomerReference  *string                       `form:"customer_reference"`
-	LineItems          []*ChargeLevel3LineItemParams `form:"line_items"`
-	MerchantReference  *string                       `form:"merchant_reference"`
-	ShippingAddressZip *string                       `form:"shipping_address_zip"`
-	ShippingAmount     *int64                        `form:"shipping_amount"`
-	ShippingFromZip    *string                       `form:"shipping_from_zip"`
+	CustomerReference  *string                       `form:"customer_reference" json:"customer_reference,omitempty"`
+	LineItems          []*ChargeLevel3LineItemParams `form:"line_items" json:"line_items,omitempty"`
+	MerchantReference  *string                       `form:"merchant_reference" json:"merchant_reference,omitempty"`
+	ShippingAddressZip *string                       `form:"shipping_address_zip" json:"shipping_address_zip,omitempty"`
+	ShippingAmount     *int64                        `form:"shipping_amount" json:"shipping_amount,omitempty"`
+	ShippingFromZip    *string                       `form:"shipping_from_zip" json:"shipping_from_zip,omitempty"`
 }
 
 // This method is no longer recommended—use the [Payment Intents API](https://docs.stripe.com/docs/api/payment_intents)
@@ -472,46 +472,46 @@ type ChargeLevel3Params struct {
 type ChargeParams struct {
 	Params `form:"*"`
 	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
-	Amount         *int64 `form:"amount"`
-	ApplicationFee *int64 `form:"application_fee"`
+	Amount         *int64 `form:"amount" json:"amount,omitempty"`
+	ApplicationFee *int64 `form:"application_fee" json:"application_fee,omitempty"`
 	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://docs.stripe.com/connect/direct-charges#collect-fees).
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://api.stripe.com#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
-	Capture *bool `form:"capture"`
+	Capture *bool `form:"capture" json:"capture,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The ID of an existing customer that will be associated with this request. This field may only be updated if there is no existing associated customer with this charge.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// An arbitrary string which you can attach to a `Charge` object. It is displayed when in the web interface alongside the charge. Note that if you use Stripe to send automatic email receipts to your customers, your receipt emails will include the `description` of the charge(s) that they are describing.
-	Description  *string                  `form:"description"`
-	Destination  *ChargeDestinationParams `form:"destination"`
-	ExchangeRate *float64                 `form:"exchange_rate"`
+	Description  *string                  `form:"description" json:"description,omitempty"`
+	Destination  *ChargeDestinationParams `form:"destination" json:"destination,omitempty"`
+	ExchangeRate *float64                 `form:"exchange_rate" json:"exchange_rate,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
-	FraudDetails *ChargeFraudDetailsParams `form:"fraud_details"`
-	Level3       *ChargeLevel3Params       `form:"level3"`
+	FraudDetails *ChargeFraudDetailsParams `form:"fraud_details" json:"fraud_details,omitempty"`
+	Level3       *ChargeLevel3Params       `form:"level3" json:"level3,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Stripe account ID for which these funds are intended. You can specify the business of record as the connected account using the `on_behalf_of` attribute on the charge. For details, see [Creating Separate Charges and Transfers](https://docs.stripe.com/connect/separate-charges-and-transfers#settlement-merchant).
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
-	RadarOptions *ChargeRadarOptionsParams `form:"radar_options"`
+	RadarOptions *ChargeRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
 	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
-	ReceiptEmail *string `form:"receipt_email"`
+	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
-	Shipping *ShippingDetailsParams     `form:"shipping"`
+	Shipping *ShippingDetailsParams     `form:"shipping" json:"shipping,omitempty"`
 	Source   *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
 	// For a non-card charge, text that appears on the customer's statement as the statement descriptor. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	//
 	// For a card charge, this value is ignored unless you don't specify a `statement_descriptor_suffix`, in which case this value is used as the suffix.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. If the account has no prefix value, the suffix is concatenated to the account's statement descriptor.
-	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
-	TransferData *ChargeTransferDataParams `form:"transfer_data"`
+	TransferData *ChargeTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
-	TransferGroup *string                  `form:"transfer_group"`
+	TransferGroup *string                  `form:"transfer_group" json:"transfer_group,omitempty"`
 	UnsetFields   []ChargeParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -552,7 +552,7 @@ func (p *ChargeParams) AddMetadata(key string, value string) {
 // A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
 type ChargeFraudDetailsParams struct {
 	// Either `safe` or `fraudulent`.
-	UserReport  *string                              `form:"user_report"`
+	UserReport  *string                              `form:"user_report" json:"user_report"`
 	UnsetFields []ChargeFraudDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -575,9 +575,9 @@ func (p *ChargeFraudDetailsParams) AddUnsetField(field ChargeFraudDetailsParamsU
 type ChargeSearchParams struct {
 	SearchParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
-	Page *string `form:"page"`
+	Page *string `form:"page" json:"page,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -588,7 +588,7 @@ func (p *ChargeSearchParams) AddExpand(f string) {
 // An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 type ChargeCaptureTransferDataParams struct {
 	// The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 }
 
 // Capture the payment of an existing, uncaptured charge that was created with the capture option set to false.
@@ -599,26 +599,26 @@ type ChargeCaptureTransferDataParams struct {
 type ChargeCaptureParams struct {
 	Params `form:"*"`
 	// The amount to capture, which must be less than or equal to the original amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// An application fee to add on to this charge.
-	ApplicationFee *int64 `form:"application_fee"`
+	ApplicationFee *int64 `form:"application_fee" json:"application_fee,omitempty"`
 	// An application fee amount to add on to this charge, which must be less than or equal to the original amount.
-	ApplicationFeeAmount *int64   `form:"application_fee_amount"`
-	ExchangeRate         *float64 `form:"exchange_rate"`
+	ApplicationFeeAmount *int64   `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
+	ExchangeRate         *float64 `form:"exchange_rate" json:"exchange_rate,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The email address to send this charge's receipt to. This will override the previously-specified email address for this charge, if one was set. Receipts will not be sent in test mode.
-	ReceiptEmail *string `form:"receipt_email"`
+	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// For a non-card charge, text that appears on the customer's statement as the statement descriptor. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	//
 	// For a card charge, this value is ignored unless you don't specify a `statement_descriptor_suffix`, in which case this value is used as the suffix.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. If the account has no prefix value, the suffix is concatenated to the account's statement descriptor.
-	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
-	TransferData *ChargeCaptureTransferDataParams `form:"transfer_data"`
+	TransferData *ChargeCaptureTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string `form:"transfer_group" json:"transfer_group,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -628,39 +628,39 @@ func (p *ChargeCaptureParams) AddExpand(f string) {
 
 type ChargeCreateDestinationParams struct {
 	// ID of an existing, connected Stripe account.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account"`
 	// The amount to transfer to the destination account without creating an `Application Fee` object. Cannot be combined with the `application_fee` parameter. Must be less than or equal to the charge amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 }
 
 // Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type ChargeCreateRadarOptionsParams struct {
 	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
-	Session *string `form:"session"`
+	Session *string `form:"session" json:"session,omitempty"`
 }
 
 // An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 type ChargeCreateTransferDataParams struct {
 	// The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// ID of an existing, connected Stripe account.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 type ChargeCreateLevel3LineItemParams struct {
-	DiscountAmount     *int64  `form:"discount_amount"`
-	ProductCode        *string `form:"product_code"`
-	ProductDescription *string `form:"product_description"`
-	Quantity           *int64  `form:"quantity"`
-	TaxAmount          *int64  `form:"tax_amount"`
-	UnitCost           *int64  `form:"unit_cost"`
+	DiscountAmount     *int64  `form:"discount_amount" json:"discount_amount,omitempty"`
+	ProductCode        *string `form:"product_code" json:"product_code,omitempty"`
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
+	Quantity           *int64  `form:"quantity" json:"quantity,omitempty"`
+	TaxAmount          *int64  `form:"tax_amount" json:"tax_amount,omitempty"`
+	UnitCost           *int64  `form:"unit_cost" json:"unit_cost,omitempty"`
 }
 type ChargeCreateLevel3Params struct {
-	CustomerReference  *string                             `form:"customer_reference"`
-	LineItems          []*ChargeCreateLevel3LineItemParams `form:"line_items"`
-	MerchantReference  *string                             `form:"merchant_reference"`
-	ShippingAddressZip *string                             `form:"shipping_address_zip"`
-	ShippingAmount     *int64                              `form:"shipping_amount"`
-	ShippingFromZip    *string                             `form:"shipping_from_zip"`
+	CustomerReference  *string                             `form:"customer_reference" json:"customer_reference,omitempty"`
+	LineItems          []*ChargeCreateLevel3LineItemParams `form:"line_items" json:"line_items,omitempty"`
+	MerchantReference  *string                             `form:"merchant_reference" json:"merchant_reference,omitempty"`
+	ShippingAddressZip *string                             `form:"shipping_address_zip" json:"shipping_address_zip,omitempty"`
+	ShippingAmount     *int64                              `form:"shipping_amount" json:"shipping_amount,omitempty"`
+	ShippingFromZip    *string                             `form:"shipping_from_zip" json:"shipping_from_zip,omitempty"`
 }
 
 // This method is no longer recommended—use the [Payment Intents API](https://docs.stripe.com/docs/api/payment_intents)
@@ -669,44 +669,44 @@ type ChargeCreateLevel3Params struct {
 type ChargeCreateParams struct {
 	Params `form:"*"`
 	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
-	Amount         *int64 `form:"amount"`
-	ApplicationFee *int64 `form:"application_fee"`
+	Amount         *int64 `form:"amount" json:"amount,omitempty"`
+	ApplicationFee *int64 `form:"application_fee" json:"application_fee,omitempty"`
 	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://docs.stripe.com/connect/direct-charges#collect-fees).
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://api.stripe.com#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
-	Capture *bool `form:"capture"`
+	Capture *bool `form:"capture" json:"capture,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The ID of an existing customer that will be charged in this request.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// An arbitrary string which you can attach to a `Charge` object. It is displayed when in the web interface alongside the charge. Note that if you use Stripe to send automatic email receipts to your customers, your receipt emails will include the `description` of the charge(s) that they are describing.
-	Description  *string                        `form:"description"`
-	Destination  *ChargeCreateDestinationParams `form:"destination"`
-	ExchangeRate *float64                       `form:"exchange_rate"`
+	Description  *string                        `form:"description" json:"description,omitempty"`
+	Destination  *ChargeCreateDestinationParams `form:"destination" json:"destination,omitempty"`
+	ExchangeRate *float64                       `form:"exchange_rate" json:"exchange_rate,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string                 `form:"expand"`
-	Level3 *ChargeCreateLevel3Params `form:"level3"`
+	Expand []*string                 `form:"expand" json:"expand,omitempty"`
+	Level3 *ChargeCreateLevel3Params `form:"level3" json:"level3,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Stripe account ID for which these funds are intended. You can specify the business of record as the connected account using the `on_behalf_of` attribute on the charge. For details, see [Creating Separate Charges and Transfers](https://docs.stripe.com/connect/separate-charges-and-transfers#settlement-merchant).
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
-	RadarOptions *ChargeCreateRadarOptionsParams `form:"radar_options"`
+	RadarOptions *ChargeCreateRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
 	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
-	ReceiptEmail *string `form:"receipt_email"`
+	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
-	Shipping *ShippingDetailsParams     `form:"shipping"`
+	Shipping *ShippingDetailsParams     `form:"shipping" json:"shipping,omitempty"`
 	Source   *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
 	// For a non-card charge, text that appears on the customer's statement as the statement descriptor. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	//
 	// For a card charge, this value is ignored unless you don't specify a `statement_descriptor_suffix`, in which case this value is used as the suffix.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. If the account has no prefix value, the suffix is concatenated to the account's statement descriptor.
-	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
-	TransferData *ChargeCreateTransferDataParams `form:"transfer_data"`
+	TransferData *ChargeCreateTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	// A string that identifies this transaction as part of a group. For details, see [Grouping transactions](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options).
-	TransferGroup *string                        `form:"transfer_group"`
+	TransferGroup *string                        `form:"transfer_group" json:"transfer_group,omitempty"`
 	UnsetFields   []ChargeCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -748,7 +748,7 @@ func (p *ChargeCreateParams) AddMetadata(key string, value string) {
 type ChargeRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -759,7 +759,7 @@ func (p *ChargeRetrieveParams) AddExpand(f string) {
 // A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
 type ChargeUpdateFraudDetailsParams struct {
 	// Either `safe` or `fraudulent`.
-	UserReport  *string                                    `form:"user_report"`
+	UserReport  *string                                    `form:"user_report" json:"user_report"`
 	UnsetFields []ChargeUpdateFraudDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -779,21 +779,21 @@ func (p *ChargeUpdateFraudDetailsParams) AddUnsetField(field ChargeUpdateFraudDe
 type ChargeUpdateParams struct {
 	Params `form:"*"`
 	// The ID of an existing customer that will be associated with this request. This field may only be updated if there is no existing associated customer with this charge.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// An arbitrary string which you can attach to a charge object. It is displayed when in the web interface alongside the charge. Note that if you use Stripe to send automatic email receipts to your customers, your receipt emails will include the `description` of the charge(s) that they are describing.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
-	FraudDetails *ChargeUpdateFraudDetailsParams `form:"fraud_details"`
+	FraudDetails *ChargeUpdateFraudDetailsParams `form:"fraud_details" json:"fraud_details,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// This is the email address that the receipt for this charge will be sent to. If this field is updated, then a new email receipt will be sent to the updated address.
-	ReceiptEmail *string `form:"receipt_email"`
+	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
-	Shipping *ShippingDetailsParams `form:"shipping"`
+	Shipping *ShippingDetailsParams `form:"shipping" json:"shipping,omitempty"`
 	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
-	TransferGroup *string                        `form:"transfer_group"`
+	TransferGroup *string                        `form:"transfer_group" json:"transfer_group,omitempty"`
 	UnsetFields   []ChargeUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -839,9 +839,9 @@ type ChargeBillingDetails struct {
 // Information on fraud assessments for the charge.
 type ChargeFraudDetails struct {
 	// Assessments from Stripe. If set, the value is `fraudulent`.
-	StripeReport ChargeFraudStripeReport `json:"stripe_report"`
+	StripeReport ChargeFraudStripeReport `json:"stripe_report,omitempty"`
 	// Assessments reported by you. If set, possible values of are `safe` and `fraudulent`.
-	UserReport ChargeFraudUserReport `json:"user_report"`
+	UserReport ChargeFraudUserReport `json:"user_report,omitempty"`
 }
 type ChargeLevel3LineItem struct {
 	DiscountAmount     int64  `json:"discount_amount"`
@@ -852,12 +852,12 @@ type ChargeLevel3LineItem struct {
 	UnitCost           int64  `json:"unit_cost"`
 }
 type ChargeLevel3 struct {
-	CustomerReference  string                  `json:"customer_reference"`
+	CustomerReference  string                  `json:"customer_reference,omitempty"`
 	LineItems          []*ChargeLevel3LineItem `json:"line_items"`
 	MerchantReference  string                  `json:"merchant_reference"`
-	ShippingAddressZip string                  `json:"shipping_address_zip"`
-	ShippingAmount     int64                   `json:"shipping_amount"`
-	ShippingFromZip    string                  `json:"shipping_from_zip"`
+	ShippingAddressZip string                  `json:"shipping_address_zip,omitempty"`
+	ShippingAmount     int64                   `json:"shipping_amount,omitempty"`
+	ShippingFromZip    string                  `json:"shipping_from_zip,omitempty"`
 }
 
 // The ID of the Radar rule that matched the payment, if applicable.
@@ -883,11 +883,11 @@ type ChargeOutcome struct {
 	// An enumerated value providing a more detailed explanation of the outcome's `type`. Charges blocked by Radar's default block rule have the value `highest_risk_level`. Charges placed in review by Radar's default review rule have the value `elevated_risk_level`. Charges blocked because the payment is unlikely to be authorized have the value `low_probability_of_authorization`. Charges authorized, blocked, or placed in review by custom rules have the value `rule`. See [understanding declines](https://docs.stripe.com/declines) for more details.
 	Reason string `json:"reason"`
 	// Stripe Radar's evaluation of the riskiness of the payment. Possible values for evaluated payments are `normal`, `elevated`, `highest`. For non-card payments, and card-based payments predating the public assignment of risk levels, this field will have the value `not_assessed`. In the event of an error in the evaluation, this field will have the value `unknown`. This field is only available with Radar.
-	RiskLevel string `json:"risk_level"`
+	RiskLevel string `json:"risk_level,omitempty"`
 	// Stripe Radar's evaluation of the riskiness of the payment. Possible values for evaluated payments are between 0 and 100. For non-card payments, card-based payments predating the public assignment of risk scores, or in the event of an error during evaluation, this field will not be present. This field is only available with Radar for Fraud Teams.
-	RiskScore int64 `json:"risk_score"`
+	RiskScore int64 `json:"risk_score,omitempty"`
 	// The ID of the Radar rule that matched the payment, if applicable.
-	Rule *ChargeOutcomeRule `json:"rule"`
+	Rule *ChargeOutcomeRule `json:"rule,omitempty"`
 	// A human-readable description of the outcome type and reason, designed for you (the recipient of the payment), not your customer.
 	SellerMessage string `json:"seller_message"`
 	// Possible values are `authorized`, `manual_review`, `issuer_declined`, `blocked`, and `invalid`. See [understanding declines](https://docs.stripe.com/declines) and [Radar reviews](https://docs.stripe.com/radar/reviews) for details.
@@ -939,7 +939,7 @@ type ChargePaymentMethodDetailsACSSDebit struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Institution number of the bank account
@@ -947,15 +947,15 @@ type ChargePaymentMethodDetailsACSSDebit struct {
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate string `json:"mandate"`
+	Mandate string `json:"mandate,omitempty"`
 	// Transit number of the bank account.
 	TransitNumber string `json:"transit_number"`
 }
 type ChargePaymentMethodDetailsAffirm struct {
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// The Affirm transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -967,7 +967,7 @@ type ChargePaymentMethodDetailsAfterpayClearpay struct {
 }
 type ChargePaymentMethodDetailsAlipay struct {
 	// Uniquely identifies this particular Alipay account. You can use this attribute to check whether two Alipay accounts are the same.
-	BuyerID string `json:"buyer_id"`
+	BuyerID string `json:"buyer_id,omitempty"`
 	// Uniquely identifies this particular Alipay account. You can use this attribute to check whether two Alipay accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Transaction ID of this particular Alipay transaction.
@@ -978,7 +978,7 @@ type ChargePaymentMethodDetailsAlmaInstallments struct {
 	Count int64 `json:"count"`
 }
 type ChargePaymentMethodDetailsAlma struct {
-	Installments *ChargePaymentMethodDetailsAlmaInstallments `json:"installments"`
+	Installments *ChargePaymentMethodDetailsAlmaInstallments `json:"installments,omitempty"`
 	// The Alma transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -997,12 +997,12 @@ type ChargePaymentMethodDetailsAmazonPayFundingCard struct {
 	Last4 string `json:"last4"`
 }
 type ChargePaymentMethodDetailsAmazonPayFunding struct {
-	Card *ChargePaymentMethodDetailsAmazonPayFundingCard `json:"card"`
+	Card *ChargePaymentMethodDetailsAmazonPayFundingCard `json:"card,omitempty"`
 	// funding type of the underlying payment method.
 	Type ChargePaymentMethodDetailsAmazonPayFundingType `json:"type"`
 }
 type ChargePaymentMethodDetailsAmazonPay struct {
-	Funding *ChargePaymentMethodDetailsAmazonPayFunding `json:"funding"`
+	Funding *ChargePaymentMethodDetailsAmazonPayFunding `json:"funding,omitempty"`
 	// The Amazon Pay transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -1010,17 +1010,17 @@ type ChargePaymentMethodDetailsAUBECSDebit struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate string `json:"mandate"`
+	Mandate string `json:"mandate,omitempty"`
 }
 type ChargePaymentMethodDetailsBACSDebit struct {
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
@@ -1117,7 +1117,7 @@ type ChargePaymentMethodDetailsCardThreeDSecure struct {
 	ExemptionIndicator ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicator `json:"exemption_indicator"`
 	// Whether Stripe requested the value of `exemption_indicator` in the transaction. This will depend on
 	// the outcome of Stripe's internal risk assessment.
-	ExemptionIndicatorApplied bool `json:"exemption_indicator_applied"`
+	ExemptionIndicatorApplied bool `json:"exemption_indicator_applied,omitempty"`
 	// Indicates the outcome of 3D Secure authentication.
 	Result ChargePaymentMethodDetailsCardThreeDSecureResult `json:"result"`
 	// Additional information about why 3D Secure succeeded or failed based
@@ -1157,17 +1157,17 @@ type ChargePaymentMethodDetailsCardWalletVisaCheckout struct {
 
 // If this Card is part of a card wallet, this contains the details of the card wallet.
 type ChargePaymentMethodDetailsCardWallet struct {
-	AmexExpressCheckout *ChargePaymentMethodDetailsCardWalletAmexExpressCheckout `json:"amex_express_checkout"`
-	ApplePay            *ChargePaymentMethodDetailsCardWalletApplePay            `json:"apple_pay"`
+	AmexExpressCheckout *ChargePaymentMethodDetailsCardWalletAmexExpressCheckout `json:"amex_express_checkout,omitempty"`
+	ApplePay            *ChargePaymentMethodDetailsCardWalletApplePay            `json:"apple_pay,omitempty"`
 	// (For tokenized numbers only.) The last four digits of the device account number.
 	DynamicLast4 string                                          `json:"dynamic_last4"`
-	GooglePay    *ChargePaymentMethodDetailsCardWalletGooglePay  `json:"google_pay"`
-	Link         *ChargePaymentMethodDetailsCardWalletLink       `json:"link"`
-	Masterpass   *ChargePaymentMethodDetailsCardWalletMasterpass `json:"masterpass"`
-	SamsungPay   *ChargePaymentMethodDetailsCardWalletSamsungPay `json:"samsung_pay"`
+	GooglePay    *ChargePaymentMethodDetailsCardWalletGooglePay  `json:"google_pay,omitempty"`
+	Link         *ChargePaymentMethodDetailsCardWalletLink       `json:"link,omitempty"`
+	Masterpass   *ChargePaymentMethodDetailsCardWalletMasterpass `json:"masterpass,omitempty"`
+	SamsungPay   *ChargePaymentMethodDetailsCardWalletSamsungPay `json:"samsung_pay,omitempty"`
 	// The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 	Type         PaymentMethodCardWalletType                       `json:"type"`
-	VisaCheckout *ChargePaymentMethodDetailsCardWalletVisaCheckout `json:"visa_checkout"`
+	VisaCheckout *ChargePaymentMethodDetailsCardWalletVisaCheckout `json:"visa_checkout,omitempty"`
 }
 type ChargePaymentMethodDetailsCard struct {
 	// The authorized amount.
@@ -1177,7 +1177,7 @@ type ChargePaymentMethodDetailsCard struct {
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
-	CaptureBefore int64 `json:"capture_before"`
+	CaptureBefore int64 `json:"capture_before,omitempty"`
 	// Check results by Card networks on Card address and CVC at time of payment.
 	Checks *ChargePaymentMethodDetailsCardChecks `json:"checks"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
@@ -1186,14 +1186,14 @@ type ChargePaymentMethodDetailsCard struct {
 	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
 	ExpYear               int64                                                `json:"exp_year"`
-	ExtendedAuthorization *ChargePaymentMethodDetailsCardExtendedAuthorization `json:"extended_authorization"`
+	ExtendedAuthorization *ChargePaymentMethodDetailsCardExtendedAuthorization `json:"extended_authorization,omitempty"`
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
-	Fingerprint string `json:"fingerprint"`
+	Fingerprint string `json:"fingerprint,omitempty"`
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 	Funding                  CardFunding                                             `json:"funding"`
-	IncrementalAuthorization *ChargePaymentMethodDetailsCardIncrementalAuthorization `json:"incremental_authorization"`
+	IncrementalAuthorization *ChargePaymentMethodDetailsCardIncrementalAuthorization `json:"incremental_authorization,omitempty"`
 	// Installment details for this payment.
 	//
 	// For more information, see the [installments integration guide](https://docs.stripe.com/payments/installments).
@@ -1203,15 +1203,15 @@ type ChargePaymentMethodDetailsCard struct {
 	// ID of the mandate used to make this payment or created by it.
 	Mandate string `json:"mandate"`
 	// True if this payment was marked as MOTO and out of scope for SCA.
-	MOTO         bool                                        `json:"moto"`
-	Multicapture *ChargePaymentMethodDetailsCardMulticapture `json:"multicapture"`
+	MOTO         bool                                        `json:"moto,omitempty"`
+	Multicapture *ChargePaymentMethodDetailsCardMulticapture `json:"multicapture,omitempty"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network ChargePaymentMethodDetailsCardNetwork `json:"network"`
 	// If this card has network token credentials, this contains the details of the network token credentials.
-	NetworkToken *ChargePaymentMethodDetailsCardNetworkToken `json:"network_token"`
+	NetworkToken *ChargePaymentMethodDetailsCardNetworkToken `json:"network_token,omitempty"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string                                     `json:"network_transaction_id"`
-	Overcapture          *ChargePaymentMethodDetailsCardOvercapture `json:"overcapture"`
+	Overcapture          *ChargePaymentMethodDetailsCardOvercapture `json:"overcapture,omitempty"`
 	// Status of a card based on the card issuer.
 	RegulatedStatus ChargePaymentMethodDetailsCardRegulatedStatus `json:"regulated_status"`
 	// Populated if this transaction used 3D Secure authentication.
@@ -1221,11 +1221,11 @@ type ChargePaymentMethodDetailsCard struct {
 	// Please note that the fields below are for internal use only and are not returned
 	// as part of standard API requests.
 	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
-	IIN string `json:"iin"`
+	IIN string `json:"iin,omitempty"`
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 }
 
 // Details about payments collected offline.
@@ -1239,7 +1239,7 @@ type ChargePaymentMethodDetailsCardPresentOffline struct {
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type ChargePaymentMethodDetailsCardPresentReceipt struct {
 	// The type of account being debited or credited
-	AccountType ChargePaymentMethodDetailsCardPresentReceiptAccountType `json:"account_type"`
+	AccountType ChargePaymentMethodDetailsCardPresentReceiptAccountType `json:"account_type,omitempty"`
 	// The Application Cryptogram, a unique value generated by the card to authenticate the transaction with issuers.
 	ApplicationCryptogram string `json:"application_cryptogram"`
 	// The Application Identifier (AID) on the card used to determine which networks are eligible to process the transaction. Referenced from EMV tag 9F12, data encoded on the card's chip.
@@ -1269,7 +1269,7 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
 	// When using manual capture, a future timestamp after which the charge will be automatically refunded if uncaptured.
-	CaptureBefore int64 `json:"capture_before"`
+	CaptureBefore int64 `json:"capture_before,omitempty"`
 	// The cardholder name as read from the card, in [ISO 7813](https://en.wikipedia.org/wiki/ISO/IEC_7813) format. May include alphanumeric characters, special characters and first/last name separator (`/`). In some cases, the cardholder name may not be available depending on how the issuer has configured the card. Cardholder name is typically not available on swipe or contactless payments, such as those made with Apple Pay and Google Pay.
 	CardholderName string `json:"cardholder_name"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
@@ -1293,7 +1293,7 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network ChargePaymentMethodDetailsCardPresentNetwork `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -1305,20 +1305,20 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// How card details were read in this transaction.
 	ReadMethod string `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *ChargePaymentMethodDetailsCardPresentReceipt `json:"receipt"`
-	Wallet  *ChargePaymentMethodDetailsCardPresentWallet  `json:"wallet"`
+	Wallet  *ChargePaymentMethodDetailsCardPresentWallet  `json:"wallet,omitempty"`
 	// Please note that the fields below are for internal use only and are not returned
 	// as part of standard API requests.
 	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
-	IIN string `json:"iin"`
+	IIN string `json:"iin,omitempty"`
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 }
 type ChargePaymentMethodDetailsCashApp struct {
 	// A unique and immutable identifier assigned by Cash App to every buyer.
@@ -1330,13 +1330,13 @@ type ChargePaymentMethodDetailsCashApp struct {
 }
 type ChargePaymentMethodDetailsCrypto struct {
 	// The wallet address of the customer.
-	BuyerAddress string `json:"buyer_address"`
+	BuyerAddress string `json:"buyer_address,omitempty"`
 	// The blockchain network that the transaction was sent on.
-	Network ChargePaymentMethodDetailsCryptoNetwork `json:"network"`
+	Network ChargePaymentMethodDetailsCryptoNetwork `json:"network,omitempty"`
 	// The token currency that the transaction was sent with.
-	TokenCurrency ChargePaymentMethodDetailsCryptoTokenCurrency `json:"token_currency"`
+	TokenCurrency ChargePaymentMethodDetailsCryptoTokenCurrency `json:"token_currency,omitempty"`
 	// The blockchain transaction hash of the crypto payment.
-	TransactionHash string `json:"transaction_hash"`
+	TransactionHash string `json:"transaction_hash,omitempty"`
 }
 type ChargePaymentMethodDetailsCustomerBalance struct{}
 type ChargePaymentMethodDetailsEPS struct {
@@ -1392,7 +1392,7 @@ type ChargePaymentMethodDetailsIDEAL struct {
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type ChargePaymentMethodDetailsInteracPresentReceipt struct {
 	// The type of account being debited or credited
-	AccountType string `json:"account_type"`
+	AccountType string `json:"account_type,omitempty"`
 	// The Application Cryptogram, a unique value generated by the card to authenticate the transaction with issuers.
 	ApplicationCryptogram string `json:"application_cryptogram"`
 	// The Application Identifier (AID) on the card used to determine which networks are eligible to process the transaction. Referenced from EMV tag 9F12, data encoded on the card's chip.
@@ -1434,7 +1434,7 @@ type ChargePaymentMethodDetailsInteracPresent struct {
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -1442,7 +1442,7 @@ type ChargePaymentMethodDetailsInteracPresent struct {
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// How card details were read in this transaction.
 	ReadMethod string `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
@@ -1450,11 +1450,11 @@ type ChargePaymentMethodDetailsInteracPresent struct {
 	// Please note that the fields below are for internal use only and are not returned
 	// as part of standard API requests.
 	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
-	IIN string `json:"iin"`
+	IIN string `json:"iin,omitempty"`
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 }
 type ChargePaymentMethodDetailsKakaoPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
@@ -1550,7 +1550,7 @@ type ChargePaymentMethodDetailsNzBankAccount struct {
 	// The numeric code for the bank account's bank branch.
 	BranchCode string `json:"branch_code"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// The suffix of the bank account number.
@@ -1579,9 +1579,9 @@ type ChargePaymentMethodDetailsPayco struct {
 }
 type ChargePaymentMethodDetailsPayNow struct {
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// Reference number associated with this PayNow payment
 	Reference string `json:"reference"`
 }
@@ -1615,13 +1615,13 @@ type ChargePaymentMethodDetailsPayto struct {
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate string `json:"mandate"`
+	Mandate string `json:"mandate,omitempty"`
 	// The PayID alias for the bank account.
 	PayID string `json:"pay_id"`
 }
 type ChargePaymentMethodDetailsPix struct {
 	// Unique transaction id generated by BCB
-	BankTransactionID string `json:"bank_transaction_id"`
+	BankTransactionID string `json:"bank_transaction_id,omitempty"`
 }
 type ChargePaymentMethodDetailsPromptPay struct {
 	// Bill reference generated by PromptPay
@@ -1642,12 +1642,12 @@ type ChargePaymentMethodDetailsRevolutPayFundingCard struct {
 	Last4 string `json:"last4"`
 }
 type ChargePaymentMethodDetailsRevolutPayFunding struct {
-	Card *ChargePaymentMethodDetailsRevolutPayFundingCard `json:"card"`
+	Card *ChargePaymentMethodDetailsRevolutPayFundingCard `json:"card,omitempty"`
 	// funding type of the underlying payment method.
 	Type ChargePaymentMethodDetailsRevolutPayFundingType `json:"type"`
 }
 type ChargePaymentMethodDetailsRevolutPay struct {
-	Funding *ChargePaymentMethodDetailsRevolutPayFunding `json:"funding"`
+	Funding *ChargePaymentMethodDetailsRevolutPayFunding `json:"funding,omitempty"`
 	// The Revolut Pay transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -1677,7 +1677,7 @@ type ChargePaymentMethodDetailsSEPADebit struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four characters of the IBAN.
@@ -1729,13 +1729,13 @@ type ChargePaymentMethodDetailsUSBankAccount struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate *Mandate `json:"mandate"`
+	Mandate *Mandate `json:"mandate,omitempty"`
 	// Reference number to locate ACH payments with customer's bank.
 	PaymentReference string `json:"payment_reference"`
 	// Routing number of the bank account.
@@ -1746,9 +1746,9 @@ type ChargePaymentMethodDetailsWeChatPay struct {
 	// Uniquely identifies this particular WeChat Pay account. You can use this attribute to check whether two WeChat accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// Transaction ID of this particular WeChat Pay transaction.
 	TransactionID string `json:"transaction_id"`
 }
@@ -1756,68 +1756,68 @@ type ChargePaymentMethodDetailsZip struct{}
 
 // Details about the payment method at the time of the transaction.
 type ChargePaymentMethodDetails struct {
-	ACHCreditTransfer  *ChargePaymentMethodDetailsACHCreditTransfer  `json:"ach_credit_transfer"`
-	ACHDebit           *ChargePaymentMethodDetailsACHDebit           `json:"ach_debit"`
-	ACSSDebit          *ChargePaymentMethodDetailsACSSDebit          `json:"acss_debit"`
-	Affirm             *ChargePaymentMethodDetailsAffirm             `json:"affirm"`
-	AfterpayClearpay   *ChargePaymentMethodDetailsAfterpayClearpay   `json:"afterpay_clearpay"`
-	Alipay             *ChargePaymentMethodDetailsAlipay             `json:"alipay"`
-	Alma               *ChargePaymentMethodDetailsAlma               `json:"alma"`
-	AmazonPay          *ChargePaymentMethodDetailsAmazonPay          `json:"amazon_pay"`
-	AUBECSDebit        *ChargePaymentMethodDetailsAUBECSDebit        `json:"au_becs_debit"`
-	BACSDebit          *ChargePaymentMethodDetailsBACSDebit          `json:"bacs_debit"`
-	Bancontact         *ChargePaymentMethodDetailsBancontact         `json:"bancontact"`
-	Billie             *ChargePaymentMethodDetailsBillie             `json:"billie"`
-	BLIK               *ChargePaymentMethodDetailsBLIK               `json:"blik"`
-	Boleto             *ChargePaymentMethodDetailsBoleto             `json:"boleto"`
-	Card               *ChargePaymentMethodDetailsCard               `json:"card"`
-	CardPresent        *ChargePaymentMethodDetailsCardPresent        `json:"card_present"`
-	CashApp            *ChargePaymentMethodDetailsCashApp            `json:"cashapp"`
-	Crypto             *ChargePaymentMethodDetailsCrypto             `json:"crypto"`
-	CustomerBalance    *ChargePaymentMethodDetailsCustomerBalance    `json:"customer_balance"`
-	EPS                *ChargePaymentMethodDetailsEPS                `json:"eps"`
-	FPX                *ChargePaymentMethodDetailsFPX                `json:"fpx"`
-	Giropay            *ChargePaymentMethodDetailsGiropay            `json:"giropay"`
-	Grabpay            *ChargePaymentMethodDetailsGrabpay            `json:"grabpay"`
-	IDEAL              *ChargePaymentMethodDetailsIDEAL              `json:"ideal"`
-	InteracPresent     *ChargePaymentMethodDetailsInteracPresent     `json:"interac_present"`
-	KakaoPay           *ChargePaymentMethodDetailsKakaoPay           `json:"kakao_pay"`
-	Klarna             *ChargePaymentMethodDetailsKlarna             `json:"klarna"`
-	Konbini            *ChargePaymentMethodDetailsKonbini            `json:"konbini"`
-	KrCard             *ChargePaymentMethodDetailsKrCard             `json:"kr_card"`
-	Link               *ChargePaymentMethodDetailsLink               `json:"link"`
-	MbWay              *ChargePaymentMethodDetailsMbWay              `json:"mb_way"`
-	Mobilepay          *ChargePaymentMethodDetailsMobilepay          `json:"mobilepay"`
-	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco"`
-	NaverPay           *ChargePaymentMethodDetailsNaverPay           `json:"naver_pay"`
-	NzBankAccount      *ChargePaymentMethodDetailsNzBankAccount      `json:"nz_bank_account"`
-	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo"`
-	P24                *ChargePaymentMethodDetailsP24                `json:"p24"`
-	PayByBank          *ChargePaymentMethodDetailsPayByBank          `json:"pay_by_bank"`
-	Payco              *ChargePaymentMethodDetailsPayco              `json:"payco"`
-	PayNow             *ChargePaymentMethodDetailsPayNow             `json:"paynow"`
-	Paypal             *ChargePaymentMethodDetailsPaypal             `json:"paypal"`
-	Payto              *ChargePaymentMethodDetailsPayto              `json:"payto"`
-	Pix                *ChargePaymentMethodDetailsPix                `json:"pix"`
-	PromptPay          *ChargePaymentMethodDetailsPromptPay          `json:"promptpay"`
-	RevolutPay         *ChargePaymentMethodDetailsRevolutPay         `json:"revolut_pay"`
-	SamsungPay         *ChargePaymentMethodDetailsSamsungPay         `json:"samsung_pay"`
-	Satispay           *ChargePaymentMethodDetailsSatispay           `json:"satispay"`
-	SEPACreditTransfer *ChargePaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer"`
-	SEPADebit          *ChargePaymentMethodDetailsSEPADebit          `json:"sepa_debit"`
-	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort"`
-	StripeAccount      *ChargePaymentMethodDetailsStripeAccount      `json:"stripe_account"`
-	Swish              *ChargePaymentMethodDetailsSwish              `json:"swish"`
-	TWINT              *ChargePaymentMethodDetailsTWINT              `json:"twint"`
+	ACHCreditTransfer  *ChargePaymentMethodDetailsACHCreditTransfer  `json:"ach_credit_transfer,omitempty"`
+	ACHDebit           *ChargePaymentMethodDetailsACHDebit           `json:"ach_debit,omitempty"`
+	ACSSDebit          *ChargePaymentMethodDetailsACSSDebit          `json:"acss_debit,omitempty"`
+	Affirm             *ChargePaymentMethodDetailsAffirm             `json:"affirm,omitempty"`
+	AfterpayClearpay   *ChargePaymentMethodDetailsAfterpayClearpay   `json:"afterpay_clearpay,omitempty"`
+	Alipay             *ChargePaymentMethodDetailsAlipay             `json:"alipay,omitempty"`
+	Alma               *ChargePaymentMethodDetailsAlma               `json:"alma,omitempty"`
+	AmazonPay          *ChargePaymentMethodDetailsAmazonPay          `json:"amazon_pay,omitempty"`
+	AUBECSDebit        *ChargePaymentMethodDetailsAUBECSDebit        `json:"au_becs_debit,omitempty"`
+	BACSDebit          *ChargePaymentMethodDetailsBACSDebit          `json:"bacs_debit,omitempty"`
+	Bancontact         *ChargePaymentMethodDetailsBancontact         `json:"bancontact,omitempty"`
+	Billie             *ChargePaymentMethodDetailsBillie             `json:"billie,omitempty"`
+	BLIK               *ChargePaymentMethodDetailsBLIK               `json:"blik,omitempty"`
+	Boleto             *ChargePaymentMethodDetailsBoleto             `json:"boleto,omitempty"`
+	Card               *ChargePaymentMethodDetailsCard               `json:"card,omitempty"`
+	CardPresent        *ChargePaymentMethodDetailsCardPresent        `json:"card_present,omitempty"`
+	CashApp            *ChargePaymentMethodDetailsCashApp            `json:"cashapp,omitempty"`
+	Crypto             *ChargePaymentMethodDetailsCrypto             `json:"crypto,omitempty"`
+	CustomerBalance    *ChargePaymentMethodDetailsCustomerBalance    `json:"customer_balance,omitempty"`
+	EPS                *ChargePaymentMethodDetailsEPS                `json:"eps,omitempty"`
+	FPX                *ChargePaymentMethodDetailsFPX                `json:"fpx,omitempty"`
+	Giropay            *ChargePaymentMethodDetailsGiropay            `json:"giropay,omitempty"`
+	Grabpay            *ChargePaymentMethodDetailsGrabpay            `json:"grabpay,omitempty"`
+	IDEAL              *ChargePaymentMethodDetailsIDEAL              `json:"ideal,omitempty"`
+	InteracPresent     *ChargePaymentMethodDetailsInteracPresent     `json:"interac_present,omitempty"`
+	KakaoPay           *ChargePaymentMethodDetailsKakaoPay           `json:"kakao_pay,omitempty"`
+	Klarna             *ChargePaymentMethodDetailsKlarna             `json:"klarna,omitempty"`
+	Konbini            *ChargePaymentMethodDetailsKonbini            `json:"konbini,omitempty"`
+	KrCard             *ChargePaymentMethodDetailsKrCard             `json:"kr_card,omitempty"`
+	Link               *ChargePaymentMethodDetailsLink               `json:"link,omitempty"`
+	MbWay              *ChargePaymentMethodDetailsMbWay              `json:"mb_way,omitempty"`
+	Mobilepay          *ChargePaymentMethodDetailsMobilepay          `json:"mobilepay,omitempty"`
+	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco,omitempty"`
+	NaverPay           *ChargePaymentMethodDetailsNaverPay           `json:"naver_pay,omitempty"`
+	NzBankAccount      *ChargePaymentMethodDetailsNzBankAccount      `json:"nz_bank_account,omitempty"`
+	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo,omitempty"`
+	P24                *ChargePaymentMethodDetailsP24                `json:"p24,omitempty"`
+	PayByBank          *ChargePaymentMethodDetailsPayByBank          `json:"pay_by_bank,omitempty"`
+	Payco              *ChargePaymentMethodDetailsPayco              `json:"payco,omitempty"`
+	PayNow             *ChargePaymentMethodDetailsPayNow             `json:"paynow,omitempty"`
+	Paypal             *ChargePaymentMethodDetailsPaypal             `json:"paypal,omitempty"`
+	Payto              *ChargePaymentMethodDetailsPayto              `json:"payto,omitempty"`
+	Pix                *ChargePaymentMethodDetailsPix                `json:"pix,omitempty"`
+	PromptPay          *ChargePaymentMethodDetailsPromptPay          `json:"promptpay,omitempty"`
+	RevolutPay         *ChargePaymentMethodDetailsRevolutPay         `json:"revolut_pay,omitempty"`
+	SamsungPay         *ChargePaymentMethodDetailsSamsungPay         `json:"samsung_pay,omitempty"`
+	Satispay           *ChargePaymentMethodDetailsSatispay           `json:"satispay,omitempty"`
+	SEPACreditTransfer *ChargePaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
+	SEPADebit          *ChargePaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
+	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort,omitempty"`
+	StripeAccount      *ChargePaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`
+	Swish              *ChargePaymentMethodDetailsSwish              `json:"swish,omitempty"`
+	TWINT              *ChargePaymentMethodDetailsTWINT              `json:"twint,omitempty"`
 	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
 	Type          ChargePaymentMethodDetailsType           `json:"type"`
-	Upi           *ChargePaymentMethodDetailsUpi           `json:"upi"`
-	USBankAccount *ChargePaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
-	WeChat        *ChargePaymentMethodDetailsWeChat        `json:"wechat"`
-	WeChatPay     *ChargePaymentMethodDetailsWeChatPay     `json:"wechat_pay"`
-	Zip           *ChargePaymentMethodDetailsZip           `json:"zip"`
+	Upi           *ChargePaymentMethodDetailsUpi           `json:"upi,omitempty"`
+	USBankAccount *ChargePaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
+	WeChat        *ChargePaymentMethodDetailsWeChat        `json:"wechat,omitempty"`
+	WeChatPay     *ChargePaymentMethodDetailsWeChatPay     `json:"wechat_pay,omitempty"`
+	Zip           *ChargePaymentMethodDetailsZip           `json:"zip,omitempty"`
 }
 type ChargePresentmentDetails struct {
 	// Amount intended to be collected by this payment, denominated in `presentment_currency`.
@@ -1829,7 +1829,7 @@ type ChargePresentmentDetails struct {
 // Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type ChargeRadarOptions struct {
 	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
-	Session string `json:"session"`
+	Session string `json:"session,omitempty"`
 }
 
 // An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
@@ -1858,7 +1858,7 @@ type Charge struct {
 	// The amount of the application fee (if any) requested for the charge. [See the Connect documentation](https://docs.stripe.com/connect/direct-charges#collect-fees) for details.
 	ApplicationFeeAmount int64 `json:"application_fee_amount"`
 	// Authorization code on the charge.
-	AuthorizationCode string `json:"authorization_code"`
+	AuthorizationCode string `json:"authorization_code,omitempty"`
 	// ID of the balance transaction that describes the impact of this charge on your account balance (not including refunds or disputes).
 	BalanceTransaction *BalanceTransaction   `json:"balance_transaction"`
 	BillingDetails     *ChargeBillingDetails `json:"billing_details"`
@@ -1886,7 +1886,7 @@ type Charge struct {
 	FraudDetails *ChargeFraudDetails `json:"fraud_details"`
 	// Unique identifier for the object.
 	ID     string        `json:"id"`
-	Level3 *ChargeLevel3 `json:"level3"`
+	Level3 *ChargeLevel3 `json:"level3,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -1905,9 +1905,9 @@ type Charge struct {
 	PaymentMethod string `json:"payment_method"`
 	// Details about the payment method at the time of the transaction.
 	PaymentMethodDetails *ChargePaymentMethodDetails `json:"payment_method_details"`
-	PresentmentDetails   *ChargePresentmentDetails   `json:"presentment_details"`
+	PresentmentDetails   *ChargePresentmentDetails   `json:"presentment_details,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
-	RadarOptions *ChargeRadarOptions `json:"radar_options"`
+	RadarOptions *ChargeRadarOptions `json:"radar_options,omitempty"`
 	// This is the email address that the receipt for this charge was sent to.
 	ReceiptEmail string `json:"receipt_email"`
 	// This is the transaction number that appears on email receipts sent for this charge. This attribute will be `null` until a receipt has been sent.
@@ -1917,7 +1917,7 @@ type Charge struct {
 	// Whether the charge has been fully refunded. If the charge is only partially refunded, this attribute will still be false.
 	Refunded bool `json:"refunded"`
 	// A list of refunds that have been applied to the charge.
-	Refunds *RefundList `json:"refunds"`
+	Refunds *RefundList `json:"refunds,omitempty"`
 	// ID of the review associated with this charge if one exists.
 	Review *Review `json:"review"`
 	// Shipping information for the charge.
@@ -1935,7 +1935,7 @@ type Charge struct {
 	// The status of the payment is either `succeeded`, `pending`, or `failed`.
 	Status ChargeStatus `json:"status"`
 	// ID of the transfer to the `destination` account (only applicable if the charge was created using the `destination` parameter).
-	Transfer *Transfer `json:"transfer"`
+	Transfer *Transfer `json:"transfer,omitempty"`
 	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 	TransferData *ChargeTransferData `json:"transfer_data"`
 	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.

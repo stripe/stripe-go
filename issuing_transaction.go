@@ -58,17 +58,17 @@ const (
 type IssuingTransactionListParams struct {
 	ListParams `form:"*"`
 	// Only return transactions that belong to the given card.
-	Card *string `form:"card"`
+	Card *string `form:"card" json:"card,omitempty"`
 	// Only return transactions that belong to the given cardholder.
-	Cardholder *string `form:"cardholder"`
+	Cardholder *string `form:"cardholder" json:"cardholder,omitempty"`
 	// Only return transactions that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return transactions that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return transactions that have the given type. One of `capture` or `refund`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -80,9 +80,9 @@ func (p *IssuingTransactionListParams) AddExpand(f string) {
 type IssuingTransactionParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                    `form:"metadata"`
+	Metadata    map[string]string                    `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []IssuingTransactionParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -116,7 +116,7 @@ func (p *IssuingTransactionParams) AddMetadata(key string, value string) {
 type IssuingTransactionRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -128,9 +128,9 @@ func (p *IssuingTransactionRetrieveParams) AddExpand(f string) {
 type IssuingTransactionUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                          `form:"metadata"`
+	Metadata    map[string]string                          `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []IssuingTransactionUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -363,11 +363,11 @@ type IssuingTransaction struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Additional purchase information that is optionally provided by the merchant.
-	PurchaseDetails *IssuingTransactionPurchaseDetails `json:"purchase_details"`
+	PurchaseDetails *IssuingTransactionPurchaseDetails `json:"purchase_details,omitempty"`
 	// [Token](https://docs.stripe.com/api/issuing/tokens/object) object used for this transaction. If a network token was not used for this transaction, this field will be null.
-	Token *IssuingToken `json:"token"`
+	Token *IssuingToken `json:"token,omitempty"`
 	// [Treasury](https://docs.stripe.com/api/treasury) details related to this transaction if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
-	Treasury *IssuingTransactionTreasury `json:"treasury"`
+	Treasury *IssuingTransactionTreasury `json:"treasury,omitempty"`
 	// The nature of the transaction.
 	Type IssuingTransactionType `json:"type"`
 	// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`.

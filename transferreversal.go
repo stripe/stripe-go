@@ -13,7 +13,7 @@ type TransferReversalListParams struct {
 	ListParams `form:"*"`
 	ID         *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -30,15 +30,15 @@ type TransferReversalParams struct {
 	Params `form:"*"`
 	ID     *string `form:"-"` // Included in URL
 	// A positive integer in cents (or local equivalent) representing how much of this transfer to reverse. Can only reverse up to the unreversed amount remaining of the transfer. Partial transfer reversals are only allowed for transfers to Stripe Accounts. Defaults to the entire transfer amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// An arbitrary string which you can attach to a reversal object. This will be unset if you POST an empty value.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Boolean indicating whether the application fee should be refunded when reversing this transfer. If a full transfer reversal is given, the full application fee will be refunded. Otherwise, the application fee will be refunded with an amount proportional to the amount of the transfer reversed.
-	RefundApplicationFee *bool                              `form:"refund_application_fee"`
+	RefundApplicationFee *bool                              `form:"refund_application_fee" json:"refund_application_fee,omitempty"`
 	UnsetFields          []TransferReversalParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -77,15 +77,15 @@ type TransferReversalCreateParams struct {
 	Params `form:"*"`
 	ID     *string `form:"-"` // Included in URL
 	// A positive integer in cents (or local equivalent) representing how much of this transfer to reverse. Can only reverse up to the unreversed amount remaining of the transfer. Partial transfer reversals are only allowed for transfers to Stripe Accounts. Defaults to the entire transfer amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// An arbitrary string which you can attach to a reversal object. This will be unset if you POST an empty value.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Boolean indicating whether the application fee should be refunded when reversing this transfer. If a full transfer reversal is given, the full application fee will be refunded. Otherwise, the application fee will be refunded with an amount proportional to the amount of the transfer reversed.
-	RefundApplicationFee *bool                                    `form:"refund_application_fee"`
+	RefundApplicationFee *bool                                    `form:"refund_application_fee" json:"refund_application_fee,omitempty"`
 	UnsetFields          []TransferReversalCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -120,7 +120,7 @@ type TransferReversalRetrieveParams struct {
 	Params `form:"*"`
 	ID     *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -135,9 +135,9 @@ type TransferReversalUpdateParams struct {
 	Params `form:"*"`
 	ID     *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                        `form:"metadata"`
+	Metadata    map[string]string                        `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []TransferReversalUpdateParamsUnsetField `form:"-" json:"-"`
 }
 

@@ -340,9 +340,9 @@ const (
 // Details about why this subscription was cancelled
 type SubscriptionCancelCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
-	Comment *string `form:"comment"`
+	Comment *string `form:"comment" json:"comment,omitempty"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
-	Feedback    *string                                                 `form:"feedback"`
+	Feedback    *string                                                 `form:"feedback" json:"feedback,omitempty"`
 	UnsetFields []SubscriptionCancelCancellationDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -367,13 +367,13 @@ func (p *SubscriptionCancelCancellationDetailsParams) AddUnsetField(field Subscr
 type SubscriptionCancelParams struct {
 	Params `form:"*"`
 	// Details about why this subscription was cancelled
-	CancellationDetails *SubscriptionCancelCancellationDetailsParams `form:"cancellation_details"`
+	CancellationDetails *SubscriptionCancelCancellationDetailsParams `form:"cancellation_details" json:"cancellation_details,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Will generate a final invoice that invoices for any un-invoiced metered usage and new/pending proration invoice items. Defaults to `false`.
-	InvoiceNow *bool `form:"invoice_now"`
+	InvoiceNow *bool `form:"invoice_now" json:"invoice_now,omitempty"`
 	// Will generate a proration invoice item that credits remaining unused time until the subscription period end. Defaults to `false`.
-	Prorate *bool `form:"prorate"`
+	Prorate *bool `form:"prorate" json:"prorate,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -385,65 +385,65 @@ func (p *SubscriptionCancelParams) AddExpand(f string) {
 type SubscriptionParams struct {
 	Params `form:"*"`
 	// A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
-	AddInvoiceItems []*SubscriptionAddInvoiceItemParams `form:"add_invoice_items"`
+	AddInvoiceItems []*SubscriptionAddInvoiceItemParams `form:"add_invoice_items" json:"add_invoice_items,omitempty"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
-	ApplicationFeePercent *float64 `form:"application_fee_percent"`
+	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
 	// Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
-	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax"`
+	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// A past timestamp to backdate the subscription's start date to. If set, the first invoice will contain line items for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
-	BackdateStartDate *int64 `form:"backdate_start_date"`
+	BackdateStartDate *int64 `form:"backdate_start_date" json:"backdate_start_date,omitempty"`
 	// A future timestamp in UTC format to anchor the subscription's [billing cycle](https://docs.stripe.com/subscriptions/billing-cycle). The anchor is the reference point that aligns future billing cycle dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals.
-	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
+	BillingCycleAnchor *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurrence of the day_of_month at the hour, minute, and second UTC.
-	BillingCycleAnchorConfig    *SubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
+	BillingCycleAnchorConfig    *SubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config" json:"billing_cycle_anchor_config,omitempty"`
 	BillingCycleAnchorNow       *bool                                       `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *SubscriptionBillingModeParams `form:"billing_mode"`
+	BillingMode *SubscriptionBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
-	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
+	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt             *int64 `form:"cancel_at"`
+	CancelAt             *int64 `form:"cancel_at" json:"cancel_at,omitempty"`
 	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
-	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
+	CancelAtPeriodEnd *bool `form:"cancel_at_period_end" json:"cancel_at_period_end,omitempty"`
 	// Details about why this subscription was cancelled
-	CancellationDetails *SubscriptionCancellationDetailsParams `form:"cancellation_details"`
+	CancellationDetails *SubscriptionCancellationDetailsParams `form:"cancellation_details" json:"cancellation_details,omitempty"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
-	CollectionMethod *string `form:"collection_method"`
+	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The identifier of the customer to subscribe.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The identifier of the account representing the customer to subscribe.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// Number of days a customer has to pay invoices generated by this subscription. Valid only for subscriptions where `collection_method` is set to `send_invoice`.
-	DaysUntilDue *int64 `form:"days_until_due"`
+	DaysUntilDue *int64 `form:"days_until_due" json:"days_until_due,omitempty"`
 	// ID of the default payment method for the subscription. It must belong to the customer associated with the subscription. This takes precedence over `default_source`. If neither are set, invoices will use the customer's [invoice_settings.default_payment_method](https://docs.stripe.com/api/customers/object#customer_object-invoice_settings-default_payment_method) or [default_source](https://docs.stripe.com/api/customers/object#customer_object-default_source).
-	DefaultPaymentMethod *string `form:"default_payment_method"`
+	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
 	// ID of the default payment source for the subscription. It must belong to the customer associated with the subscription and be in a chargeable state. If `default_payment_method` is also set, `default_payment_method` will take precedence. If neither are set, invoices will use the customer's [invoice_settings.default_payment_method](https://docs.stripe.com/api/customers/object#customer_object-invoice_settings-default_payment_method) or [default_source](https://docs.stripe.com/api/customers/object#customer_object-default_source).
-	DefaultSource *string `form:"default_source"`
+	DefaultSource *string `form:"default_source" json:"default_source,omitempty"`
 	// The tax rates that will apply to any subscription item that does not have `tax_rates` set. Invoices created will have their `default_tax_rates` populated from the subscription. Pass an empty string to remove previously-defined tax rates.
-	DefaultTaxRates []*string `form:"default_tax_rates"`
+	DefaultTaxRates []*string `form:"default_tax_rates" json:"default_tax_rates,omitempty"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
-	Discounts []*SubscriptionDiscountParams `form:"discounts"`
+	Discounts []*SubscriptionDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// All invoices will be billed using the specified settings.
-	InvoiceSettings *SubscriptionInvoiceSettingsParams `form:"invoice_settings"`
+	InvoiceSettings *SubscriptionInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
 	// A list of up to 20 subscription items, each with an attached price.
-	Items []*SubscriptionItemsParams `form:"items"`
+	Items []*SubscriptionItemsParams `form:"items" json:"items,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Indicates if a customer is on or off-session while an invoice payment is attempted. Defaults to `false` (on-session).
-	OffSession *bool `form:"off_session"`
+	OffSession *bool `form:"off_session" json:"off_session,omitempty"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
-	PauseCollection *SubscriptionPauseCollectionParams `form:"pause_collection"`
+	PauseCollection *SubscriptionPauseCollectionParams `form:"pause_collection" json:"pause_collection,omitempty"`
 	// Only applies to subscriptions with `collection_method=charge_automatically`.
 	//
 	// Use `allow_incomplete` to create Subscriptions with `status=incomplete` if the first invoice can't be paid. Creating Subscriptions with this status allows you to manage scenarios where additional customer actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.
@@ -455,26 +455,26 @@ type SubscriptionParams struct {
 	// `pending_if_incomplete` is only used with updates and cannot be passed when creating a Subscription.
 	//
 	// Subscriptions with `collection_method=send_invoice` are automatically activated regardless of the first Invoice status.
-	PaymentBehavior *string `form:"payment_behavior"`
+	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// Payment settings to pass to invoices created by the subscription.
-	PaymentSettings *SubscriptionPaymentSettingsParams `form:"payment_settings"`
+	PaymentSettings *SubscriptionPaymentSettingsParams `form:"payment_settings" json:"payment_settings,omitempty"`
 	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
-	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
+	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval" json:"pending_invoice_item_interval,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// If set, prorations will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint. `proration_date` can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
-	ProrationDate *int64 `form:"proration_date"`
+	ProrationDate *int64 `form:"proration_date" json:"proration_date,omitempty"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges. This will be unset if you POST an empty value.
-	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
+	TransferData *SubscriptionTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, `trial_end` will override the default trial period of the plan the customer is being subscribed to. The `billing_cycle_anchor` will be updated to the `trial_end` value. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`.
-	TrialEnd    *int64 `form:"trial_end"`
+	TrialEnd    *int64 `form:"trial_end" json:"trial_end,omitempty"`
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
-	TrialFromPlan *bool `form:"trial_from_plan"`
+	TrialFromPlan *bool `form:"trial_from_plan" json:"trial_from_plan,omitempty"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
-	TrialPeriodDays *int64 `form:"trial_period_days"`
+	TrialPeriodDays *int64 `form:"trial_period_days" json:"trial_period_days,omitempty"`
 	// Settings related to subscription trials.
-	TrialSettings *SubscriptionTrialSettingsParams `form:"trial_settings"`
+	TrialSettings *SubscriptionTrialSettingsParams `form:"trial_settings" json:"trial_settings,omitempty"`
 	UnsetFields   []SubscriptionParamsUnsetField   `form:"-" json:"-"`
 }
 
@@ -537,53 +537,53 @@ func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
 // The coupons to redeem into discounts for the item.
 type SubscriptionAddInvoiceItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // End of the invoice item period.
 type SubscriptionAddInvoiceItemPeriodEndParams struct {
 	// A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// Select how to calculate the end of the invoice item period.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Start of the invoice item period.
 type SubscriptionAddInvoiceItemPeriodStartParams struct {
 	// A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// Select how to calculate the start of the invoice item period.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 type SubscriptionAddInvoiceItemPeriodParams struct {
 	// End of the invoice item period.
-	End *SubscriptionAddInvoiceItemPeriodEndParams `form:"end"`
+	End *SubscriptionAddInvoiceItemPeriodEndParams `form:"end" json:"end"`
 	// Start of the invoice item period.
-	Start *SubscriptionAddInvoiceItemPeriodStartParams `form:"start"`
+	Start *SubscriptionAddInvoiceItemPeriodStartParams `form:"start" json:"start"`
 }
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
 type SubscriptionAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
-	Discounts []*SubscriptionAddInvoiceItemDiscountParams `form:"discounts"`
+	Discounts []*SubscriptionAddInvoiceItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
-	Period *SubscriptionAddInvoiceItemPeriodParams `form:"period"`
+	Period *SubscriptionAddInvoiceItemPeriodParams `form:"period" json:"period,omitempty"`
 	// The ID of the price object. One of `price` or `price_data` is required.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
-	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
+	PriceData *InvoiceItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item. Defaults to 1.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
-	TaxRates    []*string                                    `form:"tax_rates"`
+	TaxRates    []*string                                    `form:"tax_rates" json:"tax_rates,omitempty"`
 	UnsetFields []SubscriptionAddInvoiceItemParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -611,33 +611,33 @@ func (p *SubscriptionAddInvoiceItemParams) AddMetadata(key string, value string)
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type SubscriptionAutomaticTaxLiabilityParams struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// Type of the account referenced in the request.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
 type SubscriptionAutomaticTaxParams struct {
 	// Enabled automatic tax calculation which will automatically compute tax rates on all invoices generated by the subscription.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
-	Liability *SubscriptionAutomaticTaxLiabilityParams `form:"liability"`
+	Liability *SubscriptionAutomaticTaxLiabilityParams `form:"liability" json:"liability,omitempty"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 type SubscriptionBillingThresholdsParams struct {
 	// Monetary threshold that triggers the subscription to advance to a new billing period
-	AmountGTE *int64 `form:"amount_gte"`
+	AmountGTE *int64 `form:"amount_gte" json:"amount_gte,omitempty"`
 	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
-	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor" json:"reset_billing_cycle_anchor,omitempty"`
 }
 
 // Details about why this subscription was cancelled
 type SubscriptionCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
-	Comment *string `form:"comment"`
+	Comment *string `form:"comment" json:"comment,omitempty"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
-	Feedback    *string                                           `form:"feedback"`
+	Feedback    *string                                           `form:"feedback" json:"feedback,omitempty"`
 	UnsetFields []SubscriptionCancellationDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -657,27 +657,27 @@ func (p *SubscriptionCancellationDetailsParams) AddUnsetField(field Subscription
 // The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
 type SubscriptionDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type SubscriptionInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// Type of the account referenced in the request.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // All invoices will be billed using the specified settings.
 type SubscriptionInvoiceSettingsParams struct {
 	// The account tax IDs associated with the subscription. Will be set on invoices generated by the subscription.
-	AccountTaxIDs []*string `form:"account_tax_ids"`
+	AccountTaxIDs []*string `form:"account_tax_ids" json:"account_tax_ids,omitempty"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer      *SubscriptionInvoiceSettingsIssuerParams      `form:"issuer"`
+	Issuer      *SubscriptionInvoiceSettingsIssuerParams      `form:"issuer" json:"issuer,omitempty"`
 	UnsetFields []SubscriptionInvoiceSettingsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -697,27 +697,27 @@ func (p *SubscriptionInvoiceSettingsParams) AddUnsetField(field SubscriptionInvo
 type SubscriptionItemsParams struct {
 	Params `form:"*"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
-	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
+	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
 	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
-	ClearUsage *bool `form:"clear_usage"`
+	ClearUsage *bool `form:"clear_usage" json:"clear_usage,omitempty"`
 	// A flag that, if set to `true`, will delete the specified item.
-	Deleted *bool `form:"deleted"`
+	Deleted *bool `form:"deleted" json:"deleted,omitempty"`
 	// The coupons to redeem into discounts for the subscription item.
-	Discounts []*SubscriptionItemDiscountParams `form:"discounts"`
+	Discounts []*SubscriptionItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Subscription item to update.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Plan ID for this item, as a string.
-	Plan *string `form:"plan"`
+	Plan *string `form:"plan" json:"plan,omitempty"`
 	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
-	PriceData *SubscriptionItemPriceDataParams `form:"price_data"`
+	PriceData *SubscriptionItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
-	TaxRates    []*string                           `form:"tax_rates"`
+	TaxRates    []*string                           `form:"tax_rates" json:"tax_rates,omitempty"`
 	UnsetFields []SubscriptionItemsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -748,71 +748,71 @@ func (p *SubscriptionItemsParams) AddMetadata(key string, value string) {
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionPauseCollectionParams struct {
 	// The payment collection behavior for this subscription while paused.
-	Behavior *string `form:"behavior"`
+	Behavior *string `form:"behavior" json:"behavior"`
 	// The time after which the subscription will resume collecting payments.
-	ResumesAt *int64 `form:"resumes_at"`
+	ResumesAt *int64 `form:"resumes_at" json:"resumes_at,omitempty"`
 }
 
 // Additional fields for Mandate creation
 type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// Transaction type of the mandate.
-	TransactionType *string `form:"transaction_type"`
+	TransactionType *string `form:"transaction_type" json:"transaction_type,omitempty"`
 }
 
 // This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Verification method for the intent
-	VerificationMethod *string `form:"verification_method"`
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
 // This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
-	PreferredLanguage *string `form:"preferred_language"`
+	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 }
 
 // This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardParams struct {
 	// Configuration options for setting up an eMandate for cards issued in India.
-	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Selected network to process this Subscription on. Depends on the available networks of the card attached to the Subscription. Can be only set confirm-time.
-	Network *string `form:"network"`
+	Network *string `form:"network" json:"network,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
-	RequestThreeDSecure *string `form:"request_three_d_secure"`
+	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
 }
 
 // Configuration for eu_bank_transfer funding type.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country"`
 }
 
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
 	// Configuration for eu_bank_transfer funding type.
-	EUBankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
+	EUBankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer" json:"eu_bank_transfer,omitempty"`
 	// The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
 	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
-	BankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
+	BankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer" json:"bank_transfer,omitempty"`
 	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
-	FundingType *string `form:"funding_type"`
+	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 }
 
 // This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
@@ -821,15 +821,15 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 // Additional fields for Mandate creation.
 type SubscriptionPaymentSettingsPaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// The maximum amount that can be collected in a single invoice. If you don't specify a maximum, then there is no limit.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The purpose for which payments are made. Has a default value based on your merchant category code.
-	Purpose *string `form:"purpose"`
+	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 }
 
 // This sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsPaytoParams struct {
 	// Additional fields for Mandate creation.
-	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
@@ -838,45 +838,45 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
-	AccountSubcategories []*string `form:"account_subcategories"`
+	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
 }
 
 // Additional fields for Financial Connections Session creation
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// Provide filters for the linked accounts that the customer can select for the payment method.
-	Filters *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters"`
+	Filters *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters" json:"filters,omitempty"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
-	Permissions []*string `form:"permissions"`
+	Permissions []*string `form:"permissions" json:"permissions,omitempty"`
 	// List of data features that you would like to retrieve upon account creation.
-	Prefetch []*string `form:"prefetch"`
+	Prefetch []*string `form:"prefetch" json:"prefetch,omitempty"`
 }
 
 // This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams struct {
 	// Additional fields for Financial Connections Session creation
-	FinancialConnections *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
+	FinancialConnections *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections" json:"financial_connections,omitempty"`
 	// Verification method for the intent
-	VerificationMethod *string `form:"verification_method"`
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
-	ACSSDebit *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+	ACSSDebit *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
-	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
-	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
+	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
-	CustomerBalance *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	CustomerBalance *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
-	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
+	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
-	Payto *SubscriptionPaymentSettingsPaymentMethodOptionsPaytoParams `form:"payto"`
+	Payto *SubscriptionPaymentSettingsPaymentMethodOptionsPaytoParams `form:"payto" json:"payto,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
-	SEPADebit *SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	SEPADebit *SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
-	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	UnsetFields   []SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
 }
 
@@ -902,11 +902,11 @@ func (p *SubscriptionPaymentSettingsPaymentMethodOptionsParams) AddUnsetField(fi
 // Payment settings to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsParams struct {
 	// Payment-method-specific configuration to provide to invoices created by the subscription.
-	PaymentMethodOptions *SubscriptionPaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodOptions *SubscriptionPaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
-	PaymentMethodTypes []*string `form:"payment_method_types"`
+	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// Configure whether Stripe updates `subscription.default_payment_method` when payment succeeds. Defaults to `off` if unspecified.
-	SaveDefaultPaymentMethod *string                                       `form:"save_default_payment_method"`
+	SaveDefaultPaymentMethod *string                                       `form:"save_default_payment_method" json:"save_default_payment_method,omitempty"`
 	UnsetFields              []SubscriptionPaymentSettingsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -925,29 +925,29 @@ func (p *SubscriptionPaymentSettingsParams) AddUnsetField(field SubscriptionPaym
 // Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 type SubscriptionPendingInvoiceItemIntervalParams struct {
 	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges. This will be unset if you POST an empty value.
 type SubscriptionTransferDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
-	AmountPercent *float64 `form:"amount_percent"`
+	AmountPercent *float64 `form:"amount_percent" json:"amount_percent,omitempty"`
 	// ID of an existing, connected Stripe account.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 
 // Defines how the subscription should behave when the user's free trial ends.
 type SubscriptionTrialSettingsEndBehaviorParams struct {
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
-	MissingPaymentMethod *string `form:"missing_payment_method"`
+	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
 }
 
 // Settings related to subscription trials.
 type SubscriptionTrialSettingsParams struct {
 	// Defines how the subscription should behave when the user's free trial ends.
-	EndBehavior *SubscriptionTrialSettingsEndBehaviorParams `form:"end_behavior"`
+	EndBehavior *SubscriptionTrialSettingsEndBehaviorParams `form:"end_behavior" json:"end_behavior"`
 }
 
 // Removes the currently applied discount on a subscription.
@@ -958,42 +958,42 @@ type SubscriptionDeleteDiscountParams struct {
 // Filter subscriptions by their automatic tax settings.
 type SubscriptionListAutomaticTaxParams struct {
 	// Enabled automatic tax calculation which will automatically compute tax rates on all invoices generated by the subscription.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
 // By default, returns a list of subscriptions that have not been canceled. In order to list canceled subscriptions, specify status=canceled.
 type SubscriptionListParams struct {
 	ListParams `form:"*"`
 	// Filter subscriptions by their automatic tax settings.
-	AutomaticTax *SubscriptionListAutomaticTaxParams `form:"automatic_tax"`
+	AutomaticTax *SubscriptionListAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// The collection method of the subscriptions to retrieve. Either `charge_automatically` or `send_invoice`.
-	CollectionMethod *string `form:"collection_method"`
+	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// Only return subscriptions that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return subscriptions that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Only return subscriptions whose minimum item current_period_end falls within the given date interval.
-	CurrentPeriodEnd *int64 `form:"current_period_end"`
+	CurrentPeriodEnd *int64 `form:"current_period_end" json:"current_period_end,omitempty"`
 	// Only return subscriptions whose minimum item current_period_end falls within the given date interval.
-	CurrentPeriodEndRange *RangeQueryParams `form:"current_period_end"`
+	CurrentPeriodEndRange *RangeQueryParams `form:"current_period_end" json:"-"`
 	// Only return subscriptions whose maximum item current_period_start falls within the given date interval.
-	CurrentPeriodStart *int64 `form:"current_period_start"`
+	CurrentPeriodStart *int64 `form:"current_period_start" json:"current_period_start,omitempty"`
 	// Only return subscriptions whose maximum item current_period_start falls within the given date interval.
-	CurrentPeriodStartRange *RangeQueryParams `form:"current_period_start"`
+	CurrentPeriodStartRange *RangeQueryParams `form:"current_period_start" json:"-"`
 	// The ID of the customer whose subscriptions you're retrieving.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The ID of the account representing the customer whose subscriptions you're retrieving.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The ID of the plan whose subscriptions will be retrieved.
-	Plan *string `form:"plan"`
+	Plan *string `form:"plan" json:"plan,omitempty"`
 	// Filter for subscriptions that contain this recurring price ID.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// The status of the subscriptions to retrieve. Passing in a value of `canceled` will return all canceled subscriptions, including those belonging to deleted customers. Pass `ended` to find subscriptions that are canceled and subscriptions that are expired due to [incomplete payment](https://docs.stripe.com/billing/subscriptions/overview#subscription-statuses). Passing in a value of `all` will return subscriptions of all statuses. If no value is supplied, all subscriptions that have not been canceled are returned.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 	// Filter for subscriptions that are associated with the specified test clock. The response will not include subscriptions with test clocks if this and the customer parameter is not set.
-	TestClock *string `form:"test_clock"`
+	TestClock *string `form:"test_clock" json:"test_clock,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1004,29 +1004,29 @@ func (p *SubscriptionListParams) AddExpand(f string) {
 // Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurrence of the day_of_month at the hour, minute, and second UTC.
 type SubscriptionBillingCycleAnchorConfigParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configure behavior for flexible billing mode.
 type SubscriptionBillingModeFlexibleParams struct {
 	// Controls how invoices and invoice items display proration amounts and discount amounts.
-	ProrationDiscounts *string `form:"proration_discounts"`
+	ProrationDiscounts *string `form:"proration_discounts" json:"proration_discounts,omitempty"`
 }
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionBillingModeParams struct {
 	// Configure behavior for flexible billing mode.
-	Flexible *SubscriptionBillingModeFlexibleParams `form:"flexible"`
+	Flexible *SubscriptionBillingModeFlexibleParams `form:"flexible" json:"flexible,omitempty"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Search for subscriptions you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
@@ -1036,9 +1036,9 @@ type SubscriptionBillingModeParams struct {
 type SubscriptionSearchParams struct {
 	SearchParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
-	Page *string `form:"page"`
+	Page *string `form:"page" json:"page,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1049,24 +1049,24 @@ func (p *SubscriptionSearchParams) AddExpand(f string) {
 // Configure behavior for flexible billing mode.
 type SubscriptionMigrateBillingModeFlexibleParams struct {
 	// Controls how invoices and invoice items display proration amounts and discount amounts.
-	ProrationDiscounts *string `form:"proration_discounts"`
+	ProrationDiscounts *string `form:"proration_discounts" json:"proration_discounts,omitempty"`
 }
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionMigrateBillingModeParams struct {
 	// Configure behavior for flexible billing mode.
-	Flexible *SubscriptionMigrateBillingModeFlexibleParams `form:"flexible"`
+	Flexible *SubscriptionMigrateBillingModeFlexibleParams `form:"flexible" json:"flexible,omitempty"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Upgrade the billing_mode of an existing subscription.
 type SubscriptionMigrateParams struct {
 	Params `form:"*"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *SubscriptionMigrateBillingModeParams `form:"billing_mode"`
+	BillingMode *SubscriptionMigrateBillingModeParams `form:"billing_mode" json:"billing_mode"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1078,13 +1078,13 @@ func (p *SubscriptionMigrateParams) AddExpand(f string) {
 type SubscriptionResumeParams struct {
 	Params `form:"*"`
 	// The billing cycle anchor that applies when the subscription is resumed. Either `now` or `unchanged`. The default is `now`. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
-	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) resulting from the `billing_cycle_anchor` being `unchanged`. When the `billing_cycle_anchor` is set to `now` (default value), no prorations are generated. If no value is passed, the default is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// If set, prorations will be calculated as though the subscription was resumed at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint.
-	ProrationDate *int64 `form:"proration_date"`
+	ProrationDate *int64 `form:"proration_date" json:"proration_date,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1096,7 +1096,7 @@ func (p *SubscriptionResumeParams) AddExpand(f string) {
 type SubscriptionRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1107,53 +1107,53 @@ func (p *SubscriptionRetrieveParams) AddExpand(f string) {
 // The coupons to redeem into discounts for the item.
 type SubscriptionUpdateAddInvoiceItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // End of the invoice item period.
 type SubscriptionUpdateAddInvoiceItemPeriodEndParams struct {
 	// A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// Select how to calculate the end of the invoice item period.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Start of the invoice item period.
 type SubscriptionUpdateAddInvoiceItemPeriodStartParams struct {
 	// A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// Select how to calculate the start of the invoice item period.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 type SubscriptionUpdateAddInvoiceItemPeriodParams struct {
 	// End of the invoice item period.
-	End *SubscriptionUpdateAddInvoiceItemPeriodEndParams `form:"end"`
+	End *SubscriptionUpdateAddInvoiceItemPeriodEndParams `form:"end" json:"end"`
 	// Start of the invoice item period.
-	Start *SubscriptionUpdateAddInvoiceItemPeriodStartParams `form:"start"`
+	Start *SubscriptionUpdateAddInvoiceItemPeriodStartParams `form:"start" json:"start"`
 }
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
 type SubscriptionUpdateAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
-	Discounts []*SubscriptionUpdateAddInvoiceItemDiscountParams `form:"discounts"`
+	Discounts []*SubscriptionUpdateAddInvoiceItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
-	Period *SubscriptionUpdateAddInvoiceItemPeriodParams `form:"period"`
+	Period *SubscriptionUpdateAddInvoiceItemPeriodParams `form:"period" json:"period,omitempty"`
 	// The ID of the price object. One of `price` or `price_data` is required.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
-	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
+	PriceData *InvoiceItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item. Defaults to 1.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
-	TaxRates    []*string                                          `form:"tax_rates"`
+	TaxRates    []*string                                          `form:"tax_rates" json:"tax_rates,omitempty"`
 	UnsetFields []SubscriptionUpdateAddInvoiceItemParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1181,33 +1181,33 @@ func (p *SubscriptionUpdateAddInvoiceItemParams) AddMetadata(key string, value s
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type SubscriptionUpdateAutomaticTaxLiabilityParams struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// Type of the account referenced in the request.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
 type SubscriptionUpdateAutomaticTaxParams struct {
 	// Enabled automatic tax calculation which will automatically compute tax rates on all invoices generated by the subscription.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
-	Liability *SubscriptionUpdateAutomaticTaxLiabilityParams `form:"liability"`
+	Liability *SubscriptionUpdateAutomaticTaxLiabilityParams `form:"liability" json:"liability,omitempty"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 type SubscriptionUpdateBillingThresholdsParams struct {
 	// Monetary threshold that triggers the subscription to advance to a new billing period
-	AmountGTE *int64 `form:"amount_gte"`
+	AmountGTE *int64 `form:"amount_gte" json:"amount_gte,omitempty"`
 	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
-	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor" json:"reset_billing_cycle_anchor,omitempty"`
 }
 
 // Details about why this subscription was cancelled
 type SubscriptionUpdateCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
-	Comment *string `form:"comment"`
+	Comment *string `form:"comment" json:"comment,omitempty"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
-	Feedback    *string                                                 `form:"feedback"`
+	Feedback    *string                                                 `form:"feedback" json:"feedback,omitempty"`
 	UnsetFields []SubscriptionUpdateCancellationDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1227,27 +1227,27 @@ func (p *SubscriptionUpdateCancellationDetailsParams) AddUnsetField(field Subscr
 // The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
 type SubscriptionUpdateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type SubscriptionUpdateInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// Type of the account referenced in the request.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // All invoices will be billed using the specified settings.
 type SubscriptionUpdateInvoiceSettingsParams struct {
 	// The account tax IDs associated with the subscription. Will be set on invoices generated by the subscription.
-	AccountTaxIDs []*string `form:"account_tax_ids"`
+	AccountTaxIDs []*string `form:"account_tax_ids" json:"account_tax_ids,omitempty"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer      *SubscriptionUpdateInvoiceSettingsIssuerParams      `form:"issuer"`
+	Issuer      *SubscriptionUpdateInvoiceSettingsIssuerParams      `form:"issuer" json:"issuer,omitempty"`
 	UnsetFields []SubscriptionUpdateInvoiceSettingsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1266,67 +1266,67 @@ func (p *SubscriptionUpdateInvoiceSettingsParams) AddUnsetField(field Subscripti
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 type SubscriptionUpdateItemBillingThresholdsParams struct {
 	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://docs.stripe.com/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
-	UsageGTE *int64 `form:"usage_gte"`
+	UsageGTE *int64 `form:"usage_gte" json:"usage_gte"`
 }
 
 // The coupons to redeem into discounts for the subscription item.
 type SubscriptionUpdateItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
 type SubscriptionUpdateItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
 // Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 type SubscriptionUpdateItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
-	Recurring *SubscriptionUpdateItemPriceDataRecurringParams `form:"recurring"`
+	Recurring *SubscriptionUpdateItemPriceDataRecurringParams `form:"recurring" json:"recurring"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionUpdateItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
-	BillingThresholds *SubscriptionUpdateItemBillingThresholdsParams `form:"billing_thresholds"`
+	BillingThresholds *SubscriptionUpdateItemBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
 	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
-	ClearUsage *bool `form:"clear_usage"`
+	ClearUsage *bool `form:"clear_usage" json:"clear_usage,omitempty"`
 	// A flag that, if set to `true`, will delete the specified item.
-	Deleted *bool `form:"deleted"`
+	Deleted *bool `form:"deleted" json:"deleted,omitempty"`
 	// The coupons to redeem into discounts for the subscription item.
-	Discounts []*SubscriptionUpdateItemDiscountParams `form:"discounts"`
+	Discounts []*SubscriptionUpdateItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Subscription item to update.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Plan ID for this item, as a string.
-	Plan *string `form:"plan"`
+	Plan *string `form:"plan" json:"plan,omitempty"`
 	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
-	PriceData *SubscriptionUpdateItemPriceDataParams `form:"price_data"`
+	PriceData *SubscriptionUpdateItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
-	TaxRates    []*string                                `form:"tax_rates"`
+	TaxRates    []*string                                `form:"tax_rates" json:"tax_rates,omitempty"`
 	UnsetFields []SubscriptionUpdateItemParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1357,71 +1357,71 @@ func (p *SubscriptionUpdateItemParams) AddMetadata(key string, value string) {
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionUpdatePauseCollectionParams struct {
 	// The payment collection behavior for this subscription while paused.
-	Behavior *string `form:"behavior"`
+	Behavior *string `form:"behavior" json:"behavior"`
 	// The time after which the subscription will resume collecting payments.
-	ResumesAt *int64 `form:"resumes_at"`
+	ResumesAt *int64 `form:"resumes_at" json:"resumes_at,omitempty"`
 }
 
 // Additional fields for Mandate creation
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// Transaction type of the mandate.
-	TransactionType *string `form:"transaction_type"`
+	TransactionType *string `form:"transaction_type" json:"transaction_type,omitempty"`
 }
 
 // This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Verification method for the intent
-	VerificationMethod *string `form:"verification_method"`
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
 // This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
-	PreferredLanguage *string `form:"preferred_language"`
+	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 }
 
 // This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardParams struct {
 	// Configuration options for setting up an eMandate for cards issued in India.
-	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Selected network to process this Subscription on. Depends on the available networks of the card attached to the Subscription. Can be only set confirm-time.
-	Network *string `form:"network"`
+	Network *string `form:"network" json:"network,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
-	RequestThreeDSecure *string `form:"request_three_d_secure"`
+	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
 }
 
 // Configuration for eu_bank_transfer funding type.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country"`
 }
 
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
 	// Configuration for eu_bank_transfer funding type.
-	EUBankTransfer *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
+	EUBankTransfer *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer" json:"eu_bank_transfer,omitempty"`
 	// The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
 	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
-	BankTransfer *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
+	BankTransfer *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer" json:"bank_transfer,omitempty"`
 	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
-	FundingType *string `form:"funding_type"`
+	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 }
 
 // This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
@@ -1430,15 +1430,15 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 // Additional fields for Mandate creation.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// The maximum amount that can be collected in a single invoice. If you don't specify a maximum, then there is no limit.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The purpose for which payments are made. Has a default value based on your merchant category code.
-	Purpose *string `form:"purpose"`
+	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 }
 
 // This sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPaytoParams struct {
 	// Additional fields for Mandate creation.
-	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
@@ -1447,45 +1447,45 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
-	AccountSubcategories []*string `form:"account_subcategories"`
+	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
 }
 
 // Additional fields for Financial Connections Session creation
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// Provide filters for the linked accounts that the customer can select for the payment method.
-	Filters *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters"`
+	Filters *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters" json:"filters,omitempty"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
-	Permissions []*string `form:"permissions"`
+	Permissions []*string `form:"permissions" json:"permissions,omitempty"`
 	// List of data features that you would like to retrieve upon account creation.
-	Prefetch []*string `form:"prefetch"`
+	Prefetch []*string `form:"prefetch" json:"prefetch,omitempty"`
 }
 
 // This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams struct {
 	// Additional fields for Financial Connections Session creation
-	FinancialConnections *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
+	FinancialConnections *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections" json:"financial_connections,omitempty"`
 	// Verification method for the intent
-	VerificationMethod *string `form:"verification_method"`
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
-	ACSSDebit *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+	ACSSDebit *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
-	Bancontact *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	Bancontact *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
-	Card *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
+	Card *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
-	CustomerBalance *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	CustomerBalance *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
-	Konbini *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
+	Konbini *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
-	Payto *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPaytoParams `form:"payto"`
+	Payto *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPaytoParams `form:"payto" json:"payto,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
-	SEPADebit *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	SEPADebit *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
-	USBankAccount *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	USBankAccount *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	UnsetFields   []SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
 }
 
@@ -1511,11 +1511,11 @@ func (p *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams) AddUnsetFi
 // Payment settings to pass to invoices created by the subscription.
 type SubscriptionUpdatePaymentSettingsParams struct {
 	// Payment-method-specific configuration to provide to invoices created by the subscription.
-	PaymentMethodOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
-	PaymentMethodTypes []*string `form:"payment_method_types"`
+	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// Configure whether Stripe updates `subscription.default_payment_method` when payment succeeds. Defaults to `off` if unspecified.
-	SaveDefaultPaymentMethod *string                                             `form:"save_default_payment_method"`
+	SaveDefaultPaymentMethod *string                                             `form:"save_default_payment_method" json:"save_default_payment_method,omitempty"`
 	UnsetFields              []SubscriptionUpdatePaymentSettingsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1534,29 +1534,29 @@ func (p *SubscriptionUpdatePaymentSettingsParams) AddUnsetField(field Subscripti
 // Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 type SubscriptionUpdatePendingInvoiceItemIntervalParams struct {
 	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges. This will be unset if you POST an empty value.
 type SubscriptionUpdateTransferDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
-	AmountPercent *float64 `form:"amount_percent"`
+	AmountPercent *float64 `form:"amount_percent" json:"amount_percent,omitempty"`
 	// ID of an existing, connected Stripe account.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 
 // Defines how the subscription should behave when the user's free trial ends.
 type SubscriptionUpdateTrialSettingsEndBehaviorParams struct {
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
-	MissingPaymentMethod *string `form:"missing_payment_method"`
+	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
 }
 
 // Settings related to subscription trials.
 type SubscriptionUpdateTrialSettingsParams struct {
 	// Defines how the subscription should behave when the user's free trial ends.
-	EndBehavior *SubscriptionUpdateTrialSettingsEndBehaviorParams `form:"end_behavior"`
+	EndBehavior *SubscriptionUpdateTrialSettingsEndBehaviorParams `form:"end_behavior" json:"end_behavior"`
 }
 
 // Updates an existing subscription to match the specified parameters.
@@ -1581,53 +1581,53 @@ type SubscriptionUpdateTrialSettingsParams struct {
 type SubscriptionUpdateParams struct {
 	Params `form:"*"`
 	// A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
-	AddInvoiceItems []*SubscriptionUpdateAddInvoiceItemParams `form:"add_invoice_items"`
+	AddInvoiceItems []*SubscriptionUpdateAddInvoiceItemParams `form:"add_invoice_items" json:"add_invoice_items,omitempty"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
-	ApplicationFeePercent *float64 `form:"application_fee_percent"`
+	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
 	// Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
-	AutomaticTax *SubscriptionUpdateAutomaticTaxParams `form:"automatic_tax"`
+	AutomaticTax *SubscriptionUpdateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Either `now` or `unchanged`. Setting the value to `now` resets the subscription's billing cycle anchor to the current time (in UTC). For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
-	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor"`
+	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
-	BillingThresholds *SubscriptionUpdateBillingThresholdsParams `form:"billing_thresholds"`
+	BillingThresholds *SubscriptionUpdateBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt             *int64 `form:"cancel_at"`
+	CancelAt             *int64 `form:"cancel_at" json:"cancel_at,omitempty"`
 	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
-	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
+	CancelAtPeriodEnd *bool `form:"cancel_at_period_end" json:"cancel_at_period_end,omitempty"`
 	// Details about why this subscription was cancelled
-	CancellationDetails *SubscriptionUpdateCancellationDetailsParams `form:"cancellation_details"`
+	CancellationDetails *SubscriptionUpdateCancellationDetailsParams `form:"cancellation_details" json:"cancellation_details,omitempty"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
-	CollectionMethod *string `form:"collection_method"`
+	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// Number of days a customer has to pay invoices generated by this subscription. Valid only for subscriptions where `collection_method` is set to `send_invoice`.
-	DaysUntilDue *int64 `form:"days_until_due"`
+	DaysUntilDue *int64 `form:"days_until_due" json:"days_until_due,omitempty"`
 	// ID of the default payment method for the subscription. It must belong to the customer associated with the subscription. This takes precedence over `default_source`. If neither are set, invoices will use the customer's [invoice_settings.default_payment_method](https://docs.stripe.com/api/customers/object#customer_object-invoice_settings-default_payment_method) or [default_source](https://docs.stripe.com/api/customers/object#customer_object-default_source).
-	DefaultPaymentMethod *string `form:"default_payment_method"`
+	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
 	// ID of the default payment source for the subscription. It must belong to the customer associated with the subscription and be in a chargeable state. If `default_payment_method` is also set, `default_payment_method` will take precedence. If neither are set, invoices will use the customer's [invoice_settings.default_payment_method](https://docs.stripe.com/api/customers/object#customer_object-invoice_settings-default_payment_method) or [default_source](https://docs.stripe.com/api/customers/object#customer_object-default_source).
-	DefaultSource *string `form:"default_source"`
+	DefaultSource *string `form:"default_source" json:"default_source,omitempty"`
 	// The tax rates that will apply to any subscription item that does not have `tax_rates` set. Invoices created will have their `default_tax_rates` populated from the subscription. Pass an empty string to remove previously-defined tax rates.
-	DefaultTaxRates []*string `form:"default_tax_rates"`
+	DefaultTaxRates []*string `form:"default_tax_rates" json:"default_tax_rates,omitempty"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
-	Discounts []*SubscriptionUpdateDiscountParams `form:"discounts"`
+	Discounts []*SubscriptionUpdateDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// All invoices will be billed using the specified settings.
-	InvoiceSettings *SubscriptionUpdateInvoiceSettingsParams `form:"invoice_settings"`
+	InvoiceSettings *SubscriptionUpdateInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
 	// A list of up to 20 subscription items, each with an attached price.
-	Items []*SubscriptionUpdateItemParams `form:"items"`
+	Items []*SubscriptionUpdateItemParams `form:"items" json:"items,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Indicates if a customer is on or off-session while an invoice payment is attempted. Defaults to `false` (on-session).
-	OffSession *bool `form:"off_session"`
+	OffSession *bool `form:"off_session" json:"off_session,omitempty"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
-	PauseCollection *SubscriptionUpdatePauseCollectionParams `form:"pause_collection"`
+	PauseCollection *SubscriptionUpdatePauseCollectionParams `form:"pause_collection" json:"pause_collection,omitempty"`
 	// Use `allow_incomplete` to transition the subscription to `status=past_due` if a payment is required but cannot be paid. This allows you to manage scenarios where additional user actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.
 	//
 	// Use `default_incomplete` to transition the subscription to `status=past_due` when payment is required and await explicit confirmation of the invoice's payment intent. This allows simpler management of scenarios where additional user actions are needed to pay a subscription's invoice. Such as failed payments, [SCA regulation](https://docs.stripe.com/billing/migration/strong-customer-authentication), or collecting a mandate for a bank debit payment method.
@@ -1635,24 +1635,24 @@ type SubscriptionUpdateParams struct {
 	// Use `pending_if_incomplete` to update the subscription using [pending updates](https://docs.stripe.com/billing/subscriptions/pending-updates). When you use `pending_if_incomplete` you can only pass the parameters [supported by pending updates](https://docs.stripe.com/billing/pending-updates-reference#supported-attributes).
 	//
 	// Use `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not update the subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://docs.stripe.com/changelog/2019-03-14) to learn more.
-	PaymentBehavior *string `form:"payment_behavior"`
+	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// Payment settings to pass to invoices created by the subscription.
-	PaymentSettings *SubscriptionUpdatePaymentSettingsParams `form:"payment_settings"`
+	PaymentSettings *SubscriptionUpdatePaymentSettingsParams `form:"payment_settings" json:"payment_settings,omitempty"`
 	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
-	PendingInvoiceItemInterval *SubscriptionUpdatePendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
+	PendingInvoiceItemInterval *SubscriptionUpdatePendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval" json:"pending_invoice_item_interval,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// If set, prorations will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint. `proration_date` can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
-	ProrationDate *int64 `form:"proration_date"`
+	ProrationDate *int64 `form:"proration_date" json:"proration_date,omitempty"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges. This will be unset if you POST an empty value.
-	TransferData *SubscriptionUpdateTransferDataParams `form:"transfer_data"`
+	TransferData *SubscriptionUpdateTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, `trial_end` will override the default trial period of the plan the customer is being subscribed to. The `billing_cycle_anchor` will be updated to the `trial_end` value. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`.
-	TrialEnd    *int64 `form:"trial_end"`
+	TrialEnd    *int64 `form:"trial_end" json:"trial_end,omitempty"`
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
-	TrialFromPlan *bool `form:"trial_from_plan"`
+	TrialFromPlan *bool `form:"trial_from_plan" json:"trial_from_plan,omitempty"`
 	// Settings related to subscription trials.
-	TrialSettings *SubscriptionUpdateTrialSettingsParams `form:"trial_settings"`
+	TrialSettings *SubscriptionUpdateTrialSettingsParams `form:"trial_settings" json:"trial_settings,omitempty"`
 	UnsetFields   []SubscriptionUpdateParamsUnsetField   `form:"-" json:"-"`
 }
 
@@ -1715,53 +1715,53 @@ func (p *SubscriptionUpdateParams) AppendTo(body *form.Values, keyParts []string
 // The coupons to redeem into discounts for the item.
 type SubscriptionCreateAddInvoiceItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // End of the invoice item period.
 type SubscriptionCreateAddInvoiceItemPeriodEndParams struct {
 	// A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// Select how to calculate the end of the invoice item period.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Start of the invoice item period.
 type SubscriptionCreateAddInvoiceItemPeriodStartParams struct {
 	// A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// Select how to calculate the start of the invoice item period.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
 type SubscriptionCreateAddInvoiceItemPeriodParams struct {
 	// End of the invoice item period.
-	End *SubscriptionCreateAddInvoiceItemPeriodEndParams `form:"end"`
+	End *SubscriptionCreateAddInvoiceItemPeriodEndParams `form:"end" json:"end"`
 	// Start of the invoice item period.
-	Start *SubscriptionCreateAddInvoiceItemPeriodStartParams `form:"start"`
+	Start *SubscriptionCreateAddInvoiceItemPeriodStartParams `form:"start" json:"start"`
 }
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
 type SubscriptionCreateAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
-	Discounts []*SubscriptionCreateAddInvoiceItemDiscountParams `form:"discounts"`
+	Discounts []*SubscriptionCreateAddInvoiceItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The period associated with this invoice item. If not set, `period.start.type` defaults to `max_item_period_start` and `period.end.type` defaults to `min_item_period_end`.
-	Period *SubscriptionCreateAddInvoiceItemPeriodParams `form:"period"`
+	Period *SubscriptionCreateAddInvoiceItemPeriodParams `form:"period" json:"period,omitempty"`
 	// The ID of the price object. One of `price` or `price_data` is required.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
-	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
+	PriceData *InvoiceItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item. Defaults to 1.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
-	TaxRates    []*string                                          `form:"tax_rates"`
+	TaxRates    []*string                                          `form:"tax_rates" json:"tax_rates,omitempty"`
 	UnsetFields []SubscriptionCreateAddInvoiceItemParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1789,79 +1789,79 @@ func (p *SubscriptionCreateAddInvoiceItemParams) AddMetadata(key string, value s
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type SubscriptionCreateAutomaticTaxLiabilityParams struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// Type of the account referenced in the request.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Automatic tax settings for this subscription.
 type SubscriptionCreateAutomaticTaxParams struct {
 	// Enabled automatic tax calculation which will automatically compute tax rates on all invoices generated by the subscription.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
-	Liability *SubscriptionCreateAutomaticTaxLiabilityParams `form:"liability"`
+	Liability *SubscriptionCreateAutomaticTaxLiabilityParams `form:"liability" json:"liability,omitempty"`
 }
 
 // Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurrence of the day_of_month at the hour, minute, and second UTC.
 type SubscriptionCreateBillingCycleAnchorConfigParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configure behavior for flexible billing mode.
 type SubscriptionCreateBillingModeFlexibleParams struct {
 	// Controls how invoices and invoice items display proration amounts and discount amounts.
-	ProrationDiscounts *string `form:"proration_discounts"`
+	ProrationDiscounts *string `form:"proration_discounts" json:"proration_discounts,omitempty"`
 }
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionCreateBillingModeParams struct {
 	// Configure behavior for flexible billing mode.
-	Flexible *SubscriptionCreateBillingModeFlexibleParams `form:"flexible"`
+	Flexible *SubscriptionCreateBillingModeFlexibleParams `form:"flexible" json:"flexible,omitempty"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 type SubscriptionCreateBillingThresholdsParams struct {
 	// Monetary threshold that triggers the subscription to advance to a new billing period
-	AmountGTE *int64 `form:"amount_gte"`
+	AmountGTE *int64 `form:"amount_gte" json:"amount_gte,omitempty"`
 	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
-	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor" json:"reset_billing_cycle_anchor,omitempty"`
 }
 
 // The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
 type SubscriptionCreateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type SubscriptionCreateInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// Type of the account referenced in the request.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // All invoices will be billed using the specified settings.
 type SubscriptionCreateInvoiceSettingsParams struct {
 	// The account tax IDs associated with the subscription. Will be set on invoices generated by the subscription.
-	AccountTaxIDs []*string `form:"account_tax_ids"`
+	AccountTaxIDs []*string `form:"account_tax_ids" json:"account_tax_ids,omitempty"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer      *SubscriptionCreateInvoiceSettingsIssuerParams      `form:"issuer"`
+	Issuer      *SubscriptionCreateInvoiceSettingsIssuerParams      `form:"issuer" json:"issuer,omitempty"`
 	UnsetFields []SubscriptionCreateInvoiceSettingsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1880,61 +1880,61 @@ func (p *SubscriptionCreateInvoiceSettingsParams) AddUnsetField(field Subscripti
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 type SubscriptionCreateItemBillingThresholdsParams struct {
 	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://docs.stripe.com/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
-	UsageGTE *int64 `form:"usage_gte"`
+	UsageGTE *int64 `form:"usage_gte" json:"usage_gte"`
 }
 
 // The coupons to redeem into discounts for the subscription item.
 type SubscriptionCreateItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
 type SubscriptionCreateItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
 // Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline.
 type SubscriptionCreateItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
-	Recurring *SubscriptionCreateItemPriceDataRecurringParams `form:"recurring"`
+	Recurring *SubscriptionCreateItemPriceDataRecurringParams `form:"recurring" json:"recurring"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionCreateItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
-	BillingThresholds *SubscriptionCreateItemBillingThresholdsParams `form:"billing_thresholds"`
+	BillingThresholds *SubscriptionCreateItemBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
 	// The coupons to redeem into discounts for the subscription item.
-	Discounts []*SubscriptionCreateItemDiscountParams `form:"discounts"`
+	Discounts []*SubscriptionCreateItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Plan ID for this item, as a string.
-	Plan *string `form:"plan"`
+	Plan *string `form:"plan" json:"plan,omitempty"`
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline.
-	PriceData *SubscriptionCreateItemPriceDataParams `form:"price_data"`
+	PriceData *SubscriptionCreateItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// A list of [Tax Rate](https://docs.stripe.com/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://docs.stripe.com/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
-	TaxRates    []*string                                `form:"tax_rates"`
+	TaxRates    []*string                                `form:"tax_rates" json:"tax_rates,omitempty"`
 	UnsetFields []SubscriptionCreateItemParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1964,63 +1964,63 @@ func (p *SubscriptionCreateItemParams) AddMetadata(key string, value string) {
 // Additional fields for Mandate creation
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// Transaction type of the mandate.
-	TransactionType *string `form:"transaction_type"`
+	TransactionType *string `form:"transaction_type" json:"transaction_type,omitempty"`
 }
 
 // This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Verification method for the intent
-	VerificationMethod *string `form:"verification_method"`
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
 // This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
-	PreferredLanguage *string `form:"preferred_language"`
+	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
-	AmountType *string `form:"amount_type"`
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 }
 
 // This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardParams struct {
 	// Configuration options for setting up an eMandate for cards issued in India.
-	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Selected network to process this Subscription on. Depends on the available networks of the card attached to the Subscription. Can be only set confirm-time.
-	Network *string `form:"network"`
+	Network *string `form:"network" json:"network,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
-	RequestThreeDSecure *string `form:"request_three_d_secure"`
+	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
 }
 
 // Configuration for eu_bank_transfer funding type.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country"`
 }
 
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
 	// Configuration for eu_bank_transfer funding type.
-	EUBankTransfer *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
+	EUBankTransfer *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer" json:"eu_bank_transfer,omitempty"`
 	// The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
 	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
-	BankTransfer *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
+	BankTransfer *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer" json:"bank_transfer,omitempty"`
 	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
-	FundingType *string `form:"funding_type"`
+	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 }
 
 // This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
@@ -2029,15 +2029,15 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 // Additional fields for Mandate creation.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsParams struct {
 	// The maximum amount that can be collected in a single invoice. If you don't specify a maximum, then there is no limit.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The purpose for which payments are made. Has a default value based on your merchant category code.
-	Purpose *string `form:"purpose"`
+	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 }
 
 // This sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsPaytoParams struct {
 	// Additional fields for Mandate creation.
-	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
@@ -2046,45 +2046,45 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
-	AccountSubcategories []*string `form:"account_subcategories"`
+	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
 }
 
 // Additional fields for Financial Connections Session creation
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// Provide filters for the linked accounts that the customer can select for the payment method.
-	Filters *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters"`
+	Filters *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters" json:"filters,omitempty"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
-	Permissions []*string `form:"permissions"`
+	Permissions []*string `form:"permissions" json:"permissions,omitempty"`
 	// List of data features that you would like to retrieve upon account creation.
-	Prefetch []*string `form:"prefetch"`
+	Prefetch []*string `form:"prefetch" json:"prefetch,omitempty"`
 }
 
 // This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams struct {
 	// Additional fields for Financial Connections Session creation
-	FinancialConnections *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections"`
+	FinancialConnections *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams `form:"financial_connections" json:"financial_connections,omitempty"`
 	// Verification method for the intent
-	VerificationMethod *string `form:"verification_method"`
+	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
-	ACSSDebit *SubscriptionCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+	ACSSDebit *SubscriptionCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
-	Bancontact *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	Bancontact *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
-	Card *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
+	Card *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
-	CustomerBalance *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	CustomerBalance *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
-	Konbini *SubscriptionCreatePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
+	Konbini *SubscriptionCreatePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
-	Payto *SubscriptionCreatePaymentSettingsPaymentMethodOptionsPaytoParams `form:"payto"`
+	Payto *SubscriptionCreatePaymentSettingsPaymentMethodOptionsPaytoParams `form:"payto" json:"payto,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
-	SEPADebit *SubscriptionCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	SEPADebit *SubscriptionCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
-	USBankAccount *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+	USBankAccount *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	UnsetFields   []SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
 }
 
@@ -2110,11 +2110,11 @@ func (p *SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams) AddUnsetFi
 // Payment settings to pass to invoices created by the subscription.
 type SubscriptionCreatePaymentSettingsParams struct {
 	// Payment-method-specific configuration to provide to invoices created by the subscription.
-	PaymentMethodOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
-	PaymentMethodTypes []*string `form:"payment_method_types"`
+	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// Configure whether Stripe updates `subscription.default_payment_method` when payment succeeds. Defaults to `off` if unspecified.
-	SaveDefaultPaymentMethod *string                                             `form:"save_default_payment_method"`
+	SaveDefaultPaymentMethod *string                                             `form:"save_default_payment_method" json:"save_default_payment_method,omitempty"`
 	UnsetFields              []SubscriptionCreatePaymentSettingsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2133,29 +2133,29 @@ func (p *SubscriptionCreatePaymentSettingsParams) AddUnsetField(field Subscripti
 // Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
 type SubscriptionCreatePendingInvoiceItemIntervalParams struct {
 	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 type SubscriptionCreateTransferDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
-	AmountPercent *float64 `form:"amount_percent"`
+	AmountPercent *float64 `form:"amount_percent" json:"amount_percent,omitempty"`
 	// ID of an existing, connected Stripe account.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 
 // Defines how the subscription should behave when the user's free trial ends.
 type SubscriptionCreateTrialSettingsEndBehaviorParams struct {
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
-	MissingPaymentMethod *string `form:"missing_payment_method"`
+	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
 }
 
 // Settings related to subscription trials.
 type SubscriptionCreateTrialSettingsParams struct {
 	// Defines how the subscription should behave when the user's free trial ends.
-	EndBehavior *SubscriptionCreateTrialSettingsEndBehaviorParams `form:"end_behavior"`
+	EndBehavior *SubscriptionCreateTrialSettingsEndBehaviorParams `form:"end_behavior" json:"end_behavior"`
 }
 
 // Creates a new subscription on an existing customer. Each customer can have up to 500 active or scheduled subscriptions.
@@ -2168,61 +2168,61 @@ type SubscriptionCreateTrialSettingsParams struct {
 type SubscriptionCreateParams struct {
 	Params `form:"*"`
 	// A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
-	AddInvoiceItems []*SubscriptionCreateAddInvoiceItemParams `form:"add_invoice_items"`
+	AddInvoiceItems []*SubscriptionCreateAddInvoiceItemParams `form:"add_invoice_items" json:"add_invoice_items,omitempty"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
-	ApplicationFeePercent *float64 `form:"application_fee_percent"`
+	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
 	// Automatic tax settings for this subscription.
-	AutomaticTax *SubscriptionCreateAutomaticTaxParams `form:"automatic_tax"`
+	AutomaticTax *SubscriptionCreateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// A past timestamp to backdate the subscription's start date to. If set, the first invoice will contain line items for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
-	BackdateStartDate *int64 `form:"backdate_start_date"`
+	BackdateStartDate *int64 `form:"backdate_start_date" json:"backdate_start_date,omitempty"`
 	// A future timestamp in UTC format to anchor the subscription's [billing cycle](https://docs.stripe.com/subscriptions/billing-cycle). The anchor is the reference point that aligns future billing cycle dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals.
-	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
+	BillingCycleAnchor *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurrence of the day_of_month at the hour, minute, and second UTC.
-	BillingCycleAnchorConfig    *SubscriptionCreateBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
+	BillingCycleAnchorConfig    *SubscriptionCreateBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config" json:"billing_cycle_anchor_config,omitempty"`
 	BillingCycleAnchorNow       *bool                                             `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                             `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *SubscriptionCreateBillingModeParams `form:"billing_mode"`
+	BillingMode *SubscriptionCreateBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
-	BillingThresholds *SubscriptionCreateBillingThresholdsParams `form:"billing_thresholds"`
+	BillingThresholds *SubscriptionCreateBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt             *int64 `form:"cancel_at"`
+	CancelAt             *int64 `form:"cancel_at" json:"cancel_at,omitempty"`
 	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
-	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
+	CancelAtPeriodEnd *bool `form:"cancel_at_period_end" json:"cancel_at_period_end,omitempty"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
-	CollectionMethod *string `form:"collection_method"`
+	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The identifier of the customer to subscribe.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The identifier of the account representing the customer to subscribe.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// Number of days a customer has to pay invoices generated by this subscription. Valid only for subscriptions where `collection_method` is set to `send_invoice`.
-	DaysUntilDue *int64 `form:"days_until_due"`
+	DaysUntilDue *int64 `form:"days_until_due" json:"days_until_due,omitempty"`
 	// ID of the default payment method for the subscription. It must belong to the customer associated with the subscription. This takes precedence over `default_source`. If neither are set, invoices will use the customer's [invoice_settings.default_payment_method](https://docs.stripe.com/api/customers/object#customer_object-invoice_settings-default_payment_method) or [default_source](https://docs.stripe.com/api/customers/object#customer_object-default_source).
-	DefaultPaymentMethod *string `form:"default_payment_method"`
+	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
 	// ID of the default payment source for the subscription. It must belong to the customer associated with the subscription and be in a chargeable state. If `default_payment_method` is also set, `default_payment_method` will take precedence. If neither are set, invoices will use the customer's [invoice_settings.default_payment_method](https://docs.stripe.com/api/customers/object#customer_object-invoice_settings-default_payment_method) or [default_source](https://docs.stripe.com/api/customers/object#customer_object-default_source).
-	DefaultSource *string `form:"default_source"`
+	DefaultSource *string `form:"default_source" json:"default_source,omitempty"`
 	// The tax rates that will apply to any subscription item that does not have `tax_rates` set. Invoices created will have their `default_tax_rates` populated from the subscription.
-	DefaultTaxRates []*string `form:"default_tax_rates"`
+	DefaultTaxRates []*string `form:"default_tax_rates" json:"default_tax_rates,omitempty"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
-	Discounts []*SubscriptionCreateDiscountParams `form:"discounts"`
+	Discounts []*SubscriptionCreateDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// All invoices will be billed using the specified settings.
-	InvoiceSettings *SubscriptionCreateInvoiceSettingsParams `form:"invoice_settings"`
+	InvoiceSettings *SubscriptionCreateInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
 	// A list of up to 20 subscription items, each with an attached price.
-	Items []*SubscriptionCreateItemParams `form:"items"`
+	Items []*SubscriptionCreateItemParams `form:"items" json:"items,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Indicates if a customer is on or off-session while an invoice payment is attempted. Defaults to `false` (on-session).
-	OffSession *bool `form:"off_session"`
+	OffSession *bool `form:"off_session" json:"off_session,omitempty"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Only applies to subscriptions with `collection_method=charge_automatically`.
 	//
 	// Use `allow_incomplete` to create Subscriptions with `status=incomplete` if the first invoice can't be paid. Creating Subscriptions with this status allows you to manage scenarios where additional customer actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.
@@ -2234,24 +2234,24 @@ type SubscriptionCreateParams struct {
 	// `pending_if_incomplete` is only used with updates and cannot be passed when creating a Subscription.
 	//
 	// Subscriptions with `collection_method=send_invoice` are automatically activated regardless of the first Invoice status.
-	PaymentBehavior *string `form:"payment_behavior"`
+	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// Payment settings to pass to invoices created by the subscription.
-	PaymentSettings *SubscriptionCreatePaymentSettingsParams `form:"payment_settings"`
+	PaymentSettings *SubscriptionCreatePaymentSettingsParams `form:"payment_settings" json:"payment_settings,omitempty"`
 	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api/invoices/create) for the given subscription at the specified interval.
-	PendingInvoiceItemInterval *SubscriptionCreatePendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
+	PendingInvoiceItemInterval *SubscriptionCreatePendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval" json:"pending_invoice_item_interval,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
-	TransferData *SubscriptionCreateTransferDataParams `form:"transfer_data"`
+	TransferData *SubscriptionCreateTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
-	TrialEnd    *int64 `form:"trial_end"`
+	TrialEnd    *int64 `form:"trial_end" json:"trial_end,omitempty"`
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
-	TrialFromPlan *bool `form:"trial_from_plan"`
+	TrialFromPlan *bool `form:"trial_from_plan" json:"trial_from_plan,omitempty"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. See [Using trial periods on subscriptions](https://docs.stripe.com/billing/subscriptions/trials) to learn more.
-	TrialPeriodDays *int64 `form:"trial_period_days"`
+	TrialPeriodDays *int64 `form:"trial_period_days" json:"trial_period_days,omitempty"`
 	// Settings related to subscription trials.
-	TrialSettings *SubscriptionCreateTrialSettingsParams `form:"trial_settings"`
+	TrialSettings *SubscriptionCreateTrialSettingsParams `form:"trial_settings" json:"trial_settings,omitempty"`
 	UnsetFields   []SubscriptionCreateParamsUnsetField   `form:"-" json:"-"`
 }
 
@@ -2309,7 +2309,7 @@ func (p *SubscriptionCreateParams) AppendTo(body *form.Values, keyParts []string
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type SubscriptionAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// Type of the account referenced.
 	Type SubscriptionAutomaticTaxLiabilityType `json:"type"`
 }
@@ -2339,7 +2339,7 @@ type SubscriptionBillingCycleAnchorConfig struct {
 // Configure behavior for flexible billing mode
 type SubscriptionBillingModeFlexible struct {
 	// Controls how invoices and invoice items display proration amounts and discount amounts.
-	ProrationDiscounts SubscriptionBillingModeFlexibleProrationDiscounts `json:"proration_discounts"`
+	ProrationDiscounts SubscriptionBillingModeFlexibleProrationDiscounts `json:"proration_discounts,omitempty"`
 }
 
 // The billing mode of the subscription.
@@ -2349,7 +2349,7 @@ type SubscriptionBillingMode struct {
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	Type SubscriptionBillingModeType `json:"type"`
 	// Details on when the current billing_mode was adopted.
-	UpdatedAt int64 `json:"updated_at"`
+	UpdatedAt int64 `json:"updated_at,omitempty"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
@@ -2371,7 +2371,7 @@ type SubscriptionCancellationDetails struct {
 }
 type SubscriptionInvoiceSettingsIssuer struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// Type of the account referenced.
 	Type SubscriptionInvoiceSettingsIssuerType `json:"type"`
 }
@@ -2395,9 +2395,9 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions stru
 
 // This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebit struct {
-	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions `json:"mandate_options"`
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions `json:"mandate_options,omitempty"`
 	// Bank account verification method. The default value is `automatic`.
-	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
+	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 
 // This sub-hash contains details about the Bancontact payment method options to pass to invoices created by the subscription.
@@ -2416,7 +2416,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptions struct {
 
 // This sub-hash contains details about the Card payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCard struct {
-	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptions `json:"mandate_options"`
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptions `json:"mandate_options,omitempty"`
 	// Selected network to process this Subscription on. Depends on the available networks of the card attached to the Subscription. Can be only set confirm-time.
 	Network SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork `json:"network"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
@@ -2427,14 +2427,14 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferE
 	Country string `json:"country"`
 }
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct {
-	EUBankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer `json:"eu_bank_transfer"`
+	EUBankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer `json:"eu_bank_transfer,omitempty"`
 	// The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 	Type string `json:"type"`
 }
 
 // This sub-hash contains details about the Bank transfer payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalance struct {
-	BankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer `json:"bank_transfer"`
+	BankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer `json:"bank_transfer,omitempty"`
 	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
 	FundingType SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType `json:"funding_type"`
 }
@@ -2452,28 +2452,28 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsPaytoMandateOptions struct {
 
 // This sub-hash contains details about the PayTo payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsPayto struct {
-	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsPaytoMandateOptions `json:"mandate_options"`
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsPaytoMandateOptions `json:"mandate_options,omitempty"`
 }
 
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebit struct{}
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
-	AccountSubcategories []SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
+	AccountSubcategories []SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories,omitempty"`
 }
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections struct {
-	Filters *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters `json:"filters"`
+	Filters *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters `json:"filters,omitempty"`
 	// The list of permissions to request. The `payment_method` permission must be included.
-	Permissions []SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
+	Permissions []SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions,omitempty"`
 	// Data features requested to be retrieved upon account creation.
 	Prefetch []SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch `json:"prefetch"`
 }
 
 // This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount struct {
-	FinancialConnections *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
+	FinancialConnections *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections,omitempty"`
 	// Bank account verification method. The default value is `automatic`.
-	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
+	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
 
 // Payment-method-specific configuration to provide to invoices created by the subscription.
@@ -2595,7 +2595,7 @@ type Subscription struct {
 	// ID of the default payment source for the subscription. It must belong to the customer associated with the subscription and be in a chargeable state. If `default_payment_method` is also set, `default_payment_method` will take precedence. If neither are set, invoices will use the customer's [invoice_settings.default_payment_method](https://docs.stripe.com/api/customers/object#customer_object-invoice_settings-default_payment_method) or [default_source](https://docs.stripe.com/api/customers/object#customer_object-default_source).
 	DefaultSource *PaymentSource `json:"default_source"`
 	// The tax rates that will apply to any subscription item that does not have `tax_rates` set. Invoices created will have their `default_tax_rates` populated from the subscription.
-	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
+	DefaultTaxRates []*TaxRate `json:"default_tax_rates,omitempty"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// The discounts applied to the subscription. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
@@ -2629,7 +2629,7 @@ type Subscription struct {
 	PendingSetupIntent *SetupIntent `json:"pending_setup_intent"`
 	// If specified, [pending updates](https://docs.stripe.com/billing/subscriptions/pending-updates) that will be applied to the subscription once the `latest_invoice` has been paid.
 	PendingUpdate      *SubscriptionPendingUpdate      `json:"pending_update"`
-	PresentmentDetails *SubscriptionPresentmentDetails `json:"presentment_details"`
+	PresentmentDetails *SubscriptionPresentmentDetails `json:"presentment_details,omitempty"`
 	// The schedule attached to the subscription
 	Schedule *SubscriptionSchedule `json:"schedule"`
 	// Date when the subscription was first created. The date might differ from the `created` date due to backdating.

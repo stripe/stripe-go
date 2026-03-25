@@ -418,7 +418,7 @@ type TreasuryFinancialAccountFeaturesCardIssuingStatusDetail struct {
 	// Represents what the user should do, if anything, to activate the Feature.
 	Resolution TreasuryFinancialAccountFeaturesCardIssuingStatusDetailResolution `json:"resolution"`
 	// The `platform_restrictions` that are restricting this Feature.
-	Restriction TreasuryFinancialAccountFeaturesCardIssuingStatusDetailRestriction `json:"restriction"`
+	Restriction TreasuryFinancialAccountFeaturesCardIssuingStatusDetailRestriction `json:"restriction,omitempty"`
 }
 
 // Toggle settings for enabling/disabling a feature
@@ -438,7 +438,7 @@ type TreasuryFinancialAccountFeaturesDepositInsuranceStatusDetail struct {
 	// Represents what the user should do, if anything, to activate the Feature.
 	Resolution TreasuryFinancialAccountFeaturesDepositInsuranceStatusDetailResolution `json:"resolution"`
 	// The `platform_restrictions` that are restricting this Feature.
-	Restriction TreasuryFinancialAccountFeaturesDepositInsuranceStatusDetailRestriction `json:"restriction"`
+	Restriction TreasuryFinancialAccountFeaturesDepositInsuranceStatusDetailRestriction `json:"restriction,omitempty"`
 }
 
 // Toggle settings for enabling/disabling a feature
@@ -458,7 +458,7 @@ type TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetail struct {
 	// Represents what the user should do, if anything, to activate the Feature.
 	Resolution TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailResolution `json:"resolution"`
 	// The `platform_restrictions` that are restricting this Feature.
-	Restriction TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailRestriction `json:"restriction"`
+	Restriction TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetailRestriction `json:"restriction,omitempty"`
 }
 
 // Toggle settings for enabling/disabling the ABA address feature
@@ -474,7 +474,7 @@ type TreasuryFinancialAccountFeaturesFinancialAddressesABA struct {
 // Settings related to Financial Addresses features on a Financial Account
 type TreasuryFinancialAccountFeaturesFinancialAddresses struct {
 	// Toggle settings for enabling/disabling the ABA address feature
-	ABA *TreasuryFinancialAccountFeaturesFinancialAddressesABA `json:"aba"`
+	ABA *TreasuryFinancialAccountFeaturesFinancialAddressesABA `json:"aba,omitempty"`
 }
 
 // Additional details; includes at least one entry when the status is not `active`.
@@ -484,7 +484,7 @@ type TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetail struct {
 	// Represents what the user should do, if anything, to activate the Feature.
 	Resolution TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailResolution `json:"resolution"`
 	// The `platform_restrictions` that are restricting this Feature.
-	Restriction TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailRestriction `json:"restriction"`
+	Restriction TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailRestriction `json:"restriction,omitempty"`
 }
 
 // Toggle settings for enabling/disabling an inbound ACH specific feature
@@ -500,7 +500,7 @@ type TreasuryFinancialAccountFeaturesInboundTransfersACH struct {
 // InboundTransfers contains inbound transfers features for a FinancialAccount.
 type TreasuryFinancialAccountFeaturesInboundTransfers struct {
 	// Toggle settings for enabling/disabling an inbound ACH specific feature
-	ACH *TreasuryFinancialAccountFeaturesInboundTransfersACH `json:"ach"`
+	ACH *TreasuryFinancialAccountFeaturesInboundTransfersACH `json:"ach,omitempty"`
 }
 
 // Additional details; includes at least one entry when the status is not `active`.
@@ -510,7 +510,7 @@ type TreasuryFinancialAccountFeaturesIntraStripeFlowsStatusDetail struct {
 	// Represents what the user should do, if anything, to activate the Feature.
 	Resolution TreasuryFinancialAccountFeaturesIntraStripeFlowsStatusDetailResolution `json:"resolution"`
 	// The `platform_restrictions` that are restricting this Feature.
-	Restriction TreasuryFinancialAccountFeaturesIntraStripeFlowsStatusDetailRestriction `json:"restriction"`
+	Restriction TreasuryFinancialAccountFeaturesIntraStripeFlowsStatusDetailRestriction `json:"restriction,omitempty"`
 }
 
 // Toggle settings for enabling/disabling a feature
@@ -530,7 +530,7 @@ type TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetail struct {
 	// Represents what the user should do, if anything, to activate the Feature.
 	Resolution TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailResolution `json:"resolution"`
 	// The `platform_restrictions` that are restricting this Feature.
-	Restriction TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailRestriction `json:"restriction"`
+	Restriction TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailRestriction `json:"restriction,omitempty"`
 }
 
 // Toggle settings for enabling/disabling an outbound ACH specific feature
@@ -550,7 +550,7 @@ type TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWireStatusDetail 
 	// Represents what the user should do, if anything, to activate the Feature.
 	Resolution TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWireStatusDetailResolution `json:"resolution"`
 	// The `platform_restrictions` that are restricting this Feature.
-	Restriction TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWireStatusDetailRestriction `json:"restriction"`
+	Restriction TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWireStatusDetailRestriction `json:"restriction,omitempty"`
 }
 
 // Toggle settings for enabling/disabling a feature
@@ -566,9 +566,9 @@ type TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWire struct {
 // Settings related to Outbound Payments features on a Financial Account
 type TreasuryFinancialAccountFeaturesOutboundPayments struct {
 	// Toggle settings for enabling/disabling an outbound ACH specific feature
-	ACH *TreasuryFinancialAccountFeaturesOutboundPaymentsACH `json:"ach"`
+	ACH *TreasuryFinancialAccountFeaturesOutboundPaymentsACH `json:"ach,omitempty"`
 	// Toggle settings for enabling/disabling a feature
-	USDomesticWire *TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWire `json:"us_domestic_wire"`
+	USDomesticWire *TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWire `json:"us_domestic_wire,omitempty"`
 }
 
 // Additional details; includes at least one entry when the status is not `active`.
@@ -578,7 +578,7 @@ type TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetail struct {
 	// Represents what the user should do, if anything, to activate the Feature.
 	Resolution TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailResolution `json:"resolution"`
 	// The `platform_restrictions` that are restricting this Feature.
-	Restriction TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailRestriction `json:"restriction"`
+	Restriction TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailRestriction `json:"restriction,omitempty"`
 }
 
 // Toggle settings for enabling/disabling an outbound ACH specific feature
@@ -598,7 +598,7 @@ type TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWireStatusDetail
 	// Represents what the user should do, if anything, to activate the Feature.
 	Resolution TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWireStatusDetailResolution `json:"resolution"`
 	// The `platform_restrictions` that are restricting this Feature.
-	Restriction TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWireStatusDetailRestriction `json:"restriction"`
+	Restriction TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWireStatusDetailRestriction `json:"restriction,omitempty"`
 }
 
 // Toggle settings for enabling/disabling a feature
@@ -614,9 +614,9 @@ type TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWire struct {
 // OutboundTransfers contains outbound transfers features for a FinancialAccount.
 type TreasuryFinancialAccountFeaturesOutboundTransfers struct {
 	// Toggle settings for enabling/disabling an outbound ACH specific feature
-	ACH *TreasuryFinancialAccountFeaturesOutboundTransfersACH `json:"ach"`
+	ACH *TreasuryFinancialAccountFeaturesOutboundTransfersACH `json:"ach,omitempty"`
 	// Toggle settings for enabling/disabling a feature
-	USDomesticWire *TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWire `json:"us_domestic_wire"`
+	USDomesticWire *TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWire `json:"us_domestic_wire,omitempty"`
 }
 
 // Encodes whether a FinancialAccount has access to a particular Feature, with a `status` enum and associated `status_details`.
@@ -624,19 +624,19 @@ type TreasuryFinancialAccountFeaturesOutboundTransfers struct {
 type TreasuryFinancialAccountFeatures struct {
 	APIResource
 	// Toggle settings for enabling/disabling a feature
-	CardIssuing *TreasuryFinancialAccountFeaturesCardIssuing `json:"card_issuing"`
+	CardIssuing *TreasuryFinancialAccountFeaturesCardIssuing `json:"card_issuing,omitempty"`
 	// Toggle settings for enabling/disabling a feature
-	DepositInsurance *TreasuryFinancialAccountFeaturesDepositInsurance `json:"deposit_insurance"`
+	DepositInsurance *TreasuryFinancialAccountFeaturesDepositInsurance `json:"deposit_insurance,omitempty"`
 	// Settings related to Financial Addresses features on a Financial Account
-	FinancialAddresses *TreasuryFinancialAccountFeaturesFinancialAddresses `json:"financial_addresses"`
+	FinancialAddresses *TreasuryFinancialAccountFeaturesFinancialAddresses `json:"financial_addresses,omitempty"`
 	// InboundTransfers contains inbound transfers features for a FinancialAccount.
-	InboundTransfers *TreasuryFinancialAccountFeaturesInboundTransfers `json:"inbound_transfers"`
+	InboundTransfers *TreasuryFinancialAccountFeaturesInboundTransfers `json:"inbound_transfers,omitempty"`
 	// Toggle settings for enabling/disabling a feature
-	IntraStripeFlows *TreasuryFinancialAccountFeaturesIntraStripeFlows `json:"intra_stripe_flows"`
+	IntraStripeFlows *TreasuryFinancialAccountFeaturesIntraStripeFlows `json:"intra_stripe_flows,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Settings related to Outbound Payments features on a Financial Account
-	OutboundPayments *TreasuryFinancialAccountFeaturesOutboundPayments `json:"outbound_payments"`
+	OutboundPayments *TreasuryFinancialAccountFeaturesOutboundPayments `json:"outbound_payments,omitempty"`
 	// OutboundTransfers contains outbound transfers features for a FinancialAccount.
-	OutboundTransfers *TreasuryFinancialAccountFeaturesOutboundTransfers `json:"outbound_transfers"`
+	OutboundTransfers *TreasuryFinancialAccountFeaturesOutboundTransfers `json:"outbound_transfers,omitempty"`
 }

@@ -77,9 +77,9 @@ type CreditNoteLineItemPretaxCreditAmount struct {
 	// The amount, in cents (or local equivalent), of the pretax credit amount.
 	Amount int64 `json:"amount"`
 	// The credit balance transaction that was applied to get this pretax credit amount.
-	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction"`
+	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction,omitempty"`
 	// The discount that was applied to get this pretax credit amount.
-	Discount *Discount `json:"discount"`
+	Discount *Discount `json:"discount,omitempty"`
 	// Type of the pretax credit amount referenced.
 	Type CreditNoteLineItemPretaxCreditAmountType `json:"type"`
 }
@@ -121,7 +121,7 @@ type CreditNoteLineItem struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// ID of the invoice line item being credited
-	InvoiceLineItem string `json:"invoice_line_item"`
+	InvoiceLineItem string `json:"invoice_line_item,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

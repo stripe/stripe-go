@@ -37,9 +37,9 @@ const (
 
 type ReserveReleaseSourceTransaction struct {
 	// The ID of the dispute.
-	Dispute *Dispute `json:"dispute"`
+	Dispute *Dispute `json:"dispute,omitempty"`
 	// The ID of the refund.
-	Refund *Refund `json:"refund"`
+	Refund *Refund `json:"refund,omitempty"`
 	// The type of source transaction.
 	Type ReserveReleaseSourceTransactionType `json:"type"`
 }
@@ -59,7 +59,7 @@ type ReserveRelease struct {
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The reason for the ReserveRelease, indicating why the funds were released.
@@ -70,5 +70,5 @@ type ReserveRelease struct {
 	ReserveHold *ReserveHold `json:"reserve_hold"`
 	// The ReservePlan ID this ReserveRelease is associated with. This field is only populated if a ReserveRelease is created by a ReservePlan disable operation, or from a scheduled ReservedHold expiry.
 	ReservePlan       *ReservePlan                     `json:"reserve_plan"`
-	SourceTransaction *ReserveReleaseSourceTransaction `json:"source_transaction"`
+	SourceTransaction *ReserveReleaseSourceTransaction `json:"source_transaction,omitempty"`
 }

@@ -236,100 +236,100 @@ const (
 // Details about the Client Device Metadata to associate with the payment evaluation.
 type RadarPaymentEvaluationClientDeviceMetadataDetailsParams struct {
 	// ID for the Radar Session to associate with the payment evaluation. A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
-	RadarSession *string `form:"radar_session"`
+	RadarSession *string `form:"radar_session" json:"radar_session"`
 }
 
 // Details about the customer associated with the payment evaluation.
 type RadarPaymentEvaluationCustomerDetailsParams struct {
 	// The ID of the customer associated with the payment evaluation.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The ID of the Account representing the customer associated with the payment evaluation.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// The customer's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The customer's full name or business name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The customer's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Describes card money movement details for the payment evaluation.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams struct {
 	// Describes the presence of the customer during the payment.
-	CustomerPresence *string `form:"customer_presence"`
+	CustomerPresence *string `form:"customer_presence" json:"customer_presence,omitempty"`
 	// Describes the type of payment.
-	PaymentType *string `form:"payment_type"`
+	PaymentType *string `form:"payment_type" json:"payment_type,omitempty"`
 }
 
 // Details about the payment's customer presence and type.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsParams struct {
 	// Describes card money movement details for the payment evaluation.
-	Card *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams `form:"card"`
+	Card *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams `form:"card" json:"card,omitempty"`
 	// Describes the type of money movement. Currently only `card` is supported.
-	MoneyMovementType *string `form:"money_movement_type"`
+	MoneyMovementType *string `form:"money_movement_type" json:"money_movement_type"`
 }
 
 // Billing information associated with the payment evaluation.
 type RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsBillingDetailsParams struct {
 	// Billing address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Billing phone number (including extension).
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Details about the payment method to use for the payment.
 type RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsParams struct {
 	// Billing information associated with the payment evaluation.
-	BillingDetails *RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsBillingDetailsParams `form:"billing_details"`
+	BillingDetails *RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
 	// ID of the payment method used in this payment evaluation.
-	PaymentMethod *string `form:"payment_method"`
+	PaymentMethod *string `form:"payment_method" json:"payment_method"`
 }
 
 // Shipping details for the payment evaluation.
 type RadarPaymentEvaluationPaymentDetailsShippingDetailsParams struct {
 	// Shipping address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Shipping name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Shipping phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Details about the payment.
 type RadarPaymentEvaluationPaymentDetailsParams struct {
 	// The intended amount to collect with this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (for example, 100 cents to charge 1.00 USD or 100 to charge 100 Yen, a zero-decimal currency).
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Details about the payment's customer presence and type.
-	MoneyMovementDetails *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsParams `form:"money_movement_details"`
+	MoneyMovementDetails *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsParams `form:"money_movement_details" json:"money_movement_details,omitempty"`
 	// Details about the payment method to use for the payment.
-	PaymentMethodDetails *RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsParams `form:"payment_method_details"`
+	PaymentMethodDetails *RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsParams `form:"payment_method_details" json:"payment_method_details"`
 	// Shipping details for the payment evaluation.
-	ShippingDetails *RadarPaymentEvaluationPaymentDetailsShippingDetailsParams `form:"shipping_details"`
+	ShippingDetails *RadarPaymentEvaluationPaymentDetailsShippingDetailsParams `form:"shipping_details" json:"shipping_details,omitempty"`
 	// Payment statement descriptor.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 }
 
 // Request a Radar API fraud risk score from Stripe for a payment before sending it for external processor authorization.
 type RadarPaymentEvaluationParams struct {
 	Params `form:"*"`
 	// Details about the Client Device Metadata to associate with the payment evaluation.
-	ClientDeviceMetadataDetails *RadarPaymentEvaluationClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
+	ClientDeviceMetadataDetails *RadarPaymentEvaluationClientDeviceMetadataDetailsParams `form:"client_device_metadata_details" json:"client_device_metadata_details,omitempty"`
 	// Details about the customer associated with the payment evaluation.
-	CustomerDetails *RadarPaymentEvaluationCustomerDetailsParams `form:"customer_details"`
+	CustomerDetails *RadarPaymentEvaluationCustomerDetailsParams `form:"customer_details" json:"customer_details"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Details about the payment.
-	PaymentDetails *RadarPaymentEvaluationPaymentDetailsParams `form:"payment_details"`
+	PaymentDetails *RadarPaymentEvaluationPaymentDetailsParams `form:"payment_details" json:"payment_details"`
 }
 
 // AddExpand appends a new field to expand.
@@ -349,100 +349,100 @@ func (p *RadarPaymentEvaluationParams) AddMetadata(key string, value string) {
 // Details about the Client Device Metadata to associate with the payment evaluation.
 type RadarPaymentEvaluationCreateClientDeviceMetadataDetailsParams struct {
 	// ID for the Radar Session to associate with the payment evaluation. A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
-	RadarSession *string `form:"radar_session"`
+	RadarSession *string `form:"radar_session" json:"radar_session"`
 }
 
 // Details about the customer associated with the payment evaluation.
 type RadarPaymentEvaluationCreateCustomerDetailsParams struct {
 	// The ID of the customer associated with the payment evaluation.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The ID of the Account representing the customer associated with the payment evaluation.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// The customer's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The customer's full name or business name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The customer's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Describes card money movement details for the payment evaluation.
 type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams struct {
 	// Describes the presence of the customer during the payment.
-	CustomerPresence *string `form:"customer_presence"`
+	CustomerPresence *string `form:"customer_presence" json:"customer_presence,omitempty"`
 	// Describes the type of payment.
-	PaymentType *string `form:"payment_type"`
+	PaymentType *string `form:"payment_type" json:"payment_type,omitempty"`
 }
 
 // Details about the payment's customer presence and type.
 type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsParams struct {
 	// Describes card money movement details for the payment evaluation.
-	Card *RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams `form:"card"`
+	Card *RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams `form:"card" json:"card,omitempty"`
 	// Describes the type of money movement. Currently only `card` is supported.
-	MoneyMovementType *string `form:"money_movement_type"`
+	MoneyMovementType *string `form:"money_movement_type" json:"money_movement_type"`
 }
 
 // Billing information associated with the payment evaluation.
 type RadarPaymentEvaluationCreatePaymentDetailsPaymentMethodDetailsBillingDetailsParams struct {
 	// Billing address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Billing phone number (including extension).
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Details about the payment method to use for the payment.
 type RadarPaymentEvaluationCreatePaymentDetailsPaymentMethodDetailsParams struct {
 	// Billing information associated with the payment evaluation.
-	BillingDetails *RadarPaymentEvaluationCreatePaymentDetailsPaymentMethodDetailsBillingDetailsParams `form:"billing_details"`
+	BillingDetails *RadarPaymentEvaluationCreatePaymentDetailsPaymentMethodDetailsBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
 	// ID of the payment method used in this payment evaluation.
-	PaymentMethod *string `form:"payment_method"`
+	PaymentMethod *string `form:"payment_method" json:"payment_method"`
 }
 
 // Shipping details for the payment evaluation.
 type RadarPaymentEvaluationCreatePaymentDetailsShippingDetailsParams struct {
 	// Shipping address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Shipping name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Shipping phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Details about the payment.
 type RadarPaymentEvaluationCreatePaymentDetailsParams struct {
 	// The intended amount to collect with this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (for example, 100 cents to charge 1.00 USD or 100 to charge 100 Yen, a zero-decimal currency).
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Details about the payment's customer presence and type.
-	MoneyMovementDetails *RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsParams `form:"money_movement_details"`
+	MoneyMovementDetails *RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsParams `form:"money_movement_details" json:"money_movement_details,omitempty"`
 	// Details about the payment method to use for the payment.
-	PaymentMethodDetails *RadarPaymentEvaluationCreatePaymentDetailsPaymentMethodDetailsParams `form:"payment_method_details"`
+	PaymentMethodDetails *RadarPaymentEvaluationCreatePaymentDetailsPaymentMethodDetailsParams `form:"payment_method_details" json:"payment_method_details"`
 	// Shipping details for the payment evaluation.
-	ShippingDetails *RadarPaymentEvaluationCreatePaymentDetailsShippingDetailsParams `form:"shipping_details"`
+	ShippingDetails *RadarPaymentEvaluationCreatePaymentDetailsShippingDetailsParams `form:"shipping_details" json:"shipping_details,omitempty"`
 	// Payment statement descriptor.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 }
 
 // Request a Radar API fraud risk score from Stripe for a payment before sending it for external processor authorization.
 type RadarPaymentEvaluationCreateParams struct {
 	Params `form:"*"`
 	// Details about the Client Device Metadata to associate with the payment evaluation.
-	ClientDeviceMetadataDetails *RadarPaymentEvaluationCreateClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
+	ClientDeviceMetadataDetails *RadarPaymentEvaluationCreateClientDeviceMetadataDetailsParams `form:"client_device_metadata_details" json:"client_device_metadata_details,omitempty"`
 	// Details about the customer associated with the payment evaluation.
-	CustomerDetails *RadarPaymentEvaluationCreateCustomerDetailsParams `form:"customer_details"`
+	CustomerDetails *RadarPaymentEvaluationCreateCustomerDetailsParams `form:"customer_details" json:"customer_details"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Details about the payment.
-	PaymentDetails *RadarPaymentEvaluationCreatePaymentDetailsParams `form:"payment_details"`
+	PaymentDetails *RadarPaymentEvaluationCreatePaymentDetailsParams `form:"payment_details" json:"payment_details"`
 }
 
 // AddExpand appends a new field to expand.
@@ -514,7 +514,7 @@ type RadarPaymentEvaluationEventUserInterventionRaisedCustom struct {
 // User intervention raised event details attached to this payment evaluation
 type RadarPaymentEvaluationEventUserInterventionRaised struct {
 	// User intervention raised custom event details attached to this payment evaluation
-	Custom *RadarPaymentEvaluationEventUserInterventionRaisedCustom `json:"custom"`
+	Custom *RadarPaymentEvaluationEventUserInterventionRaisedCustom `json:"custom,omitempty"`
 	// Unique identifier for the user intervention event.
 	Key string `json:"key"`
 	// Type of user intervention raised.
@@ -532,19 +532,19 @@ type RadarPaymentEvaluationEventUserInterventionResolved struct {
 // Event information associated with the payment evaluation, such as refunds, dispute, early fraud warnings, or user interventions.
 type RadarPaymentEvaluationEvent struct {
 	// Dispute opened event details attached to this payment evaluation.
-	DisputeOpened *RadarPaymentEvaluationEventDisputeOpened `json:"dispute_opened"`
+	DisputeOpened *RadarPaymentEvaluationEventDisputeOpened `json:"dispute_opened,omitempty"`
 	// Early Fraud Warning Received event details attached to this payment evaluation.
-	EarlyFraudWarningReceived *RadarPaymentEvaluationEventEarlyFraudWarningReceived `json:"early_fraud_warning_received"`
+	EarlyFraudWarningReceived *RadarPaymentEvaluationEventEarlyFraudWarningReceived `json:"early_fraud_warning_received,omitempty"`
 	// Timestamp when the event occurred.
 	OccurredAt int64 `json:"occurred_at"`
 	// Refunded Event details attached to this payment evaluation.
-	Refunded *RadarPaymentEvaluationEventRefunded `json:"refunded"`
+	Refunded *RadarPaymentEvaluationEventRefunded `json:"refunded,omitempty"`
 	// Indicates the type of event attached to the payment evaluation.
 	Type RadarPaymentEvaluationEventType `json:"type"`
 	// User intervention raised event details attached to this payment evaluation
-	UserInterventionRaised *RadarPaymentEvaluationEventUserInterventionRaised `json:"user_intervention_raised"`
+	UserInterventionRaised *RadarPaymentEvaluationEventUserInterventionRaised `json:"user_intervention_raised,omitempty"`
 	// User Intervention Resolved Event details attached to this payment evaluation
-	UserInterventionResolved *RadarPaymentEvaluationEventUserInterventionResolved `json:"user_intervention_resolved"`
+	UserInterventionResolved *RadarPaymentEvaluationEventUserInterventionResolved `json:"user_intervention_resolved,omitempty"`
 }
 
 // Details of a merchant_blocked outcome attached to this payment evaluation.
@@ -568,7 +568,7 @@ type RadarPaymentEvaluationOutcomeRejectedCard struct {
 // Details of an rejected outcome attached to this payment evaluation.
 type RadarPaymentEvaluationOutcomeRejected struct {
 	// Details of an rejected card outcome attached to this payment evaluation.
-	Card *RadarPaymentEvaluationOutcomeRejectedCard `json:"card"`
+	Card *RadarPaymentEvaluationOutcomeRejectedCard `json:"card,omitempty"`
 }
 
 // Details of an succeeded card outcome attached to this payment evaluation.
@@ -584,19 +584,19 @@ type RadarPaymentEvaluationOutcomeSucceededCard struct {
 // Details of a succeeded outcome attached to this payment evaluation.
 type RadarPaymentEvaluationOutcomeSucceeded struct {
 	// Details of an succeeded card outcome attached to this payment evaluation.
-	Card *RadarPaymentEvaluationOutcomeSucceededCard `json:"card"`
+	Card *RadarPaymentEvaluationOutcomeSucceededCard `json:"card,omitempty"`
 }
 
 // Indicates the final outcome for the payment evaluation.
 type RadarPaymentEvaluationOutcome struct {
 	// Details of a merchant_blocked outcome attached to this payment evaluation.
-	MerchantBlocked *RadarPaymentEvaluationOutcomeMerchantBlocked `json:"merchant_blocked"`
+	MerchantBlocked *RadarPaymentEvaluationOutcomeMerchantBlocked `json:"merchant_blocked,omitempty"`
 	// The PaymentIntent ID associated with the payment evaluation.
-	PaymentIntentID string `json:"payment_intent_id"`
+	PaymentIntentID string `json:"payment_intent_id,omitempty"`
 	// Details of an rejected outcome attached to this payment evaluation.
-	Rejected *RadarPaymentEvaluationOutcomeRejected `json:"rejected"`
+	Rejected *RadarPaymentEvaluationOutcomeRejected `json:"rejected,omitempty"`
 	// Details of a succeeded outcome attached to this payment evaluation.
-	Succeeded *RadarPaymentEvaluationOutcomeSucceeded `json:"succeeded"`
+	Succeeded *RadarPaymentEvaluationOutcomeSucceeded `json:"succeeded,omitempty"`
 	// Indicates the outcome of the payment evaluation.
 	Type RadarPaymentEvaluationOutcomeType `json:"type"`
 }
@@ -685,13 +685,13 @@ type RadarPaymentEvaluationSignals struct {
 type RadarPaymentEvaluation struct {
 	APIResource
 	// Client device metadata attached to this payment evaluation.
-	ClientDeviceMetadataDetails *RadarPaymentEvaluationClientDeviceMetadataDetails `json:"client_device_metadata_details"`
+	ClientDeviceMetadataDetails *RadarPaymentEvaluationClientDeviceMetadataDetails `json:"client_device_metadata_details,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	CreatedAt int64 `json:"created_at"`
 	// Customer details attached to this payment evaluation.
-	CustomerDetails *RadarPaymentEvaluationCustomerDetails `json:"customer_details"`
+	CustomerDetails *RadarPaymentEvaluationCustomerDetails `json:"customer_details,omitempty"`
 	// Event information associated with the payment evaluation, such as refunds, dispute, early fraud warnings, or user interventions.
-	Events []*RadarPaymentEvaluationEvent `json:"events"`
+	Events []*RadarPaymentEvaluationEvent `json:"events,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
@@ -701,9 +701,9 @@ type RadarPaymentEvaluation struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Indicates the final outcome for the payment evaluation.
-	Outcome *RadarPaymentEvaluationOutcome `json:"outcome"`
+	Outcome *RadarPaymentEvaluationOutcome `json:"outcome,omitempty"`
 	// Payment details attached to this payment evaluation.
-	PaymentDetails *RadarPaymentEvaluationPaymentDetails `json:"payment_details"`
+	PaymentDetails *RadarPaymentEvaluationPaymentDetails `json:"payment_details,omitempty"`
 	// Recommended action based on the score of the fraudulent_payment signal. Possible values are `block` and `continue`.
 	RecommendedAction RadarPaymentEvaluationRecommendedAction `json:"recommended_action"`
 	// Collection of signals for this payment evaluation.

@@ -56,7 +56,7 @@ type CapabilityListParams struct {
 	ListParams `form:"*"`
 	Account    *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -69,11 +69,11 @@ type CapabilityParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// To request a new capability for an account, pass true. There can be a delay before the requested capability becomes active. If the capability has any activation requirements, the response includes them in the `requirements` arrays.
 	//
 	// If a capability isn't permanent, you can remove it from the account by passing false. Some capabilities are permanent after they've been requested. Attempting to remove a permanent capability returns an error.
-	Requested *bool `form:"requested"`
+	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -86,7 +86,7 @@ type CapabilityRetrieveParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -99,11 +99,11 @@ type CapabilityUpdateParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// To request a new capability for an account, pass true. There can be a delay before the requested capability becomes active. If the capability has any activation requirements, the response includes them in the `requirements` arrays.
 	//
 	// If a capability isn't permanent, you can remove it from the account by passing false. Some capabilities are permanent after they've been requested. Attempting to remove a permanent capability returns an error.
-	Requested *bool `form:"requested"`
+	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -180,7 +180,7 @@ type Capability struct {
 	APIResource
 	// The account for which the capability enables functionality.
 	Account            *Account                      `json:"account"`
-	FutureRequirements *CapabilityFutureRequirements `json:"future_requirements"`
+	FutureRequirements *CapabilityFutureRequirements `json:"future_requirements,omitempty"`
 	// The identifier for the capability.
 	ID string `json:"id"`
 	// String representing the object's type. Objects of the same type share the same value.
@@ -189,7 +189,7 @@ type Capability struct {
 	Requested bool `json:"requested"`
 	// Time at which the capability was requested. Measured in seconds since the Unix epoch.
 	RequestedAt  int64                   `json:"requested_at"`
-	Requirements *CapabilityRequirements `json:"requirements"`
+	Requirements *CapabilityRequirements `json:"requirements,omitempty"`
 	// The status of the capability.
 	Status CapabilityStatus `json:"status"`
 }
