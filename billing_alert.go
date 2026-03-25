@@ -547,8 +547,6 @@ type BillingAlertCreditBalanceThreshold struct {
 
 // Filters to scope the spend calculation.
 type BillingAlertSpendThresholdFilters struct {
-	// Filter by billable item IDs.
-	BillableItems []string `json:"billable_items"`
 	// Filter by billing cadence ID.
 	BillingCadence string `json:"billing_cadence"`
 	// Filter by pricing plan ID.
@@ -641,7 +639,7 @@ type BillingAlert struct {
 	CreditBalanceThreshold *BillingAlertCreditBalanceThreshold `json:"credit_balance_threshold,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

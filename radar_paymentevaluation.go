@@ -78,15 +78,6 @@ const (
 	RadarPaymentEvaluationEventUserInterventionResolvedOutcomePassed    RadarPaymentEvaluationEventUserInterventionResolvedOutcome = "passed"
 )
 
-// Recommended action based on the risk score. Possible values are `block` and `continue`.
-type RadarPaymentEvaluationInsightsFraudulentDisputeRecommendedAction string
-
-// List of values that RadarPaymentEvaluationInsightsFraudulentDisputeRecommendedAction can take
-const (
-	RadarPaymentEvaluationInsightsFraudulentDisputeRecommendedActionBlock    RadarPaymentEvaluationInsightsFraudulentDisputeRecommendedAction = "block"
-	RadarPaymentEvaluationInsightsFraudulentDisputeRecommendedActionContinue RadarPaymentEvaluationInsightsFraudulentDisputeRecommendedAction = "continue"
-)
-
 // The reason the payment was blocked by the merchant.
 type RadarPaymentEvaluationOutcomeMerchantBlockedReason string
 
@@ -221,6 +212,25 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType s
 // List of values that RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType can take
 const (
 	RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementTypeCard RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType = "card"
+)
+
+// Recommended action based on the score of the fraudulent_payment signal. Possible values are `block` and `continue`.
+type RadarPaymentEvaluationRecommendedAction string
+
+// List of values that RadarPaymentEvaluationRecommendedAction can take
+const (
+	RadarPaymentEvaluationRecommendedActionBlock    RadarPaymentEvaluationRecommendedAction = "block"
+	RadarPaymentEvaluationRecommendedActionContinue RadarPaymentEvaluationRecommendedAction = "continue"
+)
+
+// Risk level of this signal, based on the score.
+type RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel string
+
+// List of values that RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel can take
+const (
+	RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevelElevated RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel = "elevated"
+	RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevelHighest  RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel = "highest"
+	RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevelNormal   RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel = "normal"
 )
 
 // Details about the Client Device Metadata to associate with the payment evaluation.
@@ -537,22 +547,6 @@ type RadarPaymentEvaluationEvent struct {
 	UserInterventionResolved *RadarPaymentEvaluationEventUserInterventionResolved `json:"user_intervention_resolved,omitempty"`
 }
 
-// Scores, insights and recommended action for one scorer for this PaymentEvaluation.
-type RadarPaymentEvaluationInsightsFraudulentDispute struct {
-	// Recommended action based on the risk score. Possible values are `block` and `continue`.
-	RecommendedAction RadarPaymentEvaluationInsightsFraudulentDisputeRecommendedAction `json:"recommended_action"`
-	// Stripe Radar's evaluation of the risk level of the payment. Possible values for evaluated payments are between 0 and 100, with higher scores indicating higher risk.
-	RiskScore int64 `json:"risk_score"`
-}
-
-// Collection of scores and insights for this payment evaluation.
-type RadarPaymentEvaluationInsights struct {
-	// The timestamp when the evaluation was performed.
-	EvaluatedAt int64 `json:"evaluated_at"`
-	// Scores, insights and recommended action for one scorer for this PaymentEvaluation.
-	FraudulentDispute *RadarPaymentEvaluationInsightsFraudulentDispute `json:"fraudulent_dispute"`
-}
-
 // Details of a merchant_blocked outcome attached to this payment evaluation.
 type RadarPaymentEvaluationOutcomeMerchantBlocked struct {
 	// The reason the payment was blocked by the merchant.
@@ -671,6 +665,22 @@ type RadarPaymentEvaluationPaymentDetails struct {
 	StatementDescriptor string `json:"statement_descriptor"`
 }
 
+// A payment evaluation signal with evaluated_at, risk_level, and score fields.
+type RadarPaymentEvaluationSignalsFraudulentPayment struct {
+	// The time when this signal was evaluated.
+	EvaluatedAt int64 `json:"evaluated_at"`
+	// Risk level of this signal, based on the score.
+	RiskLevel RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel `json:"risk_level"`
+	// Score for this insight. Possible values for evaluated payments are -1 and any value between 0 and 100. The value is returned with two decimal places. A score of -1 indicates a test integration and higher scores indicate a higher likelihood of the signal being true.
+	Score float64 `json:"score"`
+}
+
+// Collection of signals for this payment evaluation.
+type RadarPaymentEvaluationSignals struct {
+	// A payment evaluation signal with evaluated_at, risk_level, and score fields.
+	FraudulentPayment *RadarPaymentEvaluationSignalsFraudulentPayment `json:"fraudulent_payment"`
+}
+
 // Payment Evaluations represent the risk lifecycle of an externally processed payment. It includes the Radar risk score from Stripe, payment outcome taken by the merchant or processor, and any post transaction events, such as refunds or disputes. See the [Radar API guide](https://docs.stripe.com/radar/multiprocessor) for integration steps.
 type RadarPaymentEvaluation struct {
 	APIResource
@@ -684,9 +694,7 @@ type RadarPaymentEvaluation struct {
 	Events []*RadarPaymentEvaluationEvent `json:"events,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Collection of scores and insights for this payment evaluation.
-	Insights *RadarPaymentEvaluationInsights `json:"insights"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
@@ -696,4 +704,8 @@ type RadarPaymentEvaluation struct {
 	Outcome *RadarPaymentEvaluationOutcome `json:"outcome,omitempty"`
 	// Payment details attached to this payment evaluation.
 	PaymentDetails *RadarPaymentEvaluationPaymentDetails `json:"payment_details,omitempty"`
+	// Recommended action based on the score of the fraudulent_payment signal. Possible values are `block` and `continue`.
+	RecommendedAction RadarPaymentEvaluationRecommendedAction `json:"recommended_action"`
+	// Collection of signals for this payment evaluation.
+	Signals *RadarPaymentEvaluationSignals `json:"signals"`
 }

@@ -290,8 +290,6 @@ type TestHelpersConfirmationTokenPaymentMethodDataSofortParams struct {
 type TestHelpersConfirmationTokenPaymentMethodDataStripeBalanceParams struct {
 	// The connected account ID whose Stripe balance to use as the source of payment
 	Account *string `form:"account" json:"account,omitempty"`
-	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
-	SourceType *string `form:"source_type" json:"source_type,omitempty"`
 }
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -299,6 +297,24 @@ type TestHelpersConfirmationTokenPaymentMethodDataSwishParams struct{}
 
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataTWINTParams struct{}
+
+// Configuration options for setting up an eMandate
+type TestHelpersConfirmationTokenPaymentMethodDataUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+}
+
+// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions *TestHelpersConfirmationTokenPaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
 
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams struct {
@@ -440,6 +456,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	TWINT *TestHelpersConfirmationTokenPaymentMethodDataTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type" json:"type"`
+	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+	Upi *TestHelpersConfirmationTokenPaymentMethodDataUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -821,8 +839,6 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataSofortParams struct {
 type TestHelpersConfirmationTokenCreatePaymentMethodDataStripeBalanceParams struct {
 	// The connected account ID whose Stripe balance to use as the source of payment
 	Account *string `form:"account" json:"account,omitempty"`
-	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
-	SourceType *string `form:"source_type" json:"source_type,omitempty"`
 }
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -830,6 +846,24 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataSwishParams struct{}
 
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataTWINTParams struct{}
+
+// Configuration options for setting up an eMandate
+type TestHelpersConfirmationTokenCreatePaymentMethodDataUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+}
+
+// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions *TestHelpersConfirmationTokenCreatePaymentMethodDataUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
 
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams struct {
@@ -971,6 +1005,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	TWINT *TestHelpersConfirmationTokenCreatePaymentMethodDataTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type" json:"type"`
+	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+	Upi *TestHelpersConfirmationTokenCreatePaymentMethodDataUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.

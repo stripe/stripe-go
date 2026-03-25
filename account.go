@@ -263,7 +263,7 @@ const (
 	AccountSettingsPayoutsScheduleWeeklyPayoutDayWednesday AccountSettingsPayoutsScheduleWeeklyPayoutDay = "wednesday"
 )
 
-// Whether your business sells digital content or not.
+// The type of goods your business sells. Use `digital_content` if you sell digital content. Use `other` for all other types of goods or services.
 type AccountSettingsPaypayPaymentsGoodsType string
 
 // List of values that AccountSettingsPaypayPaymentsGoodsType can take
@@ -895,6 +895,12 @@ type AccountCapabilitiesTWINTPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The upi_payments capability.
+type AccountCapabilitiesUpiPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The us_bank_account_ach_payments capability.
 type AccountCapabilitiesUSBankAccountACHPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -1064,6 +1070,8 @@ type AccountCapabilitiesParams struct {
 	TreasuryGoldmanSachs *AccountCapabilitiesTreasuryGoldmanSachsParams `form:"treasury_goldman_sachs" json:"treasury_goldman_sachs,omitempty"`
 	// The twint_payments capability.
 	TWINTPayments *AccountCapabilitiesTWINTPaymentsParams `form:"twint_payments" json:"twint_payments,omitempty"`
+	// The upi_payments capability.
+	UpiPayments *AccountCapabilitiesUpiPaymentsParams `form:"upi_payments" json:"upi_payments,omitempty"`
 	// The us_bank_account_ach_payments capability.
 	USBankAccountACHPayments *AccountCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments" json:"us_bank_account_ach_payments,omitempty"`
 	// The us_bank_transfer_payments capability.
@@ -1593,7 +1601,7 @@ type AccountSettingsPaypayPaymentsSiteParams struct {
 type AccountSettingsPaypayPaymentsParams struct {
 	// Additional files that are required to support the onboarding process of your business.
 	AdditionalFiles []*string `form:"additional_files" json:"additional_files,omitempty"`
-	// Whether your business sells digital content or not.
+	// The type of goods your business sells. Use `digital_content` if you sell digital content. Use `other` for all other types of goods or services.
 	GoodsType *string `form:"goods_type" json:"goods_type,omitempty"`
 	// Details regarding your business's website.
 	Site *AccountSettingsPaypayPaymentsSiteParams `form:"site" json:"site,omitempty"`
@@ -2281,6 +2289,12 @@ type AccountUpdateCapabilitiesTWINTPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The upi_payments capability.
+type AccountUpdateCapabilitiesUpiPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The us_bank_account_ach_payments capability.
 type AccountUpdateCapabilitiesUSBankAccountACHPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2450,6 +2464,8 @@ type AccountUpdateCapabilitiesParams struct {
 	TreasuryGoldmanSachs *AccountUpdateCapabilitiesTreasuryGoldmanSachsParams `form:"treasury_goldman_sachs" json:"treasury_goldman_sachs,omitempty"`
 	// The twint_payments capability.
 	TWINTPayments *AccountUpdateCapabilitiesTWINTPaymentsParams `form:"twint_payments" json:"twint_payments,omitempty"`
+	// The upi_payments capability.
+	UpiPayments *AccountUpdateCapabilitiesUpiPaymentsParams `form:"upi_payments" json:"upi_payments,omitempty"`
 	// The us_bank_account_ach_payments capability.
 	USBankAccountACHPayments *AccountUpdateCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments" json:"us_bank_account_ach_payments,omitempty"`
 	// The us_bank_transfer_payments capability.
@@ -2983,7 +2999,7 @@ type AccountUpdateSettingsPaypayPaymentsSiteParams struct {
 type AccountUpdateSettingsPaypayPaymentsParams struct {
 	// Additional files that are required to support the onboarding process of your business.
 	AdditionalFiles []*string `form:"additional_files" json:"additional_files,omitempty"`
-	// Whether your business sells digital content or not.
+	// The type of goods your business sells. Use `digital_content` if you sell digital content. Use `other` for all other types of goods or services.
 	GoodsType *string `form:"goods_type" json:"goods_type,omitempty"`
 	// Details regarding your business's website.
 	Site *AccountUpdateSettingsPaypayPaymentsSiteParams `form:"site" json:"site,omitempty"`
@@ -3652,6 +3668,12 @@ type AccountCreateCapabilitiesTWINTPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The upi_payments capability.
+type AccountCreateCapabilitiesUpiPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The us_bank_account_ach_payments capability.
 type AccountCreateCapabilitiesUSBankAccountACHPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3821,6 +3843,8 @@ type AccountCreateCapabilitiesParams struct {
 	TreasuryGoldmanSachs *AccountCreateCapabilitiesTreasuryGoldmanSachsParams `form:"treasury_goldman_sachs" json:"treasury_goldman_sachs,omitempty"`
 	// The twint_payments capability.
 	TWINTPayments *AccountCreateCapabilitiesTWINTPaymentsParams `form:"twint_payments" json:"twint_payments,omitempty"`
+	// The upi_payments capability.
+	UpiPayments *AccountCreateCapabilitiesUpiPaymentsParams `form:"upi_payments" json:"upi_payments,omitempty"`
 	// The us_bank_account_ach_payments capability.
 	USBankAccountACHPayments *AccountCreateCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments" json:"us_bank_account_ach_payments,omitempty"`
 	// The us_bank_transfer_payments capability.
@@ -4393,7 +4417,7 @@ type AccountCreateSettingsPaypayPaymentsSiteParams struct {
 type AccountCreateSettingsPaypayPaymentsParams struct {
 	// Additional files that are required to support the onboarding process of your business.
 	AdditionalFiles []*string `form:"additional_files" json:"additional_files,omitempty"`
-	// Whether your business sells digital content or not.
+	// The type of goods your business sells. Use `digital_content` if you sell digital content. Use `other` for all other types of goods or services.
 	GoodsType *string `form:"goods_type" json:"goods_type,omitempty"`
 	// Details regarding your business's website.
 	Site *AccountCreateSettingsPaypayPaymentsSiteParams `form:"site" json:"site,omitempty"`
@@ -4759,6 +4783,8 @@ type AccountCapabilities struct {
 	TreasuryGoldmanSachs AccountCapabilityStatus `json:"treasury_goldman_sachs,omitempty"`
 	// The status of the TWINT capability of the account, or whether the account can directly process TWINT charges.
 	TWINTPayments AccountCapabilityStatus `json:"twint_payments,omitempty"`
+	// The status of the upi payments capability of the account, or whether the account can directly process upi charges.
+	UpiPayments AccountCapabilityStatus `json:"upi_payments,omitempty"`
 	// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
 	USBankAccountACHPayments AccountCapabilityStatus `json:"us_bank_account_ach_payments,omitempty"`
 	// The status of the US customer_balance payments (USD currency) capability of the account, or whether the account can directly process US customer_balance charges.
@@ -5144,7 +5170,7 @@ type AccountSettingsPaypayPaymentsSite struct {
 type AccountSettingsPaypayPayments struct {
 	// Additional files that are required to support the onboarding process of your business.
 	AdditionalFiles []string `json:"additional_files,omitempty"`
-	// Whether your business sells digital content or not.
+	// The type of goods your business sells. Use `digital_content` if you sell digital content. Use `other` for all other types of goods or services.
 	GoodsType AccountSettingsPaypayPaymentsGoodsType `json:"goods_type,omitempty"`
 	Site      *AccountSettingsPaypayPaymentsSite     `json:"site,omitempty"`
 }
@@ -5205,6 +5231,8 @@ type AccountTOSAcceptance struct {
 	UserAgent string `json:"user_agent,omitempty"`
 }
 
+// For new integrations, we recommend using the [Accounts v2 API](https://docs.stripe.com/api/v2/core/accounts), in place of /v1/accounts and /v1/customers to represent a user.
+//
 // This is an object representing a Stripe account. You can retrieve it to see
 // properties on the account like its current requirements or if the account is
 // enabled to make live charges or receive payouts.
@@ -5260,6 +5288,8 @@ type Account struct {
 	PayoutsEnabled bool                 `json:"payouts_enabled,omitempty"`
 	Requirements   *AccountRequirements `json:"requirements,omitempty"`
 	RiskControls   *AccountRiskControls `json:"risk_controls,omitempty"`
+	// A hash containing information about risk signal collection
+	RiskSignals *RiskSignals `json:"risk_signals,omitempty"`
 	// Options for customizing how the account functions within Stripe.
 	Settings      *AccountSettings      `json:"settings,omitempty"`
 	TOSAcceptance *AccountTOSAcceptance `json:"tos_acceptance,omitempty"`

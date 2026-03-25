@@ -86,6 +86,15 @@ const (
 	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReadMethodMagneticStripeTrack2     PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReadMethod = "magnetic_stripe_track2"
 )
 
+// Indicates whether or not the reauthorization feature is supported.
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus string
+
+// List of values that PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus can take
+const (
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatusAvailable   PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus = "available"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatusUnavailable PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus = "unavailable"
+)
+
 // The type of account being debited or credited
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountType string
 
@@ -106,15 +115,6 @@ const (
 	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeGooglePay  PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "google_pay"
 	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeSamsungPay PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "samsung_pay"
 	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeUnknown    PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "unknown"
-)
-
-// Indicates whether or not the reauthorization feature is supported.
-type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus string
-
-// List of values that PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus can take
-const (
-	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatusAvailable   PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus = "available"
-	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatusUnavailable PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus = "unavailable"
 )
 
 // All networks available for selection via [payment_method_options.card.network](https://docs.stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
@@ -283,16 +283,6 @@ const (
 	PaymentMethodNaverPayFundingPoints PaymentMethodNaverPayFunding = "points"
 )
 
-// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
-type PaymentMethodStripeBalanceSourceType string
-
-// List of values that PaymentMethodStripeBalanceSourceType can take
-const (
-	PaymentMethodStripeBalanceSourceTypeBankAccount PaymentMethodStripeBalanceSourceType = "bank_account"
-	PaymentMethodStripeBalanceSourceTypeCard        PaymentMethodStripeBalanceSourceType = "card"
-	PaymentMethodStripeBalanceSourceTypeFPX         PaymentMethodStripeBalanceSourceType = "fpx"
-)
-
 // The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 type PaymentMethodType string
 
@@ -355,6 +345,7 @@ const (
 	PaymentMethodTypeStripeBalance    PaymentMethodType = "stripe_balance"
 	PaymentMethodTypeSwish            PaymentMethodType = "swish"
 	PaymentMethodTypeTWINT            PaymentMethodType = "twint"
+	PaymentMethodTypeUpi              PaymentMethodType = "upi"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
 	PaymentMethodTypeWeChatPay        PaymentMethodType = "wechat_pay"
 	PaymentMethodTypeZip              PaymentMethodType = "zip"
@@ -769,8 +760,6 @@ type PaymentMethodSofortParams struct {
 type PaymentMethodStripeBalanceParams struct {
 	// The connected account ID whose Stripe balance to use as the source of payment
 	Account *string `form:"account" json:"account,omitempty"`
-	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
-	SourceType *string `form:"source_type" json:"source_type,omitempty"`
 }
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -778,6 +767,24 @@ type PaymentMethodSwishParams struct{}
 
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type PaymentMethodTWINTParams struct{}
+
+// Configuration options for setting up an eMandate
+type PaymentMethodUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+}
+
+// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+type PaymentMethodUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions *PaymentMethodUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
 
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodUSBankAccountParams struct {
@@ -928,6 +935,8 @@ type PaymentMethodParams struct {
 	TWINT *PaymentMethodTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type" json:"type,omitempty"`
+	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+	Upi *PaymentMethodUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -1332,8 +1341,6 @@ type PaymentMethodCreateSofortParams struct {
 type PaymentMethodCreateStripeBalanceParams struct {
 	// The connected account ID whose Stripe balance to use as the source of payment
 	Account *string `form:"account" json:"account,omitempty"`
-	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
-	SourceType *string `form:"source_type" json:"source_type,omitempty"`
 }
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -1341,6 +1348,24 @@ type PaymentMethodCreateSwishParams struct{}
 
 // If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type PaymentMethodCreateTWINTParams struct{}
+
+// Configuration options for setting up an eMandate
+type PaymentMethodCreateUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+}
+
+// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+type PaymentMethodCreateUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions *PaymentMethodCreateUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
 
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodCreateUSBankAccountParams struct {
@@ -1495,6 +1520,8 @@ type PaymentMethodCreateParams struct {
 	TWINT *PaymentMethodCreateTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type" json:"type,omitempty"`
+	// If this is a `upi` PaymentMethod, this hash contains details about the UPI payment method.
+	Upi *PaymentMethodCreateUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodCreateUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -1741,6 +1768,12 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline struct
 	Type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType `json:"type"`
 }
 
+// Whether the PaymentIntent can be reauthorized or not.
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorization struct {
+	// Indicates whether or not the reauthorization feature is supported.
+	Status PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
+}
+
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceipt struct {
 	// The type of account being debited or credited
@@ -1765,12 +1798,6 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceipt struct
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWallet struct {
 	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
 	Type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType `json:"type"`
-}
-
-// Whether the PaymentIntent can be reauthorized or not.
-type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorization struct {
-	// Indicates whether or not the reauthorization feature is supported.
-	Status PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
 }
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
@@ -2231,11 +2258,13 @@ type PaymentMethodSofort struct {
 type PaymentMethodStripeBalance struct {
 	// The connected account ID whose Stripe balance to use as the source of payment
 	Account string `json:"account,omitempty"`
-	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
-	SourceType PaymentMethodStripeBalanceSourceType `json:"source_type"`
 }
 type PaymentMethodSwish struct{}
 type PaymentMethodTWINT struct{}
+type PaymentMethodUpi struct {
+	// Customer's unique Virtual Payment Address
+	Vpa string `json:"vpa"`
+}
 
 // Contains information about US bank account networks that can be used.
 type PaymentMethodUSBankAccountNetworks struct {
@@ -2330,7 +2359,7 @@ type PaymentMethod struct {
 	// The Mandate object of the most recently created Mandate associated with this payment method
 	LatestActiveMandate *Mandate           `json:"latest_active_mandate,omitempty"`
 	Link                *PaymentMethodLink `json:"link,omitempty"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool                `json:"livemode"`
 	MbWay    *PaymentMethodMbWay `json:"mb_way,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -2366,6 +2395,7 @@ type PaymentMethod struct {
 	TWINT         *PaymentMethodTWINT         `json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          PaymentMethodType           `json:"type"`
+	Upi           *PaymentMethodUpi           `json:"upi,omitempty"`
 	USBankAccount *PaymentMethodUSBankAccount `json:"us_bank_account,omitempty"`
 	WeChatPay     *PaymentMethodWeChatPay     `json:"wechat_pay,omitempty"`
 	Zip           *PaymentMethodZip           `json:"zip,omitempty"`

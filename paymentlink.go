@@ -22,8 +22,9 @@ type PaymentLinkAutomaticTaxLiabilityType string
 
 // List of values that PaymentLinkAutomaticTaxLiabilityType can take
 const (
-	PaymentLinkAutomaticTaxLiabilityTypeAccount PaymentLinkAutomaticTaxLiabilityType = "account"
-	PaymentLinkAutomaticTaxLiabilityTypeSelf    PaymentLinkAutomaticTaxLiabilityType = "self"
+	PaymentLinkAutomaticTaxLiabilityTypeAccount     PaymentLinkAutomaticTaxLiabilityType = "account"
+	PaymentLinkAutomaticTaxLiabilityTypeApplication PaymentLinkAutomaticTaxLiabilityType = "application"
+	PaymentLinkAutomaticTaxLiabilityTypeSelf        PaymentLinkAutomaticTaxLiabilityType = "self"
 )
 
 // Configuration for collecting the customer's billing address. Defaults to `auto`.
@@ -96,8 +97,9 @@ type PaymentLinkInvoiceCreationInvoiceDataIssuerType string
 
 // List of values that PaymentLinkInvoiceCreationInvoiceDataIssuerType can take
 const (
-	PaymentLinkInvoiceCreationInvoiceDataIssuerTypeAccount PaymentLinkInvoiceCreationInvoiceDataIssuerType = "account"
-	PaymentLinkInvoiceCreationInvoiceDataIssuerTypeSelf    PaymentLinkInvoiceCreationInvoiceDataIssuerType = "self"
+	PaymentLinkInvoiceCreationInvoiceDataIssuerTypeAccount     PaymentLinkInvoiceCreationInvoiceDataIssuerType = "account"
+	PaymentLinkInvoiceCreationInvoiceDataIssuerTypeApplication PaymentLinkInvoiceCreationInvoiceDataIssuerType = "application"
+	PaymentLinkInvoiceCreationInvoiceDataIssuerTypeSelf        PaymentLinkInvoiceCreationInvoiceDataIssuerType = "self"
 )
 
 // Indicates when the funds will be captured from the customer's account.
@@ -174,6 +176,7 @@ const (
 	PaymentLinkPaymentMethodTypeSofort           PaymentLinkPaymentMethodType = "sofort"
 	PaymentLinkPaymentMethodTypeSwish            PaymentLinkPaymentMethodType = "swish"
 	PaymentLinkPaymentMethodTypeTWINT            PaymentLinkPaymentMethodType = "twint"
+	PaymentLinkPaymentMethodTypeUpi              PaymentLinkPaymentMethodType = "upi"
 	PaymentLinkPaymentMethodTypeUSBankAccount    PaymentLinkPaymentMethodType = "us_bank_account"
 	PaymentLinkPaymentMethodTypeWeChatPay        PaymentLinkPaymentMethodType = "wechat_pay"
 	PaymentLinkPaymentMethodTypeZip              PaymentLinkPaymentMethodType = "zip"
@@ -196,8 +199,9 @@ type PaymentLinkSubscriptionDataInvoiceSettingsIssuerType string
 
 // List of values that PaymentLinkSubscriptionDataInvoiceSettingsIssuerType can take
 const (
-	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeAccount PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "account"
-	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeSelf    PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "self"
+	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeAccount     PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "account"
+	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeApplication PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "application"
+	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeSelf        PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "self"
 )
 
 // Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
@@ -509,7 +513,20 @@ type PaymentLinkLineItemPriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code" json:"tax_code"`
+	TaxCode     *string                                                             `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkLineItemPriceDataProductDataTaxDetailsParams.
+type PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field PaymentLinkLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -577,6 +594,12 @@ type PaymentLinkLineItemParams struct {
 	PriceData *PaymentLinkLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item being purchased.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
+}
+
+// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+type PaymentLinkManagedPaymentsParams struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
 // Controls settings applied for collecting the customer's business name.
@@ -832,6 +855,8 @@ type PaymentLinkParams struct {
 	InvoiceCreation *PaymentLinkInvoiceCreationParams `form:"invoice_creation" json:"invoice_creation,omitempty"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkLineItemParams `form:"line_items" json:"line_items,omitempty"`
+	// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+	ManagedPayments *PaymentLinkManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Controls settings applied for collecting the customer's name.
@@ -1195,7 +1220,20 @@ type PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code" json:"tax_code"`
+	TaxCode     *string                                                                   `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParams.
+type PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field PaymentLinkCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -1261,6 +1299,12 @@ type PaymentLinkCreateLineItemParams struct {
 	PriceData *PaymentLinkCreateLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item being purchased.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+}
+
+// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+type PaymentLinkCreateManagedPaymentsParams struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
 // Controls settings applied for collecting the customer's business name.
@@ -1482,6 +1526,8 @@ type PaymentLinkCreateParams struct {
 	InvoiceCreation *PaymentLinkCreateInvoiceCreationParams `form:"invoice_creation" json:"invoice_creation,omitempty"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkCreateLineItemParams `form:"line_items" json:"line_items"`
+	// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+	ManagedPayments *PaymentLinkCreateManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Controls settings applied for collecting the customer's name.
@@ -2269,6 +2315,12 @@ type PaymentLinkInvoiceCreation struct {
 	// Configuration for the invoice. Default invoice values will be used if unspecified.
 	InvoiceData *PaymentLinkInvoiceCreationInvoiceData `json:"invoice_data"`
 }
+
+// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+type PaymentLinkManagedPayments struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled bool `json:"enabled"`
+}
 type PaymentLinkNameCollectionBusiness struct {
 	// Indicates whether business name collection is enabled for the payment link.
 	Enabled bool `json:"enabled"`
@@ -2433,8 +2485,10 @@ type PaymentLink struct {
 	InvoiceCreation *PaymentLinkInvoiceCreation `json:"invoice_creation"`
 	// The line items representing what is being sold.
 	LineItems *LineItemList `json:"line_items,omitempty"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
+	// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+	ManagedPayments *PaymentLinkManagedPayments `json:"managed_payments,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata       map[string]string          `json:"metadata"`
 	NameCollection *PaymentLinkNameCollection `json:"name_collection,omitempty"`

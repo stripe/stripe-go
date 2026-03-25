@@ -49,7 +49,7 @@ type SubscriptionItemParams struct {
 	PriceData *SubscriptionItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://api.stripe.com#retrieve_customer_invoice) endpoint.
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://docs.stripe.com/api/invoices/create_preview) endpoint.
 	ProrationDate *int64 `form:"proration_date" json:"proration_date,omitempty"`
 	// The quantity you'd like to apply to the subscription item you're creating.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -228,7 +228,7 @@ type SubscriptionItemDeleteParams struct {
 	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://api.stripe.com#retrieve_customer_invoice) endpoint.
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://docs.stripe.com/api/invoices/create_preview) endpoint.
 	ProrationDate *int64 `form:"proration_date" json:"proration_date,omitempty"`
 }
 
@@ -375,7 +375,7 @@ type SubscriptionItemUpdateParams struct {
 	PriceData *SubscriptionItemUpdatePriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://api.stripe.com#retrieve_customer_invoice) endpoint.
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://docs.stripe.com/api/invoices/create_preview) endpoint.
 	ProrationDate *int64 `form:"proration_date" json:"proration_date,omitempty"`
 	// The quantity you'd like to apply to the subscription item you're creating.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -550,7 +550,7 @@ type SubscriptionItemCreateParams struct {
 	PriceData *SubscriptionItemCreatePriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://api.stripe.com#retrieve_customer_invoice) endpoint.
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://docs.stripe.com/api/invoices/create_preview) endpoint.
 	ProrationDate *int64 `form:"proration_date" json:"proration_date,omitempty"`
 	// The quantity you'd like to apply to the subscription item you're creating.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`

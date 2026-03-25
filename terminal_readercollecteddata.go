@@ -51,7 +51,7 @@ type TerminalReaderCollectedData struct {
 	Created int64 `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// The magstripe data collected by the reader.
 	Magstripe *TerminalReaderCollectedDataMagstripe `json:"magstripe"`

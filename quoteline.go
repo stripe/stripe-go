@@ -228,7 +228,7 @@ const (
 	QuoteLineProrationBehaviorNone             QuoteLineProrationBehavior = "none"
 )
 
-// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+// The payment collection behavior for this subscription while paused.
 type QuoteLineSetPauseCollectionSetBehavior string
 
 // List of values that QuoteLineSetPauseCollectionSetBehavior can take
@@ -603,7 +603,7 @@ type QuoteLineEndsAt struct {
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type QuoteLineSetPauseCollectionSet struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior QuoteLineSetPauseCollectionSetBehavior `json:"behavior"`
 }
 

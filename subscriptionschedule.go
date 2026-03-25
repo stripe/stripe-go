@@ -88,8 +88,9 @@ type SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType string
 
 // List of values that SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType can take
 const (
-	SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerTypeAccount SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType = "account"
-	SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerTypeSelf    SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType = "self"
+	SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerTypeAccount     SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType = "account"
+	SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerTypeApplication SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType = "application"
+	SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerTypeSelf        SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType = "self"
 )
 
 // Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
@@ -198,8 +199,9 @@ type SubscriptionSchedulePhaseInvoiceSettingsIssuerType string
 
 // List of values that SubscriptionSchedulePhaseInvoiceSettingsIssuerType can take
 const (
-	SubscriptionSchedulePhaseInvoiceSettingsIssuerTypeAccount SubscriptionSchedulePhaseInvoiceSettingsIssuerType = "account"
-	SubscriptionSchedulePhaseInvoiceSettingsIssuerTypeSelf    SubscriptionSchedulePhaseInvoiceSettingsIssuerType = "self"
+	SubscriptionSchedulePhaseInvoiceSettingsIssuerTypeAccount     SubscriptionSchedulePhaseInvoiceSettingsIssuerType = "account"
+	SubscriptionSchedulePhaseInvoiceSettingsIssuerTypeApplication SubscriptionSchedulePhaseInvoiceSettingsIssuerType = "application"
+	SubscriptionSchedulePhaseInvoiceSettingsIssuerTypeSelf        SubscriptionSchedulePhaseInvoiceSettingsIssuerType = "self"
 )
 
 // The discount end type.
@@ -238,7 +240,7 @@ const (
 	SubscriptionSchedulePhaseItemTrialTypePaid SubscriptionSchedulePhaseItemTrialType = "paid"
 )
 
-// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+// The payment collection behavior for this subscription while paused.
 type SubscriptionSchedulePhasePauseCollectionBehavior string
 
 // List of values that SubscriptionSchedulePhasePauseCollectionBehavior can take
@@ -807,7 +809,7 @@ func (p *SubscriptionSchedulePhaseItemParams) AddMetadata(key string, value stri
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionSchedulePhasePauseCollectionParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior" json:"behavior"`
 }
 
@@ -1418,7 +1420,7 @@ func (p *SubscriptionScheduleAmendAmendmentMetadataActionParams) AddUnsetField(f
 
 // Details of the pause_collection behavior to apply to the amendment.
 type SubscriptionScheduleAmendAmendmentSetPauseCollectionSetParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior" json:"behavior"`
 }
 
@@ -2069,7 +2071,7 @@ func (p *SubscriptionScheduleCreatePhaseItemParams) AddMetadata(key string, valu
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionScheduleCreatePhasePauseCollectionParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior" json:"behavior"`
 }
 
@@ -2711,7 +2713,7 @@ func (p *SubscriptionScheduleUpdatePhaseItemParams) AddMetadata(key string, valu
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionScheduleUpdatePhasePauseCollectionParams struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior *string `form:"behavior" json:"behavior"`
 }
 
@@ -3219,7 +3221,7 @@ type SubscriptionSchedulePhaseItem struct {
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionSchedulePhasePauseCollection struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	// The payment collection behavior for this subscription while paused.
 	Behavior SubscriptionSchedulePhasePauseCollectionBehavior `json:"behavior"`
 }
 
@@ -3332,7 +3334,7 @@ type SubscriptionSchedule struct {
 	LastPriceMigrationError *SubscriptionScheduleLastPriceMigrationError `json:"last_price_migration_error,omitempty"`
 	// The most recent invoice this subscription schedule has generated.
 	LatestInvoice *Invoice `json:"latest_invoice,omitempty"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

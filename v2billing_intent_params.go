@@ -193,10 +193,18 @@ type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPe
 	DebitProrationBehavior *string `form:"debit_proration_behavior" json:"debit_proration_behavior"`
 }
 
+// Overrides the behavior for recurring credit grant components when the action takes effect during the service period.
+type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantParams struct {
+	// Controls credit grant creation behavior during partial periods. If not specified, defaults to full_credits.
+	CreateBehavior *string `form:"create_behavior" json:"create_behavior"`
+}
+
 // Configurations for behaviors when the action takes effect during the service period.
 type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams struct {
 	// Overrides the behavior for license fee components when the action takes effect during the service period.
 	LicenseFee *V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams `form:"license_fee" json:"license_fee,omitempty"`
+	// Overrides the behavior for recurring credit grant components when the action takes effect during the service period.
+	RecurringCreditGrant *V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantParams `form:"recurring_credit_grant" json:"recurring_credit_grant,omitempty"`
 	// The type of behavior to override.
 	Type *string `form:"type" json:"type"`
 }
@@ -275,10 +283,18 @@ type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartia
 	DebitProrationBehavior *string `form:"debit_proration_behavior" json:"debit_proration_behavior"`
 }
 
+// Overrides the behavior for recurring credit grant components when the action takes effect during the service period.
+type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantParams struct {
+	// Controls credit grant creation behavior during partial periods. If not specified, defaults to full_credits.
+	CreateBehavior *string `form:"create_behavior" json:"create_behavior"`
+}
+
 // Configurations for behaviors when the action takes effect during the service period.
 type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams struct {
 	// Overrides the behavior for license fee components when the action takes effect during the service period.
 	LicenseFee *V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams `form:"license_fee" json:"license_fee,omitempty"`
+	// Overrides the behavior for recurring credit grant components when the action takes effect during the service period.
+	RecurringCreditGrant *V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantParams `form:"recurring_credit_grant" json:"recurring_credit_grant,omitempty"`
 	// The type of behavior to override.
 	Type *string `form:"type" json:"type"`
 }
@@ -591,8 +607,6 @@ type V2BillingIntentParams struct {
 	CadenceData *V2BillingIntentCadenceDataParams `form:"cadence_data" json:"cadence_data,omitempty"`
 	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency *string `form:"currency" json:"currency,omitempty"`
-	// Select additional fields to include in the response.
-	Include []*string `form:"include" json:"include,omitempty"`
 }
 
 // Cancel a Billing Intent.
@@ -615,8 +629,6 @@ type V2BillingIntentReleaseReservationParams struct {
 // Reserve a Billing Intent.
 type V2BillingIntentReserveParams struct {
 	Params `form:"*"`
-	// Select additional fields to include in the response.
-	Include []*string `form:"include" json:"include,omitempty"`
 }
 
 // When the apply action will take effect. If not specified, defaults to on_reserve.
@@ -797,10 +809,18 @@ type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesPar
 	DebitProrationBehavior *string `form:"debit_proration_behavior" json:"debit_proration_behavior"`
 }
 
+// Overrides the behavior for recurring credit grant components when the action takes effect during the service period.
+type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantParams struct {
+	// Controls credit grant creation behavior during partial periods. If not specified, defaults to full_credits.
+	CreateBehavior *string `form:"create_behavior" json:"create_behavior"`
+}
+
 // Configurations for behaviors when the action takes effect during the service period.
 type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams struct {
 	// Overrides the behavior for license fee components when the action takes effect during the service period.
 	LicenseFee *V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams `form:"license_fee" json:"license_fee,omitempty"`
+	// Overrides the behavior for recurring credit grant components when the action takes effect during the service period.
+	RecurringCreditGrant *V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantParams `form:"recurring_credit_grant" json:"recurring_credit_grant,omitempty"`
 	// The type of behavior to override.
 	Type *string `form:"type" json:"type"`
 }
@@ -879,10 +899,18 @@ type V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverrides
 	DebitProrationBehavior *string `form:"debit_proration_behavior" json:"debit_proration_behavior"`
 }
 
+// Overrides the behavior for recurring credit grant components when the action takes effect during the service period.
+type V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantParams struct {
+	// Controls credit grant creation behavior during partial periods. If not specified, defaults to full_credits.
+	CreateBehavior *string `form:"create_behavior" json:"create_behavior"`
+}
+
 // Configurations for behaviors when the action takes effect during the service period.
 type V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams struct {
 	// Overrides the behavior for license fee components when the action takes effect during the service period.
 	LicenseFee *V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeParams `form:"license_fee" json:"license_fee,omitempty"`
+	// Overrides the behavior for recurring credit grant components when the action takes effect during the service period.
+	RecurringCreditGrant *V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantParams `form:"recurring_credit_grant" json:"recurring_credit_grant,omitempty"`
 	// The type of behavior to override.
 	Type *string `form:"type" json:"type"`
 }
@@ -1195,8 +1223,6 @@ type V2BillingIntentCreateParams struct {
 	CadenceData *V2BillingIntentCreateCadenceDataParams `form:"cadence_data" json:"cadence_data,omitempty"`
 	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency *string `form:"currency" json:"currency"`
-	// Select additional fields to include in the response.
-	Include []*string `form:"include" json:"include,omitempty"`
 }
 
 // Retrieve a Billing Intent.

@@ -1705,6 +1705,26 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorParams struct {
 	Consumer *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerParams `form:"consumer" json:"consumer,omitempty"`
 }
 
+// Details on the Account's acceptance of Consumer-privacy-disclosures-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceConsumerPrivacyDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Details on the Account's acceptance of Consumer-storer-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceConsumerStorerParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of Crypto-storer-specific terms of service.
 type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -1731,6 +1751,10 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceParams struct {
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Issuing-specific terms of service.
 	CardCreator *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
+	// Details on the Account's acceptance of Consumer-privacy-disclosures-specific terms of service.
+	ConsumerPrivacyDisclosures *V2CoreAccountIdentityAttestationsTermsOfServiceConsumerPrivacyDisclosuresParams `form:"consumer_privacy_disclosures" json:"consumer_privacy_disclosures,omitempty"`
+	// Details on the Account's acceptance of Consumer-storer-specific terms of service.
+	ConsumerStorer *V2CoreAccountIdentityAttestationsTermsOfServiceConsumerStorerParams `form:"consumer_storer" json:"consumer_storer,omitempty"`
 	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
 	CryptoStorer *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
@@ -4009,6 +4033,26 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorParams stru
 	Consumer *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerParams `form:"consumer" json:"consumer,omitempty"`
 }
 
+// Details on the Account's acceptance of Consumer-privacy-disclosures-specific terms of service.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceConsumerPrivacyDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Details on the Account's acceptance of Consumer-storer-specific terms of service.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceConsumerStorerParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of Crypto-storer-specific terms of service.
 type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -4035,6 +4079,10 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceParams struct {
 	Account *V2CoreAccountCreateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Issuing-specific terms of service.
 	CardCreator *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
+	// Details on the Account's acceptance of Consumer-privacy-disclosures-specific terms of service.
+	ConsumerPrivacyDisclosures *V2CoreAccountCreateIdentityAttestationsTermsOfServiceConsumerPrivacyDisclosuresParams `form:"consumer_privacy_disclosures" json:"consumer_privacy_disclosures,omitempty"`
+	// Details on the Account's acceptance of Consumer-storer-specific terms of service.
+	ConsumerStorer *V2CoreAccountCreateIdentityAttestationsTermsOfServiceConsumerStorerParams `form:"consumer_storer" json:"consumer_storer,omitempty"`
 	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
 	CryptoStorer *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
@@ -6319,6 +6367,26 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorParams stru
 	Consumer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerParams `form:"consumer" json:"consumer,omitempty"`
 }
 
+// Details on the Account's acceptance of Consumer-privacy-disclosures-specific terms of service.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceConsumerPrivacyDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Details on the Account's acceptance of Consumer-storer-specific terms of service.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceConsumerStorerParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of Crypto-storer-specific terms of service.
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -6345,6 +6413,10 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams struct {
 	Account *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Issuing-specific terms of service.
 	CardCreator *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
+	// Details on the Account's acceptance of Consumer-privacy-disclosures-specific terms of service.
+	ConsumerPrivacyDisclosures *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceConsumerPrivacyDisclosuresParams `form:"consumer_privacy_disclosures" json:"consumer_privacy_disclosures,omitempty"`
+	// Details on the Account's acceptance of Consumer-storer-specific terms of service.
+	ConsumerStorer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceConsumerStorerParams `form:"consumer_storer" json:"consumer_storer,omitempty"`
 	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
 	CryptoStorer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.

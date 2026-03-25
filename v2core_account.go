@@ -6688,6 +6688,26 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreator struct {
 	Consumer *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumer `json:"consumer,omitempty"`
 }
 
+// Details on the Account's acceptance of Consumer-privacy-disclosures-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceConsumerPrivacyDisclosures struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Details on the Account's acceptance of Consumer-storer-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceConsumerStorer struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
 // Details on the Account's acceptance of Crypto-storer-specific terms of service.
 type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorer struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -6714,6 +6734,10 @@ type V2CoreAccountIdentityAttestationsTermsOfService struct {
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccount `json:"account,omitempty"`
 	// Details on the Account's acceptance of Issuing-specific terms of service.
 	CardCreator *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreator `json:"card_creator,omitempty"`
+	// Details on the Account's acceptance of Consumer-privacy-disclosures-specific terms of service.
+	ConsumerPrivacyDisclosures *V2CoreAccountIdentityAttestationsTermsOfServiceConsumerPrivacyDisclosures `json:"consumer_privacy_disclosures,omitempty"`
+	// Details on the Account's acceptance of Consumer-storer-specific terms of service.
+	ConsumerStorer *V2CoreAccountIdentityAttestationsTermsOfServiceConsumerStorer `json:"consumer_storer,omitempty"`
 	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
 	CryptoStorer *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorer `json:"crypto_storer,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.

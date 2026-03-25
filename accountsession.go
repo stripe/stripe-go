@@ -1353,6 +1353,14 @@ type AccountSessionComponentsFinancialAccount struct {
 	Enabled  bool                                              `json:"enabled"`
 	Features *AccountSessionComponentsFinancialAccountFeatures `json:"features"`
 }
+type AccountSessionComponentsFinancialAccountRewardsFeatures struct{}
+
+// Configuration for the [financial account rewards](https://docs.stripe.com/connect/supported-embedded-components/financial-account-rewards/) embedded component.
+type AccountSessionComponentsFinancialAccountRewards struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                     `json:"enabled"`
+	Features *AccountSessionComponentsFinancialAccountRewardsFeatures `json:"features"`
+}
 type AccountSessionComponentsFinancialAccountTransactionsFeatures struct {
 	// Whether to allow card spend dispute management features.
 	CardSpendDisputeManagement bool `json:"card_spend_dispute_management"`
@@ -1406,6 +1414,14 @@ type AccountSessionComponentsIssuingCardsList struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                              `json:"enabled"`
 	Features *AccountSessionComponentsIssuingCardsListFeatures `json:"features"`
+}
+type AccountSessionComponentsNestingDemoFeatures struct{}
+
+// Configuration for the [Nestingdemo](https://docs.stripe.com/connect/supported-embedded-components/nesting-demo/) embedded component.
+type AccountSessionComponentsNestingDemo struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                         `json:"enabled"`
+	Features *AccountSessionComponentsNestingDemoFeatures `json:"features"`
 }
 type AccountSessionComponentsNetworkCostPassthroughReportFeatures struct{}
 
@@ -1536,14 +1552,18 @@ type AccountSessionComponents struct {
 	CapitalFinancingApplication *AccountSessionComponentsCapitalFinancingApplication `json:"capital_financing_application,omitempty"`
 	CapitalFinancingPromotion   *AccountSessionComponentsCapitalFinancingPromotion   `json:"capital_financing_promotion,omitempty"`
 	// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
-	CheckScanning                *AccountSessionComponentsCheckScanning                `json:"check_scanning,omitempty"`
-	DisputesList                 *AccountSessionComponentsDisputesList                 `json:"disputes_list"`
-	Documents                    *AccountSessionComponentsDocuments                    `json:"documents"`
-	FinancialAccount             *AccountSessionComponentsFinancialAccount             `json:"financial_account"`
+	CheckScanning    *AccountSessionComponentsCheckScanning    `json:"check_scanning,omitempty"`
+	DisputesList     *AccountSessionComponentsDisputesList     `json:"disputes_list"`
+	Documents        *AccountSessionComponentsDocuments        `json:"documents"`
+	FinancialAccount *AccountSessionComponentsFinancialAccount `json:"financial_account"`
+	// Configuration for the [financial account rewards](https://docs.stripe.com/connect/supported-embedded-components/financial-account-rewards/) embedded component.
+	FinancialAccountRewards      *AccountSessionComponentsFinancialAccountRewards      `json:"financial_account_rewards,omitempty"`
 	FinancialAccountTransactions *AccountSessionComponentsFinancialAccountTransactions `json:"financial_account_transactions"`
 	InstantPayoutsPromotion      *AccountSessionComponentsInstantPayoutsPromotion      `json:"instant_payouts_promotion"`
 	IssuingCard                  *AccountSessionComponentsIssuingCard                  `json:"issuing_card"`
 	IssuingCardsList             *AccountSessionComponentsIssuingCardsList             `json:"issuing_cards_list"`
+	// Configuration for the [Nestingdemo](https://docs.stripe.com/connect/supported-embedded-components/nesting-demo/) embedded component.
+	NestingDemo *AccountSessionComponentsNestingDemo `json:"nesting_demo,omitempty"`
 	// Configuration for the [network cost passthrough report](https://docs.stripe.com/connect/supported-embedded-components/network-cost-passthrough-report/) embedded component.
 	NetworkCostPassthroughReport *AccountSessionComponentsNetworkCostPassthroughReport `json:"network_cost_passthrough_report,omitempty"`
 	NotificationBanner           *AccountSessionComponentsNotificationBanner           `json:"notification_banner"`
@@ -1581,7 +1601,7 @@ type AccountSession struct {
 	Components   *AccountSessionComponents `json:"components"`
 	// The timestamp at which this AccountSession will expire.
 	ExpiresAt int64 `json:"expires_at"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

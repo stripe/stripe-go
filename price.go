@@ -198,7 +198,20 @@ type PriceProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code" json:"tax_code"`
+	TaxCode     *string                                      `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []PriceProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PriceProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PriceProductDataTaxDetailsParams.
+type PriceProductDataTaxDetailsParamsUnsetField string
+
+const (
+	PriceProductDataTaxDetailsParamsUnsetFieldTaxCode PriceProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PriceProductDataTaxDetailsParams) AddUnsetField(field PriceProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // These fields can be used to create a new product that this price will belong to.
@@ -442,7 +455,20 @@ type PriceCreateProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code" json:"tax_code"`
+	TaxCode     *string                                            `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []PriceCreateProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PriceCreateProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on PriceCreateProductDataTaxDetailsParams.
+type PriceCreateProductDataTaxDetailsParamsUnsetField string
+
+const (
+	PriceCreateProductDataTaxDetailsParamsUnsetFieldTaxCode PriceCreateProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PriceCreateProductDataTaxDetailsParams) AddUnsetField(field PriceCreateProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // These fields can be used to create a new product that this price will belong to.
@@ -818,7 +844,7 @@ type Price struct {
 	ExternalReference string `json:"external_reference,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
 	LookupKey string `json:"lookup_key"`

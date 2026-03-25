@@ -122,7 +122,20 @@ type ProductTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code" json:"tax_code"`
+	TaxCode     *string                             `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []ProductTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on ProductTaxDetailsParams.
+type ProductTaxDetailsParamsUnsetField string
+
+const (
+	ProductTaxDetailsParamsUnsetFieldTaxCode ProductTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductTaxDetailsParams) AddUnsetField(field ProductTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Returns a list of your products. The products are returned sorted by creation date, with the most recently created products appearing first.
@@ -305,7 +318,20 @@ type ProductUpdateTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code" json:"tax_code"`
+	TaxCode     *string                                   `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []ProductUpdateTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductUpdateTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on ProductUpdateTaxDetailsParams.
+type ProductUpdateTaxDetailsParamsUnsetField string
+
+const (
+	ProductUpdateTaxDetailsParamsUnsetFieldTaxCode ProductUpdateTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductUpdateTaxDetailsParams) AddUnsetField(field ProductUpdateTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Updates the specific product by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
@@ -501,7 +527,20 @@ type ProductCreateTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code" json:"tax_code"`
+	TaxCode     *string                                   `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []ProductCreateTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// ProductCreateTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on ProductCreateTaxDetailsParams.
+type ProductCreateTaxDetailsParamsUnsetField string
+
+const (
+	ProductCreateTaxDetailsParamsUnsetFieldTaxCode ProductCreateTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ProductCreateTaxDetailsParams) AddUnsetField(field ProductCreateTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Creates a new product object.
@@ -601,7 +640,7 @@ type Product struct {
 	ID string `json:"id"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 	Images []string `json:"images"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://docs.stripe.com/payments/checkout/pricing-table).
 	MarketingFeatures []*ProductMarketingFeature `json:"marketing_features"`

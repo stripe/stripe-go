@@ -163,6 +163,29 @@ const (
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlowFrictionless PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow = "frictionless"
 )
 
+// The Electronic Commerce Indicator (ECI). A protocol-level field indicating what degree of authentication was performed.
+type PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator can take
+const (
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator01 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "01"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator02 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "02"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator03 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "03"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator04 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "04"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator05 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "05"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator06 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "06"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator07 PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator = "07"
+)
+
+// The exemption requested via 3DS and accepted by the issuer at authentication time.
+type PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicator string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicator can take
+const (
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicatorLowRisk PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicator = "low_risk"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicatorNone    PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicator = "none"
+)
+
 // Indicates the outcome of 3D Secure authentication.
 type PaymentRecordPaymentMethodDetailsCardThreeDSecureResult string
 
@@ -220,6 +243,15 @@ const (
 	PaymentRecordPaymentMethodDetailsCardPresentReadMethodMagneticStripeTrack2     PaymentRecordPaymentMethodDetailsCardPresentReadMethod = "magnetic_stripe_track2"
 )
 
+// Indicates whether or not the reauthorization feature is supported.
+type PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatus string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatus can take
+const (
+	PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatusAvailable   PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatus = "available"
+	PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatusUnavailable PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatus = "unavailable"
+)
+
 // The type of account being debited or credited
 type PaymentRecordPaymentMethodDetailsCardPresentReceiptAccountType string
 
@@ -242,15 +274,6 @@ const (
 	PaymentRecordPaymentMethodDetailsCardPresentWalletTypeUnknown    PaymentRecordPaymentMethodDetailsCardPresentWalletType = "unknown"
 )
 
-// Indicates whether or not the reauthorization feature is supported.
-type PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatus string
-
-// List of values that PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatus can take
-const (
-	PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatusAvailable   PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatus = "available"
-	PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatusUnavailable PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatus = "unavailable"
-)
-
 // The blockchain network that the transaction was sent on.
 type PaymentRecordPaymentMethodDetailsCryptoNetwork string
 
@@ -260,6 +283,7 @@ const (
 	PaymentRecordPaymentMethodDetailsCryptoNetworkEthereum PaymentRecordPaymentMethodDetailsCryptoNetwork = "ethereum"
 	PaymentRecordPaymentMethodDetailsCryptoNetworkPolygon  PaymentRecordPaymentMethodDetailsCryptoNetwork = "polygon"
 	PaymentRecordPaymentMethodDetailsCryptoNetworkSolana   PaymentRecordPaymentMethodDetailsCryptoNetwork = "solana"
+	PaymentRecordPaymentMethodDetailsCryptoNetworkTempo    PaymentRecordPaymentMethodDetailsCryptoNetwork = "tempo"
 )
 
 // The token currency that the transaction was sent with.
@@ -534,8 +558,7 @@ const (
 	PaymentRecordPaymentMethodDetailsRevolutPayFundingTypeCard PaymentRecordPaymentMethodDetailsRevolutPayFundingType = "card"
 )
 
-// Preferred language of the SOFORT authorization page that the customer is redirected to.
-// Can be one of `de`, `en`, `es`, `fr`, `it`, `nl`, or `pl`
+// Preferred language of the SOFORT authorization page that the customer is redirected to. Can be one of `de`, `en`, `es`, `fr`, `it`, `nl`, or `pl`
 type PaymentRecordPaymentMethodDetailsSofortPreferredLanguage string
 
 // List of values that PaymentRecordPaymentMethodDetailsSofortPreferredLanguage can take
@@ -547,16 +570,6 @@ const (
 	PaymentRecordPaymentMethodDetailsSofortPreferredLanguageIT PaymentRecordPaymentMethodDetailsSofortPreferredLanguage = "it"
 	PaymentRecordPaymentMethodDetailsSofortPreferredLanguageNL PaymentRecordPaymentMethodDetailsSofortPreferredLanguage = "nl"
 	PaymentRecordPaymentMethodDetailsSofortPreferredLanguagePL PaymentRecordPaymentMethodDetailsSofortPreferredLanguage = "pl"
-)
-
-// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
-type PaymentRecordPaymentMethodDetailsStripeBalanceSourceType string
-
-// List of values that PaymentRecordPaymentMethodDetailsStripeBalanceSourceType can take
-const (
-	PaymentRecordPaymentMethodDetailsStripeBalanceSourceTypeBankAccount PaymentRecordPaymentMethodDetailsStripeBalanceSourceType = "bank_account"
-	PaymentRecordPaymentMethodDetailsStripeBalanceSourceTypeCard        PaymentRecordPaymentMethodDetailsStripeBalanceSourceType = "card"
-	PaymentRecordPaymentMethodDetailsStripeBalanceSourceTypeFPX         PaymentRecordPaymentMethodDetailsStripeBalanceSourceType = "fpx"
 )
 
 // The type of entity that holds the account. This can be either 'individual' or 'company'.
@@ -1390,6 +1403,14 @@ type PaymentRecordPaymentMethodDetailsCardNetworkToken struct {
 type PaymentRecordPaymentMethodDetailsCardThreeDSecure struct {
 	// For authenticated transactions: Indicates how the issuing bank authenticated the customer.
 	AuthenticationFlow PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
+	// The 3D Secure cryptogram, also known as the "authentication value" (AAV, CAVV or AEVV).
+	Cryptogram string `json:"cryptogram"`
+	// The Electronic Commerce Indicator (ECI). A protocol-level field indicating what degree of authentication was performed.
+	ElectronicCommerceIndicator PaymentRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator `json:"electronic_commerce_indicator"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator PaymentRecordPaymentMethodDetailsCardThreeDSecureExemptionIndicator `json:"exemption_indicator"`
+	// Whether Stripe requested the value of `exemption_indicator` in the transaction. This will depend on the outcome of Stripe's internal risk assessment.
+	ExemptionIndicatorApplied bool `json:"exemption_indicator_applied"`
 	// Indicates the outcome of 3D Secure authentication.
 	Result PaymentRecordPaymentMethodDetailsCardThreeDSecureResult `json:"result"`
 	// Additional information about why 3D Secure succeeded or failed, based on the `result`.
@@ -1473,6 +1494,12 @@ type PaymentRecordPaymentMethodDetailsCardPresentOffline struct {
 	Type PaymentRecordPaymentMethodDetailsCardPresentOfflineType `json:"type"`
 }
 
+// Whether the PaymentIntent can be reauthorized or not.
+type PaymentRecordPaymentMethodDetailsCardPresentReauthorization struct {
+	// Indicates whether or not the reauthorization feature is supported.
+	Status PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
+}
+
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type PaymentRecordPaymentMethodDetailsCardPresentReceipt struct {
 	// The type of account being debited or credited
@@ -1497,12 +1524,6 @@ type PaymentRecordPaymentMethodDetailsCardPresentReceipt struct {
 type PaymentRecordPaymentMethodDetailsCardPresentWallet struct {
 	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
 	Type PaymentRecordPaymentMethodDetailsCardPresentWalletType `json:"type"`
-}
-
-// Whether the PaymentIntent can be reauthorized or not.
-type PaymentRecordPaymentMethodDetailsCardPresentReauthorization struct {
-	// Indicates whether or not the reauthorization feature is supported.
-	Status PaymentRecordPaymentMethodDetailsCardPresentReauthorizationStatus `json:"status"`
 }
 type PaymentRecordPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
@@ -1650,8 +1671,7 @@ type PaymentRecordPaymentMethodDetailsIDEAL struct {
 	IBANLast4 string `json:"iban_last4"`
 	// Unique transaction ID generated by iDEAL.
 	TransactionID string `json:"transaction_id"`
-	// Owner's verified full name. Values are verified or provided by iDEAL directly
-	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	// Owner's verified full name. Values are verified or provided by iDEAL directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
 
@@ -1989,19 +2009,15 @@ type PaymentRecordPaymentMethodDetailsSofort struct {
 	GeneratedSEPADebitMandate *Mandate `json:"generated_sepa_debit_mandate"`
 	// Last four characters of the IBAN.
 	IBANLast4 string `json:"iban_last4"`
-	// Preferred language of the SOFORT authorization page that the customer is redirected to.
-	// Can be one of `de`, `en`, `es`, `fr`, `it`, `nl`, or `pl`
+	// Preferred language of the SOFORT authorization page that the customer is redirected to. Can be one of `de`, `en`, `es`, `fr`, `it`, `nl`, or `pl`
 	PreferredLanguage PaymentRecordPaymentMethodDetailsSofortPreferredLanguage `json:"preferred_language"`
-	// Owner's verified full name. Values are verified or provided by SOFORT directly
-	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	// Owner's verified full name. Values are verified or provided by SOFORT directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
 type PaymentRecordPaymentMethodDetailsStripeAccount struct{}
 type PaymentRecordPaymentMethodDetailsStripeBalance struct {
 	// The connected account ID whose Stripe balance to use as the source of payment
 	Account string `json:"account,omitempty"`
-	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
-	SourceType PaymentRecordPaymentMethodDetailsStripeBalanceSourceType `json:"source_type"`
 }
 type PaymentRecordPaymentMethodDetailsSwish struct {
 	// Uniquely identifies the payer's Swish account. You can use this attribute to check whether two Swish transactions were paid for by the same payer
@@ -2012,6 +2028,10 @@ type PaymentRecordPaymentMethodDetailsSwish struct {
 	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
 }
 type PaymentRecordPaymentMethodDetailsTWINT struct{}
+type PaymentRecordPaymentMethodDetailsUpi struct {
+	// Customer's unique Virtual Payment Address.
+	Vpa string `json:"vpa"`
+}
 type PaymentRecordPaymentMethodDetailsUSBankAccount struct {
 	// The type of entity that holds the account. This can be either 'individual' or 'company'.
 	AccountHolderType PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderType `json:"account_holder_type"`
@@ -2120,6 +2140,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
 	Type          string                                          `json:"type"`
+	Upi           *PaymentRecordPaymentMethodDetailsUpi           `json:"upi,omitempty"`
 	USBankAccount *PaymentRecordPaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
 	WeChat        *PaymentRecordPaymentMethodDetailsWeChat        `json:"wechat,omitempty"`
 	WeChatPay     *PaymentRecordPaymentMethodDetailsWeChatPay     `json:"wechat_pay,omitempty"`
@@ -2188,7 +2209,7 @@ type PaymentRecord struct {
 	ID string `json:"id"`
 	// ID of the latest Payment Attempt Record attached to this Payment Record.
 	LatestPaymentAttemptRecord string `json:"latest_payment_attempt_record"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

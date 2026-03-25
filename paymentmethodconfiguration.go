@@ -1071,6 +1071,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationUpiDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationUpiDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationUpiDisplayPreferencePreferenceNone PaymentMethodConfigurationUpiDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationUpiDisplayPreferencePreferenceOff  PaymentMethodConfigurationUpiDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationUpiDisplayPreferencePreferenceOn   PaymentMethodConfigurationUpiDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationUpiDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationUpiDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationUpiDisplayPreferenceValueOff PaymentMethodConfigurationUpiDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationUpiDisplayPreferenceValueOn  PaymentMethodConfigurationUpiDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationUSBankAccountDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationUSBankAccountDisplayPreferencePreference can take
@@ -1838,6 +1857,18 @@ type PaymentMethodConfigurationTWINTParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpiDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Unified Payment Interface (UPI) is India's leading payment method with exponential growth since it launched in 2016.
+type PaymentMethodConfigurationUpiParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpiDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUSBankAccountDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -2000,6 +2031,8 @@ type PaymentMethodConfigurationParams struct {
 	Swish *PaymentMethodConfigurationSwishParams `form:"swish" json:"swish,omitempty"`
 	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
 	TWINT *PaymentMethodConfigurationTWINTParams `form:"twint" json:"twint,omitempty"`
+	// Unified Payment Interface (UPI) is India's leading payment method with exponential growth since it launched in 2016.
+	Upi *PaymentMethodConfigurationUpiParams `form:"upi" json:"upi,omitempty"`
 	// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
 	USBankAccount *PaymentMethodConfigurationUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
@@ -2710,6 +2743,18 @@ type PaymentMethodConfigurationCreateTWINTParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateUpiDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Unified Payment Interface (UPI) is India's leading payment method with exponential growth since it launched in 2016.
+type PaymentMethodConfigurationCreateUpiParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateUpiDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateUSBankAccountDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -2870,6 +2915,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Swish *PaymentMethodConfigurationCreateSwishParams `form:"swish" json:"swish,omitempty"`
 	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
 	TWINT *PaymentMethodConfigurationCreateTWINTParams `form:"twint" json:"twint,omitempty"`
+	// Unified Payment Interface (UPI) is India's leading payment method with exponential growth since it launched in 2016.
+	Upi *PaymentMethodConfigurationCreateUpiParams `form:"upi" json:"upi,omitempty"`
 	// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
 	USBankAccount *PaymentMethodConfigurationCreateUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
@@ -3592,6 +3639,18 @@ type PaymentMethodConfigurationUpdateTWINTParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateUpiDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Unified Payment Interface (UPI) is India's leading payment method with exponential growth since it launched in 2016.
+type PaymentMethodConfigurationUpdateUpiParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateUpiDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateUSBankAccountDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -3752,6 +3811,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Swish *PaymentMethodConfigurationUpdateSwishParams `form:"swish" json:"swish,omitempty"`
 	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
 	TWINT *PaymentMethodConfigurationUpdateTWINTParams `form:"twint" json:"twint,omitempty"`
+	// Unified Payment Interface (UPI) is India's leading payment method with exponential growth since it launched in 2016.
+	Upi *PaymentMethodConfigurationUpdateUpiParams `form:"upi" json:"upi,omitempty"`
 	// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
 	USBankAccount *PaymentMethodConfigurationUpdateUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
@@ -4493,6 +4554,19 @@ type PaymentMethodConfigurationTWINT struct {
 	Available         bool                                              `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationTWINTDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationUpiDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationUpiDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationUpiDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationUpi struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                            `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationUpiDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationUSBankAccountDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -4589,7 +4663,7 @@ type PaymentMethodConfiguration struct {
 	Konbini   *PaymentMethodConfigurationKonbini  `json:"konbini,omitempty"`
 	KrCard    *PaymentMethodConfigurationKrCard   `json:"kr_card,omitempty"`
 	Link      *PaymentMethodConfigurationLink     `json:"link,omitempty"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode   bool                                  `json:"livemode"`
 	MbWay      *PaymentMethodConfigurationMbWay      `json:"mb_way,omitempty"`
 	Mobilepay  *PaymentMethodConfigurationMobilepay  `json:"mobilepay,omitempty"`
@@ -4621,6 +4695,7 @@ type PaymentMethodConfiguration struct {
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort,omitempty"`
 	Swish         *PaymentMethodConfigurationSwish         `json:"swish,omitempty"`
 	TWINT         *PaymentMethodConfigurationTWINT         `json:"twint,omitempty"`
+	Upi           *PaymentMethodConfigurationUpi           `json:"upi,omitempty"`
 	USBankAccount *PaymentMethodConfigurationUSBankAccount `json:"us_bank_account,omitempty"`
 	WeChatPay     *PaymentMethodConfigurationWeChatPay     `json:"wechat_pay,omitempty"`
 	Zip           *PaymentMethodConfigurationZip           `json:"zip,omitempty"`

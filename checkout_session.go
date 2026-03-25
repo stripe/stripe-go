@@ -8,13 +8,27 @@ package stripe
 
 import "encoding/json"
 
+// Determines whether the customer's attempt to pay must be manually approved.
+//
+// Default is `auto`, when the customer's attempt to pay is approved automatically with no action required on your server.
+//
+// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](api/checkout/sessions/approve) from your server.
+type CheckoutSessionApprovalMethod string
+
+// List of values that CheckoutSessionApprovalMethod can take
+const (
+	CheckoutSessionApprovalMethodAuto   CheckoutSessionApprovalMethod = "auto"
+	CheckoutSessionApprovalMethodManual CheckoutSessionApprovalMethod = "manual"
+)
+
 // Type of the account referenced.
 type CheckoutSessionAutomaticTaxLiabilityType string
 
 // List of values that CheckoutSessionAutomaticTaxLiabilityType can take
 const (
-	CheckoutSessionAutomaticTaxLiabilityTypeAccount CheckoutSessionAutomaticTaxLiabilityType = "account"
-	CheckoutSessionAutomaticTaxLiabilityTypeSelf    CheckoutSessionAutomaticTaxLiabilityType = "self"
+	CheckoutSessionAutomaticTaxLiabilityTypeAccount     CheckoutSessionAutomaticTaxLiabilityType = "account"
+	CheckoutSessionAutomaticTaxLiabilityTypeApplication CheckoutSessionAutomaticTaxLiabilityType = "application"
+	CheckoutSessionAutomaticTaxLiabilityTypeSelf        CheckoutSessionAutomaticTaxLiabilityType = "self"
 )
 
 // The status of the most recent automated tax calculation for this session.
@@ -233,6 +247,71 @@ const (
 	CheckoutSessionConsentCollectionTermsOfServiceRequired CheckoutSessionConsentCollectionTermsOfService = "required"
 )
 
+// Indicates whether this payment method can be shown again to its customer in a checkout flow.
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay string
+
+// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay can take
+const (
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplayAlways      CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay = "always"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplayLimited     CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay = "limited"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplayUnspecified CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay = "unspecified"
+)
+
+// The brand of the card, accounting for customer's brand choice on dual-branded cards.
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand string
+
+// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand can take
+const (
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandAccel           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "accel"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandAmex            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "amex"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandCarnet          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "carnet"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandCartesBancaires CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "cartes_bancaires"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandConecs          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "conecs"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandDiners          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "diners"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandDiscover        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "discover"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandEFTPOSAU        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "eftpos_au"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandElo             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "elo"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandGirocard        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "girocard"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandInterac         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "interac"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandJCB             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "jcb"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandLink            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "link"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandMaestro         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "maestro"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandMastercard      CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "mastercard"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandNyce            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "nyce"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandPulse           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "pulse"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandRupay           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "rupay"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandStar            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "star"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandUnionpay        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "unionpay"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandUnknown         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "unknown"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandVisa            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "visa"
+)
+
+// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding string
+
+// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding can take
+const (
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFundingCredit  CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding = "credit"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFundingDebit   CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding = "debit"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFundingPrepaid CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding = "prepaid"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFundingUnknown CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding = "unknown"
+)
+
+// The type of the wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, `meta_pay`, or `link`.
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType string
+
+// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType can take
+const (
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeAmexExpressCheckout CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "amex_express_checkout"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeApplePay            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "apple_pay"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeGooglePay           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "google_pay"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeLink                CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "link"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeMasterpass          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "masterpass"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeMetaPay             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "meta_pay"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeSamsungPay          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "samsung_pay"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeVisaCheckout        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "visa_checkout"
+)
+
 // The type of the label.
 type CheckoutSessionCustomFieldLabelType string
 
@@ -395,8 +474,9 @@ type CheckoutSessionInvoiceCreationInvoiceDataIssuerType string
 
 // List of values that CheckoutSessionInvoiceCreationInvoiceDataIssuerType can take
 const (
-	CheckoutSessionInvoiceCreationInvoiceDataIssuerTypeAccount CheckoutSessionInvoiceCreationInvoiceDataIssuerType = "account"
-	CheckoutSessionInvoiceCreationInvoiceDataIssuerTypeSelf    CheckoutSessionInvoiceCreationInvoiceDataIssuerType = "self"
+	CheckoutSessionInvoiceCreationInvoiceDataIssuerTypeAccount     CheckoutSessionInvoiceCreationInvoiceDataIssuerType = "account"
+	CheckoutSessionInvoiceCreationInvoiceDataIssuerTypeApplication CheckoutSessionInvoiceCreationInvoiceDataIssuerType = "application"
+	CheckoutSessionInvoiceCreationInvoiceDataIssuerTypeSelf        CheckoutSessionInvoiceCreationInvoiceDataIssuerType = "self"
 )
 
 // The mode of the Checkout Session.
@@ -471,7 +551,7 @@ const (
 	CheckoutSessionPaymentMethodOptionsACSSDebitSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsACSSDebitSetupFutureUsage = "on_session"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod string
 
 // List of values that CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod can take
@@ -1303,6 +1383,31 @@ const (
 	CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsage = "none"
 )
 
+// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+type CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountType string
+
+// List of values that CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountType can take
+const (
+	CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountTypeFixed   CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountType = "fixed"
+	CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountTypeMaximum CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountType = "maximum"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsage = "off_session"
+	CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsage = "on_session"
+)
+
 // The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
 
@@ -1359,7 +1464,7 @@ const (
 	CheckoutSessionPaymentMethodOptionsUSBankAccountSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsUSBankAccountSetupFutureUsage = "on_session"
 )
 
-// Bank account verification method.
+// Bank account verification method. The default value is `automatic`.
 type CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod string
 
 // List of values that CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod can take
@@ -1520,14 +1625,15 @@ const (
 	CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReasonZeroRated            CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
 )
 
-// The UI mode of the Session. Defaults to `hosted`.
+// The UI mode of the Session. Defaults to `hosted_page`.
 type CheckoutSessionUIMode string
 
 // List of values that CheckoutSessionUIMode can take
 const (
-	CheckoutSessionUIModeCustom   CheckoutSessionUIMode = "custom"
-	CheckoutSessionUIModeEmbedded CheckoutSessionUIMode = "embedded"
-	CheckoutSessionUIModeHosted   CheckoutSessionUIMode = "hosted"
+	CheckoutSessionUIModeElements     CheckoutSessionUIMode = "elements"
+	CheckoutSessionUIModeEmbeddedPage CheckoutSessionUIMode = "embedded_page"
+	CheckoutSessionUIModeForm         CheckoutSessionUIMode = "form"
+	CheckoutSessionUIModeHostedPage   CheckoutSessionUIMode = "hosted_page"
 )
 
 // Describes whether Checkout should display Link. Defaults to `auto`.
@@ -1537,84 +1643,6 @@ type CheckoutSessionWalletOptionsLinkDisplay string
 const (
 	CheckoutSessionWalletOptionsLinkDisplayAuto  CheckoutSessionWalletOptionsLinkDisplay = "auto"
 	CheckoutSessionWalletOptionsLinkDisplayNever CheckoutSessionWalletOptionsLinkDisplay = "never"
-)
-
-// Determines whether the customer's attempt to pay must be manually approved.
-//
-// Default is `auto`, when the customer's attempt to pay is approved automatically with no action required on your server.
-//
-// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](api/checkout/sessions/approve) from your server.
-type CheckoutSessionApprovalMethod string
-
-// List of values that CheckoutSessionApprovalMethod can take
-const (
-	CheckoutSessionApprovalMethodAuto   CheckoutSessionApprovalMethod = "auto"
-	CheckoutSessionApprovalMethodManual CheckoutSessionApprovalMethod = "manual"
-)
-
-// Indicates whether this payment method can be shown again to its customer in a checkout flow.
-type CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay string
-
-// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay can take
-const (
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplayAlways      CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay = "always"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplayLimited     CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay = "limited"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplayUnspecified CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay = "unspecified"
-)
-
-// The brand of the card, accounting for customer's brand choice on dual-branded cards.
-type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand string
-
-// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand can take
-const (
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandAccel           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "accel"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandAmex            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "amex"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandCarnet          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "carnet"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandCartesBancaires CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "cartes_bancaires"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandConecs          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "conecs"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandDiners          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "diners"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandDiscover        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "discover"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandEFTPOSAU        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "eftpos_au"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandElo             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "elo"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandGirocard        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "girocard"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandInterac         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "interac"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandJCB             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "jcb"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandLink            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "link"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandMaestro         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "maestro"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandMastercard      CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "mastercard"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandNyce            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "nyce"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandPulse           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "pulse"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandRupay           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "rupay"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandStar            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "star"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandUnionpay        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "unionpay"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandUnknown         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "unknown"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandVisa            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "visa"
-)
-
-// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
-type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding string
-
-// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding can take
-const (
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFundingCredit  CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding = "credit"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFundingDebit   CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding = "debit"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFundingPrepaid CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding = "prepaid"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFundingUnknown CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding = "unknown"
-)
-
-// The type of the wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, `meta_pay`, or `link`.
-type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType string
-
-// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType can take
-const (
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeAmexExpressCheckout CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "amex_express_checkout"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeApplePay            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "apple_pay"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeGooglePay           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "google_pay"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeLink                CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "link"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeMasterpass          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "masterpass"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeMetaPay             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "meta_pay"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeSamsungPay          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "samsung_pay"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletTypeVisaCheckout        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType = "visa_checkout"
 )
 
 type CheckoutSessionCheckoutItemType string
@@ -2058,7 +2086,20 @@ type CheckoutSessionLineItemPriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code" json:"tax_code"`
+	TaxCode     *string                                                                 `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []CheckoutSessionLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionLineItemPriceDataProductDataTaxDetailsParams.
+type CheckoutSessionLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	CheckoutSessionLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode CheckoutSessionLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field CheckoutSessionLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -2555,6 +2596,18 @@ type CheckoutSessionPaymentMethodOptionsCashAppParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// contains details about the Crypto payment method options.
+type CheckoutSessionPaymentMethodOptionsCryptoParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
 // Configuration for eu_bank_transfer funding type.
 type CheckoutSessionPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
@@ -2960,7 +3013,7 @@ type CheckoutSessionPaymentMethodOptionsPixMandateOptionsParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
 	EndDate *string `form:"end_date" json:"end_date,omitempty"`
-	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
 	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
 	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
 	Reference *string `form:"reference" json:"reference,omitempty"`
@@ -3077,6 +3130,38 @@ type CheckoutSessionPaymentMethodOptionsTWINTParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// Additional fields for Mandate creation
+type CheckoutSessionPaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+}
+
+// contains details about the UPI payment method options.
+type CheckoutSessionPaymentMethodOptionsUpiParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions   *CheckoutSessionPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	SetupFutureUsage *string                                                     `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []CheckoutSessionPaymentMethodOptionsUpiParamsUnsetField    `form:"-" json:"-"`
+}
+
+// CheckoutSessionPaymentMethodOptionsUpiParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionPaymentMethodOptionsUpiParams.
+type CheckoutSessionPaymentMethodOptionsUpiParamsUnsetField string
+
+const (
+	CheckoutSessionPaymentMethodOptionsUpiParamsUnsetFieldSetupFutureUsage CheckoutSessionPaymentMethodOptionsUpiParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionPaymentMethodOptionsUpiParams) AddUnsetField(field CheckoutSessionPaymentMethodOptionsUpiParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Additional fields for Financial Connections Session creation
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
@@ -3147,6 +3232,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Card *CheckoutSessionPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// contains details about the Cashapp Pay payment method options.
 	CashApp *CheckoutSessionPaymentMethodOptionsCashAppParams `form:"cashapp" json:"cashapp,omitempty"`
+	// contains details about the Crypto payment method options.
+	Crypto *CheckoutSessionPaymentMethodOptionsCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// contains details about the Customer Balance payment method options.
 	CustomerBalance *CheckoutSessionPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// contains details about the DemoPay payment method options.
@@ -3207,6 +3294,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Swish *CheckoutSessionPaymentMethodOptionsSwishParams `form:"swish" json:"swish,omitempty"`
 	// contains details about the TWINT payment method options.
 	TWINT *CheckoutSessionPaymentMethodOptionsTWINTParams `form:"twint" json:"twint,omitempty"`
+	// contains details about the UPI payment method options.
+	Upi *CheckoutSessionPaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// contains details about the Us Bank Account payment method options.
 	USBankAccount *CheckoutSessionPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// contains details about the WeChat Pay payment method options.
@@ -3405,6 +3494,14 @@ type CheckoutSessionSubscriptionDataInvoiceSettingsParams struct {
 	Issuer *CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer" json:"issuer,omitempty"`
 }
 
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+type CheckoutSessionSubscriptionDataPendingInvoiceItemIntervalParams struct {
+	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 type CheckoutSessionSubscriptionDataTransferDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
@@ -3447,6 +3544,8 @@ type CheckoutSessionSubscriptionDataParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
+	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+	PendingInvoiceItemInterval *CheckoutSessionSubscriptionDataPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval" json:"pending_invoice_item_interval,omitempty"`
 	// Determines how to handle prorations resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
@@ -3464,7 +3563,8 @@ type CheckoutSessionSubscriptionDataParams struct {
 type CheckoutSessionSubscriptionDataParamsUnsetField string
 
 const (
-	CheckoutSessionSubscriptionDataParamsUnsetFieldTrialPeriodDays CheckoutSessionSubscriptionDataParamsUnsetField = "trial_period_days"
+	CheckoutSessionSubscriptionDataParamsUnsetFieldPendingInvoiceItemInterval CheckoutSessionSubscriptionDataParamsUnsetField = "pending_invoice_item_interval"
+	CheckoutSessionSubscriptionDataParamsUnsetFieldTrialPeriodDays            CheckoutSessionSubscriptionDataParamsUnsetField = "trial_period_days"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3622,6 +3722,8 @@ type CheckoutSessionParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+	// The integration identifier for this Checkout Session. Multiple Checkout Sessions can have the same integration identifier.
+	IntegrationIdentifier *string `form:"integration_identifier" json:"integration_identifier,omitempty"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *CheckoutSessionInvoiceCreationParams `form:"invoice_creation" json:"invoice_creation,omitempty"`
 	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
@@ -4224,7 +4326,20 @@ type CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code" json:"tax_code"`
+	TaxCode     *string                                                                       `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParams.
+type CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field CheckoutSessionCreateLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -4705,6 +4820,18 @@ type CheckoutSessionCreatePaymentMethodOptionsCashAppParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// contains details about the Crypto payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsCryptoParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
 // Configuration for eu_bank_transfer funding type.
 type CheckoutSessionCreatePaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
@@ -5110,7 +5237,7 @@ type CheckoutSessionCreatePaymentMethodOptionsPixMandateOptionsParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
 	EndDate *string `form:"end_date" json:"end_date,omitempty"`
-	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
 	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
 	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
 	Reference *string `form:"reference" json:"reference,omitempty"`
@@ -5227,6 +5354,38 @@ type CheckoutSessionCreatePaymentMethodOptionsTWINTParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// Additional fields for Mandate creation
+type CheckoutSessionCreatePaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+}
+
+// contains details about the UPI payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsUpiParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions   *CheckoutSessionCreatePaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	SetupFutureUsage *string                                                           `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []CheckoutSessionCreatePaymentMethodOptionsUpiParamsUnsetField    `form:"-" json:"-"`
+}
+
+// CheckoutSessionCreatePaymentMethodOptionsUpiParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionCreatePaymentMethodOptionsUpiParams.
+type CheckoutSessionCreatePaymentMethodOptionsUpiParamsUnsetField string
+
+const (
+	CheckoutSessionCreatePaymentMethodOptionsUpiParamsUnsetFieldSetupFutureUsage CheckoutSessionCreatePaymentMethodOptionsUpiParamsUnsetField = "setup_future_usage"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionCreatePaymentMethodOptionsUpiParams) AddUnsetField(field CheckoutSessionCreatePaymentMethodOptionsUpiParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Additional fields for Financial Connections Session creation
 type CheckoutSessionCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
@@ -5297,6 +5456,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	Card *CheckoutSessionCreatePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// contains details about the Cashapp Pay payment method options.
 	CashApp *CheckoutSessionCreatePaymentMethodOptionsCashAppParams `form:"cashapp" json:"cashapp,omitempty"`
+	// contains details about the Crypto payment method options.
+	Crypto *CheckoutSessionCreatePaymentMethodOptionsCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// contains details about the Customer Balance payment method options.
 	CustomerBalance *CheckoutSessionCreatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// contains details about the DemoPay payment method options.
@@ -5357,6 +5518,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	Swish *CheckoutSessionCreatePaymentMethodOptionsSwishParams `form:"swish" json:"swish,omitempty"`
 	// contains details about the TWINT payment method options.
 	TWINT *CheckoutSessionCreatePaymentMethodOptionsTWINTParams `form:"twint" json:"twint,omitempty"`
+	// contains details about the UPI payment method options.
+	Upi *CheckoutSessionCreatePaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// contains details about the Us Bank Account payment method options.
 	USBankAccount *CheckoutSessionCreatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// contains details about the WeChat Pay payment method options.
@@ -5555,6 +5718,14 @@ type CheckoutSessionCreateSubscriptionDataInvoiceSettingsParams struct {
 	Issuer *CheckoutSessionCreateSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer" json:"issuer,omitempty"`
 }
 
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+type CheckoutSessionCreateSubscriptionDataPendingInvoiceItemIntervalParams struct {
+	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 type CheckoutSessionCreateSubscriptionDataTransferDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
@@ -5597,6 +5768,8 @@ type CheckoutSessionCreateSubscriptionDataParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
+	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+	PendingInvoiceItemInterval *CheckoutSessionCreateSubscriptionDataPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval" json:"pending_invoice_item_interval,omitempty"`
 	// Determines how to handle prorations resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
@@ -5757,6 +5930,8 @@ type CheckoutSessionCreateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+	// The integration identifier for this Checkout Session. Multiple Checkout Sessions can have the same integration identifier.
+	IntegrationIdentifier *string `form:"integration_identifier" json:"integration_identifier,omitempty"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *CheckoutSessionCreateInvoiceCreationParams `form:"invoice_creation" json:"invoice_creation,omitempty"`
 	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
@@ -6000,7 +6175,20 @@ type CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code" json:"tax_code"`
+	TaxCode     *string                                                                       `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParams.
+type CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field CheckoutSessionUpdateLineItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
@@ -6200,10 +6388,20 @@ type CheckoutSessionUpdateSubscriptionDataInvoiceSettingsParams struct {
 	Issuer *CheckoutSessionUpdateSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer" json:"issuer,omitempty"`
 }
 
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+type CheckoutSessionUpdateSubscriptionDataPendingInvoiceItemIntervalParams struct {
+	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
 // A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 type CheckoutSessionUpdateSubscriptionDataParams struct {
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *CheckoutSessionUpdateSubscriptionDataInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
+	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://docs.stripe.com/api#create_invoice) for the given subscription at the specified interval.
+	PendingInvoiceItemInterval *CheckoutSessionUpdateSubscriptionDataPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval" json:"pending_invoice_item_interval,omitempty"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
 	TrialEnd *int64 `form:"trial_end" json:"trial_end,omitempty"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
@@ -6215,7 +6413,8 @@ type CheckoutSessionUpdateSubscriptionDataParams struct {
 type CheckoutSessionUpdateSubscriptionDataParamsUnsetField string
 
 const (
-	CheckoutSessionUpdateSubscriptionDataParamsUnsetFieldTrialPeriodDays CheckoutSessionUpdateSubscriptionDataParamsUnsetField = "trial_period_days"
+	CheckoutSessionUpdateSubscriptionDataParamsUnsetFieldPendingInvoiceItemInterval CheckoutSessionUpdateSubscriptionDataParamsUnsetField = "pending_invoice_item_interval"
+	CheckoutSessionUpdateSubscriptionDataParamsUnsetFieldTrialPeriodDays            CheckoutSessionUpdateSubscriptionDataParamsUnsetField = "trial_period_days"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -6439,6 +6638,103 @@ type CheckoutSessionCurrencyConversion struct {
 	FxRate float64 `json:"fx_rate,string"`
 	// Creation currency of the CheckoutSession before localization
 	SourceCurrency Currency `json:"source_currency"`
+}
+
+// The customer's billing information, if provided.
+type CheckoutSessionCurrentAttemptBillingDetails struct {
+	Address *Address `json:"address"`
+	// Customer name.
+	Name string `json:"name"`
+}
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsAUBECSDebit struct {
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+}
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsBACSDebit struct {
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+}
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsBoleto struct {
+	// Uniquely identifies this particular boleto payment method. You can use this attribute to check whether two boleto payment methods are the same.
+	Fingerprint string `json:"fingerprint"`
+}
+
+// If this Card is part of a card wallet, this contains the details of the card wallet.
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWallet struct {
+	// The type of the wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, `meta_pay`, or `link`.
+	Type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType `json:"type"`
+}
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsCard struct {
+	// The brand of the card, accounting for customer's brand choice on dual-branded cards.
+	Brand CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand `json:"brand"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
+	//
+	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
+	Fingerprint string `json:"fingerprint"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding `json:"funding"`
+	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
+	IIN string `json:"iin,omitempty"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+	// If this Card is part of a card wallet, this contains the details of the card wallet.
+	Wallet *CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWallet `json:"wallet"`
+}
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsLink struct {
+	// Unique, encrypted bank account identifier.
+	Fingerprint string `json:"fingerprint,omitempty"`
+}
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsSEPADebit struct {
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+}
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsUSBankAccount struct {
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+}
+
+// Information about the payment method the customer is attempting to pay with. Relevant payment method information is provided when available. Some payment details are only available after the payment has completed and can't be returned in the manual approval flow.
+type CheckoutSessionCurrentAttemptPaymentMethodDetails struct {
+	// Indicates whether this payment method can be shown again to its customer in a checkout flow.
+	AllowRedisplay CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay `json:"allow_redisplay"`
+	AUBECSDebit    *CheckoutSessionCurrentAttemptPaymentMethodDetailsAUBECSDebit   `json:"au_becs_debit,omitempty"`
+	BACSDebit      *CheckoutSessionCurrentAttemptPaymentMethodDetailsBACSDebit     `json:"bacs_debit,omitempty"`
+	Boleto         *CheckoutSessionCurrentAttemptPaymentMethodDetailsBoleto        `json:"boleto,omitempty"`
+	Card           *CheckoutSessionCurrentAttemptPaymentMethodDetailsCard          `json:"card,omitempty"`
+	Link           *CheckoutSessionCurrentAttemptPaymentMethodDetailsLink          `json:"link,omitempty"`
+	SEPADebit      *CheckoutSessionCurrentAttemptPaymentMethodDetailsSEPADebit     `json:"sepa_debit,omitempty"`
+	// The type of payment method the customer is attempting to pay with. An additional hash is included in the payment method details with a name matching this value. It contains additional information specific to the payment method type.
+	Type          string                                                          `json:"type"`
+	USBankAccount *CheckoutSessionCurrentAttemptPaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
+}
+
+// The customer's shipping information, if provided.
+type CheckoutSessionCurrentAttemptShippingDetails struct {
+	Address *Address `json:"address"`
+	// Customer name.
+	Name string `json:"name"`
+}
+
+// The customer's pending attempt to pay that requires your approval. Contains information about the customer and their payment details.
+type CheckoutSessionCurrentAttempt struct {
+	// The customer's billing information, if provided.
+	BillingDetails *CheckoutSessionCurrentAttemptBillingDetails `json:"billing_details,omitempty"`
+	// The customer's email.
+	Email string `json:"email,omitempty"`
+	// The attempt ID you will pass to the [Checkout Session approve](api/checkout/sessions/approve) endpoint to approve the attempt.
+	ID string `json:"id"`
+	// Information about the payment method the customer is attempting to pay with. Relevant payment method information is provided when available. Some payment details are only available after the payment has completed and can't be returned in the manual approval flow.
+	PaymentMethodDetails *CheckoutSessionCurrentAttemptPaymentMethodDetails `json:"payment_method_details,omitempty"`
+	// The customer's phone number.
+	Phone string `json:"phone,omitempty"`
+	// The customer's shipping information, if provided.
+	ShippingDetails *CheckoutSessionCurrentAttemptShippingDetails `json:"shipping_details"`
 }
 
 // The options available for the customer to select. Up to 200 options allowed.
@@ -6684,7 +6980,7 @@ type CheckoutSessionPaymentMethodOptionsACSSDebit struct {
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsACSSDebitSetupFutureUsage `json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date,omitempty"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 type CheckoutSessionPaymentMethodOptionsAffirm struct {
@@ -7187,6 +7483,27 @@ type CheckoutSessionPaymentMethodOptionsTWINT struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
+type CheckoutSessionPaymentMethodOptionsUpiMandateOptions struct {
+	// Amount to be charged for future payments.
+	Amount int64 `json:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType CheckoutSessionPaymentMethodOptionsUpiMandateOptionsAmountType `json:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description string `json:"description"`
+	// End date of the mandate or subscription.
+	EndDate int64 `json:"end_date"`
+}
+type CheckoutSessionPaymentMethodOptionsUpi struct {
+	MandateOptions *CheckoutSessionPaymentMethodOptionsUpiMandateOptions `json:"mandate_options,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsUpiSetupFutureUsage `json:"setup_future_usage,omitempty"`
+}
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories,omitempty"`
@@ -7219,7 +7536,7 @@ type CheckoutSessionPaymentMethodOptionsUSBankAccount struct {
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsUSBankAccountSetupFutureUsage `json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date,omitempty"`
-	// Bank account verification method.
+	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
 
@@ -7266,6 +7583,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort,omitempty"`
 	Swish            *CheckoutSessionPaymentMethodOptionsSwish            `json:"swish,omitempty"`
 	TWINT            *CheckoutSessionPaymentMethodOptionsTWINT            `json:"twint,omitempty"`
+	Upi              *CheckoutSessionPaymentMethodOptionsUpi              `json:"upi,omitempty"`
 	USBankAccount    *CheckoutSessionPaymentMethodOptionsUSBankAccount    `json:"us_bank_account,omitempty"`
 }
 
@@ -7424,73 +7742,6 @@ type CheckoutSessionWalletOptionsLink struct {
 type CheckoutSessionWalletOptions struct {
 	Link *CheckoutSessionWalletOptionsLink `json:"link,omitempty"`
 }
-
-// The customer's billing information, if provided.
-type CheckoutSessionCurrentAttemptBillingDetails struct {
-	Address *Address `json:"address"`
-	// Customer name.
-	Name string `json:"name"`
-}
-
-// If this Card is part of a card wallet, this contains the details of the card wallet.
-type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWallet struct {
-	// The type of the wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, `meta_pay`, or `link`.
-	Type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType `json:"type"`
-}
-type CheckoutSessionCurrentAttemptPaymentMethodDetailsCard struct {
-	// The brand of the card, accounting for customer's brand choice on dual-branded cards.
-	Brand CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand `json:"brand"`
-	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
-	Country string `json:"country"`
-	// Two-digit number representing the card's expiration month.
-	ExpMonth int64 `json:"exp_month"`
-	// Four-digit number representing the card's expiration year.
-	ExpYear int64 `json:"exp_year"`
-	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
-	//
-	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
-	Fingerprint string `json:"fingerprint"`
-	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
-	Funding CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding `json:"funding"`
-	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
-	IIN string `json:"iin,omitempty"`
-	// The last four digits of the card.
-	Last4 string `json:"last4"`
-	// If this Card is part of a card wallet, this contains the details of the card wallet.
-	Wallet *CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWallet `json:"wallet"`
-}
-
-// Information about the payment method the customer is attempting to pay with.
-type CheckoutSessionCurrentAttemptPaymentMethodDetails struct {
-	// Indicates whether this payment method can be shown again to its customer in a checkout flow.
-	AllowRedisplay CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay `json:"allow_redisplay"`
-	Card           *CheckoutSessionCurrentAttemptPaymentMethodDetailsCard          `json:"card,omitempty"`
-	// The type of payment method the customer is attempting to pay with. An additional hash is included in the payment method details with a name matching this value. It contains additional information specific to the payment method type.
-	Type string `json:"type"`
-}
-
-// The customer's shipping information, if provided.
-type CheckoutSessionCurrentAttemptShippingDetails struct {
-	Address *Address `json:"address"`
-	// Customer name.
-	Name string `json:"name"`
-}
-
-// The customer's pending attempt to pay that requires your approval. Contains information about the customer and their payment details.
-type CheckoutSessionCurrentAttempt struct {
-	// The customer's billing information, if provided.
-	BillingDetails *CheckoutSessionCurrentAttemptBillingDetails `json:"billing_details,omitempty"`
-	// The customer's email.
-	Email string `json:"email,omitempty"`
-	// The attempt ID you will pass to the [Checkout Session approve](api/checkout/sessions/approve) endpoint to approve the attempt.
-	ID string `json:"id"`
-	// Information about the payment method the customer is attempting to pay with.
-	PaymentMethodDetails *CheckoutSessionCurrentAttemptPaymentMethodDetails `json:"payment_method_details,omitempty"`
-	// The customer's phone number.
-	Phone string `json:"phone,omitempty"`
-	// The customer's shipping information, if provided.
-	ShippingDetails *CheckoutSessionCurrentAttemptShippingDetails `json:"shipping_details"`
-}
 type CheckoutSessionCheckoutItemRateCardSubscriptionItem struct {
 	BillingCadence       string            `json:"billing_cadence,omitempty"`
 	Metadata             map[string]string `json:"metadata"`
@@ -7608,13 +7859,15 @@ type CheckoutSession struct {
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// The integration identifier for this Checkout Session. Multiple Checkout Sessions can have the same integration identifier.
+	IntegrationIdentifier string `json:"integration_identifier"`
 	// ID of the invoice created by the Checkout Session, if it exists.
 	Invoice *Invoice `json:"invoice"`
 	// Details on the state of invoice creation for the Checkout Session.
 	InvoiceCreation *CheckoutSessionInvoiceCreation `json:"invoice_creation"`
 	// The line items purchased by the customer.
 	LineItems *LineItemList `json:"line_items,omitempty"`
-	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale string `json:"locale"`
@@ -7683,7 +7936,7 @@ type CheckoutSession struct {
 	TaxIDCollection *CheckoutSessionTaxIDCollection `json:"tax_id_collection,omitempty"`
 	// Tax and discount details for the computed total amount.
 	TotalDetails *CheckoutSessionTotalDetails `json:"total_details"`
-	// The UI mode of the Session. Defaults to `hosted`.
+	// The UI mode of the Session. Defaults to `hosted_page`.
 	UIMode CheckoutSessionUIMode `json:"ui_mode"`
 	// The URL to the Checkout Session. Applies to Checkout Sessions with `ui_mode: hosted`. Redirect customers to this URL to take them to Checkout. If you're using [Custom Domains](https://docs.stripe.com/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it'll use `checkout.stripe.com.`
 	// This value is only present when the session is active.
