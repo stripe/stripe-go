@@ -53,11 +53,11 @@ const (
 type ReviewListParams struct {
 	ListParams `form:"*"`
 	// Only return reviews that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return reviews that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -69,7 +69,7 @@ func (p *ReviewListParams) AddExpand(f string) {
 type ReviewParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -81,7 +81,7 @@ func (p *ReviewParams) AddExpand(f string) {
 type ReviewApproveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -93,7 +93,7 @@ func (p *ReviewApproveParams) AddExpand(f string) {
 type ReviewRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -156,7 +156,7 @@ type Review struct {
 	// The reason the review was opened. One of `rule` or `manual`.
 	OpenedReason ReviewOpenedReason `json:"opened_reason"`
 	// The PaymentIntent ID associated with this review, if one exists.
-	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	PaymentIntent *PaymentIntent `json:"payment_intent,omitempty"`
 	// The reason the review is currently open or closed. One of `rule`, `manual`, `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, `canceled`, `payment_never_settled`, or `acknowledged`.
 	Reason ReviewReason `json:"reason"`
 	// Information related to the browsing session of the user who initiated the payment.

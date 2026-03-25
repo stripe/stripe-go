@@ -22,7 +22,7 @@ const (
 type FinancialConnectionsInstitutionListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -34,7 +34,7 @@ func (p *FinancialConnectionsInstitutionListParams) AddExpand(f string) {
 type FinancialConnectionsInstitutionParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -46,7 +46,7 @@ func (p *FinancialConnectionsInstitutionParams) AddExpand(f string) {
 type FinancialConnectionsInstitutionRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

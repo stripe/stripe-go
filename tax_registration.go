@@ -1277,9 +1277,9 @@ const (
 type TaxRegistrationListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The status of the Tax Registration.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1290,1327 +1290,1327 @@ func (p *TaxRegistrationListParams) AddExpand(f string) {
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsAeStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in AE.
 type TaxRegistrationCountryOptionsAeParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsAeStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsAeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsAlStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in AL.
 type TaxRegistrationCountryOptionsAlParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsAlStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsAlStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in AM.
 type TaxRegistrationCountryOptionsAmParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsAoStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in AO.
 type TaxRegistrationCountryOptionsAoParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsAoStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsAoStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsAtStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in AT.
 type TaxRegistrationCountryOptionsAtParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsAtStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsAtStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsAuStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in AU.
 type TaxRegistrationCountryOptionsAuParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsAuStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsAuStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsAwStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in AW.
 type TaxRegistrationCountryOptionsAwParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsAwStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsAwStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in AZ.
 type TaxRegistrationCountryOptionsAzParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsBaStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in BA.
 type TaxRegistrationCountryOptionsBaParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsBaStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsBaStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsBbStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in BB.
 type TaxRegistrationCountryOptionsBbParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsBbStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsBbStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsBdStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in BD.
 type TaxRegistrationCountryOptionsBdParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsBdStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsBdStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsBeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in BE.
 type TaxRegistrationCountryOptionsBeParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsBeStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsBeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsBfStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in BF.
 type TaxRegistrationCountryOptionsBfParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsBfStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsBfStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsBGStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in BG.
 type TaxRegistrationCountryOptionsBGParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsBGStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsBGStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsBhStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in BH.
 type TaxRegistrationCountryOptionsBhParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsBhStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsBhStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in BJ.
 type TaxRegistrationCountryOptionsBjParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsBsStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in BS.
 type TaxRegistrationCountryOptionsBsParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsBsStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsBsStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in BY.
 type TaxRegistrationCountryOptionsByParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the provincial tax registration.
 type TaxRegistrationCountryOptionsCaProvinceStandardParams struct {
 	// Two-letter CA province code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
-	Province *string `form:"province"`
+	Province *string `form:"province" json:"province"`
 }
 
 // Options for the registration in CA.
 type TaxRegistrationCountryOptionsCaParams struct {
 	// Options for the provincial tax registration.
-	ProvinceStandard *TaxRegistrationCountryOptionsCaProvinceStandardParams `form:"province_standard"`
+	ProvinceStandard *TaxRegistrationCountryOptionsCaProvinceStandardParams `form:"province_standard" json:"province_standard,omitempty"`
 	// Type of registration to be created in Canada.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsCdStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in CD.
 type TaxRegistrationCountryOptionsCdParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsCdStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsCdStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsChStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in CH.
 type TaxRegistrationCountryOptionsChParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsChStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsChStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in CL.
 type TaxRegistrationCountryOptionsClParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in CM.
 type TaxRegistrationCountryOptionsCmParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in CO.
 type TaxRegistrationCountryOptionsCoParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in CR.
 type TaxRegistrationCountryOptionsCrParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in CV.
 type TaxRegistrationCountryOptionsCvParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsCyStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in CY.
 type TaxRegistrationCountryOptionsCyParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsCyStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsCyStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsCzStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in CZ.
 type TaxRegistrationCountryOptionsCzParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsCzStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsCzStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsDEStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in DE.
 type TaxRegistrationCountryOptionsDEParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsDEStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsDEStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsDkStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in DK.
 type TaxRegistrationCountryOptionsDkParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsDkStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsDkStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in EC.
 type TaxRegistrationCountryOptionsEcParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsEeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in EE.
 type TaxRegistrationCountryOptionsEeParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsEeStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsEeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in EG.
 type TaxRegistrationCountryOptionsEgParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsESStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in ES.
 type TaxRegistrationCountryOptionsESParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsESStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsESStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsETStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in ET.
 type TaxRegistrationCountryOptionsETParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsETStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsETStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsFIStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in FI.
 type TaxRegistrationCountryOptionsFIParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsFIStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsFIStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsFRStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in FR.
 type TaxRegistrationCountryOptionsFRParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsFRStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsFRStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsGBStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in GB.
 type TaxRegistrationCountryOptionsGBParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsGBStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsGBStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in GE.
 type TaxRegistrationCountryOptionsGeParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsGnStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in GN.
 type TaxRegistrationCountryOptionsGnParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsGnStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsGnStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsGrStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in GR.
 type TaxRegistrationCountryOptionsGrParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsGrStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsGrStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsHRStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in HR.
 type TaxRegistrationCountryOptionsHRParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsHRStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsHRStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsHUStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in HU.
 type TaxRegistrationCountryOptionsHUParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsHUStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsHUStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in ID.
 type TaxRegistrationCountryOptionsIDParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsIeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in IE.
 type TaxRegistrationCountryOptionsIeParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsIeStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsIeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in IN.
 type TaxRegistrationCountryOptionsInParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsIsStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in IS.
 type TaxRegistrationCountryOptionsIsParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsIsStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsIsStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsITStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in IT.
 type TaxRegistrationCountryOptionsITParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsITStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsITStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsJPStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in JP.
 type TaxRegistrationCountryOptionsJPParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsJPStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsJPStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in KE.
 type TaxRegistrationCountryOptionsKeParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in KG.
 type TaxRegistrationCountryOptionsKgParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in KH.
 type TaxRegistrationCountryOptionsKhParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in KR.
 type TaxRegistrationCountryOptionsKrParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in KZ.
 type TaxRegistrationCountryOptionsKzParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in LA.
 type TaxRegistrationCountryOptionsLaParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in LK.
 type TaxRegistrationCountryOptionsLkParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsLTStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in LT.
 type TaxRegistrationCountryOptionsLTParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsLTStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsLTStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsLuStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in LU.
 type TaxRegistrationCountryOptionsLuParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsLuStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsLuStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsLVStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in LV.
 type TaxRegistrationCountryOptionsLVParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsLVStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsLVStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in MA.
 type TaxRegistrationCountryOptionsMaParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in MD.
 type TaxRegistrationCountryOptionsMdParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsMeStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in ME.
 type TaxRegistrationCountryOptionsMeParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsMeStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsMeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsMkStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in MK.
 type TaxRegistrationCountryOptionsMkParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsMkStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsMkStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsMrStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in MR.
 type TaxRegistrationCountryOptionsMrParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsMrStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsMrStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsMTStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in MT.
 type TaxRegistrationCountryOptionsMTParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsMTStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsMTStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in MX.
 type TaxRegistrationCountryOptionsMXParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in MY.
 type TaxRegistrationCountryOptionsMyParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in NG.
 type TaxRegistrationCountryOptionsNgParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsNLStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in NL.
 type TaxRegistrationCountryOptionsNLParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsNLStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsNLStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsNoStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in NO.
 type TaxRegistrationCountryOptionsNoParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsNoStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsNoStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in NP.
 type TaxRegistrationCountryOptionsNpParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsNzStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in NZ.
 type TaxRegistrationCountryOptionsNzParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsNzStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsNzStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsOmStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in OM.
 type TaxRegistrationCountryOptionsOmParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsOmStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsOmStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in PE.
 type TaxRegistrationCountryOptionsPeParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in PH.
 type TaxRegistrationCountryOptionsPhParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsPLStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in PL.
 type TaxRegistrationCountryOptionsPLParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsPLStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsPLStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsPTStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in PT.
 type TaxRegistrationCountryOptionsPTParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsPTStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsPTStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsROStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in RO.
 type TaxRegistrationCountryOptionsROParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsROStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsROStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsRsStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in RS.
 type TaxRegistrationCountryOptionsRsParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsRsStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsRsStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in RU.
 type TaxRegistrationCountryOptionsRUParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in SA.
 type TaxRegistrationCountryOptionsSaParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsSeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in SE.
 type TaxRegistrationCountryOptionsSeParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsSeStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsSeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsSgStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in SG.
 type TaxRegistrationCountryOptionsSgParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsSgStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsSgStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsSiStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in SI.
 type TaxRegistrationCountryOptionsSiParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsSiStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsSiStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsSKStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in SK.
 type TaxRegistrationCountryOptionsSKParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsSKStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsSKStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in SN.
 type TaxRegistrationCountryOptionsSnParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsSrStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in SR.
 type TaxRegistrationCountryOptionsSrParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsSrStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsSrStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in TH.
 type TaxRegistrationCountryOptionsTHParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in TJ.
 type TaxRegistrationCountryOptionsTjParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in TR.
 type TaxRegistrationCountryOptionsTRParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in TW.
 type TaxRegistrationCountryOptionsTwParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in TZ.
 type TaxRegistrationCountryOptionsTzParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in UA.
 type TaxRegistrationCountryOptionsUaParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in UG.
 type TaxRegistrationCountryOptionsUgParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the local amusement tax registration.
 type TaxRegistrationCountryOptionsUSLocalAmusementTaxParams struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `02154` (Arlington Heights), `05248` (Bensenville), `06613` (Bloomington), `10906` (Campton Hills), `14000` (Chicago), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), `64421` (Riverside), `65806` (Roselle), and `68081` (Schiller Park).
-	Jurisdiction *string `form:"jurisdiction"`
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
 // Options for the local lease tax registration.
 type TaxRegistrationCountryOptionsUSLocalLeaseTaxParams struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago).
-	Jurisdiction *string `form:"jurisdiction"`
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
 // Elections for the state sales tax registration.
 type TaxRegistrationCountryOptionsUSStateSalesTaxElectionParams struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `003` (Allegheny County) and `60000` (Philadelphia City).
-	Jurisdiction *string `form:"jurisdiction"`
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction,omitempty"`
 	// The type of the election for the state sales tax registration.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the state sales tax registration.
 type TaxRegistrationCountryOptionsUSStateSalesTaxParams struct {
 	// Elections for the state sales tax registration.
-	Elections []*TaxRegistrationCountryOptionsUSStateSalesTaxElectionParams `form:"elections"`
+	Elections []*TaxRegistrationCountryOptionsUSStateSalesTaxElectionParams `form:"elections" json:"elections"`
 }
 
 // Options for the registration in US.
 type TaxRegistrationCountryOptionsUSParams struct {
 	// Options for the local amusement tax registration.
-	LocalAmusementTax *TaxRegistrationCountryOptionsUSLocalAmusementTaxParams `form:"local_amusement_tax"`
+	LocalAmusementTax *TaxRegistrationCountryOptionsUSLocalAmusementTaxParams `form:"local_amusement_tax" json:"local_amusement_tax,omitempty"`
 	// Options for the local lease tax registration.
-	LocalLeaseTax *TaxRegistrationCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax"`
+	LocalLeaseTax *TaxRegistrationCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax" json:"local_lease_tax,omitempty"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
-	State *string `form:"state"`
+	State *string `form:"state" json:"state"`
 	// Options for the state sales tax registration.
-	StateSalesTax *TaxRegistrationCountryOptionsUSStateSalesTaxParams `form:"state_sales_tax"`
+	StateSalesTax *TaxRegistrationCountryOptionsUSStateSalesTaxParams `form:"state_sales_tax" json:"state_sales_tax,omitempty"`
 	// Type of registration to be created in the US.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsUyStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in UY.
 type TaxRegistrationCountryOptionsUyParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsUyStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsUyStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in UZ.
 type TaxRegistrationCountryOptionsUzParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in VN.
 type TaxRegistrationCountryOptionsVnParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsZaStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in ZA.
 type TaxRegistrationCountryOptionsZaParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsZaStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsZaStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in ZM.
 type TaxRegistrationCountryOptionsZmParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsZwStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in ZW.
 type TaxRegistrationCountryOptionsZwParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCountryOptionsZwStandardParams `form:"standard"`
+	Standard *TaxRegistrationCountryOptionsZwStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Specific options for a registration in the specified `country`.
 type TaxRegistrationCountryOptionsParams struct {
 	// Options for the registration in AE.
-	Ae *TaxRegistrationCountryOptionsAeParams `form:"ae"`
+	Ae *TaxRegistrationCountryOptionsAeParams `form:"ae" json:"ae,omitempty"`
 	// Options for the registration in AL.
-	Al *TaxRegistrationCountryOptionsAlParams `form:"al"`
+	Al *TaxRegistrationCountryOptionsAlParams `form:"al" json:"al,omitempty"`
 	// Options for the registration in AM.
-	Am *TaxRegistrationCountryOptionsAmParams `form:"am"`
+	Am *TaxRegistrationCountryOptionsAmParams `form:"am" json:"am,omitempty"`
 	// Options for the registration in AO.
-	Ao *TaxRegistrationCountryOptionsAoParams `form:"ao"`
+	Ao *TaxRegistrationCountryOptionsAoParams `form:"ao" json:"ao,omitempty"`
 	// Options for the registration in AT.
-	At *TaxRegistrationCountryOptionsAtParams `form:"at"`
+	At *TaxRegistrationCountryOptionsAtParams `form:"at" json:"at,omitempty"`
 	// Options for the registration in AU.
-	Au *TaxRegistrationCountryOptionsAuParams `form:"au"`
+	Au *TaxRegistrationCountryOptionsAuParams `form:"au" json:"au,omitempty"`
 	// Options for the registration in AW.
-	Aw *TaxRegistrationCountryOptionsAwParams `form:"aw"`
+	Aw *TaxRegistrationCountryOptionsAwParams `form:"aw" json:"aw,omitempty"`
 	// Options for the registration in AZ.
-	Az *TaxRegistrationCountryOptionsAzParams `form:"az"`
+	Az *TaxRegistrationCountryOptionsAzParams `form:"az" json:"az,omitempty"`
 	// Options for the registration in BA.
-	Ba *TaxRegistrationCountryOptionsBaParams `form:"ba"`
+	Ba *TaxRegistrationCountryOptionsBaParams `form:"ba" json:"ba,omitempty"`
 	// Options for the registration in BB.
-	Bb *TaxRegistrationCountryOptionsBbParams `form:"bb"`
+	Bb *TaxRegistrationCountryOptionsBbParams `form:"bb" json:"bb,omitempty"`
 	// Options for the registration in BD.
-	Bd *TaxRegistrationCountryOptionsBdParams `form:"bd"`
+	Bd *TaxRegistrationCountryOptionsBdParams `form:"bd" json:"bd,omitempty"`
 	// Options for the registration in BE.
-	Be *TaxRegistrationCountryOptionsBeParams `form:"be"`
+	Be *TaxRegistrationCountryOptionsBeParams `form:"be" json:"be,omitempty"`
 	// Options for the registration in BF.
-	Bf *TaxRegistrationCountryOptionsBfParams `form:"bf"`
+	Bf *TaxRegistrationCountryOptionsBfParams `form:"bf" json:"bf,omitempty"`
 	// Options for the registration in BG.
-	BG *TaxRegistrationCountryOptionsBGParams `form:"bg"`
+	BG *TaxRegistrationCountryOptionsBGParams `form:"bg" json:"bg,omitempty"`
 	// Options for the registration in BH.
-	Bh *TaxRegistrationCountryOptionsBhParams `form:"bh"`
+	Bh *TaxRegistrationCountryOptionsBhParams `form:"bh" json:"bh,omitempty"`
 	// Options for the registration in BJ.
-	Bj *TaxRegistrationCountryOptionsBjParams `form:"bj"`
+	Bj *TaxRegistrationCountryOptionsBjParams `form:"bj" json:"bj,omitempty"`
 	// Options for the registration in BS.
-	Bs *TaxRegistrationCountryOptionsBsParams `form:"bs"`
+	Bs *TaxRegistrationCountryOptionsBsParams `form:"bs" json:"bs,omitempty"`
 	// Options for the registration in BY.
-	By *TaxRegistrationCountryOptionsByParams `form:"by"`
+	By *TaxRegistrationCountryOptionsByParams `form:"by" json:"by,omitempty"`
 	// Options for the registration in CA.
-	Ca *TaxRegistrationCountryOptionsCaParams `form:"ca"`
+	Ca *TaxRegistrationCountryOptionsCaParams `form:"ca" json:"ca,omitempty"`
 	// Options for the registration in CD.
-	Cd *TaxRegistrationCountryOptionsCdParams `form:"cd"`
+	Cd *TaxRegistrationCountryOptionsCdParams `form:"cd" json:"cd,omitempty"`
 	// Options for the registration in CH.
-	Ch *TaxRegistrationCountryOptionsChParams `form:"ch"`
+	Ch *TaxRegistrationCountryOptionsChParams `form:"ch" json:"ch,omitempty"`
 	// Options for the registration in CL.
-	Cl *TaxRegistrationCountryOptionsClParams `form:"cl"`
+	Cl *TaxRegistrationCountryOptionsClParams `form:"cl" json:"cl,omitempty"`
 	// Options for the registration in CM.
-	Cm *TaxRegistrationCountryOptionsCmParams `form:"cm"`
+	Cm *TaxRegistrationCountryOptionsCmParams `form:"cm" json:"cm,omitempty"`
 	// Options for the registration in CO.
-	Co *TaxRegistrationCountryOptionsCoParams `form:"co"`
+	Co *TaxRegistrationCountryOptionsCoParams `form:"co" json:"co,omitempty"`
 	// Options for the registration in CR.
-	Cr *TaxRegistrationCountryOptionsCrParams `form:"cr"`
+	Cr *TaxRegistrationCountryOptionsCrParams `form:"cr" json:"cr,omitempty"`
 	// Options for the registration in CV.
-	Cv *TaxRegistrationCountryOptionsCvParams `form:"cv"`
+	Cv *TaxRegistrationCountryOptionsCvParams `form:"cv" json:"cv,omitempty"`
 	// Options for the registration in CY.
-	Cy *TaxRegistrationCountryOptionsCyParams `form:"cy"`
+	Cy *TaxRegistrationCountryOptionsCyParams `form:"cy" json:"cy,omitempty"`
 	// Options for the registration in CZ.
-	Cz *TaxRegistrationCountryOptionsCzParams `form:"cz"`
+	Cz *TaxRegistrationCountryOptionsCzParams `form:"cz" json:"cz,omitempty"`
 	// Options for the registration in DE.
-	DE *TaxRegistrationCountryOptionsDEParams `form:"de"`
+	DE *TaxRegistrationCountryOptionsDEParams `form:"de" json:"de,omitempty"`
 	// Options for the registration in DK.
-	Dk *TaxRegistrationCountryOptionsDkParams `form:"dk"`
+	Dk *TaxRegistrationCountryOptionsDkParams `form:"dk" json:"dk,omitempty"`
 	// Options for the registration in EC.
-	Ec *TaxRegistrationCountryOptionsEcParams `form:"ec"`
+	Ec *TaxRegistrationCountryOptionsEcParams `form:"ec" json:"ec,omitempty"`
 	// Options for the registration in EE.
-	Ee *TaxRegistrationCountryOptionsEeParams `form:"ee"`
+	Ee *TaxRegistrationCountryOptionsEeParams `form:"ee" json:"ee,omitempty"`
 	// Options for the registration in EG.
-	Eg *TaxRegistrationCountryOptionsEgParams `form:"eg"`
+	Eg *TaxRegistrationCountryOptionsEgParams `form:"eg" json:"eg,omitempty"`
 	// Options for the registration in ES.
-	ES *TaxRegistrationCountryOptionsESParams `form:"es"`
+	ES *TaxRegistrationCountryOptionsESParams `form:"es" json:"es,omitempty"`
 	// Options for the registration in ET.
-	ET *TaxRegistrationCountryOptionsETParams `form:"et"`
+	ET *TaxRegistrationCountryOptionsETParams `form:"et" json:"et,omitempty"`
 	// Options for the registration in FI.
-	FI *TaxRegistrationCountryOptionsFIParams `form:"fi"`
+	FI *TaxRegistrationCountryOptionsFIParams `form:"fi" json:"fi,omitempty"`
 	// Options for the registration in FR.
-	FR *TaxRegistrationCountryOptionsFRParams `form:"fr"`
+	FR *TaxRegistrationCountryOptionsFRParams `form:"fr" json:"fr,omitempty"`
 	// Options for the registration in GB.
-	GB *TaxRegistrationCountryOptionsGBParams `form:"gb"`
+	GB *TaxRegistrationCountryOptionsGBParams `form:"gb" json:"gb,omitempty"`
 	// Options for the registration in GE.
-	Ge *TaxRegistrationCountryOptionsGeParams `form:"ge"`
+	Ge *TaxRegistrationCountryOptionsGeParams `form:"ge" json:"ge,omitempty"`
 	// Options for the registration in GN.
-	Gn *TaxRegistrationCountryOptionsGnParams `form:"gn"`
+	Gn *TaxRegistrationCountryOptionsGnParams `form:"gn" json:"gn,omitempty"`
 	// Options for the registration in GR.
-	Gr *TaxRegistrationCountryOptionsGrParams `form:"gr"`
+	Gr *TaxRegistrationCountryOptionsGrParams `form:"gr" json:"gr,omitempty"`
 	// Options for the registration in HR.
-	HR *TaxRegistrationCountryOptionsHRParams `form:"hr"`
+	HR *TaxRegistrationCountryOptionsHRParams `form:"hr" json:"hr,omitempty"`
 	// Options for the registration in HU.
-	HU *TaxRegistrationCountryOptionsHUParams `form:"hu"`
+	HU *TaxRegistrationCountryOptionsHUParams `form:"hu" json:"hu,omitempty"`
 	// Options for the registration in ID.
-	ID *TaxRegistrationCountryOptionsIDParams `form:"id"`
+	ID *TaxRegistrationCountryOptionsIDParams `form:"id" json:"id,omitempty"`
 	// Options for the registration in IE.
-	Ie *TaxRegistrationCountryOptionsIeParams `form:"ie"`
+	Ie *TaxRegistrationCountryOptionsIeParams `form:"ie" json:"ie,omitempty"`
 	// Options for the registration in IN.
-	In *TaxRegistrationCountryOptionsInParams `form:"in"`
+	In *TaxRegistrationCountryOptionsInParams `form:"in" json:"in,omitempty"`
 	// Options for the registration in IS.
-	Is *TaxRegistrationCountryOptionsIsParams `form:"is"`
+	Is *TaxRegistrationCountryOptionsIsParams `form:"is" json:"is,omitempty"`
 	// Options for the registration in IT.
-	IT *TaxRegistrationCountryOptionsITParams `form:"it"`
+	IT *TaxRegistrationCountryOptionsITParams `form:"it" json:"it,omitempty"`
 	// Options for the registration in JP.
-	JP *TaxRegistrationCountryOptionsJPParams `form:"jp"`
+	JP *TaxRegistrationCountryOptionsJPParams `form:"jp" json:"jp,omitempty"`
 	// Options for the registration in KE.
-	Ke *TaxRegistrationCountryOptionsKeParams `form:"ke"`
+	Ke *TaxRegistrationCountryOptionsKeParams `form:"ke" json:"ke,omitempty"`
 	// Options for the registration in KG.
-	Kg *TaxRegistrationCountryOptionsKgParams `form:"kg"`
+	Kg *TaxRegistrationCountryOptionsKgParams `form:"kg" json:"kg,omitempty"`
 	// Options for the registration in KH.
-	Kh *TaxRegistrationCountryOptionsKhParams `form:"kh"`
+	Kh *TaxRegistrationCountryOptionsKhParams `form:"kh" json:"kh,omitempty"`
 	// Options for the registration in KR.
-	Kr *TaxRegistrationCountryOptionsKrParams `form:"kr"`
+	Kr *TaxRegistrationCountryOptionsKrParams `form:"kr" json:"kr,omitempty"`
 	// Options for the registration in KZ.
-	Kz *TaxRegistrationCountryOptionsKzParams `form:"kz"`
+	Kz *TaxRegistrationCountryOptionsKzParams `form:"kz" json:"kz,omitempty"`
 	// Options for the registration in LA.
-	La *TaxRegistrationCountryOptionsLaParams `form:"la"`
+	La *TaxRegistrationCountryOptionsLaParams `form:"la" json:"la,omitempty"`
 	// Options for the registration in LK.
-	Lk *TaxRegistrationCountryOptionsLkParams `form:"lk"`
+	Lk *TaxRegistrationCountryOptionsLkParams `form:"lk" json:"lk,omitempty"`
 	// Options for the registration in LT.
-	LT *TaxRegistrationCountryOptionsLTParams `form:"lt"`
+	LT *TaxRegistrationCountryOptionsLTParams `form:"lt" json:"lt,omitempty"`
 	// Options for the registration in LU.
-	Lu *TaxRegistrationCountryOptionsLuParams `form:"lu"`
+	Lu *TaxRegistrationCountryOptionsLuParams `form:"lu" json:"lu,omitempty"`
 	// Options for the registration in LV.
-	LV *TaxRegistrationCountryOptionsLVParams `form:"lv"`
+	LV *TaxRegistrationCountryOptionsLVParams `form:"lv" json:"lv,omitempty"`
 	// Options for the registration in MA.
-	Ma *TaxRegistrationCountryOptionsMaParams `form:"ma"`
+	Ma *TaxRegistrationCountryOptionsMaParams `form:"ma" json:"ma,omitempty"`
 	// Options for the registration in MD.
-	Md *TaxRegistrationCountryOptionsMdParams `form:"md"`
+	Md *TaxRegistrationCountryOptionsMdParams `form:"md" json:"md,omitempty"`
 	// Options for the registration in ME.
-	Me *TaxRegistrationCountryOptionsMeParams `form:"me"`
+	Me *TaxRegistrationCountryOptionsMeParams `form:"me" json:"me,omitempty"`
 	// Options for the registration in MK.
-	Mk *TaxRegistrationCountryOptionsMkParams `form:"mk"`
+	Mk *TaxRegistrationCountryOptionsMkParams `form:"mk" json:"mk,omitempty"`
 	// Options for the registration in MR.
-	Mr *TaxRegistrationCountryOptionsMrParams `form:"mr"`
+	Mr *TaxRegistrationCountryOptionsMrParams `form:"mr" json:"mr,omitempty"`
 	// Options for the registration in MT.
-	MT *TaxRegistrationCountryOptionsMTParams `form:"mt"`
+	MT *TaxRegistrationCountryOptionsMTParams `form:"mt" json:"mt,omitempty"`
 	// Options for the registration in MX.
-	MX *TaxRegistrationCountryOptionsMXParams `form:"mx"`
+	MX *TaxRegistrationCountryOptionsMXParams `form:"mx" json:"mx,omitempty"`
 	// Options for the registration in MY.
-	My *TaxRegistrationCountryOptionsMyParams `form:"my"`
+	My *TaxRegistrationCountryOptionsMyParams `form:"my" json:"my,omitempty"`
 	// Options for the registration in NG.
-	Ng *TaxRegistrationCountryOptionsNgParams `form:"ng"`
+	Ng *TaxRegistrationCountryOptionsNgParams `form:"ng" json:"ng,omitempty"`
 	// Options for the registration in NL.
-	NL *TaxRegistrationCountryOptionsNLParams `form:"nl"`
+	NL *TaxRegistrationCountryOptionsNLParams `form:"nl" json:"nl,omitempty"`
 	// Options for the registration in NO.
-	No *TaxRegistrationCountryOptionsNoParams `form:"no"`
+	No *TaxRegistrationCountryOptionsNoParams `form:"no" json:"no,omitempty"`
 	// Options for the registration in NP.
-	Np *TaxRegistrationCountryOptionsNpParams `form:"np"`
+	Np *TaxRegistrationCountryOptionsNpParams `form:"np" json:"np,omitempty"`
 	// Options for the registration in NZ.
-	Nz *TaxRegistrationCountryOptionsNzParams `form:"nz"`
+	Nz *TaxRegistrationCountryOptionsNzParams `form:"nz" json:"nz,omitempty"`
 	// Options for the registration in OM.
-	Om *TaxRegistrationCountryOptionsOmParams `form:"om"`
+	Om *TaxRegistrationCountryOptionsOmParams `form:"om" json:"om,omitempty"`
 	// Options for the registration in PE.
-	Pe *TaxRegistrationCountryOptionsPeParams `form:"pe"`
+	Pe *TaxRegistrationCountryOptionsPeParams `form:"pe" json:"pe,omitempty"`
 	// Options for the registration in PH.
-	Ph *TaxRegistrationCountryOptionsPhParams `form:"ph"`
+	Ph *TaxRegistrationCountryOptionsPhParams `form:"ph" json:"ph,omitempty"`
 	// Options for the registration in PL.
-	PL *TaxRegistrationCountryOptionsPLParams `form:"pl"`
+	PL *TaxRegistrationCountryOptionsPLParams `form:"pl" json:"pl,omitempty"`
 	// Options for the registration in PT.
-	PT *TaxRegistrationCountryOptionsPTParams `form:"pt"`
+	PT *TaxRegistrationCountryOptionsPTParams `form:"pt" json:"pt,omitempty"`
 	// Options for the registration in RO.
-	RO *TaxRegistrationCountryOptionsROParams `form:"ro"`
+	RO *TaxRegistrationCountryOptionsROParams `form:"ro" json:"ro,omitempty"`
 	// Options for the registration in RS.
-	Rs *TaxRegistrationCountryOptionsRsParams `form:"rs"`
+	Rs *TaxRegistrationCountryOptionsRsParams `form:"rs" json:"rs,omitempty"`
 	// Options for the registration in RU.
-	RU *TaxRegistrationCountryOptionsRUParams `form:"ru"`
+	RU *TaxRegistrationCountryOptionsRUParams `form:"ru" json:"ru,omitempty"`
 	// Options for the registration in SA.
-	Sa *TaxRegistrationCountryOptionsSaParams `form:"sa"`
+	Sa *TaxRegistrationCountryOptionsSaParams `form:"sa" json:"sa,omitempty"`
 	// Options for the registration in SE.
-	Se *TaxRegistrationCountryOptionsSeParams `form:"se"`
+	Se *TaxRegistrationCountryOptionsSeParams `form:"se" json:"se,omitempty"`
 	// Options for the registration in SG.
-	Sg *TaxRegistrationCountryOptionsSgParams `form:"sg"`
+	Sg *TaxRegistrationCountryOptionsSgParams `form:"sg" json:"sg,omitempty"`
 	// Options for the registration in SI.
-	Si *TaxRegistrationCountryOptionsSiParams `form:"si"`
+	Si *TaxRegistrationCountryOptionsSiParams `form:"si" json:"si,omitempty"`
 	// Options for the registration in SK.
-	SK *TaxRegistrationCountryOptionsSKParams `form:"sk"`
+	SK *TaxRegistrationCountryOptionsSKParams `form:"sk" json:"sk,omitempty"`
 	// Options for the registration in SN.
-	Sn *TaxRegistrationCountryOptionsSnParams `form:"sn"`
+	Sn *TaxRegistrationCountryOptionsSnParams `form:"sn" json:"sn,omitempty"`
 	// Options for the registration in SR.
-	Sr *TaxRegistrationCountryOptionsSrParams `form:"sr"`
+	Sr *TaxRegistrationCountryOptionsSrParams `form:"sr" json:"sr,omitempty"`
 	// Options for the registration in TH.
-	TH *TaxRegistrationCountryOptionsTHParams `form:"th"`
+	TH *TaxRegistrationCountryOptionsTHParams `form:"th" json:"th,omitempty"`
 	// Options for the registration in TJ.
-	Tj *TaxRegistrationCountryOptionsTjParams `form:"tj"`
+	Tj *TaxRegistrationCountryOptionsTjParams `form:"tj" json:"tj,omitempty"`
 	// Options for the registration in TR.
-	TR *TaxRegistrationCountryOptionsTRParams `form:"tr"`
+	TR *TaxRegistrationCountryOptionsTRParams `form:"tr" json:"tr,omitempty"`
 	// Options for the registration in TW.
-	Tw *TaxRegistrationCountryOptionsTwParams `form:"tw"`
+	Tw *TaxRegistrationCountryOptionsTwParams `form:"tw" json:"tw,omitempty"`
 	// Options for the registration in TZ.
-	Tz *TaxRegistrationCountryOptionsTzParams `form:"tz"`
+	Tz *TaxRegistrationCountryOptionsTzParams `form:"tz" json:"tz,omitempty"`
 	// Options for the registration in UA.
-	Ua *TaxRegistrationCountryOptionsUaParams `form:"ua"`
+	Ua *TaxRegistrationCountryOptionsUaParams `form:"ua" json:"ua,omitempty"`
 	// Options for the registration in UG.
-	Ug *TaxRegistrationCountryOptionsUgParams `form:"ug"`
+	Ug *TaxRegistrationCountryOptionsUgParams `form:"ug" json:"ug,omitempty"`
 	// Options for the registration in US.
-	US *TaxRegistrationCountryOptionsUSParams `form:"us"`
+	US *TaxRegistrationCountryOptionsUSParams `form:"us" json:"us,omitempty"`
 	// Options for the registration in UY.
-	Uy *TaxRegistrationCountryOptionsUyParams `form:"uy"`
+	Uy *TaxRegistrationCountryOptionsUyParams `form:"uy" json:"uy,omitempty"`
 	// Options for the registration in UZ.
-	Uz *TaxRegistrationCountryOptionsUzParams `form:"uz"`
+	Uz *TaxRegistrationCountryOptionsUzParams `form:"uz" json:"uz,omitempty"`
 	// Options for the registration in VN.
-	Vn *TaxRegistrationCountryOptionsVnParams `form:"vn"`
+	Vn *TaxRegistrationCountryOptionsVnParams `form:"vn" json:"vn,omitempty"`
 	// Options for the registration in ZA.
-	Za *TaxRegistrationCountryOptionsZaParams `form:"za"`
+	Za *TaxRegistrationCountryOptionsZaParams `form:"za" json:"za,omitempty"`
 	// Options for the registration in ZM.
-	Zm *TaxRegistrationCountryOptionsZmParams `form:"zm"`
+	Zm *TaxRegistrationCountryOptionsZmParams `form:"zm" json:"zm,omitempty"`
 	// Options for the registration in ZW.
-	Zw *TaxRegistrationCountryOptionsZwParams `form:"zw"`
+	Zw *TaxRegistrationCountryOptionsZwParams `form:"zw" json:"zw,omitempty"`
 }
 
 // Creates a new Tax Registration object.
 type TaxRegistrationParams struct {
 	Params `form:"*"`
 	// Time at which the Tax Registration becomes active. It can be either `now` to indicate the current time, or a future timestamp measured in seconds since the Unix epoch.
-	ActiveFrom    *int64 `form:"active_from"`
+	ActiveFrom    *int64 `form:"active_from" json:"active_from,omitempty"`
 	ActiveFromNow *bool  `form:"-"` // See custom AppendTo
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Specific options for a registration in the specified `country`.
-	CountryOptions *TaxRegistrationCountryOptionsParams `form:"country_options"`
+	CountryOptions *TaxRegistrationCountryOptionsParams `form:"country_options" json:"country_options,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// If set, the registration stops being active at this time. If not set, the registration will be active indefinitely. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
-	ExpiresAt    *int64                            `form:"expires_at"`
+	ExpiresAt    *int64                            `form:"expires_at" json:"expires_at,omitempty"`
 	ExpiresAtNow *bool                             `form:"-"` // See custom AppendTo
 	UnsetFields  []TaxRegistrationParamsUnsetField `form:"-" json:"-"`
 }
@@ -2645,1327 +2645,1327 @@ func (p *TaxRegistrationParams) AppendTo(body *form.Values, keyParts []string) {
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsAeStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in AE.
 type TaxRegistrationCreateCountryOptionsAeParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsAeStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsAeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsAlStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in AL.
 type TaxRegistrationCreateCountryOptionsAlParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsAlStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsAlStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in AM.
 type TaxRegistrationCreateCountryOptionsAmParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsAoStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in AO.
 type TaxRegistrationCreateCountryOptionsAoParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsAoStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsAoStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsAtStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in AT.
 type TaxRegistrationCreateCountryOptionsAtParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsAtStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsAtStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsAuStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in AU.
 type TaxRegistrationCreateCountryOptionsAuParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsAuStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsAuStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsAwStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in AW.
 type TaxRegistrationCreateCountryOptionsAwParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsAwStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsAwStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in AZ.
 type TaxRegistrationCreateCountryOptionsAzParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsBaStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in BA.
 type TaxRegistrationCreateCountryOptionsBaParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsBaStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsBaStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsBbStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in BB.
 type TaxRegistrationCreateCountryOptionsBbParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsBbStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsBbStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsBdStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in BD.
 type TaxRegistrationCreateCountryOptionsBdParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsBdStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsBdStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsBeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in BE.
 type TaxRegistrationCreateCountryOptionsBeParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsBeStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsBeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsBfStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in BF.
 type TaxRegistrationCreateCountryOptionsBfParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsBfStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsBfStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsBGStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in BG.
 type TaxRegistrationCreateCountryOptionsBGParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsBGStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsBGStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsBhStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in BH.
 type TaxRegistrationCreateCountryOptionsBhParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsBhStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsBhStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in BJ.
 type TaxRegistrationCreateCountryOptionsBjParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsBsStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in BS.
 type TaxRegistrationCreateCountryOptionsBsParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsBsStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsBsStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in BY.
 type TaxRegistrationCreateCountryOptionsByParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the provincial tax registration.
 type TaxRegistrationCreateCountryOptionsCaProvinceStandardParams struct {
 	// Two-letter CA province code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
-	Province *string `form:"province"`
+	Province *string `form:"province" json:"province"`
 }
 
 // Options for the registration in CA.
 type TaxRegistrationCreateCountryOptionsCaParams struct {
 	// Options for the provincial tax registration.
-	ProvinceStandard *TaxRegistrationCreateCountryOptionsCaProvinceStandardParams `form:"province_standard"`
+	ProvinceStandard *TaxRegistrationCreateCountryOptionsCaProvinceStandardParams `form:"province_standard" json:"province_standard,omitempty"`
 	// Type of registration to be created in Canada.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsCdStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in CD.
 type TaxRegistrationCreateCountryOptionsCdParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsCdStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsCdStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsChStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in CH.
 type TaxRegistrationCreateCountryOptionsChParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsChStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsChStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in CL.
 type TaxRegistrationCreateCountryOptionsClParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in CM.
 type TaxRegistrationCreateCountryOptionsCmParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in CO.
 type TaxRegistrationCreateCountryOptionsCoParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in CR.
 type TaxRegistrationCreateCountryOptionsCrParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in CV.
 type TaxRegistrationCreateCountryOptionsCvParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsCyStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in CY.
 type TaxRegistrationCreateCountryOptionsCyParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsCyStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsCyStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsCzStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in CZ.
 type TaxRegistrationCreateCountryOptionsCzParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsCzStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsCzStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsDEStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in DE.
 type TaxRegistrationCreateCountryOptionsDEParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsDEStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsDEStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsDkStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in DK.
 type TaxRegistrationCreateCountryOptionsDkParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsDkStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsDkStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in EC.
 type TaxRegistrationCreateCountryOptionsEcParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsEeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in EE.
 type TaxRegistrationCreateCountryOptionsEeParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsEeStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsEeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in EG.
 type TaxRegistrationCreateCountryOptionsEgParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsESStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in ES.
 type TaxRegistrationCreateCountryOptionsESParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsESStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsESStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsETStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in ET.
 type TaxRegistrationCreateCountryOptionsETParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsETStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsETStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsFIStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in FI.
 type TaxRegistrationCreateCountryOptionsFIParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsFIStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsFIStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsFRStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in FR.
 type TaxRegistrationCreateCountryOptionsFRParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsFRStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsFRStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsGBStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in GB.
 type TaxRegistrationCreateCountryOptionsGBParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsGBStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsGBStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in GE.
 type TaxRegistrationCreateCountryOptionsGeParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsGnStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in GN.
 type TaxRegistrationCreateCountryOptionsGnParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsGnStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsGnStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsGrStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in GR.
 type TaxRegistrationCreateCountryOptionsGrParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsGrStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsGrStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsHRStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in HR.
 type TaxRegistrationCreateCountryOptionsHRParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsHRStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsHRStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsHUStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in HU.
 type TaxRegistrationCreateCountryOptionsHUParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsHUStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsHUStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in ID.
 type TaxRegistrationCreateCountryOptionsIDParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsIeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in IE.
 type TaxRegistrationCreateCountryOptionsIeParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsIeStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsIeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in IN.
 type TaxRegistrationCreateCountryOptionsInParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsIsStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in IS.
 type TaxRegistrationCreateCountryOptionsIsParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsIsStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsIsStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsITStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in IT.
 type TaxRegistrationCreateCountryOptionsITParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsITStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsITStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsJPStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in JP.
 type TaxRegistrationCreateCountryOptionsJPParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsJPStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsJPStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in KE.
 type TaxRegistrationCreateCountryOptionsKeParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in KG.
 type TaxRegistrationCreateCountryOptionsKgParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in KH.
 type TaxRegistrationCreateCountryOptionsKhParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in KR.
 type TaxRegistrationCreateCountryOptionsKrParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in KZ.
 type TaxRegistrationCreateCountryOptionsKzParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in LA.
 type TaxRegistrationCreateCountryOptionsLaParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in LK.
 type TaxRegistrationCreateCountryOptionsLkParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsLTStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in LT.
 type TaxRegistrationCreateCountryOptionsLTParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsLTStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsLTStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsLuStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in LU.
 type TaxRegistrationCreateCountryOptionsLuParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsLuStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsLuStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsLVStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in LV.
 type TaxRegistrationCreateCountryOptionsLVParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsLVStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsLVStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in MA.
 type TaxRegistrationCreateCountryOptionsMaParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in MD.
 type TaxRegistrationCreateCountryOptionsMdParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsMeStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in ME.
 type TaxRegistrationCreateCountryOptionsMeParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsMeStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsMeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsMkStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in MK.
 type TaxRegistrationCreateCountryOptionsMkParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsMkStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsMkStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsMrStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in MR.
 type TaxRegistrationCreateCountryOptionsMrParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsMrStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsMrStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsMTStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in MT.
 type TaxRegistrationCreateCountryOptionsMTParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsMTStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsMTStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in MX.
 type TaxRegistrationCreateCountryOptionsMXParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in MY.
 type TaxRegistrationCreateCountryOptionsMyParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in NG.
 type TaxRegistrationCreateCountryOptionsNgParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsNLStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in NL.
 type TaxRegistrationCreateCountryOptionsNLParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsNLStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsNLStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsNoStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in NO.
 type TaxRegistrationCreateCountryOptionsNoParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsNoStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsNoStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in NP.
 type TaxRegistrationCreateCountryOptionsNpParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsNzStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in NZ.
 type TaxRegistrationCreateCountryOptionsNzParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsNzStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsNzStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsOmStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in OM.
 type TaxRegistrationCreateCountryOptionsOmParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsOmStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsOmStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in PE.
 type TaxRegistrationCreateCountryOptionsPeParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in PH.
 type TaxRegistrationCreateCountryOptionsPhParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsPLStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in PL.
 type TaxRegistrationCreateCountryOptionsPLParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsPLStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsPLStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsPTStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in PT.
 type TaxRegistrationCreateCountryOptionsPTParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsPTStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsPTStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsROStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in RO.
 type TaxRegistrationCreateCountryOptionsROParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsROStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsROStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsRsStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in RS.
 type TaxRegistrationCreateCountryOptionsRsParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsRsStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsRsStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in RU.
 type TaxRegistrationCreateCountryOptionsRUParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in SA.
 type TaxRegistrationCreateCountryOptionsSaParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsSeStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in SE.
 type TaxRegistrationCreateCountryOptionsSeParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsSeStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsSeStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsSgStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in SG.
 type TaxRegistrationCreateCountryOptionsSgParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsSgStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsSgStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsSiStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in SI.
 type TaxRegistrationCreateCountryOptionsSiParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsSiStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsSiStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsSKStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme"`
 }
 
 // Options for the registration in SK.
 type TaxRegistrationCreateCountryOptionsSKParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsSKStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsSKStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in an EU country.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in SN.
 type TaxRegistrationCreateCountryOptionsSnParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsSrStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in SR.
 type TaxRegistrationCreateCountryOptionsSrParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsSrStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsSrStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in TH.
 type TaxRegistrationCreateCountryOptionsTHParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in TJ.
 type TaxRegistrationCreateCountryOptionsTjParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in TR.
 type TaxRegistrationCreateCountryOptionsTRParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in TW.
 type TaxRegistrationCreateCountryOptionsTwParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in TZ.
 type TaxRegistrationCreateCountryOptionsTzParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in UA.
 type TaxRegistrationCreateCountryOptionsUaParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in UG.
 type TaxRegistrationCreateCountryOptionsUgParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the local amusement tax registration.
 type TaxRegistrationCreateCountryOptionsUSLocalAmusementTaxParams struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `02154` (Arlington Heights), `05248` (Bensenville), `06613` (Bloomington), `10906` (Campton Hills), `14000` (Chicago), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), `64421` (Riverside), `65806` (Roselle), and `68081` (Schiller Park).
-	Jurisdiction *string `form:"jurisdiction"`
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
 // Options for the local lease tax registration.
 type TaxRegistrationCreateCountryOptionsUSLocalLeaseTaxParams struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago).
-	Jurisdiction *string `form:"jurisdiction"`
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
 // Elections for the state sales tax registration.
 type TaxRegistrationCreateCountryOptionsUSStateSalesTaxElectionParams struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `003` (Allegheny County) and `60000` (Philadelphia City).
-	Jurisdiction *string `form:"jurisdiction"`
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction,omitempty"`
 	// The type of the election for the state sales tax registration.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the state sales tax registration.
 type TaxRegistrationCreateCountryOptionsUSStateSalesTaxParams struct {
 	// Elections for the state sales tax registration.
-	Elections []*TaxRegistrationCreateCountryOptionsUSStateSalesTaxElectionParams `form:"elections"`
+	Elections []*TaxRegistrationCreateCountryOptionsUSStateSalesTaxElectionParams `form:"elections" json:"elections"`
 }
 
 // Options for the registration in US.
 type TaxRegistrationCreateCountryOptionsUSParams struct {
 	// Options for the local amusement tax registration.
-	LocalAmusementTax *TaxRegistrationCreateCountryOptionsUSLocalAmusementTaxParams `form:"local_amusement_tax"`
+	LocalAmusementTax *TaxRegistrationCreateCountryOptionsUSLocalAmusementTaxParams `form:"local_amusement_tax" json:"local_amusement_tax,omitempty"`
 	// Options for the local lease tax registration.
-	LocalLeaseTax *TaxRegistrationCreateCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax"`
+	LocalLeaseTax *TaxRegistrationCreateCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax" json:"local_lease_tax,omitempty"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
-	State *string `form:"state"`
+	State *string `form:"state" json:"state"`
 	// Options for the state sales tax registration.
-	StateSalesTax *TaxRegistrationCreateCountryOptionsUSStateSalesTaxParams `form:"state_sales_tax"`
+	StateSalesTax *TaxRegistrationCreateCountryOptionsUSStateSalesTaxParams `form:"state_sales_tax" json:"state_sales_tax,omitempty"`
 	// Type of registration to be created in the US.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsUyStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in UY.
 type TaxRegistrationCreateCountryOptionsUyParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsUyStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsUyStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in UZ.
 type TaxRegistrationCreateCountryOptionsUzParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in VN.
 type TaxRegistrationCreateCountryOptionsVnParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsZaStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in ZA.
 type TaxRegistrationCreateCountryOptionsZaParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsZaStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsZaStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the registration in ZM.
 type TaxRegistrationCreateCountryOptionsZmParams struct {
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Options for the standard registration.
 type TaxRegistrationCreateCountryOptionsZwStandardParams struct {
 	// Place of supply scheme used in an standard registration.
-	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme" json:"place_of_supply_scheme,omitempty"`
 }
 
 // Options for the registration in ZW.
 type TaxRegistrationCreateCountryOptionsZwParams struct {
 	// Options for the standard registration.
-	Standard *TaxRegistrationCreateCountryOptionsZwStandardParams `form:"standard"`
+	Standard *TaxRegistrationCreateCountryOptionsZwStandardParams `form:"standard" json:"standard,omitempty"`
 	// Type of registration to be created in `country`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Specific options for a registration in the specified `country`.
 type TaxRegistrationCreateCountryOptionsParams struct {
 	// Options for the registration in AE.
-	Ae *TaxRegistrationCreateCountryOptionsAeParams `form:"ae"`
+	Ae *TaxRegistrationCreateCountryOptionsAeParams `form:"ae" json:"ae,omitempty"`
 	// Options for the registration in AL.
-	Al *TaxRegistrationCreateCountryOptionsAlParams `form:"al"`
+	Al *TaxRegistrationCreateCountryOptionsAlParams `form:"al" json:"al,omitempty"`
 	// Options for the registration in AM.
-	Am *TaxRegistrationCreateCountryOptionsAmParams `form:"am"`
+	Am *TaxRegistrationCreateCountryOptionsAmParams `form:"am" json:"am,omitempty"`
 	// Options for the registration in AO.
-	Ao *TaxRegistrationCreateCountryOptionsAoParams `form:"ao"`
+	Ao *TaxRegistrationCreateCountryOptionsAoParams `form:"ao" json:"ao,omitempty"`
 	// Options for the registration in AT.
-	At *TaxRegistrationCreateCountryOptionsAtParams `form:"at"`
+	At *TaxRegistrationCreateCountryOptionsAtParams `form:"at" json:"at,omitempty"`
 	// Options for the registration in AU.
-	Au *TaxRegistrationCreateCountryOptionsAuParams `form:"au"`
+	Au *TaxRegistrationCreateCountryOptionsAuParams `form:"au" json:"au,omitempty"`
 	// Options for the registration in AW.
-	Aw *TaxRegistrationCreateCountryOptionsAwParams `form:"aw"`
+	Aw *TaxRegistrationCreateCountryOptionsAwParams `form:"aw" json:"aw,omitempty"`
 	// Options for the registration in AZ.
-	Az *TaxRegistrationCreateCountryOptionsAzParams `form:"az"`
+	Az *TaxRegistrationCreateCountryOptionsAzParams `form:"az" json:"az,omitempty"`
 	// Options for the registration in BA.
-	Ba *TaxRegistrationCreateCountryOptionsBaParams `form:"ba"`
+	Ba *TaxRegistrationCreateCountryOptionsBaParams `form:"ba" json:"ba,omitempty"`
 	// Options for the registration in BB.
-	Bb *TaxRegistrationCreateCountryOptionsBbParams `form:"bb"`
+	Bb *TaxRegistrationCreateCountryOptionsBbParams `form:"bb" json:"bb,omitempty"`
 	// Options for the registration in BD.
-	Bd *TaxRegistrationCreateCountryOptionsBdParams `form:"bd"`
+	Bd *TaxRegistrationCreateCountryOptionsBdParams `form:"bd" json:"bd,omitempty"`
 	// Options for the registration in BE.
-	Be *TaxRegistrationCreateCountryOptionsBeParams `form:"be"`
+	Be *TaxRegistrationCreateCountryOptionsBeParams `form:"be" json:"be,omitempty"`
 	// Options for the registration in BF.
-	Bf *TaxRegistrationCreateCountryOptionsBfParams `form:"bf"`
+	Bf *TaxRegistrationCreateCountryOptionsBfParams `form:"bf" json:"bf,omitempty"`
 	// Options for the registration in BG.
-	BG *TaxRegistrationCreateCountryOptionsBGParams `form:"bg"`
+	BG *TaxRegistrationCreateCountryOptionsBGParams `form:"bg" json:"bg,omitempty"`
 	// Options for the registration in BH.
-	Bh *TaxRegistrationCreateCountryOptionsBhParams `form:"bh"`
+	Bh *TaxRegistrationCreateCountryOptionsBhParams `form:"bh" json:"bh,omitempty"`
 	// Options for the registration in BJ.
-	Bj *TaxRegistrationCreateCountryOptionsBjParams `form:"bj"`
+	Bj *TaxRegistrationCreateCountryOptionsBjParams `form:"bj" json:"bj,omitempty"`
 	// Options for the registration in BS.
-	Bs *TaxRegistrationCreateCountryOptionsBsParams `form:"bs"`
+	Bs *TaxRegistrationCreateCountryOptionsBsParams `form:"bs" json:"bs,omitempty"`
 	// Options for the registration in BY.
-	By *TaxRegistrationCreateCountryOptionsByParams `form:"by"`
+	By *TaxRegistrationCreateCountryOptionsByParams `form:"by" json:"by,omitempty"`
 	// Options for the registration in CA.
-	Ca *TaxRegistrationCreateCountryOptionsCaParams `form:"ca"`
+	Ca *TaxRegistrationCreateCountryOptionsCaParams `form:"ca" json:"ca,omitempty"`
 	// Options for the registration in CD.
-	Cd *TaxRegistrationCreateCountryOptionsCdParams `form:"cd"`
+	Cd *TaxRegistrationCreateCountryOptionsCdParams `form:"cd" json:"cd,omitempty"`
 	// Options for the registration in CH.
-	Ch *TaxRegistrationCreateCountryOptionsChParams `form:"ch"`
+	Ch *TaxRegistrationCreateCountryOptionsChParams `form:"ch" json:"ch,omitempty"`
 	// Options for the registration in CL.
-	Cl *TaxRegistrationCreateCountryOptionsClParams `form:"cl"`
+	Cl *TaxRegistrationCreateCountryOptionsClParams `form:"cl" json:"cl,omitempty"`
 	// Options for the registration in CM.
-	Cm *TaxRegistrationCreateCountryOptionsCmParams `form:"cm"`
+	Cm *TaxRegistrationCreateCountryOptionsCmParams `form:"cm" json:"cm,omitempty"`
 	// Options for the registration in CO.
-	Co *TaxRegistrationCreateCountryOptionsCoParams `form:"co"`
+	Co *TaxRegistrationCreateCountryOptionsCoParams `form:"co" json:"co,omitempty"`
 	// Options for the registration in CR.
-	Cr *TaxRegistrationCreateCountryOptionsCrParams `form:"cr"`
+	Cr *TaxRegistrationCreateCountryOptionsCrParams `form:"cr" json:"cr,omitempty"`
 	// Options for the registration in CV.
-	Cv *TaxRegistrationCreateCountryOptionsCvParams `form:"cv"`
+	Cv *TaxRegistrationCreateCountryOptionsCvParams `form:"cv" json:"cv,omitempty"`
 	// Options for the registration in CY.
-	Cy *TaxRegistrationCreateCountryOptionsCyParams `form:"cy"`
+	Cy *TaxRegistrationCreateCountryOptionsCyParams `form:"cy" json:"cy,omitempty"`
 	// Options for the registration in CZ.
-	Cz *TaxRegistrationCreateCountryOptionsCzParams `form:"cz"`
+	Cz *TaxRegistrationCreateCountryOptionsCzParams `form:"cz" json:"cz,omitempty"`
 	// Options for the registration in DE.
-	DE *TaxRegistrationCreateCountryOptionsDEParams `form:"de"`
+	DE *TaxRegistrationCreateCountryOptionsDEParams `form:"de" json:"de,omitempty"`
 	// Options for the registration in DK.
-	Dk *TaxRegistrationCreateCountryOptionsDkParams `form:"dk"`
+	Dk *TaxRegistrationCreateCountryOptionsDkParams `form:"dk" json:"dk,omitempty"`
 	// Options for the registration in EC.
-	Ec *TaxRegistrationCreateCountryOptionsEcParams `form:"ec"`
+	Ec *TaxRegistrationCreateCountryOptionsEcParams `form:"ec" json:"ec,omitempty"`
 	// Options for the registration in EE.
-	Ee *TaxRegistrationCreateCountryOptionsEeParams `form:"ee"`
+	Ee *TaxRegistrationCreateCountryOptionsEeParams `form:"ee" json:"ee,omitempty"`
 	// Options for the registration in EG.
-	Eg *TaxRegistrationCreateCountryOptionsEgParams `form:"eg"`
+	Eg *TaxRegistrationCreateCountryOptionsEgParams `form:"eg" json:"eg,omitempty"`
 	// Options for the registration in ES.
-	ES *TaxRegistrationCreateCountryOptionsESParams `form:"es"`
+	ES *TaxRegistrationCreateCountryOptionsESParams `form:"es" json:"es,omitempty"`
 	// Options for the registration in ET.
-	ET *TaxRegistrationCreateCountryOptionsETParams `form:"et"`
+	ET *TaxRegistrationCreateCountryOptionsETParams `form:"et" json:"et,omitempty"`
 	// Options for the registration in FI.
-	FI *TaxRegistrationCreateCountryOptionsFIParams `form:"fi"`
+	FI *TaxRegistrationCreateCountryOptionsFIParams `form:"fi" json:"fi,omitempty"`
 	// Options for the registration in FR.
-	FR *TaxRegistrationCreateCountryOptionsFRParams `form:"fr"`
+	FR *TaxRegistrationCreateCountryOptionsFRParams `form:"fr" json:"fr,omitempty"`
 	// Options for the registration in GB.
-	GB *TaxRegistrationCreateCountryOptionsGBParams `form:"gb"`
+	GB *TaxRegistrationCreateCountryOptionsGBParams `form:"gb" json:"gb,omitempty"`
 	// Options for the registration in GE.
-	Ge *TaxRegistrationCreateCountryOptionsGeParams `form:"ge"`
+	Ge *TaxRegistrationCreateCountryOptionsGeParams `form:"ge" json:"ge,omitempty"`
 	// Options for the registration in GN.
-	Gn *TaxRegistrationCreateCountryOptionsGnParams `form:"gn"`
+	Gn *TaxRegistrationCreateCountryOptionsGnParams `form:"gn" json:"gn,omitempty"`
 	// Options for the registration in GR.
-	Gr *TaxRegistrationCreateCountryOptionsGrParams `form:"gr"`
+	Gr *TaxRegistrationCreateCountryOptionsGrParams `form:"gr" json:"gr,omitempty"`
 	// Options for the registration in HR.
-	HR *TaxRegistrationCreateCountryOptionsHRParams `form:"hr"`
+	HR *TaxRegistrationCreateCountryOptionsHRParams `form:"hr" json:"hr,omitempty"`
 	// Options for the registration in HU.
-	HU *TaxRegistrationCreateCountryOptionsHUParams `form:"hu"`
+	HU *TaxRegistrationCreateCountryOptionsHUParams `form:"hu" json:"hu,omitempty"`
 	// Options for the registration in ID.
-	ID *TaxRegistrationCreateCountryOptionsIDParams `form:"id"`
+	ID *TaxRegistrationCreateCountryOptionsIDParams `form:"id" json:"id,omitempty"`
 	// Options for the registration in IE.
-	Ie *TaxRegistrationCreateCountryOptionsIeParams `form:"ie"`
+	Ie *TaxRegistrationCreateCountryOptionsIeParams `form:"ie" json:"ie,omitempty"`
 	// Options for the registration in IN.
-	In *TaxRegistrationCreateCountryOptionsInParams `form:"in"`
+	In *TaxRegistrationCreateCountryOptionsInParams `form:"in" json:"in,omitempty"`
 	// Options for the registration in IS.
-	Is *TaxRegistrationCreateCountryOptionsIsParams `form:"is"`
+	Is *TaxRegistrationCreateCountryOptionsIsParams `form:"is" json:"is,omitempty"`
 	// Options for the registration in IT.
-	IT *TaxRegistrationCreateCountryOptionsITParams `form:"it"`
+	IT *TaxRegistrationCreateCountryOptionsITParams `form:"it" json:"it,omitempty"`
 	// Options for the registration in JP.
-	JP *TaxRegistrationCreateCountryOptionsJPParams `form:"jp"`
+	JP *TaxRegistrationCreateCountryOptionsJPParams `form:"jp" json:"jp,omitempty"`
 	// Options for the registration in KE.
-	Ke *TaxRegistrationCreateCountryOptionsKeParams `form:"ke"`
+	Ke *TaxRegistrationCreateCountryOptionsKeParams `form:"ke" json:"ke,omitempty"`
 	// Options for the registration in KG.
-	Kg *TaxRegistrationCreateCountryOptionsKgParams `form:"kg"`
+	Kg *TaxRegistrationCreateCountryOptionsKgParams `form:"kg" json:"kg,omitempty"`
 	// Options for the registration in KH.
-	Kh *TaxRegistrationCreateCountryOptionsKhParams `form:"kh"`
+	Kh *TaxRegistrationCreateCountryOptionsKhParams `form:"kh" json:"kh,omitempty"`
 	// Options for the registration in KR.
-	Kr *TaxRegistrationCreateCountryOptionsKrParams `form:"kr"`
+	Kr *TaxRegistrationCreateCountryOptionsKrParams `form:"kr" json:"kr,omitempty"`
 	// Options for the registration in KZ.
-	Kz *TaxRegistrationCreateCountryOptionsKzParams `form:"kz"`
+	Kz *TaxRegistrationCreateCountryOptionsKzParams `form:"kz" json:"kz,omitempty"`
 	// Options for the registration in LA.
-	La *TaxRegistrationCreateCountryOptionsLaParams `form:"la"`
+	La *TaxRegistrationCreateCountryOptionsLaParams `form:"la" json:"la,omitempty"`
 	// Options for the registration in LK.
-	Lk *TaxRegistrationCreateCountryOptionsLkParams `form:"lk"`
+	Lk *TaxRegistrationCreateCountryOptionsLkParams `form:"lk" json:"lk,omitempty"`
 	// Options for the registration in LT.
-	LT *TaxRegistrationCreateCountryOptionsLTParams `form:"lt"`
+	LT *TaxRegistrationCreateCountryOptionsLTParams `form:"lt" json:"lt,omitempty"`
 	// Options for the registration in LU.
-	Lu *TaxRegistrationCreateCountryOptionsLuParams `form:"lu"`
+	Lu *TaxRegistrationCreateCountryOptionsLuParams `form:"lu" json:"lu,omitempty"`
 	// Options for the registration in LV.
-	LV *TaxRegistrationCreateCountryOptionsLVParams `form:"lv"`
+	LV *TaxRegistrationCreateCountryOptionsLVParams `form:"lv" json:"lv,omitempty"`
 	// Options for the registration in MA.
-	Ma *TaxRegistrationCreateCountryOptionsMaParams `form:"ma"`
+	Ma *TaxRegistrationCreateCountryOptionsMaParams `form:"ma" json:"ma,omitempty"`
 	// Options for the registration in MD.
-	Md *TaxRegistrationCreateCountryOptionsMdParams `form:"md"`
+	Md *TaxRegistrationCreateCountryOptionsMdParams `form:"md" json:"md,omitempty"`
 	// Options for the registration in ME.
-	Me *TaxRegistrationCreateCountryOptionsMeParams `form:"me"`
+	Me *TaxRegistrationCreateCountryOptionsMeParams `form:"me" json:"me,omitempty"`
 	// Options for the registration in MK.
-	Mk *TaxRegistrationCreateCountryOptionsMkParams `form:"mk"`
+	Mk *TaxRegistrationCreateCountryOptionsMkParams `form:"mk" json:"mk,omitempty"`
 	// Options for the registration in MR.
-	Mr *TaxRegistrationCreateCountryOptionsMrParams `form:"mr"`
+	Mr *TaxRegistrationCreateCountryOptionsMrParams `form:"mr" json:"mr,omitempty"`
 	// Options for the registration in MT.
-	MT *TaxRegistrationCreateCountryOptionsMTParams `form:"mt"`
+	MT *TaxRegistrationCreateCountryOptionsMTParams `form:"mt" json:"mt,omitempty"`
 	// Options for the registration in MX.
-	MX *TaxRegistrationCreateCountryOptionsMXParams `form:"mx"`
+	MX *TaxRegistrationCreateCountryOptionsMXParams `form:"mx" json:"mx,omitempty"`
 	// Options for the registration in MY.
-	My *TaxRegistrationCreateCountryOptionsMyParams `form:"my"`
+	My *TaxRegistrationCreateCountryOptionsMyParams `form:"my" json:"my,omitempty"`
 	// Options for the registration in NG.
-	Ng *TaxRegistrationCreateCountryOptionsNgParams `form:"ng"`
+	Ng *TaxRegistrationCreateCountryOptionsNgParams `form:"ng" json:"ng,omitempty"`
 	// Options for the registration in NL.
-	NL *TaxRegistrationCreateCountryOptionsNLParams `form:"nl"`
+	NL *TaxRegistrationCreateCountryOptionsNLParams `form:"nl" json:"nl,omitempty"`
 	// Options for the registration in NO.
-	No *TaxRegistrationCreateCountryOptionsNoParams `form:"no"`
+	No *TaxRegistrationCreateCountryOptionsNoParams `form:"no" json:"no,omitempty"`
 	// Options for the registration in NP.
-	Np *TaxRegistrationCreateCountryOptionsNpParams `form:"np"`
+	Np *TaxRegistrationCreateCountryOptionsNpParams `form:"np" json:"np,omitempty"`
 	// Options for the registration in NZ.
-	Nz *TaxRegistrationCreateCountryOptionsNzParams `form:"nz"`
+	Nz *TaxRegistrationCreateCountryOptionsNzParams `form:"nz" json:"nz,omitempty"`
 	// Options for the registration in OM.
-	Om *TaxRegistrationCreateCountryOptionsOmParams `form:"om"`
+	Om *TaxRegistrationCreateCountryOptionsOmParams `form:"om" json:"om,omitempty"`
 	// Options for the registration in PE.
-	Pe *TaxRegistrationCreateCountryOptionsPeParams `form:"pe"`
+	Pe *TaxRegistrationCreateCountryOptionsPeParams `form:"pe" json:"pe,omitempty"`
 	// Options for the registration in PH.
-	Ph *TaxRegistrationCreateCountryOptionsPhParams `form:"ph"`
+	Ph *TaxRegistrationCreateCountryOptionsPhParams `form:"ph" json:"ph,omitempty"`
 	// Options for the registration in PL.
-	PL *TaxRegistrationCreateCountryOptionsPLParams `form:"pl"`
+	PL *TaxRegistrationCreateCountryOptionsPLParams `form:"pl" json:"pl,omitempty"`
 	// Options for the registration in PT.
-	PT *TaxRegistrationCreateCountryOptionsPTParams `form:"pt"`
+	PT *TaxRegistrationCreateCountryOptionsPTParams `form:"pt" json:"pt,omitempty"`
 	// Options for the registration in RO.
-	RO *TaxRegistrationCreateCountryOptionsROParams `form:"ro"`
+	RO *TaxRegistrationCreateCountryOptionsROParams `form:"ro" json:"ro,omitempty"`
 	// Options for the registration in RS.
-	Rs *TaxRegistrationCreateCountryOptionsRsParams `form:"rs"`
+	Rs *TaxRegistrationCreateCountryOptionsRsParams `form:"rs" json:"rs,omitempty"`
 	// Options for the registration in RU.
-	RU *TaxRegistrationCreateCountryOptionsRUParams `form:"ru"`
+	RU *TaxRegistrationCreateCountryOptionsRUParams `form:"ru" json:"ru,omitempty"`
 	// Options for the registration in SA.
-	Sa *TaxRegistrationCreateCountryOptionsSaParams `form:"sa"`
+	Sa *TaxRegistrationCreateCountryOptionsSaParams `form:"sa" json:"sa,omitempty"`
 	// Options for the registration in SE.
-	Se *TaxRegistrationCreateCountryOptionsSeParams `form:"se"`
+	Se *TaxRegistrationCreateCountryOptionsSeParams `form:"se" json:"se,omitempty"`
 	// Options for the registration in SG.
-	Sg *TaxRegistrationCreateCountryOptionsSgParams `form:"sg"`
+	Sg *TaxRegistrationCreateCountryOptionsSgParams `form:"sg" json:"sg,omitempty"`
 	// Options for the registration in SI.
-	Si *TaxRegistrationCreateCountryOptionsSiParams `form:"si"`
+	Si *TaxRegistrationCreateCountryOptionsSiParams `form:"si" json:"si,omitempty"`
 	// Options for the registration in SK.
-	SK *TaxRegistrationCreateCountryOptionsSKParams `form:"sk"`
+	SK *TaxRegistrationCreateCountryOptionsSKParams `form:"sk" json:"sk,omitempty"`
 	// Options for the registration in SN.
-	Sn *TaxRegistrationCreateCountryOptionsSnParams `form:"sn"`
+	Sn *TaxRegistrationCreateCountryOptionsSnParams `form:"sn" json:"sn,omitempty"`
 	// Options for the registration in SR.
-	Sr *TaxRegistrationCreateCountryOptionsSrParams `form:"sr"`
+	Sr *TaxRegistrationCreateCountryOptionsSrParams `form:"sr" json:"sr,omitempty"`
 	// Options for the registration in TH.
-	TH *TaxRegistrationCreateCountryOptionsTHParams `form:"th"`
+	TH *TaxRegistrationCreateCountryOptionsTHParams `form:"th" json:"th,omitempty"`
 	// Options for the registration in TJ.
-	Tj *TaxRegistrationCreateCountryOptionsTjParams `form:"tj"`
+	Tj *TaxRegistrationCreateCountryOptionsTjParams `form:"tj" json:"tj,omitempty"`
 	// Options for the registration in TR.
-	TR *TaxRegistrationCreateCountryOptionsTRParams `form:"tr"`
+	TR *TaxRegistrationCreateCountryOptionsTRParams `form:"tr" json:"tr,omitempty"`
 	// Options for the registration in TW.
-	Tw *TaxRegistrationCreateCountryOptionsTwParams `form:"tw"`
+	Tw *TaxRegistrationCreateCountryOptionsTwParams `form:"tw" json:"tw,omitempty"`
 	// Options for the registration in TZ.
-	Tz *TaxRegistrationCreateCountryOptionsTzParams `form:"tz"`
+	Tz *TaxRegistrationCreateCountryOptionsTzParams `form:"tz" json:"tz,omitempty"`
 	// Options for the registration in UA.
-	Ua *TaxRegistrationCreateCountryOptionsUaParams `form:"ua"`
+	Ua *TaxRegistrationCreateCountryOptionsUaParams `form:"ua" json:"ua,omitempty"`
 	// Options for the registration in UG.
-	Ug *TaxRegistrationCreateCountryOptionsUgParams `form:"ug"`
+	Ug *TaxRegistrationCreateCountryOptionsUgParams `form:"ug" json:"ug,omitempty"`
 	// Options for the registration in US.
-	US *TaxRegistrationCreateCountryOptionsUSParams `form:"us"`
+	US *TaxRegistrationCreateCountryOptionsUSParams `form:"us" json:"us,omitempty"`
 	// Options for the registration in UY.
-	Uy *TaxRegistrationCreateCountryOptionsUyParams `form:"uy"`
+	Uy *TaxRegistrationCreateCountryOptionsUyParams `form:"uy" json:"uy,omitempty"`
 	// Options for the registration in UZ.
-	Uz *TaxRegistrationCreateCountryOptionsUzParams `form:"uz"`
+	Uz *TaxRegistrationCreateCountryOptionsUzParams `form:"uz" json:"uz,omitempty"`
 	// Options for the registration in VN.
-	Vn *TaxRegistrationCreateCountryOptionsVnParams `form:"vn"`
+	Vn *TaxRegistrationCreateCountryOptionsVnParams `form:"vn" json:"vn,omitempty"`
 	// Options for the registration in ZA.
-	Za *TaxRegistrationCreateCountryOptionsZaParams `form:"za"`
+	Za *TaxRegistrationCreateCountryOptionsZaParams `form:"za" json:"za,omitempty"`
 	// Options for the registration in ZM.
-	Zm *TaxRegistrationCreateCountryOptionsZmParams `form:"zm"`
+	Zm *TaxRegistrationCreateCountryOptionsZmParams `form:"zm" json:"zm,omitempty"`
 	// Options for the registration in ZW.
-	Zw *TaxRegistrationCreateCountryOptionsZwParams `form:"zw"`
+	Zw *TaxRegistrationCreateCountryOptionsZwParams `form:"zw" json:"zw,omitempty"`
 }
 
 // Creates a new Tax Registration object.
 type TaxRegistrationCreateParams struct {
 	Params `form:"*"`
 	// Time at which the Tax Registration becomes active. It can be either `now` to indicate the current time, or a future timestamp measured in seconds since the Unix epoch.
-	ActiveFrom    *int64 `form:"active_from"`
+	ActiveFrom    *int64 `form:"active_from" json:"active_from"`
 	ActiveFromNow *bool  `form:"-"` // See custom AppendTo
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country"`
 	// Specific options for a registration in the specified `country`.
-	CountryOptions *TaxRegistrationCreateCountryOptionsParams `form:"country_options"`
+	CountryOptions *TaxRegistrationCreateCountryOptionsParams `form:"country_options" json:"country_options"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// If set, the Tax Registration stops being active at this time. If not set, the Tax Registration will be active indefinitely. Timestamp measured in seconds since the Unix epoch.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -3984,7 +3984,7 @@ func (p *TaxRegistrationCreateParams) AppendTo(body *form.Values, keyParts []str
 type TaxRegistrationRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -3998,12 +3998,12 @@ func (p *TaxRegistrationRetrieveParams) AddExpand(f string) {
 type TaxRegistrationUpdateParams struct {
 	Params `form:"*"`
 	// Time at which the registration becomes active. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
-	ActiveFrom    *int64 `form:"active_from"`
+	ActiveFrom    *int64 `form:"active_from" json:"active_from,omitempty"`
 	ActiveFromNow *bool  `form:"-"` // See custom AppendTo
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// If set, the registration stops being active at this time. If not set, the registration will be active indefinitely. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
-	ExpiresAt    *int64                                  `form:"expires_at"`
+	ExpiresAt    *int64                                  `form:"expires_at" json:"expires_at,omitempty"`
 	ExpiresAtNow *bool                                   `form:"-"` // See custom AppendTo
 	UnsetFields  []TaxRegistrationUpdateParamsUnsetField `form:"-" json:"-"`
 }
@@ -4040,7 +4040,7 @@ type TaxRegistrationCountryOptionsAeStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsAeStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsAe struct {
-	Standard *TaxRegistrationCountryOptionsAeStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsAeStandard `json:"standard,omitempty"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsAeType `json:"type"`
 }
@@ -4061,7 +4061,7 @@ type TaxRegistrationCountryOptionsAtStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsAt struct {
-	Standard *TaxRegistrationCountryOptionsAtStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsAtStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsAtType `json:"type"`
 }
@@ -4070,7 +4070,7 @@ type TaxRegistrationCountryOptionsAuStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsAuStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsAu struct {
-	Standard *TaxRegistrationCountryOptionsAuStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsAuStandard `json:"standard,omitempty"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsAuType `json:"type"`
 }
@@ -4099,7 +4099,7 @@ type TaxRegistrationCountryOptionsBeStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsBeStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsBe struct {
-	Standard *TaxRegistrationCountryOptionsBeStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsBeStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsBeType `json:"type"`
 }
@@ -4112,7 +4112,7 @@ type TaxRegistrationCountryOptionsBGStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsBGStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsBG struct {
-	Standard *TaxRegistrationCountryOptionsBGStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsBGStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsBGType `json:"type"`
 }
@@ -4137,7 +4137,7 @@ type TaxRegistrationCountryOptionsCaProvinceStandard struct {
 	Province string `json:"province"`
 }
 type TaxRegistrationCountryOptionsCa struct {
-	ProvinceStandard *TaxRegistrationCountryOptionsCaProvinceStandard `json:"province_standard"`
+	ProvinceStandard *TaxRegistrationCountryOptionsCaProvinceStandard `json:"province_standard,omitempty"`
 	// Type of registration in Canada.
 	Type TaxRegistrationCountryOptionsCaType `json:"type"`
 }
@@ -4150,7 +4150,7 @@ type TaxRegistrationCountryOptionsChStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsChStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsCh struct {
-	Standard *TaxRegistrationCountryOptionsChStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsChStandard `json:"standard,omitempty"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsChType `json:"type"`
 }
@@ -4179,7 +4179,7 @@ type TaxRegistrationCountryOptionsCyStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsCyStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsCy struct {
-	Standard *TaxRegistrationCountryOptionsCyStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsCyStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsCyType `json:"type"`
 }
@@ -4188,7 +4188,7 @@ type TaxRegistrationCountryOptionsCzStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsCzStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsCz struct {
-	Standard *TaxRegistrationCountryOptionsCzStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsCzStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsCzType `json:"type"`
 }
@@ -4197,7 +4197,7 @@ type TaxRegistrationCountryOptionsDEStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsDEStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsDE struct {
-	Standard *TaxRegistrationCountryOptionsDEStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsDEStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsDEType `json:"type"`
 }
@@ -4206,7 +4206,7 @@ type TaxRegistrationCountryOptionsDkStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsDkStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsDk struct {
-	Standard *TaxRegistrationCountryOptionsDkStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsDkStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsDkType `json:"type"`
 }
@@ -4219,7 +4219,7 @@ type TaxRegistrationCountryOptionsEeStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsEeStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsEe struct {
-	Standard *TaxRegistrationCountryOptionsEeStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsEeStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsEeType `json:"type"`
 }
@@ -4232,7 +4232,7 @@ type TaxRegistrationCountryOptionsESStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsESStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsES struct {
-	Standard *TaxRegistrationCountryOptionsESStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsESStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsESType `json:"type"`
 }
@@ -4245,7 +4245,7 @@ type TaxRegistrationCountryOptionsFIStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsFIStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsFI struct {
-	Standard *TaxRegistrationCountryOptionsFIStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsFIStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsFIType `json:"type"`
 }
@@ -4254,7 +4254,7 @@ type TaxRegistrationCountryOptionsFRStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsFRStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsFR struct {
-	Standard *TaxRegistrationCountryOptionsFRStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsFRStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsFRType `json:"type"`
 }
@@ -4263,7 +4263,7 @@ type TaxRegistrationCountryOptionsGBStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsGBStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsGB struct {
-	Standard *TaxRegistrationCountryOptionsGBStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsGBStandard `json:"standard,omitempty"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsGBType `json:"type"`
 }
@@ -4280,7 +4280,7 @@ type TaxRegistrationCountryOptionsGrStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsGr struct {
-	Standard *TaxRegistrationCountryOptionsGrStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsGrStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsGrType `json:"type"`
 }
@@ -4289,7 +4289,7 @@ type TaxRegistrationCountryOptionsHRStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsHRStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsHR struct {
-	Standard *TaxRegistrationCountryOptionsHRStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsHRStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsHRType `json:"type"`
 }
@@ -4298,7 +4298,7 @@ type TaxRegistrationCountryOptionsHUStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsHUStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsHU struct {
-	Standard *TaxRegistrationCountryOptionsHUStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsHUStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsHUType `json:"type"`
 }
@@ -4311,7 +4311,7 @@ type TaxRegistrationCountryOptionsIeStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsIeStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsIe struct {
-	Standard *TaxRegistrationCountryOptionsIeStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsIeStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsIeType `json:"type"`
 }
@@ -4328,7 +4328,7 @@ type TaxRegistrationCountryOptionsITStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsITStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsIT struct {
-	Standard *TaxRegistrationCountryOptionsITStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsITStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsITType `json:"type"`
 }
@@ -4337,7 +4337,7 @@ type TaxRegistrationCountryOptionsJPStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsJPStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsJP struct {
-	Standard *TaxRegistrationCountryOptionsJPStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsJPStandard `json:"standard,omitempty"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsJPType `json:"type"`
 }
@@ -4374,7 +4374,7 @@ type TaxRegistrationCountryOptionsLTStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsLTStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsLT struct {
-	Standard *TaxRegistrationCountryOptionsLTStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsLTStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsLTType `json:"type"`
 }
@@ -4383,7 +4383,7 @@ type TaxRegistrationCountryOptionsLuStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsLuStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsLu struct {
-	Standard *TaxRegistrationCountryOptionsLuStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsLuStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsLuType `json:"type"`
 }
@@ -4392,7 +4392,7 @@ type TaxRegistrationCountryOptionsLVStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsLVStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsLV struct {
-	Standard *TaxRegistrationCountryOptionsLVStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsLVStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsLVType `json:"type"`
 }
@@ -4421,7 +4421,7 @@ type TaxRegistrationCountryOptionsMTStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsMTStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsMT struct {
-	Standard *TaxRegistrationCountryOptionsMTStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsMTStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsMTType `json:"type"`
 }
@@ -4442,7 +4442,7 @@ type TaxRegistrationCountryOptionsNLStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsNLStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsNL struct {
-	Standard *TaxRegistrationCountryOptionsNLStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsNLStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsNLType `json:"type"`
 }
@@ -4451,7 +4451,7 @@ type TaxRegistrationCountryOptionsNoStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsNoStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsNo struct {
-	Standard *TaxRegistrationCountryOptionsNoStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsNoStandard `json:"standard,omitempty"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsNoType `json:"type"`
 }
@@ -4464,7 +4464,7 @@ type TaxRegistrationCountryOptionsNzStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsNzStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsNz struct {
-	Standard *TaxRegistrationCountryOptionsNzStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsNzStandard `json:"standard,omitempty"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsNzType `json:"type"`
 }
@@ -4485,7 +4485,7 @@ type TaxRegistrationCountryOptionsPLStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsPLStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsPL struct {
-	Standard *TaxRegistrationCountryOptionsPLStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsPLStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsPLType `json:"type"`
 }
@@ -4494,7 +4494,7 @@ type TaxRegistrationCountryOptionsPTStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsPTStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsPT struct {
-	Standard *TaxRegistrationCountryOptionsPTStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsPTStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsPTType `json:"type"`
 }
@@ -4503,7 +4503,7 @@ type TaxRegistrationCountryOptionsROStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsROStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsRO struct {
-	Standard *TaxRegistrationCountryOptionsROStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsROStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsROType `json:"type"`
 }
@@ -4524,7 +4524,7 @@ type TaxRegistrationCountryOptionsSeStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsSeStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsSe struct {
-	Standard *TaxRegistrationCountryOptionsSeStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsSeStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsSeType `json:"type"`
 }
@@ -4533,7 +4533,7 @@ type TaxRegistrationCountryOptionsSgStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsSgStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsSg struct {
-	Standard *TaxRegistrationCountryOptionsSgStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsSgStandard `json:"standard,omitempty"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsSgType `json:"type"`
 }
@@ -4542,7 +4542,7 @@ type TaxRegistrationCountryOptionsSiStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsSiStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsSi struct {
-	Standard *TaxRegistrationCountryOptionsSiStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsSiStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsSiType `json:"type"`
 }
@@ -4551,7 +4551,7 @@ type TaxRegistrationCountryOptionsSKStandard struct {
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsSKStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
 }
 type TaxRegistrationCountryOptionsSK struct {
-	Standard *TaxRegistrationCountryOptionsSKStandard `json:"standard"`
+	Standard *TaxRegistrationCountryOptionsSKStandard `json:"standard,omitempty"`
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsSKType `json:"type"`
 }
@@ -4631,32 +4631,32 @@ type TaxRegistrationCountryOptionsUSResortTax struct {
 // Elections for the state sales tax registration.
 type TaxRegistrationCountryOptionsUSStateSalesTaxElection struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
-	Jurisdiction string `json:"jurisdiction"`
+	Jurisdiction string `json:"jurisdiction,omitempty"`
 	// The type of the election for the state sales tax registration.
 	Type TaxRegistrationCountryOptionsUSStateSalesTaxElectionType `json:"type"`
 }
 type TaxRegistrationCountryOptionsUSStateSalesTax struct {
 	// Elections for the state sales tax registration.
-	Elections []*TaxRegistrationCountryOptionsUSStateSalesTaxElection `json:"elections"`
+	Elections []*TaxRegistrationCountryOptionsUSStateSalesTaxElection `json:"elections,omitempty"`
 }
 type TaxRegistrationCountryOptionsUSTourismTax struct {
 	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=tourism_tax#registration-types) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
 }
 type TaxRegistrationCountryOptionsUS struct {
-	AdmissionsTax     *TaxRegistrationCountryOptionsUSAdmissionsTax     `json:"admissions_tax"`
-	AttendanceTax     *TaxRegistrationCountryOptionsUSAttendanceTax     `json:"attendance_tax"`
-	EntertainmentTax  *TaxRegistrationCountryOptionsUSEntertainmentTax  `json:"entertainment_tax"`
-	GrossReceiptsTax  *TaxRegistrationCountryOptionsUSGrossReceiptsTax  `json:"gross_receipts_tax"`
-	HospitalityTax    *TaxRegistrationCountryOptionsUSHospitalityTax    `json:"hospitality_tax"`
-	LocalAmusementTax *TaxRegistrationCountryOptionsUSLocalAmusementTax `json:"local_amusement_tax"`
-	LocalLeaseTax     *TaxRegistrationCountryOptionsUSLocalLeaseTax     `json:"local_lease_tax"`
-	LuxuryTax         *TaxRegistrationCountryOptionsUSLuxuryTax         `json:"luxury_tax"`
-	ResortTax         *TaxRegistrationCountryOptionsUSResortTax         `json:"resort_tax"`
+	AdmissionsTax     *TaxRegistrationCountryOptionsUSAdmissionsTax     `json:"admissions_tax,omitempty"`
+	AttendanceTax     *TaxRegistrationCountryOptionsUSAttendanceTax     `json:"attendance_tax,omitempty"`
+	EntertainmentTax  *TaxRegistrationCountryOptionsUSEntertainmentTax  `json:"entertainment_tax,omitempty"`
+	GrossReceiptsTax  *TaxRegistrationCountryOptionsUSGrossReceiptsTax  `json:"gross_receipts_tax,omitempty"`
+	HospitalityTax    *TaxRegistrationCountryOptionsUSHospitalityTax    `json:"hospitality_tax,omitempty"`
+	LocalAmusementTax *TaxRegistrationCountryOptionsUSLocalAmusementTax `json:"local_amusement_tax,omitempty"`
+	LocalLeaseTax     *TaxRegistrationCountryOptionsUSLocalLeaseTax     `json:"local_lease_tax,omitempty"`
+	LuxuryTax         *TaxRegistrationCountryOptionsUSLuxuryTax         `json:"luxury_tax,omitempty"`
+	ResortTax         *TaxRegistrationCountryOptionsUSResortTax         `json:"resort_tax,omitempty"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
 	State         string                                        `json:"state"`
-	StateSalesTax *TaxRegistrationCountryOptionsUSStateSalesTax `json:"state_sales_tax"`
-	TourismTax    *TaxRegistrationCountryOptionsUSTourismTax    `json:"tourism_tax"`
+	StateSalesTax *TaxRegistrationCountryOptionsUSStateSalesTax `json:"state_sales_tax,omitempty"`
+	TourismTax    *TaxRegistrationCountryOptionsUSTourismTax    `json:"tourism_tax,omitempty"`
 	// Type of registration in the US.
 	Type TaxRegistrationCountryOptionsUSType `json:"type"`
 }
@@ -4685,107 +4685,107 @@ type TaxRegistrationCountryOptionsZw struct {
 	Type TaxRegistrationCountryOptionsZwType `json:"type"`
 }
 type TaxRegistrationCountryOptions struct {
-	Ae *TaxRegistrationCountryOptionsAe `json:"ae"`
-	Al *TaxRegistrationCountryOptionsAl `json:"al"`
-	Am *TaxRegistrationCountryOptionsAm `json:"am"`
-	Ao *TaxRegistrationCountryOptionsAo `json:"ao"`
-	At *TaxRegistrationCountryOptionsAt `json:"at"`
-	Au *TaxRegistrationCountryOptionsAu `json:"au"`
-	Aw *TaxRegistrationCountryOptionsAw `json:"aw"`
-	Az *TaxRegistrationCountryOptionsAz `json:"az"`
-	Ba *TaxRegistrationCountryOptionsBa `json:"ba"`
-	Bb *TaxRegistrationCountryOptionsBb `json:"bb"`
-	Bd *TaxRegistrationCountryOptionsBd `json:"bd"`
-	Be *TaxRegistrationCountryOptionsBe `json:"be"`
-	Bf *TaxRegistrationCountryOptionsBf `json:"bf"`
-	BG *TaxRegistrationCountryOptionsBG `json:"bg"`
-	Bh *TaxRegistrationCountryOptionsBh `json:"bh"`
-	Bj *TaxRegistrationCountryOptionsBj `json:"bj"`
-	Bs *TaxRegistrationCountryOptionsBs `json:"bs"`
-	By *TaxRegistrationCountryOptionsBy `json:"by"`
-	Ca *TaxRegistrationCountryOptionsCa `json:"ca"`
-	Cd *TaxRegistrationCountryOptionsCd `json:"cd"`
-	Ch *TaxRegistrationCountryOptionsCh `json:"ch"`
-	Cl *TaxRegistrationCountryOptionsCl `json:"cl"`
-	Cm *TaxRegistrationCountryOptionsCm `json:"cm"`
-	Co *TaxRegistrationCountryOptionsCo `json:"co"`
-	Cr *TaxRegistrationCountryOptionsCr `json:"cr"`
-	Cv *TaxRegistrationCountryOptionsCv `json:"cv"`
-	Cy *TaxRegistrationCountryOptionsCy `json:"cy"`
-	Cz *TaxRegistrationCountryOptionsCz `json:"cz"`
-	DE *TaxRegistrationCountryOptionsDE `json:"de"`
-	Dk *TaxRegistrationCountryOptionsDk `json:"dk"`
-	Ec *TaxRegistrationCountryOptionsEc `json:"ec"`
-	Ee *TaxRegistrationCountryOptionsEe `json:"ee"`
-	Eg *TaxRegistrationCountryOptionsEg `json:"eg"`
-	ES *TaxRegistrationCountryOptionsES `json:"es"`
-	ET *TaxRegistrationCountryOptionsET `json:"et"`
-	FI *TaxRegistrationCountryOptionsFI `json:"fi"`
-	FR *TaxRegistrationCountryOptionsFR `json:"fr"`
-	GB *TaxRegistrationCountryOptionsGB `json:"gb"`
-	Ge *TaxRegistrationCountryOptionsGe `json:"ge"`
-	Gn *TaxRegistrationCountryOptionsGn `json:"gn"`
-	Gr *TaxRegistrationCountryOptionsGr `json:"gr"`
-	HR *TaxRegistrationCountryOptionsHR `json:"hr"`
-	HU *TaxRegistrationCountryOptionsHU `json:"hu"`
-	ID *TaxRegistrationCountryOptionsID `json:"id"`
-	Ie *TaxRegistrationCountryOptionsIe `json:"ie"`
-	In *TaxRegistrationCountryOptionsIn `json:"in"`
-	Is *TaxRegistrationCountryOptionsIs `json:"is"`
-	IT *TaxRegistrationCountryOptionsIT `json:"it"`
-	JP *TaxRegistrationCountryOptionsJP `json:"jp"`
-	Ke *TaxRegistrationCountryOptionsKe `json:"ke"`
-	Kg *TaxRegistrationCountryOptionsKg `json:"kg"`
-	Kh *TaxRegistrationCountryOptionsKh `json:"kh"`
-	Kr *TaxRegistrationCountryOptionsKr `json:"kr"`
-	Kz *TaxRegistrationCountryOptionsKz `json:"kz"`
-	La *TaxRegistrationCountryOptionsLa `json:"la"`
-	Lk *TaxRegistrationCountryOptionsLk `json:"lk"`
-	LT *TaxRegistrationCountryOptionsLT `json:"lt"`
-	Lu *TaxRegistrationCountryOptionsLu `json:"lu"`
-	LV *TaxRegistrationCountryOptionsLV `json:"lv"`
-	Ma *TaxRegistrationCountryOptionsMa `json:"ma"`
-	Md *TaxRegistrationCountryOptionsMd `json:"md"`
-	Me *TaxRegistrationCountryOptionsMe `json:"me"`
-	Mk *TaxRegistrationCountryOptionsMk `json:"mk"`
-	Mr *TaxRegistrationCountryOptionsMr `json:"mr"`
-	MT *TaxRegistrationCountryOptionsMT `json:"mt"`
-	MX *TaxRegistrationCountryOptionsMX `json:"mx"`
-	My *TaxRegistrationCountryOptionsMy `json:"my"`
-	Ng *TaxRegistrationCountryOptionsNg `json:"ng"`
-	NL *TaxRegistrationCountryOptionsNL `json:"nl"`
-	No *TaxRegistrationCountryOptionsNo `json:"no"`
-	Np *TaxRegistrationCountryOptionsNp `json:"np"`
-	Nz *TaxRegistrationCountryOptionsNz `json:"nz"`
-	Om *TaxRegistrationCountryOptionsOm `json:"om"`
-	Pe *TaxRegistrationCountryOptionsPe `json:"pe"`
-	Ph *TaxRegistrationCountryOptionsPh `json:"ph"`
-	PL *TaxRegistrationCountryOptionsPL `json:"pl"`
-	PT *TaxRegistrationCountryOptionsPT `json:"pt"`
-	RO *TaxRegistrationCountryOptionsRO `json:"ro"`
-	Rs *TaxRegistrationCountryOptionsRs `json:"rs"`
-	RU *TaxRegistrationCountryOptionsRU `json:"ru"`
-	Sa *TaxRegistrationCountryOptionsSa `json:"sa"`
-	Se *TaxRegistrationCountryOptionsSe `json:"se"`
-	Sg *TaxRegistrationCountryOptionsSg `json:"sg"`
-	Si *TaxRegistrationCountryOptionsSi `json:"si"`
-	SK *TaxRegistrationCountryOptionsSK `json:"sk"`
-	Sn *TaxRegistrationCountryOptionsSn `json:"sn"`
-	Sr *TaxRegistrationCountryOptionsSr `json:"sr"`
-	TH *TaxRegistrationCountryOptionsTH `json:"th"`
-	Tj *TaxRegistrationCountryOptionsTj `json:"tj"`
-	TR *TaxRegistrationCountryOptionsTR `json:"tr"`
-	Tw *TaxRegistrationCountryOptionsTw `json:"tw"`
-	Tz *TaxRegistrationCountryOptionsTz `json:"tz"`
-	Ua *TaxRegistrationCountryOptionsUa `json:"ua"`
-	Ug *TaxRegistrationCountryOptionsUg `json:"ug"`
-	US *TaxRegistrationCountryOptionsUS `json:"us"`
-	Uy *TaxRegistrationCountryOptionsUy `json:"uy"`
-	Uz *TaxRegistrationCountryOptionsUz `json:"uz"`
-	Vn *TaxRegistrationCountryOptionsVn `json:"vn"`
-	Za *TaxRegistrationCountryOptionsZa `json:"za"`
-	Zm *TaxRegistrationCountryOptionsZm `json:"zm"`
-	Zw *TaxRegistrationCountryOptionsZw `json:"zw"`
+	Ae *TaxRegistrationCountryOptionsAe `json:"ae,omitempty"`
+	Al *TaxRegistrationCountryOptionsAl `json:"al,omitempty"`
+	Am *TaxRegistrationCountryOptionsAm `json:"am,omitempty"`
+	Ao *TaxRegistrationCountryOptionsAo `json:"ao,omitempty"`
+	At *TaxRegistrationCountryOptionsAt `json:"at,omitempty"`
+	Au *TaxRegistrationCountryOptionsAu `json:"au,omitempty"`
+	Aw *TaxRegistrationCountryOptionsAw `json:"aw,omitempty"`
+	Az *TaxRegistrationCountryOptionsAz `json:"az,omitempty"`
+	Ba *TaxRegistrationCountryOptionsBa `json:"ba,omitempty"`
+	Bb *TaxRegistrationCountryOptionsBb `json:"bb,omitempty"`
+	Bd *TaxRegistrationCountryOptionsBd `json:"bd,omitempty"`
+	Be *TaxRegistrationCountryOptionsBe `json:"be,omitempty"`
+	Bf *TaxRegistrationCountryOptionsBf `json:"bf,omitempty"`
+	BG *TaxRegistrationCountryOptionsBG `json:"bg,omitempty"`
+	Bh *TaxRegistrationCountryOptionsBh `json:"bh,omitempty"`
+	Bj *TaxRegistrationCountryOptionsBj `json:"bj,omitempty"`
+	Bs *TaxRegistrationCountryOptionsBs `json:"bs,omitempty"`
+	By *TaxRegistrationCountryOptionsBy `json:"by,omitempty"`
+	Ca *TaxRegistrationCountryOptionsCa `json:"ca,omitempty"`
+	Cd *TaxRegistrationCountryOptionsCd `json:"cd,omitempty"`
+	Ch *TaxRegistrationCountryOptionsCh `json:"ch,omitempty"`
+	Cl *TaxRegistrationCountryOptionsCl `json:"cl,omitempty"`
+	Cm *TaxRegistrationCountryOptionsCm `json:"cm,omitempty"`
+	Co *TaxRegistrationCountryOptionsCo `json:"co,omitempty"`
+	Cr *TaxRegistrationCountryOptionsCr `json:"cr,omitempty"`
+	Cv *TaxRegistrationCountryOptionsCv `json:"cv,omitempty"`
+	Cy *TaxRegistrationCountryOptionsCy `json:"cy,omitempty"`
+	Cz *TaxRegistrationCountryOptionsCz `json:"cz,omitempty"`
+	DE *TaxRegistrationCountryOptionsDE `json:"de,omitempty"`
+	Dk *TaxRegistrationCountryOptionsDk `json:"dk,omitempty"`
+	Ec *TaxRegistrationCountryOptionsEc `json:"ec,omitempty"`
+	Ee *TaxRegistrationCountryOptionsEe `json:"ee,omitempty"`
+	Eg *TaxRegistrationCountryOptionsEg `json:"eg,omitempty"`
+	ES *TaxRegistrationCountryOptionsES `json:"es,omitempty"`
+	ET *TaxRegistrationCountryOptionsET `json:"et,omitempty"`
+	FI *TaxRegistrationCountryOptionsFI `json:"fi,omitempty"`
+	FR *TaxRegistrationCountryOptionsFR `json:"fr,omitempty"`
+	GB *TaxRegistrationCountryOptionsGB `json:"gb,omitempty"`
+	Ge *TaxRegistrationCountryOptionsGe `json:"ge,omitempty"`
+	Gn *TaxRegistrationCountryOptionsGn `json:"gn,omitempty"`
+	Gr *TaxRegistrationCountryOptionsGr `json:"gr,omitempty"`
+	HR *TaxRegistrationCountryOptionsHR `json:"hr,omitempty"`
+	HU *TaxRegistrationCountryOptionsHU `json:"hu,omitempty"`
+	ID *TaxRegistrationCountryOptionsID `json:"id,omitempty"`
+	Ie *TaxRegistrationCountryOptionsIe `json:"ie,omitempty"`
+	In *TaxRegistrationCountryOptionsIn `json:"in,omitempty"`
+	Is *TaxRegistrationCountryOptionsIs `json:"is,omitempty"`
+	IT *TaxRegistrationCountryOptionsIT `json:"it,omitempty"`
+	JP *TaxRegistrationCountryOptionsJP `json:"jp,omitempty"`
+	Ke *TaxRegistrationCountryOptionsKe `json:"ke,omitempty"`
+	Kg *TaxRegistrationCountryOptionsKg `json:"kg,omitempty"`
+	Kh *TaxRegistrationCountryOptionsKh `json:"kh,omitempty"`
+	Kr *TaxRegistrationCountryOptionsKr `json:"kr,omitempty"`
+	Kz *TaxRegistrationCountryOptionsKz `json:"kz,omitempty"`
+	La *TaxRegistrationCountryOptionsLa `json:"la,omitempty"`
+	Lk *TaxRegistrationCountryOptionsLk `json:"lk,omitempty"`
+	LT *TaxRegistrationCountryOptionsLT `json:"lt,omitempty"`
+	Lu *TaxRegistrationCountryOptionsLu `json:"lu,omitempty"`
+	LV *TaxRegistrationCountryOptionsLV `json:"lv,omitempty"`
+	Ma *TaxRegistrationCountryOptionsMa `json:"ma,omitempty"`
+	Md *TaxRegistrationCountryOptionsMd `json:"md,omitempty"`
+	Me *TaxRegistrationCountryOptionsMe `json:"me,omitempty"`
+	Mk *TaxRegistrationCountryOptionsMk `json:"mk,omitempty"`
+	Mr *TaxRegistrationCountryOptionsMr `json:"mr,omitempty"`
+	MT *TaxRegistrationCountryOptionsMT `json:"mt,omitempty"`
+	MX *TaxRegistrationCountryOptionsMX `json:"mx,omitempty"`
+	My *TaxRegistrationCountryOptionsMy `json:"my,omitempty"`
+	Ng *TaxRegistrationCountryOptionsNg `json:"ng,omitempty"`
+	NL *TaxRegistrationCountryOptionsNL `json:"nl,omitempty"`
+	No *TaxRegistrationCountryOptionsNo `json:"no,omitempty"`
+	Np *TaxRegistrationCountryOptionsNp `json:"np,omitempty"`
+	Nz *TaxRegistrationCountryOptionsNz `json:"nz,omitempty"`
+	Om *TaxRegistrationCountryOptionsOm `json:"om,omitempty"`
+	Pe *TaxRegistrationCountryOptionsPe `json:"pe,omitempty"`
+	Ph *TaxRegistrationCountryOptionsPh `json:"ph,omitempty"`
+	PL *TaxRegistrationCountryOptionsPL `json:"pl,omitempty"`
+	PT *TaxRegistrationCountryOptionsPT `json:"pt,omitempty"`
+	RO *TaxRegistrationCountryOptionsRO `json:"ro,omitempty"`
+	Rs *TaxRegistrationCountryOptionsRs `json:"rs,omitempty"`
+	RU *TaxRegistrationCountryOptionsRU `json:"ru,omitempty"`
+	Sa *TaxRegistrationCountryOptionsSa `json:"sa,omitempty"`
+	Se *TaxRegistrationCountryOptionsSe `json:"se,omitempty"`
+	Sg *TaxRegistrationCountryOptionsSg `json:"sg,omitempty"`
+	Si *TaxRegistrationCountryOptionsSi `json:"si,omitempty"`
+	SK *TaxRegistrationCountryOptionsSK `json:"sk,omitempty"`
+	Sn *TaxRegistrationCountryOptionsSn `json:"sn,omitempty"`
+	Sr *TaxRegistrationCountryOptionsSr `json:"sr,omitempty"`
+	TH *TaxRegistrationCountryOptionsTH `json:"th,omitempty"`
+	Tj *TaxRegistrationCountryOptionsTj `json:"tj,omitempty"`
+	TR *TaxRegistrationCountryOptionsTR `json:"tr,omitempty"`
+	Tw *TaxRegistrationCountryOptionsTw `json:"tw,omitempty"`
+	Tz *TaxRegistrationCountryOptionsTz `json:"tz,omitempty"`
+	Ua *TaxRegistrationCountryOptionsUa `json:"ua,omitempty"`
+	Ug *TaxRegistrationCountryOptionsUg `json:"ug,omitempty"`
+	US *TaxRegistrationCountryOptionsUS `json:"us,omitempty"`
+	Uy *TaxRegistrationCountryOptionsUy `json:"uy,omitempty"`
+	Uz *TaxRegistrationCountryOptionsUz `json:"uz,omitempty"`
+	Vn *TaxRegistrationCountryOptionsVn `json:"vn,omitempty"`
+	Za *TaxRegistrationCountryOptionsZa `json:"za,omitempty"`
+	Zm *TaxRegistrationCountryOptionsZm `json:"zm,omitempty"`
+	Zw *TaxRegistrationCountryOptionsZw `json:"zw,omitempty"`
 }
 
 // A Tax `Registration` lets us know that your business is registered to collect tax on payments within a region, enabling you to [automatically collect tax](https://docs.stripe.com/tax).

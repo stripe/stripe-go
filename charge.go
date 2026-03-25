@@ -442,17 +442,17 @@ const (
 type ChargeListParams struct {
 	ListParams `form:"*"`
 	// Only return charges that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return charges that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Only return charges for the customer specified by this customer ID.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return charges that were created by the PaymentIntent specified by this PaymentIntent ID.
-	PaymentIntent *string `form:"payment_intent"`
+	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
 	// Only return charges for this transfer group, limited to 100.
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string `form:"transfer_group" json:"transfer_group,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -462,40 +462,40 @@ func (p *ChargeListParams) AddExpand(f string) {
 
 type ChargeDestinationParams struct {
 	// ID of an existing, connected Stripe account.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account"`
 	// The amount to transfer to the destination account without creating an `Application Fee` object. Cannot be combined with the `application_fee` parameter. Must be less than or equal to the charge amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 }
 
 // Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type ChargeRadarOptionsParams struct {
 	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
-	Session *string `form:"session"`
+	Session *string `form:"session" json:"session,omitempty"`
 }
 
 // An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 type ChargeTransferDataParams struct {
 	// The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// This parameter can only be used on Charge creation.
 	// ID of an existing, connected Stripe account.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 type ChargeLevel3LineItemParams struct {
-	DiscountAmount     *int64  `form:"discount_amount"`
-	ProductCode        *string `form:"product_code"`
-	ProductDescription *string `form:"product_description"`
-	Quantity           *int64  `form:"quantity"`
-	TaxAmount          *int64  `form:"tax_amount"`
-	UnitCost           *int64  `form:"unit_cost"`
+	DiscountAmount     *int64  `form:"discount_amount" json:"discount_amount,omitempty"`
+	ProductCode        *string `form:"product_code" json:"product_code,omitempty"`
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
+	Quantity           *int64  `form:"quantity" json:"quantity,omitempty"`
+	TaxAmount          *int64  `form:"tax_amount" json:"tax_amount,omitempty"`
+	UnitCost           *int64  `form:"unit_cost" json:"unit_cost,omitempty"`
 }
 type ChargeLevel3Params struct {
-	CustomerReference  *string                       `form:"customer_reference"`
-	LineItems          []*ChargeLevel3LineItemParams `form:"line_items"`
-	MerchantReference  *string                       `form:"merchant_reference"`
-	ShippingAddressZip *string                       `form:"shipping_address_zip"`
-	ShippingAmount     *int64                        `form:"shipping_amount"`
-	ShippingFromZip    *string                       `form:"shipping_from_zip"`
+	CustomerReference  *string                       `form:"customer_reference" json:"customer_reference,omitempty"`
+	LineItems          []*ChargeLevel3LineItemParams `form:"line_items" json:"line_items,omitempty"`
+	MerchantReference  *string                       `form:"merchant_reference" json:"merchant_reference,omitempty"`
+	ShippingAddressZip *string                       `form:"shipping_address_zip" json:"shipping_address_zip,omitempty"`
+	ShippingAmount     *int64                        `form:"shipping_amount" json:"shipping_amount,omitempty"`
+	ShippingFromZip    *string                       `form:"shipping_from_zip" json:"shipping_from_zip,omitempty"`
 }
 
 // This method is no longer recommended—use the [Payment Intents API](https://docs.stripe.com/docs/api/payment_intents)
@@ -504,48 +504,48 @@ type ChargeLevel3Params struct {
 type ChargeParams struct {
 	Params `form:"*"`
 	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
-	Amount         *int64 `form:"amount"`
-	ApplicationFee *int64 `form:"application_fee"`
+	Amount         *int64 `form:"amount" json:"amount,omitempty"`
+	ApplicationFee *int64 `form:"application_fee" json:"application_fee,omitempty"`
 	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://docs.stripe.com/connect/direct-charges#collect-fees).
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://api.stripe.com#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
-	Capture *bool `form:"capture"`
+	Capture *bool `form:"capture" json:"capture,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The ID of an existing customer that will be associated with this request. This field may only be updated if there is no existing associated customer with this charge.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// An arbitrary string which you can attach to a `Charge` object. It is displayed when in the web interface alongside the charge. Note that if you use Stripe to send automatic email receipts to your customers, your receipt emails will include the `description` of the charge(s) that they are describing.
-	Description  *string                  `form:"description"`
-	Destination  *ChargeDestinationParams `form:"destination"`
-	ExchangeRate *float64                 `form:"exchange_rate"`
+	Description  *string                  `form:"description" json:"description,omitempty"`
+	Destination  *ChargeDestinationParams `form:"destination" json:"destination,omitempty"`
+	ExchangeRate *float64                 `form:"exchange_rate" json:"exchange_rate,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
-	FraudDetails *ChargeFraudDetailsParams `form:"fraud_details"`
-	Level3       *ChargeLevel3Params       `form:"level3"`
+	FraudDetails *ChargeFraudDetailsParams `form:"fraud_details" json:"fraud_details,omitempty"`
+	Level3       *ChargeLevel3Params       `form:"level3" json:"level3,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Stripe account ID for which these funds are intended. You can specify the business of record as the connected account using the `on_behalf_of` attribute on the charge. For details, see [Creating Separate Charges and Transfers](https://docs.stripe.com/connect/separate-charges-and-transfers#settlement-merchant).
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Provides industry-specific information about the charge.
-	PaymentDetails *ChargePaymentDetailsParams `form:"payment_details"`
+	PaymentDetails *ChargePaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
-	RadarOptions *ChargeRadarOptionsParams `form:"radar_options"`
+	RadarOptions *ChargeRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
 	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
-	ReceiptEmail *string `form:"receipt_email"`
+	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
-	Shipping *ShippingDetailsParams     `form:"shipping"`
+	Shipping *ShippingDetailsParams     `form:"shipping" json:"shipping,omitempty"`
 	Source   *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
 	// For a non-card charge, text that appears on the customer's statement as the statement descriptor. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	//
 	// For a card charge, this value is ignored unless you don't specify a `statement_descriptor_suffix`, in which case this value is used as the suffix.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. If the account has no prefix value, the suffix is concatenated to the account's statement descriptor.
-	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
-	TransferData *ChargeTransferDataParams `form:"transfer_data"`
+	TransferData *ChargeTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
-	TransferGroup *string                  `form:"transfer_group"`
+	TransferGroup *string                  `form:"transfer_group" json:"transfer_group,omitempty"`
 	UnsetFields   []ChargeParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -586,7 +586,7 @@ func (p *ChargeParams) AddMetadata(key string, value string) {
 // A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
 type ChargeFraudDetailsParams struct {
 	// Either `safe` or `fraudulent`.
-	UserReport  *string                              `form:"user_report"`
+	UserReport  *string                              `form:"user_report" json:"user_report"`
 	UnsetFields []ChargeFraudDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -605,821 +605,821 @@ func (p *ChargeFraudDetailsParams) AddUnsetField(field ChargeFraudDetailsParamsU
 // Affiliate details for this purchase.
 type ChargePaymentDetailsCarRentalAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details of the recipient.
 type ChargePaymentDetailsCarRentalDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Delivery details for this purchase.
 type ChargePaymentDetailsCarRentalDeliveryParams struct {
 	// The delivery method for the payment
-	Mode *string `form:"mode"`
+	Mode *string `form:"mode" json:"mode,omitempty"`
 	// Details of the recipient.
-	Recipient *ChargePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
+	Recipient *ChargePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
 // The details of the distance traveled during the rental period.
 type ChargePaymentDetailsCarRentalDistanceParams struct {
 	// Distance traveled.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit,omitempty"`
 }
 
 // The details of the passengers in the travel reservation
 type ChargePaymentDetailsCarRentalDriverParams struct {
 	// Driver's identification number.
-	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	DriverIdentificationNumber *string `form:"driver_identification_number" json:"driver_identification_number,omitempty"`
 	// Driver's tax number.
-	DriverTaxNumber *string `form:"driver_tax_number"`
+	DriverTaxNumber *string `form:"driver_tax_number" json:"driver_tax_number,omitempty"`
 	// Full name of the person or entity on the car reservation.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Car rental details for this PaymentIntent.
 type ChargePaymentDetailsCarRentalParams struct {
 	// Affiliate details for this purchase.
-	Affiliate *ChargePaymentDetailsCarRentalAffiliateParams `form:"affiliate"`
+	Affiliate *ChargePaymentDetailsCarRentalAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// The booking number associated with the car rental.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number"`
 	// Class code of the car.
-	CarClassCode *string `form:"car_class_code"`
+	CarClassCode *string `form:"car_class_code" json:"car_class_code,omitempty"`
 	// Make of the car.
-	CarMake *string `form:"car_make"`
+	CarMake *string `form:"car_make" json:"car_make,omitempty"`
 	// Model of the car.
-	CarModel *string `form:"car_model"`
+	CarModel *string `form:"car_model" json:"car_model,omitempty"`
 	// The name of the rental car company.
-	Company *string `form:"company"`
+	Company *string `form:"company" json:"company,omitempty"`
 	// The customer service phone number of the car rental company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
 	// Number of days the car is being rented.
-	DaysRented *int64 `form:"days_rented"`
+	DaysRented *int64 `form:"days_rented" json:"days_rented"`
 	// Delivery details for this purchase.
-	Delivery *ChargePaymentDetailsCarRentalDeliveryParams `form:"delivery"`
+	Delivery *ChargePaymentDetailsCarRentalDeliveryParams `form:"delivery" json:"delivery,omitempty"`
 	// The details of the distance traveled during the rental period.
-	Distance *ChargePaymentDetailsCarRentalDistanceParams `form:"distance"`
+	Distance *ChargePaymentDetailsCarRentalDistanceParams `form:"distance" json:"distance,omitempty"`
 	// The details of the passengers in the travel reservation
-	Drivers []*ChargePaymentDetailsCarRentalDriverParams `form:"drivers"`
+	Drivers []*ChargePaymentDetailsCarRentalDriverParams `form:"drivers" json:"drivers,omitempty"`
 	// List of additional charges being billed.
-	ExtraCharges []*string `form:"extra_charges"`
+	ExtraCharges []*string `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Indicates if the customer did not keep nor cancel their booking.
-	NoShow *bool `form:"no_show"`
+	NoShow *bool `form:"no_show" json:"no_show,omitempty"`
 	// Car pick-up address.
-	PickupAddress *AddressParams `form:"pickup_address"`
+	PickupAddress *AddressParams `form:"pickup_address" json:"pickup_address,omitempty"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
-	PickupAt *int64 `form:"pickup_at"`
+	PickupAt *int64 `form:"pickup_at" json:"pickup_at"`
 	// Name of the pickup location.
-	PickupLocationName *string `form:"pickup_location_name"`
+	PickupLocationName *string `form:"pickup_location_name" json:"pickup_location_name,omitempty"`
 	// Rental rate.
-	RateAmount *int64 `form:"rate_amount"`
+	RateAmount *int64 `form:"rate_amount" json:"rate_amount,omitempty"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
-	RateInterval *string `form:"rate_interval"`
+	RateInterval *string `form:"rate_interval" json:"rate_interval,omitempty"`
 	// The name of the person or entity renting the car.
-	RenterName *string `form:"renter_name"`
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
 	// Car return address.
-	ReturnAddress *AddressParams `form:"return_address"`
+	ReturnAddress *AddressParams `form:"return_address" json:"return_address,omitempty"`
 	// Car return time. Measured in seconds since the Unix epoch.
-	ReturnAt *int64 `form:"return_at"`
+	ReturnAt *int64 `form:"return_at" json:"return_at"`
 	// Name of the return location.
-	ReturnLocationName *string `form:"return_location_name"`
+	ReturnLocationName *string `form:"return_location_name" json:"return_location_name,omitempty"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
-	TaxExempt *bool `form:"tax_exempt"`
+	TaxExempt *bool `form:"tax_exempt" json:"tax_exempt,omitempty"`
 	// The vehicle identification number.
-	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number" json:"vehicle_identification_number,omitempty"`
 }
 
 // Affiliate (such as travel agency) details for the rental.
 type ChargePaymentDetailsCarRentalDatumAffiliateParams struct {
 	// Affiliate partner code.
-	Code *string `form:"code"`
+	Code *string `form:"code" json:"code,omitempty"`
 	// Name of affiliate partner.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 }
 
 // Distance details for the rental.
 type ChargePaymentDetailsCarRentalDatumDistanceParams struct {
 	// Distance traveled.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit"`
 }
 
 // Driver's date of birth.
 type ChargePaymentDetailsCarRentalDatumDriverDateOfBirthParams struct {
 	// Day of birth (1-31).
-	Day *int64 `form:"day"`
+	Day *int64 `form:"day" json:"day"`
 	// Month of birth (1-12).
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month"`
 	// Year of birth (must be greater than 1900).
-	Year *int64 `form:"year"`
+	Year *int64 `form:"year" json:"year"`
 }
 
 // List of drivers for the rental.
 type ChargePaymentDetailsCarRentalDatumDriverParams struct {
 	// Driver's date of birth.
-	DateOfBirth *ChargePaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth"`
+	DateOfBirth *ChargePaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Driver's identification number.
-	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	DriverIdentificationNumber *string `form:"driver_identification_number" json:"driver_identification_number,omitempty"`
 	// Driver's tax number.
-	DriverTaxNumber *string `form:"driver_tax_number"`
+	DriverTaxNumber *string `form:"driver_tax_number" json:"driver_tax_number,omitempty"`
 	// Driver's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Drop-off location details.
 type ChargePaymentDetailsCarRentalDatumDropOffParams struct {
 	// Address of the rental location.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 	// Location name.
-	LocationName *string `form:"location_name"`
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
 	// Timestamp for the location.
-	Time *int64 `form:"time"`
+	Time *int64 `form:"time" json:"time"`
 }
 
 // Insurance details for the rental.
 type ChargePaymentDetailsCarRentalDatumInsuranceParams struct {
 	// Amount of the insurance coverage in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Currency of the insurance amount.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the insurance company.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance coverage.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
 }
 
 // Pickup location details.
 type ChargePaymentDetailsCarRentalDatumPickupParams struct {
 	// Address of the rental location.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 	// Location name.
-	LocationName *string `form:"location_name"`
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
 	// Timestamp for the location.
-	Time *int64 `form:"time"`
+	Time *int64 `form:"time" json:"time"`
 }
 
 // Discount details for the rental.
 type ChargePaymentDetailsCarRentalDatumTotalDiscountsParams struct {
 	// Corporate client discount code.
-	CorporateClientCode *string `form:"corporate_client_code"`
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
 	// Coupon code applied to the rental.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// Maximum number of free miles or kilometers included.
-	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers"`
+	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers" json:"maximum_free_miles_or_kilometers,omitempty"`
 }
 
 // Additional charges for the rental.
 type ChargePaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
 	// Amount of the extra charge in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Type of extra charge.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Array of tax details.
 type ChargePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
 	// Tax amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate applied.
-	Rate *int64 `form:"rate"`
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
 	// Type of tax applied.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Tax breakdown for the rental.
 type ChargePaymentDetailsCarRentalDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*ChargePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes"`
+	Taxes []*ChargePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates if the transaction is tax exempt.
-	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
 }
 
 // Total cost breakdown for the rental.
 type ChargePaymentDetailsCarRentalDatumTotalParams struct {
 	// Total amount in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Currency of the amount.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Discount details for the rental.
-	Discounts *ChargePaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts"`
+	Discounts *ChargePaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Additional charges for the rental.
-	ExtraCharges []*ChargePaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges"`
+	ExtraCharges []*ChargePaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Rate per unit for the rental.
-	RatePerUnit *int64 `form:"rate_per_unit"`
+	RatePerUnit *int64 `form:"rate_per_unit" json:"rate_per_unit,omitempty"`
 	// Unit of measurement for the rate.
-	RateUnit *string `form:"rate_unit"`
+	RateUnit *string `form:"rate_unit" json:"rate_unit,omitempty"`
 	// Tax breakdown for the rental.
-	Tax *ChargePaymentDetailsCarRentalDatumTotalTaxParams `form:"tax"`
+	Tax *ChargePaymentDetailsCarRentalDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
 // Vehicle details for the rental.
 type ChargePaymentDetailsCarRentalDatumVehicleParams struct {
 	// Make of the rental vehicle.
-	Make *string `form:"make"`
+	Make *string `form:"make" json:"make,omitempty"`
 	// Model of the rental vehicle.
-	Model *string `form:"model"`
+	Model *string `form:"model" json:"model,omitempty"`
 	// Odometer reading at the time of rental.
-	Odometer *int64 `form:"odometer"`
+	Odometer *int64 `form:"odometer" json:"odometer,omitempty"`
 	// Type of the rental vehicle.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 	// Class of the rental vehicle.
-	VehicleClass *string `form:"vehicle_class"`
+	VehicleClass *string `form:"vehicle_class" json:"vehicle_class,omitempty"`
 	// Vehicle identification number (VIN).
-	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number" json:"vehicle_identification_number,omitempty"`
 }
 
 // Car rental data for this PaymentIntent.
 type ChargePaymentDetailsCarRentalDatumParams struct {
 	// Affiliate (such as travel agency) details for the rental.
-	Affiliate *ChargePaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate"`
+	Affiliate *ChargePaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// Booking confirmation number for the car rental.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
 	// Name of the car rental company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Customer service phone number for the car rental company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
 	// Number of days the car is being rented.
-	DaysRented *int64 `form:"days_rented"`
+	DaysRented *int64 `form:"days_rented" json:"days_rented,omitempty"`
 	// Distance details for the rental.
-	Distance *ChargePaymentDetailsCarRentalDatumDistanceParams `form:"distance"`
+	Distance *ChargePaymentDetailsCarRentalDatumDistanceParams `form:"distance" json:"distance,omitempty"`
 	// List of drivers for the rental.
-	Drivers []*ChargePaymentDetailsCarRentalDatumDriverParams `form:"drivers"`
+	Drivers []*ChargePaymentDetailsCarRentalDatumDriverParams `form:"drivers" json:"drivers,omitempty"`
 	// Drop-off location details.
-	DropOff *ChargePaymentDetailsCarRentalDatumDropOffParams `form:"drop_off"`
+	DropOff *ChargePaymentDetailsCarRentalDatumDropOffParams `form:"drop_off" json:"drop_off"`
 	// Insurance details for the rental.
-	Insurances []*ChargePaymentDetailsCarRentalDatumInsuranceParams `form:"insurances"`
+	Insurances []*ChargePaymentDetailsCarRentalDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// Indicates if the customer was a no-show.
-	NoShowIndicator *bool `form:"no_show_indicator"`
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
 	// Pickup location details.
-	Pickup *ChargePaymentDetailsCarRentalDatumPickupParams `form:"pickup"`
+	Pickup *ChargePaymentDetailsCarRentalDatumPickupParams `form:"pickup" json:"pickup"`
 	// Name of the person renting the vehicle.
-	RenterName *string `form:"renter_name"`
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
 	// Total cost breakdown for the rental.
-	Total *ChargePaymentDetailsCarRentalDatumTotalParams `form:"total"`
+	Total *ChargePaymentDetailsCarRentalDatumTotalParams `form:"total" json:"total"`
 	// Vehicle details for the rental.
-	Vehicle *ChargePaymentDetailsCarRentalDatumVehicleParams `form:"vehicle"`
+	Vehicle *ChargePaymentDetailsCarRentalDatumVehicleParams `form:"vehicle" json:"vehicle,omitempty"`
 }
 
 // Affiliate details for this purchase.
 type ChargePaymentDetailsEventDetailsAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details of the recipient.
 type ChargePaymentDetailsEventDetailsDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Delivery details for this purchase.
 type ChargePaymentDetailsEventDetailsDeliveryParams struct {
 	// The delivery method for the payment
-	Mode *string `form:"mode"`
+	Mode *string `form:"mode" json:"mode,omitempty"`
 	// Details of the recipient.
-	Recipient *ChargePaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient"`
+	Recipient *ChargePaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
 // Event details for this PaymentIntent
 type ChargePaymentDetailsEventDetailsParams struct {
 	// Indicates if the tickets are digitally checked when entering the venue.
-	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	AccessControlledVenue *bool `form:"access_controlled_venue" json:"access_controlled_venue,omitempty"`
 	// The event location's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Affiliate details for this purchase.
-	Affiliate *ChargePaymentDetailsEventDetailsAffiliateParams `form:"affiliate"`
+	Affiliate *ChargePaymentDetailsEventDetailsAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// The name of the company
-	Company *string `form:"company"`
+	Company *string `form:"company" json:"company,omitempty"`
 	// Delivery details for this purchase.
-	Delivery *ChargePaymentDetailsEventDetailsDeliveryParams `form:"delivery"`
+	Delivery *ChargePaymentDetailsEventDetailsDeliveryParams `form:"delivery" json:"delivery,omitempty"`
 	// Event end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
 	// Type of the event entertainment (concert, sports event etc)
-	Genre *string `form:"genre"`
+	Genre *string `form:"genre" json:"genre,omitempty"`
 	// The name of the event.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// Event start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
 // Affiliate details for this purchase.
 type ChargePaymentDetailsFlightAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details of the recipient.
 type ChargePaymentDetailsFlightDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Delivery details for this purchase.
 type ChargePaymentDetailsFlightDeliveryParams struct {
 	// The delivery method for the payment
-	Mode *string `form:"mode"`
+	Mode *string `form:"mode" json:"mode,omitempty"`
 	// Details of the recipient.
-	Recipient *ChargePaymentDetailsFlightDeliveryRecipientParams `form:"recipient"`
+	Recipient *ChargePaymentDetailsFlightDeliveryRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
 // The details of the passengers in the travel reservation.
 type ChargePaymentDetailsFlightPassengerParams struct {
 	// Full name of the person or entity on the flight reservation.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // The individual flight segments associated with the trip.
 type ChargePaymentDetailsFlightSegmentParams struct {
 	// The flight segment amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
-	ArrivalAirport *string `form:"arrival_airport"`
+	ArrivalAirport *string `form:"arrival_airport" json:"arrival_airport,omitempty"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
-	ArrivesAt *int64 `form:"arrives_at"`
+	ArrivesAt *int64 `form:"arrives_at" json:"arrives_at,omitempty"`
 	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
-	Carrier *string `form:"carrier"`
+	Carrier *string `form:"carrier" json:"carrier,omitempty"`
 	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at"`
 	// The International Air Transport Association (IATA) airport code for the departure airport.
-	DepartureAirport *string `form:"departure_airport"`
+	DepartureAirport *string `form:"departure_airport" json:"departure_airport,omitempty"`
 	// The flight number associated with the segment
-	FlightNumber *string `form:"flight_number"`
+	FlightNumber *string `form:"flight_number" json:"flight_number,omitempty"`
 	// The fare class for the segment.
-	ServiceClass *string `form:"service_class"`
+	ServiceClass *string `form:"service_class" json:"service_class,omitempty"`
 }
 
 // Flight reservation details for this PaymentIntent
 type ChargePaymentDetailsFlightParams struct {
 	// Affiliate details for this purchase.
-	Affiliate *ChargePaymentDetailsFlightAffiliateParams `form:"affiliate"`
+	Affiliate *ChargePaymentDetailsFlightAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// The agency number (i.e. International Air Transport Association (IATA) agency number) of the travel agency that made the booking.
-	AgencyNumber *string `form:"agency_number"`
+	AgencyNumber *string `form:"agency_number" json:"agency_number,omitempty"`
 	// The International Air Transport Association (IATA) carrier code of the carrier that issued the ticket.
-	Carrier *string `form:"carrier"`
+	Carrier *string `form:"carrier" json:"carrier,omitempty"`
 	// Delivery details for this purchase.
-	Delivery *ChargePaymentDetailsFlightDeliveryParams `form:"delivery"`
+	Delivery *ChargePaymentDetailsFlightDeliveryParams `form:"delivery" json:"delivery,omitempty"`
 	// The name of the person or entity on the reservation.
-	PassengerName *string `form:"passenger_name"`
+	PassengerName *string `form:"passenger_name" json:"passenger_name,omitempty"`
 	// The details of the passengers in the travel reservation.
-	Passengers []*ChargePaymentDetailsFlightPassengerParams `form:"passengers"`
+	Passengers []*ChargePaymentDetailsFlightPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// The individual flight segments associated with the trip.
-	Segments []*ChargePaymentDetailsFlightSegmentParams `form:"segments"`
+	Segments []*ChargePaymentDetailsFlightSegmentParams `form:"segments" json:"segments"`
 	// The ticket number associated with the travel reservation.
-	TicketNumber *string `form:"ticket_number"`
+	TicketNumber *string `form:"ticket_number" json:"ticket_number,omitempty"`
 }
 
 // Affiliate details if applicable.
 type ChargePaymentDetailsFlightDatumAffiliateParams struct {
 	// Affiliate partner code.
-	Code *string `form:"code"`
+	Code *string `form:"code" json:"code,omitempty"`
 	// Name of affiliate partner.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Code provided by the company to a travel agent authorizing ticket issuance.
-	TravelAuthorizationCode *string `form:"travel_authorization_code"`
+	TravelAuthorizationCode *string `form:"travel_authorization_code" json:"travel_authorization_code,omitempty"`
 }
 
 // List of insurances.
 type ChargePaymentDetailsFlightDatumInsuranceParams struct {
 	// Insurance cost.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Insurance company name.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
 }
 
 // List of passengers.
 type ChargePaymentDetailsFlightDatumPassengerParams struct {
 	// Passenger's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Arrival details.
 type ChargePaymentDetailsFlightDatumSegmentArrivalParams struct {
 	// Arrival airport IATA code.
-	Airport *string `form:"airport"`
+	Airport *string `form:"airport" json:"airport"`
 	// Arrival date/time.
-	ArrivesAt *int64 `form:"arrives_at"`
+	ArrivesAt *int64 `form:"arrives_at" json:"arrives_at,omitempty"`
 	// Arrival city.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Arrival country.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 }
 
 // Departure details.
 type ChargePaymentDetailsFlightDatumSegmentDepartureParams struct {
 	// Departure airport IATA code.
-	Airport *string `form:"airport"`
+	Airport *string `form:"airport" json:"airport"`
 	// Departure city.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Departure country.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Departure date/time.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at"`
 }
 
 // List of flight segments.
 type ChargePaymentDetailsFlightDatumSegmentParams struct {
 	// Segment fare amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Arrival details.
-	Arrival *ChargePaymentDetailsFlightDatumSegmentArrivalParams `form:"arrival"`
+	Arrival *ChargePaymentDetailsFlightDatumSegmentArrivalParams `form:"arrival" json:"arrival"`
 	// Airline carrier code.
-	CarrierCode *string `form:"carrier_code"`
+	CarrierCode *string `form:"carrier_code" json:"carrier_code"`
 	// Carrier name.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Segment currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *ChargePaymentDetailsFlightDatumSegmentDepartureParams `form:"departure"`
+	Departure *ChargePaymentDetailsFlightDatumSegmentDepartureParams `form:"departure" json:"departure"`
 	// Exchange ticket number.
-	ExchangeTicketNumber *string `form:"exchange_ticket_number"`
+	ExchangeTicketNumber *string `form:"exchange_ticket_number" json:"exchange_ticket_number,omitempty"`
 	// Fare basis code.
-	FareBasisCode *string `form:"fare_basis_code"`
+	FareBasisCode *string `form:"fare_basis_code" json:"fare_basis_code,omitempty"`
 	// Additional fees.
-	Fees *int64 `form:"fees"`
+	Fees *int64 `form:"fees" json:"fees,omitempty"`
 	// Flight number.
-	FlightNumber *string `form:"flight_number"`
+	FlightNumber *string `form:"flight_number" json:"flight_number,omitempty"`
 	// Stopover indicator.
-	IsStopOverIndicator *bool `form:"is_stop_over_indicator"`
+	IsStopOverIndicator *bool `form:"is_stop_over_indicator" json:"is_stop_over_indicator,omitempty"`
 	// Refundable ticket indicator.
-	Refundable *bool `form:"refundable"`
+	Refundable *bool `form:"refundable" json:"refundable,omitempty"`
 	// Class of service.
-	ServiceClass *string `form:"service_class"`
+	ServiceClass *string `form:"service_class" json:"service_class"`
 	// Tax amount for segment.
-	TaxAmount *int64 `form:"tax_amount"`
+	TaxAmount *int64 `form:"tax_amount" json:"tax_amount,omitempty"`
 	// Ticket number.
-	TicketNumber *string `form:"ticket_number"`
+	TicketNumber *string `form:"ticket_number" json:"ticket_number,omitempty"`
 }
 
 // Discount details.
 type ChargePaymentDetailsFlightDatumTotalDiscountsParams struct {
 	// Corporate client discount code.
-	CorporateClientCode *string `form:"corporate_client_code"`
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
 }
 
 // Additional charges.
 type ChargePaymentDetailsFlightDatumTotalExtraChargeParams struct {
 	// Amount of additional charges.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Type of additional charges.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Array of tax details.
 type ChargePaymentDetailsFlightDatumTotalTaxTaxParams struct {
 	// Tax amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
-	Rate *int64 `form:"rate"`
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
 	// Type of tax.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Tax breakdown.
 type ChargePaymentDetailsFlightDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*ChargePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes"`
+	Taxes []*ChargePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 }
 
 // Total cost breakdown.
 type ChargePaymentDetailsFlightDatumTotalParams struct {
 	// Total flight amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Reason for credit.
-	CreditReason *string `form:"credit_reason"`
+	CreditReason *string `form:"credit_reason" json:"credit_reason,omitempty"`
 	// Total currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Discount details.
-	Discounts *ChargePaymentDetailsFlightDatumTotalDiscountsParams `form:"discounts"`
+	Discounts *ChargePaymentDetailsFlightDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Additional charges.
-	ExtraCharges []*ChargePaymentDetailsFlightDatumTotalExtraChargeParams `form:"extra_charges"`
+	ExtraCharges []*ChargePaymentDetailsFlightDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Tax breakdown.
-	Tax *ChargePaymentDetailsFlightDatumTotalTaxParams `form:"tax"`
+	Tax *ChargePaymentDetailsFlightDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
 // Flight data for this PaymentIntent.
 type ChargePaymentDetailsFlightDatumParams struct {
 	// Affiliate details if applicable.
-	Affiliate *ChargePaymentDetailsFlightDatumAffiliateParams `form:"affiliate"`
+	Affiliate *ChargePaymentDetailsFlightDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// Reservation reference.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
 	// Computerized reservation system used to make the reservation and purchase the ticket.
-	ComputerizedReservationSystem *string `form:"computerized_reservation_system"`
+	ComputerizedReservationSystem *string `form:"computerized_reservation_system" json:"computerized_reservation_system,omitempty"`
 	// Ticket restrictions.
-	EndorsementsAndRestrictions *string `form:"endorsements_and_restrictions"`
+	EndorsementsAndRestrictions *string `form:"endorsements_and_restrictions" json:"endorsements_and_restrictions,omitempty"`
 	// List of insurances.
-	Insurances []*ChargePaymentDetailsFlightDatumInsuranceParams `form:"insurances"`
+	Insurances []*ChargePaymentDetailsFlightDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers.
-	Passengers []*ChargePaymentDetailsFlightDatumPassengerParams `form:"passengers"`
+	Passengers []*ChargePaymentDetailsFlightDatumPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// List of flight segments.
-	Segments []*ChargePaymentDetailsFlightDatumSegmentParams `form:"segments"`
+	Segments []*ChargePaymentDetailsFlightDatumSegmentParams `form:"segments" json:"segments"`
 	// Electronic ticket indicator.
-	TicketElectronicallyIssuedIndicator *bool `form:"ticket_electronically_issued_indicator"`
+	TicketElectronicallyIssuedIndicator *bool `form:"ticket_electronically_issued_indicator" json:"ticket_electronically_issued_indicator,omitempty"`
 	// Total cost breakdown.
-	Total *ChargePaymentDetailsFlightDatumTotalParams `form:"total"`
+	Total *ChargePaymentDetailsFlightDatumTotalParams `form:"total" json:"total"`
 	// Type of flight transaction.
-	TransactionType *string `form:"transaction_type"`
+	TransactionType *string `form:"transaction_type" json:"transaction_type,omitempty"`
 }
 
 // Affiliate details for this purchase.
 type ChargePaymentDetailsLodgingAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details of the recipient.
 type ChargePaymentDetailsLodgingDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Delivery details for this purchase.
 type ChargePaymentDetailsLodgingDeliveryParams struct {
 	// The delivery method for the payment
-	Mode *string `form:"mode"`
+	Mode *string `form:"mode" json:"mode,omitempty"`
 	// Details of the recipient.
-	Recipient *ChargePaymentDetailsLodgingDeliveryRecipientParams `form:"recipient"`
+	Recipient *ChargePaymentDetailsLodgingDeliveryRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
 // The details of the passengers in the travel reservation
 type ChargePaymentDetailsLodgingPassengerParams struct {
 	// Full name of the person or entity on the lodging reservation.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Lodging reservation details for this PaymentIntent
 type ChargePaymentDetailsLodgingParams struct {
 	// The lodging location's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The number of adults on the booking
-	Adults *int64 `form:"adults"`
+	Adults *int64 `form:"adults" json:"adults,omitempty"`
 	// Affiliate details for this purchase.
-	Affiliate *ChargePaymentDetailsLodgingAffiliateParams `form:"affiliate"`
+	Affiliate *ChargePaymentDetailsLodgingAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// The booking number associated with the lodging reservation.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
 	// The lodging category
-	Category *string `form:"category"`
+	Category *string `form:"category" json:"category,omitempty"`
 	// Lodging check-in time. Measured in seconds since the Unix epoch.
-	CheckinAt *int64 `form:"checkin_at"`
+	CheckinAt *int64 `form:"checkin_at" json:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
-	CheckoutAt *int64 `form:"checkout_at"`
+	CheckoutAt *int64 `form:"checkout_at" json:"checkout_at"`
 	// The customer service phone number of the lodging company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
 	// The daily lodging room rate.
-	DailyRoomRateAmount *int64 `form:"daily_room_rate_amount"`
+	DailyRoomRateAmount *int64 `form:"daily_room_rate_amount" json:"daily_room_rate_amount,omitempty"`
 	// Delivery details for this purchase.
-	Delivery *ChargePaymentDetailsLodgingDeliveryParams `form:"delivery"`
+	Delivery *ChargePaymentDetailsLodgingDeliveryParams `form:"delivery" json:"delivery,omitempty"`
 	// List of additional charges being billed.
-	ExtraCharges []*string `form:"extra_charges"`
+	ExtraCharges []*string `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Indicates whether the lodging location is compliant with the Fire Safety Act.
-	FireSafetyActCompliance *bool `form:"fire_safety_act_compliance"`
+	FireSafetyActCompliance *bool `form:"fire_safety_act_compliance" json:"fire_safety_act_compliance,omitempty"`
 	// The name of the lodging location.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
-	NoShow *bool `form:"no_show"`
+	NoShow *bool `form:"no_show" json:"no_show,omitempty"`
 	// The number of rooms on the booking
-	NumberOfRooms *int64 `form:"number_of_rooms"`
+	NumberOfRooms *int64 `form:"number_of_rooms" json:"number_of_rooms,omitempty"`
 	// The details of the passengers in the travel reservation
-	Passengers []*ChargePaymentDetailsLodgingPassengerParams `form:"passengers"`
+	Passengers []*ChargePaymentDetailsLodgingPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// The phone number of the lodging location.
-	PropertyPhoneNumber *string `form:"property_phone_number"`
+	PropertyPhoneNumber *string `form:"property_phone_number" json:"property_phone_number,omitempty"`
 	// The room class for this purchase.
-	RoomClass *string `form:"room_class"`
+	RoomClass *string `form:"room_class" json:"room_class,omitempty"`
 	// The number of room nights
-	RoomNights *int64 `form:"room_nights"`
+	RoomNights *int64 `form:"room_nights" json:"room_nights,omitempty"`
 	// The total tax amount associating with the room reservation.
-	TotalRoomTaxAmount *int64 `form:"total_room_tax_amount"`
+	TotalRoomTaxAmount *int64 `form:"total_room_tax_amount" json:"total_room_tax_amount,omitempty"`
 	// The total tax amount
-	TotalTaxAmount *int64 `form:"total_tax_amount"`
+	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount,omitempty"`
 }
 
 // Accommodation details for the lodging.
 type ChargePaymentDetailsLodgingDatumAccommodationParams struct {
 	// Type of accommodation.
-	AccommodationType *string `form:"accommodation_type"`
+	AccommodationType *string `form:"accommodation_type" json:"accommodation_type,omitempty"`
 	// Bed type.
-	BedType *string `form:"bed_type"`
+	BedType *string `form:"bed_type" json:"bed_type,omitempty"`
 	// Daily accommodation rate in cents.
-	DailyRateAmount *int64 `form:"daily_rate_amount"`
+	DailyRateAmount *int64 `form:"daily_rate_amount" json:"daily_rate_amount,omitempty"`
 	// Number of nights.
-	Nights *int64 `form:"nights"`
+	Nights *int64 `form:"nights" json:"nights,omitempty"`
 	// Number of rooms, cabanas, apartments, and so on.
-	NumberOfRooms *int64 `form:"number_of_rooms"`
+	NumberOfRooms *int64 `form:"number_of_rooms" json:"number_of_rooms,omitempty"`
 	// Rate type.
-	RateType *string `form:"rate_type"`
+	RateType *string `form:"rate_type" json:"rate_type,omitempty"`
 	// Whether smoking is allowed.
-	SmokingIndicator *bool `form:"smoking_indicator"`
+	SmokingIndicator *bool `form:"smoking_indicator" json:"smoking_indicator,omitempty"`
 }
 
 // Affiliate details if applicable.
 type ChargePaymentDetailsLodgingDatumAffiliateParams struct {
 	// Affiliate partner code.
-	Code *string `form:"code"`
+	Code *string `form:"code" json:"code,omitempty"`
 	// Affiliate partner name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 }
 
 // List of guests for the lodging.
 type ChargePaymentDetailsLodgingDatumGuestParams struct {
 	// Guest's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Host details for the lodging.
 type ChargePaymentDetailsLodgingDatumHostParams struct {
 	// Address of the host.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Host's country of domicile.
-	CountryOfDomicile *string `form:"country_of_domicile"`
+	CountryOfDomicile *string `form:"country_of_domicile" json:"country_of_domicile,omitempty"`
 	// Reference number for the host.
-	HostReference *string `form:"host_reference"`
+	HostReference *string `form:"host_reference" json:"host_reference,omitempty"`
 	// Type of host.
-	HostType *string `form:"host_type"`
+	HostType *string `form:"host_type" json:"host_type,omitempty"`
 	// Name of the lodging property or host.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Total number of reservations for the host.
-	NumberOfReservations *int64 `form:"number_of_reservations"`
+	NumberOfReservations *int64 `form:"number_of_reservations" json:"number_of_reservations,omitempty"`
 	// Property phone number.
-	PropertyPhoneNumber *string `form:"property_phone_number"`
+	PropertyPhoneNumber *string `form:"property_phone_number" json:"property_phone_number,omitempty"`
 	// Host's registration date.
-	RegisteredAt *int64 `form:"registered_at"`
+	RegisteredAt *int64 `form:"registered_at" json:"registered_at,omitempty"`
 }
 
 // List of insurances for the lodging.
 type ChargePaymentDetailsLodgingDatumInsuranceParams struct {
 	// Price of the insurance coverage in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Currency of the insurance amount.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the insurance company.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance coverage.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
 }
 
 // Discount details for the lodging.
 type ChargePaymentDetailsLodgingDatumTotalDiscountsParams struct {
 	// Corporate client discount code.
-	CorporateClientCode *string `form:"corporate_client_code"`
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
 	// Coupon code.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 }
 
 // Additional charges for the lodging.
 type ChargePaymentDetailsLodgingDatumTotalExtraChargeParams struct {
 	// Amount of the extra charge in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Type of extra charge.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Tax details.
 type ChargePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
 	// Tax amount in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
-	Rate *int64 `form:"rate"`
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
 	// Type of tax applied.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Tax breakdown for the lodging reservation.
 type ChargePaymentDetailsLodgingDatumTotalTaxParams struct {
 	// Tax details.
-	Taxes []*ChargePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes"`
+	Taxes []*ChargePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates whether the transaction is tax exempt.
-	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
 }
 
 // Total details for the lodging.
 type ChargePaymentDetailsLodgingDatumTotalParams struct {
 	// Total price of the lodging reservation in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Cash advances in cents.
-	CashAdvances *int64 `form:"cash_advances"`
+	CashAdvances *int64 `form:"cash_advances" json:"cash_advances,omitempty"`
 	// Currency of the total amount.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Discount details for the lodging.
-	Discounts *ChargePaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts"`
+	Discounts *ChargePaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Additional charges for the lodging.
-	ExtraCharges []*ChargePaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges"`
+	ExtraCharges []*ChargePaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Prepaid amount in cents.
-	PrepaidAmount *int64 `form:"prepaid_amount"`
+	PrepaidAmount *int64 `form:"prepaid_amount" json:"prepaid_amount,omitempty"`
 	// Tax breakdown for the lodging reservation.
-	Tax *ChargePaymentDetailsLodgingDatumTotalTaxParams `form:"tax"`
+	Tax *ChargePaymentDetailsLodgingDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
 // Lodging data for this PaymentIntent.
 type ChargePaymentDetailsLodgingDatumParams struct {
 	// Accommodation details for the lodging.
-	Accommodation *ChargePaymentDetailsLodgingDatumAccommodationParams `form:"accommodation"`
+	Accommodation *ChargePaymentDetailsLodgingDatumAccommodationParams `form:"accommodation" json:"accommodation,omitempty"`
 	// Affiliate details if applicable.
-	Affiliate *ChargePaymentDetailsLodgingDatumAffiliateParams `form:"affiliate"`
+	Affiliate *ChargePaymentDetailsLodgingDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// Booking confirmation number for the lodging.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
 	// Check-in date.
-	CheckinAt *int64 `form:"checkin_at"`
+	CheckinAt *int64 `form:"checkin_at" json:"checkin_at"`
 	// Check-out date.
-	CheckoutAt *int64 `form:"checkout_at"`
+	CheckoutAt *int64 `form:"checkout_at" json:"checkout_at"`
 	// Customer service phone number for the lodging company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
 	// Whether the lodging is compliant with any hotel fire safety regulations.
-	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator"`
+	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator" json:"fire_safety_act_compliance_indicator,omitempty"`
 	// List of guests for the lodging.
-	Guests []*ChargePaymentDetailsLodgingDatumGuestParams `form:"guests"`
+	Guests []*ChargePaymentDetailsLodgingDatumGuestParams `form:"guests" json:"guests,omitempty"`
 	// Host details for the lodging.
-	Host *ChargePaymentDetailsLodgingDatumHostParams `form:"host"`
+	Host *ChargePaymentDetailsLodgingDatumHostParams `form:"host" json:"host,omitempty"`
 	// List of insurances for the lodging.
-	Insurances []*ChargePaymentDetailsLodgingDatumInsuranceParams `form:"insurances"`
+	Insurances []*ChargePaymentDetailsLodgingDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// Whether the renter is a no-show.
-	NoShowIndicator *bool `form:"no_show_indicator"`
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
 	// Renter ID number for the lodging.
-	RenterIDNumber *string `form:"renter_id_number"`
+	RenterIDNumber *string `form:"renter_id_number" json:"renter_id_number,omitempty"`
 	// Renter name for the lodging.
-	RenterName *string `form:"renter_name"`
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
 	// Total details for the lodging.
-	Total *ChargePaymentDetailsLodgingDatumTotalParams `form:"total"`
+	Total *ChargePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
 // Affiliate details for this purchase.
 type ChargePaymentDetailsSubscriptionAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Subscription billing details for this purchase.
 type ChargePaymentDetailsSubscriptionBillingIntervalParams struct {
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	Count *int64 `form:"count"`
+	Count *int64 `form:"count" json:"count"`
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 }
 
 // Subscription details for this PaymentIntent
 type ChargePaymentDetailsSubscriptionParams struct {
 	// Affiliate details for this purchase.
-	Affiliate *ChargePaymentDetailsSubscriptionAffiliateParams `form:"affiliate"`
+	Affiliate *ChargePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// Info whether the subscription will be auto renewed upon expiry.
-	AutoRenewal *bool `form:"auto_renewal"`
+	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
 	// Subscription billing details for this purchase.
-	BillingInterval *ChargePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval"`
+	BillingInterval *ChargePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
 	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
 	// Name of the product on subscription. e.g. Apple Music Subscription
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
 // Provides industry-specific information about the charge.
 type ChargePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
-	CarRental *ChargePaymentDetailsCarRentalParams `form:"car_rental"`
+	CarRental *ChargePaymentDetailsCarRentalParams `form:"car_rental" json:"car_rental,omitempty"`
 	// Car rental data for this PaymentIntent.
-	CarRentalData []*ChargePaymentDetailsCarRentalDatumParams `form:"car_rental_data"`
+	CarRentalData []*ChargePaymentDetailsCarRentalDatumParams `form:"car_rental_data" json:"car_rental_data,omitempty"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
-	CustomerReference *string `form:"customer_reference"`
+	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// Event details for this PaymentIntent
-	EventDetails *ChargePaymentDetailsEventDetailsParams `form:"event_details"`
+	EventDetails *ChargePaymentDetailsEventDetailsParams `form:"event_details" json:"event_details,omitempty"`
 	// Flight reservation details for this PaymentIntent
-	Flight *ChargePaymentDetailsFlightParams `form:"flight"`
+	Flight *ChargePaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
-	FlightData []*ChargePaymentDetailsFlightDatumParams `form:"flight_data"`
+	FlightData []*ChargePaymentDetailsFlightDatumParams `form:"flight_data" json:"flight_data,omitempty"`
 	// Lodging reservation details for this PaymentIntent
-	Lodging *ChargePaymentDetailsLodgingParams `form:"lodging"`
+	Lodging *ChargePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
-	LodgingData []*ChargePaymentDetailsLodgingDatumParams `form:"lodging_data"`
+	LodgingData []*ChargePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
-	OrderReference *string `form:"order_reference"`
+	OrderReference *string `form:"order_reference" json:"order_reference,omitempty"`
 	// Subscription details for this PaymentIntent
-	Subscription *ChargePaymentDetailsSubscriptionParams `form:"subscription"`
+	Subscription *ChargePaymentDetailsSubscriptionParams `form:"subscription" json:"subscription,omitempty"`
 	UnsetFields  []ChargePaymentDetailsParamsUnsetField  `form:"-" json:"-"`
 }
 
@@ -1446,9 +1446,9 @@ func (p *ChargePaymentDetailsParams) AddUnsetField(field ChargePaymentDetailsPar
 type ChargeSearchParams struct {
 	SearchParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
-	Page *string `form:"page"`
+	Page *string `form:"page" json:"page,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1459,821 +1459,821 @@ func (p *ChargeSearchParams) AddExpand(f string) {
 // Affiliate details for this purchase.
 type ChargeCapturePaymentDetailsCarRentalAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details of the recipient.
 type ChargeCapturePaymentDetailsCarRentalDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Delivery details for this purchase.
 type ChargeCapturePaymentDetailsCarRentalDeliveryParams struct {
 	// The delivery method for the payment
-	Mode *string `form:"mode"`
+	Mode *string `form:"mode" json:"mode,omitempty"`
 	// Details of the recipient.
-	Recipient *ChargeCapturePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
+	Recipient *ChargeCapturePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
 // The details of the distance traveled during the rental period.
 type ChargeCapturePaymentDetailsCarRentalDistanceParams struct {
 	// Distance traveled.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit,omitempty"`
 }
 
 // The details of the passengers in the travel reservation
 type ChargeCapturePaymentDetailsCarRentalDriverParams struct {
 	// Driver's identification number.
-	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	DriverIdentificationNumber *string `form:"driver_identification_number" json:"driver_identification_number,omitempty"`
 	// Driver's tax number.
-	DriverTaxNumber *string `form:"driver_tax_number"`
+	DriverTaxNumber *string `form:"driver_tax_number" json:"driver_tax_number,omitempty"`
 	// Full name of the person or entity on the car reservation.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Car rental details for this PaymentIntent.
 type ChargeCapturePaymentDetailsCarRentalParams struct {
 	// Affiliate details for this purchase.
-	Affiliate *ChargeCapturePaymentDetailsCarRentalAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeCapturePaymentDetailsCarRentalAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// The booking number associated with the car rental.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number"`
 	// Class code of the car.
-	CarClassCode *string `form:"car_class_code"`
+	CarClassCode *string `form:"car_class_code" json:"car_class_code,omitempty"`
 	// Make of the car.
-	CarMake *string `form:"car_make"`
+	CarMake *string `form:"car_make" json:"car_make,omitempty"`
 	// Model of the car.
-	CarModel *string `form:"car_model"`
+	CarModel *string `form:"car_model" json:"car_model,omitempty"`
 	// The name of the rental car company.
-	Company *string `form:"company"`
+	Company *string `form:"company" json:"company,omitempty"`
 	// The customer service phone number of the car rental company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
 	// Number of days the car is being rented.
-	DaysRented *int64 `form:"days_rented"`
+	DaysRented *int64 `form:"days_rented" json:"days_rented"`
 	// Delivery details for this purchase.
-	Delivery *ChargeCapturePaymentDetailsCarRentalDeliveryParams `form:"delivery"`
+	Delivery *ChargeCapturePaymentDetailsCarRentalDeliveryParams `form:"delivery" json:"delivery,omitempty"`
 	// The details of the distance traveled during the rental period.
-	Distance *ChargeCapturePaymentDetailsCarRentalDistanceParams `form:"distance"`
+	Distance *ChargeCapturePaymentDetailsCarRentalDistanceParams `form:"distance" json:"distance,omitempty"`
 	// The details of the passengers in the travel reservation
-	Drivers []*ChargeCapturePaymentDetailsCarRentalDriverParams `form:"drivers"`
+	Drivers []*ChargeCapturePaymentDetailsCarRentalDriverParams `form:"drivers" json:"drivers,omitempty"`
 	// List of additional charges being billed.
-	ExtraCharges []*string `form:"extra_charges"`
+	ExtraCharges []*string `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Indicates if the customer did not keep nor cancel their booking.
-	NoShow *bool `form:"no_show"`
+	NoShow *bool `form:"no_show" json:"no_show,omitempty"`
 	// Car pick-up address.
-	PickupAddress *AddressParams `form:"pickup_address"`
+	PickupAddress *AddressParams `form:"pickup_address" json:"pickup_address,omitempty"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
-	PickupAt *int64 `form:"pickup_at"`
+	PickupAt *int64 `form:"pickup_at" json:"pickup_at"`
 	// Name of the pickup location.
-	PickupLocationName *string `form:"pickup_location_name"`
+	PickupLocationName *string `form:"pickup_location_name" json:"pickup_location_name,omitempty"`
 	// Rental rate.
-	RateAmount *int64 `form:"rate_amount"`
+	RateAmount *int64 `form:"rate_amount" json:"rate_amount,omitempty"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
-	RateInterval *string `form:"rate_interval"`
+	RateInterval *string `form:"rate_interval" json:"rate_interval,omitempty"`
 	// The name of the person or entity renting the car.
-	RenterName *string `form:"renter_name"`
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
 	// Car return address.
-	ReturnAddress *AddressParams `form:"return_address"`
+	ReturnAddress *AddressParams `form:"return_address" json:"return_address,omitempty"`
 	// Car return time. Measured in seconds since the Unix epoch.
-	ReturnAt *int64 `form:"return_at"`
+	ReturnAt *int64 `form:"return_at" json:"return_at"`
 	// Name of the return location.
-	ReturnLocationName *string `form:"return_location_name"`
+	ReturnLocationName *string `form:"return_location_name" json:"return_location_name,omitempty"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
-	TaxExempt *bool `form:"tax_exempt"`
+	TaxExempt *bool `form:"tax_exempt" json:"tax_exempt,omitempty"`
 	// The vehicle identification number.
-	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number" json:"vehicle_identification_number,omitempty"`
 }
 
 // Affiliate (such as travel agency) details for the rental.
 type ChargeCapturePaymentDetailsCarRentalDatumAffiliateParams struct {
 	// Affiliate partner code.
-	Code *string `form:"code"`
+	Code *string `form:"code" json:"code,omitempty"`
 	// Name of affiliate partner.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 }
 
 // Distance details for the rental.
 type ChargeCapturePaymentDetailsCarRentalDatumDistanceParams struct {
 	// Distance traveled.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit"`
 }
 
 // Driver's date of birth.
 type ChargeCapturePaymentDetailsCarRentalDatumDriverDateOfBirthParams struct {
 	// Day of birth (1-31).
-	Day *int64 `form:"day"`
+	Day *int64 `form:"day" json:"day"`
 	// Month of birth (1-12).
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month"`
 	// Year of birth (must be greater than 1900).
-	Year *int64 `form:"year"`
+	Year *int64 `form:"year" json:"year"`
 }
 
 // List of drivers for the rental.
 type ChargeCapturePaymentDetailsCarRentalDatumDriverParams struct {
 	// Driver's date of birth.
-	DateOfBirth *ChargeCapturePaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth"`
+	DateOfBirth *ChargeCapturePaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Driver's identification number.
-	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	DriverIdentificationNumber *string `form:"driver_identification_number" json:"driver_identification_number,omitempty"`
 	// Driver's tax number.
-	DriverTaxNumber *string `form:"driver_tax_number"`
+	DriverTaxNumber *string `form:"driver_tax_number" json:"driver_tax_number,omitempty"`
 	// Driver's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Drop-off location details.
 type ChargeCapturePaymentDetailsCarRentalDatumDropOffParams struct {
 	// Address of the rental location.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 	// Location name.
-	LocationName *string `form:"location_name"`
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
 	// Timestamp for the location.
-	Time *int64 `form:"time"`
+	Time *int64 `form:"time" json:"time"`
 }
 
 // Insurance details for the rental.
 type ChargeCapturePaymentDetailsCarRentalDatumInsuranceParams struct {
 	// Amount of the insurance coverage in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Currency of the insurance amount.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the insurance company.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance coverage.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
 }
 
 // Pickup location details.
 type ChargeCapturePaymentDetailsCarRentalDatumPickupParams struct {
 	// Address of the rental location.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 	// Location name.
-	LocationName *string `form:"location_name"`
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
 	// Timestamp for the location.
-	Time *int64 `form:"time"`
+	Time *int64 `form:"time" json:"time"`
 }
 
 // Discount details for the rental.
 type ChargeCapturePaymentDetailsCarRentalDatumTotalDiscountsParams struct {
 	// Corporate client discount code.
-	CorporateClientCode *string `form:"corporate_client_code"`
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
 	// Coupon code applied to the rental.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// Maximum number of free miles or kilometers included.
-	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers"`
+	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers" json:"maximum_free_miles_or_kilometers,omitempty"`
 }
 
 // Additional charges for the rental.
 type ChargeCapturePaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
 	// Amount of the extra charge in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Type of extra charge.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Array of tax details.
 type ChargeCapturePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
 	// Tax amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate applied.
-	Rate *int64 `form:"rate"`
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
 	// Type of tax applied.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Tax breakdown for the rental.
 type ChargeCapturePaymentDetailsCarRentalDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*ChargeCapturePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes"`
+	Taxes []*ChargeCapturePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates if the transaction is tax exempt.
-	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
 }
 
 // Total cost breakdown for the rental.
 type ChargeCapturePaymentDetailsCarRentalDatumTotalParams struct {
 	// Total amount in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Currency of the amount.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Discount details for the rental.
-	Discounts *ChargeCapturePaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts"`
+	Discounts *ChargeCapturePaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Additional charges for the rental.
-	ExtraCharges []*ChargeCapturePaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges"`
+	ExtraCharges []*ChargeCapturePaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Rate per unit for the rental.
-	RatePerUnit *int64 `form:"rate_per_unit"`
+	RatePerUnit *int64 `form:"rate_per_unit" json:"rate_per_unit,omitempty"`
 	// Unit of measurement for the rate.
-	RateUnit *string `form:"rate_unit"`
+	RateUnit *string `form:"rate_unit" json:"rate_unit,omitempty"`
 	// Tax breakdown for the rental.
-	Tax *ChargeCapturePaymentDetailsCarRentalDatumTotalTaxParams `form:"tax"`
+	Tax *ChargeCapturePaymentDetailsCarRentalDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
 // Vehicle details for the rental.
 type ChargeCapturePaymentDetailsCarRentalDatumVehicleParams struct {
 	// Make of the rental vehicle.
-	Make *string `form:"make"`
+	Make *string `form:"make" json:"make,omitempty"`
 	// Model of the rental vehicle.
-	Model *string `form:"model"`
+	Model *string `form:"model" json:"model,omitempty"`
 	// Odometer reading at the time of rental.
-	Odometer *int64 `form:"odometer"`
+	Odometer *int64 `form:"odometer" json:"odometer,omitempty"`
 	// Type of the rental vehicle.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 	// Class of the rental vehicle.
-	VehicleClass *string `form:"vehicle_class"`
+	VehicleClass *string `form:"vehicle_class" json:"vehicle_class,omitempty"`
 	// Vehicle identification number (VIN).
-	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number" json:"vehicle_identification_number,omitempty"`
 }
 
 // Car rental data for this PaymentIntent.
 type ChargeCapturePaymentDetailsCarRentalDatumParams struct {
 	// Affiliate (such as travel agency) details for the rental.
-	Affiliate *ChargeCapturePaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeCapturePaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// Booking confirmation number for the car rental.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
 	// Name of the car rental company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Customer service phone number for the car rental company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
 	// Number of days the car is being rented.
-	DaysRented *int64 `form:"days_rented"`
+	DaysRented *int64 `form:"days_rented" json:"days_rented,omitempty"`
 	// Distance details for the rental.
-	Distance *ChargeCapturePaymentDetailsCarRentalDatumDistanceParams `form:"distance"`
+	Distance *ChargeCapturePaymentDetailsCarRentalDatumDistanceParams `form:"distance" json:"distance,omitempty"`
 	// List of drivers for the rental.
-	Drivers []*ChargeCapturePaymentDetailsCarRentalDatumDriverParams `form:"drivers"`
+	Drivers []*ChargeCapturePaymentDetailsCarRentalDatumDriverParams `form:"drivers" json:"drivers,omitempty"`
 	// Drop-off location details.
-	DropOff *ChargeCapturePaymentDetailsCarRentalDatumDropOffParams `form:"drop_off"`
+	DropOff *ChargeCapturePaymentDetailsCarRentalDatumDropOffParams `form:"drop_off" json:"drop_off"`
 	// Insurance details for the rental.
-	Insurances []*ChargeCapturePaymentDetailsCarRentalDatumInsuranceParams `form:"insurances"`
+	Insurances []*ChargeCapturePaymentDetailsCarRentalDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// Indicates if the customer was a no-show.
-	NoShowIndicator *bool `form:"no_show_indicator"`
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
 	// Pickup location details.
-	Pickup *ChargeCapturePaymentDetailsCarRentalDatumPickupParams `form:"pickup"`
+	Pickup *ChargeCapturePaymentDetailsCarRentalDatumPickupParams `form:"pickup" json:"pickup"`
 	// Name of the person renting the vehicle.
-	RenterName *string `form:"renter_name"`
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
 	// Total cost breakdown for the rental.
-	Total *ChargeCapturePaymentDetailsCarRentalDatumTotalParams `form:"total"`
+	Total *ChargeCapturePaymentDetailsCarRentalDatumTotalParams `form:"total" json:"total"`
 	// Vehicle details for the rental.
-	Vehicle *ChargeCapturePaymentDetailsCarRentalDatumVehicleParams `form:"vehicle"`
+	Vehicle *ChargeCapturePaymentDetailsCarRentalDatumVehicleParams `form:"vehicle" json:"vehicle,omitempty"`
 }
 
 // Affiliate details for this purchase.
 type ChargeCapturePaymentDetailsEventDetailsAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details of the recipient.
 type ChargeCapturePaymentDetailsEventDetailsDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Delivery details for this purchase.
 type ChargeCapturePaymentDetailsEventDetailsDeliveryParams struct {
 	// The delivery method for the payment
-	Mode *string `form:"mode"`
+	Mode *string `form:"mode" json:"mode,omitempty"`
 	// Details of the recipient.
-	Recipient *ChargeCapturePaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient"`
+	Recipient *ChargeCapturePaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
 // Event details for this PaymentIntent
 type ChargeCapturePaymentDetailsEventDetailsParams struct {
 	// Indicates if the tickets are digitally checked when entering the venue.
-	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	AccessControlledVenue *bool `form:"access_controlled_venue" json:"access_controlled_venue,omitempty"`
 	// The event location's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Affiliate details for this purchase.
-	Affiliate *ChargeCapturePaymentDetailsEventDetailsAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeCapturePaymentDetailsEventDetailsAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// The name of the company
-	Company *string `form:"company"`
+	Company *string `form:"company" json:"company,omitempty"`
 	// Delivery details for this purchase.
-	Delivery *ChargeCapturePaymentDetailsEventDetailsDeliveryParams `form:"delivery"`
+	Delivery *ChargeCapturePaymentDetailsEventDetailsDeliveryParams `form:"delivery" json:"delivery,omitempty"`
 	// Event end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
 	// Type of the event entertainment (concert, sports event etc)
-	Genre *string `form:"genre"`
+	Genre *string `form:"genre" json:"genre,omitempty"`
 	// The name of the event.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// Event start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
 // Affiliate details for this purchase.
 type ChargeCapturePaymentDetailsFlightAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details of the recipient.
 type ChargeCapturePaymentDetailsFlightDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Delivery details for this purchase.
 type ChargeCapturePaymentDetailsFlightDeliveryParams struct {
 	// The delivery method for the payment
-	Mode *string `form:"mode"`
+	Mode *string `form:"mode" json:"mode,omitempty"`
 	// Details of the recipient.
-	Recipient *ChargeCapturePaymentDetailsFlightDeliveryRecipientParams `form:"recipient"`
+	Recipient *ChargeCapturePaymentDetailsFlightDeliveryRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
 // The details of the passengers in the travel reservation.
 type ChargeCapturePaymentDetailsFlightPassengerParams struct {
 	// Full name of the person or entity on the flight reservation.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // The individual flight segments associated with the trip.
 type ChargeCapturePaymentDetailsFlightSegmentParams struct {
 	// The flight segment amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
-	ArrivalAirport *string `form:"arrival_airport"`
+	ArrivalAirport *string `form:"arrival_airport" json:"arrival_airport,omitempty"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
-	ArrivesAt *int64 `form:"arrives_at"`
+	ArrivesAt *int64 `form:"arrives_at" json:"arrives_at,omitempty"`
 	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
-	Carrier *string `form:"carrier"`
+	Carrier *string `form:"carrier" json:"carrier,omitempty"`
 	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at"`
 	// The International Air Transport Association (IATA) airport code for the departure airport.
-	DepartureAirport *string `form:"departure_airport"`
+	DepartureAirport *string `form:"departure_airport" json:"departure_airport,omitempty"`
 	// The flight number associated with the segment
-	FlightNumber *string `form:"flight_number"`
+	FlightNumber *string `form:"flight_number" json:"flight_number,omitempty"`
 	// The fare class for the segment.
-	ServiceClass *string `form:"service_class"`
+	ServiceClass *string `form:"service_class" json:"service_class,omitempty"`
 }
 
 // Flight reservation details for this PaymentIntent
 type ChargeCapturePaymentDetailsFlightParams struct {
 	// Affiliate details for this purchase.
-	Affiliate *ChargeCapturePaymentDetailsFlightAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeCapturePaymentDetailsFlightAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// The agency number (i.e. International Air Transport Association (IATA) agency number) of the travel agency that made the booking.
-	AgencyNumber *string `form:"agency_number"`
+	AgencyNumber *string `form:"agency_number" json:"agency_number,omitempty"`
 	// The International Air Transport Association (IATA) carrier code of the carrier that issued the ticket.
-	Carrier *string `form:"carrier"`
+	Carrier *string `form:"carrier" json:"carrier,omitempty"`
 	// Delivery details for this purchase.
-	Delivery *ChargeCapturePaymentDetailsFlightDeliveryParams `form:"delivery"`
+	Delivery *ChargeCapturePaymentDetailsFlightDeliveryParams `form:"delivery" json:"delivery,omitempty"`
 	// The name of the person or entity on the reservation.
-	PassengerName *string `form:"passenger_name"`
+	PassengerName *string `form:"passenger_name" json:"passenger_name,omitempty"`
 	// The details of the passengers in the travel reservation.
-	Passengers []*ChargeCapturePaymentDetailsFlightPassengerParams `form:"passengers"`
+	Passengers []*ChargeCapturePaymentDetailsFlightPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// The individual flight segments associated with the trip.
-	Segments []*ChargeCapturePaymentDetailsFlightSegmentParams `form:"segments"`
+	Segments []*ChargeCapturePaymentDetailsFlightSegmentParams `form:"segments" json:"segments"`
 	// The ticket number associated with the travel reservation.
-	TicketNumber *string `form:"ticket_number"`
+	TicketNumber *string `form:"ticket_number" json:"ticket_number,omitempty"`
 }
 
 // Affiliate details if applicable.
 type ChargeCapturePaymentDetailsFlightDatumAffiliateParams struct {
 	// Affiliate partner code.
-	Code *string `form:"code"`
+	Code *string `form:"code" json:"code,omitempty"`
 	// Name of affiliate partner.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Code provided by the company to a travel agent authorizing ticket issuance.
-	TravelAuthorizationCode *string `form:"travel_authorization_code"`
+	TravelAuthorizationCode *string `form:"travel_authorization_code" json:"travel_authorization_code,omitempty"`
 }
 
 // List of insurances.
 type ChargeCapturePaymentDetailsFlightDatumInsuranceParams struct {
 	// Insurance cost.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Insurance company name.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
 }
 
 // List of passengers.
 type ChargeCapturePaymentDetailsFlightDatumPassengerParams struct {
 	// Passenger's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Arrival details.
 type ChargeCapturePaymentDetailsFlightDatumSegmentArrivalParams struct {
 	// Arrival airport IATA code.
-	Airport *string `form:"airport"`
+	Airport *string `form:"airport" json:"airport"`
 	// Arrival date/time.
-	ArrivesAt *int64 `form:"arrives_at"`
+	ArrivesAt *int64 `form:"arrives_at" json:"arrives_at,omitempty"`
 	// Arrival city.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Arrival country.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 }
 
 // Departure details.
 type ChargeCapturePaymentDetailsFlightDatumSegmentDepartureParams struct {
 	// Departure airport IATA code.
-	Airport *string `form:"airport"`
+	Airport *string `form:"airport" json:"airport"`
 	// Departure city.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Departure country.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Departure date/time.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at"`
 }
 
 // List of flight segments.
 type ChargeCapturePaymentDetailsFlightDatumSegmentParams struct {
 	// Segment fare amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Arrival details.
-	Arrival *ChargeCapturePaymentDetailsFlightDatumSegmentArrivalParams `form:"arrival"`
+	Arrival *ChargeCapturePaymentDetailsFlightDatumSegmentArrivalParams `form:"arrival" json:"arrival"`
 	// Airline carrier code.
-	CarrierCode *string `form:"carrier_code"`
+	CarrierCode *string `form:"carrier_code" json:"carrier_code"`
 	// Carrier name.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Segment currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *ChargeCapturePaymentDetailsFlightDatumSegmentDepartureParams `form:"departure"`
+	Departure *ChargeCapturePaymentDetailsFlightDatumSegmentDepartureParams `form:"departure" json:"departure"`
 	// Exchange ticket number.
-	ExchangeTicketNumber *string `form:"exchange_ticket_number"`
+	ExchangeTicketNumber *string `form:"exchange_ticket_number" json:"exchange_ticket_number,omitempty"`
 	// Fare basis code.
-	FareBasisCode *string `form:"fare_basis_code"`
+	FareBasisCode *string `form:"fare_basis_code" json:"fare_basis_code,omitempty"`
 	// Additional fees.
-	Fees *int64 `form:"fees"`
+	Fees *int64 `form:"fees" json:"fees,omitempty"`
 	// Flight number.
-	FlightNumber *string `form:"flight_number"`
+	FlightNumber *string `form:"flight_number" json:"flight_number,omitempty"`
 	// Stopover indicator.
-	IsStopOverIndicator *bool `form:"is_stop_over_indicator"`
+	IsStopOverIndicator *bool `form:"is_stop_over_indicator" json:"is_stop_over_indicator,omitempty"`
 	// Refundable ticket indicator.
-	Refundable *bool `form:"refundable"`
+	Refundable *bool `form:"refundable" json:"refundable,omitempty"`
 	// Class of service.
-	ServiceClass *string `form:"service_class"`
+	ServiceClass *string `form:"service_class" json:"service_class"`
 	// Tax amount for segment.
-	TaxAmount *int64 `form:"tax_amount"`
+	TaxAmount *int64 `form:"tax_amount" json:"tax_amount,omitempty"`
 	// Ticket number.
-	TicketNumber *string `form:"ticket_number"`
+	TicketNumber *string `form:"ticket_number" json:"ticket_number,omitempty"`
 }
 
 // Discount details.
 type ChargeCapturePaymentDetailsFlightDatumTotalDiscountsParams struct {
 	// Corporate client discount code.
-	CorporateClientCode *string `form:"corporate_client_code"`
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
 }
 
 // Additional charges.
 type ChargeCapturePaymentDetailsFlightDatumTotalExtraChargeParams struct {
 	// Amount of additional charges.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Type of additional charges.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Array of tax details.
 type ChargeCapturePaymentDetailsFlightDatumTotalTaxTaxParams struct {
 	// Tax amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
-	Rate *int64 `form:"rate"`
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
 	// Type of tax.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Tax breakdown.
 type ChargeCapturePaymentDetailsFlightDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*ChargeCapturePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes"`
+	Taxes []*ChargeCapturePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 }
 
 // Total cost breakdown.
 type ChargeCapturePaymentDetailsFlightDatumTotalParams struct {
 	// Total flight amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Reason for credit.
-	CreditReason *string `form:"credit_reason"`
+	CreditReason *string `form:"credit_reason" json:"credit_reason,omitempty"`
 	// Total currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Discount details.
-	Discounts *ChargeCapturePaymentDetailsFlightDatumTotalDiscountsParams `form:"discounts"`
+	Discounts *ChargeCapturePaymentDetailsFlightDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Additional charges.
-	ExtraCharges []*ChargeCapturePaymentDetailsFlightDatumTotalExtraChargeParams `form:"extra_charges"`
+	ExtraCharges []*ChargeCapturePaymentDetailsFlightDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Tax breakdown.
-	Tax *ChargeCapturePaymentDetailsFlightDatumTotalTaxParams `form:"tax"`
+	Tax *ChargeCapturePaymentDetailsFlightDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
 // Flight data for this PaymentIntent.
 type ChargeCapturePaymentDetailsFlightDatumParams struct {
 	// Affiliate details if applicable.
-	Affiliate *ChargeCapturePaymentDetailsFlightDatumAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeCapturePaymentDetailsFlightDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// Reservation reference.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
 	// Computerized reservation system used to make the reservation and purchase the ticket.
-	ComputerizedReservationSystem *string `form:"computerized_reservation_system"`
+	ComputerizedReservationSystem *string `form:"computerized_reservation_system" json:"computerized_reservation_system,omitempty"`
 	// Ticket restrictions.
-	EndorsementsAndRestrictions *string `form:"endorsements_and_restrictions"`
+	EndorsementsAndRestrictions *string `form:"endorsements_and_restrictions" json:"endorsements_and_restrictions,omitempty"`
 	// List of insurances.
-	Insurances []*ChargeCapturePaymentDetailsFlightDatumInsuranceParams `form:"insurances"`
+	Insurances []*ChargeCapturePaymentDetailsFlightDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers.
-	Passengers []*ChargeCapturePaymentDetailsFlightDatumPassengerParams `form:"passengers"`
+	Passengers []*ChargeCapturePaymentDetailsFlightDatumPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// List of flight segments.
-	Segments []*ChargeCapturePaymentDetailsFlightDatumSegmentParams `form:"segments"`
+	Segments []*ChargeCapturePaymentDetailsFlightDatumSegmentParams `form:"segments" json:"segments"`
 	// Electronic ticket indicator.
-	TicketElectronicallyIssuedIndicator *bool `form:"ticket_electronically_issued_indicator"`
+	TicketElectronicallyIssuedIndicator *bool `form:"ticket_electronically_issued_indicator" json:"ticket_electronically_issued_indicator,omitempty"`
 	// Total cost breakdown.
-	Total *ChargeCapturePaymentDetailsFlightDatumTotalParams `form:"total"`
+	Total *ChargeCapturePaymentDetailsFlightDatumTotalParams `form:"total" json:"total"`
 	// Type of flight transaction.
-	TransactionType *string `form:"transaction_type"`
+	TransactionType *string `form:"transaction_type" json:"transaction_type,omitempty"`
 }
 
 // Affiliate details for this purchase.
 type ChargeCapturePaymentDetailsLodgingAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details of the recipient.
 type ChargeCapturePaymentDetailsLodgingDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Delivery details for this purchase.
 type ChargeCapturePaymentDetailsLodgingDeliveryParams struct {
 	// The delivery method for the payment
-	Mode *string `form:"mode"`
+	Mode *string `form:"mode" json:"mode,omitempty"`
 	// Details of the recipient.
-	Recipient *ChargeCapturePaymentDetailsLodgingDeliveryRecipientParams `form:"recipient"`
+	Recipient *ChargeCapturePaymentDetailsLodgingDeliveryRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
 // The details of the passengers in the travel reservation
 type ChargeCapturePaymentDetailsLodgingPassengerParams struct {
 	// Full name of the person or entity on the lodging reservation.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Lodging reservation details for this PaymentIntent
 type ChargeCapturePaymentDetailsLodgingParams struct {
 	// The lodging location's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The number of adults on the booking
-	Adults *int64 `form:"adults"`
+	Adults *int64 `form:"adults" json:"adults,omitempty"`
 	// Affiliate details for this purchase.
-	Affiliate *ChargeCapturePaymentDetailsLodgingAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeCapturePaymentDetailsLodgingAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// The booking number associated with the lodging reservation.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
 	// The lodging category
-	Category *string `form:"category"`
+	Category *string `form:"category" json:"category,omitempty"`
 	// Lodging check-in time. Measured in seconds since the Unix epoch.
-	CheckinAt *int64 `form:"checkin_at"`
+	CheckinAt *int64 `form:"checkin_at" json:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
-	CheckoutAt *int64 `form:"checkout_at"`
+	CheckoutAt *int64 `form:"checkout_at" json:"checkout_at"`
 	// The customer service phone number of the lodging company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
 	// The daily lodging room rate.
-	DailyRoomRateAmount *int64 `form:"daily_room_rate_amount"`
+	DailyRoomRateAmount *int64 `form:"daily_room_rate_amount" json:"daily_room_rate_amount,omitempty"`
 	// Delivery details for this purchase.
-	Delivery *ChargeCapturePaymentDetailsLodgingDeliveryParams `form:"delivery"`
+	Delivery *ChargeCapturePaymentDetailsLodgingDeliveryParams `form:"delivery" json:"delivery,omitempty"`
 	// List of additional charges being billed.
-	ExtraCharges []*string `form:"extra_charges"`
+	ExtraCharges []*string `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Indicates whether the lodging location is compliant with the Fire Safety Act.
-	FireSafetyActCompliance *bool `form:"fire_safety_act_compliance"`
+	FireSafetyActCompliance *bool `form:"fire_safety_act_compliance" json:"fire_safety_act_compliance,omitempty"`
 	// The name of the lodging location.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
-	NoShow *bool `form:"no_show"`
+	NoShow *bool `form:"no_show" json:"no_show,omitempty"`
 	// The number of rooms on the booking
-	NumberOfRooms *int64 `form:"number_of_rooms"`
+	NumberOfRooms *int64 `form:"number_of_rooms" json:"number_of_rooms,omitempty"`
 	// The details of the passengers in the travel reservation
-	Passengers []*ChargeCapturePaymentDetailsLodgingPassengerParams `form:"passengers"`
+	Passengers []*ChargeCapturePaymentDetailsLodgingPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// The phone number of the lodging location.
-	PropertyPhoneNumber *string `form:"property_phone_number"`
+	PropertyPhoneNumber *string `form:"property_phone_number" json:"property_phone_number,omitempty"`
 	// The room class for this purchase.
-	RoomClass *string `form:"room_class"`
+	RoomClass *string `form:"room_class" json:"room_class,omitempty"`
 	// The number of room nights
-	RoomNights *int64 `form:"room_nights"`
+	RoomNights *int64 `form:"room_nights" json:"room_nights,omitempty"`
 	// The total tax amount associating with the room reservation.
-	TotalRoomTaxAmount *int64 `form:"total_room_tax_amount"`
+	TotalRoomTaxAmount *int64 `form:"total_room_tax_amount" json:"total_room_tax_amount,omitempty"`
 	// The total tax amount
-	TotalTaxAmount *int64 `form:"total_tax_amount"`
+	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount,omitempty"`
 }
 
 // Accommodation details for the lodging.
 type ChargeCapturePaymentDetailsLodgingDatumAccommodationParams struct {
 	// Type of accommodation.
-	AccommodationType *string `form:"accommodation_type"`
+	AccommodationType *string `form:"accommodation_type" json:"accommodation_type,omitempty"`
 	// Bed type.
-	BedType *string `form:"bed_type"`
+	BedType *string `form:"bed_type" json:"bed_type,omitempty"`
 	// Daily accommodation rate in cents.
-	DailyRateAmount *int64 `form:"daily_rate_amount"`
+	DailyRateAmount *int64 `form:"daily_rate_amount" json:"daily_rate_amount,omitempty"`
 	// Number of nights.
-	Nights *int64 `form:"nights"`
+	Nights *int64 `form:"nights" json:"nights,omitempty"`
 	// Number of rooms, cabanas, apartments, and so on.
-	NumberOfRooms *int64 `form:"number_of_rooms"`
+	NumberOfRooms *int64 `form:"number_of_rooms" json:"number_of_rooms,omitempty"`
 	// Rate type.
-	RateType *string `form:"rate_type"`
+	RateType *string `form:"rate_type" json:"rate_type,omitempty"`
 	// Whether smoking is allowed.
-	SmokingIndicator *bool `form:"smoking_indicator"`
+	SmokingIndicator *bool `form:"smoking_indicator" json:"smoking_indicator,omitempty"`
 }
 
 // Affiliate details if applicable.
 type ChargeCapturePaymentDetailsLodgingDatumAffiliateParams struct {
 	// Affiliate partner code.
-	Code *string `form:"code"`
+	Code *string `form:"code" json:"code,omitempty"`
 	// Affiliate partner name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 }
 
 // List of guests for the lodging.
 type ChargeCapturePaymentDetailsLodgingDatumGuestParams struct {
 	// Guest's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Host details for the lodging.
 type ChargeCapturePaymentDetailsLodgingDatumHostParams struct {
 	// Address of the host.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Host's country of domicile.
-	CountryOfDomicile *string `form:"country_of_domicile"`
+	CountryOfDomicile *string `form:"country_of_domicile" json:"country_of_domicile,omitempty"`
 	// Reference number for the host.
-	HostReference *string `form:"host_reference"`
+	HostReference *string `form:"host_reference" json:"host_reference,omitempty"`
 	// Type of host.
-	HostType *string `form:"host_type"`
+	HostType *string `form:"host_type" json:"host_type,omitempty"`
 	// Name of the lodging property or host.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Total number of reservations for the host.
-	NumberOfReservations *int64 `form:"number_of_reservations"`
+	NumberOfReservations *int64 `form:"number_of_reservations" json:"number_of_reservations,omitempty"`
 	// Property phone number.
-	PropertyPhoneNumber *string `form:"property_phone_number"`
+	PropertyPhoneNumber *string `form:"property_phone_number" json:"property_phone_number,omitempty"`
 	// Host's registration date.
-	RegisteredAt *int64 `form:"registered_at"`
+	RegisteredAt *int64 `form:"registered_at" json:"registered_at,omitempty"`
 }
 
 // List of insurances for the lodging.
 type ChargeCapturePaymentDetailsLodgingDatumInsuranceParams struct {
 	// Price of the insurance coverage in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Currency of the insurance amount.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the insurance company.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance coverage.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
 }
 
 // Discount details for the lodging.
 type ChargeCapturePaymentDetailsLodgingDatumTotalDiscountsParams struct {
 	// Corporate client discount code.
-	CorporateClientCode *string `form:"corporate_client_code"`
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
 	// Coupon code.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 }
 
 // Additional charges for the lodging.
 type ChargeCapturePaymentDetailsLodgingDatumTotalExtraChargeParams struct {
 	// Amount of the extra charge in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Type of extra charge.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Tax details.
 type ChargeCapturePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
 	// Tax amount in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
-	Rate *int64 `form:"rate"`
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
 	// Type of tax applied.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Tax breakdown for the lodging reservation.
 type ChargeCapturePaymentDetailsLodgingDatumTotalTaxParams struct {
 	// Tax details.
-	Taxes []*ChargeCapturePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes"`
+	Taxes []*ChargeCapturePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates whether the transaction is tax exempt.
-	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
 }
 
 // Total details for the lodging.
 type ChargeCapturePaymentDetailsLodgingDatumTotalParams struct {
 	// Total price of the lodging reservation in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Cash advances in cents.
-	CashAdvances *int64 `form:"cash_advances"`
+	CashAdvances *int64 `form:"cash_advances" json:"cash_advances,omitempty"`
 	// Currency of the total amount.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Discount details for the lodging.
-	Discounts *ChargeCapturePaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts"`
+	Discounts *ChargeCapturePaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Additional charges for the lodging.
-	ExtraCharges []*ChargeCapturePaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges"`
+	ExtraCharges []*ChargeCapturePaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Prepaid amount in cents.
-	PrepaidAmount *int64 `form:"prepaid_amount"`
+	PrepaidAmount *int64 `form:"prepaid_amount" json:"prepaid_amount,omitempty"`
 	// Tax breakdown for the lodging reservation.
-	Tax *ChargeCapturePaymentDetailsLodgingDatumTotalTaxParams `form:"tax"`
+	Tax *ChargeCapturePaymentDetailsLodgingDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
 // Lodging data for this PaymentIntent.
 type ChargeCapturePaymentDetailsLodgingDatumParams struct {
 	// Accommodation details for the lodging.
-	Accommodation *ChargeCapturePaymentDetailsLodgingDatumAccommodationParams `form:"accommodation"`
+	Accommodation *ChargeCapturePaymentDetailsLodgingDatumAccommodationParams `form:"accommodation" json:"accommodation,omitempty"`
 	// Affiliate details if applicable.
-	Affiliate *ChargeCapturePaymentDetailsLodgingDatumAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeCapturePaymentDetailsLodgingDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// Booking confirmation number for the lodging.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
 	// Check-in date.
-	CheckinAt *int64 `form:"checkin_at"`
+	CheckinAt *int64 `form:"checkin_at" json:"checkin_at"`
 	// Check-out date.
-	CheckoutAt *int64 `form:"checkout_at"`
+	CheckoutAt *int64 `form:"checkout_at" json:"checkout_at"`
 	// Customer service phone number for the lodging company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
 	// Whether the lodging is compliant with any hotel fire safety regulations.
-	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator"`
+	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator" json:"fire_safety_act_compliance_indicator,omitempty"`
 	// List of guests for the lodging.
-	Guests []*ChargeCapturePaymentDetailsLodgingDatumGuestParams `form:"guests"`
+	Guests []*ChargeCapturePaymentDetailsLodgingDatumGuestParams `form:"guests" json:"guests,omitempty"`
 	// Host details for the lodging.
-	Host *ChargeCapturePaymentDetailsLodgingDatumHostParams `form:"host"`
+	Host *ChargeCapturePaymentDetailsLodgingDatumHostParams `form:"host" json:"host,omitempty"`
 	// List of insurances for the lodging.
-	Insurances []*ChargeCapturePaymentDetailsLodgingDatumInsuranceParams `form:"insurances"`
+	Insurances []*ChargeCapturePaymentDetailsLodgingDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// Whether the renter is a no-show.
-	NoShowIndicator *bool `form:"no_show_indicator"`
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
 	// Renter ID number for the lodging.
-	RenterIDNumber *string `form:"renter_id_number"`
+	RenterIDNumber *string `form:"renter_id_number" json:"renter_id_number,omitempty"`
 	// Renter name for the lodging.
-	RenterName *string `form:"renter_name"`
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
 	// Total details for the lodging.
-	Total *ChargeCapturePaymentDetailsLodgingDatumTotalParams `form:"total"`
+	Total *ChargeCapturePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
 // Affiliate details for this purchase.
 type ChargeCapturePaymentDetailsSubscriptionAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Subscription billing details for this purchase.
 type ChargeCapturePaymentDetailsSubscriptionBillingIntervalParams struct {
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	Count *int64 `form:"count"`
+	Count *int64 `form:"count" json:"count"`
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 }
 
 // Subscription details for this PaymentIntent
 type ChargeCapturePaymentDetailsSubscriptionParams struct {
 	// Affiliate details for this purchase.
-	Affiliate *ChargeCapturePaymentDetailsSubscriptionAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeCapturePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// Info whether the subscription will be auto renewed upon expiry.
-	AutoRenewal *bool `form:"auto_renewal"`
+	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
 	// Subscription billing details for this purchase.
-	BillingInterval *ChargeCapturePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval"`
+	BillingInterval *ChargeCapturePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
 	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
 	// Name of the product on subscription. e.g. Apple Music Subscription
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
 // Provides industry-specific information about the charge.
 type ChargeCapturePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
-	CarRental *ChargeCapturePaymentDetailsCarRentalParams `form:"car_rental"`
+	CarRental *ChargeCapturePaymentDetailsCarRentalParams `form:"car_rental" json:"car_rental,omitempty"`
 	// Car rental data for this PaymentIntent.
-	CarRentalData []*ChargeCapturePaymentDetailsCarRentalDatumParams `form:"car_rental_data"`
+	CarRentalData []*ChargeCapturePaymentDetailsCarRentalDatumParams `form:"car_rental_data" json:"car_rental_data,omitempty"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
-	CustomerReference *string `form:"customer_reference"`
+	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// Event details for this PaymentIntent
-	EventDetails *ChargeCapturePaymentDetailsEventDetailsParams `form:"event_details"`
+	EventDetails *ChargeCapturePaymentDetailsEventDetailsParams `form:"event_details" json:"event_details,omitempty"`
 	// Flight reservation details for this PaymentIntent
-	Flight *ChargeCapturePaymentDetailsFlightParams `form:"flight"`
+	Flight *ChargeCapturePaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
-	FlightData []*ChargeCapturePaymentDetailsFlightDatumParams `form:"flight_data"`
+	FlightData []*ChargeCapturePaymentDetailsFlightDatumParams `form:"flight_data" json:"flight_data,omitempty"`
 	// Lodging reservation details for this PaymentIntent
-	Lodging *ChargeCapturePaymentDetailsLodgingParams `form:"lodging"`
+	Lodging *ChargeCapturePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
-	LodgingData []*ChargeCapturePaymentDetailsLodgingDatumParams `form:"lodging_data"`
+	LodgingData []*ChargeCapturePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
-	OrderReference *string `form:"order_reference"`
+	OrderReference *string `form:"order_reference" json:"order_reference,omitempty"`
 	// Subscription details for this PaymentIntent
-	Subscription *ChargeCapturePaymentDetailsSubscriptionParams `form:"subscription"`
+	Subscription *ChargeCapturePaymentDetailsSubscriptionParams `form:"subscription" json:"subscription,omitempty"`
 	UnsetFields  []ChargeCapturePaymentDetailsParamsUnsetField  `form:"-" json:"-"`
 }
 
@@ -2296,7 +2296,7 @@ func (p *ChargeCapturePaymentDetailsParams) AddUnsetField(field ChargeCapturePay
 // An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 type ChargeCaptureTransferDataParams struct {
 	// The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 }
 
 // Capture the payment of an existing, uncaptured charge that was created with the capture option set to false.
@@ -2307,28 +2307,28 @@ type ChargeCaptureTransferDataParams struct {
 type ChargeCaptureParams struct {
 	Params `form:"*"`
 	// The amount to capture, which must be less than or equal to the original amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// An application fee to add on to this charge.
-	ApplicationFee *int64 `form:"application_fee"`
+	ApplicationFee *int64 `form:"application_fee" json:"application_fee,omitempty"`
 	// An application fee amount to add on to this charge, which must be less than or equal to the original amount.
-	ApplicationFeeAmount *int64   `form:"application_fee_amount"`
-	ExchangeRate         *float64 `form:"exchange_rate"`
+	ApplicationFeeAmount *int64   `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
+	ExchangeRate         *float64 `form:"exchange_rate" json:"exchange_rate,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Provides industry-specific information about the charge.
-	PaymentDetails *ChargeCapturePaymentDetailsParams `form:"payment_details"`
+	PaymentDetails *ChargeCapturePaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// The email address to send this charge's receipt to. This will override the previously-specified email address for this charge, if one was set. Receipts will not be sent in test mode.
-	ReceiptEmail *string `form:"receipt_email"`
+	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// For a non-card charge, text that appears on the customer's statement as the statement descriptor. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	//
 	// For a card charge, this value is ignored unless you don't specify a `statement_descriptor_suffix`, in which case this value is used as the suffix.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. If the account has no prefix value, the suffix is concatenated to the account's statement descriptor.
-	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
-	TransferData *ChargeCaptureTransferDataParams `form:"transfer_data"`
+	TransferData *ChargeCaptureTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string `form:"transfer_group" json:"transfer_group,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -2338,39 +2338,39 @@ func (p *ChargeCaptureParams) AddExpand(f string) {
 
 type ChargeCreateDestinationParams struct {
 	// ID of an existing, connected Stripe account.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account"`
 	// The amount to transfer to the destination account without creating an `Application Fee` object. Cannot be combined with the `application_fee` parameter. Must be less than or equal to the charge amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 }
 
 // Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type ChargeCreateRadarOptionsParams struct {
 	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
-	Session *string `form:"session"`
+	Session *string `form:"session" json:"session,omitempty"`
 }
 
 // An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 type ChargeCreateTransferDataParams struct {
 	// The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// ID of an existing, connected Stripe account.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 type ChargeCreateLevel3LineItemParams struct {
-	DiscountAmount     *int64  `form:"discount_amount"`
-	ProductCode        *string `form:"product_code"`
-	ProductDescription *string `form:"product_description"`
-	Quantity           *int64  `form:"quantity"`
-	TaxAmount          *int64  `form:"tax_amount"`
-	UnitCost           *int64  `form:"unit_cost"`
+	DiscountAmount     *int64  `form:"discount_amount" json:"discount_amount,omitempty"`
+	ProductCode        *string `form:"product_code" json:"product_code,omitempty"`
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
+	Quantity           *int64  `form:"quantity" json:"quantity,omitempty"`
+	TaxAmount          *int64  `form:"tax_amount" json:"tax_amount,omitempty"`
+	UnitCost           *int64  `form:"unit_cost" json:"unit_cost,omitempty"`
 }
 type ChargeCreateLevel3Params struct {
-	CustomerReference  *string                             `form:"customer_reference"`
-	LineItems          []*ChargeCreateLevel3LineItemParams `form:"line_items"`
-	MerchantReference  *string                             `form:"merchant_reference"`
-	ShippingAddressZip *string                             `form:"shipping_address_zip"`
-	ShippingAmount     *int64                              `form:"shipping_amount"`
-	ShippingFromZip    *string                             `form:"shipping_from_zip"`
+	CustomerReference  *string                             `form:"customer_reference" json:"customer_reference,omitempty"`
+	LineItems          []*ChargeCreateLevel3LineItemParams `form:"line_items" json:"line_items,omitempty"`
+	MerchantReference  *string                             `form:"merchant_reference" json:"merchant_reference,omitempty"`
+	ShippingAddressZip *string                             `form:"shipping_address_zip" json:"shipping_address_zip,omitempty"`
+	ShippingAmount     *int64                              `form:"shipping_amount" json:"shipping_amount,omitempty"`
+	ShippingFromZip    *string                             `form:"shipping_from_zip" json:"shipping_from_zip,omitempty"`
 }
 
 // This method is no longer recommended—use the [Payment Intents API](https://docs.stripe.com/docs/api/payment_intents)
@@ -2379,44 +2379,44 @@ type ChargeCreateLevel3Params struct {
 type ChargeCreateParams struct {
 	Params `form:"*"`
 	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
-	Amount         *int64 `form:"amount"`
-	ApplicationFee *int64 `form:"application_fee"`
+	Amount         *int64 `form:"amount" json:"amount,omitempty"`
+	ApplicationFee *int64 `form:"application_fee" json:"application_fee,omitempty"`
 	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://docs.stripe.com/connect/direct-charges#collect-fees).
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://api.stripe.com#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://docs.stripe.com/charges/placing-a-hold) documentation.
-	Capture *bool `form:"capture"`
+	Capture *bool `form:"capture" json:"capture,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The ID of an existing customer that will be charged in this request.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// An arbitrary string which you can attach to a `Charge` object. It is displayed when in the web interface alongside the charge. Note that if you use Stripe to send automatic email receipts to your customers, your receipt emails will include the `description` of the charge(s) that they are describing.
-	Description  *string                        `form:"description"`
-	Destination  *ChargeCreateDestinationParams `form:"destination"`
-	ExchangeRate *float64                       `form:"exchange_rate"`
+	Description  *string                        `form:"description" json:"description,omitempty"`
+	Destination  *ChargeCreateDestinationParams `form:"destination" json:"destination,omitempty"`
+	ExchangeRate *float64                       `form:"exchange_rate" json:"exchange_rate,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string                 `form:"expand"`
-	Level3 *ChargeCreateLevel3Params `form:"level3"`
+	Expand []*string                 `form:"expand" json:"expand,omitempty"`
+	Level3 *ChargeCreateLevel3Params `form:"level3" json:"level3,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Stripe account ID for which these funds are intended. You can specify the business of record as the connected account using the `on_behalf_of` attribute on the charge. For details, see [Creating Separate Charges and Transfers](https://docs.stripe.com/connect/separate-charges-and-transfers#settlement-merchant).
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
-	RadarOptions *ChargeCreateRadarOptionsParams `form:"radar_options"`
+	RadarOptions *ChargeCreateRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
 	// The email address to which this charge's [receipt](https://docs.stripe.com/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://docs.stripe.com/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
-	ReceiptEmail *string `form:"receipt_email"`
+	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
-	Shipping *ShippingDetailsParams     `form:"shipping"`
+	Shipping *ShippingDetailsParams     `form:"shipping" json:"shipping,omitempty"`
 	Source   *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
 	// For a non-card charge, text that appears on the customer's statement as the statement descriptor. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	//
 	// For a card charge, this value is ignored unless you don't specify a `statement_descriptor_suffix`, in which case this value is used as the suffix.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. If the account has no prefix value, the suffix is concatenated to the account's statement descriptor.
-	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
-	TransferData *ChargeCreateTransferDataParams `form:"transfer_data"`
+	TransferData *ChargeCreateTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	// A string that identifies this transaction as part of a group. For details, see [Grouping transactions](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options).
-	TransferGroup *string                        `form:"transfer_group"`
+	TransferGroup *string                        `form:"transfer_group" json:"transfer_group,omitempty"`
 	UnsetFields   []ChargeCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2458,7 +2458,7 @@ func (p *ChargeCreateParams) AddMetadata(key string, value string) {
 type ChargeRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -2469,7 +2469,7 @@ func (p *ChargeRetrieveParams) AddExpand(f string) {
 // A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
 type ChargeUpdateFraudDetailsParams struct {
 	// Either `safe` or `fraudulent`.
-	UserReport  *string                                    `form:"user_report"`
+	UserReport  *string                                    `form:"user_report" json:"user_report"`
 	UnsetFields []ChargeUpdateFraudDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2488,821 +2488,821 @@ func (p *ChargeUpdateFraudDetailsParams) AddUnsetField(field ChargeUpdateFraudDe
 // Affiliate details for this purchase.
 type ChargeUpdatePaymentDetailsCarRentalAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details of the recipient.
 type ChargeUpdatePaymentDetailsCarRentalDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Delivery details for this purchase.
 type ChargeUpdatePaymentDetailsCarRentalDeliveryParams struct {
 	// The delivery method for the payment
-	Mode *string `form:"mode"`
+	Mode *string `form:"mode" json:"mode,omitempty"`
 	// Details of the recipient.
-	Recipient *ChargeUpdatePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
+	Recipient *ChargeUpdatePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
 // The details of the distance traveled during the rental period.
 type ChargeUpdatePaymentDetailsCarRentalDistanceParams struct {
 	// Distance traveled.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit,omitempty"`
 }
 
 // The details of the passengers in the travel reservation
 type ChargeUpdatePaymentDetailsCarRentalDriverParams struct {
 	// Driver's identification number.
-	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	DriverIdentificationNumber *string `form:"driver_identification_number" json:"driver_identification_number,omitempty"`
 	// Driver's tax number.
-	DriverTaxNumber *string `form:"driver_tax_number"`
+	DriverTaxNumber *string `form:"driver_tax_number" json:"driver_tax_number,omitempty"`
 	// Full name of the person or entity on the car reservation.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Car rental details for this PaymentIntent.
 type ChargeUpdatePaymentDetailsCarRentalParams struct {
 	// Affiliate details for this purchase.
-	Affiliate *ChargeUpdatePaymentDetailsCarRentalAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeUpdatePaymentDetailsCarRentalAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// The booking number associated with the car rental.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number"`
 	// Class code of the car.
-	CarClassCode *string `form:"car_class_code"`
+	CarClassCode *string `form:"car_class_code" json:"car_class_code,omitempty"`
 	// Make of the car.
-	CarMake *string `form:"car_make"`
+	CarMake *string `form:"car_make" json:"car_make,omitempty"`
 	// Model of the car.
-	CarModel *string `form:"car_model"`
+	CarModel *string `form:"car_model" json:"car_model,omitempty"`
 	// The name of the rental car company.
-	Company *string `form:"company"`
+	Company *string `form:"company" json:"company,omitempty"`
 	// The customer service phone number of the car rental company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
 	// Number of days the car is being rented.
-	DaysRented *int64 `form:"days_rented"`
+	DaysRented *int64 `form:"days_rented" json:"days_rented"`
 	// Delivery details for this purchase.
-	Delivery *ChargeUpdatePaymentDetailsCarRentalDeliveryParams `form:"delivery"`
+	Delivery *ChargeUpdatePaymentDetailsCarRentalDeliveryParams `form:"delivery" json:"delivery,omitempty"`
 	// The details of the distance traveled during the rental period.
-	Distance *ChargeUpdatePaymentDetailsCarRentalDistanceParams `form:"distance"`
+	Distance *ChargeUpdatePaymentDetailsCarRentalDistanceParams `form:"distance" json:"distance,omitempty"`
 	// The details of the passengers in the travel reservation
-	Drivers []*ChargeUpdatePaymentDetailsCarRentalDriverParams `form:"drivers"`
+	Drivers []*ChargeUpdatePaymentDetailsCarRentalDriverParams `form:"drivers" json:"drivers,omitempty"`
 	// List of additional charges being billed.
-	ExtraCharges []*string `form:"extra_charges"`
+	ExtraCharges []*string `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Indicates if the customer did not keep nor cancel their booking.
-	NoShow *bool `form:"no_show"`
+	NoShow *bool `form:"no_show" json:"no_show,omitempty"`
 	// Car pick-up address.
-	PickupAddress *AddressParams `form:"pickup_address"`
+	PickupAddress *AddressParams `form:"pickup_address" json:"pickup_address,omitempty"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
-	PickupAt *int64 `form:"pickup_at"`
+	PickupAt *int64 `form:"pickup_at" json:"pickup_at"`
 	// Name of the pickup location.
-	PickupLocationName *string `form:"pickup_location_name"`
+	PickupLocationName *string `form:"pickup_location_name" json:"pickup_location_name,omitempty"`
 	// Rental rate.
-	RateAmount *int64 `form:"rate_amount"`
+	RateAmount *int64 `form:"rate_amount" json:"rate_amount,omitempty"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
-	RateInterval *string `form:"rate_interval"`
+	RateInterval *string `form:"rate_interval" json:"rate_interval,omitempty"`
 	// The name of the person or entity renting the car.
-	RenterName *string `form:"renter_name"`
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
 	// Car return address.
-	ReturnAddress *AddressParams `form:"return_address"`
+	ReturnAddress *AddressParams `form:"return_address" json:"return_address,omitempty"`
 	// Car return time. Measured in seconds since the Unix epoch.
-	ReturnAt *int64 `form:"return_at"`
+	ReturnAt *int64 `form:"return_at" json:"return_at"`
 	// Name of the return location.
-	ReturnLocationName *string `form:"return_location_name"`
+	ReturnLocationName *string `form:"return_location_name" json:"return_location_name,omitempty"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
-	TaxExempt *bool `form:"tax_exempt"`
+	TaxExempt *bool `form:"tax_exempt" json:"tax_exempt,omitempty"`
 	// The vehicle identification number.
-	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number" json:"vehicle_identification_number,omitempty"`
 }
 
 // Affiliate (such as travel agency) details for the rental.
 type ChargeUpdatePaymentDetailsCarRentalDatumAffiliateParams struct {
 	// Affiliate partner code.
-	Code *string `form:"code"`
+	Code *string `form:"code" json:"code,omitempty"`
 	// Name of affiliate partner.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 }
 
 // Distance details for the rental.
 type ChargeUpdatePaymentDetailsCarRentalDatumDistanceParams struct {
 	// Distance traveled.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit"`
 }
 
 // Driver's date of birth.
 type ChargeUpdatePaymentDetailsCarRentalDatumDriverDateOfBirthParams struct {
 	// Day of birth (1-31).
-	Day *int64 `form:"day"`
+	Day *int64 `form:"day" json:"day"`
 	// Month of birth (1-12).
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month"`
 	// Year of birth (must be greater than 1900).
-	Year *int64 `form:"year"`
+	Year *int64 `form:"year" json:"year"`
 }
 
 // List of drivers for the rental.
 type ChargeUpdatePaymentDetailsCarRentalDatumDriverParams struct {
 	// Driver's date of birth.
-	DateOfBirth *ChargeUpdatePaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth"`
+	DateOfBirth *ChargeUpdatePaymentDetailsCarRentalDatumDriverDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Driver's identification number.
-	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	DriverIdentificationNumber *string `form:"driver_identification_number" json:"driver_identification_number,omitempty"`
 	// Driver's tax number.
-	DriverTaxNumber *string `form:"driver_tax_number"`
+	DriverTaxNumber *string `form:"driver_tax_number" json:"driver_tax_number,omitempty"`
 	// Driver's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Drop-off location details.
 type ChargeUpdatePaymentDetailsCarRentalDatumDropOffParams struct {
 	// Address of the rental location.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 	// Location name.
-	LocationName *string `form:"location_name"`
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
 	// Timestamp for the location.
-	Time *int64 `form:"time"`
+	Time *int64 `form:"time" json:"time"`
 }
 
 // Insurance details for the rental.
 type ChargeUpdatePaymentDetailsCarRentalDatumInsuranceParams struct {
 	// Amount of the insurance coverage in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Currency of the insurance amount.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the insurance company.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance coverage.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
 }
 
 // Pickup location details.
 type ChargeUpdatePaymentDetailsCarRentalDatumPickupParams struct {
 	// Address of the rental location.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 	// Location name.
-	LocationName *string `form:"location_name"`
+	LocationName *string `form:"location_name" json:"location_name,omitempty"`
 	// Timestamp for the location.
-	Time *int64 `form:"time"`
+	Time *int64 `form:"time" json:"time"`
 }
 
 // Discount details for the rental.
 type ChargeUpdatePaymentDetailsCarRentalDatumTotalDiscountsParams struct {
 	// Corporate client discount code.
-	CorporateClientCode *string `form:"corporate_client_code"`
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
 	// Coupon code applied to the rental.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// Maximum number of free miles or kilometers included.
-	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers"`
+	MaximumFreeMilesOrKilometers *int64 `form:"maximum_free_miles_or_kilometers" json:"maximum_free_miles_or_kilometers,omitempty"`
 }
 
 // Additional charges for the rental.
 type ChargeUpdatePaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
 	// Amount of the extra charge in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Type of extra charge.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Array of tax details.
 type ChargeUpdatePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
 	// Tax amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate applied.
-	Rate *int64 `form:"rate"`
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
 	// Type of tax applied.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Tax breakdown for the rental.
 type ChargeUpdatePaymentDetailsCarRentalDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*ChargeUpdatePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes"`
+	Taxes []*ChargeUpdatePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates if the transaction is tax exempt.
-	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
 }
 
 // Total cost breakdown for the rental.
 type ChargeUpdatePaymentDetailsCarRentalDatumTotalParams struct {
 	// Total amount in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Currency of the amount.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Discount details for the rental.
-	Discounts *ChargeUpdatePaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts"`
+	Discounts *ChargeUpdatePaymentDetailsCarRentalDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Additional charges for the rental.
-	ExtraCharges []*ChargeUpdatePaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges"`
+	ExtraCharges []*ChargeUpdatePaymentDetailsCarRentalDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Rate per unit for the rental.
-	RatePerUnit *int64 `form:"rate_per_unit"`
+	RatePerUnit *int64 `form:"rate_per_unit" json:"rate_per_unit,omitempty"`
 	// Unit of measurement for the rate.
-	RateUnit *string `form:"rate_unit"`
+	RateUnit *string `form:"rate_unit" json:"rate_unit,omitempty"`
 	// Tax breakdown for the rental.
-	Tax *ChargeUpdatePaymentDetailsCarRentalDatumTotalTaxParams `form:"tax"`
+	Tax *ChargeUpdatePaymentDetailsCarRentalDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
 // Vehicle details for the rental.
 type ChargeUpdatePaymentDetailsCarRentalDatumVehicleParams struct {
 	// Make of the rental vehicle.
-	Make *string `form:"make"`
+	Make *string `form:"make" json:"make,omitempty"`
 	// Model of the rental vehicle.
-	Model *string `form:"model"`
+	Model *string `form:"model" json:"model,omitempty"`
 	// Odometer reading at the time of rental.
-	Odometer *int64 `form:"odometer"`
+	Odometer *int64 `form:"odometer" json:"odometer,omitempty"`
 	// Type of the rental vehicle.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 	// Class of the rental vehicle.
-	VehicleClass *string `form:"vehicle_class"`
+	VehicleClass *string `form:"vehicle_class" json:"vehicle_class,omitempty"`
 	// Vehicle identification number (VIN).
-	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number" json:"vehicle_identification_number,omitempty"`
 }
 
 // Car rental data for this PaymentIntent.
 type ChargeUpdatePaymentDetailsCarRentalDatumParams struct {
 	// Affiliate (such as travel agency) details for the rental.
-	Affiliate *ChargeUpdatePaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeUpdatePaymentDetailsCarRentalDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// Booking confirmation number for the car rental.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
 	// Name of the car rental company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Customer service phone number for the car rental company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
 	// Number of days the car is being rented.
-	DaysRented *int64 `form:"days_rented"`
+	DaysRented *int64 `form:"days_rented" json:"days_rented,omitempty"`
 	// Distance details for the rental.
-	Distance *ChargeUpdatePaymentDetailsCarRentalDatumDistanceParams `form:"distance"`
+	Distance *ChargeUpdatePaymentDetailsCarRentalDatumDistanceParams `form:"distance" json:"distance,omitempty"`
 	// List of drivers for the rental.
-	Drivers []*ChargeUpdatePaymentDetailsCarRentalDatumDriverParams `form:"drivers"`
+	Drivers []*ChargeUpdatePaymentDetailsCarRentalDatumDriverParams `form:"drivers" json:"drivers,omitempty"`
 	// Drop-off location details.
-	DropOff *ChargeUpdatePaymentDetailsCarRentalDatumDropOffParams `form:"drop_off"`
+	DropOff *ChargeUpdatePaymentDetailsCarRentalDatumDropOffParams `form:"drop_off" json:"drop_off"`
 	// Insurance details for the rental.
-	Insurances []*ChargeUpdatePaymentDetailsCarRentalDatumInsuranceParams `form:"insurances"`
+	Insurances []*ChargeUpdatePaymentDetailsCarRentalDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// Indicates if the customer was a no-show.
-	NoShowIndicator *bool `form:"no_show_indicator"`
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
 	// Pickup location details.
-	Pickup *ChargeUpdatePaymentDetailsCarRentalDatumPickupParams `form:"pickup"`
+	Pickup *ChargeUpdatePaymentDetailsCarRentalDatumPickupParams `form:"pickup" json:"pickup"`
 	// Name of the person renting the vehicle.
-	RenterName *string `form:"renter_name"`
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
 	// Total cost breakdown for the rental.
-	Total *ChargeUpdatePaymentDetailsCarRentalDatumTotalParams `form:"total"`
+	Total *ChargeUpdatePaymentDetailsCarRentalDatumTotalParams `form:"total" json:"total"`
 	// Vehicle details for the rental.
-	Vehicle *ChargeUpdatePaymentDetailsCarRentalDatumVehicleParams `form:"vehicle"`
+	Vehicle *ChargeUpdatePaymentDetailsCarRentalDatumVehicleParams `form:"vehicle" json:"vehicle,omitempty"`
 }
 
 // Affiliate details for this purchase.
 type ChargeUpdatePaymentDetailsEventDetailsAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details of the recipient.
 type ChargeUpdatePaymentDetailsEventDetailsDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Delivery details for this purchase.
 type ChargeUpdatePaymentDetailsEventDetailsDeliveryParams struct {
 	// The delivery method for the payment
-	Mode *string `form:"mode"`
+	Mode *string `form:"mode" json:"mode,omitempty"`
 	// Details of the recipient.
-	Recipient *ChargeUpdatePaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient"`
+	Recipient *ChargeUpdatePaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
 // Event details for this PaymentIntent
 type ChargeUpdatePaymentDetailsEventDetailsParams struct {
 	// Indicates if the tickets are digitally checked when entering the venue.
-	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	AccessControlledVenue *bool `form:"access_controlled_venue" json:"access_controlled_venue,omitempty"`
 	// The event location's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Affiliate details for this purchase.
-	Affiliate *ChargeUpdatePaymentDetailsEventDetailsAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeUpdatePaymentDetailsEventDetailsAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// The name of the company
-	Company *string `form:"company"`
+	Company *string `form:"company" json:"company,omitempty"`
 	// Delivery details for this purchase.
-	Delivery *ChargeUpdatePaymentDetailsEventDetailsDeliveryParams `form:"delivery"`
+	Delivery *ChargeUpdatePaymentDetailsEventDetailsDeliveryParams `form:"delivery" json:"delivery,omitempty"`
 	// Event end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
 	// Type of the event entertainment (concert, sports event etc)
-	Genre *string `form:"genre"`
+	Genre *string `form:"genre" json:"genre,omitempty"`
 	// The name of the event.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// Event start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
 // Affiliate details for this purchase.
 type ChargeUpdatePaymentDetailsFlightAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details of the recipient.
 type ChargeUpdatePaymentDetailsFlightDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Delivery details for this purchase.
 type ChargeUpdatePaymentDetailsFlightDeliveryParams struct {
 	// The delivery method for the payment
-	Mode *string `form:"mode"`
+	Mode *string `form:"mode" json:"mode,omitempty"`
 	// Details of the recipient.
-	Recipient *ChargeUpdatePaymentDetailsFlightDeliveryRecipientParams `form:"recipient"`
+	Recipient *ChargeUpdatePaymentDetailsFlightDeliveryRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
 // The details of the passengers in the travel reservation.
 type ChargeUpdatePaymentDetailsFlightPassengerParams struct {
 	// Full name of the person or entity on the flight reservation.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // The individual flight segments associated with the trip.
 type ChargeUpdatePaymentDetailsFlightSegmentParams struct {
 	// The flight segment amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
-	ArrivalAirport *string `form:"arrival_airport"`
+	ArrivalAirport *string `form:"arrival_airport" json:"arrival_airport,omitempty"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
-	ArrivesAt *int64 `form:"arrives_at"`
+	ArrivesAt *int64 `form:"arrives_at" json:"arrives_at,omitempty"`
 	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
-	Carrier *string `form:"carrier"`
+	Carrier *string `form:"carrier" json:"carrier,omitempty"`
 	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at"`
 	// The International Air Transport Association (IATA) airport code for the departure airport.
-	DepartureAirport *string `form:"departure_airport"`
+	DepartureAirport *string `form:"departure_airport" json:"departure_airport,omitempty"`
 	// The flight number associated with the segment
-	FlightNumber *string `form:"flight_number"`
+	FlightNumber *string `form:"flight_number" json:"flight_number,omitempty"`
 	// The fare class for the segment.
-	ServiceClass *string `form:"service_class"`
+	ServiceClass *string `form:"service_class" json:"service_class,omitempty"`
 }
 
 // Flight reservation details for this PaymentIntent
 type ChargeUpdatePaymentDetailsFlightParams struct {
 	// Affiliate details for this purchase.
-	Affiliate *ChargeUpdatePaymentDetailsFlightAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeUpdatePaymentDetailsFlightAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// The agency number (i.e. International Air Transport Association (IATA) agency number) of the travel agency that made the booking.
-	AgencyNumber *string `form:"agency_number"`
+	AgencyNumber *string `form:"agency_number" json:"agency_number,omitempty"`
 	// The International Air Transport Association (IATA) carrier code of the carrier that issued the ticket.
-	Carrier *string `form:"carrier"`
+	Carrier *string `form:"carrier" json:"carrier,omitempty"`
 	// Delivery details for this purchase.
-	Delivery *ChargeUpdatePaymentDetailsFlightDeliveryParams `form:"delivery"`
+	Delivery *ChargeUpdatePaymentDetailsFlightDeliveryParams `form:"delivery" json:"delivery,omitempty"`
 	// The name of the person or entity on the reservation.
-	PassengerName *string `form:"passenger_name"`
+	PassengerName *string `form:"passenger_name" json:"passenger_name,omitempty"`
 	// The details of the passengers in the travel reservation.
-	Passengers []*ChargeUpdatePaymentDetailsFlightPassengerParams `form:"passengers"`
+	Passengers []*ChargeUpdatePaymentDetailsFlightPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// The individual flight segments associated with the trip.
-	Segments []*ChargeUpdatePaymentDetailsFlightSegmentParams `form:"segments"`
+	Segments []*ChargeUpdatePaymentDetailsFlightSegmentParams `form:"segments" json:"segments"`
 	// The ticket number associated with the travel reservation.
-	TicketNumber *string `form:"ticket_number"`
+	TicketNumber *string `form:"ticket_number" json:"ticket_number,omitempty"`
 }
 
 // Affiliate details if applicable.
 type ChargeUpdatePaymentDetailsFlightDatumAffiliateParams struct {
 	// Affiliate partner code.
-	Code *string `form:"code"`
+	Code *string `form:"code" json:"code,omitempty"`
 	// Name of affiliate partner.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Code provided by the company to a travel agent authorizing ticket issuance.
-	TravelAuthorizationCode *string `form:"travel_authorization_code"`
+	TravelAuthorizationCode *string `form:"travel_authorization_code" json:"travel_authorization_code,omitempty"`
 }
 
 // List of insurances.
 type ChargeUpdatePaymentDetailsFlightDatumInsuranceParams struct {
 	// Insurance cost.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Insurance company name.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
 }
 
 // List of passengers.
 type ChargeUpdatePaymentDetailsFlightDatumPassengerParams struct {
 	// Passenger's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Arrival details.
 type ChargeUpdatePaymentDetailsFlightDatumSegmentArrivalParams struct {
 	// Arrival airport IATA code.
-	Airport *string `form:"airport"`
+	Airport *string `form:"airport" json:"airport"`
 	// Arrival date/time.
-	ArrivesAt *int64 `form:"arrives_at"`
+	ArrivesAt *int64 `form:"arrives_at" json:"arrives_at,omitempty"`
 	// Arrival city.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Arrival country.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 }
 
 // Departure details.
 type ChargeUpdatePaymentDetailsFlightDatumSegmentDepartureParams struct {
 	// Departure airport IATA code.
-	Airport *string `form:"airport"`
+	Airport *string `form:"airport" json:"airport"`
 	// Departure city.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Departure country.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Departure date/time.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at"`
 }
 
 // List of flight segments.
 type ChargeUpdatePaymentDetailsFlightDatumSegmentParams struct {
 	// Segment fare amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Arrival details.
-	Arrival *ChargeUpdatePaymentDetailsFlightDatumSegmentArrivalParams `form:"arrival"`
+	Arrival *ChargeUpdatePaymentDetailsFlightDatumSegmentArrivalParams `form:"arrival" json:"arrival"`
 	// Airline carrier code.
-	CarrierCode *string `form:"carrier_code"`
+	CarrierCode *string `form:"carrier_code" json:"carrier_code"`
 	// Carrier name.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Segment currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *ChargeUpdatePaymentDetailsFlightDatumSegmentDepartureParams `form:"departure"`
+	Departure *ChargeUpdatePaymentDetailsFlightDatumSegmentDepartureParams `form:"departure" json:"departure"`
 	// Exchange ticket number.
-	ExchangeTicketNumber *string `form:"exchange_ticket_number"`
+	ExchangeTicketNumber *string `form:"exchange_ticket_number" json:"exchange_ticket_number,omitempty"`
 	// Fare basis code.
-	FareBasisCode *string `form:"fare_basis_code"`
+	FareBasisCode *string `form:"fare_basis_code" json:"fare_basis_code,omitempty"`
 	// Additional fees.
-	Fees *int64 `form:"fees"`
+	Fees *int64 `form:"fees" json:"fees,omitempty"`
 	// Flight number.
-	FlightNumber *string `form:"flight_number"`
+	FlightNumber *string `form:"flight_number" json:"flight_number,omitempty"`
 	// Stopover indicator.
-	IsStopOverIndicator *bool `form:"is_stop_over_indicator"`
+	IsStopOverIndicator *bool `form:"is_stop_over_indicator" json:"is_stop_over_indicator,omitempty"`
 	// Refundable ticket indicator.
-	Refundable *bool `form:"refundable"`
+	Refundable *bool `form:"refundable" json:"refundable,omitempty"`
 	// Class of service.
-	ServiceClass *string `form:"service_class"`
+	ServiceClass *string `form:"service_class" json:"service_class"`
 	// Tax amount for segment.
-	TaxAmount *int64 `form:"tax_amount"`
+	TaxAmount *int64 `form:"tax_amount" json:"tax_amount,omitempty"`
 	// Ticket number.
-	TicketNumber *string `form:"ticket_number"`
+	TicketNumber *string `form:"ticket_number" json:"ticket_number,omitempty"`
 }
 
 // Discount details.
 type ChargeUpdatePaymentDetailsFlightDatumTotalDiscountsParams struct {
 	// Corporate client discount code.
-	CorporateClientCode *string `form:"corporate_client_code"`
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
 }
 
 // Additional charges.
 type ChargeUpdatePaymentDetailsFlightDatumTotalExtraChargeParams struct {
 	// Amount of additional charges.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Type of additional charges.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Array of tax details.
 type ChargeUpdatePaymentDetailsFlightDatumTotalTaxTaxParams struct {
 	// Tax amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
-	Rate *int64 `form:"rate"`
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
 	// Type of tax.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Tax breakdown.
 type ChargeUpdatePaymentDetailsFlightDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*ChargeUpdatePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes"`
+	Taxes []*ChargeUpdatePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 }
 
 // Total cost breakdown.
 type ChargeUpdatePaymentDetailsFlightDatumTotalParams struct {
 	// Total flight amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Reason for credit.
-	CreditReason *string `form:"credit_reason"`
+	CreditReason *string `form:"credit_reason" json:"credit_reason,omitempty"`
 	// Total currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Discount details.
-	Discounts *ChargeUpdatePaymentDetailsFlightDatumTotalDiscountsParams `form:"discounts"`
+	Discounts *ChargeUpdatePaymentDetailsFlightDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Additional charges.
-	ExtraCharges []*ChargeUpdatePaymentDetailsFlightDatumTotalExtraChargeParams `form:"extra_charges"`
+	ExtraCharges []*ChargeUpdatePaymentDetailsFlightDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Tax breakdown.
-	Tax *ChargeUpdatePaymentDetailsFlightDatumTotalTaxParams `form:"tax"`
+	Tax *ChargeUpdatePaymentDetailsFlightDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
 // Flight data for this PaymentIntent.
 type ChargeUpdatePaymentDetailsFlightDatumParams struct {
 	// Affiliate details if applicable.
-	Affiliate *ChargeUpdatePaymentDetailsFlightDatumAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeUpdatePaymentDetailsFlightDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// Reservation reference.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
 	// Computerized reservation system used to make the reservation and purchase the ticket.
-	ComputerizedReservationSystem *string `form:"computerized_reservation_system"`
+	ComputerizedReservationSystem *string `form:"computerized_reservation_system" json:"computerized_reservation_system,omitempty"`
 	// Ticket restrictions.
-	EndorsementsAndRestrictions *string `form:"endorsements_and_restrictions"`
+	EndorsementsAndRestrictions *string `form:"endorsements_and_restrictions" json:"endorsements_and_restrictions,omitempty"`
 	// List of insurances.
-	Insurances []*ChargeUpdatePaymentDetailsFlightDatumInsuranceParams `form:"insurances"`
+	Insurances []*ChargeUpdatePaymentDetailsFlightDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers.
-	Passengers []*ChargeUpdatePaymentDetailsFlightDatumPassengerParams `form:"passengers"`
+	Passengers []*ChargeUpdatePaymentDetailsFlightDatumPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// List of flight segments.
-	Segments []*ChargeUpdatePaymentDetailsFlightDatumSegmentParams `form:"segments"`
+	Segments []*ChargeUpdatePaymentDetailsFlightDatumSegmentParams `form:"segments" json:"segments"`
 	// Electronic ticket indicator.
-	TicketElectronicallyIssuedIndicator *bool `form:"ticket_electronically_issued_indicator"`
+	TicketElectronicallyIssuedIndicator *bool `form:"ticket_electronically_issued_indicator" json:"ticket_electronically_issued_indicator,omitempty"`
 	// Total cost breakdown.
-	Total *ChargeUpdatePaymentDetailsFlightDatumTotalParams `form:"total"`
+	Total *ChargeUpdatePaymentDetailsFlightDatumTotalParams `form:"total" json:"total"`
 	// Type of flight transaction.
-	TransactionType *string `form:"transaction_type"`
+	TransactionType *string `form:"transaction_type" json:"transaction_type,omitempty"`
 }
 
 // Affiliate details for this purchase.
 type ChargeUpdatePaymentDetailsLodgingAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details of the recipient.
 type ChargeUpdatePaymentDetailsLodgingDeliveryRecipientParams struct {
 	// The email of the recipient the ticket is delivered to.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name of the recipient the ticket is delivered to.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone number of the recipient the ticket is delivered to.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Delivery details for this purchase.
 type ChargeUpdatePaymentDetailsLodgingDeliveryParams struct {
 	// The delivery method for the payment
-	Mode *string `form:"mode"`
+	Mode *string `form:"mode" json:"mode,omitempty"`
 	// Details of the recipient.
-	Recipient *ChargeUpdatePaymentDetailsLodgingDeliveryRecipientParams `form:"recipient"`
+	Recipient *ChargeUpdatePaymentDetailsLodgingDeliveryRecipientParams `form:"recipient" json:"recipient,omitempty"`
 }
 
 // The details of the passengers in the travel reservation
 type ChargeUpdatePaymentDetailsLodgingPassengerParams struct {
 	// Full name of the person or entity on the lodging reservation.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Lodging reservation details for this PaymentIntent
 type ChargeUpdatePaymentDetailsLodgingParams struct {
 	// The lodging location's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The number of adults on the booking
-	Adults *int64 `form:"adults"`
+	Adults *int64 `form:"adults" json:"adults,omitempty"`
 	// Affiliate details for this purchase.
-	Affiliate *ChargeUpdatePaymentDetailsLodgingAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeUpdatePaymentDetailsLodgingAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// The booking number associated with the lodging reservation.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
 	// The lodging category
-	Category *string `form:"category"`
+	Category *string `form:"category" json:"category,omitempty"`
 	// Lodging check-in time. Measured in seconds since the Unix epoch.
-	CheckinAt *int64 `form:"checkin_at"`
+	CheckinAt *int64 `form:"checkin_at" json:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
-	CheckoutAt *int64 `form:"checkout_at"`
+	CheckoutAt *int64 `form:"checkout_at" json:"checkout_at"`
 	// The customer service phone number of the lodging company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
 	// The daily lodging room rate.
-	DailyRoomRateAmount *int64 `form:"daily_room_rate_amount"`
+	DailyRoomRateAmount *int64 `form:"daily_room_rate_amount" json:"daily_room_rate_amount,omitempty"`
 	// Delivery details for this purchase.
-	Delivery *ChargeUpdatePaymentDetailsLodgingDeliveryParams `form:"delivery"`
+	Delivery *ChargeUpdatePaymentDetailsLodgingDeliveryParams `form:"delivery" json:"delivery,omitempty"`
 	// List of additional charges being billed.
-	ExtraCharges []*string `form:"extra_charges"`
+	ExtraCharges []*string `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Indicates whether the lodging location is compliant with the Fire Safety Act.
-	FireSafetyActCompliance *bool `form:"fire_safety_act_compliance"`
+	FireSafetyActCompliance *bool `form:"fire_safety_act_compliance" json:"fire_safety_act_compliance,omitempty"`
 	// The name of the lodging location.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
-	NoShow *bool `form:"no_show"`
+	NoShow *bool `form:"no_show" json:"no_show,omitempty"`
 	// The number of rooms on the booking
-	NumberOfRooms *int64 `form:"number_of_rooms"`
+	NumberOfRooms *int64 `form:"number_of_rooms" json:"number_of_rooms,omitempty"`
 	// The details of the passengers in the travel reservation
-	Passengers []*ChargeUpdatePaymentDetailsLodgingPassengerParams `form:"passengers"`
+	Passengers []*ChargeUpdatePaymentDetailsLodgingPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// The phone number of the lodging location.
-	PropertyPhoneNumber *string `form:"property_phone_number"`
+	PropertyPhoneNumber *string `form:"property_phone_number" json:"property_phone_number,omitempty"`
 	// The room class for this purchase.
-	RoomClass *string `form:"room_class"`
+	RoomClass *string `form:"room_class" json:"room_class,omitempty"`
 	// The number of room nights
-	RoomNights *int64 `form:"room_nights"`
+	RoomNights *int64 `form:"room_nights" json:"room_nights,omitempty"`
 	// The total tax amount associating with the room reservation.
-	TotalRoomTaxAmount *int64 `form:"total_room_tax_amount"`
+	TotalRoomTaxAmount *int64 `form:"total_room_tax_amount" json:"total_room_tax_amount,omitempty"`
 	// The total tax amount
-	TotalTaxAmount *int64 `form:"total_tax_amount"`
+	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount,omitempty"`
 }
 
 // Accommodation details for the lodging.
 type ChargeUpdatePaymentDetailsLodgingDatumAccommodationParams struct {
 	// Type of accommodation.
-	AccommodationType *string `form:"accommodation_type"`
+	AccommodationType *string `form:"accommodation_type" json:"accommodation_type,omitempty"`
 	// Bed type.
-	BedType *string `form:"bed_type"`
+	BedType *string `form:"bed_type" json:"bed_type,omitempty"`
 	// Daily accommodation rate in cents.
-	DailyRateAmount *int64 `form:"daily_rate_amount"`
+	DailyRateAmount *int64 `form:"daily_rate_amount" json:"daily_rate_amount,omitempty"`
 	// Number of nights.
-	Nights *int64 `form:"nights"`
+	Nights *int64 `form:"nights" json:"nights,omitempty"`
 	// Number of rooms, cabanas, apartments, and so on.
-	NumberOfRooms *int64 `form:"number_of_rooms"`
+	NumberOfRooms *int64 `form:"number_of_rooms" json:"number_of_rooms,omitempty"`
 	// Rate type.
-	RateType *string `form:"rate_type"`
+	RateType *string `form:"rate_type" json:"rate_type,omitempty"`
 	// Whether smoking is allowed.
-	SmokingIndicator *bool `form:"smoking_indicator"`
+	SmokingIndicator *bool `form:"smoking_indicator" json:"smoking_indicator,omitempty"`
 }
 
 // Affiliate details if applicable.
 type ChargeUpdatePaymentDetailsLodgingDatumAffiliateParams struct {
 	// Affiliate partner code.
-	Code *string `form:"code"`
+	Code *string `form:"code" json:"code,omitempty"`
 	// Affiliate partner name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 }
 
 // List of guests for the lodging.
 type ChargeUpdatePaymentDetailsLodgingDatumGuestParams struct {
 	// Guest's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Host details for the lodging.
 type ChargeUpdatePaymentDetailsLodgingDatumHostParams struct {
 	// Address of the host.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Host's country of domicile.
-	CountryOfDomicile *string `form:"country_of_domicile"`
+	CountryOfDomicile *string `form:"country_of_domicile" json:"country_of_domicile,omitempty"`
 	// Reference number for the host.
-	HostReference *string `form:"host_reference"`
+	HostReference *string `form:"host_reference" json:"host_reference,omitempty"`
 	// Type of host.
-	HostType *string `form:"host_type"`
+	HostType *string `form:"host_type" json:"host_type,omitempty"`
 	// Name of the lodging property or host.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Total number of reservations for the host.
-	NumberOfReservations *int64 `form:"number_of_reservations"`
+	NumberOfReservations *int64 `form:"number_of_reservations" json:"number_of_reservations,omitempty"`
 	// Property phone number.
-	PropertyPhoneNumber *string `form:"property_phone_number"`
+	PropertyPhoneNumber *string `form:"property_phone_number" json:"property_phone_number,omitempty"`
 	// Host's registration date.
-	RegisteredAt *int64 `form:"registered_at"`
+	RegisteredAt *int64 `form:"registered_at" json:"registered_at,omitempty"`
 }
 
 // List of insurances for the lodging.
 type ChargeUpdatePaymentDetailsLodgingDatumInsuranceParams struct {
 	// Price of the insurance coverage in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Currency of the insurance amount.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the insurance company.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance coverage.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type"`
 }
 
 // Discount details for the lodging.
 type ChargeUpdatePaymentDetailsLodgingDatumTotalDiscountsParams struct {
 	// Corporate client discount code.
-	CorporateClientCode *string `form:"corporate_client_code"`
+	CorporateClientCode *string `form:"corporate_client_code" json:"corporate_client_code,omitempty"`
 	// Coupon code.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 }
 
 // Additional charges for the lodging.
 type ChargeUpdatePaymentDetailsLodgingDatumTotalExtraChargeParams struct {
 	// Amount of the extra charge in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Type of extra charge.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Tax details.
 type ChargeUpdatePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
 	// Tax amount in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
-	Rate *int64 `form:"rate"`
+	Rate *int64 `form:"rate" json:"rate,omitempty"`
 	// Type of tax applied.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Tax breakdown for the lodging reservation.
 type ChargeUpdatePaymentDetailsLodgingDatumTotalTaxParams struct {
 	// Tax details.
-	Taxes []*ChargeUpdatePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes"`
+	Taxes []*ChargeUpdatePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates whether the transaction is tax exempt.
-	TaxExemptIndicator *bool `form:"tax_exempt_indicator"`
+	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
 }
 
 // Total details for the lodging.
 type ChargeUpdatePaymentDetailsLodgingDatumTotalParams struct {
 	// Total price of the lodging reservation in cents.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Cash advances in cents.
-	CashAdvances *int64 `form:"cash_advances"`
+	CashAdvances *int64 `form:"cash_advances" json:"cash_advances,omitempty"`
 	// Currency of the total amount.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Discount details for the lodging.
-	Discounts *ChargeUpdatePaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts"`
+	Discounts *ChargeUpdatePaymentDetailsLodgingDatumTotalDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Additional charges for the lodging.
-	ExtraCharges []*ChargeUpdatePaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges"`
+	ExtraCharges []*ChargeUpdatePaymentDetailsLodgingDatumTotalExtraChargeParams `form:"extra_charges" json:"extra_charges,omitempty"`
 	// Prepaid amount in cents.
-	PrepaidAmount *int64 `form:"prepaid_amount"`
+	PrepaidAmount *int64 `form:"prepaid_amount" json:"prepaid_amount,omitempty"`
 	// Tax breakdown for the lodging reservation.
-	Tax *ChargeUpdatePaymentDetailsLodgingDatumTotalTaxParams `form:"tax"`
+	Tax *ChargeUpdatePaymentDetailsLodgingDatumTotalTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
 // Lodging data for this PaymentIntent.
 type ChargeUpdatePaymentDetailsLodgingDatumParams struct {
 	// Accommodation details for the lodging.
-	Accommodation *ChargeUpdatePaymentDetailsLodgingDatumAccommodationParams `form:"accommodation"`
+	Accommodation *ChargeUpdatePaymentDetailsLodgingDatumAccommodationParams `form:"accommodation" json:"accommodation,omitempty"`
 	// Affiliate details if applicable.
-	Affiliate *ChargeUpdatePaymentDetailsLodgingDatumAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeUpdatePaymentDetailsLodgingDatumAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// Booking confirmation number for the lodging.
-	BookingNumber *string `form:"booking_number"`
+	BookingNumber *string `form:"booking_number" json:"booking_number,omitempty"`
 	// Check-in date.
-	CheckinAt *int64 `form:"checkin_at"`
+	CheckinAt *int64 `form:"checkin_at" json:"checkin_at"`
 	// Check-out date.
-	CheckoutAt *int64 `form:"checkout_at"`
+	CheckoutAt *int64 `form:"checkout_at" json:"checkout_at"`
 	// Customer service phone number for the lodging company.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
 	// Whether the lodging is compliant with any hotel fire safety regulations.
-	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator"`
+	FireSafetyActComplianceIndicator *bool `form:"fire_safety_act_compliance_indicator" json:"fire_safety_act_compliance_indicator,omitempty"`
 	// List of guests for the lodging.
-	Guests []*ChargeUpdatePaymentDetailsLodgingDatumGuestParams `form:"guests"`
+	Guests []*ChargeUpdatePaymentDetailsLodgingDatumGuestParams `form:"guests" json:"guests,omitempty"`
 	// Host details for the lodging.
-	Host *ChargeUpdatePaymentDetailsLodgingDatumHostParams `form:"host"`
+	Host *ChargeUpdatePaymentDetailsLodgingDatumHostParams `form:"host" json:"host,omitempty"`
 	// List of insurances for the lodging.
-	Insurances []*ChargeUpdatePaymentDetailsLodgingDatumInsuranceParams `form:"insurances"`
+	Insurances []*ChargeUpdatePaymentDetailsLodgingDatumInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// Whether the renter is a no-show.
-	NoShowIndicator *bool `form:"no_show_indicator"`
+	NoShowIndicator *bool `form:"no_show_indicator" json:"no_show_indicator,omitempty"`
 	// Renter ID number for the lodging.
-	RenterIDNumber *string `form:"renter_id_number"`
+	RenterIDNumber *string `form:"renter_id_number" json:"renter_id_number,omitempty"`
 	// Renter name for the lodging.
-	RenterName *string `form:"renter_name"`
+	RenterName *string `form:"renter_name" json:"renter_name,omitempty"`
 	// Total details for the lodging.
-	Total *ChargeUpdatePaymentDetailsLodgingDatumTotalParams `form:"total"`
+	Total *ChargeUpdatePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
 // Affiliate details for this purchase.
 type ChargeUpdatePaymentDetailsSubscriptionAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Subscription billing details for this purchase.
 type ChargeUpdatePaymentDetailsSubscriptionBillingIntervalParams struct {
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	Count *int64 `form:"count"`
+	Count *int64 `form:"count" json:"count"`
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 }
 
 // Subscription details for this PaymentIntent
 type ChargeUpdatePaymentDetailsSubscriptionParams struct {
 	// Affiliate details for this purchase.
-	Affiliate *ChargeUpdatePaymentDetailsSubscriptionAffiliateParams `form:"affiliate"`
+	Affiliate *ChargeUpdatePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
 	// Info whether the subscription will be auto renewed upon expiry.
-	AutoRenewal *bool `form:"auto_renewal"`
+	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
 	// Subscription billing details for this purchase.
-	BillingInterval *ChargeUpdatePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval"`
+	BillingInterval *ChargeUpdatePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
 	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
 	// Name of the product on subscription. e.g. Apple Music Subscription
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
 // Provides industry-specific information about the charge.
 type ChargeUpdatePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
-	CarRental *ChargeUpdatePaymentDetailsCarRentalParams `form:"car_rental"`
+	CarRental *ChargeUpdatePaymentDetailsCarRentalParams `form:"car_rental" json:"car_rental,omitempty"`
 	// Car rental data for this PaymentIntent.
-	CarRentalData []*ChargeUpdatePaymentDetailsCarRentalDatumParams `form:"car_rental_data"`
+	CarRentalData []*ChargeUpdatePaymentDetailsCarRentalDatumParams `form:"car_rental_data" json:"car_rental_data,omitempty"`
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
-	CustomerReference *string `form:"customer_reference"`
+	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// Event details for this PaymentIntent
-	EventDetails *ChargeUpdatePaymentDetailsEventDetailsParams `form:"event_details"`
+	EventDetails *ChargeUpdatePaymentDetailsEventDetailsParams `form:"event_details" json:"event_details,omitempty"`
 	// Flight reservation details for this PaymentIntent
-	Flight *ChargeUpdatePaymentDetailsFlightParams `form:"flight"`
+	Flight *ChargeUpdatePaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
-	FlightData []*ChargeUpdatePaymentDetailsFlightDatumParams `form:"flight_data"`
+	FlightData []*ChargeUpdatePaymentDetailsFlightDatumParams `form:"flight_data" json:"flight_data,omitempty"`
 	// Lodging reservation details for this PaymentIntent
-	Lodging *ChargeUpdatePaymentDetailsLodgingParams `form:"lodging"`
+	Lodging *ChargeUpdatePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
-	LodgingData []*ChargeUpdatePaymentDetailsLodgingDatumParams `form:"lodging_data"`
+	LodgingData []*ChargeUpdatePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
-	OrderReference *string `form:"order_reference"`
+	OrderReference *string `form:"order_reference" json:"order_reference,omitempty"`
 	// Subscription details for this PaymentIntent
-	Subscription *ChargeUpdatePaymentDetailsSubscriptionParams `form:"subscription"`
+	Subscription *ChargeUpdatePaymentDetailsSubscriptionParams `form:"subscription" json:"subscription,omitempty"`
 	UnsetFields  []ChargeUpdatePaymentDetailsParamsUnsetField  `form:"-" json:"-"`
 }
 
@@ -3326,23 +3326,23 @@ func (p *ChargeUpdatePaymentDetailsParams) AddUnsetField(field ChargeUpdatePayme
 type ChargeUpdateParams struct {
 	Params `form:"*"`
 	// The ID of an existing customer that will be associated with this request. This field may only be updated if there is no existing associated customer with this charge.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// An arbitrary string which you can attach to a charge object. It is displayed when in the web interface alongside the charge. Note that if you use Stripe to send automatic email receipts to your customers, your receipt emails will include the `description` of the charge(s) that they are describing.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
-	FraudDetails *ChargeUpdateFraudDetailsParams `form:"fraud_details"`
+	FraudDetails *ChargeUpdateFraudDetailsParams `form:"fraud_details" json:"fraud_details,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Provides industry-specific information about the charge.
-	PaymentDetails *ChargeUpdatePaymentDetailsParams `form:"payment_details"`
+	PaymentDetails *ChargeUpdatePaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// This is the email address that the receipt for this charge will be sent to. If this field is updated, then a new email receipt will be sent to the updated address.
-	ReceiptEmail *string `form:"receipt_email"`
+	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
-	Shipping *ShippingDetailsParams `form:"shipping"`
+	Shipping *ShippingDetailsParams `form:"shipping" json:"shipping,omitempty"`
 	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
-	TransferGroup *string                        `form:"transfer_group"`
+	TransferGroup *string                        `form:"transfer_group" json:"transfer_group,omitempty"`
 	UnsetFields   []ChargeUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3388,9 +3388,9 @@ type ChargeBillingDetails struct {
 // Information on fraud assessments for the charge.
 type ChargeFraudDetails struct {
 	// Assessments from Stripe. If set, the value is `fraudulent`.
-	StripeReport ChargeFraudStripeReport `json:"stripe_report"`
+	StripeReport ChargeFraudStripeReport `json:"stripe_report,omitempty"`
 	// Assessments reported by you. If set, possible values of are `safe` and `fraudulent`.
-	UserReport ChargeFraudUserReport `json:"user_report"`
+	UserReport ChargeFraudUserReport `json:"user_report,omitempty"`
 }
 type ChargeLevel3LineItem struct {
 	DiscountAmount     int64  `json:"discount_amount"`
@@ -3401,12 +3401,12 @@ type ChargeLevel3LineItem struct {
 	UnitCost           int64  `json:"unit_cost"`
 }
 type ChargeLevel3 struct {
-	CustomerReference  string                  `json:"customer_reference"`
+	CustomerReference  string                  `json:"customer_reference,omitempty"`
 	LineItems          []*ChargeLevel3LineItem `json:"line_items"`
 	MerchantReference  string                  `json:"merchant_reference"`
-	ShippingAddressZip string                  `json:"shipping_address_zip"`
-	ShippingAmount     int64                   `json:"shipping_amount"`
-	ShippingFromZip    string                  `json:"shipping_from_zip"`
+	ShippingAddressZip string                  `json:"shipping_address_zip,omitempty"`
+	ShippingAmount     int64                   `json:"shipping_amount,omitempty"`
+	ShippingFromZip    string                  `json:"shipping_from_zip,omitempty"`
 }
 
 // The ID of the Radar rule that matched the payment, if applicable.
@@ -3432,11 +3432,11 @@ type ChargeOutcome struct {
 	// An enumerated value providing a more detailed explanation of the outcome's `type`. Charges blocked by Radar's default block rule have the value `highest_risk_level`. Charges placed in review by Radar's default review rule have the value `elevated_risk_level`. Charges blocked because the payment is unlikely to be authorized have the value `low_probability_of_authorization`. Charges authorized, blocked, or placed in review by custom rules have the value `rule`. See [understanding declines](https://docs.stripe.com/declines) for more details.
 	Reason string `json:"reason"`
 	// Stripe Radar's evaluation of the riskiness of the payment. Possible values for evaluated payments are `normal`, `elevated`, `highest`. For non-card payments, and card-based payments predating the public assignment of risk levels, this field will have the value `not_assessed`. In the event of an error in the evaluation, this field will have the value `unknown`. This field is only available with Radar.
-	RiskLevel string `json:"risk_level"`
+	RiskLevel string `json:"risk_level,omitempty"`
 	// Stripe Radar's evaluation of the riskiness of the payment. Possible values for evaluated payments are between 0 and 100. For non-card payments, card-based payments predating the public assignment of risk scores, or in the event of an error during evaluation, this field will not be present. This field is only available with Radar for Fraud Teams.
-	RiskScore int64 `json:"risk_score"`
+	RiskScore int64 `json:"risk_score,omitempty"`
 	// The ID of the Radar rule that matched the payment, if applicable.
-	Rule *ChargeOutcomeRule `json:"rule"`
+	Rule *ChargeOutcomeRule `json:"rule,omitempty"`
 	// A human-readable description of the outcome type and reason, designed for you (the recipient of the payment), not your customer.
 	SellerMessage string `json:"seller_message"`
 	// Possible values are `authorized`, `manual_review`, `issuer_declined`, `blocked`, and `invalid`. See [understanding declines](https://docs.stripe.com/declines) and [Radar reviews](https://docs.stripe.com/radar/reviews) for details.
@@ -3488,7 +3488,7 @@ type ChargePaymentMethodDetailsACSSDebit struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Institution number of the bank account
@@ -3496,15 +3496,15 @@ type ChargePaymentMethodDetailsACSSDebit struct {
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate string `json:"mandate"`
+	Mandate string `json:"mandate,omitempty"`
 	// Transit number of the bank account.
 	TransitNumber string `json:"transit_number"`
 }
 type ChargePaymentMethodDetailsAffirm struct {
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// The Affirm transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -3516,7 +3516,7 @@ type ChargePaymentMethodDetailsAfterpayClearpay struct {
 }
 type ChargePaymentMethodDetailsAlipay struct {
 	// Uniquely identifies this particular Alipay account. You can use this attribute to check whether two Alipay accounts are the same.
-	BuyerID string `json:"buyer_id"`
+	BuyerID string `json:"buyer_id,omitempty"`
 	// Uniquely identifies this particular Alipay account. You can use this attribute to check whether two Alipay accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Transaction ID of this particular Alipay transaction.
@@ -3527,7 +3527,7 @@ type ChargePaymentMethodDetailsAlmaInstallments struct {
 	Count int64 `json:"count"`
 }
 type ChargePaymentMethodDetailsAlma struct {
-	Installments *ChargePaymentMethodDetailsAlmaInstallments `json:"installments"`
+	Installments *ChargePaymentMethodDetailsAlmaInstallments `json:"installments,omitempty"`
 	// The Alma transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -3535,7 +3535,7 @@ type ChargePaymentMethodDetailsAmazonPayFundingCard struct {
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card. (For internal use only and not typically available in standard API requests.)
-	BrandProduct string `json:"brand_product"`
+	BrandProduct string `json:"brand_product,omitempty"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// Two-digit number representing the card's expiration month.
@@ -3548,12 +3548,12 @@ type ChargePaymentMethodDetailsAmazonPayFundingCard struct {
 	Last4 string `json:"last4"`
 }
 type ChargePaymentMethodDetailsAmazonPayFunding struct {
-	Card *ChargePaymentMethodDetailsAmazonPayFundingCard `json:"card"`
+	Card *ChargePaymentMethodDetailsAmazonPayFundingCard `json:"card,omitempty"`
 	// funding type of the underlying payment method.
 	Type ChargePaymentMethodDetailsAmazonPayFundingType `json:"type"`
 }
 type ChargePaymentMethodDetailsAmazonPay struct {
-	Funding *ChargePaymentMethodDetailsAmazonPayFunding `json:"funding"`
+	Funding *ChargePaymentMethodDetailsAmazonPayFunding `json:"funding,omitempty"`
 	// The Amazon Pay transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -3561,17 +3561,17 @@ type ChargePaymentMethodDetailsAUBECSDebit struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate string `json:"mandate"`
+	Mandate string `json:"mandate,omitempty"`
 }
 type ChargePaymentMethodDetailsBACSDebit struct {
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
@@ -3676,7 +3676,7 @@ type ChargePaymentMethodDetailsCardThreeDSecure struct {
 	ExemptionIndicator ChargePaymentMethodDetailsCardThreeDSecureExemptionIndicator `json:"exemption_indicator"`
 	// Whether Stripe requested the value of `exemption_indicator` in the transaction. This will depend on
 	// the outcome of Stripe's internal risk assessment.
-	ExemptionIndicatorApplied bool `json:"exemption_indicator_applied"`
+	ExemptionIndicatorApplied bool `json:"exemption_indicator_applied,omitempty"`
 	// Indicates the outcome of 3D Secure authentication.
 	Result ChargePaymentMethodDetailsCardThreeDSecureResult `json:"result"`
 	// Additional information about why 3D Secure succeeded or failed based
@@ -3716,46 +3716,46 @@ type ChargePaymentMethodDetailsCardWalletVisaCheckout struct {
 
 // If this Card is part of a card wallet, this contains the details of the card wallet.
 type ChargePaymentMethodDetailsCardWallet struct {
-	AmexExpressCheckout *ChargePaymentMethodDetailsCardWalletAmexExpressCheckout `json:"amex_express_checkout"`
-	ApplePay            *ChargePaymentMethodDetailsCardWalletApplePay            `json:"apple_pay"`
+	AmexExpressCheckout *ChargePaymentMethodDetailsCardWalletAmexExpressCheckout `json:"amex_express_checkout,omitempty"`
+	ApplePay            *ChargePaymentMethodDetailsCardWalletApplePay            `json:"apple_pay,omitempty"`
 	// (For tokenized numbers only.) The last four digits of the device account number.
 	DynamicLast4 string                                          `json:"dynamic_last4"`
-	GooglePay    *ChargePaymentMethodDetailsCardWalletGooglePay  `json:"google_pay"`
-	Link         *ChargePaymentMethodDetailsCardWalletLink       `json:"link"`
-	Masterpass   *ChargePaymentMethodDetailsCardWalletMasterpass `json:"masterpass"`
-	SamsungPay   *ChargePaymentMethodDetailsCardWalletSamsungPay `json:"samsung_pay"`
+	GooglePay    *ChargePaymentMethodDetailsCardWalletGooglePay  `json:"google_pay,omitempty"`
+	Link         *ChargePaymentMethodDetailsCardWalletLink       `json:"link,omitempty"`
+	Masterpass   *ChargePaymentMethodDetailsCardWalletMasterpass `json:"masterpass,omitempty"`
+	SamsungPay   *ChargePaymentMethodDetailsCardWalletSamsungPay `json:"samsung_pay,omitempty"`
 	// The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 	Type         PaymentMethodCardWalletType                       `json:"type"`
-	VisaCheckout *ChargePaymentMethodDetailsCardWalletVisaCheckout `json:"visa_checkout"`
+	VisaCheckout *ChargePaymentMethodDetailsCardWalletVisaCheckout `json:"visa_checkout,omitempty"`
 }
 type ChargePaymentMethodDetailsCard struct {
 	// The authorized amount.
 	AmountAuthorized int64 `json:"amount_authorized"`
 	// The latest amount intended to be authorized by this charge.
-	AmountRequested int64 `json:"amount_requested"`
+	AmountRequested int64 `json:"amount_requested,omitempty"`
 	// Authorization code on the charge.
 	AuthorizationCode string `json:"authorization_code"`
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
-	CaptureBefore int64 `json:"capture_before"`
+	CaptureBefore int64 `json:"capture_before,omitempty"`
 	// Check results by Card networks on Card address and CVC at time of payment.
 	Checks *ChargePaymentMethodDetailsCardChecks `json:"checks"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country                  string                                                  `json:"country"`
-	DecrementalAuthorization *ChargePaymentMethodDetailsCardDecrementalAuthorization `json:"decremental_authorization"`
+	DecrementalAuthorization *ChargePaymentMethodDetailsCardDecrementalAuthorization `json:"decremental_authorization,omitempty"`
 	// Two-digit number representing the card's expiration month.
 	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
 	ExpYear               int64                                                `json:"exp_year"`
-	ExtendedAuthorization *ChargePaymentMethodDetailsCardExtendedAuthorization `json:"extended_authorization"`
+	ExtendedAuthorization *ChargePaymentMethodDetailsCardExtendedAuthorization `json:"extended_authorization,omitempty"`
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
-	Fingerprint string `json:"fingerprint"`
+	Fingerprint string `json:"fingerprint,omitempty"`
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 	Funding                  CardFunding                                             `json:"funding"`
-	IncrementalAuthorization *ChargePaymentMethodDetailsCardIncrementalAuthorization `json:"incremental_authorization"`
+	IncrementalAuthorization *ChargePaymentMethodDetailsCardIncrementalAuthorization `json:"incremental_authorization,omitempty"`
 	// Installment details for this payment.
 	//
 	// For more information, see the [installments integration guide](https://docs.stripe.com/payments/installments).
@@ -3765,16 +3765,16 @@ type ChargePaymentMethodDetailsCard struct {
 	// ID of the mandate used to make this payment or created by it.
 	Mandate string `json:"mandate"`
 	// True if this payment was marked as MOTO and out of scope for SCA.
-	MOTO         bool                                        `json:"moto"`
-	Multicapture *ChargePaymentMethodDetailsCardMulticapture `json:"multicapture"`
+	MOTO         bool                                        `json:"moto,omitempty"`
+	Multicapture *ChargePaymentMethodDetailsCardMulticapture `json:"multicapture,omitempty"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network ChargePaymentMethodDetailsCardNetwork `json:"network"`
 	// If this card has network token credentials, this contains the details of the network token credentials.
-	NetworkToken *ChargePaymentMethodDetailsCardNetworkToken `json:"network_token"`
+	NetworkToken *ChargePaymentMethodDetailsCardNetworkToken `json:"network_token,omitempty"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string                                              `json:"network_transaction_id"`
-	Overcapture          *ChargePaymentMethodDetailsCardOvercapture          `json:"overcapture"`
-	PartialAuthorization *ChargePaymentMethodDetailsCardPartialAuthorization `json:"partial_authorization"`
+	Overcapture          *ChargePaymentMethodDetailsCardOvercapture          `json:"overcapture,omitempty"`
+	PartialAuthorization *ChargePaymentMethodDetailsCardPartialAuthorization `json:"partial_authorization,omitempty"`
 	// Status of a card based on the card issuer.
 	RegulatedStatus ChargePaymentMethodDetailsCardRegulatedStatus `json:"regulated_status"`
 	// Populated if this transaction used 3D Secure authentication.
@@ -3784,11 +3784,11 @@ type ChargePaymentMethodDetailsCard struct {
 	// Please note that the fields below are for internal use only and are not returned
 	// as part of standard API requests.
 	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
-	IIN string `json:"iin"`
+	IIN string `json:"iin,omitempty"`
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 }
 
 // Details about payments collected offline.
@@ -3802,7 +3802,7 @@ type ChargePaymentMethodDetailsCardPresentOffline struct {
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type ChargePaymentMethodDetailsCardPresentReceipt struct {
 	// The type of account being debited or credited
-	AccountType ChargePaymentMethodDetailsCardPresentReceiptAccountType `json:"account_type"`
+	AccountType ChargePaymentMethodDetailsCardPresentReceiptAccountType `json:"account_type,omitempty"`
 	// The Application Cryptogram, a unique value generated by the card to authenticate the transaction with issuers.
 	ApplicationCryptogram string `json:"application_cryptogram"`
 	// The Application Identifier (AID) on the card used to determine which networks are eligible to process the transaction. Referenced from EMV tag 9F12, data encoded on the card's chip.
@@ -3832,7 +3832,7 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
 	// When using manual capture, a future timestamp after which the charge will be automatically refunded if uncaptured.
-	CaptureBefore int64 `json:"capture_before"`
+	CaptureBefore int64 `json:"capture_before,omitempty"`
 	// The cardholder name as read from the card, in [ISO 7813](https://en.wikipedia.org/wiki/ISO/IEC_7813) format. May include alphanumeric characters, special characters and first/last name separator (`/`). In some cases, the cardholder name may not be available depending on how the issuer has configured the card. Cardholder name is typically not available on swipe or contactless payments, such as those made with Apple Pay and Google Pay.
 	CardholderName string `json:"cardholder_name"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
@@ -3856,7 +3856,7 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network ChargePaymentMethodDetailsCardPresentNetwork `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -3868,20 +3868,20 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// How card details were read in this transaction.
 	ReadMethod string `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *ChargePaymentMethodDetailsCardPresentReceipt `json:"receipt"`
-	Wallet  *ChargePaymentMethodDetailsCardPresentWallet  `json:"wallet"`
+	Wallet  *ChargePaymentMethodDetailsCardPresentWallet  `json:"wallet,omitempty"`
 	// Please note that the fields below are for internal use only and are not returned
 	// as part of standard API requests.
 	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
-	IIN string `json:"iin"`
+	IIN string `json:"iin,omitempty"`
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 }
 type ChargePaymentMethodDetailsCashApp struct {
 	// A unique and immutable identifier assigned by Cash App to every buyer.
@@ -3893,13 +3893,13 @@ type ChargePaymentMethodDetailsCashApp struct {
 }
 type ChargePaymentMethodDetailsCrypto struct {
 	// The wallet address of the customer.
-	BuyerAddress string `json:"buyer_address"`
+	BuyerAddress string `json:"buyer_address,omitempty"`
 	// The blockchain network that the transaction was sent on.
-	Network ChargePaymentMethodDetailsCryptoNetwork `json:"network"`
+	Network ChargePaymentMethodDetailsCryptoNetwork `json:"network,omitempty"`
 	// The token currency that the transaction was sent with.
-	TokenCurrency ChargePaymentMethodDetailsCryptoTokenCurrency `json:"token_currency"`
+	TokenCurrency ChargePaymentMethodDetailsCryptoTokenCurrency `json:"token_currency,omitempty"`
 	// The blockchain transaction hash of the crypto payment.
-	TransactionHash string `json:"transaction_hash"`
+	TransactionHash string `json:"transaction_hash,omitempty"`
 }
 type ChargePaymentMethodDetailsCustomerBalance struct{}
 type ChargePaymentMethodDetailsEPS struct {
@@ -3941,11 +3941,11 @@ type ChargePaymentMethodDetailsIDBankTransfer struct {
 	// Bank where the account is located.
 	Bank ChargePaymentMethodDetailsIDBankTransferBank `json:"bank"`
 	// Local bank code of the bank.
-	BankCode string `json:"bank_code"`
+	BankCode string `json:"bank_code,omitempty"`
 	// Name of the bank associated with the bank account.
-	BankName string `json:"bank_name"`
+	BankName string `json:"bank_name,omitempty"`
 	// Merchant name and billing details name, for the customer to check for the correct merchant when performing the bank transfer.
-	DisplayName string `json:"display_name"`
+	DisplayName string `json:"display_name,omitempty"`
 }
 type ChargePaymentMethodDetailsIDEAL struct {
 	// The customer's bank. Can be one of `abn_amro`, `adyen`, `asn_bank`, `bunq`, `buut`, `finom`, `handelsbanken`, `ing`, `knab`, `mollie`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
@@ -3968,7 +3968,7 @@ type ChargePaymentMethodDetailsIDEAL struct {
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type ChargePaymentMethodDetailsInteracPresentReceipt struct {
 	// The type of account being debited or credited
-	AccountType string `json:"account_type"`
+	AccountType string `json:"account_type,omitempty"`
 	// The Application Cryptogram, a unique value generated by the card to authenticate the transaction with issuers.
 	ApplicationCryptogram string `json:"application_cryptogram"`
 	// The Application Identifier (AID) on the card used to determine which networks are eligible to process the transaction. Referenced from EMV tag 9F12, data encoded on the card's chip.
@@ -4010,7 +4010,7 @@ type ChargePaymentMethodDetailsInteracPresent struct {
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -4018,7 +4018,7 @@ type ChargePaymentMethodDetailsInteracPresent struct {
 	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// How card details were read in this transaction.
 	ReadMethod string `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
@@ -4026,11 +4026,11 @@ type ChargePaymentMethodDetailsInteracPresent struct {
 	// Please note that the fields below are for internal use only and are not returned
 	// as part of standard API requests.
 	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
-	IIN string `json:"iin"`
+	IIN string `json:"iin,omitempty"`
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 }
 type ChargePaymentMethodDetailsKakaoPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
@@ -4126,7 +4126,7 @@ type ChargePaymentMethodDetailsNzBankAccount struct {
 	// The numeric code for the bank account's bank branch.
 	BranchCode string `json:"branch_code"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// The suffix of the bank account number.
@@ -4155,9 +4155,9 @@ type ChargePaymentMethodDetailsPayco struct {
 }
 type ChargePaymentMethodDetailsPayNow struct {
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// Reference number associated with this PayNow payment
 	Reference string `json:"reference"`
 }
@@ -4185,19 +4185,19 @@ type ChargePaymentMethodDetailsPaypal struct {
 	// The shipping address for the customer, as supplied by the merchant at the point of payment
 	// execution. This shipping address will not be updated if the merchant updates the shipping
 	// address on the PaymentIntent after the PaymentIntent was successfully confirmed.
-	Shipping *Address `json:"shipping"`
+	Shipping *Address `json:"shipping,omitempty"`
 	// A unique ID generated by PayPal for this transaction.
 	TransactionID string `json:"transaction_id"`
 	// The shipping address for the customer, as supplied by the merchant at the point of payment
 	// execution. This shipping address will not be updated if the merchant updates the shipping
 	// address on the PaymentIntent after the PaymentIntent was successfully confirmed.
-	VerifiedAddress *Address `json:"verified_address"`
+	VerifiedAddress *Address `json:"verified_address,omitempty"`
 	// Owner's verified email. Values are verified or provided by PayPal directly
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
-	VerifiedEmail string `json:"verified_email"`
+	VerifiedEmail string `json:"verified_email,omitempty"`
 	// Owner's verified full name. Values are verified or provided by PayPal directly
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
-	VerifiedName string `json:"verified_name"`
+	VerifiedName string `json:"verified_name,omitempty"`
 }
 type ChargePaymentMethodDetailsPaypay struct{}
 type ChargePaymentMethodDetailsPayto struct {
@@ -4206,15 +4206,15 @@ type ChargePaymentMethodDetailsPayto struct {
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate string `json:"mandate"`
+	Mandate string `json:"mandate,omitempty"`
 	// The PayID alias for the bank account.
 	PayID string `json:"pay_id"`
 }
 type ChargePaymentMethodDetailsPix struct {
 	// Unique transaction id generated by BCB
-	BankTransactionID string `json:"bank_transaction_id"`
+	BankTransactionID string `json:"bank_transaction_id,omitempty"`
 	// ID of the multi use Mandate generated by the PaymentIntent
-	Mandate string `json:"mandate"`
+	Mandate string `json:"mandate,omitempty"`
 }
 type ChargePaymentMethodDetailsPromptPay struct {
 	// Bill reference generated by PromptPay
@@ -4229,7 +4229,7 @@ type ChargePaymentMethodDetailsRevolutPayFundingCard struct {
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card. (For internal use only and not typically available in standard API requests.)
-	BrandProduct string `json:"brand_product"`
+	BrandProduct string `json:"brand_product,omitempty"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// Two-digit number representing the card's expiration month.
@@ -4242,12 +4242,12 @@ type ChargePaymentMethodDetailsRevolutPayFundingCard struct {
 	Last4 string `json:"last4"`
 }
 type ChargePaymentMethodDetailsRevolutPayFunding struct {
-	Card *ChargePaymentMethodDetailsRevolutPayFundingCard `json:"card"`
+	Card *ChargePaymentMethodDetailsRevolutPayFundingCard `json:"card,omitempty"`
 	// funding type of the underlying payment method.
 	Type ChargePaymentMethodDetailsRevolutPayFundingType `json:"type"`
 }
 type ChargePaymentMethodDetailsRevolutPay struct {
-	Funding *ChargePaymentMethodDetailsRevolutPayFunding `json:"funding"`
+	Funding *ChargePaymentMethodDetailsRevolutPayFunding `json:"funding,omitempty"`
 	// The Revolut Pay transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -4277,7 +4277,7 @@ type ChargePaymentMethodDetailsSEPADebit struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four characters of the IBAN.
@@ -4311,7 +4311,7 @@ type ChargePaymentMethodDetailsSofort struct {
 type ChargePaymentMethodDetailsStripeAccount struct{}
 type ChargePaymentMethodDetailsStripeBalance struct {
 	// The connected account ID whose Stripe balance to use as the source of payment
-	Account string `json:"account"`
+	Account string `json:"account,omitempty"`
 }
 type ChargePaymentMethodDetailsSwish struct {
 	// Uniquely identifies the payer's Swish account. You can use this attribute to check whether two Swish transactions were paid for by the same payer
@@ -4334,13 +4334,13 @@ type ChargePaymentMethodDetailsUSBankAccount struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
 	// Estimated date to debit the customer's bank account. A date string in YYYY-MM-DD format.
-	ExpectedDebitDate string `json:"expected_debit_date"`
+	ExpectedDebitDate string `json:"expected_debit_date,omitempty"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate *Mandate `json:"mandate"`
+	Mandate *Mandate `json:"mandate,omitempty"`
 	// Reference number to locate ACH payments with customer's bank.
 	PaymentReference string `json:"payment_reference"`
 	// Routing number of the bank account.
@@ -4351,9 +4351,9 @@ type ChargePaymentMethodDetailsWeChatPay struct {
 	// Uniquely identifies this particular WeChat Pay account. You can use this attribute to check whether two WeChat accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
-	Reader string `json:"reader"`
+	Reader string `json:"reader,omitempty"`
 	// Transaction ID of this particular WeChat Pay transaction.
 	TransactionID string `json:"transaction_id"`
 }
@@ -4361,75 +4361,75 @@ type ChargePaymentMethodDetailsZip struct{}
 
 // Details about the payment method at the time of the transaction.
 type ChargePaymentMethodDetails struct {
-	ACHCreditTransfer  *ChargePaymentMethodDetailsACHCreditTransfer  `json:"ach_credit_transfer"`
-	ACHDebit           *ChargePaymentMethodDetailsACHDebit           `json:"ach_debit"`
-	ACSSDebit          *ChargePaymentMethodDetailsACSSDebit          `json:"acss_debit"`
-	Affirm             *ChargePaymentMethodDetailsAffirm             `json:"affirm"`
-	AfterpayClearpay   *ChargePaymentMethodDetailsAfterpayClearpay   `json:"afterpay_clearpay"`
-	Alipay             *ChargePaymentMethodDetailsAlipay             `json:"alipay"`
-	Alma               *ChargePaymentMethodDetailsAlma               `json:"alma"`
-	AmazonPay          *ChargePaymentMethodDetailsAmazonPay          `json:"amazon_pay"`
-	AUBECSDebit        *ChargePaymentMethodDetailsAUBECSDebit        `json:"au_becs_debit"`
-	BACSDebit          *ChargePaymentMethodDetailsBACSDebit          `json:"bacs_debit"`
-	Bancontact         *ChargePaymentMethodDetailsBancontact         `json:"bancontact"`
-	Billie             *ChargePaymentMethodDetailsBillie             `json:"billie"`
-	BLIK               *ChargePaymentMethodDetailsBLIK               `json:"blik"`
-	Boleto             *ChargePaymentMethodDetailsBoleto             `json:"boleto"`
-	Card               *ChargePaymentMethodDetailsCard               `json:"card"`
-	CardPresent        *ChargePaymentMethodDetailsCardPresent        `json:"card_present"`
-	CashApp            *ChargePaymentMethodDetailsCashApp            `json:"cashapp"`
-	Crypto             *ChargePaymentMethodDetailsCrypto             `json:"crypto"`
-	CustomerBalance    *ChargePaymentMethodDetailsCustomerBalance    `json:"customer_balance"`
-	EPS                *ChargePaymentMethodDetailsEPS                `json:"eps"`
-	FPX                *ChargePaymentMethodDetailsFPX                `json:"fpx"`
-	Giropay            *ChargePaymentMethodDetailsGiropay            `json:"giropay"`
-	Gopay              *ChargePaymentMethodDetailsGopay              `json:"gopay"`
-	Grabpay            *ChargePaymentMethodDetailsGrabpay            `json:"grabpay"`
-	IDBankTransfer     *ChargePaymentMethodDetailsIDBankTransfer     `json:"id_bank_transfer"`
-	IDEAL              *ChargePaymentMethodDetailsIDEAL              `json:"ideal"`
-	InteracPresent     *ChargePaymentMethodDetailsInteracPresent     `json:"interac_present"`
-	KakaoPay           *ChargePaymentMethodDetailsKakaoPay           `json:"kakao_pay"`
-	Klarna             *ChargePaymentMethodDetailsKlarna             `json:"klarna"`
-	Konbini            *ChargePaymentMethodDetailsKonbini            `json:"konbini"`
-	KrCard             *ChargePaymentMethodDetailsKrCard             `json:"kr_card"`
-	Link               *ChargePaymentMethodDetailsLink               `json:"link"`
-	MbWay              *ChargePaymentMethodDetailsMbWay              `json:"mb_way"`
-	Mobilepay          *ChargePaymentMethodDetailsMobilepay          `json:"mobilepay"`
-	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco"`
-	NaverPay           *ChargePaymentMethodDetailsNaverPay           `json:"naver_pay"`
-	NzBankAccount      *ChargePaymentMethodDetailsNzBankAccount      `json:"nz_bank_account"`
-	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo"`
-	P24                *ChargePaymentMethodDetailsP24                `json:"p24"`
-	PayByBank          *ChargePaymentMethodDetailsPayByBank          `json:"pay_by_bank"`
-	Payco              *ChargePaymentMethodDetailsPayco              `json:"payco"`
-	PayNow             *ChargePaymentMethodDetailsPayNow             `json:"paynow"`
-	Paypal             *ChargePaymentMethodDetailsPaypal             `json:"paypal"`
-	Paypay             *ChargePaymentMethodDetailsPaypay             `json:"paypay"`
-	Payto              *ChargePaymentMethodDetailsPayto              `json:"payto"`
-	Pix                *ChargePaymentMethodDetailsPix                `json:"pix"`
-	PromptPay          *ChargePaymentMethodDetailsPromptPay          `json:"promptpay"`
-	Qris               *ChargePaymentMethodDetailsQris               `json:"qris"`
-	Rechnung           *ChargePaymentMethodDetailsRechnung           `json:"rechnung"`
-	RevolutPay         *ChargePaymentMethodDetailsRevolutPay         `json:"revolut_pay"`
-	SamsungPay         *ChargePaymentMethodDetailsSamsungPay         `json:"samsung_pay"`
-	Satispay           *ChargePaymentMethodDetailsSatispay           `json:"satispay"`
-	SEPACreditTransfer *ChargePaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer"`
-	SEPADebit          *ChargePaymentMethodDetailsSEPADebit          `json:"sepa_debit"`
-	Shopeepay          *ChargePaymentMethodDetailsShopeepay          `json:"shopeepay"`
-	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort"`
-	StripeAccount      *ChargePaymentMethodDetailsStripeAccount      `json:"stripe_account"`
-	StripeBalance      *ChargePaymentMethodDetailsStripeBalance      `json:"stripe_balance"`
-	Swish              *ChargePaymentMethodDetailsSwish              `json:"swish"`
-	TWINT              *ChargePaymentMethodDetailsTWINT              `json:"twint"`
+	ACHCreditTransfer  *ChargePaymentMethodDetailsACHCreditTransfer  `json:"ach_credit_transfer,omitempty"`
+	ACHDebit           *ChargePaymentMethodDetailsACHDebit           `json:"ach_debit,omitempty"`
+	ACSSDebit          *ChargePaymentMethodDetailsACSSDebit          `json:"acss_debit,omitempty"`
+	Affirm             *ChargePaymentMethodDetailsAffirm             `json:"affirm,omitempty"`
+	AfterpayClearpay   *ChargePaymentMethodDetailsAfterpayClearpay   `json:"afterpay_clearpay,omitempty"`
+	Alipay             *ChargePaymentMethodDetailsAlipay             `json:"alipay,omitempty"`
+	Alma               *ChargePaymentMethodDetailsAlma               `json:"alma,omitempty"`
+	AmazonPay          *ChargePaymentMethodDetailsAmazonPay          `json:"amazon_pay,omitempty"`
+	AUBECSDebit        *ChargePaymentMethodDetailsAUBECSDebit        `json:"au_becs_debit,omitempty"`
+	BACSDebit          *ChargePaymentMethodDetailsBACSDebit          `json:"bacs_debit,omitempty"`
+	Bancontact         *ChargePaymentMethodDetailsBancontact         `json:"bancontact,omitempty"`
+	Billie             *ChargePaymentMethodDetailsBillie             `json:"billie,omitempty"`
+	BLIK               *ChargePaymentMethodDetailsBLIK               `json:"blik,omitempty"`
+	Boleto             *ChargePaymentMethodDetailsBoleto             `json:"boleto,omitempty"`
+	Card               *ChargePaymentMethodDetailsCard               `json:"card,omitempty"`
+	CardPresent        *ChargePaymentMethodDetailsCardPresent        `json:"card_present,omitempty"`
+	CashApp            *ChargePaymentMethodDetailsCashApp            `json:"cashapp,omitempty"`
+	Crypto             *ChargePaymentMethodDetailsCrypto             `json:"crypto,omitempty"`
+	CustomerBalance    *ChargePaymentMethodDetailsCustomerBalance    `json:"customer_balance,omitempty"`
+	EPS                *ChargePaymentMethodDetailsEPS                `json:"eps,omitempty"`
+	FPX                *ChargePaymentMethodDetailsFPX                `json:"fpx,omitempty"`
+	Giropay            *ChargePaymentMethodDetailsGiropay            `json:"giropay,omitempty"`
+	Gopay              *ChargePaymentMethodDetailsGopay              `json:"gopay,omitempty"`
+	Grabpay            *ChargePaymentMethodDetailsGrabpay            `json:"grabpay,omitempty"`
+	IDBankTransfer     *ChargePaymentMethodDetailsIDBankTransfer     `json:"id_bank_transfer,omitempty"`
+	IDEAL              *ChargePaymentMethodDetailsIDEAL              `json:"ideal,omitempty"`
+	InteracPresent     *ChargePaymentMethodDetailsInteracPresent     `json:"interac_present,omitempty"`
+	KakaoPay           *ChargePaymentMethodDetailsKakaoPay           `json:"kakao_pay,omitempty"`
+	Klarna             *ChargePaymentMethodDetailsKlarna             `json:"klarna,omitempty"`
+	Konbini            *ChargePaymentMethodDetailsKonbini            `json:"konbini,omitempty"`
+	KrCard             *ChargePaymentMethodDetailsKrCard             `json:"kr_card,omitempty"`
+	Link               *ChargePaymentMethodDetailsLink               `json:"link,omitempty"`
+	MbWay              *ChargePaymentMethodDetailsMbWay              `json:"mb_way,omitempty"`
+	Mobilepay          *ChargePaymentMethodDetailsMobilepay          `json:"mobilepay,omitempty"`
+	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco,omitempty"`
+	NaverPay           *ChargePaymentMethodDetailsNaverPay           `json:"naver_pay,omitempty"`
+	NzBankAccount      *ChargePaymentMethodDetailsNzBankAccount      `json:"nz_bank_account,omitempty"`
+	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo,omitempty"`
+	P24                *ChargePaymentMethodDetailsP24                `json:"p24,omitempty"`
+	PayByBank          *ChargePaymentMethodDetailsPayByBank          `json:"pay_by_bank,omitempty"`
+	Payco              *ChargePaymentMethodDetailsPayco              `json:"payco,omitempty"`
+	PayNow             *ChargePaymentMethodDetailsPayNow             `json:"paynow,omitempty"`
+	Paypal             *ChargePaymentMethodDetailsPaypal             `json:"paypal,omitempty"`
+	Paypay             *ChargePaymentMethodDetailsPaypay             `json:"paypay,omitempty"`
+	Payto              *ChargePaymentMethodDetailsPayto              `json:"payto,omitempty"`
+	Pix                *ChargePaymentMethodDetailsPix                `json:"pix,omitempty"`
+	PromptPay          *ChargePaymentMethodDetailsPromptPay          `json:"promptpay,omitempty"`
+	Qris               *ChargePaymentMethodDetailsQris               `json:"qris,omitempty"`
+	Rechnung           *ChargePaymentMethodDetailsRechnung           `json:"rechnung,omitempty"`
+	RevolutPay         *ChargePaymentMethodDetailsRevolutPay         `json:"revolut_pay,omitempty"`
+	SamsungPay         *ChargePaymentMethodDetailsSamsungPay         `json:"samsung_pay,omitempty"`
+	Satispay           *ChargePaymentMethodDetailsSatispay           `json:"satispay,omitempty"`
+	SEPACreditTransfer *ChargePaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
+	SEPADebit          *ChargePaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
+	Shopeepay          *ChargePaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
+	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort,omitempty"`
+	StripeAccount      *ChargePaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`
+	StripeBalance      *ChargePaymentMethodDetailsStripeBalance      `json:"stripe_balance,omitempty"`
+	Swish              *ChargePaymentMethodDetailsSwish              `json:"swish,omitempty"`
+	TWINT              *ChargePaymentMethodDetailsTWINT              `json:"twint,omitempty"`
 	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
 	Type          ChargePaymentMethodDetailsType           `json:"type"`
-	Upi           *ChargePaymentMethodDetailsUpi           `json:"upi"`
-	USBankAccount *ChargePaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
-	WeChat        *ChargePaymentMethodDetailsWeChat        `json:"wechat"`
-	WeChatPay     *ChargePaymentMethodDetailsWeChatPay     `json:"wechat_pay"`
-	Zip           *ChargePaymentMethodDetailsZip           `json:"zip"`
+	Upi           *ChargePaymentMethodDetailsUpi           `json:"upi,omitempty"`
+	USBankAccount *ChargePaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
+	WeChat        *ChargePaymentMethodDetailsWeChat        `json:"wechat,omitempty"`
+	WeChatPay     *ChargePaymentMethodDetailsWeChatPay     `json:"wechat_pay,omitempty"`
+	Zip           *ChargePaymentMethodDetailsZip           `json:"zip,omitempty"`
 }
 type ChargePresentmentDetails struct {
 	// Amount intended to be collected by this payment, denominated in `presentment_currency`.
@@ -4441,7 +4441,7 @@ type ChargePresentmentDetails struct {
 // Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 type ChargeRadarOptions struct {
 	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
-	Session string `json:"session"`
+	Session string `json:"session,omitempty"`
 }
 
 // An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
@@ -4470,7 +4470,7 @@ type Charge struct {
 	// The amount of the application fee (if any) requested for the charge. [See the Connect documentation](https://docs.stripe.com/connect/direct-charges#collect-fees) for details.
 	ApplicationFeeAmount int64 `json:"application_fee_amount"`
 	// Authorization code on the charge.
-	AuthorizationCode string `json:"authorization_code"`
+	AuthorizationCode string `json:"authorization_code,omitempty"`
 	// ID of the balance transaction that describes the impact of this charge on your account balance (not including refunds or disputes).
 	BalanceTransaction *BalanceTransaction   `json:"balance_transaction"`
 	BillingDetails     *ChargeBillingDetails `json:"billing_details"`
@@ -4498,7 +4498,7 @@ type Charge struct {
 	FraudDetails *ChargeFraudDetails `json:"fraud_details"`
 	// Unique identifier for the object.
 	ID     string        `json:"id"`
-	Level3 *ChargeLevel3 `json:"level3"`
+	Level3 *ChargeLevel3 `json:"level3,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -4517,9 +4517,9 @@ type Charge struct {
 	PaymentMethod string `json:"payment_method"`
 	// Details about the payment method at the time of the transaction.
 	PaymentMethodDetails *ChargePaymentMethodDetails `json:"payment_method_details"`
-	PresentmentDetails   *ChargePresentmentDetails   `json:"presentment_details"`
+	PresentmentDetails   *ChargePresentmentDetails   `json:"presentment_details,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
-	RadarOptions *ChargeRadarOptions `json:"radar_options"`
+	RadarOptions *ChargeRadarOptions `json:"radar_options,omitempty"`
 	// This is the email address that the receipt for this charge was sent to.
 	ReceiptEmail string `json:"receipt_email"`
 	// This is the transaction number that appears on email receipts sent for this charge. This attribute will be `null` until a receipt has been sent.
@@ -4529,7 +4529,7 @@ type Charge struct {
 	// Whether the charge has been fully refunded. If the charge is only partially refunded, this attribute will still be false.
 	Refunded bool `json:"refunded"`
 	// A list of refunds that have been applied to the charge.
-	Refunds *RefundList `json:"refunds"`
+	Refunds *RefundList `json:"refunds,omitempty"`
 	// ID of the review associated with this charge if one exists.
 	Review *Review `json:"review"`
 	// Shipping information for the charge.
@@ -4547,7 +4547,7 @@ type Charge struct {
 	// The status of the payment is either `succeeded`, `pending`, or `failed`.
 	Status ChargeStatus `json:"status"`
 	// ID of the transfer to the `destination` account (only applicable if the charge was created using the `destination` parameter).
-	Transfer *Transfer `json:"transfer"`
+	Transfer *Transfer `json:"transfer,omitempty"`
 	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 	TransferData *ChargeTransferData `json:"transfer_data"`
 	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.

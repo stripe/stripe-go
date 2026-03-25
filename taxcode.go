@@ -21,7 +21,7 @@ const (
 type TaxCodeListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -33,7 +33,7 @@ func (p *TaxCodeListParams) AddExpand(f string) {
 type TaxCodeParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -45,7 +45,7 @@ func (p *TaxCodeParams) AddExpand(f string) {
 type TaxCodeRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -56,7 +56,7 @@ func (p *TaxCodeRetrieveParams) AddExpand(f string) {
 // An object that describes more information about the tax location required for this tax code. Some [tax codes](https://docs.stripe.com/tax/tax-for-tickets/integration-guide#types-of-products) require a tax location of type `performance` to calculate tax correctly.
 type TaxCodeRequirements struct {
 	// Describes whether a performance location is required for a successful tax calculation with a tax code.
-	PerformanceLocation TaxCodeRequirementsPerformanceLocation `json:"performance_location"`
+	PerformanceLocation TaxCodeRequirementsPerformanceLocation `json:"performance_location,omitempty"`
 }
 
 // [Tax codes](https://stripe.com/docs/tax/tax-categories) classify goods and services for tax purposes.
@@ -71,7 +71,7 @@ type TaxCode struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// An object that describes more information about the tax location required for this tax code. Some [tax codes](https://docs.stripe.com/tax/tax-for-tickets/integration-guide#types-of-products) require a tax location of type `performance` to calculate tax correctly.
-	Requirements *TaxCodeRequirements `json:"requirements"`
+	Requirements *TaxCodeRequirements `json:"requirements,omitempty"`
 }
 
 // TaxCodeList is a list of TaxCodes as retrieved from a list endpoint.

@@ -75,11 +75,11 @@ const (
 type TreasuryInboundTransferListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Returns objects associated with this FinancialAccount.
-	FinancialAccount *string `form:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 	// Only return InboundTransfers that have the given status: `processing`, `succeeded`, `failed` or `canceled`.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -91,21 +91,21 @@ func (p *TreasuryInboundTransferListParams) AddExpand(f string) {
 type TreasuryInboundTransferParams struct {
 	Params `form:"*"`
 	// Amount (in cents) to be transferred.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The FinancialAccount to send funds to.
-	FinancialAccount *string `form:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The origin payment method to be debited for the InboundTransfer.
-	OriginPaymentMethod *string `form:"origin_payment_method"`
+	OriginPaymentMethod *string `form:"origin_payment_method" json:"origin_payment_method,omitempty"`
 	// The complete description that appears on your customers' statements. Maximum 10 characters. Can only include -#.$&*, spaces, and alphanumeric characters.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -126,7 +126,7 @@ func (p *TreasuryInboundTransferParams) AddMetadata(key string, value string) {
 type TreasuryInboundTransferCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -138,21 +138,21 @@ func (p *TreasuryInboundTransferCancelParams) AddExpand(f string) {
 type TreasuryInboundTransferCreateParams struct {
 	Params `form:"*"`
 	// Amount (in cents) to be transferred.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The FinancialAccount to send funds to.
-	FinancialAccount *string `form:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The origin payment method to be debited for the InboundTransfer.
-	OriginPaymentMethod *string `form:"origin_payment_method"`
+	OriginPaymentMethod *string `form:"origin_payment_method" json:"origin_payment_method"`
 	// The complete description that appears on your customers' statements. Maximum 10 characters. Can only include -#.$&*, spaces, and alphanumeric characters.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -173,7 +173,7 @@ func (p *TreasuryInboundTransferCreateParams) AddMetadata(key string, value stri
 type TreasuryInboundTransferRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -209,7 +209,7 @@ type TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccount struct {
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
 	// ID of the mandate used to make this payment.
-	Mandate *Mandate `json:"mandate"`
+	Mandate *Mandate `json:"mandate,omitempty"`
 	// The network rails used. See the [docs](https://docs.stripe.com/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
 	Network TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccountNetwork `json:"network"`
 	// Routing number of the bank account.
@@ -221,11 +221,11 @@ type TreasuryInboundTransferOriginPaymentMethodDetails struct {
 	BillingDetails *TreasuryInboundTransferOriginPaymentMethodDetailsBillingDetails `json:"billing_details"`
 	// The type of the payment method used in the InboundTransfer.
 	Type          TreasuryInboundTransferOriginPaymentMethodDetailsType           `json:"type"`
-	USBankAccount *TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
+	USBankAccount *TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
 }
 type TreasuryInboundTransferStatusTransitions struct {
 	// Timestamp describing when an InboundTransfer changed status to `canceled`.
-	CanceledAt int64 `json:"canceled_at"`
+	CanceledAt int64 `json:"canceled_at,omitempty"`
 	// Timestamp describing when an InboundTransfer changed status to `failed`.
 	FailedAt int64 `json:"failed_at"`
 	// Timestamp describing when an InboundTransfer changed status to `succeeded`.

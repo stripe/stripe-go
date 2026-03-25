@@ -55,15 +55,15 @@ const (
 type TaxRateListParams struct {
 	ListParams `form:"*"`
 	// Optional flag to filter by tax rates that are either active or inactive (archived).
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Optional range for filtering created date.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Optional range for filtering created date.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Optional flag to filter by tax rates that are inclusive (or those that are not inclusive).
-	Inclusive *bool `form:"inclusive"`
+	Inclusive *bool `form:"inclusive" json:"inclusive,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -75,27 +75,27 @@ func (p *TaxRateListParams) AddExpand(f string) {
 type TaxRateParams struct {
 	Params `form:"*"`
 	// Flag determining whether the tax rate is active or inactive (archived). Inactive tax rates cannot be used with new applications or Checkout Sessions, but will still work for subscriptions and invoices that already have it set.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// An arbitrary string attached to the tax rate for your internal use only. It will not be visible to your customers.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The display name of the tax rate, which will be shown to users.
-	DisplayName *string `form:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// This specifies if the tax rate is inclusive or exclusive.
-	Inclusive *bool `form:"inclusive"`
+	Inclusive *bool `form:"inclusive" json:"inclusive,omitempty"`
 	// The jurisdiction for the tax rate. You can use this label field for tax reporting purposes. It also appears on your customer's invoice.
-	Jurisdiction *string `form:"jurisdiction"`
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// This represents the tax rate percent out of 100.
-	Percentage *float64 `form:"percentage"`
+	Percentage *float64 `form:"percentage" json:"percentage,omitempty"`
 	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2), without country prefix. For example, "NY" for New York, United States.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// The high-level tax type, such as `vat` or `sales_tax`.
-	TaxType     *string                   `form:"tax_type"`
+	TaxType     *string                   `form:"tax_type" json:"tax_type,omitempty"`
 	UnsetFields []TaxRateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -129,27 +129,27 @@ func (p *TaxRateParams) AddMetadata(key string, value string) {
 type TaxRateCreateParams struct {
 	Params `form:"*"`
 	// Flag determining whether the tax rate is active or inactive (archived). Inactive tax rates cannot be used with new applications or Checkout Sessions, but will still work for subscriptions and invoices that already have it set.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// An arbitrary string attached to the tax rate for your internal use only. It will not be visible to your customers.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The display name of the tax rate, which will be shown to users.
-	DisplayName *string `form:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// This specifies if the tax rate is inclusive or exclusive.
-	Inclusive *bool `form:"inclusive"`
+	Inclusive *bool `form:"inclusive" json:"inclusive"`
 	// The jurisdiction for the tax rate. You can use this label field for tax reporting purposes. It also appears on your customer's invoice.
-	Jurisdiction *string `form:"jurisdiction"`
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// This represents the tax rate percent out of 100.
-	Percentage *float64 `form:"percentage"`
+	Percentage *float64 `form:"percentage" json:"percentage"`
 	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2), without country prefix. For example, "NY" for New York, United States.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// The high-level tax type, such as `vat` or `sales_tax`.
-	TaxType *string `form:"tax_type"`
+	TaxType *string `form:"tax_type" json:"tax_type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -170,7 +170,7 @@ func (p *TaxRateCreateParams) AddMetadata(key string, value string) {
 type TaxRateRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -182,23 +182,23 @@ func (p *TaxRateRetrieveParams) AddExpand(f string) {
 type TaxRateUpdateParams struct {
 	Params `form:"*"`
 	// Flag determining whether the tax rate is active or inactive (archived). Inactive tax rates cannot be used with new applications or Checkout Sessions, but will still work for subscriptions and invoices that already have it set.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// An arbitrary string attached to the tax rate for your internal use only. It will not be visible to your customers.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The display name of the tax rate, which will be shown to users.
-	DisplayName *string `form:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The jurisdiction for the tax rate. You can use this label field for tax reporting purposes. It also appears on your customer's invoice.
-	Jurisdiction *string `form:"jurisdiction"`
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2), without country prefix. For example, "NY" for New York, United States.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// The high-level tax type, such as `vat` or `sales_tax`.
-	TaxType     *string                         `form:"tax_type"`
+	TaxType     *string                         `form:"tax_type" json:"tax_type,omitempty"`
 	UnsetFields []TaxRateUpdateParamsUnsetField `form:"-" json:"-"`
 }
 

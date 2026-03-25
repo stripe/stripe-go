@@ -12,9 +12,9 @@ import "encoding/json"
 type MarginListParams struct {
 	ListParams `form:"*"`
 	// Only return margins that are active or inactive. For example, pass `true` to only list active margins.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -26,15 +26,15 @@ func (p *MarginListParams) AddExpand(f string) {
 type MarginParams struct {
 	Params `form:"*"`
 	// Whether the margin can be applied to invoices, invoice items, or invoice line items or not. Defaults to `true`.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Name of the margin, which is displayed to customers, such as on invoices.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Percent that will be taken off the subtotal before tax (after all other discounts and promotions) of any invoice to which the margin is applied.
-	PercentOff *float64 `form:"percent_off"`
+	PercentOff *float64 `form:"percent_off" json:"percent_off,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -55,15 +55,15 @@ func (p *MarginParams) AddMetadata(key string, value string) {
 type MarginCreateParams struct {
 	Params `form:"*"`
 	// Whether the margin can be applied to invoices, invoice items, or invoice line items or not. Defaults to `true`.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Name of the margin, which is displayed to customers, such as on invoices.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Percent that will be taken off the subtotal before tax (after all other discounts and promotions) of any invoice to which the margin is applied.
-	PercentOff *float64 `form:"percent_off"`
+	PercentOff *float64 `form:"percent_off" json:"percent_off"`
 }
 
 // AddExpand appends a new field to expand.
@@ -84,7 +84,7 @@ func (p *MarginCreateParams) AddMetadata(key string, value string) {
 type MarginRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -96,13 +96,13 @@ func (p *MarginRetrieveParams) AddExpand(f string) {
 type MarginUpdateParams struct {
 	Params `form:"*"`
 	// Whether the margin can be applied to invoices, invoice items, or invoice line items or not.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Name of the margin, which is displayed to customers, such as on invoices.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

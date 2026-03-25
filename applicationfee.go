@@ -21,13 +21,13 @@ const (
 type ApplicationFeeListParams struct {
 	ListParams `form:"*"`
 	// Only return application fees for the charge specified by this charge ID.
-	Charge *string `form:"charge"`
+	Charge *string `form:"charge" json:"charge,omitempty"`
 	// Only return applications fees that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return applications fees that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -39,7 +39,7 @@ func (p *ApplicationFeeListParams) AddExpand(f string) {
 type ApplicationFeeParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -51,7 +51,7 @@ func (p *ApplicationFeeParams) AddExpand(f string) {
 type ApplicationFeeRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -62,9 +62,9 @@ func (p *ApplicationFeeRetrieveParams) AddExpand(f string) {
 // Polymorphic source of the application fee. Includes the ID of the object the application fee was created from.
 type ApplicationFeeFeeSource struct {
 	// Charge ID that created this application fee.
-	Charge string `json:"charge"`
+	Charge string `json:"charge,omitempty"`
 	// Payout ID that created this application fee.
-	Payout string `json:"payout"`
+	Payout string `json:"payout,omitempty"`
 	// Type of object that created the application fee.
 	Type ApplicationFeeFeeSourceType `json:"type"`
 }

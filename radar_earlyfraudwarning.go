@@ -24,15 +24,15 @@ const (
 type RadarEarlyFraudWarningListParams struct {
 	ListParams `form:"*"`
 	// Only return early fraud warnings for the charge specified by this charge ID.
-	Charge *string `form:"charge"`
+	Charge *string `form:"charge" json:"charge,omitempty"`
 	// Only return early fraud warnings that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return early fraud warnings that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return early fraud warnings for charges that were created by the PaymentIntent specified by this PaymentIntent ID.
-	PaymentIntent *string `form:"payment_intent"`
+	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -46,7 +46,7 @@ func (p *RadarEarlyFraudWarningListParams) AddExpand(f string) {
 type RadarEarlyFraudWarningParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -60,7 +60,7 @@ func (p *RadarEarlyFraudWarningParams) AddExpand(f string) {
 type RadarEarlyFraudWarningRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -89,7 +89,7 @@ type RadarEarlyFraudWarning struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// ID of the Payment Intent this early fraud warning is for, optionally expanded.
-	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	PaymentIntent *PaymentIntent `json:"payment_intent,omitempty"`
 }
 
 // RadarEarlyFraudWarningList is a list of EarlyFraudWarnings as retrieved from a list endpoint.

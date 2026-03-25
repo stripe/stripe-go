@@ -19,22 +19,22 @@ const (
 // A filter on the list based on the object `transaction_refresh` field. The value can be a dictionary with the following options:
 type FinancialConnectionsTransactionListTransactionRefreshParams struct {
 	// Return results where the transactions were created or updated by a refresh that took place after this refresh (non-inclusive).
-	After *string `form:"after"`
+	After *string `form:"after" json:"after"`
 }
 
 // Returns a list of Financial Connections Transaction objects.
 type FinancialConnectionsTransactionListParams struct {
 	ListParams `form:"*"`
 	// The ID of the Financial Connections Account whose transactions will be retrieved.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A filter on the list based on the object `transacted_at` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with the following options:
-	TransactedAt *int64 `form:"transacted_at"`
+	TransactedAt *int64 `form:"transacted_at" json:"transacted_at,omitempty"`
 	// A filter on the list based on the object `transacted_at` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with the following options:
-	TransactedAtRange *RangeQueryParams `form:"transacted_at"`
+	TransactedAtRange *RangeQueryParams `form:"transacted_at" json:"-"`
 	// A filter on the list based on the object `transaction_refresh` field. The value can be a dictionary with the following options:
-	TransactionRefresh *FinancialConnectionsTransactionListTransactionRefreshParams `form:"transaction_refresh"`
+	TransactionRefresh *FinancialConnectionsTransactionListTransactionRefreshParams `form:"transaction_refresh" json:"transaction_refresh,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -46,7 +46,7 @@ func (p *FinancialConnectionsTransactionListParams) AddExpand(f string) {
 type FinancialConnectionsTransactionParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -58,7 +58,7 @@ func (p *FinancialConnectionsTransactionParams) AddExpand(f string) {
 type FinancialConnectionsTransactionRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

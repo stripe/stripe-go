@@ -31,9 +31,9 @@ const (
 type IssuingDisputeSettlementDetailListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Select the Issuing dispute settlement details for the given settlement.
-	Settlement *string `form:"settlement"`
+	Settlement *string `form:"settlement" json:"settlement,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -45,7 +45,7 @@ func (p *IssuingDisputeSettlementDetailListParams) AddExpand(f string) {
 type IssuingDisputeSettlementDetailParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -57,7 +57,7 @@ func (p *IssuingDisputeSettlementDetailParams) AddExpand(f string) {
 type IssuingDisputeSettlementDetailRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

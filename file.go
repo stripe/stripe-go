@@ -48,13 +48,13 @@ const (
 type FileListParams struct {
 	ListParams `form:"*"`
 	// Only return files that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return files that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Filter queries by the file purpose. If you don't provide a purpose, the queries return unfiltered files.
-	Purpose *string `form:"purpose"`
+	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -66,11 +66,11 @@ func (p *FileListParams) AddExpand(f string) {
 type FileFileLinkDataParams struct {
 	Params `form:"*"`
 	// Set this to `true` to create a file link for the newly created file. Creating a link is only possible when the file's `purpose` is one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `issuing_regulatory_reporting`, `pci_document`, `tax_document_user_upload`, `terminal_android_apk`, or `terminal_reader_splashscreen`.
-	Create *bool `form:"create"`
+	Create *bool `form:"create" json:"create"`
 	// The link isn't available after this future timestamp.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                  `form:"metadata"`
+	Metadata    map[string]string                  `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []FileFileLinkDataParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -101,16 +101,16 @@ func (p *FileFileLinkDataParams) AddMetadata(key string, value string) {
 type FileParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// FileReader is a reader with the contents of the file that should be uploaded.
 	FileReader io.Reader
 
 	// Filename is just the name of the file without path information.
 	Filename *string
 	// Optional parameters that automatically create a [file link](https://api.stripe.com#file_links) for the newly created file.
-	FileLinkData *FileFileLinkDataParams `form:"file_link_data"`
+	FileLinkData *FileFileLinkDataParams `form:"file_link_data" json:"file_link_data,omitempty"`
 	// The [purpose](https://docs.stripe.com/file-upload#uploading-a-file) of the uploaded file.
-	Purpose *string `form:"purpose"`
+	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 }
 
 // GetBody gets an appropriate multipart form payload to use in a request body
@@ -173,11 +173,11 @@ func (p *FileParams) AddExpand(f string) {
 type FileCreateFileLinkDataParams struct {
 	Params `form:"*"`
 	// Set this to `true` to create a file link for the newly created file. Creating a link is only possible when the file's `purpose` is one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `issuing_regulatory_reporting`, `pci_document`, `tax_document_user_upload`, `terminal_android_apk`, or `terminal_reader_splashscreen`.
-	Create *bool `form:"create"`
+	Create *bool `form:"create" json:"create"`
 	// The link isn't available after this future timestamp.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                        `form:"metadata"`
+	Metadata    map[string]string                        `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []FileCreateFileLinkDataParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -208,16 +208,16 @@ func (p *FileCreateFileLinkDataParams) AddMetadata(key string, value string) {
 type FileCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// FileReader is a reader with the contents of the file that should be uploaded.
 	FileReader io.Reader
 
 	// Filename is just the name of the file without path information.
 	Filename *string
 	// Optional parameters that automatically create a [file link](https://api.stripe.com#file_links) for the newly created file.
-	FileLinkData *FileCreateFileLinkDataParams `form:"file_link_data"`
+	FileLinkData *FileCreateFileLinkDataParams `form:"file_link_data" json:"file_link_data,omitempty"`
 	// The [purpose](https://docs.stripe.com/file-upload#uploading-a-file) of the uploaded file.
-	Purpose *string `form:"purpose"`
+	Purpose *string `form:"purpose" json:"purpose"`
 }
 
 // GetBody gets an appropriate multipart form payload to use in a request body
@@ -280,7 +280,7 @@ func (p *FileCreateParams) AddExpand(f string) {
 type FileRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -306,7 +306,7 @@ type File struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// A list of [file links](https://api.stripe.com#file_links) that point at this file.
-	Links *FileLinkList `json:"links"`
+	Links *FileLinkList `json:"links,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The [purpose](https://docs.stripe.com/file-upload#uploading-a-file) of the uploaded file.

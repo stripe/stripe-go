@@ -40,18 +40,18 @@ const (
 type ReserveHoldListParams struct {
 	ListParams `form:"*"`
 	// Only return ReserveHolds associated with the currency specified by this currency code. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return ReserveHolds that are releasable.
-	IsReleasable *bool   `form:"is_releasable"`
-	Reason       *string `form:"reason"`
+	IsReleasable *bool   `form:"is_releasable" json:"is_releasable,omitempty"`
+	Reason       *string `form:"reason" json:"reason,omitempty"`
 	// Only return ReserveHolds associated with the ReservePlan specified by this ReservePlan ID.
-	ReservePlan *string `form:"reserve_plan"`
+	ReservePlan *string `form:"reserve_plan" json:"reserve_plan,omitempty"`
 	// Only return ReserveHolds associated with the ReserveRelease specified by this ReserveRelease ID.
-	ReserveRelease *string `form:"reserve_release"`
+	ReserveRelease *string `form:"reserve_release" json:"reserve_release,omitempty"`
 	// Only return ReserveHolds associated with the Charge specified by this source charge ID.
-	SourceCharge *string `form:"source_charge"`
+	SourceCharge *string `form:"source_charge" json:"source_charge,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -63,7 +63,7 @@ func (p *ReserveHoldListParams) AddExpand(f string) {
 type ReserveHoldParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -75,7 +75,7 @@ func (p *ReserveHoldParams) AddExpand(f string) {
 type ReserveHoldRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -96,7 +96,7 @@ type ReserveHold struct {
 	// Amount reserved. A positive integer representing how much is reserved in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
 	// Amount in cents that can be released from this ReserveHold
-	AmountReleasable int64 `json:"amount_releasable"`
+	AmountReleasable int64 `json:"amount_releasable,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Indicates which party created this ReserveHold.
@@ -106,11 +106,11 @@ type ReserveHold struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Whether there are any funds available to release on this ReserveHold. Note that if the ReserveHold is in the process of being released, this could be false, even though the funds haven't been fully released yet.
-	IsReleasable bool `json:"is_releasable"`
+	IsReleasable bool `json:"is_releasable,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The reason for the ReserveHold.

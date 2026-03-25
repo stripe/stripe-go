@@ -12,15 +12,15 @@ import "encoding/json"
 type EphemeralKeyParams struct {
 	Params `form:"*"`
 	// The ID of the Customer you'd like to modify using the resulting ephemeral key.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The ID of the Issuing Card you'd like to access using the resulting ephemeral key.
-	IssuingCard *string `form:"issuing_card"`
+	IssuingCard *string `form:"issuing_card" json:"issuing_card,omitempty"`
 	// A single-use token, created by Stripe.js, used for creating ephemeral keys for Issuing Cards without exchanging sensitive information.
-	Nonce *string `form:"nonce"`
+	Nonce *string `form:"nonce" json:"nonce,omitempty"`
 	// The ID of the Identity VerificationSession you'd like to access using the resulting ephemeral key
-	VerificationSession *string `form:"verification_session"`
+	VerificationSession *string `form:"verification_session" json:"verification_session,omitempty"`
 	StripeVersion       *string `form:"-"` // This goes in the `Stripe-Version` header
 }
 
@@ -33,7 +33,7 @@ func (p *EphemeralKeyParams) AddExpand(f string) {
 type EphemeralKeyDeleteParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -45,15 +45,15 @@ func (p *EphemeralKeyDeleteParams) AddExpand(f string) {
 type EphemeralKeyCreateParams struct {
 	Params `form:"*"`
 	// The ID of the Customer you'd like to modify using the resulting ephemeral key.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The ID of the Issuing Card you'd like to access using the resulting ephemeral key.
-	IssuingCard *string `form:"issuing_card"`
+	IssuingCard *string `form:"issuing_card" json:"issuing_card,omitempty"`
 	// A single-use token, created by Stripe.js, used for creating ephemeral keys for Issuing Cards without exchanging sensitive information.
-	Nonce *string `form:"nonce"`
+	Nonce *string `form:"nonce" json:"nonce,omitempty"`
 	// The ID of the Identity VerificationSession you'd like to access using the resulting ephemeral key
-	VerificationSession *string `form:"verification_session"`
+	VerificationSession *string `form:"verification_session" json:"verification_session,omitempty"`
 	StripeVersion       *string `form:"-"` // This goes in the `Stripe-Version` header
 }
 
@@ -75,7 +75,7 @@ type EphemeralKey struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The key's secret. You can use this value to make authorized requests to the Stripe API.
-	Secret string `json:"secret"`
+	Secret string `json:"secret,omitempty"`
 	// RawJSON is provided so that it may be passed back to the frontend
 	// unchanged.  Ephemeral keys are issued on behalf of another client which
 	// may be running a different version of the bindings and thus expect a

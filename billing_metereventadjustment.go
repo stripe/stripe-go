@@ -26,20 +26,20 @@ const (
 // Specifies which event to cancel.
 type BillingMeterEventAdjustmentCancelParams struct {
 	// Unique identifier for the event. You can only cancel events within 24 hours of Stripe receiving them.
-	Identifier *string `form:"identifier"`
+	Identifier *string `form:"identifier" json:"identifier,omitempty"`
 }
 
 // Creates a billing meter event adjustment.
 type BillingMeterEventAdjustmentParams struct {
 	Params `form:"*"`
 	// Specifies which event to cancel.
-	Cancel *BillingMeterEventAdjustmentCancelParams `form:"cancel"`
+	Cancel *BillingMeterEventAdjustmentCancelParams `form:"cancel" json:"cancel,omitempty"`
 	// The name of the meter event. Corresponds with the `event_name` field on a meter.
-	EventName *string `form:"event_name"`
+	EventName *string `form:"event_name" json:"event_name"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // AddExpand appends a new field to expand.
@@ -50,20 +50,20 @@ func (p *BillingMeterEventAdjustmentParams) AddExpand(f string) {
 // Specifies which event to cancel.
 type BillingMeterEventAdjustmentCreateCancelParams struct {
 	// Unique identifier for the event. You can only cancel events within 24 hours of Stripe receiving them.
-	Identifier *string `form:"identifier"`
+	Identifier *string `form:"identifier" json:"identifier,omitempty"`
 }
 
 // Creates a billing meter event adjustment.
 type BillingMeterEventAdjustmentCreateParams struct {
 	Params `form:"*"`
 	// Specifies which event to cancel.
-	Cancel *BillingMeterEventAdjustmentCreateCancelParams `form:"cancel"`
+	Cancel *BillingMeterEventAdjustmentCreateCancelParams `form:"cancel" json:"cancel,omitempty"`
 	// The name of the meter event. Corresponds with the `event_name` field on a meter.
-	EventName *string `form:"event_name"`
+	EventName *string `form:"event_name" json:"event_name"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // AddExpand appends a new field to expand.

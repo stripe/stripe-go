@@ -10,24 +10,24 @@ package stripe
 type WebhookEndpointParams struct {
 	Params `form:"*"`
 	// Whether this endpoint should receive events from connected accounts (`true`), or from your account (`false`). Defaults to `false`.
-	Connect *bool `form:"connect"`
+	Connect *bool `form:"connect" json:"connect,omitempty"`
 	// An optional description of what the webhook is used for.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Disable the webhook endpoint if set to true.
-	Disabled *bool `form:"disabled"`
+	Disabled *bool `form:"disabled" json:"disabled,omitempty"`
 	// The list of events to enable for this endpoint. You may specify `['*']` to enable all events, except those that require explicit selection.
-	EnabledEvents []*string `form:"enabled_events"`
+	EnabledEvents []*string `form:"enabled_events" json:"enabled_events,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The URL of the webhook endpoint.
-	URL         *string                           `form:"url"`
+	URL         *string                           `form:"url" json:"url,omitempty"`
 	UnsetFields []WebhookEndpointParamsUnsetField `form:"-" json:"-"`
 	// This parameter is only available on creation.
 	// We recommend setting the API version that the library is pinned to. See apiversion in stripe.go
 	// Events sent to this endpoint will be generated with this Stripe Version instead of your account's default Stripe Version.
-	APIVersion *string `form:"api_version"`
+	APIVersion *string `form:"api_version" json:"api_version,omitempty"`
 }
 
 // WebhookEndpointParamsUnsetField is the list of fields that can be cleared/unset on WebhookEndpointParams.
@@ -61,7 +61,7 @@ func (p *WebhookEndpointParams) AddMetadata(key string, value string) {
 type WebhookEndpointListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -78,7 +78,7 @@ type WebhookEndpointDeleteParams struct {
 type WebhookEndpointRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -90,17 +90,17 @@ func (p *WebhookEndpointRetrieveParams) AddExpand(f string) {
 type WebhookEndpointUpdateParams struct {
 	Params `form:"*"`
 	// An optional description of what the webhook is used for.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Disable the webhook endpoint if set to true.
-	Disabled *bool `form:"disabled"`
+	Disabled *bool `form:"disabled" json:"disabled,omitempty"`
 	// The list of events to enable for this endpoint. You may specify `['*']` to enable all events, except those that require explicit selection.
-	EnabledEvents []*string `form:"enabled_events"`
+	EnabledEvents []*string `form:"enabled_events" json:"enabled_events,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The URL of the webhook endpoint.
-	URL         *string                                 `form:"url"`
+	URL         *string                                 `form:"url" json:"url,omitempty"`
 	UnsetFields []WebhookEndpointUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -135,19 +135,19 @@ func (p *WebhookEndpointUpdateParams) AddMetadata(key string, value string) {
 type WebhookEndpointCreateParams struct {
 	Params `form:"*"`
 	// Events sent to this endpoint will be generated with this Stripe Version instead of your account's default Stripe Version.
-	APIVersion *string `form:"api_version"`
+	APIVersion *string `form:"api_version" json:"api_version,omitempty"`
 	// Whether this endpoint should receive events from connected accounts (`true`), or from your account (`false`). Defaults to `false`.
-	Connect *bool `form:"connect"`
+	Connect *bool `form:"connect" json:"connect,omitempty"`
 	// An optional description of what the webhook is used for.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The list of events to enable for this endpoint. You may specify `['*']` to enable all events, except those that require explicit selection.
-	EnabledEvents []*string `form:"enabled_events"`
+	EnabledEvents []*string `form:"enabled_events" json:"enabled_events"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The URL of the webhook endpoint.
-	URL         *string                                 `form:"url"`
+	URL         *string                                 `form:"url" json:"url"`
 	UnsetFields []WebhookEndpointCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -193,7 +193,7 @@ type WebhookEndpoint struct {
 	Application string `json:"application"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	Deleted bool  `json:"deleted"`
+	Deleted bool  `json:"deleted,omitempty"`
 	// An optional description of what the webhook is used for.
 	Description string `json:"description"`
 	// The list of events to enable for this endpoint. `['*']` indicates that all events are enabled, except those that require explicit selection.
@@ -207,7 +207,7 @@ type WebhookEndpoint struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The endpoint's secret, used to generate [webhook signatures](https://docs.stripe.com/webhooks/signatures). Only returned at creation.
-	Secret string `json:"secret"`
+	Secret string `json:"secret,omitempty"`
 	// The status of the webhook. It can be `enabled` or `disabled`.
 	Status string `json:"status"`
 	// The URL of the webhook endpoint.

@@ -98,34 +98,34 @@ const (
 // Only return prices with these recurring fields.
 type PriceListRecurringParams struct {
 	// Filter by billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval,omitempty"`
 	// Filter by the price's meter.
-	Meter *string `form:"meter"`
+	Meter *string `form:"meter" json:"meter,omitempty"`
 	// Filter by the usage type for this price. Can be either `metered` or `licensed`.
-	UsageType *string `form:"usage_type"`
+	UsageType *string `form:"usage_type" json:"usage_type,omitempty"`
 }
 
 // Returns a list of your active prices, excluding [inline prices](https://docs.stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set active to false.
 type PriceListParams struct {
 	ListParams `form:"*"`
 	// Only return prices that are active or inactive (e.g., pass `false` to list all inactive prices).
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Only return prices for the given currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return the price with these lookup_keys, if any exist. You can specify up to 10 lookup_keys.
-	LookupKeys []*string `form:"lookup_keys"`
+	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys,omitempty"`
 	// Only return prices for the given product.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product,omitempty"`
 	// Only return prices with these recurring fields.
-	Recurring *PriceListRecurringParams `form:"recurring"`
+	Recurring *PriceListRecurringParams `form:"recurring" json:"recurring,omitempty"`
 	// Only return prices of type `recurring` or `one_time`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -136,27 +136,27 @@ func (p *PriceListParams) AddExpand(f string) {
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 type PriceCurrencyOptionsCustomUnitAmountParams struct {
 	// Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 	// The maximum unit amount the customer can specify for this item.
-	Maximum *int64 `form:"maximum"`
+	Maximum *int64 `form:"maximum" json:"maximum,omitempty"`
 	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
-	Minimum *int64 `form:"minimum"`
+	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
 	// The starting unit amount which can be updated by the customer.
-	Preset *int64 `form:"preset"`
+	Preset *int64 `form:"preset" json:"preset,omitempty"`
 }
 
 // Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 type PriceCurrencyOptionsTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
-	FlatAmount *int64 `form:"flat_amount"`
+	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
+	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
-	UpTo    *int64 `form:"up_to"`
+	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
 }
 
@@ -170,35 +170,35 @@ func (p *PriceCurrencyOptionsTierParams) AppendTo(body *form.Values, keyParts []
 // Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 type PriceCurrencyOptionsParams struct {
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
-	CustomUnitAmount *PriceCurrencyOptionsCustomUnitAmountParams `form:"custom_unit_amount"`
+	CustomUnitAmount *PriceCurrencyOptionsCustomUnitAmountParams `form:"custom_unit_amount" json:"custom_unit_amount,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
-	Tiers []*PriceCurrencyOptionsTierParams `form:"tiers"`
+	Tiers []*PriceCurrencyOptionsTierParams `form:"tiers" json:"tiers,omitempty"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 type PriceCustomUnitAmountParams struct {
 	// Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 	// The maximum unit amount the customer can specify for this item.
-	Maximum *int64 `form:"maximum"`
+	Maximum *int64 `form:"maximum" json:"maximum,omitempty"`
 	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
-	Minimum *int64 `form:"minimum"`
+	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
 	// The starting unit amount which can be updated by the customer.
-	Preset *int64 `form:"preset"`
+	Preset *int64 `form:"preset" json:"preset,omitempty"`
 }
 
 // Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
 type PriceProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
-	PerformanceLocation *string `form:"performance_location"`
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode     *string                                      `form:"tax_code"`
+	TaxCode     *string                                      `form:"tax_code" json:"tax_code,omitempty"`
 	UnsetFields []PriceProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -217,23 +217,23 @@ func (p *PriceProductDataTaxDetailsParams) AddUnsetField(field PriceProductDataT
 // These fields can be used to create a new product that this price will belong to.
 type PriceProductDataParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// The identifier for the product. Must be unique. If not provided, an identifier will be randomly generated.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The product's name, meant to be displayable to the customer.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all.
 	//
 	// This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
-	TaxDetails *PriceProductDataTaxDetailsParams `form:"tax_details"`
+	TaxDetails *PriceProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
-	UnitLabel *string `form:"unit_label"`
+	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -248,29 +248,29 @@ func (p *PriceProductDataParams) AddMetadata(key string, value string) {
 // The recurring components of a price such as `interval` and `usage_type`.
 type PriceRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 	// The meter tracking the usage of a metered price
-	Meter *string `form:"meter"`
+	Meter *string `form:"meter" json:"meter,omitempty"`
 	// Default number of trial days when subscribing a customer to this price using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan).
-	TrialPeriodDays *int64 `form:"trial_period_days"`
+	TrialPeriodDays *int64 `form:"trial_period_days" json:"trial_period_days,omitempty"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
-	UsageType *string `form:"usage_type"`
+	UsageType *string `form:"usage_type" json:"usage_type,omitempty"`
 }
 
 // Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 type PriceTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
-	FlatAmount *int64 `form:"flat_amount"`
+	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
+	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
-	UpTo    *int64 `form:"up_to"`
+	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
 }
 
@@ -284,54 +284,54 @@ func (p *PriceTierParams) AppendTo(body *form.Values, keyParts []string) {
 // Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with `tiers`.
 type PriceTransformQuantityParams struct {
 	// Divide usage by this number.
-	DivideBy *int64 `form:"divide_by"`
+	DivideBy *int64 `form:"divide_by" json:"divide_by"`
 	// After division, either round the result `up` or `down`.
-	Round *string `form:"round"`
+	Round *string `form:"round" json:"round"`
 }
 
 // Creates a new [Price for an existing <a href="https://docs.stripe.com/api/products">Product](https://docs.stripe.com/api/prices). The Price can be recurring or one-time.
 type PriceParams struct {
 	Params `form:"*"`
 	// Whether the price can be used for new purchases. Defaults to `true`.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
-	BillingScheme *string `form:"billing_scheme"`
+	BillingScheme *string `form:"billing_scheme" json:"billing_scheme,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-	CurrencyOptions map[string]*PriceCurrencyOptionsParams `form:"currency_options"`
+	CurrencyOptions map[string]*PriceCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
-	CustomUnitAmount *PriceCustomUnitAmountParams `form:"custom_unit_amount"`
+	CustomUnitAmount *PriceCustomUnitAmountParams `form:"custom_unit_amount" json:"custom_unit_amount,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
-	LookupKey *string `form:"lookup_key"`
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// If specified, subscriptions using this price will be updated to use the new referenced price.
-	MigrateTo *PriceMigrateToParams `form:"migrate_to"`
+	MigrateTo *PriceMigrateToParams `form:"migrate_to" json:"migrate_to,omitempty"`
 	// A brief description of the price, hidden from customers.
-	Nickname *string `form:"nickname"`
+	Nickname *string `form:"nickname" json:"nickname,omitempty"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product,omitempty"`
 	// These fields can be used to create a new product that this price will belong to.
-	ProductData *PriceProductDataParams `form:"product_data"`
+	ProductData *PriceProductDataParams `form:"product_data" json:"product_data,omitempty"`
 	// The recurring components of a price such as `interval` and `usage_type`.
-	Recurring *PriceRecurringParams `form:"recurring"`
+	Recurring *PriceRecurringParams `form:"recurring" json:"recurring,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
-	Tiers []*PriceTierParams `form:"tiers"`
+	Tiers []*PriceTierParams `form:"tiers" json:"tiers,omitempty"`
 	// Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price, in `graduated` tiering pricing can successively change as the quantity grows.
-	TiersMode *string `form:"tiers_mode"`
+	TiersMode *string `form:"tiers_mode" json:"tiers_mode,omitempty"`
 	// If set to true, will atomically remove the lookup key from the existing price, and assign it to this price.
-	TransferLookupKey *bool `form:"transfer_lookup_key"`
+	TransferLookupKey *bool `form:"transfer_lookup_key" json:"transfer_lookup_key,omitempty"`
 	// Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with `tiers`.
-	TransformQuantity *PriceTransformQuantityParams `form:"transform_quantity"`
+	TransformQuantity *PriceTransformQuantityParams `form:"transform_quantity" json:"transform_quantity,omitempty"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount`, `unit_amount_decimal`, or `custom_unit_amount` is required, unless `billing_scheme=tiered`.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64                `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	UnsetFields       []PriceParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -366,11 +366,11 @@ func (p *PriceParams) AddMetadata(key string, value string) {
 // If specified, subscriptions using this price will be updated to use the new referenced price.
 type PriceMigrateToParams struct {
 	// The behavior controlling the point in the subscription lifecycle after which to migrate the price. Currently must be `at_cycle_end`.
-	Behavior *string `form:"behavior"`
+	Behavior *string `form:"behavior" json:"behavior"`
 	// The time after which subscriptions should start using the new price.
-	EffectiveAfter *int64 `form:"effective_after"`
+	EffectiveAfter *int64 `form:"effective_after" json:"effective_after,omitempty"`
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price"`
 }
 
 // Search for prices you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
@@ -380,9 +380,9 @@ type PriceMigrateToParams struct {
 type PriceSearchParams struct {
 	SearchParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
-	Page *string `form:"page"`
+	Page *string `form:"page" json:"page,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -393,27 +393,27 @@ func (p *PriceSearchParams) AddExpand(f string) {
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 type PriceCreateCurrencyOptionsCustomUnitAmountParams struct {
 	// Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 	// The maximum unit amount the customer can specify for this item.
-	Maximum *int64 `form:"maximum"`
+	Maximum *int64 `form:"maximum" json:"maximum,omitempty"`
 	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
-	Minimum *int64 `form:"minimum"`
+	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
 	// The starting unit amount which can be updated by the customer.
-	Preset *int64 `form:"preset"`
+	Preset *int64 `form:"preset" json:"preset,omitempty"`
 }
 
 // Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 type PriceCreateCurrencyOptionsTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
-	FlatAmount *int64 `form:"flat_amount"`
+	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
+	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
-	UpTo    *int64 `form:"up_to"`
+	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
 }
 
@@ -427,35 +427,35 @@ func (p *PriceCreateCurrencyOptionsTierParams) AppendTo(body *form.Values, keyPa
 // Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 type PriceCreateCurrencyOptionsParams struct {
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
-	CustomUnitAmount *PriceCreateCurrencyOptionsCustomUnitAmountParams `form:"custom_unit_amount"`
+	CustomUnitAmount *PriceCreateCurrencyOptionsCustomUnitAmountParams `form:"custom_unit_amount" json:"custom_unit_amount,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
-	Tiers []*PriceCreateCurrencyOptionsTierParams `form:"tiers"`
+	Tiers []*PriceCreateCurrencyOptionsTierParams `form:"tiers" json:"tiers,omitempty"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 type PriceCreateCustomUnitAmountParams struct {
 	// Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 	// The maximum unit amount the customer can specify for this item.
-	Maximum *int64 `form:"maximum"`
+	Maximum *int64 `form:"maximum" json:"maximum,omitempty"`
 	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
-	Minimum *int64 `form:"minimum"`
+	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
 	// The starting unit amount which can be updated by the customer.
-	Preset *int64 `form:"preset"`
+	Preset *int64 `form:"preset" json:"preset,omitempty"`
 }
 
 // Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
 type PriceCreateProductDataTaxDetailsParams struct {
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
-	PerformanceLocation *string `form:"performance_location"`
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode     *string                                            `form:"tax_code"`
+	TaxCode     *string                                            `form:"tax_code" json:"tax_code,omitempty"`
 	UnsetFields []PriceCreateProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -474,23 +474,23 @@ func (p *PriceCreateProductDataTaxDetailsParams) AddUnsetField(field PriceCreate
 // These fields can be used to create a new product that this price will belong to.
 type PriceCreateProductDataParams struct {
 	// Whether the product is currently available for purchase. Defaults to `true`.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// The identifier for the product. Must be unique. If not provided, an identifier will be randomly generated.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The product's name, meant to be displayable to the customer.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all.
 	//
 	// This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
-	TaxDetails *PriceCreateProductDataTaxDetailsParams `form:"tax_details"`
+	TaxDetails *PriceCreateProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
-	UnitLabel *string `form:"unit_label"`
+	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -505,29 +505,29 @@ func (p *PriceCreateProductDataParams) AddMetadata(key string, value string) {
 // The recurring components of a price such as `interval` and `usage_type`.
 type PriceCreateRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 	// The meter tracking the usage of a metered price
-	Meter *string `form:"meter"`
+	Meter *string `form:"meter" json:"meter,omitempty"`
 	// Default number of trial days when subscribing a customer to this price using [`trial_from_plan=true`](https://docs.stripe.com/api#create_subscription-trial_from_plan).
-	TrialPeriodDays *int64 `form:"trial_period_days"`
+	TrialPeriodDays *int64 `form:"trial_period_days" json:"trial_period_days,omitempty"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
-	UsageType *string `form:"usage_type"`
+	UsageType *string `form:"usage_type" json:"usage_type,omitempty"`
 }
 
 // Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 type PriceCreateTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
-	FlatAmount *int64 `form:"flat_amount"`
+	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
+	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
-	UpTo    *int64 `form:"up_to"`
+	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
 }
 
@@ -541,52 +541,52 @@ func (p *PriceCreateTierParams) AppendTo(body *form.Values, keyParts []string) {
 // Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with `tiers`.
 type PriceCreateTransformQuantityParams struct {
 	// Divide usage by this number.
-	DivideBy *int64 `form:"divide_by"`
+	DivideBy *int64 `form:"divide_by" json:"divide_by"`
 	// After division, either round the result `up` or `down`.
-	Round *string `form:"round"`
+	Round *string `form:"round" json:"round"`
 }
 
 // Creates a new [Price for an existing <a href="https://docs.stripe.com/api/products">Product](https://docs.stripe.com/api/prices). The Price can be recurring or one-time.
 type PriceCreateParams struct {
 	Params `form:"*"`
 	// Whether the price can be used for new purchases. Defaults to `true`.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
-	BillingScheme *string `form:"billing_scheme"`
+	BillingScheme *string `form:"billing_scheme" json:"billing_scheme,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-	CurrencyOptions map[string]*PriceCreateCurrencyOptionsParams `form:"currency_options"`
+	CurrencyOptions map[string]*PriceCreateCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
-	CustomUnitAmount *PriceCreateCustomUnitAmountParams `form:"custom_unit_amount"`
+	CustomUnitAmount *PriceCreateCustomUnitAmountParams `form:"custom_unit_amount" json:"custom_unit_amount,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
-	LookupKey *string `form:"lookup_key"`
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A brief description of the price, hidden from customers.
-	Nickname *string `form:"nickname"`
+	Nickname *string `form:"nickname" json:"nickname,omitempty"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product,omitempty"`
 	// These fields can be used to create a new product that this price will belong to.
-	ProductData *PriceCreateProductDataParams `form:"product_data"`
+	ProductData *PriceCreateProductDataParams `form:"product_data" json:"product_data,omitempty"`
 	// The recurring components of a price such as `interval` and `usage_type`.
-	Recurring *PriceCreateRecurringParams `form:"recurring"`
+	Recurring *PriceCreateRecurringParams `form:"recurring" json:"recurring,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
-	Tiers []*PriceCreateTierParams `form:"tiers"`
+	Tiers []*PriceCreateTierParams `form:"tiers" json:"tiers,omitempty"`
 	// Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price, in `graduated` tiering pricing can successively change as the quantity grows.
-	TiersMode *string `form:"tiers_mode"`
+	TiersMode *string `form:"tiers_mode" json:"tiers_mode,omitempty"`
 	// If set to true, will atomically remove the lookup key from the existing price, and assign it to this price.
-	TransferLookupKey *bool `form:"transfer_lookup_key"`
+	TransferLookupKey *bool `form:"transfer_lookup_key" json:"transfer_lookup_key,omitempty"`
 	// Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with `tiers`.
-	TransformQuantity *PriceCreateTransformQuantityParams `form:"transform_quantity"`
+	TransformQuantity *PriceCreateTransformQuantityParams `form:"transform_quantity" json:"transform_quantity,omitempty"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount`, `unit_amount_decimal`, or `custom_unit_amount` is required, unless `billing_scheme=tiered`.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -607,7 +607,7 @@ func (p *PriceCreateParams) AddMetadata(key string, value string) {
 type PriceRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -618,27 +618,27 @@ func (p *PriceRetrieveParams) AddExpand(f string) {
 // When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 type PriceUpdateCurrencyOptionsCustomUnitAmountParams struct {
 	// Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 	// The maximum unit amount the customer can specify for this item.
-	Maximum *int64 `form:"maximum"`
+	Maximum *int64 `form:"maximum" json:"maximum,omitempty"`
 	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
-	Minimum *int64 `form:"minimum"`
+	Minimum *int64 `form:"minimum" json:"minimum,omitempty"`
 	// The starting unit amount which can be updated by the customer.
-	Preset *int64 `form:"preset"`
+	Preset *int64 `form:"preset" json:"preset,omitempty"`
 }
 
 // Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 type PriceUpdateCurrencyOptionsTierParams struct {
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
-	FlatAmount *int64 `form:"flat_amount"`
+	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
+	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision" json:"flat_amount_decimal,string,omitempty"`
 	// The per unit billing amount for each individual unit for which this tier applies.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
-	UpTo    *int64 `form:"up_to"`
+	UpTo    *int64 `form:"up_to" json:"up_to"`
 	UpToInf *bool  `form:"-"` // See custom AppendTo
 }
 
@@ -652,48 +652,48 @@ func (p *PriceUpdateCurrencyOptionsTierParams) AppendTo(body *form.Values, keyPa
 // Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 type PriceUpdateCurrencyOptionsParams struct {
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
-	CustomUnitAmount *PriceUpdateCurrencyOptionsCustomUnitAmountParams `form:"custom_unit_amount"`
+	CustomUnitAmount *PriceUpdateCurrencyOptionsCustomUnitAmountParams `form:"custom_unit_amount" json:"custom_unit_amount,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
-	Tiers []*PriceUpdateCurrencyOptionsTierParams `form:"tiers"`
+	Tiers []*PriceUpdateCurrencyOptionsTierParams `form:"tiers" json:"tiers,omitempty"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // If specified, subscriptions using this price will be updated to use the new referenced price.
 type PriceUpdateMigrateToParams struct {
 	// The behavior controlling the point in the subscription lifecycle after which to migrate the price. Currently must be `at_cycle_end`.
-	Behavior *string `form:"behavior"`
+	Behavior *string `form:"behavior" json:"behavior"`
 	// The time after which subscriptions should start using the new price.
-	EffectiveAfter *int64 `form:"effective_after"`
+	EffectiveAfter *int64 `form:"effective_after" json:"effective_after,omitempty"`
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price"`
 }
 
 // Updates the specified price by setting the values of the parameters passed. Any parameters not provided are left unchanged.
 type PriceUpdateParams struct {
 	Params `form:"*"`
 	// Whether the price can be used for new purchases. Defaults to `true`.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-	CurrencyOptions map[string]*PriceUpdateCurrencyOptionsParams `form:"currency_options"`
+	CurrencyOptions map[string]*PriceUpdateCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
-	LookupKey *string `form:"lookup_key"`
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// If specified, subscriptions using this price will be updated to use the new referenced price.
-	MigrateTo *PriceUpdateMigrateToParams `form:"migrate_to"`
+	MigrateTo *PriceUpdateMigrateToParams `form:"migrate_to" json:"migrate_to,omitempty"`
 	// A brief description of the price, hidden from customers.
-	Nickname *string `form:"nickname"`
+	Nickname *string `form:"nickname" json:"nickname,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// If set to true, will atomically remove the lookup key from the existing price, and assign it to this price.
-	TransferLookupKey *bool                         `form:"transfer_lookup_key"`
+	TransferLookupKey *bool                         `form:"transfer_lookup_key" json:"transfer_lookup_key,omitempty"`
 	UnsetFields       []PriceUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -756,7 +756,7 @@ type PriceCurrencyOptions struct {
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior PriceCurrencyOptionsTaxBehavior `json:"tax_behavior"`
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
-	Tiers []*PriceCurrencyOptionsTier `json:"tiers"`
+	Tiers []*PriceCurrencyOptionsTier `json:"tiers,omitempty"`
 	// The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.
 	UnitAmount int64 `json:"unit_amount"`
 	// The unit amount in cents (or local equivalent) to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.
@@ -836,10 +836,10 @@ type Price struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-	CurrencyOptions map[string]*PriceCurrencyOptions `json:"currency_options"`
+	CurrencyOptions map[string]*PriceCurrencyOptions `json:"currency_options,omitempty"`
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 	CustomUnitAmount *PriceCustomUnitAmount `json:"custom_unit_amount"`
-	Deleted          bool                   `json:"deleted"`
+	Deleted          bool                   `json:"deleted,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
@@ -849,7 +849,7 @@ type Price struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Subscriptions using this price will be migrated to use the new referenced price.
-	MigrateTo *PriceMigrateTo `json:"migrate_to"`
+	MigrateTo *PriceMigrateTo `json:"migrate_to,omitempty"`
 	// A brief description of the price, hidden from customers.
 	Nickname string `json:"nickname"`
 	// String representing the object's type. Objects of the same type share the same value.
@@ -861,7 +861,7 @@ type Price struct {
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior PriceTaxBehavior `json:"tax_behavior"`
 	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
-	Tiers []*PriceTier `json:"tiers"`
+	Tiers []*PriceTier `json:"tiers,omitempty"`
 	// Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price. In `graduated` tiering, pricing can change as the quantity grows.
 	TiersMode PriceTiersMode `json:"tiers_mode"`
 	// Apply a transformation to the reported usage or set quantity before computing the amount billed. Cannot be combined with `tiers`.
