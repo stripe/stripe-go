@@ -56,7 +56,7 @@ const (
 type AccountSignalsParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -68,7 +68,7 @@ func (p *AccountSignalsParams) AddExpand(f string) {
 type AccountSignalsRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -106,7 +106,7 @@ type AccountSignals struct {
 	// The account for which the signals belong to.
 	Account string `json:"account"`
 	// The delinquency signal of the account.
-	Delinquency *AccountSignalsDelinquency `json:"delinquency"`
+	Delinquency *AccountSignalsDelinquency `json:"delinquency,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.

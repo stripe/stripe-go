@@ -21,7 +21,7 @@ type PaymentIntentAmountDetailsLineItemListParams struct {
 	ListParams `form:"*"`
 	Intent     *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -43,19 +43,19 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarna struct {
 }
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypal struct {
 	// Type of the line item.
-	Category PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypalCategory `json:"category"`
+	Category PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypalCategory `json:"category,omitempty"`
 	// Description of the line item.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// The Stripe account ID of the connected account that sells the item. This is only needed when using [Separate Charges and Transfers](https://docs.stripe.com/connect/separate-charges-and-transfers).
-	SoldBy string `json:"sold_by"`
+	SoldBy string `json:"sold_by,omitempty"`
 }
 
 // Payment method-specific information for line items.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptions struct {
-	Card        *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCard        `json:"card"`
-	CardPresent *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresent `json:"card_present"`
-	Klarna      *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarna      `json:"klarna"`
-	Paypal      *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypal      `json:"paypal"`
+	Card        *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCard        `json:"card,omitempty"`
+	CardPresent *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresent `json:"card_present,omitempty"`
+	Klarna      *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarna      `json:"klarna,omitempty"`
+	Paypal      *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypal      `json:"paypal,omitempty"`
 }
 
 // Contains information about the tax on the item.

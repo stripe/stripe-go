@@ -24,17 +24,17 @@ const (
 type TopupListParams struct {
 	ListParams `form:"*"`
 	// A positive integer representing how much to transfer.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// A positive integer representing how much to transfer.
-	AmountRange *RangeQueryParams `form:"amount"`
+	AmountRange *RangeQueryParams `form:"amount" json:"-"`
 	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return top-ups that have the given status. One of `canceled`, `failed`, `pending` or `succeeded`.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -46,21 +46,21 @@ func (p *TopupListParams) AddExpand(f string) {
 type TopupParams struct {
 	Params `form:"*"`
 	// A positive integer representing how much to transfer.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of a source to transfer funds from. For most users, this should be left unspecified which will use the bank account that was set up in the dashboard for the specified currency. In test mode, this can be a test bank token (see [Testing Top-ups](https://docs.stripe.com/connect/testing#testing-top-ups)).
-	Source *string `form:"source"`
+	Source *string `form:"source" json:"source,omitempty"`
 	// Extra information about a top-up for the source's bank statement. Limited to 15 ASCII characters.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// A string that identifies this top-up as part of a group.
-	TransferGroup *string                 `form:"transfer_group"`
+	TransferGroup *string                 `form:"transfer_group" json:"transfer_group,omitempty"`
 	UnsetFields   []TopupParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -94,21 +94,21 @@ func (p *TopupParams) AddMetadata(key string, value string) {
 type TopupCreateParams struct {
 	Params `form:"*"`
 	// A positive integer representing how much to transfer.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of a source to transfer funds from. For most users, this should be left unspecified which will use the bank account that was set up in the dashboard for the specified currency. In test mode, this can be a test bank token (see [Testing Top-ups](https://docs.stripe.com/connect/testing#testing-top-ups)).
-	Source *string `form:"source"`
+	Source *string `form:"source" json:"source,omitempty"`
 	// Extra information about a top-up for the source's bank statement. Limited to 15 ASCII characters.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// A string that identifies this top-up as part of a group.
-	TransferGroup *string                       `form:"transfer_group"`
+	TransferGroup *string                       `form:"transfer_group" json:"transfer_group,omitempty"`
 	UnsetFields   []TopupCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -154,7 +154,7 @@ func (p *TopupCancelParams) AddExpand(f string) {
 type TopupRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -166,11 +166,11 @@ func (p *TopupRetrieveParams) AddExpand(f string) {
 type TopupUpdateParams struct {
 	Params `form:"*"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string             `form:"metadata"`
+	Metadata    map[string]string             `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []TopupUpdateParamsUnsetField `form:"-" json:"-"`
 }
 

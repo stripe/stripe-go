@@ -12,25 +12,25 @@ import "encoding/json"
 type TerminalLocationParams struct {
 	Params `form:"*"`
 	// The full address of the location. You can't change the location's `country`. If you need to modify the `country` field, create a new `Location` object and re-register any existing readers to that location.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The Kana variation of the full address of the location (Japan only).
-	AddressKana *TerminalLocationAddressKanaParams `form:"address_kana"`
+	AddressKana *TerminalLocationAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the full address of the location (Japan only).
-	AddressKanji *TerminalLocationAddressKanjiParams `form:"address_kanji"`
+	AddressKanji *TerminalLocationAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
 	// The ID of a configuration that will be used to customize all readers in this location.
-	ConfigurationOverrides *string `form:"configuration_overrides"`
+	ConfigurationOverrides *string `form:"configuration_overrides" json:"configuration_overrides,omitempty"`
 	// A name for the location. Maximum length is 1000 characters.
-	DisplayName *string `form:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// The Kana variation of the name for the location (Japan only). Maximum length is 1000 characters.
-	DisplayNameKana *string `form:"display_name_kana"`
+	DisplayNameKana *string `form:"display_name_kana" json:"display_name_kana,omitempty"`
 	// The Kanji variation of the name for the location (Japan only). Maximum length is 1000 characters.
-	DisplayNameKanji *string `form:"display_name_kanji"`
+	DisplayNameKanji *string `form:"display_name_kanji" json:"display_name_kanji,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The phone number for the location.
-	Phone       *string                            `form:"phone"`
+	Phone       *string                            `form:"phone" json:"phone,omitempty"`
 	UnsetFields []TerminalLocationParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -68,44 +68,44 @@ func (p *TerminalLocationParams) AddMetadata(key string, value string) {
 // The Kana variation of the full address of the location (Japan only).
 type TerminalLocationAddressKanaParams struct {
 	// City or ward.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Block or building number.
-	Line1 *string `form:"line1"`
+	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Building details.
-	Line2 *string `form:"line2"`
+	Line2 *string `form:"line2" json:"line2,omitempty"`
 	// Postal code.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// Prefecture.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// Town or cho-me.
-	Town *string `form:"town"`
+	Town *string `form:"town" json:"town,omitempty"`
 }
 
 // The Kanji variation of the full address of the location (Japan only).
 type TerminalLocationAddressKanjiParams struct {
 	// City or ward.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Block or building number.
-	Line1 *string `form:"line1"`
+	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Building details.
-	Line2 *string `form:"line2"`
+	Line2 *string `form:"line2" json:"line2,omitempty"`
 	// Postal code.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// Prefecture.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// Town or cho-me.
-	Town *string `form:"town"`
+	Town *string `form:"town" json:"town,omitempty"`
 }
 
 // Returns a list of Location objects.
 type TerminalLocationListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -122,7 +122,7 @@ type TerminalLocationDeleteParams struct {
 type TerminalLocationRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -133,62 +133,62 @@ func (p *TerminalLocationRetrieveParams) AddExpand(f string) {
 // The Kana variation of the full address of the location (Japan only).
 type TerminalLocationUpdateAddressKanaParams struct {
 	// City or ward.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Block or building number.
-	Line1 *string `form:"line1"`
+	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Building details.
-	Line2 *string `form:"line2"`
+	Line2 *string `form:"line2" json:"line2,omitempty"`
 	// Postal code.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// Prefecture.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// Town or cho-me.
-	Town *string `form:"town"`
+	Town *string `form:"town" json:"town,omitempty"`
 }
 
 // The Kanji variation of the full address of the location (Japan only).
 type TerminalLocationUpdateAddressKanjiParams struct {
 	// City or ward.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Block or building number.
-	Line1 *string `form:"line1"`
+	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Building details.
-	Line2 *string `form:"line2"`
+	Line2 *string `form:"line2" json:"line2,omitempty"`
 	// Postal code.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// Prefecture.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// Town or cho-me.
-	Town *string `form:"town"`
+	Town *string `form:"town" json:"town,omitempty"`
 }
 
 // Updates a Location object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 type TerminalLocationUpdateParams struct {
 	Params `form:"*"`
 	// The full address of the location. You can't change the location's `country`. If you need to modify the `country` field, create a new `Location` object and re-register any existing readers to that location.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The Kana variation of the full address of the location (Japan only).
-	AddressKana *TerminalLocationUpdateAddressKanaParams `form:"address_kana"`
+	AddressKana *TerminalLocationUpdateAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the full address of the location (Japan only).
-	AddressKanji *TerminalLocationUpdateAddressKanjiParams `form:"address_kanji"`
+	AddressKanji *TerminalLocationUpdateAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
 	// The ID of a configuration that will be used to customize all readers in this location.
-	ConfigurationOverrides *string `form:"configuration_overrides"`
+	ConfigurationOverrides *string `form:"configuration_overrides" json:"configuration_overrides,omitempty"`
 	// A name for the location.
-	DisplayName *string `form:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// The Kana variation of the name for the location (Japan only).
-	DisplayNameKana *string `form:"display_name_kana"`
+	DisplayNameKana *string `form:"display_name_kana" json:"display_name_kana,omitempty"`
 	// The Kanji variation of the name for the location (Japan only).
-	DisplayNameKanji *string `form:"display_name_kanji"`
+	DisplayNameKanji *string `form:"display_name_kanji" json:"display_name_kanji,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The phone number for the location.
-	Phone       *string                                  `form:"phone"`
+	Phone       *string                                  `form:"phone" json:"phone,omitempty"`
 	UnsetFields []TerminalLocationUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -226,37 +226,37 @@ func (p *TerminalLocationUpdateParams) AddMetadata(key string, value string) {
 // The Kana variation of the full address of the location (Japan only).
 type TerminalLocationCreateAddressKanaParams struct {
 	// City or ward.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Block or building number.
-	Line1 *string `form:"line1"`
+	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Building details.
-	Line2 *string `form:"line2"`
+	Line2 *string `form:"line2" json:"line2,omitempty"`
 	// Postal code.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// Prefecture.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// Town or cho-me.
-	Town *string `form:"town"`
+	Town *string `form:"town" json:"town,omitempty"`
 }
 
 // The Kanji variation of the full address of the location (Japan only).
 type TerminalLocationCreateAddressKanjiParams struct {
 	// City or ward.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Block or building number.
-	Line1 *string `form:"line1"`
+	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Building details.
-	Line2 *string `form:"line2"`
+	Line2 *string `form:"line2" json:"line2,omitempty"`
 	// Postal code.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// Prefecture.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// Town or cho-me.
-	Town *string `form:"town"`
+	Town *string `form:"town" json:"town,omitempty"`
 }
 
 // Creates a new Location object.
@@ -264,25 +264,25 @@ type TerminalLocationCreateAddressKanjiParams struct {
 type TerminalLocationCreateParams struct {
 	Params `form:"*"`
 	// The full address of the location.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The Kana variation of the full address of the location (Japan only).
-	AddressKana *TerminalLocationCreateAddressKanaParams `form:"address_kana"`
+	AddressKana *TerminalLocationCreateAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the full address of the location (Japan only).
-	AddressKanji *TerminalLocationCreateAddressKanjiParams `form:"address_kanji"`
+	AddressKanji *TerminalLocationCreateAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
 	// The ID of a configuration that will be used to customize all readers in this location.
-	ConfigurationOverrides *string `form:"configuration_overrides"`
+	ConfigurationOverrides *string `form:"configuration_overrides" json:"configuration_overrides,omitempty"`
 	// A name for the location. Maximum length is 1000 characters.
-	DisplayName *string `form:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// The Kana variation of the name for the location (Japan only). Maximum length is 1000 characters.
-	DisplayNameKana *string `form:"display_name_kana"`
+	DisplayNameKana *string `form:"display_name_kana" json:"display_name_kana,omitempty"`
 	// The Kanji variation of the name for the location (Japan only). Maximum length is 1000 characters.
-	DisplayNameKanji *string `form:"display_name_kanji"`
+	DisplayNameKanji *string `form:"display_name_kanji" json:"display_name_kanji,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The phone number for the location.
-	Phone       *string                                  `form:"phone"`
+	Phone       *string                                  `form:"phone" json:"phone,omitempty"`
 	UnsetFields []TerminalLocationCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -351,17 +351,17 @@ type TerminalLocationAddressKanji struct {
 type TerminalLocation struct {
 	APIResource
 	Address      *Address                      `json:"address"`
-	AddressKana  *TerminalLocationAddressKana  `json:"address_kana"`
-	AddressKanji *TerminalLocationAddressKanji `json:"address_kanji"`
+	AddressKana  *TerminalLocationAddressKana  `json:"address_kana,omitempty"`
+	AddressKanji *TerminalLocationAddressKanji `json:"address_kanji,omitempty"`
 	// The ID of a configuration that will be used to customize all readers in this location.
-	ConfigurationOverrides string `json:"configuration_overrides"`
-	Deleted                bool   `json:"deleted"`
+	ConfigurationOverrides string `json:"configuration_overrides,omitempty"`
+	Deleted                bool   `json:"deleted,omitempty"`
 	// The display name of the location.
 	DisplayName string `json:"display_name"`
 	// The Kana variation of the display name of the location.
-	DisplayNameKana string `json:"display_name_kana"`
+	DisplayNameKana string `json:"display_name_kana,omitempty"`
 	// The Kanji variation of the display name of the location.
-	DisplayNameKanji string `json:"display_name_kanji"`
+	DisplayNameKanji string `json:"display_name_kanji,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -371,7 +371,7 @@ type TerminalLocation struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The phone number of the location.
-	Phone string `json:"phone"`
+	Phone string `json:"phone,omitempty"`
 }
 
 // TerminalLocationList is a list of Locations as retrieved from a list endpoint.

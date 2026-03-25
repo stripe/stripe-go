@@ -111,15 +111,15 @@ const (
 type IssuingDisputeListParams struct {
 	ListParams `form:"*"`
 	// Only return Issuing disputes that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return Issuing disputes that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Select Issuing disputes with the given status.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 	// Select the Issuing dispute for the given transaction.
-	Transaction *string `form:"transaction"`
+	Transaction *string `form:"transaction" json:"transaction,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -130,25 +130,25 @@ func (p *IssuingDisputeListParams) AddExpand(f string) {
 // Evidence provided when `reason` is 'canceled'.
 type IssuingDisputeEvidenceCanceledParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Date when order was canceled.
-	CanceledAt *int64 `form:"canceled_at"`
+	CanceledAt *int64 `form:"canceled_at" json:"canceled_at,omitempty"`
 	// Whether the cardholder was provided with a cancellation policy.
-	CancellationPolicyProvided *bool `form:"cancellation_policy_provided"`
+	CancellationPolicyProvided *bool `form:"cancellation_policy_provided" json:"cancellation_policy_provided,omitempty"`
 	// Reason for canceling the order.
-	CancellationReason *string `form:"cancellation_reason"`
+	CancellationReason *string `form:"cancellation_reason" json:"cancellation_reason,omitempty"`
 	// Date when the cardholder expected to receive the product.
-	ExpectedAt *int64 `form:"expected_at"`
+	ExpectedAt *int64 `form:"expected_at" json:"expected_at,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Description of the merchandise or service that was purchased.
-	ProductDescription *string `form:"product_description"`
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
 	// Whether the product was a merchandise or service.
-	ProductType *string `form:"product_type"`
+	ProductType *string `form:"product_type" json:"product_type,omitempty"`
 	// Date when the product was returned or attempted to be returned.
-	ReturnedAt *int64 `form:"returned_at"`
+	ReturnedAt *int64 `form:"returned_at" json:"returned_at,omitempty"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string                                          `form:"return_status"`
+	ReturnStatus *string                                          `form:"return_status" json:"return_status,omitempty"`
 	UnsetFields  []IssuingDisputeEvidenceCanceledParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -176,17 +176,17 @@ func (p *IssuingDisputeEvidenceCanceledParams) AddUnsetField(field IssuingDisput
 // Evidence provided when `reason` is 'duplicate'.
 type IssuingDisputeEvidenceDuplicateParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the card statement showing that the product had already been paid for.
-	CardStatement *string `form:"card_statement"`
+	CardStatement *string `form:"card_statement" json:"card_statement,omitempty"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the receipt showing that the product had been paid for in cash.
-	CashReceipt *string `form:"cash_receipt"`
+	CashReceipt *string `form:"cash_receipt" json:"cash_receipt,omitempty"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Image of the front and back of the check that was used to pay for the product.
-	CheckImage *string `form:"check_image"`
+	CheckImage *string `form:"check_image" json:"check_image,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Transaction (e.g., ipi_...) that the disputed transaction is a duplicate of. Of the two or more transactions that are copies of each other, this is original undisputed one.
-	OriginalTransaction *string                                           `form:"original_transaction"`
+	OriginalTransaction *string                                           `form:"original_transaction" json:"original_transaction,omitempty"`
 	UnsetFields         []IssuingDisputeEvidenceDuplicateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -209,9 +209,9 @@ func (p *IssuingDisputeEvidenceDuplicateParams) AddUnsetField(field IssuingDispu
 // Evidence provided when `reason` is 'fraudulent'.
 type IssuingDisputeEvidenceFraudulentParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string                                            `form:"explanation"`
+	Explanation *string                                            `form:"explanation" json:"explanation,omitempty"`
 	UnsetFields []IssuingDisputeEvidenceFraudulentParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -231,17 +231,17 @@ func (p *IssuingDisputeEvidenceFraudulentParams) AddUnsetField(field IssuingDisp
 // Evidence provided when `reason` is 'merchandise_not_as_described'.
 type IssuingDisputeEvidenceMerchandiseNotAsDescribedParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Date when the product was received.
-	ReceivedAt *int64 `form:"received_at"`
+	ReceivedAt *int64 `form:"received_at" json:"received_at,omitempty"`
 	// Description of the cardholder's attempt to return the product.
-	ReturnDescription *string `form:"return_description"`
+	ReturnDescription *string `form:"return_description" json:"return_description,omitempty"`
 	// Date when the product was returned or attempted to be returned.
-	ReturnedAt *int64 `form:"returned_at"`
+	ReturnedAt *int64 `form:"returned_at" json:"returned_at,omitempty"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string                                                           `form:"return_status"`
+	ReturnStatus *string                                                           `form:"return_status" json:"return_status,omitempty"`
 	UnsetFields  []IssuingDisputeEvidenceMerchandiseNotAsDescribedParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -265,9 +265,9 @@ func (p *IssuingDisputeEvidenceMerchandiseNotAsDescribedParams) AddUnsetField(fi
 // Evidence provided when `reason` is 'no_valid_authorization'.
 type IssuingDisputeEvidenceNoValidAuthorizationParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string                                                      `form:"explanation"`
+	Explanation *string                                                      `form:"explanation" json:"explanation,omitempty"`
 	UnsetFields []IssuingDisputeEvidenceNoValidAuthorizationParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -287,15 +287,15 @@ func (p *IssuingDisputeEvidenceNoValidAuthorizationParams) AddUnsetField(field I
 // Evidence provided when `reason` is 'not_received'.
 type IssuingDisputeEvidenceNotReceivedParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Date when the cardholder expected to receive the product.
-	ExpectedAt *int64 `form:"expected_at"`
+	ExpectedAt *int64 `form:"expected_at" json:"expected_at,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Description of the merchandise or service that was purchased.
-	ProductDescription *string `form:"product_description"`
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
 	// Whether the product was a merchandise or service.
-	ProductType *string                                             `form:"product_type"`
+	ProductType *string                                             `form:"product_type" json:"product_type,omitempty"`
 	UnsetFields []IssuingDisputeEvidenceNotReceivedParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -318,13 +318,13 @@ func (p *IssuingDisputeEvidenceNotReceivedParams) AddUnsetField(field IssuingDis
 // Evidence provided when `reason` is 'other'.
 type IssuingDisputeEvidenceOtherParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Description of the merchandise or service that was purchased.
-	ProductDescription *string `form:"product_description"`
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
 	// Whether the product was a merchandise or service.
-	ProductType *string                                       `form:"product_type"`
+	ProductType *string                                       `form:"product_type" json:"product_type,omitempty"`
 	UnsetFields []IssuingDisputeEvidenceOtherParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -346,15 +346,15 @@ func (p *IssuingDisputeEvidenceOtherParams) AddUnsetField(field IssuingDisputeEv
 // Evidence provided when `reason` is 'service_not_as_described'.
 type IssuingDisputeEvidenceServiceNotAsDescribedParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Date when order was canceled.
-	CanceledAt *int64 `form:"canceled_at"`
+	CanceledAt *int64 `form:"canceled_at" json:"canceled_at,omitempty"`
 	// Reason for canceling the order.
-	CancellationReason *string `form:"cancellation_reason"`
+	CancellationReason *string `form:"cancellation_reason" json:"cancellation_reason,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Date when the product was received.
-	ReceivedAt  *int64                                                        `form:"received_at"`
+	ReceivedAt  *int64                                                        `form:"received_at" json:"received_at,omitempty"`
 	UnsetFields []IssuingDisputeEvidenceServiceNotAsDescribedParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -377,23 +377,23 @@ func (p *IssuingDisputeEvidenceServiceNotAsDescribedParams) AddUnsetField(field 
 // Evidence provided for the dispute.
 type IssuingDisputeEvidenceParams struct {
 	// Evidence provided when `reason` is 'canceled'.
-	Canceled *IssuingDisputeEvidenceCanceledParams `form:"canceled"`
+	Canceled *IssuingDisputeEvidenceCanceledParams `form:"canceled" json:"canceled,omitempty"`
 	// Evidence provided when `reason` is 'duplicate'.
-	Duplicate *IssuingDisputeEvidenceDuplicateParams `form:"duplicate"`
+	Duplicate *IssuingDisputeEvidenceDuplicateParams `form:"duplicate" json:"duplicate,omitempty"`
 	// Evidence provided when `reason` is 'fraudulent'.
-	Fraudulent *IssuingDisputeEvidenceFraudulentParams `form:"fraudulent"`
+	Fraudulent *IssuingDisputeEvidenceFraudulentParams `form:"fraudulent" json:"fraudulent,omitempty"`
 	// Evidence provided when `reason` is 'merchandise_not_as_described'.
-	MerchandiseNotAsDescribed *IssuingDisputeEvidenceMerchandiseNotAsDescribedParams `form:"merchandise_not_as_described"`
+	MerchandiseNotAsDescribed *IssuingDisputeEvidenceMerchandiseNotAsDescribedParams `form:"merchandise_not_as_described" json:"merchandise_not_as_described,omitempty"`
 	// Evidence provided when `reason` is 'not_received'.
-	NotReceived *IssuingDisputeEvidenceNotReceivedParams `form:"not_received"`
+	NotReceived *IssuingDisputeEvidenceNotReceivedParams `form:"not_received" json:"not_received,omitempty"`
 	// Evidence provided when `reason` is 'no_valid_authorization'.
-	NoValidAuthorization *IssuingDisputeEvidenceNoValidAuthorizationParams `form:"no_valid_authorization"`
+	NoValidAuthorization *IssuingDisputeEvidenceNoValidAuthorizationParams `form:"no_valid_authorization" json:"no_valid_authorization,omitempty"`
 	// Evidence provided when `reason` is 'other'.
-	Other *IssuingDisputeEvidenceOtherParams `form:"other"`
+	Other *IssuingDisputeEvidenceOtherParams `form:"other" json:"other,omitempty"`
 	// The reason for filing the dispute. The evidence should be submitted in the field of the same name.
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason,omitempty"`
 	// Evidence provided when `reason` is 'service_not_as_described'.
-	ServiceNotAsDescribed *IssuingDisputeEvidenceServiceNotAsDescribedParams `form:"service_not_as_described"`
+	ServiceNotAsDescribed *IssuingDisputeEvidenceServiceNotAsDescribedParams `form:"service_not_as_described" json:"service_not_as_described,omitempty"`
 	UnsetFields           []IssuingDisputeEvidenceParamsUnsetField           `form:"-" json:"-"`
 }
 
@@ -419,24 +419,24 @@ func (p *IssuingDisputeEvidenceParams) AddUnsetField(field IssuingDisputeEvidenc
 // Params for disputes related to Treasury FinancialAccounts
 type IssuingDisputeTreasuryParams struct {
 	// The ID of the ReceivedDebit to initiate an Issuings dispute for.
-	ReceivedDebit *string `form:"received_debit"`
+	ReceivedDebit *string `form:"received_debit" json:"received_debit"`
 }
 
 // Creates an Issuing Dispute object. Individual pieces of evidence within the evidence object are optional at this point. Stripe only validates that required evidence is present during submission. Refer to [Dispute reasons and evidence](https://docs.stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence) for more details about evidence requirements.
 type IssuingDisputeParams struct {
 	Params `form:"*"`
 	// The dispute amount in the card's currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). If not set, defaults to the full transaction amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Evidence provided for the dispute.
-	Evidence *IssuingDisputeEvidenceParams `form:"evidence"`
+	Evidence *IssuingDisputeEvidenceParams `form:"evidence" json:"evidence,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the issuing transaction to create a dispute for. For transaction on Treasury FinancialAccounts, use `treasury.received_debit`.
-	Transaction *string `form:"transaction"`
+	Transaction *string `form:"transaction" json:"transaction,omitempty"`
 	// Params for disputes related to Treasury FinancialAccounts
-	Treasury    *IssuingDisputeTreasuryParams    `form:"treasury"`
+	Treasury    *IssuingDisputeTreasuryParams    `form:"treasury" json:"treasury,omitempty"`
 	UnsetFields []IssuingDisputeParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -470,9 +470,9 @@ func (p *IssuingDisputeParams) AddMetadata(key string, value string) {
 type IssuingDisputeSubmitParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                      `form:"metadata"`
+	Metadata    map[string]string                      `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []IssuingDisputeSubmitParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -505,25 +505,25 @@ func (p *IssuingDisputeSubmitParams) AddMetadata(key string, value string) {
 // Evidence provided when `reason` is 'canceled'.
 type IssuingDisputeCreateEvidenceCanceledParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Date when order was canceled.
-	CanceledAt *int64 `form:"canceled_at"`
+	CanceledAt *int64 `form:"canceled_at" json:"canceled_at,omitempty"`
 	// Whether the cardholder was provided with a cancellation policy.
-	CancellationPolicyProvided *bool `form:"cancellation_policy_provided"`
+	CancellationPolicyProvided *bool `form:"cancellation_policy_provided" json:"cancellation_policy_provided,omitempty"`
 	// Reason for canceling the order.
-	CancellationReason *string `form:"cancellation_reason"`
+	CancellationReason *string `form:"cancellation_reason" json:"cancellation_reason,omitempty"`
 	// Date when the cardholder expected to receive the product.
-	ExpectedAt *int64 `form:"expected_at"`
+	ExpectedAt *int64 `form:"expected_at" json:"expected_at,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Description of the merchandise or service that was purchased.
-	ProductDescription *string `form:"product_description"`
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
 	// Whether the product was a merchandise or service.
-	ProductType *string `form:"product_type"`
+	ProductType *string `form:"product_type" json:"product_type,omitempty"`
 	// Date when the product was returned or attempted to be returned.
-	ReturnedAt *int64 `form:"returned_at"`
+	ReturnedAt *int64 `form:"returned_at" json:"returned_at,omitempty"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string                                                `form:"return_status"`
+	ReturnStatus *string                                                `form:"return_status" json:"return_status,omitempty"`
 	UnsetFields  []IssuingDisputeCreateEvidenceCanceledParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -551,17 +551,17 @@ func (p *IssuingDisputeCreateEvidenceCanceledParams) AddUnsetField(field Issuing
 // Evidence provided when `reason` is 'duplicate'.
 type IssuingDisputeCreateEvidenceDuplicateParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the card statement showing that the product had already been paid for.
-	CardStatement *string `form:"card_statement"`
+	CardStatement *string `form:"card_statement" json:"card_statement,omitempty"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the receipt showing that the product had been paid for in cash.
-	CashReceipt *string `form:"cash_receipt"`
+	CashReceipt *string `form:"cash_receipt" json:"cash_receipt,omitempty"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Image of the front and back of the check that was used to pay for the product.
-	CheckImage *string `form:"check_image"`
+	CheckImage *string `form:"check_image" json:"check_image,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Transaction (e.g., ipi_...) that the disputed transaction is a duplicate of. Of the two or more transactions that are copies of each other, this is original undisputed one.
-	OriginalTransaction *string                                                 `form:"original_transaction"`
+	OriginalTransaction *string                                                 `form:"original_transaction" json:"original_transaction,omitempty"`
 	UnsetFields         []IssuingDisputeCreateEvidenceDuplicateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -584,9 +584,9 @@ func (p *IssuingDisputeCreateEvidenceDuplicateParams) AddUnsetField(field Issuin
 // Evidence provided when `reason` is 'fraudulent'.
 type IssuingDisputeCreateEvidenceFraudulentParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string                                                  `form:"explanation"`
+	Explanation *string                                                  `form:"explanation" json:"explanation,omitempty"`
 	UnsetFields []IssuingDisputeCreateEvidenceFraudulentParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -606,17 +606,17 @@ func (p *IssuingDisputeCreateEvidenceFraudulentParams) AddUnsetField(field Issui
 // Evidence provided when `reason` is 'merchandise_not_as_described'.
 type IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Date when the product was received.
-	ReceivedAt *int64 `form:"received_at"`
+	ReceivedAt *int64 `form:"received_at" json:"received_at,omitempty"`
 	// Description of the cardholder's attempt to return the product.
-	ReturnDescription *string `form:"return_description"`
+	ReturnDescription *string `form:"return_description" json:"return_description,omitempty"`
 	// Date when the product was returned or attempted to be returned.
-	ReturnedAt *int64 `form:"returned_at"`
+	ReturnedAt *int64 `form:"returned_at" json:"returned_at,omitempty"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string                                                                 `form:"return_status"`
+	ReturnStatus *string                                                                 `form:"return_status" json:"return_status,omitempty"`
 	UnsetFields  []IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -640,9 +640,9 @@ func (p *IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParams) AddUnsetFi
 // Evidence provided when `reason` is 'no_valid_authorization'.
 type IssuingDisputeCreateEvidenceNoValidAuthorizationParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string                                                            `form:"explanation"`
+	Explanation *string                                                            `form:"explanation" json:"explanation,omitempty"`
 	UnsetFields []IssuingDisputeCreateEvidenceNoValidAuthorizationParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -662,15 +662,15 @@ func (p *IssuingDisputeCreateEvidenceNoValidAuthorizationParams) AddUnsetField(f
 // Evidence provided when `reason` is 'not_received'.
 type IssuingDisputeCreateEvidenceNotReceivedParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Date when the cardholder expected to receive the product.
-	ExpectedAt *int64 `form:"expected_at"`
+	ExpectedAt *int64 `form:"expected_at" json:"expected_at,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Description of the merchandise or service that was purchased.
-	ProductDescription *string `form:"product_description"`
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
 	// Whether the product was a merchandise or service.
-	ProductType *string                                                   `form:"product_type"`
+	ProductType *string                                                   `form:"product_type" json:"product_type,omitempty"`
 	UnsetFields []IssuingDisputeCreateEvidenceNotReceivedParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -693,13 +693,13 @@ func (p *IssuingDisputeCreateEvidenceNotReceivedParams) AddUnsetField(field Issu
 // Evidence provided when `reason` is 'other'.
 type IssuingDisputeCreateEvidenceOtherParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Description of the merchandise or service that was purchased.
-	ProductDescription *string `form:"product_description"`
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
 	// Whether the product was a merchandise or service.
-	ProductType *string                                             `form:"product_type"`
+	ProductType *string                                             `form:"product_type" json:"product_type,omitempty"`
 	UnsetFields []IssuingDisputeCreateEvidenceOtherParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -721,15 +721,15 @@ func (p *IssuingDisputeCreateEvidenceOtherParams) AddUnsetField(field IssuingDis
 // Evidence provided when `reason` is 'service_not_as_described'.
 type IssuingDisputeCreateEvidenceServiceNotAsDescribedParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Date when order was canceled.
-	CanceledAt *int64 `form:"canceled_at"`
+	CanceledAt *int64 `form:"canceled_at" json:"canceled_at,omitempty"`
 	// Reason for canceling the order.
-	CancellationReason *string `form:"cancellation_reason"`
+	CancellationReason *string `form:"cancellation_reason" json:"cancellation_reason,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Date when the product was received.
-	ReceivedAt  *int64                                                              `form:"received_at"`
+	ReceivedAt  *int64                                                              `form:"received_at" json:"received_at,omitempty"`
 	UnsetFields []IssuingDisputeCreateEvidenceServiceNotAsDescribedParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -752,23 +752,23 @@ func (p *IssuingDisputeCreateEvidenceServiceNotAsDescribedParams) AddUnsetField(
 // Evidence provided for the dispute.
 type IssuingDisputeCreateEvidenceParams struct {
 	// Evidence provided when `reason` is 'canceled'.
-	Canceled *IssuingDisputeCreateEvidenceCanceledParams `form:"canceled"`
+	Canceled *IssuingDisputeCreateEvidenceCanceledParams `form:"canceled" json:"canceled,omitempty"`
 	// Evidence provided when `reason` is 'duplicate'.
-	Duplicate *IssuingDisputeCreateEvidenceDuplicateParams `form:"duplicate"`
+	Duplicate *IssuingDisputeCreateEvidenceDuplicateParams `form:"duplicate" json:"duplicate,omitempty"`
 	// Evidence provided when `reason` is 'fraudulent'.
-	Fraudulent *IssuingDisputeCreateEvidenceFraudulentParams `form:"fraudulent"`
+	Fraudulent *IssuingDisputeCreateEvidenceFraudulentParams `form:"fraudulent" json:"fraudulent,omitempty"`
 	// Evidence provided when `reason` is 'merchandise_not_as_described'.
-	MerchandiseNotAsDescribed *IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParams `form:"merchandise_not_as_described"`
+	MerchandiseNotAsDescribed *IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParams `form:"merchandise_not_as_described" json:"merchandise_not_as_described,omitempty"`
 	// Evidence provided when `reason` is 'not_received'.
-	NotReceived *IssuingDisputeCreateEvidenceNotReceivedParams `form:"not_received"`
+	NotReceived *IssuingDisputeCreateEvidenceNotReceivedParams `form:"not_received" json:"not_received,omitempty"`
 	// Evidence provided when `reason` is 'no_valid_authorization'.
-	NoValidAuthorization *IssuingDisputeCreateEvidenceNoValidAuthorizationParams `form:"no_valid_authorization"`
+	NoValidAuthorization *IssuingDisputeCreateEvidenceNoValidAuthorizationParams `form:"no_valid_authorization" json:"no_valid_authorization,omitempty"`
 	// Evidence provided when `reason` is 'other'.
-	Other *IssuingDisputeCreateEvidenceOtherParams `form:"other"`
+	Other *IssuingDisputeCreateEvidenceOtherParams `form:"other" json:"other,omitempty"`
 	// The reason for filing the dispute. The evidence should be submitted in the field of the same name.
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason,omitempty"`
 	// Evidence provided when `reason` is 'service_not_as_described'.
-	ServiceNotAsDescribed *IssuingDisputeCreateEvidenceServiceNotAsDescribedParams `form:"service_not_as_described"`
+	ServiceNotAsDescribed *IssuingDisputeCreateEvidenceServiceNotAsDescribedParams `form:"service_not_as_described" json:"service_not_as_described,omitempty"`
 	UnsetFields           []IssuingDisputeCreateEvidenceParamsUnsetField           `form:"-" json:"-"`
 }
 
@@ -794,24 +794,24 @@ func (p *IssuingDisputeCreateEvidenceParams) AddUnsetField(field IssuingDisputeC
 // Params for disputes related to Treasury FinancialAccounts
 type IssuingDisputeCreateTreasuryParams struct {
 	// The ID of the ReceivedDebit to initiate an Issuings dispute for.
-	ReceivedDebit *string `form:"received_debit"`
+	ReceivedDebit *string `form:"received_debit" json:"received_debit"`
 }
 
 // Creates an Issuing Dispute object. Individual pieces of evidence within the evidence object are optional at this point. Stripe only validates that required evidence is present during submission. Refer to [Dispute reasons and evidence](https://docs.stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence) for more details about evidence requirements.
 type IssuingDisputeCreateParams struct {
 	Params `form:"*"`
 	// The dispute amount in the card's currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). If not set, defaults to the full transaction amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Evidence provided for the dispute.
-	Evidence *IssuingDisputeCreateEvidenceParams `form:"evidence"`
+	Evidence *IssuingDisputeCreateEvidenceParams `form:"evidence" json:"evidence,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the issuing transaction to create a dispute for. For transaction on Treasury FinancialAccounts, use `treasury.received_debit`.
-	Transaction *string `form:"transaction"`
+	Transaction *string `form:"transaction" json:"transaction,omitempty"`
 	// Params for disputes related to Treasury FinancialAccounts
-	Treasury *IssuingDisputeCreateTreasuryParams `form:"treasury"`
+	Treasury *IssuingDisputeCreateTreasuryParams `form:"treasury" json:"treasury,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -832,7 +832,7 @@ func (p *IssuingDisputeCreateParams) AddMetadata(key string, value string) {
 type IssuingDisputeRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -843,25 +843,25 @@ func (p *IssuingDisputeRetrieveParams) AddExpand(f string) {
 // Evidence provided when `reason` is 'canceled'.
 type IssuingDisputeUpdateEvidenceCanceledParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Date when order was canceled.
-	CanceledAt *int64 `form:"canceled_at"`
+	CanceledAt *int64 `form:"canceled_at" json:"canceled_at,omitempty"`
 	// Whether the cardholder was provided with a cancellation policy.
-	CancellationPolicyProvided *bool `form:"cancellation_policy_provided"`
+	CancellationPolicyProvided *bool `form:"cancellation_policy_provided" json:"cancellation_policy_provided,omitempty"`
 	// Reason for canceling the order.
-	CancellationReason *string `form:"cancellation_reason"`
+	CancellationReason *string `form:"cancellation_reason" json:"cancellation_reason,omitempty"`
 	// Date when the cardholder expected to receive the product.
-	ExpectedAt *int64 `form:"expected_at"`
+	ExpectedAt *int64 `form:"expected_at" json:"expected_at,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Description of the merchandise or service that was purchased.
-	ProductDescription *string `form:"product_description"`
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
 	// Whether the product was a merchandise or service.
-	ProductType *string `form:"product_type"`
+	ProductType *string `form:"product_type" json:"product_type,omitempty"`
 	// Date when the product was returned or attempted to be returned.
-	ReturnedAt *int64 `form:"returned_at"`
+	ReturnedAt *int64 `form:"returned_at" json:"returned_at,omitempty"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string                                                `form:"return_status"`
+	ReturnStatus *string                                                `form:"return_status" json:"return_status,omitempty"`
 	UnsetFields  []IssuingDisputeUpdateEvidenceCanceledParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -889,17 +889,17 @@ func (p *IssuingDisputeUpdateEvidenceCanceledParams) AddUnsetField(field Issuing
 // Evidence provided when `reason` is 'duplicate'.
 type IssuingDisputeUpdateEvidenceDuplicateParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the card statement showing that the product had already been paid for.
-	CardStatement *string `form:"card_statement"`
+	CardStatement *string `form:"card_statement" json:"card_statement,omitempty"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the receipt showing that the product had been paid for in cash.
-	CashReceipt *string `form:"cash_receipt"`
+	CashReceipt *string `form:"cash_receipt" json:"cash_receipt,omitempty"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Image of the front and back of the check that was used to pay for the product.
-	CheckImage *string `form:"check_image"`
+	CheckImage *string `form:"check_image" json:"check_image,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Transaction (e.g., ipi_...) that the disputed transaction is a duplicate of. Of the two or more transactions that are copies of each other, this is original undisputed one.
-	OriginalTransaction *string                                                 `form:"original_transaction"`
+	OriginalTransaction *string                                                 `form:"original_transaction" json:"original_transaction,omitempty"`
 	UnsetFields         []IssuingDisputeUpdateEvidenceDuplicateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -922,9 +922,9 @@ func (p *IssuingDisputeUpdateEvidenceDuplicateParams) AddUnsetField(field Issuin
 // Evidence provided when `reason` is 'fraudulent'.
 type IssuingDisputeUpdateEvidenceFraudulentParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string                                                  `form:"explanation"`
+	Explanation *string                                                  `form:"explanation" json:"explanation,omitempty"`
 	UnsetFields []IssuingDisputeUpdateEvidenceFraudulentParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -944,17 +944,17 @@ func (p *IssuingDisputeUpdateEvidenceFraudulentParams) AddUnsetField(field Issui
 // Evidence provided when `reason` is 'merchandise_not_as_described'.
 type IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Date when the product was received.
-	ReceivedAt *int64 `form:"received_at"`
+	ReceivedAt *int64 `form:"received_at" json:"received_at,omitempty"`
 	// Description of the cardholder's attempt to return the product.
-	ReturnDescription *string `form:"return_description"`
+	ReturnDescription *string `form:"return_description" json:"return_description,omitempty"`
 	// Date when the product was returned or attempted to be returned.
-	ReturnedAt *int64 `form:"returned_at"`
+	ReturnedAt *int64 `form:"returned_at" json:"returned_at,omitempty"`
 	// Result of cardholder's attempt to return the product.
-	ReturnStatus *string                                                                 `form:"return_status"`
+	ReturnStatus *string                                                                 `form:"return_status" json:"return_status,omitempty"`
 	UnsetFields  []IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -978,9 +978,9 @@ func (p *IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParams) AddUnsetFi
 // Evidence provided when `reason` is 'no_valid_authorization'.
 type IssuingDisputeUpdateEvidenceNoValidAuthorizationParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string                                                            `form:"explanation"`
+	Explanation *string                                                            `form:"explanation" json:"explanation,omitempty"`
 	UnsetFields []IssuingDisputeUpdateEvidenceNoValidAuthorizationParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1000,15 +1000,15 @@ func (p *IssuingDisputeUpdateEvidenceNoValidAuthorizationParams) AddUnsetField(f
 // Evidence provided when `reason` is 'not_received'.
 type IssuingDisputeUpdateEvidenceNotReceivedParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Date when the cardholder expected to receive the product.
-	ExpectedAt *int64 `form:"expected_at"`
+	ExpectedAt *int64 `form:"expected_at" json:"expected_at,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Description of the merchandise or service that was purchased.
-	ProductDescription *string `form:"product_description"`
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
 	// Whether the product was a merchandise or service.
-	ProductType *string                                                   `form:"product_type"`
+	ProductType *string                                                   `form:"product_type" json:"product_type,omitempty"`
 	UnsetFields []IssuingDisputeUpdateEvidenceNotReceivedParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1031,13 +1031,13 @@ func (p *IssuingDisputeUpdateEvidenceNotReceivedParams) AddUnsetField(field Issu
 // Evidence provided when `reason` is 'other'.
 type IssuingDisputeUpdateEvidenceOtherParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Description of the merchandise or service that was purchased.
-	ProductDescription *string `form:"product_description"`
+	ProductDescription *string `form:"product_description" json:"product_description,omitempty"`
 	// Whether the product was a merchandise or service.
-	ProductType *string                                             `form:"product_type"`
+	ProductType *string                                             `form:"product_type" json:"product_type,omitempty"`
 	UnsetFields []IssuingDisputeUpdateEvidenceOtherParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1059,15 +1059,15 @@ func (p *IssuingDisputeUpdateEvidenceOtherParams) AddUnsetField(field IssuingDis
 // Evidence provided when `reason` is 'service_not_as_described'.
 type IssuingDisputeUpdateEvidenceServiceNotAsDescribedParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
-	AdditionalDocumentation *string `form:"additional_documentation"`
+	AdditionalDocumentation *string `form:"additional_documentation" json:"additional_documentation,omitempty"`
 	// Date when order was canceled.
-	CanceledAt *int64 `form:"canceled_at"`
+	CanceledAt *int64 `form:"canceled_at" json:"canceled_at,omitempty"`
 	// Reason for canceling the order.
-	CancellationReason *string `form:"cancellation_reason"`
+	CancellationReason *string `form:"cancellation_reason" json:"cancellation_reason,omitempty"`
 	// Explanation of why the cardholder is disputing this transaction.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation,omitempty"`
 	// Date when the product was received.
-	ReceivedAt  *int64                                                              `form:"received_at"`
+	ReceivedAt  *int64                                                              `form:"received_at" json:"received_at,omitempty"`
 	UnsetFields []IssuingDisputeUpdateEvidenceServiceNotAsDescribedParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1090,23 +1090,23 @@ func (p *IssuingDisputeUpdateEvidenceServiceNotAsDescribedParams) AddUnsetField(
 // Evidence provided for the dispute.
 type IssuingDisputeUpdateEvidenceParams struct {
 	// Evidence provided when `reason` is 'canceled'.
-	Canceled *IssuingDisputeUpdateEvidenceCanceledParams `form:"canceled"`
+	Canceled *IssuingDisputeUpdateEvidenceCanceledParams `form:"canceled" json:"canceled,omitempty"`
 	// Evidence provided when `reason` is 'duplicate'.
-	Duplicate *IssuingDisputeUpdateEvidenceDuplicateParams `form:"duplicate"`
+	Duplicate *IssuingDisputeUpdateEvidenceDuplicateParams `form:"duplicate" json:"duplicate,omitempty"`
 	// Evidence provided when `reason` is 'fraudulent'.
-	Fraudulent *IssuingDisputeUpdateEvidenceFraudulentParams `form:"fraudulent"`
+	Fraudulent *IssuingDisputeUpdateEvidenceFraudulentParams `form:"fraudulent" json:"fraudulent,omitempty"`
 	// Evidence provided when `reason` is 'merchandise_not_as_described'.
-	MerchandiseNotAsDescribed *IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParams `form:"merchandise_not_as_described"`
+	MerchandiseNotAsDescribed *IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParams `form:"merchandise_not_as_described" json:"merchandise_not_as_described,omitempty"`
 	// Evidence provided when `reason` is 'not_received'.
-	NotReceived *IssuingDisputeUpdateEvidenceNotReceivedParams `form:"not_received"`
+	NotReceived *IssuingDisputeUpdateEvidenceNotReceivedParams `form:"not_received" json:"not_received,omitempty"`
 	// Evidence provided when `reason` is 'no_valid_authorization'.
-	NoValidAuthorization *IssuingDisputeUpdateEvidenceNoValidAuthorizationParams `form:"no_valid_authorization"`
+	NoValidAuthorization *IssuingDisputeUpdateEvidenceNoValidAuthorizationParams `form:"no_valid_authorization" json:"no_valid_authorization,omitempty"`
 	// Evidence provided when `reason` is 'other'.
-	Other *IssuingDisputeUpdateEvidenceOtherParams `form:"other"`
+	Other *IssuingDisputeUpdateEvidenceOtherParams `form:"other" json:"other,omitempty"`
 	// The reason for filing the dispute. The evidence should be submitted in the field of the same name.
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason,omitempty"`
 	// Evidence provided when `reason` is 'service_not_as_described'.
-	ServiceNotAsDescribed *IssuingDisputeUpdateEvidenceServiceNotAsDescribedParams `form:"service_not_as_described"`
+	ServiceNotAsDescribed *IssuingDisputeUpdateEvidenceServiceNotAsDescribedParams `form:"service_not_as_described" json:"service_not_as_described,omitempty"`
 	UnsetFields           []IssuingDisputeUpdateEvidenceParamsUnsetField           `form:"-" json:"-"`
 }
 
@@ -1133,13 +1133,13 @@ func (p *IssuingDisputeUpdateEvidenceParams) AddUnsetField(field IssuingDisputeU
 type IssuingDisputeUpdateParams struct {
 	Params `form:"*"`
 	// The dispute amount in the card's currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Evidence provided for the dispute.
-	Evidence *IssuingDisputeUpdateEvidenceParams `form:"evidence"`
+	Evidence *IssuingDisputeUpdateEvidenceParams `form:"evidence" json:"evidence,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                      `form:"metadata"`
+	Metadata    map[string]string                      `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []IssuingDisputeUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1266,16 +1266,16 @@ type IssuingDisputeEvidenceServiceNotAsDescribed struct {
 	ReceivedAt int64 `json:"received_at"`
 }
 type IssuingDisputeEvidence struct {
-	Canceled                  *IssuingDisputeEvidenceCanceled                  `json:"canceled"`
-	Duplicate                 *IssuingDisputeEvidenceDuplicate                 `json:"duplicate"`
-	Fraudulent                *IssuingDisputeEvidenceFraudulent                `json:"fraudulent"`
-	MerchandiseNotAsDescribed *IssuingDisputeEvidenceMerchandiseNotAsDescribed `json:"merchandise_not_as_described"`
-	NotReceived               *IssuingDisputeEvidenceNotReceived               `json:"not_received"`
-	NoValidAuthorization      *IssuingDisputeEvidenceNoValidAuthorization      `json:"no_valid_authorization"`
-	Other                     *IssuingDisputeEvidenceOther                     `json:"other"`
+	Canceled                  *IssuingDisputeEvidenceCanceled                  `json:"canceled,omitempty"`
+	Duplicate                 *IssuingDisputeEvidenceDuplicate                 `json:"duplicate,omitempty"`
+	Fraudulent                *IssuingDisputeEvidenceFraudulent                `json:"fraudulent,omitempty"`
+	MerchandiseNotAsDescribed *IssuingDisputeEvidenceMerchandiseNotAsDescribed `json:"merchandise_not_as_described,omitempty"`
+	NotReceived               *IssuingDisputeEvidenceNotReceived               `json:"not_received,omitempty"`
+	NoValidAuthorization      *IssuingDisputeEvidenceNoValidAuthorization      `json:"no_valid_authorization,omitempty"`
+	Other                     *IssuingDisputeEvidenceOther                     `json:"other,omitempty"`
 	// The reason for filing the dispute. Its value will match the field containing the evidence.
 	Reason                IssuingDisputeEvidenceReason                 `json:"reason"`
-	ServiceNotAsDescribed *IssuingDisputeEvidenceServiceNotAsDescribed `json:"service_not_as_described"`
+	ServiceNotAsDescribed *IssuingDisputeEvidenceServiceNotAsDescribed `json:"service_not_as_described,omitempty"`
 }
 
 // [Treasury](https://docs.stripe.com/api/treasury) details related to this dispute if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
@@ -1294,7 +1294,7 @@ type IssuingDispute struct {
 	// Disputed amount in the card's currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Usually the amount of the `transaction`, but can differ (usually because of currency fluctuation).
 	Amount int64 `json:"amount"`
 	// List of balance transactions associated with the dispute.
-	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
+	BalanceTransactions []*BalanceTransaction `json:"balance_transactions,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// The currency the `transaction` was made in.
@@ -1305,7 +1305,7 @@ type IssuingDispute struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// The enum that describes the dispute loss outcome. If the dispute is not lost, this field will be absent. New enum values may be added in the future, so be sure to handle unknown values.
-	LossReason IssuingDisputeLossReason `json:"loss_reason"`
+	LossReason IssuingDisputeLossReason `json:"loss_reason,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
@@ -1315,7 +1315,7 @@ type IssuingDispute struct {
 	// The transaction being disputed.
 	Transaction *IssuingTransaction `json:"transaction"`
 	// [Treasury](https://docs.stripe.com/api/treasury) details related to this dispute if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
-	Treasury *IssuingDisputeTreasury `json:"treasury"`
+	Treasury *IssuingDisputeTreasury `json:"treasury,omitempty"`
 }
 
 // IssuingDisputeList is a list of Disputes as retrieved from a list endpoint.

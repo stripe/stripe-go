@@ -13,7 +13,7 @@ type V2CoreBatchJobEndpointParams struct {
 	// The path of the endpoint to run this batch job against.
 	// In the form used in the documentation. For instance, for
 	// subscription migration this would be `/v1/subscriptions/:id/migrate`.
-	Path *string `form:"path" json:"path"`
+	Path *V2CoreBatchJobsPath `form:"path" json:"path"`
 }
 
 // Notification suppression settings for the batch job.
@@ -59,7 +59,7 @@ type V2CoreBatchJobCreateEndpointParams struct {
 	// The path of the endpoint to run this batch job against.
 	// In the form used in the documentation. For instance, for
 	// subscription migration this would be `/v1/subscriptions/:id/migrate`.
-	Path *string `form:"path" json:"path"`
+	Path *V2CoreBatchJobsPath `form:"path" json:"path"`
 }
 
 // Notification suppression settings for the batch job.
@@ -97,3 +97,22 @@ func (p *V2CoreBatchJobCreateParams) AddMetadata(key string, value string) {
 type V2CoreBatchJobRetrieveParams struct {
 	Params `form:"*"`
 }
+
+// V2CoreBatchJobsPath represents a batchable API endpoint for batch jobs.
+type V2CoreBatchJobsPath string
+
+// List of values that V2CoreBatchJobsPath can take.
+const (
+	V2CoreBatchJobsPathAccountUpdate              V2CoreBatchJobsPath = "/v1/accounts/:account"
+	V2CoreBatchJobsPathCreditNoteCreate           V2CoreBatchJobsPath = "/v1/credit_notes"
+	V2CoreBatchJobsPathCustomerUpdate             V2CoreBatchJobsPath = "/v1/customers/:customer"
+	V2CoreBatchJobsPathInvoiceUpdate              V2CoreBatchJobsPath = "/v1/invoices/:invoice"
+	V2CoreBatchJobsPathInvoicePay                 V2CoreBatchJobsPath = "/v1/invoices/:invoice/pay"
+	V2CoreBatchJobsPathPromotionCodeCreate        V2CoreBatchJobsPath = "/v1/promotion_codes"
+	V2CoreBatchJobsPathPromotionCodeUpdate        V2CoreBatchJobsPath = "/v1/promotion_codes/:promotion_code"
+	V2CoreBatchJobsPathSubscriptionUpdate         V2CoreBatchJobsPath = "/v1/subscriptions/:subscription_exposed_id"
+	V2CoreBatchJobsPathSubscriptionMigrate        V2CoreBatchJobsPath = "/v1/subscriptions/:subscription/migrate"
+	V2CoreBatchJobsPathSubscriptionScheduleCreate V2CoreBatchJobsPath = "/v1/subscription_schedules"
+	V2CoreBatchJobsPathSubscriptionScheduleUpdate V2CoreBatchJobsPath = "/v1/subscription_schedules/:schedule"
+	V2CoreBatchJobsPathSubscriptionScheduleCancel V2CoreBatchJobsPath = "/v1/subscription_schedules/:schedule/cancel"
+)

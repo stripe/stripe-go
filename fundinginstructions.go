@@ -146,21 +146,21 @@ type FundingInstructionsBankTransferFinancialAddressZengin struct {
 // A list of financial addresses that can be used to fund a particular balance
 type FundingInstructionsBankTransferFinancialAddress struct {
 	// ABA Records contain U.S. bank account details per the ABA format.
-	ABA *FundingInstructionsBankTransferFinancialAddressABA `json:"aba"`
+	ABA *FundingInstructionsBankTransferFinancialAddressABA `json:"aba,omitempty"`
 	// Iban Records contain E.U. bank account details per the SEPA format.
-	IBAN *FundingInstructionsBankTransferFinancialAddressIBAN `json:"iban"`
+	IBAN *FundingInstructionsBankTransferFinancialAddressIBAN `json:"iban,omitempty"`
 	// Sort Code Records contain U.K. bank account details per the sort code format.
-	SortCode *FundingInstructionsBankTransferFinancialAddressSortCode `json:"sort_code"`
+	SortCode *FundingInstructionsBankTransferFinancialAddressSortCode `json:"sort_code,omitempty"`
 	// SPEI Records contain Mexico bank account details per the SPEI format.
-	Spei *FundingInstructionsBankTransferFinancialAddressSpei `json:"spei"`
+	Spei *FundingInstructionsBankTransferFinancialAddressSpei `json:"spei,omitempty"`
 	// The payment networks supported by this FinancialAddress
-	SupportedNetworks []FundingInstructionsBankTransferFinancialAddressSupportedNetwork `json:"supported_networks"`
+	SupportedNetworks []FundingInstructionsBankTransferFinancialAddressSupportedNetwork `json:"supported_networks,omitempty"`
 	// SWIFT Records contain U.S. bank account details per the SWIFT format.
-	Swift *FundingInstructionsBankTransferFinancialAddressSwift `json:"swift"`
+	Swift *FundingInstructionsBankTransferFinancialAddressSwift `json:"swift,omitempty"`
 	// The type of financial address
 	Type FundingInstructionsBankTransferFinancialAddressType `json:"type"`
 	// Zengin Records contain Japan bank account details per the Zengin format.
-	Zengin *FundingInstructionsBankTransferFinancialAddressZengin `json:"zengin"`
+	Zengin *FundingInstructionsBankTransferFinancialAddressZengin `json:"zengin,omitempty"`
 }
 type FundingInstructionsBankTransfer struct {
 	// The country of the bank account to fund

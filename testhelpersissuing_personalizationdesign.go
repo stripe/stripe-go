@@ -10,7 +10,7 @@ package stripe
 type TestHelpersIssuingPersonalizationDesignActivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -22,7 +22,7 @@ func (p *TestHelpersIssuingPersonalizationDesignActivateParams) AddExpand(f stri
 type TestHelpersIssuingPersonalizationDesignDeactivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -33,18 +33,18 @@ func (p *TestHelpersIssuingPersonalizationDesignDeactivateParams) AddExpand(f st
 // The reason(s) the personalization design was rejected.
 type TestHelpersIssuingPersonalizationDesignRejectRejectionReasonsParams struct {
 	// The reason(s) the card logo was rejected.
-	CardLogo []*string `form:"card_logo"`
+	CardLogo []*string `form:"card_logo" json:"card_logo,omitempty"`
 	// The reason(s) the carrier text was rejected.
-	CarrierText []*string `form:"carrier_text"`
+	CarrierText []*string `form:"carrier_text" json:"carrier_text,omitempty"`
 }
 
 // Updates the status of the specified testmode personalization design object to rejected.
 type TestHelpersIssuingPersonalizationDesignRejectParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The reason(s) the personalization design was rejected.
-	RejectionReasons *TestHelpersIssuingPersonalizationDesignRejectRejectionReasonsParams `form:"rejection_reasons"`
+	RejectionReasons *TestHelpersIssuingPersonalizationDesignRejectRejectionReasonsParams `form:"rejection_reasons" json:"rejection_reasons"`
 }
 
 // AddExpand appends a new field to expand.

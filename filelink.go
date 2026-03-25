@@ -12,15 +12,15 @@ import "github.com/stripe/stripe-go/v84/form"
 type FileLinkListParams struct {
 	ListParams `form:"*"`
 	// Only return links that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return links that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Filter links by their expiration status. By default, Stripe returns all links.
-	Expired *bool `form:"expired"`
+	Expired *bool `form:"expired" json:"expired,omitempty"`
 	// Only return links for the given file.
-	File *string `form:"file"`
+	File *string `form:"file" json:"file,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -32,14 +32,14 @@ func (p *FileLinkListParams) AddExpand(f string) {
 type FileLinkParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A future timestamp after which the link will no longer be usable, or `now` to expire the link immediately.
-	ExpiresAt    *int64 `form:"expires_at"`
+	ExpiresAt    *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
 	// The ID of the file. The file's `purpose` must be one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `finance_report_run`, `financial_account_statement`, `identity_document_downloadable`, `issuing_regulatory_reporting`, `pci_document`, `selfie`, `sigma_scheduled_query`, `tax_document_user_upload`, `terminal_android_apk`, or `terminal_reader_splashscreen`.
-	File *string `form:"file"`
+	File *string `form:"file" json:"file,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string          `form:"metadata"`
+	Metadata    map[string]string          `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []FileLinkParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -81,13 +81,13 @@ func (p *FileLinkParams) AppendTo(body *form.Values, keyParts []string) {
 type FileLinkCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The link isn't usable after this future timestamp.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// The ID of the file. The file's `purpose` must be one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `finance_report_run`, `financial_account_statement`, `identity_document_downloadable`, `issuing_regulatory_reporting`, `pci_document`, `selfie`, `sigma_scheduled_query`, `tax_document_user_upload`, `terminal_android_apk`, or `terminal_reader_splashscreen`.
-	File *string `form:"file"`
+	File *string `form:"file" json:"file"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                `form:"metadata"`
+	Metadata    map[string]string                `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []FileLinkCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -121,7 +121,7 @@ func (p *FileLinkCreateParams) AddMetadata(key string, value string) {
 type FileLinkRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -133,12 +133,12 @@ func (p *FileLinkRetrieveParams) AddExpand(f string) {
 type FileLinkUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A future timestamp after which the link will no longer be usable, or `now` to expire the link immediately.
-	ExpiresAt    *int64 `form:"expires_at"`
+	ExpiresAt    *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                `form:"metadata"`
+	Metadata    map[string]string                `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []FileLinkUpdateParamsUnsetField `form:"-" json:"-"`
 }
 

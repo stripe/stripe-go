@@ -19,8 +19,8 @@ const (
 type InvoiceRenderingTemplateListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	Status *string   `form:"status"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	Status *string   `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -32,8 +32,8 @@ func (p *InvoiceRenderingTemplateListParams) AddExpand(f string) {
 type InvoiceRenderingTemplateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand  []*string `form:"expand"`
-	Version *int64    `form:"version"`
+	Expand  []*string `form:"expand" json:"expand,omitempty"`
+	Version *int64    `form:"version" json:"version,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -45,7 +45,7 @@ func (p *InvoiceRenderingTemplateParams) AddExpand(f string) {
 type InvoiceRenderingTemplateArchiveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -57,7 +57,7 @@ func (p *InvoiceRenderingTemplateArchiveParams) AddExpand(f string) {
 type InvoiceRenderingTemplateUnarchiveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -69,8 +69,8 @@ func (p *InvoiceRenderingTemplateUnarchiveParams) AddExpand(f string) {
 type InvoiceRenderingTemplateRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand  []*string `form:"expand"`
-	Version *int64    `form:"version"`
+	Expand  []*string `form:"expand" json:"expand,omitempty"`
+	Version *int64    `form:"version" json:"version,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

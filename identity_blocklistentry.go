@@ -36,17 +36,17 @@ const (
 type IdentityBlocklistEntryListParams struct {
 	ListParams `form:"*"`
 	// Only return BlocklistEntries that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return BlocklistEntries that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return blocklist entries with the specified status.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 	// Only return blocklist entries of the specified type.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 	// Only return blocklist entries created from this verification report.
-	VerificationReport *string `form:"verification_report"`
+	VerificationReport *string `form:"verification_report" json:"verification_report,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -64,13 +64,13 @@ func (p *IdentityBlocklistEntryListParams) AddExpand(f string) {
 type IdentityBlocklistEntryParams struct {
 	Params `form:"*"`
 	// When true, the created BlocklistEntry will be used to retroactively unverify matching verifications.
-	CheckExistingVerifications *bool `form:"check_existing_verifications"`
+	CheckExistingVerifications *bool `form:"check_existing_verifications" json:"check_existing_verifications,omitempty"`
 	// The type of blocklist entry to be created.
-	EntryType *string `form:"entry_type"`
+	EntryType *string `form:"entry_type" json:"entry_type,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The identifier of the VerificationReport to create the BlocklistEntry from.
-	VerificationReport *string `form:"verification_report"`
+	VerificationReport *string `form:"verification_report" json:"verification_report,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -88,7 +88,7 @@ func (p *IdentityBlocklistEntryParams) AddExpand(f string) {
 type IdentityBlocklistEntryDisableParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -106,13 +106,13 @@ func (p *IdentityBlocklistEntryDisableParams) AddExpand(f string) {
 type IdentityBlocklistEntryCreateParams struct {
 	Params `form:"*"`
 	// When true, the created BlocklistEntry will be used to retroactively unverify matching verifications.
-	CheckExistingVerifications *bool `form:"check_existing_verifications"`
+	CheckExistingVerifications *bool `form:"check_existing_verifications" json:"check_existing_verifications,omitempty"`
 	// The type of blocklist entry to be created.
-	EntryType *string `form:"entry_type"`
+	EntryType *string `form:"entry_type" json:"entry_type"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The identifier of the VerificationReport to create the BlocklistEntry from.
-	VerificationReport *string `form:"verification_report"`
+	VerificationReport *string `form:"verification_report" json:"verification_report"`
 }
 
 // AddExpand appends a new field to expand.
@@ -126,7 +126,7 @@ func (p *IdentityBlocklistEntryCreateParams) AddExpand(f string) {
 type IdentityBlocklistEntryRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

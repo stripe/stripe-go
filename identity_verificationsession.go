@@ -117,19 +117,19 @@ const (
 type IdentityVerificationSessionListParams struct {
 	ListParams `form:"*"`
 	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
-	ClientReferenceID *string `form:"client_reference_id"`
+	ClientReferenceID *string `form:"client_reference_id" json:"client_reference_id,omitempty"`
 	// Only return VerificationSessions that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return VerificationSessions that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Customer ID
-	RelatedCustomer *string `form:"related_customer"`
+	RelatedCustomer *string `form:"related_customer" json:"related_customer,omitempty"`
 	// The ID of the Account representing a customer.
-	RelatedCustomerAccount *string `form:"related_customer_account"`
+	RelatedCustomerAccount *string `form:"related_customer_account" json:"related_customer_account,omitempty"`
 	// Only return VerificationSessions with this status. [Learn more about the lifecycle of sessions](https://docs.stripe.com/identity/how-sessions-work).
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -140,19 +140,19 @@ func (p *IdentityVerificationSessionListParams) AddExpand(f string) {
 // Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
 type IdentityVerificationSessionOptionsDocumentParams struct {
 	// Array of strings of allowed identity document types. If the provided identity document isn't one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
-	AllowedTypes []*string `form:"allowed_types"`
+	AllowedTypes []*string `form:"allowed_types" json:"allowed_types,omitempty"`
 	// Collect an ID number and perform an [ID number check](https://docs.stripe.com/identity/verification-checks?type=id-number) with the document's extracted name and date of birth.
-	RequireIDNumber *bool `form:"require_id_number"`
+	RequireIDNumber *bool `form:"require_id_number" json:"require_id_number,omitempty"`
 	// Disable image uploads, identity document images have to be captured using the device's camera.
-	RequireLiveCapture *bool `form:"require_live_capture"`
+	RequireLiveCapture *bool `form:"require_live_capture" json:"require_live_capture,omitempty"`
 	// Capture a face image and perform a [selfie check](https://docs.stripe.com/identity/verification-checks?type=selfie) comparing a photo ID and a picture of your user's face. [Learn more](https://docs.stripe.com/identity/selfie).
-	RequireMatchingSelfie *bool `form:"require_matching_selfie"`
+	RequireMatchingSelfie *bool `form:"require_matching_selfie" json:"require_matching_selfie,omitempty"`
 }
 
 // A set of options for the session's verification checks.
 type IdentityVerificationSessionOptionsParams struct {
 	// Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
-	Document    *IdentityVerificationSessionOptionsDocumentParams    `form:"document"`
+	Document    *IdentityVerificationSessionOptionsDocumentParams    `form:"document" json:"document,omitempty"`
 	UnsetFields []IdentityVerificationSessionOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -171,17 +171,17 @@ func (p *IdentityVerificationSessionOptionsParams) AddUnsetField(field IdentityV
 // Details provided about the user being verified. These details may be shown to the user.
 type IdentityVerificationSessionProvidedDetailsParams struct {
 	// Email of user being verified
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Phone number of user being verified
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Tokens referencing a Person resource and it's associated account.
 type IdentityVerificationSessionRelatedPersonParams struct {
 	// A token representing a connected account. If provided, the person parameter is also required and must be associated with the account.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account"`
 	// A token referencing a Person resource that this verification is being used to verify.
-	Person *string `form:"person"`
+	Person *string `form:"person" json:"person"`
 }
 
 // Creates a VerificationSession object.
@@ -194,27 +194,27 @@ type IdentityVerificationSessionRelatedPersonParams struct {
 type IdentityVerificationSessionParams struct {
 	Params `form:"*"`
 	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
-	ClientReferenceID *string `form:"client_reference_id"`
+	ClientReferenceID *string `form:"client_reference_id" json:"client_reference_id,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A set of options for the session's verification checks.
-	Options *IdentityVerificationSessionOptionsParams `form:"options"`
+	Options *IdentityVerificationSessionOptionsParams `form:"options" json:"options,omitempty"`
 	// Details provided about the user being verified. These details may be shown to the user.
-	ProvidedDetails *IdentityVerificationSessionProvidedDetailsParams `form:"provided_details"`
+	ProvidedDetails *IdentityVerificationSessionProvidedDetailsParams `form:"provided_details" json:"provided_details,omitempty"`
 	// Customer ID
-	RelatedCustomer *string `form:"related_customer"`
+	RelatedCustomer *string `form:"related_customer" json:"related_customer,omitempty"`
 	// The ID of the Account representing a customer.
-	RelatedCustomerAccount *string `form:"related_customer_account"`
+	RelatedCustomerAccount *string `form:"related_customer_account" json:"related_customer_account,omitempty"`
 	// Tokens referencing a Person resource and it's associated account.
-	RelatedPerson *IdentityVerificationSessionRelatedPersonParams `form:"related_person"`
+	RelatedPerson *IdentityVerificationSessionRelatedPersonParams `form:"related_person" json:"related_person,omitempty"`
 	// The URL that the user will be redirected to upon completing the verification flow.
-	ReturnURL *string `form:"return_url"`
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// The type of [verification check](https://docs.stripe.com/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 	// The ID of a verification flow from the Dashboard. See https://docs.stripe.com/identity/verification-flows.
-	VerificationFlow *string `form:"verification_flow"`
+	VerificationFlow *string `form:"verification_flow" json:"verification_flow,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -237,7 +237,7 @@ func (p *IdentityVerificationSessionParams) AddMetadata(key string, value string
 type IdentityVerificationSessionCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -267,7 +267,7 @@ func (p *IdentityVerificationSessionCancelParams) AddExpand(f string) {
 type IdentityVerificationSessionRedactParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -278,19 +278,19 @@ func (p *IdentityVerificationSessionRedactParams) AddExpand(f string) {
 // Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
 type IdentityVerificationSessionCreateOptionsDocumentParams struct {
 	// Array of strings of allowed identity document types. If the provided identity document isn't one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
-	AllowedTypes []*string `form:"allowed_types"`
+	AllowedTypes []*string `form:"allowed_types" json:"allowed_types,omitempty"`
 	// Collect an ID number and perform an [ID number check](https://docs.stripe.com/identity/verification-checks?type=id-number) with the document's extracted name and date of birth.
-	RequireIDNumber *bool `form:"require_id_number"`
+	RequireIDNumber *bool `form:"require_id_number" json:"require_id_number,omitempty"`
 	// Disable image uploads, identity document images have to be captured using the device's camera.
-	RequireLiveCapture *bool `form:"require_live_capture"`
+	RequireLiveCapture *bool `form:"require_live_capture" json:"require_live_capture,omitempty"`
 	// Capture a face image and perform a [selfie check](https://docs.stripe.com/identity/verification-checks?type=selfie) comparing a photo ID and a picture of your user's face. [Learn more](https://docs.stripe.com/identity/selfie).
-	RequireMatchingSelfie *bool `form:"require_matching_selfie"`
+	RequireMatchingSelfie *bool `form:"require_matching_selfie" json:"require_matching_selfie,omitempty"`
 }
 
 // A set of options for the session's verification checks.
 type IdentityVerificationSessionCreateOptionsParams struct {
 	// Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
-	Document    *IdentityVerificationSessionCreateOptionsDocumentParams    `form:"document"`
+	Document    *IdentityVerificationSessionCreateOptionsDocumentParams    `form:"document" json:"document,omitempty"`
 	UnsetFields []IdentityVerificationSessionCreateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -309,17 +309,17 @@ func (p *IdentityVerificationSessionCreateOptionsParams) AddUnsetField(field Ide
 // Details provided about the user being verified. These details may be shown to the user.
 type IdentityVerificationSessionCreateProvidedDetailsParams struct {
 	// Email of user being verified
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Phone number of user being verified
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Tokens referencing a Person resource and it's associated account.
 type IdentityVerificationSessionCreateRelatedPersonParams struct {
 	// A token representing a connected account. If provided, the person parameter is also required and must be associated with the account.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account"`
 	// A token referencing a Person resource that this verification is being used to verify.
-	Person *string `form:"person"`
+	Person *string `form:"person" json:"person"`
 }
 
 // Creates a VerificationSession object.
@@ -332,27 +332,27 @@ type IdentityVerificationSessionCreateRelatedPersonParams struct {
 type IdentityVerificationSessionCreateParams struct {
 	Params `form:"*"`
 	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
-	ClientReferenceID *string `form:"client_reference_id"`
+	ClientReferenceID *string `form:"client_reference_id" json:"client_reference_id,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A set of options for the session's verification checks.
-	Options *IdentityVerificationSessionCreateOptionsParams `form:"options"`
+	Options *IdentityVerificationSessionCreateOptionsParams `form:"options" json:"options,omitempty"`
 	// Details provided about the user being verified. These details may be shown to the user.
-	ProvidedDetails *IdentityVerificationSessionCreateProvidedDetailsParams `form:"provided_details"`
+	ProvidedDetails *IdentityVerificationSessionCreateProvidedDetailsParams `form:"provided_details" json:"provided_details,omitempty"`
 	// Customer ID
-	RelatedCustomer *string `form:"related_customer"`
+	RelatedCustomer *string `form:"related_customer" json:"related_customer,omitempty"`
 	// The ID of the Account representing a customer.
-	RelatedCustomerAccount *string `form:"related_customer_account"`
+	RelatedCustomerAccount *string `form:"related_customer_account" json:"related_customer_account,omitempty"`
 	// Tokens referencing a Person resource and it's associated account.
-	RelatedPerson *IdentityVerificationSessionCreateRelatedPersonParams `form:"related_person"`
+	RelatedPerson *IdentityVerificationSessionCreateRelatedPersonParams `form:"related_person" json:"related_person,omitempty"`
 	// The URL that the user will be redirected to upon completing the verification flow.
-	ReturnURL *string `form:"return_url"`
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// The type of [verification check](https://docs.stripe.com/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 	// The ID of a verification flow from the Dashboard. See https://docs.stripe.com/identity/verification-flows.
-	VerificationFlow *string `form:"verification_flow"`
+	VerificationFlow *string `form:"verification_flow" json:"verification_flow,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -376,7 +376,7 @@ func (p *IdentityVerificationSessionCreateParams) AddMetadata(key string, value 
 type IdentityVerificationSessionRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -387,19 +387,19 @@ func (p *IdentityVerificationSessionRetrieveParams) AddExpand(f string) {
 // Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
 type IdentityVerificationSessionUpdateOptionsDocumentParams struct {
 	// Array of strings of allowed identity document types. If the provided identity document isn't one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
-	AllowedTypes []*string `form:"allowed_types"`
+	AllowedTypes []*string `form:"allowed_types" json:"allowed_types,omitempty"`
 	// Collect an ID number and perform an [ID number check](https://docs.stripe.com/identity/verification-checks?type=id-number) with the document's extracted name and date of birth.
-	RequireIDNumber *bool `form:"require_id_number"`
+	RequireIDNumber *bool `form:"require_id_number" json:"require_id_number,omitempty"`
 	// Disable image uploads, identity document images have to be captured using the device's camera.
-	RequireLiveCapture *bool `form:"require_live_capture"`
+	RequireLiveCapture *bool `form:"require_live_capture" json:"require_live_capture,omitempty"`
 	// Capture a face image and perform a [selfie check](https://docs.stripe.com/identity/verification-checks?type=selfie) comparing a photo ID and a picture of your user's face. [Learn more](https://docs.stripe.com/identity/selfie).
-	RequireMatchingSelfie *bool `form:"require_matching_selfie"`
+	RequireMatchingSelfie *bool `form:"require_matching_selfie" json:"require_matching_selfie,omitempty"`
 }
 
 // A set of options for the session's verification checks.
 type IdentityVerificationSessionUpdateOptionsParams struct {
 	// Options that apply to the [document check](https://docs.stripe.com/identity/verification-checks?type=document).
-	Document    *IdentityVerificationSessionUpdateOptionsDocumentParams    `form:"document"`
+	Document    *IdentityVerificationSessionUpdateOptionsDocumentParams    `form:"document" json:"document,omitempty"`
 	UnsetFields []IdentityVerificationSessionUpdateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -418,9 +418,9 @@ func (p *IdentityVerificationSessionUpdateOptionsParams) AddUnsetField(field Ide
 // Details provided about the user being verified. These details may be shown to the user.
 type IdentityVerificationSessionUpdateProvidedDetailsParams struct {
 	// Email of user being verified
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Phone number of user being verified
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Updates a VerificationSession object.
@@ -430,15 +430,15 @@ type IdentityVerificationSessionUpdateProvidedDetailsParams struct {
 type IdentityVerificationSessionUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A set of options for the session's verification checks.
-	Options *IdentityVerificationSessionUpdateOptionsParams `form:"options"`
+	Options *IdentityVerificationSessionUpdateOptionsParams `form:"options" json:"options,omitempty"`
 	// Details provided about the user being verified. These details may be shown to the user.
-	ProvidedDetails *IdentityVerificationSessionUpdateProvidedDetailsParams `form:"provided_details"`
+	ProvidedDetails *IdentityVerificationSessionUpdateProvidedDetailsParams `form:"provided_details" json:"provided_details,omitempty"`
 	// The type of [verification check](https://docs.stripe.com/identity/verification-checks) to be performed.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -464,45 +464,45 @@ type IdentityVerificationSessionLastError struct {
 }
 type IdentityVerificationSessionOptionsDocument struct {
 	// Array of strings of allowed identity document types. If the provided identity document isn't one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
-	AllowedTypes []IdentityVerificationSessionOptionsDocumentAllowedType `json:"allowed_types"`
+	AllowedTypes []IdentityVerificationSessionOptionsDocumentAllowedType `json:"allowed_types,omitempty"`
 	// Collect an ID number and perform an [ID number check](https://docs.stripe.com/identity/verification-checks?type=id-number) with the document's extracted name and date of birth.
-	RequireIDNumber bool `json:"require_id_number"`
+	RequireIDNumber bool `json:"require_id_number,omitempty"`
 	// Disable image uploads, identity document images have to be captured using the device's camera.
-	RequireLiveCapture bool `json:"require_live_capture"`
+	RequireLiveCapture bool `json:"require_live_capture,omitempty"`
 	// Capture a face image and perform a [selfie check](https://docs.stripe.com/identity/verification-checks?type=selfie) comparing a photo ID and a picture of your user's face. [Learn more](https://docs.stripe.com/identity/selfie).
-	RequireMatchingSelfie bool `json:"require_matching_selfie"`
+	RequireMatchingSelfie bool `json:"require_matching_selfie,omitempty"`
 }
 type IdentityVerificationSessionOptionsEmail struct {
 	// Request one time password verification of `provided_details.email`.
-	RequireVerification bool `json:"require_verification"`
+	RequireVerification bool `json:"require_verification,omitempty"`
 }
 type IdentityVerificationSessionOptionsIDNumber struct{}
 type IdentityVerificationSessionOptionsMatching struct {
 	// Strictness of the DOB matching policy to apply.
-	DOB IdentityVerificationSessionOptionsMatchingDOB `json:"dob"`
+	DOB IdentityVerificationSessionOptionsMatchingDOB `json:"dob,omitempty"`
 	// Strictness of the name matching policy to apply.
-	Name IdentityVerificationSessionOptionsMatchingName `json:"name"`
+	Name IdentityVerificationSessionOptionsMatchingName `json:"name,omitempty"`
 }
 type IdentityVerificationSessionOptionsPhone struct {
 	// Request one time password verification of `provided_details.phone`.
-	RequireVerification bool `json:"require_verification"`
+	RequireVerification bool `json:"require_verification,omitempty"`
 }
 
 // A set of options for the session's verification checks.
 type IdentityVerificationSessionOptions struct {
-	Document *IdentityVerificationSessionOptionsDocument `json:"document"`
-	Email    *IdentityVerificationSessionOptionsEmail    `json:"email"`
-	IDNumber *IdentityVerificationSessionOptionsIDNumber `json:"id_number"`
-	Matching *IdentityVerificationSessionOptionsMatching `json:"matching"`
-	Phone    *IdentityVerificationSessionOptionsPhone    `json:"phone"`
+	Document *IdentityVerificationSessionOptionsDocument `json:"document,omitempty"`
+	Email    *IdentityVerificationSessionOptionsEmail    `json:"email,omitempty"`
+	IDNumber *IdentityVerificationSessionOptionsIDNumber `json:"id_number,omitempty"`
+	Matching *IdentityVerificationSessionOptionsMatching `json:"matching,omitempty"`
+	Phone    *IdentityVerificationSessionOptionsPhone    `json:"phone,omitempty"`
 }
 
 // Details provided about the user being verified. These details may be shown to the user.
 type IdentityVerificationSessionProvidedDetails struct {
 	// Email of user being verified
-	Email string `json:"email"`
+	Email string `json:"email,omitempty"`
 	// Phone number of user being verified
-	Phone string `json:"phone"`
+	Phone string `json:"phone,omitempty"`
 }
 
 // Redaction status of this VerificationSession. If the VerificationSession is not redacted, this field will be null.
@@ -532,13 +532,13 @@ type IdentityVerificationSessionVerifiedOutputs struct {
 	// The user's verified address.
 	Address *Address `json:"address"`
 	// The user's verified date of birth.
-	DOB *IdentityVerificationSessionVerifiedOutputsDOB `json:"dob"`
+	DOB *IdentityVerificationSessionVerifiedOutputsDOB `json:"dob,omitempty"`
 	// The user's verified email address
 	Email string `json:"email"`
 	// The user's verified first name.
 	FirstName string `json:"first_name"`
 	// The user's verified id number.
-	IDNumber string `json:"id_number"`
+	IDNumber string `json:"id_number,omitempty"`
 	// The user's verified id number type.
 	IDNumberType IdentityVerificationSessionVerifiedOutputsIDNumberType `json:"id_number_type"`
 	// The user's verified last name.
@@ -546,11 +546,11 @@ type IdentityVerificationSessionVerifiedOutputs struct {
 	// The user's verified phone number
 	Phone string `json:"phone"`
 	// The user's verified sex.
-	Sex IdentityVerificationSessionVerifiedOutputsSex `json:"sex"`
+	Sex IdentityVerificationSessionVerifiedOutputsSex `json:"sex,omitempty"`
 	// The user's verified place of birth as it appears in the document.
-	UnparsedPlaceOfBirth string `json:"unparsed_place_of_birth"`
+	UnparsedPlaceOfBirth string `json:"unparsed_place_of_birth,omitempty"`
 	// The user's verified sex as it appears in the document.
-	UnparsedSex string `json:"unparsed_sex"`
+	UnparsedSex string `json:"unparsed_sex,omitempty"`
 }
 
 // A VerificationSession guides you through the process of collecting and verifying the identities
@@ -587,14 +587,14 @@ type IdentityVerificationSession struct {
 	// A set of options for the session's verification checks.
 	Options *IdentityVerificationSessionOptions `json:"options"`
 	// Details provided about the user being verified. These details may be shown to the user.
-	ProvidedDetails *IdentityVerificationSessionProvidedDetails `json:"provided_details"`
+	ProvidedDetails *IdentityVerificationSessionProvidedDetails `json:"provided_details,omitempty"`
 	// Redaction status of this VerificationSession. If the VerificationSession is not redacted, this field will be null.
 	Redaction *IdentityVerificationSessionRedaction `json:"redaction"`
 	// Customer ID
 	RelatedCustomer string `json:"related_customer"`
 	// The ID of the Account representing a customer.
 	RelatedCustomerAccount string                                    `json:"related_customer_account"`
-	RelatedPerson          *IdentityVerificationSessionRelatedPerson `json:"related_person"`
+	RelatedPerson          *IdentityVerificationSessionRelatedPerson `json:"related_person,omitempty"`
 	// Status of this VerificationSession. [Learn more about the lifecycle of sessions](https://docs.stripe.com/identity/how-sessions-work).
 	Status IdentityVerificationSessionStatus `json:"status"`
 	// The type of [verification check](https://docs.stripe.com/identity/verification-checks) to be performed.
@@ -602,9 +602,9 @@ type IdentityVerificationSession struct {
 	// The short-lived URL that you use to redirect a user to Stripe to submit their identity information. This URL expires after 48 hours and can only be used once. Don't store it, log it, send it in emails or expose it to anyone other than the user. Refer to our docs on [verifying identity documents](https://docs.stripe.com/identity/verify-identity-documents?platform=web&type=redirect) to learn how to redirect users to Stripe.
 	URL string `json:"url"`
 	// The configuration token of a verification flow from the dashboard.
-	VerificationFlow string `json:"verification_flow"`
+	VerificationFlow string `json:"verification_flow,omitempty"`
 	// The user's verified data.
-	VerifiedOutputs *IdentityVerificationSessionVerifiedOutputs `json:"verified_outputs"`
+	VerifiedOutputs *IdentityVerificationSessionVerifiedOutputs `json:"verified_outputs,omitempty"`
 }
 
 // IdentityVerificationSessionList is a list of VerificationSessions as retrieved from a list endpoint.

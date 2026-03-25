@@ -464,17 +464,17 @@ const (
 type QuoteListParams struct {
 	ListParams `form:"*"`
 	// The ID of the customer whose quotes you're retrieving.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The ID of the account representing the customer whose quotes you're retrieving.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The subscription which the quote updates.
-	FromSubscription *string `form:"from_subscription"`
+	FromSubscription *string `form:"from_subscription" json:"from_subscription,omitempty"`
 	// The status of the quote.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 	// Provides a list of quotes that are associated with the specified test clock. The response will not include quotes with test clocks if this and the customer parameter is not set.
-	TestClock *string `form:"test_clock"`
+	TestClock *string `form:"test_clock" json:"test_clock,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -485,141 +485,141 @@ func (p *QuoteListParams) AddExpand(f string) {
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type QuoteAutomaticTaxLiabilityParams struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// Type of the account referenced in the request.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
 type QuoteAutomaticTaxParams struct {
 	// Controls whether Stripe will automatically compute tax on the resulting invoices or subscriptions as well as the quote itself.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
-	Liability *QuoteAutomaticTaxLiabilityParams `form:"liability"`
+	Liability *QuoteAutomaticTaxLiabilityParams `form:"liability" json:"liability,omitempty"`
 }
 
 // Time span for the redeemed discount.
 type QuoteDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to determine how long the discount should be applied for.
 type QuoteDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
-	Duration *QuoteDiscountDiscountEndDurationParams `form:"duration"`
+	Duration *QuoteDiscountDiscountEndDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The discounts applied to the quote.
 type QuoteDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // Clone an existing quote. The new quote will be created in `status=draft`. When using this parameter, you cannot specify any other parameters except for `expires_at`.
 type QuoteFromQuoteParams struct {
 	// Whether this quote is a revision of the previous quote.
-	IsRevision *bool `form:"is_revision"`
+	IsRevision *bool `form:"is_revision" json:"is_revision,omitempty"`
 	// The `id` of the quote that will be cloned.
-	Quote *string `form:"quote"`
+	Quote *string `form:"quote" json:"quote"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type QuoteInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// Type of the account referenced in the request.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // All invoices will be billed using the specified settings.
 type QuoteInvoiceSettingsParams struct {
 	// Number of days within which a customer must pay the invoice generated by this quote. This value will be `null` for quotes where `collection_method=charge_automatically`.
-	DaysUntilDue *int64 `form:"days_until_due"`
+	DaysUntilDue *int64 `form:"days_until_due" json:"days_until_due,omitempty"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer *QuoteInvoiceSettingsIssuerParams `form:"issuer"`
+	Issuer *QuoteInvoiceSettingsIssuerParams `form:"issuer" json:"issuer,omitempty"`
 }
 
 // Time span for the redeemed discount.
 type QuoteLineItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to determine how long the discount should be applied for.
 type QuoteLineItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
-	Duration *QuoteLineItemDiscountDiscountEndDurationParams `form:"duration"`
+	Duration *QuoteLineItemDiscountDiscountEndDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The discounts applied to this line item.
 type QuoteLineItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteLineItemDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteLineItemDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
 type QuoteLineItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
 // Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 type QuoteLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
-	Recurring *QuoteLineItemPriceDataRecurringParams `form:"recurring"`
+	Recurring *QuoteLineItemPriceDataRecurringParams `form:"recurring" json:"recurring,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
 type QuoteLineItemParams struct {
 	// The discounts applied to this line item.
-	Discounts []*QuoteLineItemDiscountParams `form:"discounts"`
+	Discounts []*QuoteLineItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// The ID of an existing line item on the quote.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The ID of the price object. One of `price` or `price_data` is required.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
-	PriceData *QuoteLineItemPriceDataParams `form:"price_data"`
+	PriceData *QuoteLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the quote do not apply to this line item.
-	TaxRates    []*string                       `form:"tax_rates"`
+	TaxRates    []*string                       `form:"tax_rates" json:"tax_rates,omitempty"`
 	UnsetFields []QuoteLineItemParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -639,141 +639,141 @@ func (p *QuoteLineItemParams) AddUnsetField(field QuoteLineItemParamsUnsetField)
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionAddDiscountDiscountEndParams struct {
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Anchor the service period to a custom date. Type must be `custom` to specify.
 type QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configures service period cycle anchoring.
 type QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigParams struct {
 	// Anchor the service period to a custom date. Type must be `custom` to specify.
-	Custom *QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	Custom *QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of service period anchor config. Defaults to `inherit` if omitted.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings for discount application including service period anchoring.
 type QuoteLineActionAddDiscountSettingsParams struct {
 	// Configures service period cycle anchoring.
-	ServicePeriodAnchorConfig *QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	ServicePeriodAnchorConfig *QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config" json:"service_period_anchor_config,omitempty"`
 	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `line_start` if omitted.
-	StartDate *string `form:"start_date"`
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
 }
 
 // Details for the `add_discount` type.
 type QuoteLineActionAddDiscountParams struct {
 	// The coupon code to redeem.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// An ID of an existing discount for a coupon that was already redeemed.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteLineActionAddDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteLineActionAddDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 	// The promotion code to redeem.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Settings for discount application including service period anchoring.
-	Settings *QuoteLineActionAddDiscountSettingsParams `form:"settings"`
+	Settings *QuoteLineActionAddDiscountSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
 // Time span for the redeemed discount.
 type QuoteLineActionAddItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionAddItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
-	Duration *QuoteLineActionAddItemDiscountDiscountEndDurationParams `form:"duration"`
+	Duration *QuoteLineActionAddItemDiscountDiscountEndDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Anchor the service period to a custom date. Type must be `custom` to specify.
 type QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configures service period cycle anchoring.
 type QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigParams struct {
 	// Anchor the service period to a custom date. Type must be `custom` to specify.
-	Custom *QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	Custom *QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of service period anchor config. Defaults to `inherit` if omitted.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings for discount application including service period anchoring.
 type QuoteLineActionAddItemDiscountSettingsParams struct {
 	// Configures service period cycle anchoring.
-	ServicePeriodAnchorConfig *QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	ServicePeriodAnchorConfig *QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config" json:"service_period_anchor_config,omitempty"`
 	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `line_start` if omitted.
-	StartDate *string `form:"start_date"`
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
 }
 
 // The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
 type QuoteLineActionAddItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteLineActionAddItemDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteLineActionAddItemDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Settings for discount application including service period anchoring.
-	Settings *QuoteLineActionAddItemDiscountSettingsParams `form:"settings"`
+	Settings *QuoteLineActionAddItemDiscountSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
 // Options that configure the trial on the subscription item.
 type QuoteLineActionAddItemTrialParams struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
-	ConvertsTo []*string `form:"converts_to"`
+	ConvertsTo []*string `form:"converts_to" json:"converts_to,omitempty"`
 	// Determines the type of trial for this item.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details for the `add_item` type.
 type QuoteLineActionAddItemParams struct {
 	// The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
-	Discounts []*QuoteLineActionAddItemDiscountParams `form:"discounts"`
+	Discounts []*QuoteLineActionAddItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price"`
 	// Quantity for this item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// The tax rates that apply to this subscription item. When set, the `default_tax_rates` on the subscription do not apply to this `subscription_item`.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 	// Options that configure the trial on the subscription item.
-	Trial *QuoteLineActionAddItemTrialParams `form:"trial"`
+	Trial *QuoteLineActionAddItemTrialParams `form:"trial" json:"trial,omitempty"`
 	// The ID of the trial offer to apply to the configuration item.
-	TrialOffer *string `form:"trial_offer"`
+	TrialOffer *string `form:"trial_offer" json:"trial_offer,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -788,147 +788,147 @@ func (p *QuoteLineActionAddItemParams) AddMetadata(key string, value string) {
 // Details for the `remove_discount` type.
 type QuoteLineActionRemoveDiscountParams struct {
 	// The coupon code to remove from the `discounts` array.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// The ID of a discount to remove from the `discounts` array.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// The ID of a promotion code to remove from the `discounts` array.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // Details for the `remove_item` type.
 type QuoteLineActionRemoveItemParams struct {
 	// ID of a price to remove.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price"`
 }
 
 // Anchor the service period to a custom date. Type must be `custom` to specify.
 type QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configures service period cycle anchoring.
 type QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigParams struct {
 	// Anchor the service period to a custom date. Type must be `custom` to specify.
-	Custom *QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	Custom *QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of service period anchor config. Defaults to `inherit` if omitted.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings for discount application including service period anchoring.
 type QuoteLineActionSetDiscountSettingsParams struct {
 	// Configures service period cycle anchoring.
-	ServicePeriodAnchorConfig *QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	ServicePeriodAnchorConfig *QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config" json:"service_period_anchor_config,omitempty"`
 	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `line_start` if omitted.
-	StartDate *string `form:"start_date"`
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
 }
 
 // Details for the `set_discounts` type.
 type QuoteLineActionSetDiscountParams struct {
 	// The coupon code to replace the `discounts` array with.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// An ID of an existing discount to replace the `discounts` array with.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// An ID of an existing promotion code to replace the `discounts` array with.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Settings for discount application including service period anchoring.
-	Settings *QuoteLineActionSetDiscountSettingsParams `form:"settings"`
+	Settings *QuoteLineActionSetDiscountSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
 // Time span for the redeemed discount.
 type QuoteLineActionSetItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionSetItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
-	Duration *QuoteLineActionSetItemDiscountDiscountEndDurationParams `form:"duration"`
+	Duration *QuoteLineActionSetItemDiscountDiscountEndDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Anchor the service period to a custom date. Type must be `custom` to specify.
 type QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configures service period cycle anchoring.
 type QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigParams struct {
 	// Anchor the service period to a custom date. Type must be `custom` to specify.
-	Custom *QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	Custom *QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of service period anchor config. Defaults to `inherit` if omitted.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings for discount application including service period anchoring.
 type QuoteLineActionSetItemDiscountSettingsParams struct {
 	// Configures service period cycle anchoring.
-	ServicePeriodAnchorConfig *QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	ServicePeriodAnchorConfig *QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config" json:"service_period_anchor_config,omitempty"`
 	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `line_start` if omitted.
-	StartDate *string `form:"start_date"`
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
 }
 
 // If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
 type QuoteLineActionSetItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteLineActionSetItemDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteLineActionSetItemDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Settings for discount application including service period anchoring.
-	Settings *QuoteLineActionSetItemDiscountSettingsParams `form:"settings"`
+	Settings *QuoteLineActionSetItemDiscountSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 type QuoteLineActionSetItemTrialParams struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
-	ConvertsTo []*string `form:"converts_to"`
+	ConvertsTo []*string `form:"converts_to" json:"converts_to,omitempty"`
 	// Determines the type of trial for this item.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details for the `set_items` type.
 type QuoteLineActionSetItemParams struct {
 	// If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
-	Discounts []*QuoteLineActionSetItemDiscountParams `form:"discounts"`
+	Discounts []*QuoteLineActionSetItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// If an item with the `price` already exists, passing this will override the `metadata` on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price"`
 	// If an item with the `price` already exists, passing this will override the quantity on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `quantity`.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// If an item with the `price` already exists, passing this will override the `tax_rates` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `tax_rates`.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 	// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
-	Trial *QuoteLineActionSetItemTrialParams `form:"trial"`
+	Trial *QuoteLineActionSetItemTrialParams `form:"trial" json:"trial,omitempty"`
 	// The ID of the trial offer to apply to the configuration item.
-	TrialOffer *string `form:"trial_offer"`
+	TrialOffer *string `form:"trial_offer" json:"trial_offer,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -943,25 +943,25 @@ func (p *QuoteLineActionSetItemParams) AddMetadata(key string, value string) {
 // An array of operations the quote line performs.
 type QuoteLineActionParams struct {
 	// Details for the `add_discount` type.
-	AddDiscount *QuoteLineActionAddDiscountParams `form:"add_discount"`
+	AddDiscount *QuoteLineActionAddDiscountParams `form:"add_discount" json:"add_discount,omitempty"`
 	// Details for the `add_item` type.
-	AddItem *QuoteLineActionAddItemParams `form:"add_item"`
+	AddItem *QuoteLineActionAddItemParams `form:"add_item" json:"add_item,omitempty"`
 	// Details for the `add_metadata` type: specify a hash of key-value pairs.
-	AddMetadata map[string]string `form:"add_metadata"`
+	AddMetadata map[string]string `form:"add_metadata" json:"add_metadata,omitempty"`
 	// Details for the `remove_discount` type.
-	RemoveDiscount *QuoteLineActionRemoveDiscountParams `form:"remove_discount"`
+	RemoveDiscount *QuoteLineActionRemoveDiscountParams `form:"remove_discount" json:"remove_discount,omitempty"`
 	// Details for the `remove_item` type.
-	RemoveItem *QuoteLineActionRemoveItemParams `form:"remove_item"`
+	RemoveItem *QuoteLineActionRemoveItemParams `form:"remove_item" json:"remove_item,omitempty"`
 	// Details for the `remove_metadata` type: specify an array of metadata keys.
-	RemoveMetadata []*string `form:"remove_metadata"`
+	RemoveMetadata []*string `form:"remove_metadata" json:"remove_metadata,omitempty"`
 	// Details for the `set_discounts` type.
-	SetDiscounts []*QuoteLineActionSetDiscountParams `form:"set_discounts"`
+	SetDiscounts []*QuoteLineActionSetDiscountParams `form:"set_discounts" json:"set_discounts,omitempty"`
 	// Details for the `set_items` type.
-	SetItems []*QuoteLineActionSetItemParams `form:"set_items"`
+	SetItems []*QuoteLineActionSetItemParams `form:"set_items" json:"set_items,omitempty"`
 	// Details for the `set_metadata` type: specify an array of key-value pairs.
-	SetMetadata map[string]string `form:"set_metadata"`
+	SetMetadata map[string]string `form:"set_metadata" json:"set_metadata,omitempty"`
 	// The type of action the quote line performs.
-	Type        *string                           `form:"type"`
+	Type        *string                           `form:"type" json:"type"`
 	UnsetFields []QuoteLineActionParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -980,296 +980,296 @@ func (p *QuoteLineActionParams) AddUnsetField(field QuoteLineActionParamsUnsetFi
 // Details to identify the subscription schedule the quote line applies to.
 type QuoteLineAppliesToParams struct {
 	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
-	NewReference *string `form:"new_reference"`
+	NewReference *string `form:"new_reference" json:"new_reference,omitempty"`
 	// The ID of the schedule the line applies to.
-	SubscriptionSchedule *string `form:"subscription_schedule"`
+	SubscriptionSchedule *string `form:"subscription_schedule" json:"subscription_schedule,omitempty"`
 	// Describes whether the quote line is affecting a new schedule or an existing schedule.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
 type QuoteLineCancelSubscriptionScheduleParams struct {
 	// Timestamp helper to cancel the underlying schedule on the accompanying line's start date. Must be set to `line_starts_at`.
-	CancelAt *string `form:"cancel_at"`
+	CancelAt *string `form:"cancel_at" json:"cancel_at"`
 	// If the subscription schedule is `active`, indicates if a final invoice will be generated that contains any un-invoiced metered usage and new/pending proration invoice items. Boolean that defaults to `true`.
-	InvoiceNow *bool `form:"invoice_now"`
+	InvoiceNow *bool `form:"invoice_now" json:"invoice_now,omitempty"`
 	// If the subscription schedule is `active`, indicates if the cancellation should be prorated. Boolean that defaults to `true`.
-	Prorate *bool `form:"prorate"`
+	Prorate *bool `form:"prorate" json:"prorate,omitempty"`
 }
 
 // Use the `end` time of a given discount.
 type QuoteLineEndsAtDiscountEndParams struct {
 	// The ID of a specific discount.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount"`
 }
 
 // Time span for the quote line starting from the `starts_at` date.
 type QuoteLineEndsAtDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
 type QuoteLineEndsAtParams struct {
 	// Use the `end` time of a given discount.
-	DiscountEnd *QuoteLineEndsAtDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteLineEndsAtDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// Time span for the quote line starting from the `starts_at` date.
-	Duration *QuoteLineEndsAtDurationParams `form:"duration"`
+	Duration *QuoteLineEndsAtDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// Select a way to pass in `ends_at`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the pause_collection behavior to apply to the amendment.
 type QuoteLineSetPauseCollectionSetParams struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
-	Behavior *string `form:"behavior"`
+	Behavior *string `form:"behavior" json:"behavior"`
 }
 
 // Defines how to pause collection for the underlying subscription throughout the duration of the amendment.
 type QuoteLineSetPauseCollectionParams struct {
 	// Details of the pause_collection behavior to apply to the amendment.
-	Set *QuoteLineSetPauseCollectionSetParams `form:"set"`
+	Set *QuoteLineSetPauseCollectionSetParams `form:"set" json:"set,omitempty"`
 	// Determines the type of the pause_collection amendment.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Use the `end` time of a given discount.
 type QuoteLineStartsAtDiscountEndParams struct {
 	// The ID of a specific discount.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount"`
 }
 
 // The timestamp the given line ends at.
 type QuoteLineStartsAtLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // Details to identify the earliest timestamp where the proposed change should take effect.
 type QuoteLineStartsAtParams struct {
 	// Use the `end` time of a given discount.
-	DiscountEnd *QuoteLineStartsAtDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteLineStartsAtDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// The timestamp the given line ends at.
-	LineEndsAt *QuoteLineStartsAtLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteLineStartsAtLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// Select a way to pass in `starts_at`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Defines how the subscription should behave when a trial ends.
 type QuoteLineTrialSettingsEndBehaviorParams struct {
 	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
-	ProrateUpFront *string `form:"prorate_up_front"`
+	ProrateUpFront *string `form:"prorate_up_front" json:"prorate_up_front,omitempty"`
 }
 
 // Settings related to subscription trials.
 type QuoteLineTrialSettingsParams struct {
 	// Defines how the subscription should behave when a trial ends.
-	EndBehavior *QuoteLineTrialSettingsEndBehaviorParams `form:"end_behavior"`
+	EndBehavior *QuoteLineTrialSettingsEndBehaviorParams `form:"end_behavior" json:"end_behavior,omitempty"`
 }
 
 // A list of [quote lines](https://docs.stripe.com/api/quote_lines) on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
 type QuoteLineParams struct {
 	// An array of operations the quote line performs.
-	Actions []*QuoteLineActionParams `form:"actions"`
+	Actions []*QuoteLineActionParams `form:"actions" json:"actions,omitempty"`
 	// Details to identify the subscription schedule the quote line applies to.
-	AppliesTo *QuoteLineAppliesToParams `form:"applies_to"`
+	AppliesTo *QuoteLineAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
 	// For point-in-time quote lines (having no `ends_at` timestamp), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the Quote Line `starts_at` timestamp.For time-span based quote lines (having both `starts_at` and `ends_at`), the only valid value is `automatic`, which removes any previously configured billing cycle anchor resets during the window of time spanning the quote line.
-	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
-	CancelSubscriptionSchedule *QuoteLineCancelSubscriptionScheduleParams `form:"cancel_subscription_schedule"`
+	CancelSubscriptionSchedule *QuoteLineCancelSubscriptionScheduleParams `form:"cancel_subscription_schedule" json:"cancel_subscription_schedule,omitempty"`
 	// Configures how the quote handles billing for line transitions.
-	EffectiveAt *string `form:"effective_at"`
+	EffectiveAt *string `form:"effective_at" json:"effective_at,omitempty"`
 	// Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
-	EndsAt *QuoteLineEndsAtParams `form:"ends_at"`
+	EndsAt *QuoteLineEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// The ID of an existing line on the quote.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// Changes to how Stripe handles prorations during the quote line's time span. Affects if and how prorations are created when a future phase starts.
-	ProrationBehavior *string `form:"proration_behavior"`
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// Defines how to pause collection for the underlying subscription throughout the duration of the amendment.
-	SetPauseCollection *QuoteLineSetPauseCollectionParams `form:"set_pause_collection"`
+	SetPauseCollection *QuoteLineSetPauseCollectionParams `form:"set_pause_collection" json:"set_pause_collection,omitempty"`
 	// Timestamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
-	SetScheduleEnd *string `form:"set_schedule_end"`
+	SetScheduleEnd *string `form:"set_schedule_end" json:"set_schedule_end,omitempty"`
 	// Details to identify the earliest timestamp where the proposed change should take effect.
-	StartsAt *QuoteLineStartsAtParams `form:"starts_at"`
+	StartsAt *QuoteLineStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
 	// Settings related to subscription trials.
-	TrialSettings *QuoteLineTrialSettingsParams `form:"trial_settings"`
+	TrialSettings *QuoteLineTrialSettingsParams `form:"trial_settings" json:"trial_settings,omitempty"`
 }
 
 // Details of a Quote line to start the bill period from.
 type QuoteSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The start of the period to bill from when the Quote is accepted.
 type QuoteSubscriptionDataBillOnAcceptanceBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
-	LineStartsAt *QuoteSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at"`
+	LineStartsAt *QuoteSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at" json:"line_starts_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_from` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the duration over which to bill.
 type QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details of a Quote line item from which to bill until.
 type QuoteSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteSubscriptionDataBillOnAcceptanceBillUntilParams struct {
 	// Details of the duration over which to bill.
-	Duration *QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationParams `form:"duration"`
+	Duration *QuoteSubscriptionDataBillOnAcceptanceBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
 	// Details of a Quote line item from which to bill until.
-	LineEndsAt *QuoteSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_until` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Describes the period to bill for upon accepting the quote.
 type QuoteSubscriptionDataBillOnAcceptanceParams struct {
 	// The start of the period to bill from when the Quote is accepted.
-	BillFrom *QuoteSubscriptionDataBillOnAcceptanceBillFromParams `form:"bill_from"`
+	BillFrom *QuoteSubscriptionDataBillOnAcceptanceBillFromParams `form:"bill_from" json:"bill_from,omitempty"`
 	// The end of the period to bill until when the Quote is accepted.
-	BillUntil *QuoteSubscriptionDataBillOnAcceptanceBillUntilParams `form:"bill_until"`
+	BillUntil *QuoteSubscriptionDataBillOnAcceptanceBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 }
 
 // Configure behavior for flexible billing mode.
 type QuoteSubscriptionDataBillingModeFlexibleParams struct {
 	// Controls how invoices and invoice items display proration amounts and discount amounts.
-	ProrationDiscounts *string `form:"proration_discounts"`
+	ProrationDiscounts *string `form:"proration_discounts" json:"proration_discounts,omitempty"`
 }
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type QuoteSubscriptionDataBillingModeParams struct {
 	// Configure behavior for flexible billing mode.
-	Flexible *QuoteSubscriptionDataBillingModeFlexibleParams `form:"flexible"`
+	Flexible *QuoteSubscriptionDataBillingModeFlexibleParams `form:"flexible" json:"flexible,omitempty"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Configure billing schedule differently for individual subscription items.
 type QuoteSubscriptionDataBillingScheduleAppliesToParams struct {
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Controls which subscription items the billing schedule applies to.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of a Quote line to start the bill period from.
 type QuoteSubscriptionDataBillingScheduleBillFromLineStartsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The start of the period to bill from when the Quote is accepted.
 type QuoteSubscriptionDataBillingScheduleBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
-	LineStartsAt *QuoteSubscriptionDataBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at"`
+	LineStartsAt *QuoteSubscriptionDataBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at" json:"line_starts_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_from` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the duration over which to bill.
 type QuoteSubscriptionDataBillingScheduleBillUntilDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details of a Quote line item from which to bill until.
 type QuoteSubscriptionDataBillingScheduleBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteSubscriptionDataBillingScheduleBillUntilParams struct {
 	// Details of the duration over which to bill.
-	Duration *QuoteSubscriptionDataBillingScheduleBillUntilDurationParams `form:"duration"`
+	Duration *QuoteSubscriptionDataBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
 	// Details of a Quote line item from which to bill until.
-	LineEndsAt *QuoteSubscriptionDataBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteSubscriptionDataBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_until` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
 type QuoteSubscriptionDataBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
-	AppliesTo []*QuoteSubscriptionDataBillingScheduleAppliesToParams `form:"applies_to"`
+	AppliesTo []*QuoteSubscriptionDataBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
 	// The start of the period to bill from when the Quote is accepted.
-	BillFrom *QuoteSubscriptionDataBillingScheduleBillFromParams `form:"bill_from"`
+	BillFrom *QuoteSubscriptionDataBillingScheduleBillFromParams `form:"bill_from" json:"bill_from,omitempty"`
 	// The end of the period to bill until when the Quote is accepted.
-	BillUntil *QuoteSubscriptionDataBillingScheduleBillUntilParams `form:"bill_until"`
+	BillUntil *QuoteSubscriptionDataBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
-	Key *string `form:"key"`
+	Key *string `form:"key" json:"key,omitempty"`
 }
 
 // If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 type QuoteSubscriptionDataPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
-	Iterations *int64 `form:"iterations"`
+	Iterations *int64 `form:"iterations" json:"iterations"`
 }
 
 // When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 type QuoteSubscriptionDataParams struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
-	BillingBehavior *string `form:"billing_behavior"`
+	BillingBehavior *string `form:"billing_behavior" json:"billing_behavior,omitempty"`
 	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
-	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *QuoteSubscriptionDataBillingModeParams `form:"billing_mode"`
+	BillingMode *QuoteSubscriptionDataBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
 	// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
-	BillingSchedules []*QuoteSubscriptionDataBillingScheduleParams `form:"billing_schedules"`
+	BillingSchedules []*QuoteSubscriptionDataBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// Describes the period to bill for upon accepting the quote.
-	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
+	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance" json:"bill_on_acceptance,omitempty"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
-	EffectiveDate                 *int64 `form:"effective_date"`
+	EffectiveDate                 *int64 `form:"effective_date" json:"effective_date,omitempty"`
 	EffectiveDateCurrentPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	// Behavior of the subscription schedule and underlying subscription when it ends.
-	EndBehavior *string `form:"end_behavior"`
+	EndBehavior *string `form:"end_behavior" json:"end_behavior,omitempty"`
 	// The id of a subscription that the quote will update. By default, the quote will contain the state of the subscription (such as line items, collection method and billing thresholds) unless overridden.
-	FromSubscription *string `form:"from_subscription"`
+	FromSubscription *string `form:"from_subscription" json:"from_subscription,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
-	PhaseEffectiveAt *string `form:"phase_effective_at"`
+	PhaseEffectiveAt *string `form:"phase_effective_at" json:"phase_effective_at,omitempty"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
-	Prebilling *QuoteSubscriptionDataPrebillingParams `form:"prebilling"`
+	Prebilling *QuoteSubscriptionDataPrebillingParams `form:"prebilling" json:"prebilling,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
 	//
 	// When updating a subscription, valid values are `create_prorations`, `none`, or `always_invoice`.
@@ -1277,9 +1277,9 @@ type QuoteSubscriptionDataParams struct {
 	// Passing `create_prorations` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https://docs.stripe.com/subscriptions/upgrading-downgrading#immediate-payment). In order to always invoice immediately for prorations, pass `always_invoice`.
 	//
 	// Prorations can be disabled by passing `none`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
-	TrialPeriodDays *int64                                  `form:"trial_period_days"`
+	TrialPeriodDays *int64                                  `form:"trial_period_days" json:"trial_period_days,omitempty"`
 	UnsetFields     []QuoteSubscriptionDataParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1320,151 +1320,151 @@ func (p *QuoteSubscriptionDataParams) AppendTo(body *form.Values, keyParts []str
 // Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
 type QuoteSubscriptionDataOverrideAppliesToParams struct {
 	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
-	NewReference *string `form:"new_reference"`
+	NewReference *string `form:"new_reference" json:"new_reference,omitempty"`
 	// The ID of the schedule the line applies to.
-	SubscriptionSchedule *string `form:"subscription_schedule"`
+	SubscriptionSchedule *string `form:"subscription_schedule" json:"subscription_schedule,omitempty"`
 	// Describes whether the quote line is affecting a new schedule or an existing schedule.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of a Quote line to start the bill period from.
 type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The start of the period to bill from when the Quote is accepted.
 type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
-	LineStartsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at"`
+	LineStartsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at" json:"line_starts_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_from` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the duration over which to bill.
 type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details of a Quote line item from which to bill until.
 type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilParams struct {
 	// Details of the duration over which to bill.
-	Duration *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationParams `form:"duration"`
+	Duration *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
 	// Details of a Quote line item from which to bill until.
-	LineEndsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_until` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Describes the period to bill for upon accepting the quote.
 type QuoteSubscriptionDataOverrideBillOnAcceptanceParams struct {
 	// The start of the period to bill from when the Quote is accepted.
-	BillFrom *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromParams `form:"bill_from"`
+	BillFrom *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromParams `form:"bill_from" json:"bill_from,omitempty"`
 	// The end of the period to bill until when the Quote is accepted.
-	BillUntil *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilParams `form:"bill_until"`
+	BillUntil *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 }
 
 // Configure billing schedule differently for individual subscription items.
 type QuoteSubscriptionDataOverrideBillingScheduleAppliesToParams struct {
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Controls which subscription items the billing schedule applies to.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of a Quote line to start the bill period from.
 type QuoteSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The start of the period to bill from when the Quote is accepted.
 type QuoteSubscriptionDataOverrideBillingScheduleBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
-	LineStartsAt *QuoteSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at"`
+	LineStartsAt *QuoteSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at" json:"line_starts_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_from` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the duration over which to bill.
 type QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details of a Quote line item from which to bill until.
 type QuoteSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteSubscriptionDataOverrideBillingScheduleBillUntilParams struct {
 	// Details of the duration over which to bill.
-	Duration *QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationParams `form:"duration"`
+	Duration *QuoteSubscriptionDataOverrideBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
 	// Details of a Quote line item from which to bill until.
-	LineEndsAt *QuoteSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_until` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
 type QuoteSubscriptionDataOverrideBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
-	AppliesTo []*QuoteSubscriptionDataOverrideBillingScheduleAppliesToParams `form:"applies_to"`
+	AppliesTo []*QuoteSubscriptionDataOverrideBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
 	// The start of the period to bill from when the Quote is accepted.
-	BillFrom *QuoteSubscriptionDataOverrideBillingScheduleBillFromParams `form:"bill_from"`
+	BillFrom *QuoteSubscriptionDataOverrideBillingScheduleBillFromParams `form:"bill_from" json:"bill_from,omitempty"`
 	// The end of the period to bill until when the Quote is accepted.
-	BillUntil *QuoteSubscriptionDataOverrideBillingScheduleBillUntilParams `form:"bill_until"`
+	BillUntil *QuoteSubscriptionDataOverrideBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
-	Key *string `form:"key"`
+	Key *string `form:"key" json:"key,omitempty"`
 }
 
 // List representing overrides for `subscription_data` configurations for specific subscription schedules.
 type QuoteSubscriptionDataOverrideParams struct {
 	// Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
-	AppliesTo *QuoteSubscriptionDataOverrideAppliesToParams `form:"applies_to"`
+	AppliesTo *QuoteSubscriptionDataOverrideAppliesToParams `form:"applies_to" json:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
-	BillingBehavior *string `form:"billing_behavior"`
+	BillingBehavior *string `form:"billing_behavior" json:"billing_behavior,omitempty"`
 	// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
-	BillingSchedules []*QuoteSubscriptionDataOverrideBillingScheduleParams `form:"billing_schedules"`
+	BillingSchedules []*QuoteSubscriptionDataOverrideBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// Describes the period to bill for upon accepting the quote.
-	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance"`
+	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance" json:"bill_on_acceptance,omitempty"`
 	// The customer the Subscription Data override applies to. This is only relevant when `applies_to.type=new_reference`.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
-	EndBehavior *string `form:"end_behavior"`
+	EndBehavior *string `form:"end_behavior" json:"end_behavior,omitempty"`
 	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
-	PhaseEffectiveAt *string `form:"phase_effective_at"`
+	PhaseEffectiveAt *string `form:"phase_effective_at" json:"phase_effective_at,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
 	//
 	// When updating a subscription, valid values are `create_prorations`, `none`, or `always_invoice`.
@@ -1472,7 +1472,7 @@ type QuoteSubscriptionDataOverrideParams struct {
 	// Passing `create_prorations` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https://docs.stripe.com/subscriptions/upgrading-downgrading#immediate-payment). In order to always invoice immediately for prorations, pass `always_invoice`.
 	//
 	// Prorations can be disabled by passing `none`.
-	ProrationBehavior *string                                         `form:"proration_behavior"`
+	ProrationBehavior *string                                         `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	UnsetFields       []QuoteSubscriptionDataOverrideParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1492,64 +1492,64 @@ func (p *QuoteSubscriptionDataOverrideParams) AddUnsetField(field QuoteSubscript
 // The data with which to automatically create a Transfer for each of the invoices.
 type QuoteTransferDataParams struct {
 	// The amount that will be transferred automatically when the invoice is paid. If no amount is set, the full amount is transferred. There cannot be any line items with recurring prices when using this field.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination. There must be at least 1 line item with a recurring price to use this field.
-	AmountPercent *float64 `form:"amount_percent"`
+	AmountPercent *float64 `form:"amount_percent" json:"amount_percent,omitempty"`
 	// ID of an existing, connected Stripe account.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 
 // A quote models prices and services for a customer. Default options for header, description, footer, and expires_at can be set in the dashboard via the [quote template](https://dashboard.stripe.com/settings/billing/quote).
 type QuoteParams struct {
 	Params `form:"*"`
 	// Set to true to allow quote lines to have `starts_at` in the past if collection is paused between `starts_at` and now.
-	AllowBackdatedLines *bool `form:"allow_backdated_lines"`
+	AllowBackdatedLines *bool `form:"allow_backdated_lines" json:"allow_backdated_lines,omitempty"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. There cannot be any line items with recurring prices when using this field.
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
-	ApplicationFeePercent *float64 `form:"application_fee_percent"`
+	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
 	// Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
-	AutomaticTax *QuoteAutomaticTaxParams `form:"automatic_tax"`
+	AutomaticTax *QuoteAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
-	CollectionMethod *string `form:"collection_method"`
+	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// The customer for which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The account for which this quote belongs to. A customer or account is required before finalizing the quote. Once specified, it cannot be changed.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// The tax rates that will apply to any line item that does not have `tax_rates` set.
-	DefaultTaxRates []*string `form:"default_tax_rates"`
+	DefaultTaxRates []*string `form:"default_tax_rates" json:"default_tax_rates,omitempty"`
 	// A description that will be displayed on the quote PDF. If no value is passed, the default description configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The discounts applied to the quote.
-	Discounts []*QuoteDiscountParams `form:"discounts"`
+	Discounts []*QuoteDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch. If no value is passed, the default expiration date configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// A footer that will be displayed on the quote PDF. If no value is passed, the default footer configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
-	Footer *string `form:"footer"`
+	Footer *string `form:"footer" json:"footer,omitempty"`
 	// Clone an existing quote. The new quote will be created in `status=draft`. When using this parameter, you cannot specify any other parameters except for `expires_at`.
-	FromQuote *QuoteFromQuoteParams `form:"from_quote"`
+	FromQuote *QuoteFromQuoteParams `form:"from_quote" json:"from_quote,omitempty"`
 	// A header that will be displayed on the quote PDF. If no value is passed, the default header configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
-	Header *string `form:"header"`
+	Header *string `form:"header" json:"header,omitempty"`
 	// All invoices will be billed using the specified settings.
-	InvoiceSettings *QuoteInvoiceSettingsParams `form:"invoice_settings"`
+	InvoiceSettings *QuoteInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
 	// A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
-	LineItems []*QuoteLineItemParams `form:"line_items"`
+	LineItems []*QuoteLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// A list of [quote lines](https://docs.stripe.com/api/quote_lines) on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
-	Lines []*QuoteLineParams `form:"lines"`
+	Lines []*QuoteLineParams `form:"lines" json:"lines,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The account on behalf of which to charge.
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
-	SubscriptionData *QuoteSubscriptionDataParams `form:"subscription_data"`
+	SubscriptionData *QuoteSubscriptionDataParams `form:"subscription_data" json:"subscription_data,omitempty"`
 	// List representing overrides for `subscription_data` configurations for specific subscription schedules.
-	SubscriptionDataOverrides []*QuoteSubscriptionDataOverrideParams `form:"subscription_data_overrides"`
+	SubscriptionDataOverrides []*QuoteSubscriptionDataOverrideParams `form:"subscription_data_overrides" json:"subscription_data_overrides,omitempty"`
 	// ID of the test clock to attach to the quote.
-	TestClock *string `form:"test_clock"`
+	TestClock *string `form:"test_clock" json:"test_clock,omitempty"`
 	// The data with which to automatically create a Transfer for each of the invoices.
-	TransferData *QuoteTransferDataParams `form:"transfer_data"`
+	TransferData *QuoteTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	UnsetFields  []QuoteParamsUnsetField  `form:"-" json:"-"`
 }
 
@@ -1593,7 +1593,7 @@ type QuoteListComputedUpfrontLineItemsParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1606,7 +1606,7 @@ type QuoteListLineItemsParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1619,7 +1619,7 @@ type QuoteListLinesParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1631,7 +1631,7 @@ func (p *QuoteListLinesParams) AddExpand(f string) {
 type QuoteAcceptParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1643,7 +1643,7 @@ func (p *QuoteAcceptParams) AddExpand(f string) {
 type QuoteCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1655,9 +1655,9 @@ func (p *QuoteCancelParams) AddExpand(f string) {
 type QuoteFinalizeQuoteParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1669,7 +1669,7 @@ func (p *QuoteFinalizeQuoteParams) AddExpand(f string) {
 type QuoteMarkDraftParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1681,9 +1681,9 @@ func (p *QuoteMarkDraftParams) AddExpand(f string) {
 type QuoteMarkStaleParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Reason the Quote is being marked stale.
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1695,7 +1695,7 @@ func (p *QuoteMarkStaleParams) AddExpand(f string) {
 type QuoteReestimateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1707,7 +1707,7 @@ func (p *QuoteReestimateParams) AddExpand(f string) {
 type QuotePDFParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1721,7 +1721,7 @@ type QuoteListPreviewInvoiceLinesParams struct {
 	PreviewInvoice *string `form:"-"` // Included in URL
 	Quote          *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1732,139 +1732,139 @@ func (p *QuoteListPreviewInvoiceLinesParams) AddExpand(f string) {
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type QuoteCreateAutomaticTaxLiabilityParams struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// Type of the account referenced in the request.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
 type QuoteCreateAutomaticTaxParams struct {
 	// Controls whether Stripe will automatically compute tax on the resulting invoices or subscriptions as well as the quote itself.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
-	Liability *QuoteCreateAutomaticTaxLiabilityParams `form:"liability"`
+	Liability *QuoteCreateAutomaticTaxLiabilityParams `form:"liability" json:"liability,omitempty"`
 }
 
 // Time span for the redeemed discount.
 type QuoteCreateDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to determine how long the discount should be applied for.
 type QuoteCreateDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
-	Duration *QuoteCreateDiscountDiscountEndDurationParams `form:"duration"`
+	Duration *QuoteCreateDiscountDiscountEndDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The discounts applied to the quote.
 type QuoteCreateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteCreateDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteCreateDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // Clone an existing quote. The new quote will be created in `status=draft`. When using this parameter, you cannot specify any other parameters except for `expires_at`.
 type QuoteCreateFromQuoteParams struct {
 	// Whether this quote is a revision of the previous quote.
-	IsRevision *bool `form:"is_revision"`
+	IsRevision *bool `form:"is_revision" json:"is_revision,omitempty"`
 	// The `id` of the quote that will be cloned.
-	Quote *string `form:"quote"`
+	Quote *string `form:"quote" json:"quote"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type QuoteCreateInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// Type of the account referenced in the request.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // All invoices will be billed using the specified settings.
 type QuoteCreateInvoiceSettingsParams struct {
 	// Number of days within which a customer must pay the invoice generated by this quote. This value will be `null` for quotes where `collection_method=charge_automatically`.
-	DaysUntilDue *int64 `form:"days_until_due"`
+	DaysUntilDue *int64 `form:"days_until_due" json:"days_until_due,omitempty"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer *QuoteCreateInvoiceSettingsIssuerParams `form:"issuer"`
+	Issuer *QuoteCreateInvoiceSettingsIssuerParams `form:"issuer" json:"issuer,omitempty"`
 }
 
 // Time span for the redeemed discount.
 type QuoteCreateLineItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to determine how long the discount should be applied for.
 type QuoteCreateLineItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
-	Duration *QuoteCreateLineItemDiscountDiscountEndDurationParams `form:"duration"`
+	Duration *QuoteCreateLineItemDiscountDiscountEndDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The discounts applied to this line item.
 type QuoteCreateLineItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteCreateLineItemDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteCreateLineItemDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
 type QuoteCreateLineItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
 // Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 type QuoteCreateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
-	Recurring *QuoteCreateLineItemPriceDataRecurringParams `form:"recurring"`
+	Recurring *QuoteCreateLineItemPriceDataRecurringParams `form:"recurring" json:"recurring,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
 type QuoteCreateLineItemParams struct {
 	// The discounts applied to this line item.
-	Discounts []*QuoteCreateLineItemDiscountParams `form:"discounts"`
+	Discounts []*QuoteCreateLineItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// The ID of the price object. One of `price` or `price_data` is required.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
-	PriceData *QuoteCreateLineItemPriceDataParams `form:"price_data"`
+	PriceData *QuoteCreateLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the quote do not apply to this line item.
-	TaxRates    []*string                             `form:"tax_rates"`
+	TaxRates    []*string                             `form:"tax_rates" json:"tax_rates,omitempty"`
 	UnsetFields []QuoteCreateLineItemParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1884,141 +1884,141 @@ func (p *QuoteCreateLineItemParams) AddUnsetField(field QuoteCreateLineItemParam
 // Details to determine how long the discount should be applied for.
 type QuoteCreateLineActionAddDiscountDiscountEndParams struct {
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Anchor the service period to a custom date. Type must be `custom` to specify.
 type QuoteCreateLineActionAddDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configures service period cycle anchoring.
 type QuoteCreateLineActionAddDiscountSettingsServicePeriodAnchorConfigParams struct {
 	// Anchor the service period to a custom date. Type must be `custom` to specify.
-	Custom *QuoteCreateLineActionAddDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	Custom *QuoteCreateLineActionAddDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of service period anchor config. Defaults to `inherit` if omitted.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings for discount application including service period anchoring.
 type QuoteCreateLineActionAddDiscountSettingsParams struct {
 	// Configures service period cycle anchoring.
-	ServicePeriodAnchorConfig *QuoteCreateLineActionAddDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	ServicePeriodAnchorConfig *QuoteCreateLineActionAddDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config" json:"service_period_anchor_config,omitempty"`
 	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `line_start` if omitted.
-	StartDate *string `form:"start_date"`
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
 }
 
 // Details for the `add_discount` type.
 type QuoteCreateLineActionAddDiscountParams struct {
 	// The coupon code to redeem.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// An ID of an existing discount for a coupon that was already redeemed.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteCreateLineActionAddDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteCreateLineActionAddDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 	// The promotion code to redeem.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Settings for discount application including service period anchoring.
-	Settings *QuoteCreateLineActionAddDiscountSettingsParams `form:"settings"`
+	Settings *QuoteCreateLineActionAddDiscountSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
 // Time span for the redeemed discount.
 type QuoteCreateLineActionAddItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to determine how long the discount should be applied for.
 type QuoteCreateLineActionAddItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
-	Duration *QuoteCreateLineActionAddItemDiscountDiscountEndDurationParams `form:"duration"`
+	Duration *QuoteCreateLineActionAddItemDiscountDiscountEndDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Anchor the service period to a custom date. Type must be `custom` to specify.
 type QuoteCreateLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configures service period cycle anchoring.
 type QuoteCreateLineActionAddItemDiscountSettingsServicePeriodAnchorConfigParams struct {
 	// Anchor the service period to a custom date. Type must be `custom` to specify.
-	Custom *QuoteCreateLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	Custom *QuoteCreateLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of service period anchor config. Defaults to `inherit` if omitted.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings for discount application including service period anchoring.
 type QuoteCreateLineActionAddItemDiscountSettingsParams struct {
 	// Configures service period cycle anchoring.
-	ServicePeriodAnchorConfig *QuoteCreateLineActionAddItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	ServicePeriodAnchorConfig *QuoteCreateLineActionAddItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config" json:"service_period_anchor_config,omitempty"`
 	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `line_start` if omitted.
-	StartDate *string `form:"start_date"`
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
 }
 
 // The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
 type QuoteCreateLineActionAddItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteCreateLineActionAddItemDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteCreateLineActionAddItemDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Settings for discount application including service period anchoring.
-	Settings *QuoteCreateLineActionAddItemDiscountSettingsParams `form:"settings"`
+	Settings *QuoteCreateLineActionAddItemDiscountSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
 // Options that configure the trial on the subscription item.
 type QuoteCreateLineActionAddItemTrialParams struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
-	ConvertsTo []*string `form:"converts_to"`
+	ConvertsTo []*string `form:"converts_to" json:"converts_to,omitempty"`
 	// Determines the type of trial for this item.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details for the `add_item` type.
 type QuoteCreateLineActionAddItemParams struct {
 	// The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
-	Discounts []*QuoteCreateLineActionAddItemDiscountParams `form:"discounts"`
+	Discounts []*QuoteCreateLineActionAddItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price"`
 	// Quantity for this item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// The tax rates that apply to this subscription item. When set, the `default_tax_rates` on the subscription do not apply to this `subscription_item`.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 	// Options that configure the trial on the subscription item.
-	Trial *QuoteCreateLineActionAddItemTrialParams `form:"trial"`
+	Trial *QuoteCreateLineActionAddItemTrialParams `form:"trial" json:"trial,omitempty"`
 	// The ID of the trial offer to apply to the configuration item.
-	TrialOffer *string `form:"trial_offer"`
+	TrialOffer *string `form:"trial_offer" json:"trial_offer,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2033,147 +2033,147 @@ func (p *QuoteCreateLineActionAddItemParams) AddMetadata(key string, value strin
 // Details for the `remove_discount` type.
 type QuoteCreateLineActionRemoveDiscountParams struct {
 	// The coupon code to remove from the `discounts` array.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// The ID of a discount to remove from the `discounts` array.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// The ID of a promotion code to remove from the `discounts` array.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // Details for the `remove_item` type.
 type QuoteCreateLineActionRemoveItemParams struct {
 	// ID of a price to remove.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price"`
 }
 
 // Anchor the service period to a custom date. Type must be `custom` to specify.
 type QuoteCreateLineActionSetDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configures service period cycle anchoring.
 type QuoteCreateLineActionSetDiscountSettingsServicePeriodAnchorConfigParams struct {
 	// Anchor the service period to a custom date. Type must be `custom` to specify.
-	Custom *QuoteCreateLineActionSetDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	Custom *QuoteCreateLineActionSetDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of service period anchor config. Defaults to `inherit` if omitted.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings for discount application including service period anchoring.
 type QuoteCreateLineActionSetDiscountSettingsParams struct {
 	// Configures service period cycle anchoring.
-	ServicePeriodAnchorConfig *QuoteCreateLineActionSetDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	ServicePeriodAnchorConfig *QuoteCreateLineActionSetDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config" json:"service_period_anchor_config,omitempty"`
 	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `line_start` if omitted.
-	StartDate *string `form:"start_date"`
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
 }
 
 // Details for the `set_discounts` type.
 type QuoteCreateLineActionSetDiscountParams struct {
 	// The coupon code to replace the `discounts` array with.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// An ID of an existing discount to replace the `discounts` array with.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// An ID of an existing promotion code to replace the `discounts` array with.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Settings for discount application including service period anchoring.
-	Settings *QuoteCreateLineActionSetDiscountSettingsParams `form:"settings"`
+	Settings *QuoteCreateLineActionSetDiscountSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
 // Time span for the redeemed discount.
 type QuoteCreateLineActionSetItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to determine how long the discount should be applied for.
 type QuoteCreateLineActionSetItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
-	Duration *QuoteCreateLineActionSetItemDiscountDiscountEndDurationParams `form:"duration"`
+	Duration *QuoteCreateLineActionSetItemDiscountDiscountEndDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Anchor the service period to a custom date. Type must be `custom` to specify.
 type QuoteCreateLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configures service period cycle anchoring.
 type QuoteCreateLineActionSetItemDiscountSettingsServicePeriodAnchorConfigParams struct {
 	// Anchor the service period to a custom date. Type must be `custom` to specify.
-	Custom *QuoteCreateLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	Custom *QuoteCreateLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of service period anchor config. Defaults to `inherit` if omitted.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings for discount application including service period anchoring.
 type QuoteCreateLineActionSetItemDiscountSettingsParams struct {
 	// Configures service period cycle anchoring.
-	ServicePeriodAnchorConfig *QuoteCreateLineActionSetItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	ServicePeriodAnchorConfig *QuoteCreateLineActionSetItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config" json:"service_period_anchor_config,omitempty"`
 	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `line_start` if omitted.
-	StartDate *string `form:"start_date"`
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
 }
 
 // If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
 type QuoteCreateLineActionSetItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteCreateLineActionSetItemDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteCreateLineActionSetItemDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Settings for discount application including service period anchoring.
-	Settings *QuoteCreateLineActionSetItemDiscountSettingsParams `form:"settings"`
+	Settings *QuoteCreateLineActionSetItemDiscountSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 type QuoteCreateLineActionSetItemTrialParams struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
-	ConvertsTo []*string `form:"converts_to"`
+	ConvertsTo []*string `form:"converts_to" json:"converts_to,omitempty"`
 	// Determines the type of trial for this item.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details for the `set_items` type.
 type QuoteCreateLineActionSetItemParams struct {
 	// If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
-	Discounts []*QuoteCreateLineActionSetItemDiscountParams `form:"discounts"`
+	Discounts []*QuoteCreateLineActionSetItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// If an item with the `price` already exists, passing this will override the `metadata` on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price"`
 	// If an item with the `price` already exists, passing this will override the quantity on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `quantity`.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// If an item with the `price` already exists, passing this will override the `tax_rates` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `tax_rates`.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 	// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
-	Trial *QuoteCreateLineActionSetItemTrialParams `form:"trial"`
+	Trial *QuoteCreateLineActionSetItemTrialParams `form:"trial" json:"trial,omitempty"`
 	// The ID of the trial offer to apply to the configuration item.
-	TrialOffer *string `form:"trial_offer"`
+	TrialOffer *string `form:"trial_offer" json:"trial_offer,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2188,25 +2188,25 @@ func (p *QuoteCreateLineActionSetItemParams) AddMetadata(key string, value strin
 // An array of operations the quote line performs.
 type QuoteCreateLineActionParams struct {
 	// Details for the `add_discount` type.
-	AddDiscount *QuoteCreateLineActionAddDiscountParams `form:"add_discount"`
+	AddDiscount *QuoteCreateLineActionAddDiscountParams `form:"add_discount" json:"add_discount,omitempty"`
 	// Details for the `add_item` type.
-	AddItem *QuoteCreateLineActionAddItemParams `form:"add_item"`
+	AddItem *QuoteCreateLineActionAddItemParams `form:"add_item" json:"add_item,omitempty"`
 	// Details for the `add_metadata` type: specify a hash of key-value pairs.
-	AddMetadata map[string]string `form:"add_metadata"`
+	AddMetadata map[string]string `form:"add_metadata" json:"add_metadata,omitempty"`
 	// Details for the `remove_discount` type.
-	RemoveDiscount *QuoteCreateLineActionRemoveDiscountParams `form:"remove_discount"`
+	RemoveDiscount *QuoteCreateLineActionRemoveDiscountParams `form:"remove_discount" json:"remove_discount,omitempty"`
 	// Details for the `remove_item` type.
-	RemoveItem *QuoteCreateLineActionRemoveItemParams `form:"remove_item"`
+	RemoveItem *QuoteCreateLineActionRemoveItemParams `form:"remove_item" json:"remove_item,omitempty"`
 	// Details for the `remove_metadata` type: specify an array of metadata keys.
-	RemoveMetadata []*string `form:"remove_metadata"`
+	RemoveMetadata []*string `form:"remove_metadata" json:"remove_metadata,omitempty"`
 	// Details for the `set_discounts` type.
-	SetDiscounts []*QuoteCreateLineActionSetDiscountParams `form:"set_discounts"`
+	SetDiscounts []*QuoteCreateLineActionSetDiscountParams `form:"set_discounts" json:"set_discounts,omitempty"`
 	// Details for the `set_items` type.
-	SetItems []*QuoteCreateLineActionSetItemParams `form:"set_items"`
+	SetItems []*QuoteCreateLineActionSetItemParams `form:"set_items" json:"set_items,omitempty"`
 	// Details for the `set_metadata` type: specify an array of key-value pairs.
-	SetMetadata map[string]string `form:"set_metadata"`
+	SetMetadata map[string]string `form:"set_metadata" json:"set_metadata,omitempty"`
 	// The type of action the quote line performs.
-	Type        *string                                 `form:"type"`
+	Type        *string                                 `form:"type" json:"type"`
 	UnsetFields []QuoteCreateLineActionParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2225,292 +2225,292 @@ func (p *QuoteCreateLineActionParams) AddUnsetField(field QuoteCreateLineActionP
 // Details to identify the subscription schedule the quote line applies to.
 type QuoteCreateLineAppliesToParams struct {
 	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
-	NewReference *string `form:"new_reference"`
+	NewReference *string `form:"new_reference" json:"new_reference,omitempty"`
 	// The ID of the schedule the line applies to.
-	SubscriptionSchedule *string `form:"subscription_schedule"`
+	SubscriptionSchedule *string `form:"subscription_schedule" json:"subscription_schedule,omitempty"`
 	// Describes whether the quote line is affecting a new schedule or an existing schedule.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
 type QuoteCreateLineCancelSubscriptionScheduleParams struct {
 	// Timestamp helper to cancel the underlying schedule on the accompanying line's start date. Must be set to `line_starts_at`.
-	CancelAt *string `form:"cancel_at"`
+	CancelAt *string `form:"cancel_at" json:"cancel_at"`
 	// If the subscription schedule is `active`, indicates if a final invoice will be generated that contains any un-invoiced metered usage and new/pending proration invoice items. Boolean that defaults to `true`.
-	InvoiceNow *bool `form:"invoice_now"`
+	InvoiceNow *bool `form:"invoice_now" json:"invoice_now,omitempty"`
 	// If the subscription schedule is `active`, indicates if the cancellation should be prorated. Boolean that defaults to `true`.
-	Prorate *bool `form:"prorate"`
+	Prorate *bool `form:"prorate" json:"prorate,omitempty"`
 }
 
 // Use the `end` time of a given discount.
 type QuoteCreateLineEndsAtDiscountEndParams struct {
 	// The ID of a specific discount.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount"`
 }
 
 // Time span for the quote line starting from the `starts_at` date.
 type QuoteCreateLineEndsAtDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
 type QuoteCreateLineEndsAtParams struct {
 	// Use the `end` time of a given discount.
-	DiscountEnd *QuoteCreateLineEndsAtDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteCreateLineEndsAtDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// Time span for the quote line starting from the `starts_at` date.
-	Duration *QuoteCreateLineEndsAtDurationParams `form:"duration"`
+	Duration *QuoteCreateLineEndsAtDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// Select a way to pass in `ends_at`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the pause_collection behavior to apply to the amendment.
 type QuoteCreateLineSetPauseCollectionSetParams struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
-	Behavior *string `form:"behavior"`
+	Behavior *string `form:"behavior" json:"behavior"`
 }
 
 // Defines how to pause collection for the underlying subscription throughout the duration of the amendment.
 type QuoteCreateLineSetPauseCollectionParams struct {
 	// Details of the pause_collection behavior to apply to the amendment.
-	Set *QuoteCreateLineSetPauseCollectionSetParams `form:"set"`
+	Set *QuoteCreateLineSetPauseCollectionSetParams `form:"set" json:"set,omitempty"`
 	// Determines the type of the pause_collection amendment.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Use the `end` time of a given discount.
 type QuoteCreateLineStartsAtDiscountEndParams struct {
 	// The ID of a specific discount.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount"`
 }
 
 // The timestamp the given line ends at.
 type QuoteCreateLineStartsAtLineEndsAtParams struct {
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // Details to identify the earliest timestamp where the proposed change should take effect.
 type QuoteCreateLineStartsAtParams struct {
 	// Use the `end` time of a given discount.
-	DiscountEnd *QuoteCreateLineStartsAtDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteCreateLineStartsAtDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// The timestamp the given line ends at.
-	LineEndsAt *QuoteCreateLineStartsAtLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteCreateLineStartsAtLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// Select a way to pass in `starts_at`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Defines how the subscription should behave when a trial ends.
 type QuoteCreateLineTrialSettingsEndBehaviorParams struct {
 	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
-	ProrateUpFront *string `form:"prorate_up_front"`
+	ProrateUpFront *string `form:"prorate_up_front" json:"prorate_up_front,omitempty"`
 }
 
 // Settings related to subscription trials.
 type QuoteCreateLineTrialSettingsParams struct {
 	// Defines how the subscription should behave when a trial ends.
-	EndBehavior *QuoteCreateLineTrialSettingsEndBehaviorParams `form:"end_behavior"`
+	EndBehavior *QuoteCreateLineTrialSettingsEndBehaviorParams `form:"end_behavior" json:"end_behavior,omitempty"`
 }
 
 // A list of [quote lines](https://docs.stripe.com/api/quote_lines) on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
 type QuoteCreateLineParams struct {
 	// An array of operations the quote line performs.
-	Actions []*QuoteCreateLineActionParams `form:"actions"`
+	Actions []*QuoteCreateLineActionParams `form:"actions" json:"actions,omitempty"`
 	// Details to identify the subscription schedule the quote line applies to.
-	AppliesTo *QuoteCreateLineAppliesToParams `form:"applies_to"`
+	AppliesTo *QuoteCreateLineAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
 	// For point-in-time quote lines (having no `ends_at` timestamp), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the Quote Line `starts_at` timestamp.For time-span based quote lines (having both `starts_at` and `ends_at`), the only valid value is `automatic`, which removes any previously configured billing cycle anchor resets during the window of time spanning the quote line.
-	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
-	CancelSubscriptionSchedule *QuoteCreateLineCancelSubscriptionScheduleParams `form:"cancel_subscription_schedule"`
+	CancelSubscriptionSchedule *QuoteCreateLineCancelSubscriptionScheduleParams `form:"cancel_subscription_schedule" json:"cancel_subscription_schedule,omitempty"`
 	// Configures how the quote handles billing for line transitions.
-	EffectiveAt *string `form:"effective_at"`
+	EffectiveAt *string `form:"effective_at" json:"effective_at,omitempty"`
 	// Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
-	EndsAt *QuoteCreateLineEndsAtParams `form:"ends_at"`
+	EndsAt *QuoteCreateLineEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// Changes to how Stripe handles prorations during the quote line's time span. Affects if and how prorations are created when a future phase starts.
-	ProrationBehavior *string `form:"proration_behavior"`
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// Defines how to pause collection for the underlying subscription throughout the duration of the amendment.
-	SetPauseCollection *QuoteCreateLineSetPauseCollectionParams `form:"set_pause_collection"`
+	SetPauseCollection *QuoteCreateLineSetPauseCollectionParams `form:"set_pause_collection" json:"set_pause_collection,omitempty"`
 	// Timestamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
-	SetScheduleEnd *string `form:"set_schedule_end"`
+	SetScheduleEnd *string `form:"set_schedule_end" json:"set_schedule_end,omitempty"`
 	// Details to identify the earliest timestamp where the proposed change should take effect.
-	StartsAt *QuoteCreateLineStartsAtParams `form:"starts_at"`
+	StartsAt *QuoteCreateLineStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
 	// Settings related to subscription trials.
-	TrialSettings *QuoteCreateLineTrialSettingsParams `form:"trial_settings"`
+	TrialSettings *QuoteCreateLineTrialSettingsParams `form:"trial_settings" json:"trial_settings,omitempty"`
 }
 
 // Details of a Quote line to start the bill period from.
 type QuoteCreateSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The start of the period to bill from when the Quote is accepted.
 type QuoteCreateSubscriptionDataBillOnAcceptanceBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
-	LineStartsAt *QuoteCreateSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at"`
+	LineStartsAt *QuoteCreateSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at" json:"line_starts_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_from` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the duration over which to bill.
 type QuoteCreateSubscriptionDataBillOnAcceptanceBillUntilDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details of a Quote line item from which to bill until.
 type QuoteCreateSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteCreateSubscriptionDataBillOnAcceptanceBillUntilParams struct {
 	// Details of the duration over which to bill.
-	Duration *QuoteCreateSubscriptionDataBillOnAcceptanceBillUntilDurationParams `form:"duration"`
+	Duration *QuoteCreateSubscriptionDataBillOnAcceptanceBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
 	// Details of a Quote line item from which to bill until.
-	LineEndsAt *QuoteCreateSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteCreateSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_until` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Describes the period to bill for upon accepting the quote.
 type QuoteCreateSubscriptionDataBillOnAcceptanceParams struct {
 	// The start of the period to bill from when the Quote is accepted.
-	BillFrom *QuoteCreateSubscriptionDataBillOnAcceptanceBillFromParams `form:"bill_from"`
+	BillFrom *QuoteCreateSubscriptionDataBillOnAcceptanceBillFromParams `form:"bill_from" json:"bill_from,omitempty"`
 	// The end of the period to bill until when the Quote is accepted.
-	BillUntil *QuoteCreateSubscriptionDataBillOnAcceptanceBillUntilParams `form:"bill_until"`
+	BillUntil *QuoteCreateSubscriptionDataBillOnAcceptanceBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 }
 
 // Configure behavior for flexible billing mode.
 type QuoteCreateSubscriptionDataBillingModeFlexibleParams struct {
 	// Controls how invoices and invoice items display proration amounts and discount amounts.
-	ProrationDiscounts *string `form:"proration_discounts"`
+	ProrationDiscounts *string `form:"proration_discounts" json:"proration_discounts,omitempty"`
 }
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type QuoteCreateSubscriptionDataBillingModeParams struct {
 	// Configure behavior for flexible billing mode.
-	Flexible *QuoteCreateSubscriptionDataBillingModeFlexibleParams `form:"flexible"`
+	Flexible *QuoteCreateSubscriptionDataBillingModeFlexibleParams `form:"flexible" json:"flexible,omitempty"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Configure billing schedule differently for individual subscription items.
 type QuoteCreateSubscriptionDataBillingScheduleAppliesToParams struct {
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Controls which subscription items the billing schedule applies to.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of a Quote line to start the bill period from.
 type QuoteCreateSubscriptionDataBillingScheduleBillFromLineStartsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The start of the period to bill from when the Quote is accepted.
 type QuoteCreateSubscriptionDataBillingScheduleBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
-	LineStartsAt *QuoteCreateSubscriptionDataBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at"`
+	LineStartsAt *QuoteCreateSubscriptionDataBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at" json:"line_starts_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_from` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the duration over which to bill.
 type QuoteCreateSubscriptionDataBillingScheduleBillUntilDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details of a Quote line item from which to bill until.
 type QuoteCreateSubscriptionDataBillingScheduleBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteCreateSubscriptionDataBillingScheduleBillUntilParams struct {
 	// Details of the duration over which to bill.
-	Duration *QuoteCreateSubscriptionDataBillingScheduleBillUntilDurationParams `form:"duration"`
+	Duration *QuoteCreateSubscriptionDataBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
 	// Details of a Quote line item from which to bill until.
-	LineEndsAt *QuoteCreateSubscriptionDataBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteCreateSubscriptionDataBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_until` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
 type QuoteCreateSubscriptionDataBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
-	AppliesTo []*QuoteCreateSubscriptionDataBillingScheduleAppliesToParams `form:"applies_to"`
+	AppliesTo []*QuoteCreateSubscriptionDataBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
 	// The start of the period to bill from when the Quote is accepted.
-	BillFrom *QuoteCreateSubscriptionDataBillingScheduleBillFromParams `form:"bill_from"`
+	BillFrom *QuoteCreateSubscriptionDataBillingScheduleBillFromParams `form:"bill_from" json:"bill_from"`
 	// The end of the period to bill until when the Quote is accepted.
-	BillUntil *QuoteCreateSubscriptionDataBillingScheduleBillUntilParams `form:"bill_until"`
+	BillUntil *QuoteCreateSubscriptionDataBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
-	Key *string `form:"key"`
+	Key *string `form:"key" json:"key,omitempty"`
 }
 
 // If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 type QuoteCreateSubscriptionDataPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
-	Iterations *int64 `form:"iterations"`
+	Iterations *int64 `form:"iterations" json:"iterations"`
 }
 
 // When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 type QuoteCreateSubscriptionDataParams struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
-	BillingBehavior *string `form:"billing_behavior"`
+	BillingBehavior *string `form:"billing_behavior" json:"billing_behavior,omitempty"`
 	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
-	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *QuoteCreateSubscriptionDataBillingModeParams `form:"billing_mode"`
+	BillingMode *QuoteCreateSubscriptionDataBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
 	// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
-	BillingSchedules []*QuoteCreateSubscriptionDataBillingScheduleParams `form:"billing_schedules"`
+	BillingSchedules []*QuoteCreateSubscriptionDataBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// Describes the period to bill for upon accepting the quote.
-	BillOnAcceptance *QuoteCreateSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
+	BillOnAcceptance *QuoteCreateSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance" json:"bill_on_acceptance,omitempty"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
-	EffectiveDate                 *int64 `form:"effective_date"`
+	EffectiveDate                 *int64 `form:"effective_date" json:"effective_date,omitempty"`
 	EffectiveDateCurrentPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	// Behavior of the subscription schedule and underlying subscription when it ends.
-	EndBehavior *string `form:"end_behavior"`
+	EndBehavior *string `form:"end_behavior" json:"end_behavior,omitempty"`
 	// The id of a subscription that the quote will update. By default, the quote will contain the state of the subscription (such as line items, collection method and billing thresholds) unless overridden.
-	FromSubscription *string `form:"from_subscription"`
+	FromSubscription *string `form:"from_subscription" json:"from_subscription,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
-	PhaseEffectiveAt *string `form:"phase_effective_at"`
+	PhaseEffectiveAt *string `form:"phase_effective_at" json:"phase_effective_at,omitempty"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
-	Prebilling *QuoteCreateSubscriptionDataPrebillingParams `form:"prebilling"`
+	Prebilling *QuoteCreateSubscriptionDataPrebillingParams `form:"prebilling" json:"prebilling,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
 	//
 	// When updating a subscription, valid values are `create_prorations`, `none`, or `always_invoice`.
@@ -2518,9 +2518,9 @@ type QuoteCreateSubscriptionDataParams struct {
 	// Passing `create_prorations` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https://docs.stripe.com/subscriptions/upgrading-downgrading#immediate-payment). In order to always invoice immediately for prorations, pass `always_invoice`.
 	//
 	// Prorations can be disabled by passing `none`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
-	TrialPeriodDays *int64                                        `form:"trial_period_days"`
+	TrialPeriodDays *int64                                        `form:"trial_period_days" json:"trial_period_days,omitempty"`
 	UnsetFields     []QuoteCreateSubscriptionDataParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2558,151 +2558,151 @@ func (p *QuoteCreateSubscriptionDataParams) AppendTo(body *form.Values, keyParts
 // Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
 type QuoteCreateSubscriptionDataOverrideAppliesToParams struct {
 	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
-	NewReference *string `form:"new_reference"`
+	NewReference *string `form:"new_reference" json:"new_reference,omitempty"`
 	// The ID of the schedule the line applies to.
-	SubscriptionSchedule *string `form:"subscription_schedule"`
+	SubscriptionSchedule *string `form:"subscription_schedule" json:"subscription_schedule,omitempty"`
 	// Describes whether the quote line is affecting a new schedule or an existing schedule.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of a Quote line to start the bill period from.
 type QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The start of the period to bill from when the Quote is accepted.
 type QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
-	LineStartsAt *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at"`
+	LineStartsAt *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at" json:"line_starts_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_from` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the duration over which to bill.
 type QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details of a Quote line item from which to bill until.
 type QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillUntilParams struct {
 	// Details of the duration over which to bill.
-	Duration *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationParams `form:"duration"`
+	Duration *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
 	// Details of a Quote line item from which to bill until.
-	LineEndsAt *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_until` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Describes the period to bill for upon accepting the quote.
 type QuoteCreateSubscriptionDataOverrideBillOnAcceptanceParams struct {
 	// The start of the period to bill from when the Quote is accepted.
-	BillFrom *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillFromParams `form:"bill_from"`
+	BillFrom *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillFromParams `form:"bill_from" json:"bill_from,omitempty"`
 	// The end of the period to bill until when the Quote is accepted.
-	BillUntil *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillUntilParams `form:"bill_until"`
+	BillUntil *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 }
 
 // Configure billing schedule differently for individual subscription items.
 type QuoteCreateSubscriptionDataOverrideBillingScheduleAppliesToParams struct {
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Controls which subscription items the billing schedule applies to.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of a Quote line to start the bill period from.
 type QuoteCreateSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The start of the period to bill from when the Quote is accepted.
 type QuoteCreateSubscriptionDataOverrideBillingScheduleBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
-	LineStartsAt *QuoteCreateSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at"`
+	LineStartsAt *QuoteCreateSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at" json:"line_starts_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_from` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the duration over which to bill.
 type QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details of a Quote line item from which to bill until.
 type QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilParams struct {
 	// Details of the duration over which to bill.
-	Duration *QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilDurationParams `form:"duration"`
+	Duration *QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
 	// Details of a Quote line item from which to bill until.
-	LineEndsAt *QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_until` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
 type QuoteCreateSubscriptionDataOverrideBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
-	AppliesTo []*QuoteCreateSubscriptionDataOverrideBillingScheduleAppliesToParams `form:"applies_to"`
+	AppliesTo []*QuoteCreateSubscriptionDataOverrideBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
 	// The start of the period to bill from when the Quote is accepted.
-	BillFrom *QuoteCreateSubscriptionDataOverrideBillingScheduleBillFromParams `form:"bill_from"`
+	BillFrom *QuoteCreateSubscriptionDataOverrideBillingScheduleBillFromParams `form:"bill_from" json:"bill_from"`
 	// The end of the period to bill until when the Quote is accepted.
-	BillUntil *QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilParams `form:"bill_until"`
+	BillUntil *QuoteCreateSubscriptionDataOverrideBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
-	Key *string `form:"key"`
+	Key *string `form:"key" json:"key,omitempty"`
 }
 
 // List representing overrides for `subscription_data` configurations for specific subscription schedules.
 type QuoteCreateSubscriptionDataOverrideParams struct {
 	// Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
-	AppliesTo *QuoteCreateSubscriptionDataOverrideAppliesToParams `form:"applies_to"`
+	AppliesTo *QuoteCreateSubscriptionDataOverrideAppliesToParams `form:"applies_to" json:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
-	BillingBehavior *string `form:"billing_behavior"`
+	BillingBehavior *string `form:"billing_behavior" json:"billing_behavior,omitempty"`
 	// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
-	BillingSchedules []*QuoteCreateSubscriptionDataOverrideBillingScheduleParams `form:"billing_schedules"`
+	BillingSchedules []*QuoteCreateSubscriptionDataOverrideBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// Describes the period to bill for upon accepting the quote.
-	BillOnAcceptance *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance"`
+	BillOnAcceptance *QuoteCreateSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance" json:"bill_on_acceptance,omitempty"`
 	// The customer the Subscription Data override applies to. This is only relevant when `applies_to.type=new_reference`.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
-	EndBehavior *string `form:"end_behavior"`
+	EndBehavior *string `form:"end_behavior" json:"end_behavior,omitempty"`
 	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
-	PhaseEffectiveAt *string `form:"phase_effective_at"`
+	PhaseEffectiveAt *string `form:"phase_effective_at" json:"phase_effective_at,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
 	//
 	// When updating a subscription, valid values are `create_prorations`, `none`, or `always_invoice`.
@@ -2710,70 +2710,70 @@ type QuoteCreateSubscriptionDataOverrideParams struct {
 	// Passing `create_prorations` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https://docs.stripe.com/subscriptions/upgrading-downgrading#immediate-payment). In order to always invoice immediately for prorations, pass `always_invoice`.
 	//
 	// Prorations can be disabled by passing `none`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 }
 
 // The data with which to automatically create a Transfer for each of the invoices.
 type QuoteCreateTransferDataParams struct {
 	// The amount that will be transferred automatically when the invoice is paid. If no amount is set, the full amount is transferred. There cannot be any line items with recurring prices when using this field.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination. There must be at least 1 line item with a recurring price to use this field.
-	AmountPercent *float64 `form:"amount_percent"`
+	AmountPercent *float64 `form:"amount_percent" json:"amount_percent,omitempty"`
 	// ID of an existing, connected Stripe account.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 
 // A quote models prices and services for a customer. Default options for header, description, footer, and expires_at can be set in the dashboard via the [quote template](https://dashboard.stripe.com/settings/billing/quote).
 type QuoteCreateParams struct {
 	Params `form:"*"`
 	// Set to true to allow quote lines to have `starts_at` in the past if collection is paused between `starts_at` and now.
-	AllowBackdatedLines *bool `form:"allow_backdated_lines"`
+	AllowBackdatedLines *bool `form:"allow_backdated_lines" json:"allow_backdated_lines,omitempty"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. There cannot be any line items with recurring prices when using this field.
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
-	ApplicationFeePercent *float64 `form:"application_fee_percent"`
+	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
 	// Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
-	AutomaticTax *QuoteCreateAutomaticTaxParams `form:"automatic_tax"`
+	AutomaticTax *QuoteCreateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
-	CollectionMethod *string `form:"collection_method"`
+	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// The customer for which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The account for which this quote belongs to. A customer or account is required before finalizing the quote. Once specified, it cannot be changed.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// The tax rates that will apply to any line item that does not have `tax_rates` set.
-	DefaultTaxRates []*string `form:"default_tax_rates"`
+	DefaultTaxRates []*string `form:"default_tax_rates" json:"default_tax_rates,omitempty"`
 	// A description that will be displayed on the quote PDF. If no value is passed, the default description configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The discounts applied to the quote.
-	Discounts []*QuoteCreateDiscountParams `form:"discounts"`
+	Discounts []*QuoteCreateDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch. If no value is passed, the default expiration date configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// A footer that will be displayed on the quote PDF. If no value is passed, the default footer configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
-	Footer *string `form:"footer"`
+	Footer *string `form:"footer" json:"footer,omitempty"`
 	// Clone an existing quote. The new quote will be created in `status=draft`. When using this parameter, you cannot specify any other parameters except for `expires_at`.
-	FromQuote *QuoteCreateFromQuoteParams `form:"from_quote"`
+	FromQuote *QuoteCreateFromQuoteParams `form:"from_quote" json:"from_quote,omitempty"`
 	// A header that will be displayed on the quote PDF. If no value is passed, the default header configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
-	Header *string `form:"header"`
+	Header *string `form:"header" json:"header,omitempty"`
 	// All invoices will be billed using the specified settings.
-	InvoiceSettings *QuoteCreateInvoiceSettingsParams `form:"invoice_settings"`
+	InvoiceSettings *QuoteCreateInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
 	// A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
-	LineItems []*QuoteCreateLineItemParams `form:"line_items"`
+	LineItems []*QuoteCreateLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// A list of [quote lines](https://docs.stripe.com/api/quote_lines) on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
-	Lines []*QuoteCreateLineParams `form:"lines"`
+	Lines []*QuoteCreateLineParams `form:"lines" json:"lines,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The account on behalf of which to charge.
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
-	SubscriptionData *QuoteCreateSubscriptionDataParams `form:"subscription_data"`
+	SubscriptionData *QuoteCreateSubscriptionDataParams `form:"subscription_data" json:"subscription_data,omitempty"`
 	// List representing overrides for `subscription_data` configurations for specific subscription schedules.
-	SubscriptionDataOverrides []*QuoteCreateSubscriptionDataOverrideParams `form:"subscription_data_overrides"`
+	SubscriptionDataOverrides []*QuoteCreateSubscriptionDataOverrideParams `form:"subscription_data_overrides" json:"subscription_data_overrides,omitempty"`
 	// ID of the test clock to attach to the quote.
-	TestClock *string `form:"test_clock"`
+	TestClock *string `form:"test_clock" json:"test_clock,omitempty"`
 	// The data with which to automatically create a Transfer for each of the invoices.
-	TransferData *QuoteCreateTransferDataParams `form:"transfer_data"`
+	TransferData *QuoteCreateTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	UnsetFields  []QuoteCreateParamsUnsetField  `form:"-" json:"-"`
 }
 
@@ -2815,7 +2815,7 @@ func (p *QuoteCreateParams) AddMetadata(key string, value string) {
 type QuoteRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -2826,133 +2826,133 @@ func (p *QuoteRetrieveParams) AddExpand(f string) {
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type QuoteUpdateAutomaticTaxLiabilityParams struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// Type of the account referenced in the request.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
 type QuoteUpdateAutomaticTaxParams struct {
 	// Controls whether Stripe will automatically compute tax on the resulting invoices or subscriptions as well as the quote itself.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
-	Liability *QuoteUpdateAutomaticTaxLiabilityParams `form:"liability"`
+	Liability *QuoteUpdateAutomaticTaxLiabilityParams `form:"liability" json:"liability,omitempty"`
 }
 
 // Time span for the redeemed discount.
 type QuoteUpdateDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to determine how long the discount should be applied for.
 type QuoteUpdateDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
-	Duration *QuoteUpdateDiscountDiscountEndDurationParams `form:"duration"`
+	Duration *QuoteUpdateDiscountDiscountEndDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The discounts applied to the quote.
 type QuoteUpdateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteUpdateDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteUpdateDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type QuoteUpdateInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// Type of the account referenced in the request.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // All invoices will be billed using the specified settings.
 type QuoteUpdateInvoiceSettingsParams struct {
 	// Number of days within which a customer must pay the invoice generated by this quote. This value will be `null` for quotes where `collection_method=charge_automatically`.
-	DaysUntilDue *int64 `form:"days_until_due"`
+	DaysUntilDue *int64 `form:"days_until_due" json:"days_until_due,omitempty"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
-	Issuer *QuoteUpdateInvoiceSettingsIssuerParams `form:"issuer"`
+	Issuer *QuoteUpdateInvoiceSettingsIssuerParams `form:"issuer" json:"issuer,omitempty"`
 }
 
 // Time span for the redeemed discount.
 type QuoteUpdateLineItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to determine how long the discount should be applied for.
 type QuoteUpdateLineItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
-	Duration *QuoteUpdateLineItemDiscountDiscountEndDurationParams `form:"duration"`
+	Duration *QuoteUpdateLineItemDiscountDiscountEndDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The discounts applied to this line item.
 type QuoteUpdateLineItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteUpdateLineItemDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteUpdateLineItemDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
 type QuoteUpdateLineItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
 // Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 type QuoteUpdateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
-	Recurring *QuoteUpdateLineItemPriceDataRecurringParams `form:"recurring"`
+	Recurring *QuoteUpdateLineItemPriceDataRecurringParams `form:"recurring" json:"recurring,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
 type QuoteUpdateLineItemParams struct {
 	// The discounts applied to this line item.
-	Discounts []*QuoteUpdateLineItemDiscountParams `form:"discounts"`
+	Discounts []*QuoteUpdateLineItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// The ID of an existing line item on the quote.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The ID of the price object. One of `price` or `price_data` is required.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
-	PriceData *QuoteUpdateLineItemPriceDataParams `form:"price_data"`
+	PriceData *QuoteUpdateLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The quantity of the line item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the quote do not apply to this line item.
-	TaxRates    []*string                             `form:"tax_rates"`
+	TaxRates    []*string                             `form:"tax_rates" json:"tax_rates,omitempty"`
 	UnsetFields []QuoteUpdateLineItemParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2972,141 +2972,141 @@ func (p *QuoteUpdateLineItemParams) AddUnsetField(field QuoteUpdateLineItemParam
 // Details to determine how long the discount should be applied for.
 type QuoteUpdateLineActionAddDiscountDiscountEndParams struct {
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Anchor the service period to a custom date. Type must be `custom` to specify.
 type QuoteUpdateLineActionAddDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configures service period cycle anchoring.
 type QuoteUpdateLineActionAddDiscountSettingsServicePeriodAnchorConfigParams struct {
 	// Anchor the service period to a custom date. Type must be `custom` to specify.
-	Custom *QuoteUpdateLineActionAddDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	Custom *QuoteUpdateLineActionAddDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of service period anchor config. Defaults to `inherit` if omitted.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings for discount application including service period anchoring.
 type QuoteUpdateLineActionAddDiscountSettingsParams struct {
 	// Configures service period cycle anchoring.
-	ServicePeriodAnchorConfig *QuoteUpdateLineActionAddDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	ServicePeriodAnchorConfig *QuoteUpdateLineActionAddDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config" json:"service_period_anchor_config,omitempty"`
 	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `line_start` if omitted.
-	StartDate *string `form:"start_date"`
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
 }
 
 // Details for the `add_discount` type.
 type QuoteUpdateLineActionAddDiscountParams struct {
 	// The coupon code to redeem.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// An ID of an existing discount for a coupon that was already redeemed.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteUpdateLineActionAddDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteUpdateLineActionAddDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 	// The promotion code to redeem.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Settings for discount application including service period anchoring.
-	Settings *QuoteUpdateLineActionAddDiscountSettingsParams `form:"settings"`
+	Settings *QuoteUpdateLineActionAddDiscountSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
 // Time span for the redeemed discount.
 type QuoteUpdateLineActionAddItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to determine how long the discount should be applied for.
 type QuoteUpdateLineActionAddItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
-	Duration *QuoteUpdateLineActionAddItemDiscountDiscountEndDurationParams `form:"duration"`
+	Duration *QuoteUpdateLineActionAddItemDiscountDiscountEndDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Anchor the service period to a custom date. Type must be `custom` to specify.
 type QuoteUpdateLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configures service period cycle anchoring.
 type QuoteUpdateLineActionAddItemDiscountSettingsServicePeriodAnchorConfigParams struct {
 	// Anchor the service period to a custom date. Type must be `custom` to specify.
-	Custom *QuoteUpdateLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	Custom *QuoteUpdateLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of service period anchor config. Defaults to `inherit` if omitted.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings for discount application including service period anchoring.
 type QuoteUpdateLineActionAddItemDiscountSettingsParams struct {
 	// Configures service period cycle anchoring.
-	ServicePeriodAnchorConfig *QuoteUpdateLineActionAddItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	ServicePeriodAnchorConfig *QuoteUpdateLineActionAddItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config" json:"service_period_anchor_config,omitempty"`
 	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `line_start` if omitted.
-	StartDate *string `form:"start_date"`
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
 }
 
 // The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
 type QuoteUpdateLineActionAddItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteUpdateLineActionAddItemDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteUpdateLineActionAddItemDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Settings for discount application including service period anchoring.
-	Settings *QuoteUpdateLineActionAddItemDiscountSettingsParams `form:"settings"`
+	Settings *QuoteUpdateLineActionAddItemDiscountSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
 // Options that configure the trial on the subscription item.
 type QuoteUpdateLineActionAddItemTrialParams struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
-	ConvertsTo []*string `form:"converts_to"`
+	ConvertsTo []*string `form:"converts_to" json:"converts_to,omitempty"`
 	// Determines the type of trial for this item.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details for the `add_item` type.
 type QuoteUpdateLineActionAddItemParams struct {
 	// The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
-	Discounts []*QuoteUpdateLineActionAddItemDiscountParams `form:"discounts"`
+	Discounts []*QuoteUpdateLineActionAddItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price"`
 	// Quantity for this item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// The tax rates that apply to this subscription item. When set, the `default_tax_rates` on the subscription do not apply to this `subscription_item`.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 	// Options that configure the trial on the subscription item.
-	Trial *QuoteUpdateLineActionAddItemTrialParams `form:"trial"`
+	Trial *QuoteUpdateLineActionAddItemTrialParams `form:"trial" json:"trial,omitempty"`
 	// The ID of the trial offer to apply to the configuration item.
-	TrialOffer *string `form:"trial_offer"`
+	TrialOffer *string `form:"trial_offer" json:"trial_offer,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -3121,147 +3121,147 @@ func (p *QuoteUpdateLineActionAddItemParams) AddMetadata(key string, value strin
 // Details for the `remove_discount` type.
 type QuoteUpdateLineActionRemoveDiscountParams struct {
 	// The coupon code to remove from the `discounts` array.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// The ID of a discount to remove from the `discounts` array.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// The ID of a promotion code to remove from the `discounts` array.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // Details for the `remove_item` type.
 type QuoteUpdateLineActionRemoveItemParams struct {
 	// ID of a price to remove.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price"`
 }
 
 // Anchor the service period to a custom date. Type must be `custom` to specify.
 type QuoteUpdateLineActionSetDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configures service period cycle anchoring.
 type QuoteUpdateLineActionSetDiscountSettingsServicePeriodAnchorConfigParams struct {
 	// Anchor the service period to a custom date. Type must be `custom` to specify.
-	Custom *QuoteUpdateLineActionSetDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	Custom *QuoteUpdateLineActionSetDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of service period anchor config. Defaults to `inherit` if omitted.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings for discount application including service period anchoring.
 type QuoteUpdateLineActionSetDiscountSettingsParams struct {
 	// Configures service period cycle anchoring.
-	ServicePeriodAnchorConfig *QuoteUpdateLineActionSetDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	ServicePeriodAnchorConfig *QuoteUpdateLineActionSetDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config" json:"service_period_anchor_config,omitempty"`
 	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `line_start` if omitted.
-	StartDate *string `form:"start_date"`
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
 }
 
 // Details for the `set_discounts` type.
 type QuoteUpdateLineActionSetDiscountParams struct {
 	// The coupon code to replace the `discounts` array with.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// An ID of an existing discount to replace the `discounts` array with.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// An ID of an existing promotion code to replace the `discounts` array with.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Settings for discount application including service period anchoring.
-	Settings *QuoteUpdateLineActionSetDiscountSettingsParams `form:"settings"`
+	Settings *QuoteUpdateLineActionSetDiscountSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
 // Time span for the redeemed discount.
 type QuoteUpdateLineActionSetItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to determine how long the discount should be applied for.
 type QuoteUpdateLineActionSetItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
-	Duration *QuoteUpdateLineActionSetItemDiscountDiscountEndDurationParams `form:"duration"`
+	Duration *QuoteUpdateLineActionSetItemDiscountDiscountEndDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of calculation made to determine when the discount ends.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Anchor the service period to a custom date. Type must be `custom` to specify.
 type QuoteUpdateLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustomParams struct {
 	// The day of the month the anchor should be. Ranges from 1 to 31.
-	DayOfMonth *int64 `form:"day_of_month"`
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The hour of the day the anchor should be. Ranges from 0 to 23.
-	Hour *int64 `form:"hour"`
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
 	// The minute of the hour the anchor should be. Ranges from 0 to 59.
-	Minute *int64 `form:"minute"`
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
 	// The month to start full cycle periods. Ranges from 1 to 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month,omitempty"`
 	// The second of the minute the anchor should be. Ranges from 0 to 59.
-	Second *int64 `form:"second"`
+	Second *int64 `form:"second" json:"second,omitempty"`
 }
 
 // Configures service period cycle anchoring.
 type QuoteUpdateLineActionSetItemDiscountSettingsServicePeriodAnchorConfigParams struct {
 	// Anchor the service period to a custom date. Type must be `custom` to specify.
-	Custom *QuoteUpdateLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom"`
+	Custom *QuoteUpdateLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of service period anchor config. Defaults to `inherit` if omitted.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Settings for discount application including service period anchoring.
 type QuoteUpdateLineActionSetItemDiscountSettingsParams struct {
 	// Configures service period cycle anchoring.
-	ServicePeriodAnchorConfig *QuoteUpdateLineActionSetItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config"`
+	ServicePeriodAnchorConfig *QuoteUpdateLineActionSetItemDiscountSettingsServicePeriodAnchorConfigParams `form:"service_period_anchor_config" json:"service_period_anchor_config,omitempty"`
 	// The start date of the discount's service period when applying a coupon or promotion code with a service period duration. Defaults to `line_start` if omitted.
-	StartDate *string `form:"start_date"`
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
 }
 
 // If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
 type QuoteUpdateLineActionSetItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteUpdateLineActionSetItemDiscountDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteUpdateLineActionSetItemDiscountDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Settings for discount application including service period anchoring.
-	Settings *QuoteUpdateLineActionSetItemDiscountSettingsParams `form:"settings"`
+	Settings *QuoteUpdateLineActionSetItemDiscountSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 type QuoteUpdateLineActionSetItemTrialParams struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
-	ConvertsTo []*string `form:"converts_to"`
+	ConvertsTo []*string `form:"converts_to" json:"converts_to,omitempty"`
 	// Determines the type of trial for this item.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details for the `set_items` type.
 type QuoteUpdateLineActionSetItemParams struct {
 	// If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
-	Discounts []*QuoteUpdateLineActionSetItemDiscountParams `form:"discounts"`
+	Discounts []*QuoteUpdateLineActionSetItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// If an item with the `price` already exists, passing this will override the `metadata` on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price"`
 	// If an item with the `price` already exists, passing this will override the quantity on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `quantity`.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// If an item with the `price` already exists, passing this will override the `tax_rates` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `tax_rates`.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 	// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
-	Trial *QuoteUpdateLineActionSetItemTrialParams `form:"trial"`
+	Trial *QuoteUpdateLineActionSetItemTrialParams `form:"trial" json:"trial,omitempty"`
 	// The ID of the trial offer to apply to the configuration item.
-	TrialOffer *string `form:"trial_offer"`
+	TrialOffer *string `form:"trial_offer" json:"trial_offer,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -3276,25 +3276,25 @@ func (p *QuoteUpdateLineActionSetItemParams) AddMetadata(key string, value strin
 // An array of operations the quote line performs.
 type QuoteUpdateLineActionParams struct {
 	// Details for the `add_discount` type.
-	AddDiscount *QuoteUpdateLineActionAddDiscountParams `form:"add_discount"`
+	AddDiscount *QuoteUpdateLineActionAddDiscountParams `form:"add_discount" json:"add_discount,omitempty"`
 	// Details for the `add_item` type.
-	AddItem *QuoteUpdateLineActionAddItemParams `form:"add_item"`
+	AddItem *QuoteUpdateLineActionAddItemParams `form:"add_item" json:"add_item,omitempty"`
 	// Details for the `add_metadata` type: specify a hash of key-value pairs.
-	AddMetadata map[string]string `form:"add_metadata"`
+	AddMetadata map[string]string `form:"add_metadata" json:"add_metadata,omitempty"`
 	// Details for the `remove_discount` type.
-	RemoveDiscount *QuoteUpdateLineActionRemoveDiscountParams `form:"remove_discount"`
+	RemoveDiscount *QuoteUpdateLineActionRemoveDiscountParams `form:"remove_discount" json:"remove_discount,omitempty"`
 	// Details for the `remove_item` type.
-	RemoveItem *QuoteUpdateLineActionRemoveItemParams `form:"remove_item"`
+	RemoveItem *QuoteUpdateLineActionRemoveItemParams `form:"remove_item" json:"remove_item,omitempty"`
 	// Details for the `remove_metadata` type: specify an array of metadata keys.
-	RemoveMetadata []*string `form:"remove_metadata"`
+	RemoveMetadata []*string `form:"remove_metadata" json:"remove_metadata,omitempty"`
 	// Details for the `set_discounts` type.
-	SetDiscounts []*QuoteUpdateLineActionSetDiscountParams `form:"set_discounts"`
+	SetDiscounts []*QuoteUpdateLineActionSetDiscountParams `form:"set_discounts" json:"set_discounts,omitempty"`
 	// Details for the `set_items` type.
-	SetItems []*QuoteUpdateLineActionSetItemParams `form:"set_items"`
+	SetItems []*QuoteUpdateLineActionSetItemParams `form:"set_items" json:"set_items,omitempty"`
 	// Details for the `set_metadata` type: specify an array of key-value pairs.
-	SetMetadata map[string]string `form:"set_metadata"`
+	SetMetadata map[string]string `form:"set_metadata" json:"set_metadata,omitempty"`
 	// The type of action the quote line performs.
-	Type        *string                                 `form:"type"`
+	Type        *string                                 `form:"type" json:"type"`
 	UnsetFields []QuoteUpdateLineActionParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3313,278 +3313,278 @@ func (p *QuoteUpdateLineActionParams) AddUnsetField(field QuoteUpdateLineActionP
 // Details to identify the subscription schedule the quote line applies to.
 type QuoteUpdateLineAppliesToParams struct {
 	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
-	NewReference *string `form:"new_reference"`
+	NewReference *string `form:"new_reference" json:"new_reference,omitempty"`
 	// The ID of the schedule the line applies to.
-	SubscriptionSchedule *string `form:"subscription_schedule"`
+	SubscriptionSchedule *string `form:"subscription_schedule" json:"subscription_schedule,omitempty"`
 	// Describes whether the quote line is affecting a new schedule or an existing schedule.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
 type QuoteUpdateLineCancelSubscriptionScheduleParams struct {
 	// Timestamp helper to cancel the underlying schedule on the accompanying line's start date. Must be set to `line_starts_at`.
-	CancelAt *string `form:"cancel_at"`
+	CancelAt *string `form:"cancel_at" json:"cancel_at"`
 	// If the subscription schedule is `active`, indicates if a final invoice will be generated that contains any un-invoiced metered usage and new/pending proration invoice items. Boolean that defaults to `true`.
-	InvoiceNow *bool `form:"invoice_now"`
+	InvoiceNow *bool `form:"invoice_now" json:"invoice_now,omitempty"`
 	// If the subscription schedule is `active`, indicates if the cancellation should be prorated. Boolean that defaults to `true`.
-	Prorate *bool `form:"prorate"`
+	Prorate *bool `form:"prorate" json:"prorate,omitempty"`
 }
 
 // Use the `end` time of a given discount.
 type QuoteUpdateLineEndsAtDiscountEndParams struct {
 	// The ID of a specific discount.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount"`
 }
 
 // Time span for the quote line starting from the `starts_at` date.
 type QuoteUpdateLineEndsAtDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
 type QuoteUpdateLineEndsAtParams struct {
 	// Use the `end` time of a given discount.
-	DiscountEnd *QuoteUpdateLineEndsAtDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteUpdateLineEndsAtDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// Time span for the quote line starting from the `starts_at` date.
-	Duration *QuoteUpdateLineEndsAtDurationParams `form:"duration"`
+	Duration *QuoteUpdateLineEndsAtDurationParams `form:"duration" json:"duration,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// Select a way to pass in `ends_at`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the pause_collection behavior to apply to the amendment.
 type QuoteUpdateLineSetPauseCollectionSetParams struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
-	Behavior *string `form:"behavior"`
+	Behavior *string `form:"behavior" json:"behavior"`
 }
 
 // Defines how to pause collection for the underlying subscription throughout the duration of the amendment.
 type QuoteUpdateLineSetPauseCollectionParams struct {
 	// Details of the pause_collection behavior to apply to the amendment.
-	Set *QuoteUpdateLineSetPauseCollectionSetParams `form:"set"`
+	Set *QuoteUpdateLineSetPauseCollectionSetParams `form:"set" json:"set,omitempty"`
 	// Determines the type of the pause_collection amendment.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Use the `end` time of a given discount.
 type QuoteUpdateLineStartsAtDiscountEndParams struct {
 	// The ID of a specific discount.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount"`
 }
 
 // The timestamp the given line ends at.
 type QuoteUpdateLineStartsAtLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // Details to identify the earliest timestamp where the proposed change should take effect.
 type QuoteUpdateLineStartsAtParams struct {
 	// Use the `end` time of a given discount.
-	DiscountEnd *QuoteUpdateLineStartsAtDiscountEndParams `form:"discount_end"`
+	DiscountEnd *QuoteUpdateLineStartsAtDiscountEndParams `form:"discount_end" json:"discount_end,omitempty"`
 	// The timestamp the given line ends at.
-	LineEndsAt *QuoteUpdateLineStartsAtLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteUpdateLineStartsAtLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// Select a way to pass in `starts_at`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Defines how the subscription should behave when a trial ends.
 type QuoteUpdateLineTrialSettingsEndBehaviorParams struct {
 	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
-	ProrateUpFront *string `form:"prorate_up_front"`
+	ProrateUpFront *string `form:"prorate_up_front" json:"prorate_up_front,omitempty"`
 }
 
 // Settings related to subscription trials.
 type QuoteUpdateLineTrialSettingsParams struct {
 	// Defines how the subscription should behave when a trial ends.
-	EndBehavior *QuoteUpdateLineTrialSettingsEndBehaviorParams `form:"end_behavior"`
+	EndBehavior *QuoteUpdateLineTrialSettingsEndBehaviorParams `form:"end_behavior" json:"end_behavior,omitempty"`
 }
 
 // A list of [quote lines](https://docs.stripe.com/api/quote_lines) on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
 type QuoteUpdateLineParams struct {
 	// An array of operations the quote line performs.
-	Actions []*QuoteUpdateLineActionParams `form:"actions"`
+	Actions []*QuoteUpdateLineActionParams `form:"actions" json:"actions,omitempty"`
 	// Details to identify the subscription schedule the quote line applies to.
-	AppliesTo *QuoteUpdateLineAppliesToParams `form:"applies_to"`
+	AppliesTo *QuoteUpdateLineAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
 	// For point-in-time quote lines (having no `ends_at` timestamp), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the Quote Line `starts_at` timestamp.For time-span based quote lines (having both `starts_at` and `ends_at`), the only valid value is `automatic`, which removes any previously configured billing cycle anchor resets during the window of time spanning the quote line.
-	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
-	CancelSubscriptionSchedule *QuoteUpdateLineCancelSubscriptionScheduleParams `form:"cancel_subscription_schedule"`
+	CancelSubscriptionSchedule *QuoteUpdateLineCancelSubscriptionScheduleParams `form:"cancel_subscription_schedule" json:"cancel_subscription_schedule,omitempty"`
 	// Configures how the quote handles billing for line transitions.
-	EffectiveAt *string `form:"effective_at"`
+	EffectiveAt *string `form:"effective_at" json:"effective_at,omitempty"`
 	// Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
-	EndsAt *QuoteUpdateLineEndsAtParams `form:"ends_at"`
+	EndsAt *QuoteUpdateLineEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// The ID of an existing line on the quote.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// Changes to how Stripe handles prorations during the quote line's time span. Affects if and how prorations are created when a future phase starts.
-	ProrationBehavior *string `form:"proration_behavior"`
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// Defines how to pause collection for the underlying subscription throughout the duration of the amendment.
-	SetPauseCollection *QuoteUpdateLineSetPauseCollectionParams `form:"set_pause_collection"`
+	SetPauseCollection *QuoteUpdateLineSetPauseCollectionParams `form:"set_pause_collection" json:"set_pause_collection,omitempty"`
 	// Timestamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
-	SetScheduleEnd *string `form:"set_schedule_end"`
+	SetScheduleEnd *string `form:"set_schedule_end" json:"set_schedule_end,omitempty"`
 	// Details to identify the earliest timestamp where the proposed change should take effect.
-	StartsAt *QuoteUpdateLineStartsAtParams `form:"starts_at"`
+	StartsAt *QuoteUpdateLineStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
 	// Settings related to subscription trials.
-	TrialSettings *QuoteUpdateLineTrialSettingsParams `form:"trial_settings"`
+	TrialSettings *QuoteUpdateLineTrialSettingsParams `form:"trial_settings" json:"trial_settings,omitempty"`
 }
 
 // Details of a Quote line to start the bill period from.
 type QuoteUpdateSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The start of the period to bill from when the Quote is accepted.
 type QuoteUpdateSubscriptionDataBillOnAcceptanceBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
-	LineStartsAt *QuoteUpdateSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at"`
+	LineStartsAt *QuoteUpdateSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at" json:"line_starts_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_from` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the duration over which to bill.
 type QuoteUpdateSubscriptionDataBillOnAcceptanceBillUntilDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details of a Quote line item from which to bill until.
 type QuoteUpdateSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteUpdateSubscriptionDataBillOnAcceptanceBillUntilParams struct {
 	// Details of the duration over which to bill.
-	Duration *QuoteUpdateSubscriptionDataBillOnAcceptanceBillUntilDurationParams `form:"duration"`
+	Duration *QuoteUpdateSubscriptionDataBillOnAcceptanceBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
 	// Details of a Quote line item from which to bill until.
-	LineEndsAt *QuoteUpdateSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteUpdateSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_until` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Describes the period to bill for upon accepting the quote.
 type QuoteUpdateSubscriptionDataBillOnAcceptanceParams struct {
 	// The start of the period to bill from when the Quote is accepted.
-	BillFrom *QuoteUpdateSubscriptionDataBillOnAcceptanceBillFromParams `form:"bill_from"`
+	BillFrom *QuoteUpdateSubscriptionDataBillOnAcceptanceBillFromParams `form:"bill_from" json:"bill_from,omitempty"`
 	// The end of the period to bill until when the Quote is accepted.
-	BillUntil *QuoteUpdateSubscriptionDataBillOnAcceptanceBillUntilParams `form:"bill_until"`
+	BillUntil *QuoteUpdateSubscriptionDataBillOnAcceptanceBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 }
 
 // Configure billing schedule differently for individual subscription items.
 type QuoteUpdateSubscriptionDataBillingScheduleAppliesToParams struct {
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Controls which subscription items the billing schedule applies to.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of a Quote line to start the bill period from.
 type QuoteUpdateSubscriptionDataBillingScheduleBillFromLineStartsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The start of the period to bill from when the Quote is accepted.
 type QuoteUpdateSubscriptionDataBillingScheduleBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
-	LineStartsAt *QuoteUpdateSubscriptionDataBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at"`
+	LineStartsAt *QuoteUpdateSubscriptionDataBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at" json:"line_starts_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_from` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the duration over which to bill.
 type QuoteUpdateSubscriptionDataBillingScheduleBillUntilDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details of a Quote line item from which to bill until.
 type QuoteUpdateSubscriptionDataBillingScheduleBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteUpdateSubscriptionDataBillingScheduleBillUntilParams struct {
 	// Details of the duration over which to bill.
-	Duration *QuoteUpdateSubscriptionDataBillingScheduleBillUntilDurationParams `form:"duration"`
+	Duration *QuoteUpdateSubscriptionDataBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
 	// Details of a Quote line item from which to bill until.
-	LineEndsAt *QuoteUpdateSubscriptionDataBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteUpdateSubscriptionDataBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_until` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
 type QuoteUpdateSubscriptionDataBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
-	AppliesTo []*QuoteUpdateSubscriptionDataBillingScheduleAppliesToParams `form:"applies_to"`
+	AppliesTo []*QuoteUpdateSubscriptionDataBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
 	// The start of the period to bill from when the Quote is accepted.
-	BillFrom *QuoteUpdateSubscriptionDataBillingScheduleBillFromParams `form:"bill_from"`
+	BillFrom *QuoteUpdateSubscriptionDataBillingScheduleBillFromParams `form:"bill_from" json:"bill_from,omitempty"`
 	// The end of the period to bill until when the Quote is accepted.
-	BillUntil *QuoteUpdateSubscriptionDataBillingScheduleBillUntilParams `form:"bill_until"`
+	BillUntil *QuoteUpdateSubscriptionDataBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
-	Key *string `form:"key"`
+	Key *string `form:"key" json:"key,omitempty"`
 }
 
 // If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 type QuoteUpdateSubscriptionDataPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
-	Iterations *int64 `form:"iterations"`
+	Iterations *int64 `form:"iterations" json:"iterations"`
 }
 
 // When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 type QuoteUpdateSubscriptionDataParams struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
-	BillingBehavior *string `form:"billing_behavior"`
+	BillingBehavior *string `form:"billing_behavior" json:"billing_behavior,omitempty"`
 	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
-	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
-	BillingSchedules []*QuoteUpdateSubscriptionDataBillingScheduleParams `form:"billing_schedules"`
+	BillingSchedules []*QuoteUpdateSubscriptionDataBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// Describes the period to bill for upon accepting the quote.
-	BillOnAcceptance *QuoteUpdateSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
+	BillOnAcceptance *QuoteUpdateSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance" json:"bill_on_acceptance,omitempty"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
-	EffectiveDate                 *int64 `form:"effective_date"`
+	EffectiveDate                 *int64 `form:"effective_date" json:"effective_date,omitempty"`
 	EffectiveDateCurrentPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	// Behavior of the subscription schedule and underlying subscription when it ends.
-	EndBehavior *string `form:"end_behavior"`
+	EndBehavior *string `form:"end_behavior" json:"end_behavior,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
-	PhaseEffectiveAt *string `form:"phase_effective_at"`
+	PhaseEffectiveAt *string `form:"phase_effective_at" json:"phase_effective_at,omitempty"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
-	Prebilling *QuoteUpdateSubscriptionDataPrebillingParams `form:"prebilling"`
+	Prebilling *QuoteUpdateSubscriptionDataPrebillingParams `form:"prebilling" json:"prebilling,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
 	//
 	// When updating a subscription, valid values are `create_prorations`, `none`, or `always_invoice`.
@@ -3592,9 +3592,9 @@ type QuoteUpdateSubscriptionDataParams struct {
 	// Passing `create_prorations` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https://docs.stripe.com/subscriptions/upgrading-downgrading#immediate-payment). In order to always invoice immediately for prorations, pass `always_invoice`.
 	//
 	// Prorations can be disabled by passing `none`.
-	ProrationBehavior *string `form:"proration_behavior"`
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
-	TrialPeriodDays *int64                                        `form:"trial_period_days"`
+	TrialPeriodDays *int64                                        `form:"trial_period_days" json:"trial_period_days,omitempty"`
 	UnsetFields     []QuoteUpdateSubscriptionDataParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3635,151 +3635,151 @@ func (p *QuoteUpdateSubscriptionDataParams) AppendTo(body *form.Values, keyParts
 // Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
 type QuoteUpdateSubscriptionDataOverrideAppliesToParams struct {
 	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
-	NewReference *string `form:"new_reference"`
+	NewReference *string `form:"new_reference" json:"new_reference,omitempty"`
 	// The ID of the schedule the line applies to.
-	SubscriptionSchedule *string `form:"subscription_schedule"`
+	SubscriptionSchedule *string `form:"subscription_schedule" json:"subscription_schedule,omitempty"`
 	// Describes whether the quote line is affecting a new schedule or an existing schedule.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of a Quote line to start the bill period from.
 type QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The start of the period to bill from when the Quote is accepted.
 type QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
-	LineStartsAt *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at"`
+	LineStartsAt *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at" json:"line_starts_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_from` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the duration over which to bill.
 type QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details of a Quote line item from which to bill until.
 type QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillUntilParams struct {
 	// Details of the duration over which to bill.
-	Duration *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationParams `form:"duration"`
+	Duration *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
 	// Details of a Quote line item from which to bill until.
-	LineEndsAt *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_until` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Describes the period to bill for upon accepting the quote.
 type QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceParams struct {
 	// The start of the period to bill from when the Quote is accepted.
-	BillFrom *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillFromParams `form:"bill_from"`
+	BillFrom *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillFromParams `form:"bill_from" json:"bill_from,omitempty"`
 	// The end of the period to bill until when the Quote is accepted.
-	BillUntil *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillUntilParams `form:"bill_until"`
+	BillUntil *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 }
 
 // Configure billing schedule differently for individual subscription items.
 type QuoteUpdateSubscriptionDataOverrideBillingScheduleAppliesToParams struct {
 	// The ID of the price object.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Controls which subscription items the billing schedule applies to.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of a Quote line to start the bill period from.
 type QuoteUpdateSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The start of the period to bill from when the Quote is accepted.
 type QuoteUpdateSubscriptionDataOverrideBillingScheduleBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
-	LineStartsAt *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at"`
+	LineStartsAt *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillFromLineStartsAtParams `form:"line_starts_at" json:"line_starts_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_from` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Details of the duration over which to bill.
 type QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Details of a Quote line item from which to bill until.
 type QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams struct {
 	// The ID of a quote line.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The position of the previous quote line in the `lines` array after which this line should begin. Indexes start from 0 and must be less than the index of the current line in the array.
-	Index *int64 `form:"index"`
+	Index *int64 `form:"index" json:"index,omitempty"`
 }
 
 // The end of the period to bill until when the Quote is accepted.
 type QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilParams struct {
 	// Details of the duration over which to bill.
-	Duration *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilDurationParams `form:"duration"`
+	Duration *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
 	// Details of a Quote line item from which to bill until.
-	LineEndsAt *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at"`
+	LineEndsAt *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAtParams `form:"line_ends_at" json:"line_ends_at,omitempty"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of method to specify the `bill_until` time.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
 type QuoteUpdateSubscriptionDataOverrideBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
-	AppliesTo []*QuoteUpdateSubscriptionDataOverrideBillingScheduleAppliesToParams `form:"applies_to"`
+	AppliesTo []*QuoteUpdateSubscriptionDataOverrideBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
 	// The start of the period to bill from when the Quote is accepted.
-	BillFrom *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillFromParams `form:"bill_from"`
+	BillFrom *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillFromParams `form:"bill_from" json:"bill_from,omitempty"`
 	// The end of the period to bill until when the Quote is accepted.
-	BillUntil *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilParams `form:"bill_until"`
+	BillUntil *QuoteUpdateSubscriptionDataOverrideBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
-	Key *string `form:"key"`
+	Key *string `form:"key" json:"key,omitempty"`
 }
 
 // List representing overrides for `subscription_data` configurations for specific subscription schedules.
 type QuoteUpdateSubscriptionDataOverrideParams struct {
 	// Whether the override applies to an existing Subscription Schedule or a new Subscription Schedule.
-	AppliesTo *QuoteUpdateSubscriptionDataOverrideAppliesToParams `form:"applies_to"`
+	AppliesTo *QuoteUpdateSubscriptionDataOverrideAppliesToParams `form:"applies_to" json:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
-	BillingBehavior *string `form:"billing_behavior"`
+	BillingBehavior *string `form:"billing_behavior" json:"billing_behavior,omitempty"`
 	// Billing schedules that will be applied to the subscription or subscription schedule created when the quote is accepted.
-	BillingSchedules []*QuoteUpdateSubscriptionDataOverrideBillingScheduleParams `form:"billing_schedules"`
+	BillingSchedules []*QuoteUpdateSubscriptionDataOverrideBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// Describes the period to bill for upon accepting the quote.
-	BillOnAcceptance *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance"`
+	BillOnAcceptance *QuoteUpdateSubscriptionDataOverrideBillOnAcceptanceParams `form:"bill_on_acceptance" json:"bill_on_acceptance,omitempty"`
 	// The customer the Subscription Data override applies to.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
-	EndBehavior *string `form:"end_behavior"`
+	EndBehavior *string `form:"end_behavior" json:"end_behavior,omitempty"`
 	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
-	PhaseEffectiveAt *string `form:"phase_effective_at"`
+	PhaseEffectiveAt *string `form:"phase_effective_at" json:"phase_effective_at,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations). When creating a subscription, valid values are `create_prorations` or `none`.
 	//
 	// When updating a subscription, valid values are `create_prorations`, `none`, or `always_invoice`.
@@ -3787,7 +3787,7 @@ type QuoteUpdateSubscriptionDataOverrideParams struct {
 	// Passing `create_prorations` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https://docs.stripe.com/subscriptions/upgrading-downgrading#immediate-payment). In order to always invoice immediately for prorations, pass `always_invoice`.
 	//
 	// Prorations can be disabled by passing `none`.
-	ProrationBehavior *string                                               `form:"proration_behavior"`
+	ProrationBehavior *string                                               `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	UnsetFields       []QuoteUpdateSubscriptionDataOverrideParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3807,60 +3807,60 @@ func (p *QuoteUpdateSubscriptionDataOverrideParams) AddUnsetField(field QuoteUpd
 // The data with which to automatically create a Transfer for each of the invoices.
 type QuoteUpdateTransferDataParams struct {
 	// The amount that will be transferred automatically when the invoice is paid. If no amount is set, the full amount is transferred. There cannot be any line items with recurring prices when using this field.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination. There must be at least 1 line item with a recurring price to use this field.
-	AmountPercent *float64 `form:"amount_percent"`
+	AmountPercent *float64 `form:"amount_percent" json:"amount_percent,omitempty"`
 	// ID of an existing, connected Stripe account.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 
 // A quote models prices and services for a customer.
 type QuoteUpdateParams struct {
 	Params `form:"*"`
 	// Set to true to allow quote lines to have `starts_at` in the past if collection is paused between `starts_at` and now.
-	AllowBackdatedLines *bool `form:"allow_backdated_lines"`
+	AllowBackdatedLines *bool `form:"allow_backdated_lines" json:"allow_backdated_lines,omitempty"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. There cannot be any line items with recurring prices when using this field.
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
-	ApplicationFeePercent *float64 `form:"application_fee_percent"`
+	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
 	// Settings for automatic tax lookup for this quote and resulting invoices and subscriptions.
-	AutomaticTax *QuoteUpdateAutomaticTaxParams `form:"automatic_tax"`
+	AutomaticTax *QuoteUpdateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or at invoice finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
-	CollectionMethod *string `form:"collection_method"`
+	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// The customer for which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The account for which this quote belongs to. A customer or account is required before finalizing the quote. Once specified, it cannot be changed.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// The tax rates that will apply to any line item that does not have `tax_rates` set.
-	DefaultTaxRates []*string `form:"default_tax_rates"`
+	DefaultTaxRates []*string `form:"default_tax_rates" json:"default_tax_rates,omitempty"`
 	// A description that will be displayed on the quote PDF.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The discounts applied to the quote.
-	Discounts []*QuoteUpdateDiscountParams `form:"discounts"`
+	Discounts []*QuoteUpdateDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// A footer that will be displayed on the quote PDF.
-	Footer *string `form:"footer"`
+	Footer *string `form:"footer" json:"footer,omitempty"`
 	// A header that will be displayed on the quote PDF.
-	Header *string `form:"header"`
+	Header *string `form:"header" json:"header,omitempty"`
 	// All invoices will be billed using the specified settings.
-	InvoiceSettings *QuoteUpdateInvoiceSettingsParams `form:"invoice_settings"`
+	InvoiceSettings *QuoteUpdateInvoiceSettingsParams `form:"invoice_settings" json:"invoice_settings,omitempty"`
 	// A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
-	LineItems []*QuoteUpdateLineItemParams `form:"line_items"`
+	LineItems []*QuoteUpdateLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// A list of [quote lines](https://docs.stripe.com/api/quote_lines) on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
-	Lines []*QuoteUpdateLineParams `form:"lines"`
+	Lines []*QuoteUpdateLineParams `form:"lines" json:"lines,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The account on behalf of which to charge.
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
-	SubscriptionData *QuoteUpdateSubscriptionDataParams `form:"subscription_data"`
+	SubscriptionData *QuoteUpdateSubscriptionDataParams `form:"subscription_data" json:"subscription_data,omitempty"`
 	// List representing overrides for `subscription_data` configurations for specific subscription schedules.
-	SubscriptionDataOverrides []*QuoteUpdateSubscriptionDataOverrideParams `form:"subscription_data_overrides"`
+	SubscriptionDataOverrides []*QuoteUpdateSubscriptionDataOverrideParams `form:"subscription_data_overrides" json:"subscription_data_overrides,omitempty"`
 	// The data with which to automatically create a Transfer for each of the invoices.
-	TransferData *QuoteUpdateTransferDataParams `form:"transfer_data"`
+	TransferData *QuoteUpdateTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	UnsetFields  []QuoteUpdateParamsUnsetField  `form:"-" json:"-"`
 }
 
@@ -3902,7 +3902,7 @@ func (p *QuoteUpdateParams) AddMetadata(key string, value string) {
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type QuoteAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// Type of the account referenced.
 	Type QuoteAutomaticTaxLiabilityType `json:"type"`
 }
@@ -3972,7 +3972,7 @@ type QuoteComputedRecurringTotalDetails struct {
 	AmountShipping int64 `json:"amount_shipping"`
 	// This is the sum of all the tax amounts.
 	AmountTax int64                                        `json:"amount_tax"`
-	Breakdown *QuoteComputedRecurringTotalDetailsBreakdown `json:"breakdown"`
+	Breakdown *QuoteComputedRecurringTotalDetailsBreakdown `json:"breakdown,omitempty"`
 }
 
 // The definitive totals and line items the customer will be charged on a recurring basis. Takes into account the line items with recurring prices and discounts with `duration=forever` coupons only. Defaults to `null` if no inputted line items with recurring prices.
@@ -4025,7 +4025,7 @@ type QuoteComputedUpfrontTotalDetails struct {
 	AmountShipping int64 `json:"amount_shipping"`
 	// This is the sum of all the tax amounts.
 	AmountTax int64                                      `json:"amount_tax"`
-	Breakdown *QuoteComputedUpfrontTotalDetailsBreakdown `json:"breakdown"`
+	Breakdown *QuoteComputedUpfrontTotalDetailsBreakdown `json:"breakdown,omitempty"`
 }
 type QuoteComputedUpfront struct {
 	// Total before any discounts or taxes are applied.
@@ -4033,16 +4033,16 @@ type QuoteComputedUpfront struct {
 	// Total after discounts and taxes are applied.
 	AmountTotal int64 `json:"amount_total"`
 	// The line items that will appear on the next invoice after this quote is accepted. This does not include pending invoice items that exist on the customer but may still be included in the next invoice.
-	LineItems    *LineItemList                     `json:"line_items"`
+	LineItems    *LineItemList                     `json:"line_items,omitempty"`
 	TotalDetails *QuoteComputedUpfrontTotalDetails `json:"total_details"`
 }
 type QuoteComputed struct {
 	// Details of the most recent reestimate of the quote's preview schedules and upcoming invoices, including the status of Stripe's calculation.
-	LastReestimationDetails *QuoteComputedLastReestimationDetails `json:"last_reestimation_details"`
+	LastReestimationDetails *QuoteComputedLastReestimationDetails `json:"last_reestimation_details,omitempty"`
 	// The definitive totals and line items the customer will be charged on a recurring basis. Takes into account the line items with recurring prices and discounts with `duration=forever` coupons only. Defaults to `null` if no inputted line items with recurring prices.
 	Recurring *QuoteComputedRecurring `json:"recurring"`
 	// The time at which the quote's estimated schedules and upcoming invoices were generated.
-	UpdatedAt int64                 `json:"updated_at"`
+	UpdatedAt int64                 `json:"updated_at,omitempty"`
 	Upfront   *QuoteComputedUpfront `json:"upfront"`
 }
 
@@ -4055,7 +4055,7 @@ type QuoteFromQuote struct {
 }
 type QuoteInvoiceSettingsIssuer struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// Type of the account referenced.
 	Type QuoteInvoiceSettingsIssuerType `json:"type"`
 }
@@ -4090,21 +4090,21 @@ type QuoteStatusDetailsStaleLastReasonSubscriptionScheduleChanged struct {
 // The most recent reason this quote was marked as stale.
 type QuoteStatusDetailsStaleLastReason struct {
 	// The ID of the line that is invalid if the stale reason type is `line_invalid`.
-	LineInvalid string `json:"line_invalid"`
+	LineInvalid string `json:"line_invalid,omitempty"`
 	// The IDs of the lines that are invalid if the stale reason type is `lines_invalid`.
-	LinesInvalid []*QuoteStatusDetailsStaleLastReasonLinesInvalid `json:"lines_invalid"`
+	LinesInvalid []*QuoteStatusDetailsStaleLastReasonLinesInvalid `json:"lines_invalid,omitempty"`
 	// The user supplied mark stale reason.
-	MarkedStale string `json:"marked_stale"`
+	MarkedStale string `json:"marked_stale,omitempty"`
 	// The ID of the subscription that was canceled.
-	SubscriptionCanceled string                                                `json:"subscription_canceled"`
-	SubscriptionChanged  *QuoteStatusDetailsStaleLastReasonSubscriptionChanged `json:"subscription_changed"`
+	SubscriptionCanceled string                                                `json:"subscription_canceled,omitempty"`
+	SubscriptionChanged  *QuoteStatusDetailsStaleLastReasonSubscriptionChanged `json:"subscription_changed,omitempty"`
 	// The ID of the subscription that was expired.
-	SubscriptionExpired string `json:"subscription_expired"`
+	SubscriptionExpired string `json:"subscription_expired,omitempty"`
 	// The ID of the subscription schedule that was canceled.
-	SubscriptionScheduleCanceled string                                                        `json:"subscription_schedule_canceled"`
-	SubscriptionScheduleChanged  *QuoteStatusDetailsStaleLastReasonSubscriptionScheduleChanged `json:"subscription_schedule_changed"`
+	SubscriptionScheduleCanceled string                                                        `json:"subscription_schedule_canceled,omitempty"`
+	SubscriptionScheduleChanged  *QuoteStatusDetailsStaleLastReasonSubscriptionScheduleChanged `json:"subscription_schedule_changed,omitempty"`
 	// The ID of the subscription schedule that was released.
-	SubscriptionScheduleReleased string `json:"subscription_schedule_released"`
+	SubscriptionScheduleReleased string `json:"subscription_schedule_released,omitempty"`
 	// The reason the quote was marked as stale.
 	Type QuoteStatusDetailsStaleLastReasonType `json:"type"`
 }
@@ -4121,8 +4121,8 @@ type QuoteStatusDetailsStale struct {
 
 // Details on when and why a quote has been marked as stale or canceled.
 type QuoteStatusDetails struct {
-	Canceled *QuoteStatusDetailsCanceled `json:"canceled"`
-	Stale    *QuoteStatusDetailsStale    `json:"stale"`
+	Canceled *QuoteStatusDetailsCanceled `json:"canceled,omitempty"`
+	Stale    *QuoteStatusDetailsStale    `json:"stale,omitempty"`
 }
 type QuoteStatusTransitions struct {
 	// The time that the quote was accepted. Measured in seconds since Unix epoch.
@@ -4188,12 +4188,12 @@ type QuoteSubscriptionDataBillOnAcceptance struct {
 }
 type QuoteSubscriptionDataBillingModeFlexible struct {
 	// Controls how invoices and invoice items display proration amounts and discount amounts.
-	ProrationDiscounts QuoteSubscriptionDataBillingModeFlexibleProrationDiscounts `json:"proration_discounts"`
+	ProrationDiscounts QuoteSubscriptionDataBillingModeFlexibleProrationDiscounts `json:"proration_discounts,omitempty"`
 }
 
 // The billing mode of the quote.
 type QuoteSubscriptionDataBillingMode struct {
-	Flexible *QuoteSubscriptionDataBillingModeFlexible `json:"flexible"`
+	Flexible *QuoteSubscriptionDataBillingModeFlexible `json:"flexible,omitempty"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	Type QuoteSubscriptionDataBillingModeType `json:"type"`
 }
@@ -4243,7 +4243,7 @@ type QuoteSubscriptionDataBillingScheduleBillUntil struct {
 	// Specifies the billing period.
 	Duration *QuoteSubscriptionDataBillingScheduleBillUntilDuration `json:"duration"`
 	// Lets you bill the period ending at a particular Quote line.
-	LineEndsAt *QuoteSubscriptionDataBillingScheduleBillUntilLineEndsAt `json:"line_ends_at"`
+	LineEndsAt *QuoteSubscriptionDataBillingScheduleBillUntilLineEndsAt `json:"line_ends_at,omitempty"`
 	// If specified, the billing schedule will apply until the specified timestamp.
 	Timestamp int64 `json:"timestamp"`
 	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
@@ -4255,7 +4255,7 @@ type QuoteSubscriptionDataBillingSchedule struct {
 	// Specifies which subscription items the billing schedule applies to.
 	AppliesTo []*QuoteSubscriptionDataBillingScheduleAppliesTo `json:"applies_to"`
 	// Specifies the start of the billing period.
-	BillFrom  *QuoteSubscriptionDataBillingScheduleBillFrom  `json:"bill_from"`
+	BillFrom  *QuoteSubscriptionDataBillingScheduleBillFrom  `json:"bill_from,omitempty"`
 	BillUntil *QuoteSubscriptionDataBillingScheduleBillUntil `json:"bill_until"`
 	// Unique identifier for the billing schedule.
 	Key string `json:"key"`
@@ -4267,31 +4267,31 @@ type QuoteSubscriptionDataPrebilling struct {
 }
 type QuoteSubscriptionData struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
-	BillingBehavior QuoteSubscriptionDataBillingBehavior `json:"billing_behavior"`
+	BillingBehavior QuoteSubscriptionDataBillingBehavior `json:"billing_behavior,omitempty"`
 	// Whether the subscription will always start a new billing period when the quote is accepted.
-	BillingCycleAnchor QuoteSubscriptionDataBillingCycleAnchor `json:"billing_cycle_anchor"`
+	BillingCycleAnchor QuoteSubscriptionDataBillingCycleAnchor `json:"billing_cycle_anchor,omitempty"`
 	// The billing mode of the quote.
 	BillingMode *QuoteSubscriptionDataBillingMode `json:"billing_mode"`
 	// Billing schedules that will be applied to the subscription or subscription schedule created from this quote.
-	BillingSchedules []*QuoteSubscriptionDataBillingSchedule `json:"billing_schedules"`
+	BillingSchedules []*QuoteSubscriptionDataBillingSchedule `json:"billing_schedules,omitempty"`
 	// Describes the period to bill for upon accepting the quote.
-	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptance `json:"bill_on_acceptance"`
+	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptance `json:"bill_on_acceptance,omitempty"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. This date is ignored if it is in the past when the quote is accepted. Measured in seconds since the Unix epoch.
 	EffectiveDate int64 `json:"effective_date"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
-	EndBehavior QuoteSubscriptionDataEndBehavior `json:"end_behavior"`
+	EndBehavior QuoteSubscriptionDataEndBehavior `json:"end_behavior,omitempty"`
 	// The id of the subscription that will be updated when the quote is accepted.
-	FromSubscription *Subscription `json:"from_subscription"`
+	FromSubscription *Subscription `json:"from_subscription,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `json:"metadata"`
 	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
-	PhaseEffectiveAt QuoteSubscriptionDataPhaseEffectiveAt `json:"phase_effective_at"`
+	PhaseEffectiveAt QuoteSubscriptionDataPhaseEffectiveAt `json:"phase_effective_at,omitempty"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
-	Prebilling *QuoteSubscriptionDataPrebilling `json:"prebilling"`
+	Prebilling *QuoteSubscriptionDataPrebilling `json:"prebilling,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations) when the quote is accepted.
-	ProrationBehavior QuoteSubscriptionDataProrationBehavior `json:"proration_behavior"`
+	ProrationBehavior QuoteSubscriptionDataProrationBehavior `json:"proration_behavior,omitempty"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
 	TrialPeriodDays int64 `json:"trial_period_days"`
 }
@@ -4403,7 +4403,7 @@ type QuoteSubscriptionDataOverrideBillingScheduleBillUntil struct {
 	// Specifies the billing period.
 	Duration *QuoteSubscriptionDataOverrideBillingScheduleBillUntilDuration `json:"duration"`
 	// Lets you bill the period ending at a particular Quote line.
-	LineEndsAt *QuoteSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAt `json:"line_ends_at"`
+	LineEndsAt *QuoteSubscriptionDataOverrideBillingScheduleBillUntilLineEndsAt `json:"line_ends_at,omitempty"`
 	// If specified, the billing schedule will apply until the specified timestamp.
 	Timestamp int64 `json:"timestamp"`
 	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
@@ -4415,7 +4415,7 @@ type QuoteSubscriptionDataOverrideBillingSchedule struct {
 	// Specifies which subscription items the billing schedule applies to.
 	AppliesTo []*QuoteSubscriptionDataOverrideBillingScheduleAppliesTo `json:"applies_to"`
 	// Specifies the start of the billing period.
-	BillFrom  *QuoteSubscriptionDataOverrideBillingScheduleBillFrom  `json:"bill_from"`
+	BillFrom  *QuoteSubscriptionDataOverrideBillingScheduleBillFrom  `json:"bill_from,omitempty"`
 	BillUntil *QuoteSubscriptionDataOverrideBillingScheduleBillUntil `json:"bill_until"`
 	// Unique identifier for the billing schedule.
 	Key string `json:"key"`
@@ -4425,21 +4425,21 @@ type QuoteSubscriptionDataOverrideBillingSchedule struct {
 type QuoteSubscriptionDataOverride struct {
 	AppliesTo *QuoteSubscriptionDataOverrideAppliesTo `json:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
-	BillingBehavior QuoteSubscriptionDataOverrideBillingBehavior `json:"billing_behavior"`
+	BillingBehavior QuoteSubscriptionDataOverrideBillingBehavior `json:"billing_behavior,omitempty"`
 	// Billing schedules that will be applied to the subscription or subscription schedule created from this quote.
-	BillingSchedules []*QuoteSubscriptionDataOverrideBillingSchedule `json:"billing_schedules"`
+	BillingSchedules []*QuoteSubscriptionDataOverrideBillingSchedule `json:"billing_schedules,omitempty"`
 	// Describes the period to bill for upon accepting the quote.
-	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptance `json:"bill_on_acceptance"`
+	BillOnAcceptance *QuoteSubscriptionDataOverrideBillOnAcceptance `json:"bill_on_acceptance,omitempty"`
 	// The customer who received this quote. A customer is required to finalize the quote. Once specified, you can't change it.
 	Customer string `json:"customer"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
-	EndBehavior QuoteSubscriptionDataOverrideEndBehavior `json:"end_behavior"`
+	EndBehavior QuoteSubscriptionDataOverrideEndBehavior `json:"end_behavior,omitempty"`
 	// Configures how the subscription schedule handles billing for phase transitions when the quote is accepted.
-	PhaseEffectiveAt QuoteSubscriptionDataOverridePhaseEffectiveAt `json:"phase_effective_at"`
+	PhaseEffectiveAt QuoteSubscriptionDataOverridePhaseEffectiveAt `json:"phase_effective_at,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/subscriptions/billing-cycle#prorations) when the quote is accepted.
-	ProrationBehavior QuoteSubscriptionDataOverrideProrationBehavior `json:"proration_behavior"`
+	ProrationBehavior QuoteSubscriptionDataOverrideProrationBehavior `json:"proration_behavior,omitempty"`
 }
 type QuoteSubscriptionScheduleAppliesTo struct {
 	// A custom string that identifies a new subscription schedule being created upon quote acceptance. All quote lines with the same `new_reference` field will be applied to the creation of a new subscription schedule.
@@ -4494,7 +4494,7 @@ type QuoteTotalDetails struct {
 	AmountShipping int64 `json:"amount_shipping"`
 	// This is the sum of all the tax amounts.
 	AmountTax int64                       `json:"amount_tax"`
-	Breakdown *QuoteTotalDetailsBreakdown `json:"breakdown"`
+	Breakdown *QuoteTotalDetailsBreakdown `json:"breakdown,omitempty"`
 }
 
 // The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the invoices.
@@ -4512,7 +4512,7 @@ type QuoteTransferData struct {
 type Quote struct {
 	APIResource
 	// Allow quote lines to have `starts_at` in the past if collection is paused between `starts_at` and now.
-	AllowBackdatedLines bool `json:"allow_backdated_lines"`
+	AllowBackdatedLines bool `json:"allow_backdated_lines,omitempty"`
 	// Total before any discounts or taxes are applied.
 	AmountSubtotal int64 `json:"amount_subtotal"`
 	// Total after discounts and taxes are applied.
@@ -4536,7 +4536,7 @@ type Quote struct {
 	// The account representing the customer who received this quote. A customer or account is required to finalize the quote. Once specified, you can't change it.
 	CustomerAccount string `json:"customer_account"`
 	// The tax rates applied to this quote.
-	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
+	DefaultTaxRates []*TaxRate `json:"default_tax_rates,omitempty"`
 	// A description that will be displayed on the quote PDF.
 	Description string `json:"description"`
 	// The discounts applied to this quote.
@@ -4555,9 +4555,9 @@ type Quote struct {
 	Invoice         *Invoice              `json:"invoice"`
 	InvoiceSettings *QuoteInvoiceSettings `json:"invoice_settings"`
 	// A list of items the customer is being quoted for.
-	LineItems *LineItemList `json:"line_items"`
+	LineItems *LineItemList `json:"line_items,omitempty"`
 	// A list of [quote lines](https://docs.stripe.com/api/quote_lines) on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
-	Lines []string `json:"lines"`
+	Lines []string `json:"lines,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -4571,17 +4571,17 @@ type Quote struct {
 	// The status of the quote.
 	Status QuoteStatus `json:"status"`
 	// Details on when and why a quote has been marked as stale or canceled.
-	StatusDetails     *QuoteStatusDetails     `json:"status_details"`
+	StatusDetails     *QuoteStatusDetails     `json:"status_details,omitempty"`
 	StatusTransitions *QuoteStatusTransitions `json:"status_transitions"`
 	// The subscription that was created or updated from this quote.
 	Subscription     *Subscription          `json:"subscription"`
 	SubscriptionData *QuoteSubscriptionData `json:"subscription_data"`
 	// List representing overrides for `subscription_data` configurations for specific subscription schedules.
-	SubscriptionDataOverrides []*QuoteSubscriptionDataOverride `json:"subscription_data_overrides"`
+	SubscriptionDataOverrides []*QuoteSubscriptionDataOverride `json:"subscription_data_overrides,omitempty"`
 	// The subscription schedule that was created or updated from this quote.
 	SubscriptionSchedule *SubscriptionSchedule `json:"subscription_schedule"`
 	// The subscription schedules that were created or updated from this quote.
-	SubscriptionSchedules []*QuoteSubscriptionSchedule `json:"subscription_schedules"`
+	SubscriptionSchedules []*QuoteSubscriptionSchedule `json:"subscription_schedules,omitempty"`
 	// ID of the test clock this quote belongs to.
 	TestClock    *TestHelpersTestClock `json:"test_clock"`
 	TotalDetails *QuoteTotalDetails    `json:"total_details"`

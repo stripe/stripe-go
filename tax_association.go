@@ -22,9 +22,9 @@ const (
 type TaxAssociationFindParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Valid [PaymentIntent](https://docs.stripe.com/api/payment_intents/object) id
-	PaymentIntent *string `form:"payment_intent"`
+	PaymentIntent *string `form:"payment_intent" json:"payment_intent"`
 }
 
 // AddExpand appends a new field to expand.
@@ -43,8 +43,8 @@ type TaxAssociationTaxTransactionAttemptErrored struct {
 
 // Information about the tax transactions linked to this payment intent
 type TaxAssociationTaxTransactionAttempt struct {
-	Committed *TaxAssociationTaxTransactionAttemptCommitted `json:"committed"`
-	Errored   *TaxAssociationTaxTransactionAttemptErrored   `json:"errored"`
+	Committed *TaxAssociationTaxTransactionAttemptCommitted `json:"committed,omitempty"`
+	Errored   *TaxAssociationTaxTransactionAttemptErrored   `json:"errored,omitempty"`
 	// The source of the tax transaction attempt. This is either a refund or a payment intent.
 	Source string `json:"source"`
 	// The status of the transaction attempt. This can be `errored` or `committed`.

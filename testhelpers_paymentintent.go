@@ -10,15 +10,15 @@ package stripe
 type TestHelpersPaymentIntentSimulateCryptoDepositParams struct {
 	Params `form:"*"`
 	// The buyer's wallet address from which the crypto deposit is originating.
-	BuyerWallet *string `form:"buyer_wallet"`
+	BuyerWallet *string `form:"buyer_wallet" json:"buyer_wallet"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The blockchain network of the simulated crypto deposit.
-	Network *string `form:"network"`
+	Network *string `form:"network" json:"network"`
 	// The token currency of the simulated crypto deposit.
-	TokenCurrency *string `form:"token_currency"`
+	TokenCurrency *string `form:"token_currency" json:"token_currency"`
 	// A testmode transaction hash that determines the outcome of the simulated deposit.
-	TransactionHash *string `form:"transaction_hash"`
+	TransactionHash *string `form:"transaction_hash" json:"transaction_hash"`
 }
 
 // AddExpand appends a new field to expand.

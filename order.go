@@ -649,9 +649,9 @@ const (
 type OrderListParams struct {
 	ListParams `form:"*"`
 	// Only return orders for the given customer.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -662,37 +662,37 @@ func (p *OrderListParams) AddExpand(f string) {
 // Settings for automatic tax calculation for this order.
 type OrderAutomaticTaxParams struct {
 	// Enable automatic tax calculation which will automatically compute tax rates on this order.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
 // Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
 type OrderBillingDetailsParams struct {
 	// The billing address provided by the customer.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The billing email provided by the customer.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The billing name provided by the customer.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The billing phone number provided by the customer.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // The coupons, promotion codes, and/or discounts to apply to the order.
 type OrderDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The discounts applied to this line item.
 type OrderLineItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 }
 
 // Data used to generate a new Price object inline.
@@ -702,29 +702,29 @@ type OrderLineItemDiscountParams struct {
 // Each time you pass `price_data` we create a Price for the Product. This Price is hidden in both the Dashboard and API lists and cannot be reused.
 type OrderLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// ID of the [Product](https://docs.stripe.com/api/products) this [Price](https://docs.stripe.com/api/prices) belongs to.
 	//
 	// Use this to implement a variable-pricing model in your integration. This is required if `product_data` is not specified.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // The dimensions of this product for shipping purposes.
 type OrderLineItemProductDataPackageDimensionsParams struct {
 	// Height, in inches. Maximum precision is 2 decimal places.
-	Height *float64 `form:"height"`
+	Height *float64 `form:"height" json:"height"`
 	// Length, in inches. Maximum precision is 2 decimal places.
-	Length *float64 `form:"length"`
+	Length *float64 `form:"length" json:"length"`
 	// Weight, in ounces. Maximum precision is 2 decimal places.
-	Weight *float64 `form:"weight"`
+	Weight *float64 `form:"weight" json:"weight"`
 	// Width, in inches. Maximum precision is 2 decimal places.
-	Width *float64 `form:"width"`
+	Width *float64 `form:"width" json:"width"`
 }
 
 // Defines a [Product](https://docs.stripe.com/api/products) inline and adds it to the Order.
@@ -734,25 +734,25 @@ type OrderLineItemProductDataPackageDimensionsParams struct {
 // `product_data` automatically creates a Product, just as if you had manually created the Product. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates.
 type OrderLineItemProductDataParams struct {
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// A unique identifier for this product.
 	//
 	// `product_data` automatically creates a Product with this ID. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates. If any of the fields in the existing Product are different from the values in `product_data`, `product_data` updates the existing Product with the new information. So set `product_data[id]` to the same string every time you sell the same product, but don't re-use the same string for different products.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
-	Images []*string `form:"images"`
+	Images []*string `form:"images" json:"images,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The product's name, meant to be displayable to the customer.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// The dimensions of this product for shipping purposes.
-	PackageDimensions *OrderLineItemProductDataPackageDimensionsParams `form:"package_dimensions"`
+	PackageDimensions *OrderLineItemProductDataPackageDimensionsParams `form:"package_dimensions" json:"package_dimensions,omitempty"`
 	// Whether this product is shipped (i.e., physical goods).
-	Shippable *bool `form:"shippable"`
+	Shippable *bool `form:"shippable" json:"shippable,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 	// A URL of a publicly-accessible webpage for this product.
-	URL         *string                                    `form:"url"`
+	URL         *string                                    `form:"url" json:"url,omitempty"`
 	UnsetFields []OrderLineItemProductDataParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -785,35 +785,35 @@ func (p *OrderLineItemProductDataParams) AddMetadata(key string, value string) {
 // A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.
 type OrderLineItemParams struct {
 	// The description for the line item. Will default to the name of the associated product.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The discounts applied to this line item.
-	Discounts []*OrderLineItemDiscountParams `form:"discounts"`
+	Discounts []*OrderLineItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// The ID of an existing line item on the order.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The ID of a [Price](https://docs.stripe.com/api/prices) to add to the Order.
 	//
 	// The `price` parameter is an alternative to using the `product` parameter. If each of your products are sold at a single price, you can set `Product.default_price` and then pass the `product` parameter when creating a line item. If your products are sold at several possible prices, use the `price` parameter to explicitly specify which one to use.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new Price object inline.
 	//
 	// The `price_data` parameter is an alternative to using the `product` or `price` parameters. If you create a Product upfront and configure a `Product.default_price`, pass the `product` parameter when creating a line item. If you prefer not to define Products upfront, or if you charge variable prices, pass the `price_data` parameter to describe the price for this line item.
 	//
 	// Each time you pass `price_data` we create a Price for the Product. This Price is hidden in both the Dashboard and API lists and cannot be reused.
-	PriceData *OrderLineItemPriceDataParams `form:"price_data"`
+	PriceData *OrderLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The ID of a [Product](https://docs.stripe.com/api/products) to add to the Order.
 	//
 	// The Product must have a `default_price` specified. Otherwise, specify the price by passing the `price` or `price_data` parameter.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product,omitempty"`
 	// Defines a [Product](https://docs.stripe.com/api/products) inline and adds it to the Order.
 	//
 	// `product_data` is an alternative to the `product` parameter. If you created a Product upfront, use the `product` parameter to refer to the existing Product. But if you prefer not to create Products upfront, pass the `product_data` parameter to define a Product inline as part of configuring the Order.
 	//
 	// `product_data` automatically creates a Product, just as if you had manually created the Product. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates.
-	ProductData *OrderLineItemProductDataParams `form:"product_data"`
+	ProductData *OrderLineItemProductDataParams `form:"product_data" json:"product_data,omitempty"`
 	// The quantity of the line item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// The tax rates applied to this line item.
-	TaxRates    []*string                       `form:"tax_rates"`
+	TaxRates    []*string                       `form:"tax_rates" json:"tax_rates,omitempty"`
 	UnsetFields []OrderLineItemParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -835,13 +835,13 @@ type OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struc
 	// A URL for custom mandate text to render during confirmation step.
 	// The URL will be rendered with additional GET parameters `payment_intent` and `payment_intent_client_secret` when confirming a Payment Intent,
 	// or `setup_intent` and `setup_intent_client_secret` when confirming a Setup Intent.
-	CustomMandateURL *string `form:"custom_mandate_url"`
+	CustomMandateURL *string `form:"custom_mandate_url" json:"custom_mandate_url,omitempty"`
 	// Description of the mandate interval. Only required if 'payment_schedule' parameter is 'interval' or 'combined'.
-	IntervalDescription *string `form:"interval_description"`
+	IntervalDescription *string `form:"interval_description" json:"interval_description,omitempty"`
 	// Payment schedule for the mandate.
-	PaymentSchedule *string `form:"payment_schedule"`
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
 	// Transaction type of the mandate.
-	TransactionType *string                                                                           `form:"transaction_type"`
+	TransactionType *string                                                                           `form:"transaction_type" json:"transaction_type,omitempty"`
 	UnsetFields     []OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -860,7 +860,7 @@ func (p *OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams) 
 // If paying by `acss_debit`, this sub-hash contains details about the ACSS Debit payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -870,11 +870,11 @@ type OrderPaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate *string `form:"target_date"`
+	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
 	// Bank account verification method.
-	VerificationMethod *string                                                             `form:"verification_method"`
+	VerificationMethod *string                                                             `form:"verification_method" json:"verification_method,omitempty"`
 	UnsetFields        []OrderPaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -897,9 +897,9 @@ type OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// An internal identifier or reference this payment corresponds to. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference,omitempty"`
 	// Indicates that you intend to make future payments with the payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the order's Customer, if present, after the order's PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://docs.stripe.com/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -907,7 +907,7 @@ type OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayParams struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // If paying by `alipay`, this sub-hash contains details about the Alipay payment method options to pass to the order's PaymentIntent.
@@ -921,7 +921,7 @@ type OrderPaymentSettingsPaymentMethodOptionsAlipayParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                          `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                          `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderPaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -940,7 +940,7 @@ func (p *OrderPaymentSettingsPaymentMethodOptionsAlipayParams) AddUnsetField(fie
 // If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
-	PreferredLanguage *string `form:"preferred_language"`
+	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -950,7 +950,7 @@ type OrderPaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                              `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                              `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderPaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -969,7 +969,7 @@ func (p *OrderPaymentSettingsPaymentMethodOptionsBancontactParams) AddUnsetField
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsCardParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// Indicates that you intend to make future payments with the payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the order's Customer, if present, after the order's PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://docs.stripe.com/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -977,33 +977,33 @@ type OrderPaymentSettingsPaymentMethodOptionsCardParams struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // Configuration for the eu_bank_transfer funding type.
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country"`
 }
 
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
 	// Configuration for the eu_bank_transfer funding type.
-	EUBankTransfer *OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
+	EUBankTransfer *OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer" json:"eu_bank_transfer,omitempty"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
 	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
-	RequestedAddressTypes []*string `form:"requested_address_types"`
+	RequestedAddressTypes []*string `form:"requested_address_types" json:"requested_address_types,omitempty"`
 	// The list of bank transfer types that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // If paying by `customer_balance`, this sub-hash contains details about the Customer Balance payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
 	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
-	BankTransfer *OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
+	BankTransfer *OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer" json:"bank_transfer,omitempty"`
 	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
-	FundingType *string `form:"funding_type"`
+	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1013,7 +1013,7 @@ type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // If paying by `ideal`, this sub-hash contains details about the iDEAL payment method options to pass to the order's PaymentIntent.
@@ -1027,7 +1027,7 @@ type OrderPaymentSettingsPaymentMethodOptionsIDEALParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                         `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                         `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderPaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1046,549 +1046,549 @@ func (p *OrderPaymentSettingsPaymentMethodOptionsIDEALParams) AddUnsetField(fiel
 // On-demand details if setting up or charging an on-demand payment.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams struct {
 	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
-	AverageAmount *int64 `form:"average_amount"`
+	AverageAmount *int64 `form:"average_amount" json:"average_amount,omitempty"`
 	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
-	MaximumAmount *int64 `form:"maximum_amount"`
+	MaximumAmount *int64 `form:"maximum_amount" json:"maximum_amount,omitempty"`
 	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
-	MinimumAmount *int64 `form:"minimum_amount"`
+	MinimumAmount *int64 `form:"minimum_amount" json:"minimum_amount,omitempty"`
 	// Interval at which the customer is making purchases
-	PurchaseInterval *string `form:"purchase_interval"`
+	PurchaseInterval *string `form:"purchase_interval" json:"purchase_interval,omitempty"`
 	// The number of `purchase_interval` between charges
-	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count" json:"purchase_interval_count,omitempty"`
 }
 
 // Describes the upcoming charge for this subscription.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
 	// The amount of the next charge for the subscription.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The date of the next charge for the subscription in YYYY-MM-DD format.
-	Date *string `form:"date"`
+	Date *string `form:"date" json:"date"`
 }
 
 // Subscription details if setting up or charging a subscription.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams struct {
 	// Unit of time between subscription charges.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 	// Name for subscription.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Describes the upcoming charge for this subscription.
-	NextBilling *OrderPaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	NextBilling *OrderPaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing" json:"next_billing,omitempty"`
 	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference"`
 }
 
 // Address of the arrival location.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Arrival details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams struct {
 	// Address of the arrival location.
-	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams `form:"address"`
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams `form:"address" json:"address,omitempty"`
 	// Identifier name or reference for the arrival location.
-	ArrivalLocation *string `form:"arrival_location"`
+	ArrivalLocation *string `form:"arrival_location" json:"arrival_location,omitempty"`
 }
 
 // Address of the departure location.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Departure details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams struct {
 	// Address of the departure location.
-	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams `form:"address"`
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams `form:"address" json:"address,omitempty"`
 	// Timestamp of departure.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at,omitempty"`
 	// Identifier name or reference for the origin location.
-	DepartureLocation *string `form:"departure_location"`
+	DepartureLocation *string `form:"departure_location" json:"departure_location,omitempty"`
 }
 
 // List of insurances for this reservation.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // List of passengers that this reservation applies to.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams struct {
 	// The family name of the person.
-	FamilyName *string `form:"family_name"`
+	FamilyName *string `form:"family_name" json:"family_name,omitempty"`
 	// The given name of the person.
-	GivenName *string `form:"given_name"`
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 }
 
 // Supplementary bus reservation details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams struct {
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// Arrival details.
-	Arrival *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams `form:"arrival"`
+	Arrival *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams `form:"arrival" json:"arrival,omitempty"`
 	// Name of transportation company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams `form:"departure"`
+	Departure *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams `form:"departure" json:"departure,omitempty"`
 	// List of insurances for this reservation.
-	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers that this reservation applies to.
-	Passengers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams `form:"passengers"`
+	Passengers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// Price in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 	// Ticket class.
-	TicketClass *string `form:"ticket_class"`
+	TicketClass *string `form:"ticket_class" json:"ticket_class,omitempty"`
 }
 
 // Address of the event.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // List of insurances for this event.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // Supplementary event reservation details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams struct {
 	// Indicates if the tickets are digitally checked when entering the venue.
-	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	AccessControlledVenue *bool `form:"access_controlled_venue" json:"access_controlled_venue,omitempty"`
 	// Address of the event.
-	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams `form:"address"`
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams `form:"address" json:"address,omitempty"`
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// End timestamp of the event.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
 	// Company selling the ticket.
-	EventCompanyName *string `form:"event_company_name"`
+	EventCompanyName *string `form:"event_company_name" json:"event_company_name,omitempty"`
 	// Name of the event.
-	EventName *string `form:"event_name"`
+	EventName *string `form:"event_name" json:"event_name,omitempty"`
 	// Type of the event.
-	EventType *string `form:"event_type"`
+	EventType *string `form:"event_type" json:"event_type,omitempty"`
 	// List of insurances for this event.
-	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// Start timestamp of the event.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 	// Name of the venue where the event takes place.
-	VenueName *string `form:"venue_name"`
+	VenueName *string `form:"venue_name" json:"venue_name,omitempty"`
 }
 
 // Address of the arrival location.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Arrival details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams struct {
 	// Address of the arrival location.
-	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams `form:"address"`
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams `form:"address" json:"address,omitempty"`
 	// Identifier name or reference for the arrival location.
-	ArrivalLocation *string `form:"arrival_location"`
+	ArrivalLocation *string `form:"arrival_location" json:"arrival_location,omitempty"`
 }
 
 // Address of the departure location.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Departure details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams struct {
 	// Address of the departure location.
-	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams `form:"address"`
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams `form:"address" json:"address,omitempty"`
 	// Timestamp of departure.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at,omitempty"`
 	// Identifier name or reference for the origin location.
-	DepartureLocation *string `form:"departure_location"`
+	DepartureLocation *string `form:"departure_location" json:"departure_location,omitempty"`
 }
 
 // List of insurances for this reservation.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // List of passengers that this reservation applies to.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams struct {
 	// The family name of the person.
-	FamilyName *string `form:"family_name"`
+	FamilyName *string `form:"family_name" json:"family_name,omitempty"`
 	// The given name of the person.
-	GivenName *string `form:"given_name"`
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 }
 
 // Supplementary ferry reservation details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams struct {
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// Arrival details.
-	Arrival *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams `form:"arrival"`
+	Arrival *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams `form:"arrival" json:"arrival,omitempty"`
 	// Name of transportation company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams `form:"departure"`
+	Departure *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams `form:"departure" json:"departure,omitempty"`
 	// List of insurances for this reservation.
-	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers that this reservation applies to.
-	Passengers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams `form:"passengers"`
+	Passengers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// Price in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 	// Ticket class.
-	TicketClass *string `form:"ticket_class"`
+	TicketClass *string `form:"ticket_class" json:"ticket_class,omitempty"`
 }
 
 // Supplementary insurance details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // The address of the selling or delivering merchant.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Supplementary marketplace seller details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams struct {
 	// The references to line items for purchases with multiple associated sub-sellers.
-	LineItemReferences []*string `form:"line_item_references"`
+	LineItemReferences []*string `form:"line_item_references" json:"line_item_references,omitempty"`
 	// The address of the selling or delivering merchant.
-	MarketplaceSellerAddress *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams `form:"marketplace_seller_address"`
+	MarketplaceSellerAddress *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams `form:"marketplace_seller_address" json:"marketplace_seller_address,omitempty"`
 	// The name of the marketplace seller.
-	MarketplaceSellerName *string `form:"marketplace_seller_name"`
+	MarketplaceSellerName *string `form:"marketplace_seller_name" json:"marketplace_seller_name,omitempty"`
 	// The unique identifier for the marketplace seller.
-	MarketplaceSellerReference *string `form:"marketplace_seller_reference"`
+	MarketplaceSellerReference *string `form:"marketplace_seller_reference" json:"marketplace_seller_reference,omitempty"`
 	// The number of transactions the sub-seller completed in the last 12 months.
-	NumberOfTransactions *int64 `form:"number_of_transactions"`
+	NumberOfTransactions *int64 `form:"number_of_transactions" json:"number_of_transactions,omitempty"`
 	// The category of the product.
-	ProductCategory *string `form:"product_category"`
+	ProductCategory *string `form:"product_category" json:"product_category,omitempty"`
 	// The date when the seller's account with the marketplace was last logged in.
-	SellerLastLoginAt *int64 `form:"seller_last_login_at"`
+	SellerLastLoginAt *int64 `form:"seller_last_login_at" json:"seller_last_login_at,omitempty"`
 	// The current rating of the marketplace seller. If the marketplace uses numeric ranking, map these to the enum values.
-	SellerRating *string `form:"seller_rating"`
+	SellerRating *string `form:"seller_rating" json:"seller_rating,omitempty"`
 	// The date when the seller's account with the marketplace was created.
-	SellerRegisteredAt *int64 `form:"seller_registered_at"`
+	SellerRegisteredAt *int64 `form:"seller_registered_at" json:"seller_registered_at,omitempty"`
 	// The date when the seller's account with the marketplace was last updated.
-	SellerUpdatedAt *int64 `form:"seller_updated_at"`
+	SellerUpdatedAt *int64 `form:"seller_updated_at" json:"seller_updated_at,omitempty"`
 	// The references to shipping addresses for purchases with multiple associated sub-sellers.
-	ShippingReferences []*string `form:"shipping_references"`
+	ShippingReferences []*string `form:"shipping_references" json:"shipping_references,omitempty"`
 	// The accumulated amount of sales transactions made by the sub-merchant or sub-seller within the past 12 months in the payment currency. These transactions are in minor currency units.
-	VolumeOfTransactions *int64 `form:"volume_of_transactions"`
+	VolumeOfTransactions *int64 `form:"volume_of_transactions" json:"volume_of_transactions,omitempty"`
 }
 
 // Address of the arrival location.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Arrival details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams struct {
 	// Address of the arrival location.
-	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams `form:"address"`
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams `form:"address" json:"address,omitempty"`
 	// Identifier name or reference for the arrival location.
-	ArrivalLocation *string `form:"arrival_location"`
+	ArrivalLocation *string `form:"arrival_location" json:"arrival_location,omitempty"`
 }
 
 // Address of the departure location.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Departure details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams struct {
 	// Address of the departure location.
-	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams `form:"address"`
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams `form:"address" json:"address,omitempty"`
 	// Timestamp of departure.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at,omitempty"`
 	// Identifier name or reference for the origin location.
-	DepartureLocation *string `form:"departure_location"`
+	DepartureLocation *string `form:"departure_location" json:"departure_location,omitempty"`
 }
 
 // List of insurances for this reservation.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // List of passengers that this reservation applies to.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams struct {
 	// The family name of the person.
-	FamilyName *string `form:"family_name"`
+	FamilyName *string `form:"family_name" json:"family_name,omitempty"`
 	// The given name of the person.
-	GivenName *string `form:"given_name"`
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 }
 
 // Supplementary round trip reservation details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams struct {
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// Arrival details.
-	Arrival *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams `form:"arrival"`
+	Arrival *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams `form:"arrival" json:"arrival,omitempty"`
 	// Name of transportation company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams `form:"departure"`
+	Departure *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams `form:"departure" json:"departure,omitempty"`
 	// List of insurances for this reservation.
-	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers that this reservation applies to.
-	Passengers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams `form:"passengers"`
+	Passengers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// Price in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 	// Ticket class.
-	TicketClass *string `form:"ticket_class"`
+	TicketClass *string `form:"ticket_class" json:"ticket_class,omitempty"`
 }
 
 // Address of the arrival location.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Arrival details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams struct {
 	// Address of the arrival location.
-	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams `form:"address"`
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams `form:"address" json:"address,omitempty"`
 	// Identifier name or reference for the arrival location.
-	ArrivalLocation *string `form:"arrival_location"`
+	ArrivalLocation *string `form:"arrival_location" json:"arrival_location,omitempty"`
 }
 
 // Address of the departure location.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Departure details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams struct {
 	// Address of the departure location.
-	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams `form:"address"`
+	Address *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams `form:"address" json:"address,omitempty"`
 	// Timestamp of departure.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at,omitempty"`
 	// Identifier name or reference for the origin location.
-	DepartureLocation *string `form:"departure_location"`
+	DepartureLocation *string `form:"departure_location" json:"departure_location,omitempty"`
 }
 
 // List of insurances for this reservation.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // List of passengers that this reservation applies to.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams struct {
 	// The family name of the person.
-	FamilyName *string `form:"family_name"`
+	FamilyName *string `form:"family_name" json:"family_name,omitempty"`
 	// The given name of the person.
-	GivenName *string `form:"given_name"`
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 }
 
 // Supplementary train reservation details.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams struct {
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// Arrival details.
-	Arrival *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams `form:"arrival"`
+	Arrival *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams `form:"arrival" json:"arrival,omitempty"`
 	// Name of transportation company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams `form:"departure"`
+	Departure *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams `form:"departure" json:"departure,omitempty"`
 	// List of insurances for this reservation.
-	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers that this reservation applies to.
-	Passengers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams `form:"passengers"`
+	Passengers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// Price in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 	// Ticket class.
-	TicketClass *string `form:"ticket_class"`
+	TicketClass *string `form:"ticket_class" json:"ticket_class,omitempty"`
 }
 
 // Voucher details, such as a gift card or discount code.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams struct {
 	// Name of associated or partner company for this voucher.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// The voucher validity end time.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
 	// The voucher validity start time.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 	// The issuer or provider of this voucher.
-	VoucherCompany *string `form:"voucher_company"`
+	VoucherCompany *string `form:"voucher_company" json:"voucher_company,omitempty"`
 	// The name or reference to identify the voucher.
-	VoucherName *string `form:"voucher_name"`
+	VoucherName *string `form:"voucher_name" json:"voucher_name,omitempty"`
 	// The type of this voucher.
-	VoucherType *string `form:"voucher_type"`
+	VoucherType *string `form:"voucher_type" json:"voucher_type,omitempty"`
 }
 
 // Supplementary Purchase Data for the corresponding Klarna payment
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams struct {
 	// Supplementary bus reservation details.
-	BusReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams `form:"bus_reservation_details"`
+	BusReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams `form:"bus_reservation_details" json:"bus_reservation_details,omitempty"`
 	// Supplementary event reservation details.
-	EventReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams `form:"event_reservation_details"`
+	EventReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams `form:"event_reservation_details" json:"event_reservation_details,omitempty"`
 	// Supplementary ferry reservation details.
-	FerryReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams `form:"ferry_reservation_details"`
+	FerryReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams `form:"ferry_reservation_details" json:"ferry_reservation_details,omitempty"`
 	// Supplementary insurance details.
-	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams `form:"insurances"`
+	Insurances []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// Supplementary marketplace seller details.
-	MarketplaceSellers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams `form:"marketplace_sellers"`
+	MarketplaceSellers []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams `form:"marketplace_sellers" json:"marketplace_sellers,omitempty"`
 	// Supplementary round trip reservation details.
-	RoundTripReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams `form:"round_trip_reservation_details"`
+	RoundTripReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams `form:"round_trip_reservation_details" json:"round_trip_reservation_details,omitempty"`
 	// Supplementary train reservation details.
-	TrainReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
+	TrainReservationDetails []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details" json:"train_reservation_details,omitempty"`
 	// Voucher details, such as a gift card or discount code.
-	Vouchers    []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams   `form:"vouchers"`
+	Vouchers    []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams   `form:"vouchers" json:"vouchers,omitempty"`
 	UnsetFields []OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1618,11 +1618,11 @@ type OrderPaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// On-demand details if setting up or charging an on-demand payment.
-	OnDemand *OrderPaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
+	OnDemand *OrderPaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand" json:"on_demand,omitempty"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
-	PreferredLocale *string `form:"preferred_locale"`
+	PreferredLocale *string `form:"preferred_locale" json:"preferred_locale,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1632,11 +1632,11 @@ type OrderPaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Subscription details if setting up or charging a subscription.
-	Subscriptions []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+	Subscriptions []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions" json:"subscriptions,omitempty"`
 	// Supplementary Purchase Data for the corresponding Klarna payment
-	SupplementaryPurchaseData *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
+	SupplementaryPurchaseData *OrderPaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data" json:"supplementary_purchase_data,omitempty"`
 	UnsetFields               []OrderPaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField               `form:"-" json:"-"`
 }
 
@@ -1661,10 +1661,10 @@ type OrderPaymentSettingsPaymentMethodOptionsLinkParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// [Deprecated] This is a legacy parameter that no longer has any function.
 	// Deprecated:
-	PersistentToken *string `form:"persistent_token"`
+	PersistentToken *string `form:"persistent_token" json:"persistent_token,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1674,7 +1674,7 @@ type OrderPaymentSettingsPaymentMethodOptionsLinkParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                        `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                        `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderPaymentSettingsPaymentMethodOptionsLinkParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1694,7 +1694,7 @@ func (p *OrderPaymentSettingsPaymentMethodOptionsLinkParams) AddUnsetField(field
 // If paying by `oxxo`, this sub-hash contains details about the OXXO payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsOXXOParams struct {
 	// The number of calendar days before an OXXO voucher expires. For example, if you create an OXXO voucher on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
-	ExpiresAfterDays *int64 `form:"expires_after_days"`
+	ExpiresAfterDays *int64 `form:"expires_after_days" json:"expires_after_days,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1704,7 +1704,7 @@ type OrderPaymentSettingsPaymentMethodOptionsOXXOParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // If paying by `p24`, this sub-hash contains details about the P24 payment method options to pass to the order's PaymentIntent.
@@ -1718,53 +1718,53 @@ type OrderPaymentSettingsPaymentMethodOptionsP24Params struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Confirm that the payer has accepted the P24 terms and conditions.
-	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
+	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted" json:"tos_shown_and_accepted,omitempty"`
 }
 
 // The tax information for the line item.
 type OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams struct {
 	// The tax for a single unit of the line item in minor units. Cannot be a negative number.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The tax behavior for the line item.
-	Behavior *string `form:"behavior"`
+	Behavior *string `form:"behavior" json:"behavior"`
 }
 
 // The line items purchased by the customer.
 type OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemParams struct {
 	// Type of the line item.
-	Category *string `form:"category"`
+	Category *string `form:"category" json:"category,omitempty"`
 	// Description of the line item.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Descriptive name of the line item.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// Quantity of the line item. Must be a positive number.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity"`
 	// Client facing stock keeping unit, article number or similar.
-	SKU *string `form:"sku"`
+	SKU *string `form:"sku" json:"sku,omitempty"`
 	// The Stripe account ID of the connected account that sells the item.
-	SoldBy *string `form:"sold_by"`
+	SoldBy *string `form:"sold_by" json:"sold_by,omitempty"`
 	// The tax information for the line item.
-	Tax *OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams `form:"tax"`
+	Tax *OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// Price for a single unit of the line item in minor units. Cannot be a negative number.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount"`
 }
 
 // If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsPaypalParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// The line items purchased by the customer.
-	LineItems []*OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemParams `form:"line_items"`
+	LineItems []*OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// [Preferred locale](https://docs.stripe.com/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
-	PreferredLocale *string `form:"preferred_locale"`
+	PreferredLocale *string `form:"preferred_locale" json:"preferred_locale,omitempty"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference,omitempty"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
-	ReferenceID *string `form:"reference_id"`
+	ReferenceID *string `form:"reference_id" json:"reference_id,omitempty"`
 	// The risk correlation ID for an on-session payment using a saved PayPal payment method.
-	RiskCorrelationID *string `form:"risk_correlation_id"`
+	RiskCorrelationID *string `form:"risk_correlation_id" json:"risk_correlation_id,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1774,9 +1774,9 @@ type OrderPaymentSettingsPaymentMethodOptionsPaypalParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
-	Subsellers  []*string                                                        `form:"subsellers"`
+	Subsellers  []*string                                                        `form:"subsellers" json:"subsellers,omitempty"`
 	UnsetFields []OrderPaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1796,7 +1796,7 @@ func (p *OrderPaymentSettingsPaymentMethodOptionsPaypalParams) AddUnsetField(fie
 // Additional fields for Mandate creation
 type OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
-	ReferencePrefix *string                                                                           `form:"reference_prefix"`
+	ReferencePrefix *string                                                                           `form:"reference_prefix" json:"reference_prefix,omitempty"`
 	UnsetFields     []OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1815,7 +1815,7 @@ func (p *OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams) 
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1825,9 +1825,9 @@ type OrderPaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate  *string                                                             `form:"target_date"`
+	TargetDate  *string                                                             `form:"target_date" json:"target_date,omitempty"`
 	UnsetFields []OrderPaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1846,7 +1846,7 @@ func (p *OrderPaymentSettingsPaymentMethodOptionsSEPADebitParams) AddUnsetField(
 // If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsSofortParams struct {
 	// Language shown to the payer on redirect.
-	PreferredLanguage *string `form:"preferred_language"`
+	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1856,7 +1856,7 @@ type OrderPaymentSettingsPaymentMethodOptionsSofortParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                          `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                          `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderPaymentSettingsPaymentMethodOptionsSofortParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1876,9 +1876,9 @@ func (p *OrderPaymentSettingsPaymentMethodOptionsSofortParams) AddUnsetField(fie
 // If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
-	AppID *string `form:"app_id"`
+	AppID *string `form:"app_id" json:"app_id,omitempty"`
 	// The client type that the end customer will pay from
-	Client *string `form:"client"`
+	Client *string `form:"client" json:"client,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1888,41 +1888,41 @@ type OrderPaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // PaymentMethod-specific configuration to provide to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the ACSS Debit payment method options to pass to the order's PaymentIntent.
-	ACSSDebit *OrderPaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+	ACSSDebit *OrderPaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// If paying by `afterpay_clearpay`, this sub-hash contains details about the AfterpayClearpay payment method options to pass to the order's PaymentIntent.
-	AfterpayClearpay *OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
+	AfterpayClearpay *OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay" json:"afterpay_clearpay,omitempty"`
 	// If paying by `alipay`, this sub-hash contains details about the Alipay payment method options to pass to the order's PaymentIntent.
-	Alipay *OrderPaymentSettingsPaymentMethodOptionsAlipayParams `form:"alipay"`
+	Alipay *OrderPaymentSettingsPaymentMethodOptionsAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the order's PaymentIntent.
-	Bancontact *OrderPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	Bancontact *OrderPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order's PaymentIntent.
-	Card *OrderPaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
+	Card *OrderPaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Customer Balance payment method options to pass to the order's PaymentIntent.
-	CustomerBalance *OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	CustomerBalance *OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// If paying by `ideal`, this sub-hash contains details about the iDEAL payment method options to pass to the order's PaymentIntent.
-	IDEAL *OrderPaymentSettingsPaymentMethodOptionsIDEALParams `form:"ideal"`
+	IDEAL *OrderPaymentSettingsPaymentMethodOptionsIDEALParams `form:"ideal" json:"ideal,omitempty"`
 	// If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
-	Klarna *OrderPaymentSettingsPaymentMethodOptionsKlarnaParams `form:"klarna"`
+	Klarna *OrderPaymentSettingsPaymentMethodOptionsKlarnaParams `form:"klarna" json:"klarna,omitempty"`
 	// If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
-	Link *OrderPaymentSettingsPaymentMethodOptionsLinkParams `form:"link"`
+	Link *OrderPaymentSettingsPaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// If paying by `oxxo`, this sub-hash contains details about the OXXO payment method options to pass to the order's PaymentIntent.
-	OXXO *OrderPaymentSettingsPaymentMethodOptionsOXXOParams `form:"oxxo"`
+	OXXO *OrderPaymentSettingsPaymentMethodOptionsOXXOParams `form:"oxxo" json:"oxxo,omitempty"`
 	// If paying by `p24`, this sub-hash contains details about the P24 payment method options to pass to the order's PaymentIntent.
-	P24 *OrderPaymentSettingsPaymentMethodOptionsP24Params `form:"p24"`
+	P24 *OrderPaymentSettingsPaymentMethodOptionsP24Params `form:"p24" json:"p24,omitempty"`
 	// If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
-	Paypal *OrderPaymentSettingsPaymentMethodOptionsPaypalParams `form:"paypal"`
+	Paypal *OrderPaymentSettingsPaymentMethodOptionsPaypalParams `form:"paypal" json:"paypal,omitempty"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
-	SEPADebit *OrderPaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	SEPADebit *OrderPaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
-	Sofort *OrderPaymentSettingsPaymentMethodOptionsSofortParams `form:"sofort"`
+	Sofort *OrderPaymentSettingsPaymentMethodOptionsSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
-	WeChatPay   *OrderPaymentSettingsPaymentMethodOptionsWeChatPayParams   `form:"wechat_pay"`
+	WeChatPay   *OrderPaymentSettingsPaymentMethodOptionsWeChatPayParams   `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	UnsetFields []OrderPaymentSettingsPaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1955,27 +1955,27 @@ func (p *OrderPaymentSettingsPaymentMethodOptionsParams) AddUnsetField(field Ord
 // Provides configuration for completing a transfer for the order after it is paid.
 type OrderPaymentSettingsTransferDataParams struct {
 	// The amount that will be transferred automatically when the order is paid. If no amount is set, the full amount is transferred. There cannot be any line items with recurring prices when using this field.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// ID of the Connected account receiving the transfer.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 
 // Settings describing how the order should configure generated PaymentIntents.
 type OrderPaymentSettingsParams struct {
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account.
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// PaymentMethod-specific configuration to provide to the order's PaymentIntent.
-	PaymentMethodOptions *OrderPaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodOptions *OrderPaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The list of [payment method types](https://docs.stripe.com/payments/payment-methods/overview) to provide to the order's PaymentIntent. Do not include this attribute if you prefer to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
-	PaymentMethodTypes []*string `form:"payment_method_types"`
+	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// The URL to redirect the customer to after they authenticate their payment.
-	ReturnURL *string `form:"return_url"`
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
-	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// Provides configuration for completing a transfer for the order after it is paid.
-	TransferData *OrderPaymentSettingsTransferDataParams `form:"transfer_data"`
+	TransferData *OrderPaymentSettingsTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	UnsetFields  []OrderPaymentSettingsParamsUnsetField  `form:"-" json:"-"`
 }
 
@@ -1996,67 +1996,67 @@ func (p *OrderPaymentSettingsParams) AddUnsetField(field OrderPaymentSettingsPar
 // Payment information associated with the order, including payment settings.
 type OrderPaymentParams struct {
 	// Settings describing how the order should configure generated PaymentIntents.
-	Settings *OrderPaymentSettingsParams `form:"settings"`
+	Settings *OrderPaymentSettingsParams `form:"settings" json:"settings"`
 }
 
 // The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 type OrderShippingCostShippingRateDataDeliveryEstimateMaximumParams struct {
 	// A unit of time.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit"`
 	// Must be greater than 0.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The lower bound of the estimated range. If empty, represents no lower bound.
 type OrderShippingCostShippingRateDataDeliveryEstimateMinimumParams struct {
 	// A unit of time.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit"`
 	// Must be greater than 0.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 type OrderShippingCostShippingRateDataDeliveryEstimateParams struct {
 	// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
-	Maximum *OrderShippingCostShippingRateDataDeliveryEstimateMaximumParams `form:"maximum"`
+	Maximum *OrderShippingCostShippingRateDataDeliveryEstimateMaximumParams `form:"maximum" json:"maximum,omitempty"`
 	// The lower bound of the estimated range. If empty, represents no lower bound.
-	Minimum *OrderShippingCostShippingRateDataDeliveryEstimateMinimumParams `form:"minimum"`
+	Minimum *OrderShippingCostShippingRateDataDeliveryEstimateMinimumParams `form:"minimum" json:"minimum,omitempty"`
 }
 
 // Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 type OrderShippingCostShippingRateDataFixedAmountCurrencyOptionsParams struct {
 	// A non-negative integer in cents representing how much to charge.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 }
 
 // Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 type OrderShippingCostShippingRateDataFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-	CurrencyOptions map[string]*OrderShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
+	CurrencyOptions map[string]*OrderShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
 }
 
 // Parameters to create a new ad-hoc shipping rate for this order.
 type OrderShippingCostShippingRateDataParams struct {
 	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
-	DeliveryEstimate *OrderShippingCostShippingRateDataDeliveryEstimateParams `form:"delivery_estimate"`
+	DeliveryEstimate *OrderShippingCostShippingRateDataDeliveryEstimateParams `form:"delivery_estimate" json:"delivery_estimate,omitempty"`
 	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
-	DisplayName *string `form:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name"`
 	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
-	FixedAmount *OrderShippingCostShippingRateDataFixedAmountParams `form:"fixed_amount"`
+	FixedAmount *OrderShippingCostShippingRateDataFixedAmountParams `form:"fixed_amount" json:"fixed_amount,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 	// The type of calculation to use on the shipping rate.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -2071,19 +2071,19 @@ func (p *OrderShippingCostShippingRateDataParams) AddMetadata(key string, value 
 // Settings for the customer cost of shipping for this order.
 type OrderShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
-	ShippingRate *string `form:"shipping_rate"`
+	ShippingRate *string `form:"shipping_rate" json:"shipping_rate,omitempty"`
 	// Parameters to create a new ad-hoc shipping rate for this order.
-	ShippingRateData *OrderShippingCostShippingRateDataParams `form:"shipping_rate_data"`
+	ShippingRateData *OrderShippingCostShippingRateDataParams `form:"shipping_rate_data" json:"shipping_rate_data,omitempty"`
 }
 
 // Shipping details for the order.
 type OrderShippingDetailsParams struct {
 	// The shipping address for the order.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 	// The name of the recipient of the order.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// The phone number (including extension) for the recipient of the order.
-	Phone       *string                                `form:"phone"`
+	Phone       *string                                `form:"phone" json:"phone,omitempty"`
 	UnsetFields []OrderShippingDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2102,17 +2102,17 @@ func (p *OrderShippingDetailsParams) AddUnsetField(field OrderShippingDetailsPar
 // The purchaser's tax IDs to be used for this order.
 type OrderTaxDetailsTaxIDParams struct {
 	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// Value of the tax ID.
-	Value *string `form:"value"`
+	Value *string `form:"value" json:"value"`
 }
 
 // Additional tax details about the purchaser to be used for this order.
 type OrderTaxDetailsParams struct {
 	// The purchaser's tax exemption status. One of `none`, `exempt`, or `reverse`.
-	TaxExempt *string `form:"tax_exempt"`
+	TaxExempt *string `form:"tax_exempt" json:"tax_exempt,omitempty"`
 	// The purchaser's tax IDs to be used for this order.
-	TaxIDs      []*OrderTaxDetailsTaxIDParams     `form:"tax_ids"`
+	TaxIDs      []*OrderTaxDetailsTaxIDParams     `form:"tax_ids" json:"tax_ids,omitempty"`
 	UnsetFields []OrderTaxDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2132,33 +2132,33 @@ func (p *OrderTaxDetailsParams) AddUnsetField(field OrderTaxDetailsParamsUnsetFi
 type OrderParams struct {
 	Params `form:"*"`
 	// Settings for automatic tax calculation for this order.
-	AutomaticTax *OrderAutomaticTaxParams `form:"automatic_tax"`
+	AutomaticTax *OrderAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
-	BillingDetails *OrderBillingDetailsParams `form:"billing_details"`
+	BillingDetails *OrderBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The customer associated with this order.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The coupons, promotion codes, and/or discounts to apply to the order. Pass the empty string `""` to unset this field.
-	Discounts []*OrderDiscountParams `form:"discounts"`
+	Discounts []*OrderDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The IP address of the purchaser for this order.
-	IPAddress *string `form:"ip_address"`
+	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
 	// A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.
-	LineItems []*OrderLineItemParams `form:"line_items"`
+	LineItems []*OrderLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Payment information associated with the order, including payment settings.
-	Payment *OrderPaymentParams `form:"payment"`
+	Payment *OrderPaymentParams `form:"payment" json:"payment,omitempty"`
 	// Settings for the customer cost of shipping for this order.
-	ShippingCost *OrderShippingCostParams `form:"shipping_cost"`
+	ShippingCost *OrderShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
 	// Shipping details for the order.
-	ShippingDetails *OrderShippingDetailsParams `form:"shipping_details"`
+	ShippingDetails *OrderShippingDetailsParams `form:"shipping_details" json:"shipping_details,omitempty"`
 	// Additional tax details about the purchaser to be used for this order.
-	TaxDetails  *OrderTaxDetailsParams  `form:"tax_details"`
+	TaxDetails  *OrderTaxDetailsParams  `form:"tax_details" json:"tax_details,omitempty"`
 	UnsetFields []OrderParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2197,9 +2197,9 @@ func (p *OrderParams) AddMetadata(key string, value string) {
 type OrderSubmitParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// `expected_total` should always be set to the order's `amount_total` field. If they don't match, submitting the order will fail. This helps detect race conditions where something else concurrently modifies the order.
-	ExpectedTotal *int64 `form:"expected_total"`
+	ExpectedTotal *int64 `form:"expected_total" json:"expected_total"`
 }
 
 // AddExpand appends a new field to expand.
@@ -2210,37 +2210,37 @@ func (p *OrderSubmitParams) AddExpand(f string) {
 // Settings for automatic tax calculation for this order.
 type OrderCreateAutomaticTaxParams struct {
 	// Enable automatic tax calculation which will automatically compute tax rates on this order.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
 // Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
 type OrderCreateBillingDetailsParams struct {
 	// The billing address provided by the customer.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The billing email provided by the customer.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The billing name provided by the customer.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The billing phone number provided by the customer.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // The coupons, promotion codes, and/or discounts to apply to the order.
 type OrderCreateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The discounts applied to this line item.
 type OrderCreateLineItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 }
 
 // Data used to generate a new Price object inline.
@@ -2250,29 +2250,29 @@ type OrderCreateLineItemDiscountParams struct {
 // Each time you pass `price_data` we create a Price for the Product. This Price is hidden in both the Dashboard and API lists and cannot be reused.
 type OrderCreateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// ID of the [Product](https://docs.stripe.com/api/products) this [Price](https://docs.stripe.com/api/prices) belongs to.
 	//
 	// Use this to implement a variable-pricing model in your integration. This is required if `product_data` is not specified.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // The dimensions of this product for shipping purposes.
 type OrderCreateLineItemProductDataPackageDimensionsParams struct {
 	// Height, in inches. Maximum precision is 2 decimal places.
-	Height *float64 `form:"height"`
+	Height *float64 `form:"height" json:"height"`
 	// Length, in inches. Maximum precision is 2 decimal places.
-	Length *float64 `form:"length"`
+	Length *float64 `form:"length" json:"length"`
 	// Weight, in ounces. Maximum precision is 2 decimal places.
-	Weight *float64 `form:"weight"`
+	Weight *float64 `form:"weight" json:"weight"`
 	// Width, in inches. Maximum precision is 2 decimal places.
-	Width *float64 `form:"width"`
+	Width *float64 `form:"width" json:"width"`
 }
 
 // Defines a [Product](https://docs.stripe.com/api/products) inline and adds it to the Order.
@@ -2282,25 +2282,25 @@ type OrderCreateLineItemProductDataPackageDimensionsParams struct {
 // `product_data` automatically creates a Product, just as if you had manually created the Product. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates.
 type OrderCreateLineItemProductDataParams struct {
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// A unique identifier for this product.
 	//
 	// `product_data` automatically creates a Product with this ID. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates. If any of the fields in the existing Product are different from the values in `product_data`, `product_data` updates the existing Product with the new information. So set `product_data[id]` to the same string every time you sell the same product, but don't re-use the same string for different products.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
-	Images []*string `form:"images"`
+	Images []*string `form:"images" json:"images,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The product's name, meant to be displayable to the customer.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// The dimensions of this product for shipping purposes.
-	PackageDimensions *OrderCreateLineItemProductDataPackageDimensionsParams `form:"package_dimensions"`
+	PackageDimensions *OrderCreateLineItemProductDataPackageDimensionsParams `form:"package_dimensions" json:"package_dimensions,omitempty"`
 	// Whether this product is shipped (i.e., physical goods).
-	Shippable *bool `form:"shippable"`
+	Shippable *bool `form:"shippable" json:"shippable,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 	// A URL of a publicly-accessible webpage for this product.
-	URL         *string                                          `form:"url"`
+	URL         *string                                          `form:"url" json:"url,omitempty"`
 	UnsetFields []OrderCreateLineItemProductDataParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2333,33 +2333,33 @@ func (p *OrderCreateLineItemProductDataParams) AddMetadata(key string, value str
 // A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.
 type OrderCreateLineItemParams struct {
 	// The description for the line item. Will default to the name of the associated product.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The discounts applied to this line item.
-	Discounts []*OrderCreateLineItemDiscountParams `form:"discounts"`
+	Discounts []*OrderCreateLineItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// The ID of a [Price](https://docs.stripe.com/api/prices) to add to the Order.
 	//
 	// The `price` parameter is an alternative to using the `product` parameter. If each of your products are sold at a single price, you can set `Product.default_price` and then pass the `product` parameter when creating a line item. If your products are sold at several possible prices, use the `price` parameter to explicitly specify which one to use.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new Price object inline.
 	//
 	// The `price_data` parameter is an alternative to using the `product` or `price` parameters. If you create a Product upfront and configure a `Product.default_price`, pass the `product` parameter when creating a line item. If you prefer not to define Products upfront, or if you charge variable prices, pass the `price_data` parameter to describe the price for this line item.
 	//
 	// Each time you pass `price_data` we create a Price for the Product. This Price is hidden in both the Dashboard and API lists and cannot be reused.
-	PriceData *OrderCreateLineItemPriceDataParams `form:"price_data"`
+	PriceData *OrderCreateLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The ID of a [Product](https://docs.stripe.com/api/products) to add to the Order.
 	//
 	// The Product must have a `default_price` specified. Otherwise, specify the price by passing the `price` or `price_data` parameter.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product,omitempty"`
 	// Defines a [Product](https://docs.stripe.com/api/products) inline and adds it to the Order.
 	//
 	// `product_data` is an alternative to the `product` parameter. If you created a Product upfront, use the `product` parameter to refer to the existing Product. But if you prefer not to create Products upfront, pass the `product_data` parameter to define a Product inline as part of configuring the Order.
 	//
 	// `product_data` automatically creates a Product, just as if you had manually created the Product. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates.
-	ProductData *OrderCreateLineItemProductDataParams `form:"product_data"`
+	ProductData *OrderCreateLineItemProductDataParams `form:"product_data" json:"product_data,omitempty"`
 	// The quantity of the line item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// The tax rates applied to this line item.
-	TaxRates    []*string                             `form:"tax_rates"`
+	TaxRates    []*string                             `form:"tax_rates" json:"tax_rates,omitempty"`
 	UnsetFields []OrderCreateLineItemParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2381,13 +2381,13 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams
 	// A URL for custom mandate text to render during confirmation step.
 	// The URL will be rendered with additional GET parameters `payment_intent` and `payment_intent_client_secret` when confirming a Payment Intent,
 	// or `setup_intent` and `setup_intent_client_secret` when confirming a Setup Intent.
-	CustomMandateURL *string `form:"custom_mandate_url"`
+	CustomMandateURL *string `form:"custom_mandate_url" json:"custom_mandate_url,omitempty"`
 	// Description of the mandate interval. Only required if 'payment_schedule' parameter is 'interval' or 'combined'.
-	IntervalDescription *string `form:"interval_description"`
+	IntervalDescription *string `form:"interval_description" json:"interval_description,omitempty"`
 	// Payment schedule for the mandate.
-	PaymentSchedule *string `form:"payment_schedule"`
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
 	// Transaction type of the mandate.
-	TransactionType *string                                                                                 `form:"transaction_type"`
+	TransactionType *string                                                                                 `form:"transaction_type" json:"transaction_type,omitempty"`
 	UnsetFields     []OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2406,7 +2406,7 @@ func (p *OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsPa
 // If paying by `acss_debit`, this sub-hash contains details about the ACSS Debit payment method options to pass to the order's PaymentIntent.
 type OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2416,11 +2416,11 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate *string `form:"target_date"`
+	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
 	// Bank account verification method.
-	VerificationMethod *string                                                                   `form:"verification_method"`
+	VerificationMethod *string                                                                   `form:"verification_method" json:"verification_method,omitempty"`
 	UnsetFields        []OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2443,9 +2443,9 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsAfterpayClearpayParams struct
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// An internal identifier or reference this payment corresponds to. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference,omitempty"`
 	// Indicates that you intend to make future payments with the payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the order's Customer, if present, after the order's PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://docs.stripe.com/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -2453,7 +2453,7 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsAfterpayClearpayParams struct
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // If paying by `alipay`, this sub-hash contains details about the Alipay payment method options to pass to the order's PaymentIntent.
@@ -2467,7 +2467,7 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                                `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2486,7 +2486,7 @@ func (p *OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParams) AddUnsetFie
 // If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the order's PaymentIntent.
 type OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
-	PreferredLanguage *string `form:"preferred_language"`
+	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2496,7 +2496,7 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                                    `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                    `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2515,7 +2515,7 @@ func (p *OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParams) AddUnse
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order's PaymentIntent.
 type OrderCreatePaymentSettingsPaymentMethodOptionsCardParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// Indicates that you intend to make future payments with the payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the order's Customer, if present, after the order's PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://docs.stripe.com/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -2523,33 +2523,33 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsCardParams struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // Configuration for the eu_bank_transfer funding type.
 type OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country"`
 }
 
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
 	// Configuration for the eu_bank_transfer funding type.
-	EUBankTransfer *OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
+	EUBankTransfer *OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer" json:"eu_bank_transfer,omitempty"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
 	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
-	RequestedAddressTypes []*string `form:"requested_address_types"`
+	RequestedAddressTypes []*string `form:"requested_address_types" json:"requested_address_types,omitempty"`
 	// The list of bank transfer types that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // If paying by `customer_balance`, this sub-hash contains details about the Customer Balance payment method options to pass to the order's PaymentIntent.
 type OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
 	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
-	BankTransfer *OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
+	BankTransfer *OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer" json:"bank_transfer,omitempty"`
 	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
-	FundingType *string `form:"funding_type"`
+	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2559,7 +2559,7 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct 
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // If paying by `ideal`, this sub-hash contains details about the iDEAL payment method options to pass to the order's PaymentIntent.
@@ -2573,7 +2573,7 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                               `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                               `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2592,549 +2592,549 @@ func (p *OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParams) AddUnsetFiel
 // On-demand details if setting up or charging an on-demand payment.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams struct {
 	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
-	AverageAmount *int64 `form:"average_amount"`
+	AverageAmount *int64 `form:"average_amount" json:"average_amount,omitempty"`
 	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
-	MaximumAmount *int64 `form:"maximum_amount"`
+	MaximumAmount *int64 `form:"maximum_amount" json:"maximum_amount,omitempty"`
 	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
-	MinimumAmount *int64 `form:"minimum_amount"`
+	MinimumAmount *int64 `form:"minimum_amount" json:"minimum_amount,omitempty"`
 	// Interval at which the customer is making purchases
-	PurchaseInterval *string `form:"purchase_interval"`
+	PurchaseInterval *string `form:"purchase_interval" json:"purchase_interval,omitempty"`
 	// The number of `purchase_interval` between charges
-	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count" json:"purchase_interval_count,omitempty"`
 }
 
 // Describes the upcoming charge for this subscription.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
 	// The amount of the next charge for the subscription.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The date of the next charge for the subscription in YYYY-MM-DD format.
-	Date *string `form:"date"`
+	Date *string `form:"date" json:"date"`
 }
 
 // Subscription details if setting up or charging a subscription.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams struct {
 	// Unit of time between subscription charges.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 	// Name for subscription.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Describes the upcoming charge for this subscription.
-	NextBilling *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	NextBilling *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing" json:"next_billing,omitempty"`
 	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference"`
 }
 
 // Address of the arrival location.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Arrival details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams struct {
 	// Address of the arrival location.
-	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams `form:"address"`
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams `form:"address" json:"address,omitempty"`
 	// Identifier name or reference for the arrival location.
-	ArrivalLocation *string `form:"arrival_location"`
+	ArrivalLocation *string `form:"arrival_location" json:"arrival_location,omitempty"`
 }
 
 // Address of the departure location.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Departure details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams struct {
 	// Address of the departure location.
-	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams `form:"address"`
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams `form:"address" json:"address,omitempty"`
 	// Timestamp of departure.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at,omitempty"`
 	// Identifier name or reference for the origin location.
-	DepartureLocation *string `form:"departure_location"`
+	DepartureLocation *string `form:"departure_location" json:"departure_location,omitempty"`
 }
 
 // List of insurances for this reservation.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // List of passengers that this reservation applies to.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams struct {
 	// The family name of the person.
-	FamilyName *string `form:"family_name"`
+	FamilyName *string `form:"family_name" json:"family_name,omitempty"`
 	// The given name of the person.
-	GivenName *string `form:"given_name"`
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 }
 
 // Supplementary bus reservation details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams struct {
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// Arrival details.
-	Arrival *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams `form:"arrival"`
+	Arrival *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams `form:"arrival" json:"arrival,omitempty"`
 	// Name of transportation company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams `form:"departure"`
+	Departure *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams `form:"departure" json:"departure,omitempty"`
 	// List of insurances for this reservation.
-	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers that this reservation applies to.
-	Passengers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams `form:"passengers"`
+	Passengers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// Price in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 	// Ticket class.
-	TicketClass *string `form:"ticket_class"`
+	TicketClass *string `form:"ticket_class" json:"ticket_class,omitempty"`
 }
 
 // Address of the event.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // List of insurances for this event.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // Supplementary event reservation details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams struct {
 	// Indicates if the tickets are digitally checked when entering the venue.
-	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	AccessControlledVenue *bool `form:"access_controlled_venue" json:"access_controlled_venue,omitempty"`
 	// Address of the event.
-	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams `form:"address"`
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams `form:"address" json:"address,omitempty"`
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// End timestamp of the event.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
 	// Company selling the ticket.
-	EventCompanyName *string `form:"event_company_name"`
+	EventCompanyName *string `form:"event_company_name" json:"event_company_name,omitempty"`
 	// Name of the event.
-	EventName *string `form:"event_name"`
+	EventName *string `form:"event_name" json:"event_name,omitempty"`
 	// Type of the event.
-	EventType *string `form:"event_type"`
+	EventType *string `form:"event_type" json:"event_type,omitempty"`
 	// List of insurances for this event.
-	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// Start timestamp of the event.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 	// Name of the venue where the event takes place.
-	VenueName *string `form:"venue_name"`
+	VenueName *string `form:"venue_name" json:"venue_name,omitempty"`
 }
 
 // Address of the arrival location.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Arrival details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams struct {
 	// Address of the arrival location.
-	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams `form:"address"`
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams `form:"address" json:"address,omitempty"`
 	// Identifier name or reference for the arrival location.
-	ArrivalLocation *string `form:"arrival_location"`
+	ArrivalLocation *string `form:"arrival_location" json:"arrival_location,omitempty"`
 }
 
 // Address of the departure location.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Departure details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams struct {
 	// Address of the departure location.
-	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams `form:"address"`
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams `form:"address" json:"address,omitempty"`
 	// Timestamp of departure.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at,omitempty"`
 	// Identifier name or reference for the origin location.
-	DepartureLocation *string `form:"departure_location"`
+	DepartureLocation *string `form:"departure_location" json:"departure_location,omitempty"`
 }
 
 // List of insurances for this reservation.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // List of passengers that this reservation applies to.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams struct {
 	// The family name of the person.
-	FamilyName *string `form:"family_name"`
+	FamilyName *string `form:"family_name" json:"family_name,omitempty"`
 	// The given name of the person.
-	GivenName *string `form:"given_name"`
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 }
 
 // Supplementary ferry reservation details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams struct {
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// Arrival details.
-	Arrival *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams `form:"arrival"`
+	Arrival *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams `form:"arrival" json:"arrival,omitempty"`
 	// Name of transportation company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams `form:"departure"`
+	Departure *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams `form:"departure" json:"departure,omitempty"`
 	// List of insurances for this reservation.
-	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers that this reservation applies to.
-	Passengers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams `form:"passengers"`
+	Passengers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// Price in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 	// Ticket class.
-	TicketClass *string `form:"ticket_class"`
+	TicketClass *string `form:"ticket_class" json:"ticket_class,omitempty"`
 }
 
 // Supplementary insurance details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // The address of the selling or delivering merchant.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Supplementary marketplace seller details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams struct {
 	// The references to line items for purchases with multiple associated sub-sellers.
-	LineItemReferences []*string `form:"line_item_references"`
+	LineItemReferences []*string `form:"line_item_references" json:"line_item_references,omitempty"`
 	// The address of the selling or delivering merchant.
-	MarketplaceSellerAddress *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams `form:"marketplace_seller_address"`
+	MarketplaceSellerAddress *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams `form:"marketplace_seller_address" json:"marketplace_seller_address,omitempty"`
 	// The name of the marketplace seller.
-	MarketplaceSellerName *string `form:"marketplace_seller_name"`
+	MarketplaceSellerName *string `form:"marketplace_seller_name" json:"marketplace_seller_name,omitempty"`
 	// The unique identifier for the marketplace seller.
-	MarketplaceSellerReference *string `form:"marketplace_seller_reference"`
+	MarketplaceSellerReference *string `form:"marketplace_seller_reference" json:"marketplace_seller_reference,omitempty"`
 	// The number of transactions the sub-seller completed in the last 12 months.
-	NumberOfTransactions *int64 `form:"number_of_transactions"`
+	NumberOfTransactions *int64 `form:"number_of_transactions" json:"number_of_transactions,omitempty"`
 	// The category of the product.
-	ProductCategory *string `form:"product_category"`
+	ProductCategory *string `form:"product_category" json:"product_category,omitempty"`
 	// The date when the seller's account with the marketplace was last logged in.
-	SellerLastLoginAt *int64 `form:"seller_last_login_at"`
+	SellerLastLoginAt *int64 `form:"seller_last_login_at" json:"seller_last_login_at,omitempty"`
 	// The current rating of the marketplace seller. If the marketplace uses numeric ranking, map these to the enum values.
-	SellerRating *string `form:"seller_rating"`
+	SellerRating *string `form:"seller_rating" json:"seller_rating,omitempty"`
 	// The date when the seller's account with the marketplace was created.
-	SellerRegisteredAt *int64 `form:"seller_registered_at"`
+	SellerRegisteredAt *int64 `form:"seller_registered_at" json:"seller_registered_at,omitempty"`
 	// The date when the seller's account with the marketplace was last updated.
-	SellerUpdatedAt *int64 `form:"seller_updated_at"`
+	SellerUpdatedAt *int64 `form:"seller_updated_at" json:"seller_updated_at,omitempty"`
 	// The references to shipping addresses for purchases with multiple associated sub-sellers.
-	ShippingReferences []*string `form:"shipping_references"`
+	ShippingReferences []*string `form:"shipping_references" json:"shipping_references,omitempty"`
 	// The accumulated amount of sales transactions made by the sub-merchant or sub-seller within the past 12 months in the payment currency. These transactions are in minor currency units.
-	VolumeOfTransactions *int64 `form:"volume_of_transactions"`
+	VolumeOfTransactions *int64 `form:"volume_of_transactions" json:"volume_of_transactions,omitempty"`
 }
 
 // Address of the arrival location.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Arrival details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams struct {
 	// Address of the arrival location.
-	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams `form:"address"`
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams `form:"address" json:"address,omitempty"`
 	// Identifier name or reference for the arrival location.
-	ArrivalLocation *string `form:"arrival_location"`
+	ArrivalLocation *string `form:"arrival_location" json:"arrival_location,omitempty"`
 }
 
 // Address of the departure location.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Departure details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams struct {
 	// Address of the departure location.
-	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams `form:"address"`
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams `form:"address" json:"address,omitempty"`
 	// Timestamp of departure.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at,omitempty"`
 	// Identifier name or reference for the origin location.
-	DepartureLocation *string `form:"departure_location"`
+	DepartureLocation *string `form:"departure_location" json:"departure_location,omitempty"`
 }
 
 // List of insurances for this reservation.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // List of passengers that this reservation applies to.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams struct {
 	// The family name of the person.
-	FamilyName *string `form:"family_name"`
+	FamilyName *string `form:"family_name" json:"family_name,omitempty"`
 	// The given name of the person.
-	GivenName *string `form:"given_name"`
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 }
 
 // Supplementary round trip reservation details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams struct {
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// Arrival details.
-	Arrival *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams `form:"arrival"`
+	Arrival *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams `form:"arrival" json:"arrival,omitempty"`
 	// Name of transportation company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams `form:"departure"`
+	Departure *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams `form:"departure" json:"departure,omitempty"`
 	// List of insurances for this reservation.
-	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers that this reservation applies to.
-	Passengers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams `form:"passengers"`
+	Passengers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// Price in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 	// Ticket class.
-	TicketClass *string `form:"ticket_class"`
+	TicketClass *string `form:"ticket_class" json:"ticket_class,omitempty"`
 }
 
 // Address of the arrival location.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Arrival details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams struct {
 	// Address of the arrival location.
-	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams `form:"address"`
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams `form:"address" json:"address,omitempty"`
 	// Identifier name or reference for the arrival location.
-	ArrivalLocation *string `form:"arrival_location"`
+	ArrivalLocation *string `form:"arrival_location" json:"arrival_location,omitempty"`
 }
 
 // Address of the departure location.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Departure details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams struct {
 	// Address of the departure location.
-	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams `form:"address"`
+	Address *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams `form:"address" json:"address,omitempty"`
 	// Timestamp of departure.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at,omitempty"`
 	// Identifier name or reference for the origin location.
-	DepartureLocation *string `form:"departure_location"`
+	DepartureLocation *string `form:"departure_location" json:"departure_location,omitempty"`
 }
 
 // List of insurances for this reservation.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // List of passengers that this reservation applies to.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams struct {
 	// The family name of the person.
-	FamilyName *string `form:"family_name"`
+	FamilyName *string `form:"family_name" json:"family_name,omitempty"`
 	// The given name of the person.
-	GivenName *string `form:"given_name"`
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 }
 
 // Supplementary train reservation details.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams struct {
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// Arrival details.
-	Arrival *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams `form:"arrival"`
+	Arrival *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams `form:"arrival" json:"arrival,omitempty"`
 	// Name of transportation company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams `form:"departure"`
+	Departure *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams `form:"departure" json:"departure,omitempty"`
 	// List of insurances for this reservation.
-	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers that this reservation applies to.
-	Passengers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams `form:"passengers"`
+	Passengers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// Price in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 	// Ticket class.
-	TicketClass *string `form:"ticket_class"`
+	TicketClass *string `form:"ticket_class" json:"ticket_class,omitempty"`
 }
 
 // Voucher details, such as a gift card or discount code.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams struct {
 	// Name of associated or partner company for this voucher.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// The voucher validity end time.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
 	// The voucher validity start time.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 	// The issuer or provider of this voucher.
-	VoucherCompany *string `form:"voucher_company"`
+	VoucherCompany *string `form:"voucher_company" json:"voucher_company,omitempty"`
 	// The name or reference to identify the voucher.
-	VoucherName *string `form:"voucher_name"`
+	VoucherName *string `form:"voucher_name" json:"voucher_name,omitempty"`
 	// The type of this voucher.
-	VoucherType *string `form:"voucher_type"`
+	VoucherType *string `form:"voucher_type" json:"voucher_type,omitempty"`
 }
 
 // Supplementary Purchase Data for the corresponding Klarna payment
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams struct {
 	// Supplementary bus reservation details.
-	BusReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams `form:"bus_reservation_details"`
+	BusReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams `form:"bus_reservation_details" json:"bus_reservation_details,omitempty"`
 	// Supplementary event reservation details.
-	EventReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams `form:"event_reservation_details"`
+	EventReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams `form:"event_reservation_details" json:"event_reservation_details,omitempty"`
 	// Supplementary ferry reservation details.
-	FerryReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams `form:"ferry_reservation_details"`
+	FerryReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams `form:"ferry_reservation_details" json:"ferry_reservation_details,omitempty"`
 	// Supplementary insurance details.
-	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams `form:"insurances"`
+	Insurances []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// Supplementary marketplace seller details.
-	MarketplaceSellers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams `form:"marketplace_sellers"`
+	MarketplaceSellers []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams `form:"marketplace_sellers" json:"marketplace_sellers,omitempty"`
 	// Supplementary round trip reservation details.
-	RoundTripReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams `form:"round_trip_reservation_details"`
+	RoundTripReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams `form:"round_trip_reservation_details" json:"round_trip_reservation_details,omitempty"`
 	// Supplementary train reservation details.
-	TrainReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
+	TrainReservationDetails []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details" json:"train_reservation_details,omitempty"`
 	// Voucher details, such as a gift card or discount code.
-	Vouchers    []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams   `form:"vouchers"`
+	Vouchers    []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams   `form:"vouchers" json:"vouchers,omitempty"`
 	UnsetFields []OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3164,11 +3164,11 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// On-demand details if setting up or charging an on-demand payment.
-	OnDemand *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
+	OnDemand *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand" json:"on_demand,omitempty"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
-	PreferredLocale *string `form:"preferred_locale"`
+	PreferredLocale *string `form:"preferred_locale" json:"preferred_locale,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3178,11 +3178,11 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Subscription details if setting up or charging a subscription.
-	Subscriptions []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+	Subscriptions []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions" json:"subscriptions,omitempty"`
 	// Supplementary Purchase Data for the corresponding Klarna payment
-	SupplementaryPurchaseData *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
+	SupplementaryPurchaseData *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data" json:"supplementary_purchase_data,omitempty"`
 	UnsetFields               []OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField               `form:"-" json:"-"`
 }
 
@@ -3207,10 +3207,10 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsLinkParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// [Deprecated] This is a legacy parameter that no longer has any function.
 	// Deprecated:
-	PersistentToken *string `form:"persistent_token"`
+	PersistentToken *string `form:"persistent_token" json:"persistent_token,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3220,7 +3220,7 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsLinkParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                              `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                              `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderCreatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3240,7 +3240,7 @@ func (p *OrderCreatePaymentSettingsPaymentMethodOptionsLinkParams) AddUnsetField
 // If paying by `oxxo`, this sub-hash contains details about the OXXO payment method options to pass to the order's PaymentIntent.
 type OrderCreatePaymentSettingsPaymentMethodOptionsOXXOParams struct {
 	// The number of calendar days before an OXXO voucher expires. For example, if you create an OXXO voucher on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
-	ExpiresAfterDays *int64 `form:"expires_after_days"`
+	ExpiresAfterDays *int64 `form:"expires_after_days" json:"expires_after_days,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3250,7 +3250,7 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsOXXOParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // If paying by `p24`, this sub-hash contains details about the P24 payment method options to pass to the order's PaymentIntent.
@@ -3264,53 +3264,53 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsP24Params struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Confirm that the payer has accepted the P24 terms and conditions.
-	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
+	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted" json:"tos_shown_and_accepted,omitempty"`
 }
 
 // The tax information for the line item.
 type OrderCreatePaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams struct {
 	// The tax for a single unit of the line item in minor units. Cannot be a negative number.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The tax behavior for the line item.
-	Behavior *string `form:"behavior"`
+	Behavior *string `form:"behavior" json:"behavior"`
 }
 
 // The line items purchased by the customer.
 type OrderCreatePaymentSettingsPaymentMethodOptionsPaypalLineItemParams struct {
 	// Type of the line item.
-	Category *string `form:"category"`
+	Category *string `form:"category" json:"category,omitempty"`
 	// Description of the line item.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Descriptive name of the line item.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// Quantity of the line item. Must be a positive number.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity"`
 	// Client facing stock keeping unit, article number or similar.
-	SKU *string `form:"sku"`
+	SKU *string `form:"sku" json:"sku,omitempty"`
 	// The Stripe account ID of the connected account that sells the item.
-	SoldBy *string `form:"sold_by"`
+	SoldBy *string `form:"sold_by" json:"sold_by,omitempty"`
 	// The tax information for the line item.
-	Tax *OrderCreatePaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams `form:"tax"`
+	Tax *OrderCreatePaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// Price for a single unit of the line item in minor units. Cannot be a negative number.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount"`
 }
 
 // If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
 type OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// The line items purchased by the customer.
-	LineItems []*OrderCreatePaymentSettingsPaymentMethodOptionsPaypalLineItemParams `form:"line_items"`
+	LineItems []*OrderCreatePaymentSettingsPaymentMethodOptionsPaypalLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// [Preferred locale](https://docs.stripe.com/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
-	PreferredLocale *string `form:"preferred_locale"`
+	PreferredLocale *string `form:"preferred_locale" json:"preferred_locale,omitempty"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference,omitempty"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
-	ReferenceID *string `form:"reference_id"`
+	ReferenceID *string `form:"reference_id" json:"reference_id,omitempty"`
 	// The risk correlation ID for an on-session payment using a saved PayPal payment method.
-	RiskCorrelationID *string `form:"risk_correlation_id"`
+	RiskCorrelationID *string `form:"risk_correlation_id" json:"risk_correlation_id,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3320,9 +3320,9 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
-	Subsellers  []*string                                                              `form:"subsellers"`
+	Subsellers  []*string                                                              `form:"subsellers" json:"subsellers,omitempty"`
 	UnsetFields []OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3342,7 +3342,7 @@ func (p *OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParams) AddUnsetFie
 // Additional fields for Mandate creation
 type OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
-	ReferencePrefix *string                                                                                 `form:"reference_prefix"`
+	ReferencePrefix *string                                                                                 `form:"reference_prefix" json:"reference_prefix,omitempty"`
 	UnsetFields     []OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3361,7 +3361,7 @@ func (p *OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsPa
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
 type OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3371,9 +3371,9 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate  *string                                                                   `form:"target_date"`
+	TargetDate  *string                                                                   `form:"target_date" json:"target_date,omitempty"`
 	UnsetFields []OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3392,7 +3392,7 @@ func (p *OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams) AddUnset
 // If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
 type OrderCreatePaymentSettingsPaymentMethodOptionsSofortParams struct {
 	// Language shown to the payer on redirect.
-	PreferredLanguage *string `form:"preferred_language"`
+	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3402,7 +3402,7 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsSofortParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                                `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderCreatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3422,9 +3422,9 @@ func (p *OrderCreatePaymentSettingsPaymentMethodOptionsSofortParams) AddUnsetFie
 // If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
 type OrderCreatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
-	AppID *string `form:"app_id"`
+	AppID *string `form:"app_id" json:"app_id,omitempty"`
 	// The client type that the end customer will pay from
-	Client *string `form:"client"`
+	Client *string `form:"client" json:"client,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3434,133 +3434,133 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // PaymentMethod-specific configuration to provide to the order's PaymentIntent.
 type OrderCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the ACSS Debit payment method options to pass to the order's PaymentIntent.
-	ACSSDebit *OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+	ACSSDebit *OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// If paying by `afterpay_clearpay`, this sub-hash contains details about the AfterpayClearpay payment method options to pass to the order's PaymentIntent.
-	AfterpayClearpay *OrderCreatePaymentSettingsPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
+	AfterpayClearpay *OrderCreatePaymentSettingsPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay" json:"afterpay_clearpay,omitempty"`
 	// If paying by `alipay`, this sub-hash contains details about the Alipay payment method options to pass to the order's PaymentIntent.
-	Alipay *OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParams `form:"alipay"`
+	Alipay *OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the order's PaymentIntent.
-	Bancontact *OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	Bancontact *OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order's PaymentIntent.
-	Card *OrderCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
+	Card *OrderCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Customer Balance payment method options to pass to the order's PaymentIntent.
-	CustomerBalance *OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	CustomerBalance *OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// If paying by `ideal`, this sub-hash contains details about the iDEAL payment method options to pass to the order's PaymentIntent.
-	IDEAL *OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParams `form:"ideal"`
+	IDEAL *OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParams `form:"ideal" json:"ideal,omitempty"`
 	// If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
-	Klarna *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams `form:"klarna"`
+	Klarna *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams `form:"klarna" json:"klarna,omitempty"`
 	// If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
-	Link *OrderCreatePaymentSettingsPaymentMethodOptionsLinkParams `form:"link"`
+	Link *OrderCreatePaymentSettingsPaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// If paying by `oxxo`, this sub-hash contains details about the OXXO payment method options to pass to the order's PaymentIntent.
-	OXXO *OrderCreatePaymentSettingsPaymentMethodOptionsOXXOParams `form:"oxxo"`
+	OXXO *OrderCreatePaymentSettingsPaymentMethodOptionsOXXOParams `form:"oxxo" json:"oxxo,omitempty"`
 	// If paying by `p24`, this sub-hash contains details about the P24 payment method options to pass to the order's PaymentIntent.
-	P24 *OrderCreatePaymentSettingsPaymentMethodOptionsP24Params `form:"p24"`
+	P24 *OrderCreatePaymentSettingsPaymentMethodOptionsP24Params `form:"p24" json:"p24,omitempty"`
 	// If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
-	Paypal *OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParams `form:"paypal"`
+	Paypal *OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParams `form:"paypal" json:"paypal,omitempty"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
-	SEPADebit *OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	SEPADebit *OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
-	Sofort *OrderCreatePaymentSettingsPaymentMethodOptionsSofortParams `form:"sofort"`
+	Sofort *OrderCreatePaymentSettingsPaymentMethodOptionsSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
-	WeChatPay *OrderCreatePaymentSettingsPaymentMethodOptionsWeChatPayParams `form:"wechat_pay"`
+	WeChatPay *OrderCreatePaymentSettingsPaymentMethodOptionsWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 }
 
 // Provides configuration for completing a transfer for the order after it is paid.
 type OrderCreatePaymentSettingsTransferDataParams struct {
 	// The amount that will be transferred automatically when the order is paid. If no amount is set, the full amount is transferred. There cannot be any line items with recurring prices when using this field.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// ID of the Connected account receiving the transfer.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 
 // Settings describing how the order should configure generated PaymentIntents.
 type OrderCreatePaymentSettingsParams struct {
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account.
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// PaymentMethod-specific configuration to provide to the order's PaymentIntent.
-	PaymentMethodOptions *OrderCreatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodOptions *OrderCreatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The list of [payment method types](https://docs.stripe.com/payments/payment-methods/overview) to provide to the order's PaymentIntent. Do not include this attribute if you prefer to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
-	PaymentMethodTypes []*string `form:"payment_method_types"`
+	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// The URL to redirect the customer to after they authenticate their payment.
-	ReturnURL *string `form:"return_url"`
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
-	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// Provides configuration for completing a transfer for the order after it is paid.
-	TransferData *OrderCreatePaymentSettingsTransferDataParams `form:"transfer_data"`
+	TransferData *OrderCreatePaymentSettingsTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 }
 
 // Payment information associated with the order, including payment settings.
 type OrderCreatePaymentParams struct {
 	// Settings describing how the order should configure generated PaymentIntents.
-	Settings *OrderCreatePaymentSettingsParams `form:"settings"`
+	Settings *OrderCreatePaymentSettingsParams `form:"settings" json:"settings"`
 }
 
 // The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 type OrderCreateShippingCostShippingRateDataDeliveryEstimateMaximumParams struct {
 	// A unit of time.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit"`
 	// Must be greater than 0.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The lower bound of the estimated range. If empty, represents no lower bound.
 type OrderCreateShippingCostShippingRateDataDeliveryEstimateMinimumParams struct {
 	// A unit of time.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit"`
 	// Must be greater than 0.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 type OrderCreateShippingCostShippingRateDataDeliveryEstimateParams struct {
 	// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
-	Maximum *OrderCreateShippingCostShippingRateDataDeliveryEstimateMaximumParams `form:"maximum"`
+	Maximum *OrderCreateShippingCostShippingRateDataDeliveryEstimateMaximumParams `form:"maximum" json:"maximum,omitempty"`
 	// The lower bound of the estimated range. If empty, represents no lower bound.
-	Minimum *OrderCreateShippingCostShippingRateDataDeliveryEstimateMinimumParams `form:"minimum"`
+	Minimum *OrderCreateShippingCostShippingRateDataDeliveryEstimateMinimumParams `form:"minimum" json:"minimum,omitempty"`
 }
 
 // Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 type OrderCreateShippingCostShippingRateDataFixedAmountCurrencyOptionsParams struct {
 	// A non-negative integer in cents representing how much to charge.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 }
 
 // Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 type OrderCreateShippingCostShippingRateDataFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-	CurrencyOptions map[string]*OrderCreateShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
+	CurrencyOptions map[string]*OrderCreateShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
 }
 
 // Parameters to create a new ad-hoc shipping rate for this order.
 type OrderCreateShippingCostShippingRateDataParams struct {
 	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
-	DeliveryEstimate *OrderCreateShippingCostShippingRateDataDeliveryEstimateParams `form:"delivery_estimate"`
+	DeliveryEstimate *OrderCreateShippingCostShippingRateDataDeliveryEstimateParams `form:"delivery_estimate" json:"delivery_estimate,omitempty"`
 	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
-	DisplayName *string `form:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name"`
 	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
-	FixedAmount *OrderCreateShippingCostShippingRateDataFixedAmountParams `form:"fixed_amount"`
+	FixedAmount *OrderCreateShippingCostShippingRateDataFixedAmountParams `form:"fixed_amount" json:"fixed_amount,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 	// The type of calculation to use on the shipping rate.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -3575,19 +3575,19 @@ func (p *OrderCreateShippingCostShippingRateDataParams) AddMetadata(key string, 
 // Settings for the customer cost of shipping for this order.
 type OrderCreateShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
-	ShippingRate *string `form:"shipping_rate"`
+	ShippingRate *string `form:"shipping_rate" json:"shipping_rate,omitempty"`
 	// Parameters to create a new ad-hoc shipping rate for this order.
-	ShippingRateData *OrderCreateShippingCostShippingRateDataParams `form:"shipping_rate_data"`
+	ShippingRateData *OrderCreateShippingCostShippingRateDataParams `form:"shipping_rate_data" json:"shipping_rate_data,omitempty"`
 }
 
 // Shipping details for the order.
 type OrderCreateShippingDetailsParams struct {
 	// The shipping address for the order.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 	// The name of the recipient of the order.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// The phone number (including extension) for the recipient of the order.
-	Phone       *string                                      `form:"phone"`
+	Phone       *string                                      `form:"phone" json:"phone,omitempty"`
 	UnsetFields []OrderCreateShippingDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3606,17 +3606,17 @@ func (p *OrderCreateShippingDetailsParams) AddUnsetField(field OrderCreateShippi
 // The purchaser's tax IDs to be used for this order.
 type OrderCreateTaxDetailsTaxIDParams struct {
 	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// Value of the tax ID.
-	Value *string `form:"value"`
+	Value *string `form:"value" json:"value"`
 }
 
 // Additional tax details about the purchaser to be used for this order.
 type OrderCreateTaxDetailsParams struct {
 	// The purchaser's tax exemption status. One of `none`, `exempt`, or `reverse`.
-	TaxExempt *string `form:"tax_exempt"`
+	TaxExempt *string `form:"tax_exempt" json:"tax_exempt,omitempty"`
 	// The purchaser's tax IDs to be used for this order.
-	TaxIDs      []*OrderCreateTaxDetailsTaxIDParams     `form:"tax_ids"`
+	TaxIDs      []*OrderCreateTaxDetailsTaxIDParams     `form:"tax_ids" json:"tax_ids,omitempty"`
 	UnsetFields []OrderCreateTaxDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3636,33 +3636,33 @@ func (p *OrderCreateTaxDetailsParams) AddUnsetField(field OrderCreateTaxDetailsP
 type OrderCreateParams struct {
 	Params `form:"*"`
 	// Settings for automatic tax calculation for this order.
-	AutomaticTax *OrderCreateAutomaticTaxParams `form:"automatic_tax"`
+	AutomaticTax *OrderCreateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
-	BillingDetails *OrderCreateBillingDetailsParams `form:"billing_details"`
+	BillingDetails *OrderCreateBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// The customer associated with this order.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The coupons, promotion codes, and/or discounts to apply to the order.
-	Discounts []*OrderCreateDiscountParams `form:"discounts"`
+	Discounts []*OrderCreateDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The IP address of the purchaser for this order.
-	IPAddress *string `form:"ip_address"`
+	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
 	// A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.
-	LineItems []*OrderCreateLineItemParams `form:"line_items"`
+	LineItems []*OrderCreateLineItemParams `form:"line_items" json:"line_items"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Payment information associated with the order, including payment settings.
-	Payment *OrderCreatePaymentParams `form:"payment"`
+	Payment *OrderCreatePaymentParams `form:"payment" json:"payment,omitempty"`
 	// Settings for the customer cost of shipping for this order.
-	ShippingCost *OrderCreateShippingCostParams `form:"shipping_cost"`
+	ShippingCost *OrderCreateShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
 	// Shipping details for the order.
-	ShippingDetails *OrderCreateShippingDetailsParams `form:"shipping_details"`
+	ShippingDetails *OrderCreateShippingDetailsParams `form:"shipping_details" json:"shipping_details,omitempty"`
 	// Additional tax details about the purchaser to be used for this order.
-	TaxDetails  *OrderCreateTaxDetailsParams  `form:"tax_details"`
+	TaxDetails  *OrderCreateTaxDetailsParams  `form:"tax_details" json:"tax_details,omitempty"`
 	UnsetFields []OrderCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3699,7 +3699,7 @@ func (p *OrderCreateParams) AddMetadata(key string, value string) {
 type OrderRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -3710,37 +3710,37 @@ func (p *OrderRetrieveParams) AddExpand(f string) {
 // Settings for automatic tax calculation for this order.
 type OrderUpdateAutomaticTaxParams struct {
 	// Enable automatic tax calculation which will automatically compute tax rates on this order.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
 // Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
 type OrderUpdateBillingDetailsParams struct {
 	// The billing address provided by the customer.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The billing email provided by the customer.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The billing name provided by the customer.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The billing phone number provided by the customer.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // The coupons, promotion codes, and/or discounts to apply to the order. Pass the empty string `""` to unset this field.
 type OrderUpdateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 	// ID of the promotion code to create a new discount for.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The discounts applied to this line item.
 type OrderUpdateLineItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
-	Discount *string `form:"discount"`
+	Discount *string `form:"discount" json:"discount,omitempty"`
 }
 
 // Data used to generate a new Price object inline.
@@ -3750,29 +3750,29 @@ type OrderUpdateLineItemDiscountParams struct {
 // Each time you pass `price_data` we create a Price for the Product. This Price is hidden in both the Dashboard and API lists and cannot be reused.
 type OrderUpdateLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// ID of the [Product](https://docs.stripe.com/api/products) this [Price](https://docs.stripe.com/api/prices) belongs to.
 	//
 	// Use this to implement a variable-pricing model in your integration. This is required if `product_data` is not specified.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product,omitempty"`
 	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
 // The dimensions of this product for shipping purposes.
 type OrderUpdateLineItemProductDataPackageDimensionsParams struct {
 	// Height, in inches. Maximum precision is 2 decimal places.
-	Height *float64 `form:"height"`
+	Height *float64 `form:"height" json:"height"`
 	// Length, in inches. Maximum precision is 2 decimal places.
-	Length *float64 `form:"length"`
+	Length *float64 `form:"length" json:"length"`
 	// Weight, in ounces. Maximum precision is 2 decimal places.
-	Weight *float64 `form:"weight"`
+	Weight *float64 `form:"weight" json:"weight"`
 	// Width, in inches. Maximum precision is 2 decimal places.
-	Width *float64 `form:"width"`
+	Width *float64 `form:"width" json:"width"`
 }
 
 // Defines a [Product](https://docs.stripe.com/api/products) inline and adds it to the Order.
@@ -3782,25 +3782,25 @@ type OrderUpdateLineItemProductDataPackageDimensionsParams struct {
 // `product_data` automatically creates a Product, just as if you had manually created the Product. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates.
 type OrderUpdateLineItemProductDataParams struct {
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// A unique identifier for this product.
 	//
 	// `product_data` automatically creates a Product with this ID. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates. If any of the fields in the existing Product are different from the values in `product_data`, `product_data` updates the existing Product with the new information. So set `product_data[id]` to the same string every time you sell the same product, but don't re-use the same string for different products.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
-	Images []*string `form:"images"`
+	Images []*string `form:"images" json:"images,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The product's name, meant to be displayable to the customer.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// The dimensions of this product for shipping purposes.
-	PackageDimensions *OrderUpdateLineItemProductDataPackageDimensionsParams `form:"package_dimensions"`
+	PackageDimensions *OrderUpdateLineItemProductDataPackageDimensionsParams `form:"package_dimensions" json:"package_dimensions,omitempty"`
 	// Whether this product is shipped (i.e., physical goods).
-	Shippable *bool `form:"shippable"`
+	Shippable *bool `form:"shippable" json:"shippable,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 	// A URL of a publicly-accessible webpage for this product.
-	URL         *string                                          `form:"url"`
+	URL         *string                                          `form:"url" json:"url,omitempty"`
 	UnsetFields []OrderUpdateLineItemProductDataParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3833,35 +3833,35 @@ func (p *OrderUpdateLineItemProductDataParams) AddMetadata(key string, value str
 // A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.
 type OrderUpdateLineItemParams struct {
 	// The description for the line item. Will default to the name of the associated product.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The discounts applied to this line item.
-	Discounts []*OrderUpdateLineItemDiscountParams `form:"discounts"`
+	Discounts []*OrderUpdateLineItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// The ID of an existing line item on the order.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id,omitempty"`
 	// The ID of a [Price](https://docs.stripe.com/api/prices) to add to the Order.
 	//
 	// The `price` parameter is an alternative to using the `product` parameter. If each of your products are sold at a single price, you can set `Product.default_price` and then pass the `product` parameter when creating a line item. If your products are sold at several possible prices, use the `price` parameter to explicitly specify which one to use.
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// Data used to generate a new Price object inline.
 	//
 	// The `price_data` parameter is an alternative to using the `product` or `price` parameters. If you create a Product upfront and configure a `Product.default_price`, pass the `product` parameter when creating a line item. If you prefer not to define Products upfront, or if you charge variable prices, pass the `price_data` parameter to describe the price for this line item.
 	//
 	// Each time you pass `price_data` we create a Price for the Product. This Price is hidden in both the Dashboard and API lists and cannot be reused.
-	PriceData *OrderUpdateLineItemPriceDataParams `form:"price_data"`
+	PriceData *OrderUpdateLineItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// The ID of a [Product](https://docs.stripe.com/api/products) to add to the Order.
 	//
 	// The Product must have a `default_price` specified. Otherwise, specify the price by passing the `price` or `price_data` parameter.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product,omitempty"`
 	// Defines a [Product](https://docs.stripe.com/api/products) inline and adds it to the Order.
 	//
 	// `product_data` is an alternative to the `product` parameter. If you created a Product upfront, use the `product` parameter to refer to the existing Product. But if you prefer not to create Products upfront, pass the `product_data` parameter to define a Product inline as part of configuring the Order.
 	//
 	// `product_data` automatically creates a Product, just as if you had manually created the Product. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates.
-	ProductData *OrderUpdateLineItemProductDataParams `form:"product_data"`
+	ProductData *OrderUpdateLineItemProductDataParams `form:"product_data" json:"product_data,omitempty"`
 	// The quantity of the line item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// The tax rates applied to this line item.
-	TaxRates    []*string                             `form:"tax_rates"`
+	TaxRates    []*string                             `form:"tax_rates" json:"tax_rates,omitempty"`
 	UnsetFields []OrderUpdateLineItemParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3883,13 +3883,13 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams
 	// A URL for custom mandate text to render during confirmation step.
 	// The URL will be rendered with additional GET parameters `payment_intent` and `payment_intent_client_secret` when confirming a Payment Intent,
 	// or `setup_intent` and `setup_intent_client_secret` when confirming a Setup Intent.
-	CustomMandateURL *string `form:"custom_mandate_url"`
+	CustomMandateURL *string `form:"custom_mandate_url" json:"custom_mandate_url,omitempty"`
 	// Description of the mandate interval. Only required if 'payment_schedule' parameter is 'interval' or 'combined'.
-	IntervalDescription *string `form:"interval_description"`
+	IntervalDescription *string `form:"interval_description" json:"interval_description,omitempty"`
 	// Payment schedule for the mandate.
-	PaymentSchedule *string `form:"payment_schedule"`
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
 	// Transaction type of the mandate.
-	TransactionType *string                                                                                 `form:"transaction_type"`
+	TransactionType *string                                                                                 `form:"transaction_type" json:"transaction_type,omitempty"`
 	UnsetFields     []OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3908,7 +3908,7 @@ func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsPa
 // If paying by `acss_debit`, this sub-hash contains details about the ACSS Debit payment method options to pass to the order's PaymentIntent.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3918,11 +3918,11 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate *string `form:"target_date"`
+	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
 	// Bank account verification method.
-	VerificationMethod *string                                                                   `form:"verification_method"`
+	VerificationMethod *string                                                                   `form:"verification_method" json:"verification_method,omitempty"`
 	UnsetFields        []OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3945,9 +3945,9 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsAfterpayClearpayParams struct
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// An internal identifier or reference this payment corresponds to. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference,omitempty"`
 	// Indicates that you intend to make future payments with the payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the order's Customer, if present, after the order's PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://docs.stripe.com/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -3955,7 +3955,7 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsAfterpayClearpayParams struct
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // If paying by `alipay`, this sub-hash contains details about the Alipay payment method options to pass to the order's PaymentIntent.
@@ -3969,7 +3969,7 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                                `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -3988,7 +3988,7 @@ func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParams) AddUnsetFie
 // If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the order's PaymentIntent.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
-	PreferredLanguage *string `form:"preferred_language"`
+	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3998,7 +3998,7 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                                    `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                    `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -4017,7 +4017,7 @@ func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParams) AddUnse
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order's PaymentIntent.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsCardParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// Indicates that you intend to make future payments with the payment method.
 	//
 	// Providing this parameter will [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the order's Customer, if present, after the order's PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://docs.stripe.com/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -4025,33 +4025,33 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsCardParams struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // Configuration for the eu_bank_transfer funding type.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country"`
 }
 
 // Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
 	// Configuration for the eu_bank_transfer funding type.
-	EUBankTransfer *OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
+	EUBankTransfer *OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer" json:"eu_bank_transfer,omitempty"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
 	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
-	RequestedAddressTypes []*string `form:"requested_address_types"`
+	RequestedAddressTypes []*string `form:"requested_address_types" json:"requested_address_types,omitempty"`
 	// The list of bank transfer types that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // If paying by `customer_balance`, this sub-hash contains details about the Customer Balance payment method options to pass to the order's PaymentIntent.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
 	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
-	BankTransfer *OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
+	BankTransfer *OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer" json:"bank_transfer,omitempty"`
 	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
-	FundingType *string `form:"funding_type"`
+	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4061,7 +4061,7 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct 
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // If paying by `ideal`, this sub-hash contains details about the iDEAL payment method options to pass to the order's PaymentIntent.
@@ -4075,7 +4075,7 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                               `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                               `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -4094,549 +4094,549 @@ func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParams) AddUnsetFiel
 // On-demand details if setting up or charging an on-demand payment.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams struct {
 	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
-	AverageAmount *int64 `form:"average_amount"`
+	AverageAmount *int64 `form:"average_amount" json:"average_amount,omitempty"`
 	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
-	MaximumAmount *int64 `form:"maximum_amount"`
+	MaximumAmount *int64 `form:"maximum_amount" json:"maximum_amount,omitempty"`
 	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
-	MinimumAmount *int64 `form:"minimum_amount"`
+	MinimumAmount *int64 `form:"minimum_amount" json:"minimum_amount,omitempty"`
 	// Interval at which the customer is making purchases
-	PurchaseInterval *string `form:"purchase_interval"`
+	PurchaseInterval *string `form:"purchase_interval" json:"purchase_interval,omitempty"`
 	// The number of `purchase_interval` between charges
-	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count" json:"purchase_interval_count,omitempty"`
 }
 
 // Describes the upcoming charge for this subscription.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
 	// The amount of the next charge for the subscription.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The date of the next charge for the subscription in YYYY-MM-DD format.
-	Date *string `form:"date"`
+	Date *string `form:"date" json:"date"`
 }
 
 // Subscription details if setting up or charging a subscription.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams struct {
 	// Unit of time between subscription charges.
-	Interval *string `form:"interval"`
+	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
-	IntervalCount *int64 `form:"interval_count"`
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 	// Name for subscription.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Describes the upcoming charge for this subscription.
-	NextBilling *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	NextBilling *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing" json:"next_billing,omitempty"`
 	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference"`
 }
 
 // Address of the arrival location.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Arrival details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams struct {
 	// Address of the arrival location.
-	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams `form:"address"`
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalAddressParams `form:"address" json:"address,omitempty"`
 	// Identifier name or reference for the arrival location.
-	ArrivalLocation *string `form:"arrival_location"`
+	ArrivalLocation *string `form:"arrival_location" json:"arrival_location,omitempty"`
 }
 
 // Address of the departure location.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Departure details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams struct {
 	// Address of the departure location.
-	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams `form:"address"`
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureAddressParams `form:"address" json:"address,omitempty"`
 	// Timestamp of departure.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at,omitempty"`
 	// Identifier name or reference for the origin location.
-	DepartureLocation *string `form:"departure_location"`
+	DepartureLocation *string `form:"departure_location" json:"departure_location,omitempty"`
 }
 
 // List of insurances for this reservation.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // List of passengers that this reservation applies to.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams struct {
 	// The family name of the person.
-	FamilyName *string `form:"family_name"`
+	FamilyName *string `form:"family_name" json:"family_name,omitempty"`
 	// The given name of the person.
-	GivenName *string `form:"given_name"`
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 }
 
 // Supplementary bus reservation details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams struct {
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// Arrival details.
-	Arrival *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams `form:"arrival"`
+	Arrival *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailArrivalParams `form:"arrival" json:"arrival,omitempty"`
 	// Name of transportation company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams `form:"departure"`
+	Departure *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailDepartureParams `form:"departure" json:"departure,omitempty"`
 	// List of insurances for this reservation.
-	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers that this reservation applies to.
-	Passengers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams `form:"passengers"`
+	Passengers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// Price in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 	// Ticket class.
-	TicketClass *string `form:"ticket_class"`
+	TicketClass *string `form:"ticket_class" json:"ticket_class,omitempty"`
 }
 
 // Address of the event.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // List of insurances for this event.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // Supplementary event reservation details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams struct {
 	// Indicates if the tickets are digitally checked when entering the venue.
-	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	AccessControlledVenue *bool `form:"access_controlled_venue" json:"access_controlled_venue,omitempty"`
 	// Address of the event.
-	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams `form:"address"`
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailAddressParams `form:"address" json:"address,omitempty"`
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// End timestamp of the event.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
 	// Company selling the ticket.
-	EventCompanyName *string `form:"event_company_name"`
+	EventCompanyName *string `form:"event_company_name" json:"event_company_name,omitempty"`
 	// Name of the event.
-	EventName *string `form:"event_name"`
+	EventName *string `form:"event_name" json:"event_name,omitempty"`
 	// Type of the event.
-	EventType *string `form:"event_type"`
+	EventType *string `form:"event_type" json:"event_type,omitempty"`
 	// List of insurances for this event.
-	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// Start timestamp of the event.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 	// Name of the venue where the event takes place.
-	VenueName *string `form:"venue_name"`
+	VenueName *string `form:"venue_name" json:"venue_name,omitempty"`
 }
 
 // Address of the arrival location.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Arrival details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams struct {
 	// Address of the arrival location.
-	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams `form:"address"`
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalAddressParams `form:"address" json:"address,omitempty"`
 	// Identifier name or reference for the arrival location.
-	ArrivalLocation *string `form:"arrival_location"`
+	ArrivalLocation *string `form:"arrival_location" json:"arrival_location,omitempty"`
 }
 
 // Address of the departure location.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Departure details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams struct {
 	// Address of the departure location.
-	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams `form:"address"`
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureAddressParams `form:"address" json:"address,omitempty"`
 	// Timestamp of departure.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at,omitempty"`
 	// Identifier name or reference for the origin location.
-	DepartureLocation *string `form:"departure_location"`
+	DepartureLocation *string `form:"departure_location" json:"departure_location,omitempty"`
 }
 
 // List of insurances for this reservation.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // List of passengers that this reservation applies to.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams struct {
 	// The family name of the person.
-	FamilyName *string `form:"family_name"`
+	FamilyName *string `form:"family_name" json:"family_name,omitempty"`
 	// The given name of the person.
-	GivenName *string `form:"given_name"`
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 }
 
 // Supplementary ferry reservation details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams struct {
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// Arrival details.
-	Arrival *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams `form:"arrival"`
+	Arrival *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailArrivalParams `form:"arrival" json:"arrival,omitempty"`
 	// Name of transportation company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams `form:"departure"`
+	Departure *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailDepartureParams `form:"departure" json:"departure,omitempty"`
 	// List of insurances for this reservation.
-	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers that this reservation applies to.
-	Passengers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams `form:"passengers"`
+	Passengers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// Price in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 	// Ticket class.
-	TicketClass *string `form:"ticket_class"`
+	TicketClass *string `form:"ticket_class" json:"ticket_class,omitempty"`
 }
 
 // Supplementary insurance details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // The address of the selling or delivering merchant.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Supplementary marketplace seller details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams struct {
 	// The references to line items for purchases with multiple associated sub-sellers.
-	LineItemReferences []*string `form:"line_item_references"`
+	LineItemReferences []*string `form:"line_item_references" json:"line_item_references,omitempty"`
 	// The address of the selling or delivering merchant.
-	MarketplaceSellerAddress *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams `form:"marketplace_seller_address"`
+	MarketplaceSellerAddress *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerMarketplaceSellerAddressParams `form:"marketplace_seller_address" json:"marketplace_seller_address,omitempty"`
 	// The name of the marketplace seller.
-	MarketplaceSellerName *string `form:"marketplace_seller_name"`
+	MarketplaceSellerName *string `form:"marketplace_seller_name" json:"marketplace_seller_name,omitempty"`
 	// The unique identifier for the marketplace seller.
-	MarketplaceSellerReference *string `form:"marketplace_seller_reference"`
+	MarketplaceSellerReference *string `form:"marketplace_seller_reference" json:"marketplace_seller_reference,omitempty"`
 	// The number of transactions the sub-seller completed in the last 12 months.
-	NumberOfTransactions *int64 `form:"number_of_transactions"`
+	NumberOfTransactions *int64 `form:"number_of_transactions" json:"number_of_transactions,omitempty"`
 	// The category of the product.
-	ProductCategory *string `form:"product_category"`
+	ProductCategory *string `form:"product_category" json:"product_category,omitempty"`
 	// The date when the seller's account with the marketplace was last logged in.
-	SellerLastLoginAt *int64 `form:"seller_last_login_at"`
+	SellerLastLoginAt *int64 `form:"seller_last_login_at" json:"seller_last_login_at,omitempty"`
 	// The current rating of the marketplace seller. If the marketplace uses numeric ranking, map these to the enum values.
-	SellerRating *string `form:"seller_rating"`
+	SellerRating *string `form:"seller_rating" json:"seller_rating,omitempty"`
 	// The date when the seller's account with the marketplace was created.
-	SellerRegisteredAt *int64 `form:"seller_registered_at"`
+	SellerRegisteredAt *int64 `form:"seller_registered_at" json:"seller_registered_at,omitempty"`
 	// The date when the seller's account with the marketplace was last updated.
-	SellerUpdatedAt *int64 `form:"seller_updated_at"`
+	SellerUpdatedAt *int64 `form:"seller_updated_at" json:"seller_updated_at,omitempty"`
 	// The references to shipping addresses for purchases with multiple associated sub-sellers.
-	ShippingReferences []*string `form:"shipping_references"`
+	ShippingReferences []*string `form:"shipping_references" json:"shipping_references,omitempty"`
 	// The accumulated amount of sales transactions made by the sub-merchant or sub-seller within the past 12 months in the payment currency. These transactions are in minor currency units.
-	VolumeOfTransactions *int64 `form:"volume_of_transactions"`
+	VolumeOfTransactions *int64 `form:"volume_of_transactions" json:"volume_of_transactions,omitempty"`
 }
 
 // Address of the arrival location.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Arrival details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams struct {
 	// Address of the arrival location.
-	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams `form:"address"`
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalAddressParams `form:"address" json:"address,omitempty"`
 	// Identifier name or reference for the arrival location.
-	ArrivalLocation *string `form:"arrival_location"`
+	ArrivalLocation *string `form:"arrival_location" json:"arrival_location,omitempty"`
 }
 
 // Address of the departure location.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Departure details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams struct {
 	// Address of the departure location.
-	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams `form:"address"`
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureAddressParams `form:"address" json:"address,omitempty"`
 	// Timestamp of departure.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at,omitempty"`
 	// Identifier name or reference for the origin location.
-	DepartureLocation *string `form:"departure_location"`
+	DepartureLocation *string `form:"departure_location" json:"departure_location,omitempty"`
 }
 
 // List of insurances for this reservation.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // List of passengers that this reservation applies to.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams struct {
 	// The family name of the person.
-	FamilyName *string `form:"family_name"`
+	FamilyName *string `form:"family_name" json:"family_name,omitempty"`
 	// The given name of the person.
-	GivenName *string `form:"given_name"`
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 }
 
 // Supplementary round trip reservation details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams struct {
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// Arrival details.
-	Arrival *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams `form:"arrival"`
+	Arrival *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailArrivalParams `form:"arrival" json:"arrival,omitempty"`
 	// Name of transportation company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams `form:"departure"`
+	Departure *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailDepartureParams `form:"departure" json:"departure,omitempty"`
 	// List of insurances for this reservation.
-	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers that this reservation applies to.
-	Passengers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams `form:"passengers"`
+	Passengers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// Price in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 	// Ticket class.
-	TicketClass *string `form:"ticket_class"`
+	TicketClass *string `form:"ticket_class" json:"ticket_class,omitempty"`
 }
 
 // Address of the arrival location.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Arrival details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams struct {
 	// Address of the arrival location.
-	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams `form:"address"`
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalAddressParams `form:"address" json:"address,omitempty"`
 	// Identifier name or reference for the arrival location.
-	ArrivalLocation *string `form:"arrival_location"`
+	ArrivalLocation *string `form:"arrival_location" json:"arrival_location,omitempty"`
 }
 
 // Address of the departure location.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams struct {
 	// The city or town.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// The country in ISO 3166-1 alpha-2 format.
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// The postal code formatted according to country.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// The state, county, province, or region formatted according to country.
-	Region *string `form:"region"`
+	Region *string `form:"region" json:"region,omitempty"`
 	// Line 1 of the street address.
-	StreetAddress *string `form:"street_address"`
+	StreetAddress *string `form:"street_address" json:"street_address,omitempty"`
 	// Line 2 of the street address.
-	StreetAddress2 *string `form:"street_address2"`
+	StreetAddress2 *string `form:"street_address2" json:"street_address2,omitempty"`
 }
 
 // Departure details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams struct {
 	// Address of the departure location.
-	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams `form:"address"`
+	Address *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureAddressParams `form:"address" json:"address,omitempty"`
 	// Timestamp of departure.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at" json:"departs_at,omitempty"`
 	// Identifier name or reference for the origin location.
-	DepartureLocation *string `form:"departure_location"`
+	DepartureLocation *string `form:"departure_location" json:"departure_location,omitempty"`
 }
 
 // List of insurances for this reservation.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams struct {
 	// Insurance currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Name of the company providing the insurance.
-	InsuranceCompanyName *string `form:"insurance_company_name"`
+	InsuranceCompanyName *string `form:"insurance_company_name" json:"insurance_company_name,omitempty"`
 	// Type of insurance.
-	InsuranceType *string `form:"insurance_type"`
+	InsuranceType *string `form:"insurance_type" json:"insurance_type,omitempty"`
 	// Price of insurance in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 }
 
 // List of passengers that this reservation applies to.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams struct {
 	// The family name of the person.
-	FamilyName *string `form:"family_name"`
+	FamilyName *string `form:"family_name" json:"family_name,omitempty"`
 	// The given name of the person.
-	GivenName *string `form:"given_name"`
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 }
 
 // Supplementary train reservation details.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams struct {
 	// Name of associated or partner company for the service.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// Arrival details.
-	Arrival *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams `form:"arrival"`
+	Arrival *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailArrivalParams `form:"arrival" json:"arrival,omitempty"`
 	// Name of transportation company.
-	CarrierName *string `form:"carrier_name"`
+	CarrierName *string `form:"carrier_name" json:"carrier_name,omitempty"`
 	// Currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Departure details.
-	Departure *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams `form:"departure"`
+	Departure *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailDepartureParams `form:"departure" json:"departure,omitempty"`
 	// List of insurances for this reservation.
-	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams `form:"insurances"`
+	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// List of passengers that this reservation applies to.
-	Passengers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams `form:"passengers"`
+	Passengers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailPassengerParams `form:"passengers" json:"passengers,omitempty"`
 	// Price in cents.
-	Price *int64 `form:"price"`
+	Price *int64 `form:"price" json:"price,omitempty"`
 	// Ticket class.
-	TicketClass *string `form:"ticket_class"`
+	TicketClass *string `form:"ticket_class" json:"ticket_class,omitempty"`
 }
 
 // Voucher details, such as a gift card or discount code.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams struct {
 	// Name of associated or partner company for this voucher.
-	AffiliateName *string `form:"affiliate_name"`
+	AffiliateName *string `form:"affiliate_name" json:"affiliate_name,omitempty"`
 	// The voucher validity end time.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
 	// The voucher validity start time.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 	// The issuer or provider of this voucher.
-	VoucherCompany *string `form:"voucher_company"`
+	VoucherCompany *string `form:"voucher_company" json:"voucher_company,omitempty"`
 	// The name or reference to identify the voucher.
-	VoucherName *string `form:"voucher_name"`
+	VoucherName *string `form:"voucher_name" json:"voucher_name,omitempty"`
 	// The type of this voucher.
-	VoucherType *string `form:"voucher_type"`
+	VoucherType *string `form:"voucher_type" json:"voucher_type,omitempty"`
 }
 
 // Supplementary Purchase Data for the corresponding Klarna payment
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams struct {
 	// Supplementary bus reservation details.
-	BusReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams `form:"bus_reservation_details"`
+	BusReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataBusReservationDetailParams `form:"bus_reservation_details" json:"bus_reservation_details,omitempty"`
 	// Supplementary event reservation details.
-	EventReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams `form:"event_reservation_details"`
+	EventReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataEventReservationDetailParams `form:"event_reservation_details" json:"event_reservation_details,omitempty"`
 	// Supplementary ferry reservation details.
-	FerryReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams `form:"ferry_reservation_details"`
+	FerryReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataFerryReservationDetailParams `form:"ferry_reservation_details" json:"ferry_reservation_details,omitempty"`
 	// Supplementary insurance details.
-	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams `form:"insurances"`
+	Insurances []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataInsuranceParams `form:"insurances" json:"insurances,omitempty"`
 	// Supplementary marketplace seller details.
-	MarketplaceSellers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams `form:"marketplace_sellers"`
+	MarketplaceSellers []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataMarketplaceSellerParams `form:"marketplace_sellers" json:"marketplace_sellers,omitempty"`
 	// Supplementary round trip reservation details.
-	RoundTripReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams `form:"round_trip_reservation_details"`
+	RoundTripReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataRoundTripReservationDetailParams `form:"round_trip_reservation_details" json:"round_trip_reservation_details,omitempty"`
 	// Supplementary train reservation details.
-	TrainReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details"`
+	TrainReservationDetails []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataTrainReservationDetailParams `form:"train_reservation_details" json:"train_reservation_details,omitempty"`
 	// Voucher details, such as a gift card or discount code.
-	Vouchers    []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams   `form:"vouchers"`
+	Vouchers    []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataVoucherParams   `form:"vouchers" json:"vouchers,omitempty"`
 	UnsetFields []OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -4666,11 +4666,11 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// On-demand details if setting up or charging an on-demand payment.
-	OnDemand *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
+	OnDemand *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand" json:"on_demand,omitempty"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
-	PreferredLocale *string `form:"preferred_locale"`
+	PreferredLocale *string `form:"preferred_locale" json:"preferred_locale,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4680,11 +4680,11 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Subscription details if setting up or charging a subscription.
-	Subscriptions []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+	Subscriptions []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions" json:"subscriptions,omitempty"`
 	// Supplementary Purchase Data for the corresponding Klarna payment
-	SupplementaryPurchaseData *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data"`
+	SupplementaryPurchaseData *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSupplementaryPurchaseDataParams `form:"supplementary_purchase_data" json:"supplementary_purchase_data,omitempty"`
 	UnsetFields               []OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParamsUnsetField               `form:"-" json:"-"`
 }
 
@@ -4709,10 +4709,10 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// [Deprecated] This is a legacy parameter that no longer has any function.
 	// Deprecated:
-	PersistentToken *string `form:"persistent_token"`
+	PersistentToken *string `form:"persistent_token" json:"persistent_token,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4722,7 +4722,7 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                              `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                              `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -4742,7 +4742,7 @@ func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParams) AddUnsetField
 // If paying by `oxxo`, this sub-hash contains details about the OXXO payment method options to pass to the order's PaymentIntent.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsOXXOParams struct {
 	// The number of calendar days before an OXXO voucher expires. For example, if you create an OXXO voucher on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
-	ExpiresAfterDays *int64 `form:"expires_after_days"`
+	ExpiresAfterDays *int64 `form:"expires_after_days" json:"expires_after_days,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4752,7 +4752,7 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsOXXOParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // If paying by `p24`, this sub-hash contains details about the P24 payment method options to pass to the order's PaymentIntent.
@@ -4766,53 +4766,53 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsP24Params struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Confirm that the payer has accepted the P24 terms and conditions.
-	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
+	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted" json:"tos_shown_and_accepted,omitempty"`
 }
 
 // The tax information for the line item.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams struct {
 	// The tax for a single unit of the line item in minor units. Cannot be a negative number.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The tax behavior for the line item.
-	Behavior *string `form:"behavior"`
+	Behavior *string `form:"behavior" json:"behavior"`
 }
 
 // The line items purchased by the customer.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalLineItemParams struct {
 	// Type of the line item.
-	Category *string `form:"category"`
+	Category *string `form:"category" json:"category,omitempty"`
 	// Description of the line item.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Descriptive name of the line item.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// Quantity of the line item. Must be a positive number.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity"`
 	// Client facing stock keeping unit, article number or similar.
-	SKU *string `form:"sku"`
+	SKU *string `form:"sku" json:"sku,omitempty"`
 	// The Stripe account ID of the connected account that sells the item.
-	SoldBy *string `form:"sold_by"`
+	SoldBy *string `form:"sold_by" json:"sold_by,omitempty"`
 	// The tax information for the line item.
-	Tax *OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams `form:"tax"`
+	Tax *OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// Price for a single unit of the line item in minor units. Cannot be a negative number.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount"`
 }
 
 // If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParams struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod *string `form:"capture_method"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// The line items purchased by the customer.
-	LineItems []*OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalLineItemParams `form:"line_items"`
+	LineItems []*OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// [Preferred locale](https://docs.stripe.com/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
-	PreferredLocale *string `form:"preferred_locale"`
+	PreferredLocale *string `form:"preferred_locale" json:"preferred_locale,omitempty"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference,omitempty"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
-	ReferenceID *string `form:"reference_id"`
+	ReferenceID *string `form:"reference_id" json:"reference_id,omitempty"`
 	// The risk correlation ID for an on-session payment using a saved PayPal payment method.
-	RiskCorrelationID *string `form:"risk_correlation_id"`
+	RiskCorrelationID *string `form:"risk_correlation_id" json:"risk_correlation_id,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4822,9 +4822,9 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
-	Subsellers  []*string                                                              `form:"subsellers"`
+	Subsellers  []*string                                                              `form:"subsellers" json:"subsellers,omitempty"`
 	UnsetFields []OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -4844,7 +4844,7 @@ func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParams) AddUnsetFie
 // Additional fields for Mandate creation
 type OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
-	ReferencePrefix *string                                                                                 `form:"reference_prefix"`
+	ReferencePrefix *string                                                                                 `form:"reference_prefix" json:"reference_prefix,omitempty"`
 	UnsetFields     []OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -4863,7 +4863,7 @@ func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsPa
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
+	MandateOptions *OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4873,9 +4873,9 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate  *string                                                                   `form:"target_date"`
+	TargetDate  *string                                                                   `form:"target_date" json:"target_date,omitempty"`
 	UnsetFields []OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -4894,7 +4894,7 @@ func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams) AddUnset
 // If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParams struct {
 	// Language shown to the payer on redirect.
-	PreferredLanguage *string `form:"preferred_language"`
+	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4904,7 +4904,7 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string                                                                `form:"setup_future_usage"`
+	SetupFutureUsage *string                                                                `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	UnsetFields      []OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -4924,9 +4924,9 @@ func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParams) AddUnsetFie
 // If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
-	AppID *string `form:"app_id"`
+	AppID *string `form:"app_id" json:"app_id,omitempty"`
 	// The client type that the end customer will pay from
-	Client *string `form:"client"`
+	Client *string `form:"client" json:"client,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4936,41 +4936,41 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // PaymentMethod-specific configuration to provide to the order's PaymentIntent.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the ACSS Debit payment method options to pass to the order's PaymentIntent.
-	ACSSDebit *OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+	ACSSDebit *OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// If paying by `afterpay_clearpay`, this sub-hash contains details about the AfterpayClearpay payment method options to pass to the order's PaymentIntent.
-	AfterpayClearpay *OrderUpdatePaymentSettingsPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
+	AfterpayClearpay *OrderUpdatePaymentSettingsPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay" json:"afterpay_clearpay,omitempty"`
 	// If paying by `alipay`, this sub-hash contains details about the Alipay payment method options to pass to the order's PaymentIntent.
-	Alipay *OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParams `form:"alipay"`
+	Alipay *OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the order's PaymentIntent.
-	Bancontact *OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	Bancontact *OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order's PaymentIntent.
-	Card *OrderUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
+	Card *OrderUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Customer Balance payment method options to pass to the order's PaymentIntent.
-	CustomerBalance *OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	CustomerBalance *OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// If paying by `ideal`, this sub-hash contains details about the iDEAL payment method options to pass to the order's PaymentIntent.
-	IDEAL *OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParams `form:"ideal"`
+	IDEAL *OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParams `form:"ideal" json:"ideal,omitempty"`
 	// If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
-	Klarna *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams `form:"klarna"`
+	Klarna *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams `form:"klarna" json:"klarna,omitempty"`
 	// If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
-	Link *OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParams `form:"link"`
+	Link *OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// If paying by `oxxo`, this sub-hash contains details about the OXXO payment method options to pass to the order's PaymentIntent.
-	OXXO *OrderUpdatePaymentSettingsPaymentMethodOptionsOXXOParams `form:"oxxo"`
+	OXXO *OrderUpdatePaymentSettingsPaymentMethodOptionsOXXOParams `form:"oxxo" json:"oxxo,omitempty"`
 	// If paying by `p24`, this sub-hash contains details about the P24 payment method options to pass to the order's PaymentIntent.
-	P24 *OrderUpdatePaymentSettingsPaymentMethodOptionsP24Params `form:"p24"`
+	P24 *OrderUpdatePaymentSettingsPaymentMethodOptionsP24Params `form:"p24" json:"p24,omitempty"`
 	// If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
-	Paypal *OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParams `form:"paypal"`
+	Paypal *OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParams `form:"paypal" json:"paypal,omitempty"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
-	SEPADebit *OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	SEPADebit *OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
-	Sofort *OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParams `form:"sofort"`
+	Sofort *OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
-	WeChatPay   *OrderUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams   `form:"wechat_pay"`
+	WeChatPay   *OrderUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams   `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	UnsetFields []OrderUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -5003,27 +5003,27 @@ func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsParams) AddUnsetField(fie
 // Provides configuration for completing a transfer for the order after it is paid.
 type OrderUpdatePaymentSettingsTransferDataParams struct {
 	// The amount that will be transferred automatically when the order is paid. If no amount is set, the full amount is transferred. There cannot be any line items with recurring prices when using this field.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// ID of the Connected account receiving the transfer.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 
 // Settings describing how the order should configure generated PaymentIntents.
 type OrderUpdatePaymentSettingsParams struct {
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account.
-	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// PaymentMethod-specific configuration to provide to the order's PaymentIntent.
-	PaymentMethodOptions *OrderUpdatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodOptions *OrderUpdatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The list of [payment method types](https://docs.stripe.com/payments/payment-methods/overview) to provide to the order's PaymentIntent. Do not include this attribute if you prefer to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
-	PaymentMethodTypes []*string `form:"payment_method_types"`
+	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// The URL to redirect the customer to after they authenticate their payment.
-	ReturnURL *string `form:"return_url"`
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
-	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
 	// Provides configuration for completing a transfer for the order after it is paid.
-	TransferData *OrderUpdatePaymentSettingsTransferDataParams `form:"transfer_data"`
+	TransferData *OrderUpdatePaymentSettingsTransferDataParams `form:"transfer_data" json:"transfer_data,omitempty"`
 	UnsetFields  []OrderUpdatePaymentSettingsParamsUnsetField  `form:"-" json:"-"`
 }
 
@@ -5044,67 +5044,67 @@ func (p *OrderUpdatePaymentSettingsParams) AddUnsetField(field OrderUpdatePaymen
 // Payment information associated with the order, including payment settings.
 type OrderUpdatePaymentParams struct {
 	// Settings describing how the order should configure generated PaymentIntents.
-	Settings *OrderUpdatePaymentSettingsParams `form:"settings"`
+	Settings *OrderUpdatePaymentSettingsParams `form:"settings" json:"settings"`
 }
 
 // The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 type OrderUpdateShippingCostShippingRateDataDeliveryEstimateMaximumParams struct {
 	// A unit of time.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit"`
 	// Must be greater than 0.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The lower bound of the estimated range. If empty, represents no lower bound.
 type OrderUpdateShippingCostShippingRateDataDeliveryEstimateMinimumParams struct {
 	// A unit of time.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit"`
 	// Must be greater than 0.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 type OrderUpdateShippingCostShippingRateDataDeliveryEstimateParams struct {
 	// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
-	Maximum *OrderUpdateShippingCostShippingRateDataDeliveryEstimateMaximumParams `form:"maximum"`
+	Maximum *OrderUpdateShippingCostShippingRateDataDeliveryEstimateMaximumParams `form:"maximum" json:"maximum,omitempty"`
 	// The lower bound of the estimated range. If empty, represents no lower bound.
-	Minimum *OrderUpdateShippingCostShippingRateDataDeliveryEstimateMinimumParams `form:"minimum"`
+	Minimum *OrderUpdateShippingCostShippingRateDataDeliveryEstimateMinimumParams `form:"minimum" json:"minimum,omitempty"`
 }
 
 // Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 type OrderUpdateShippingCostShippingRateDataFixedAmountCurrencyOptionsParams struct {
 	// A non-negative integer in cents representing how much to charge.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 }
 
 // Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 type OrderUpdateShippingCostShippingRateDataFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-	CurrencyOptions map[string]*OrderUpdateShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
+	CurrencyOptions map[string]*OrderUpdateShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
 }
 
 // Parameters to create a new ad-hoc shipping rate for this order.
 type OrderUpdateShippingCostShippingRateDataParams struct {
 	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
-	DeliveryEstimate *OrderUpdateShippingCostShippingRateDataDeliveryEstimateParams `form:"delivery_estimate"`
+	DeliveryEstimate *OrderUpdateShippingCostShippingRateDataDeliveryEstimateParams `form:"delivery_estimate" json:"delivery_estimate,omitempty"`
 	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
-	DisplayName *string `form:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name"`
 	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
-	FixedAmount *OrderUpdateShippingCostShippingRateDataFixedAmountParams `form:"fixed_amount"`
+	FixedAmount *OrderUpdateShippingCostShippingRateDataFixedAmountParams `form:"fixed_amount" json:"fixed_amount,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 	// The type of calculation to use on the shipping rate.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -5119,19 +5119,19 @@ func (p *OrderUpdateShippingCostShippingRateDataParams) AddMetadata(key string, 
 // Settings for the customer cost of shipping for this order.
 type OrderUpdateShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
-	ShippingRate *string `form:"shipping_rate"`
+	ShippingRate *string `form:"shipping_rate" json:"shipping_rate,omitempty"`
 	// Parameters to create a new ad-hoc shipping rate for this order.
-	ShippingRateData *OrderUpdateShippingCostShippingRateDataParams `form:"shipping_rate_data"`
+	ShippingRateData *OrderUpdateShippingCostShippingRateDataParams `form:"shipping_rate_data" json:"shipping_rate_data,omitempty"`
 }
 
 // Shipping details for the order.
 type OrderUpdateShippingDetailsParams struct {
 	// The shipping address for the order.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 	// The name of the recipient of the order.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// The phone number (including extension) for the recipient of the order.
-	Phone       *string                                      `form:"phone"`
+	Phone       *string                                      `form:"phone" json:"phone,omitempty"`
 	UnsetFields []OrderUpdateShippingDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -5150,17 +5150,17 @@ func (p *OrderUpdateShippingDetailsParams) AddUnsetField(field OrderUpdateShippi
 // The purchaser's tax IDs to be used for this order.
 type OrderUpdateTaxDetailsTaxIDParams struct {
 	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// Value of the tax ID.
-	Value *string `form:"value"`
+	Value *string `form:"value" json:"value"`
 }
 
 // Additional tax details about the purchaser to be used for this order.
 type OrderUpdateTaxDetailsParams struct {
 	// The purchaser's tax exemption status. One of `none`, `exempt`, or `reverse`.
-	TaxExempt *string `form:"tax_exempt"`
+	TaxExempt *string `form:"tax_exempt" json:"tax_exempt,omitempty"`
 	// The purchaser's tax IDs to be used for this order.
-	TaxIDs      []*OrderUpdateTaxDetailsTaxIDParams     `form:"tax_ids"`
+	TaxIDs      []*OrderUpdateTaxDetailsTaxIDParams     `form:"tax_ids" json:"tax_ids,omitempty"`
 	UnsetFields []OrderUpdateTaxDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -5180,33 +5180,33 @@ func (p *OrderUpdateTaxDetailsParams) AddUnsetField(field OrderUpdateTaxDetailsP
 type OrderUpdateParams struct {
 	Params `form:"*"`
 	// Settings for automatic tax calculation for this order.
-	AutomaticTax *OrderUpdateAutomaticTaxParams `form:"automatic_tax"`
+	AutomaticTax *OrderUpdateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
-	BillingDetails *OrderUpdateBillingDetailsParams `form:"billing_details"`
+	BillingDetails *OrderUpdateBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The customer associated with this order.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The coupons, promotion codes, and/or discounts to apply to the order. Pass the empty string `""` to unset this field.
-	Discounts []*OrderUpdateDiscountParams `form:"discounts"`
+	Discounts []*OrderUpdateDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The IP address of the purchaser for this order.
-	IPAddress *string `form:"ip_address"`
+	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
 	// A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.
-	LineItems []*OrderUpdateLineItemParams `form:"line_items"`
+	LineItems []*OrderUpdateLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Payment information associated with the order, including payment settings.
-	Payment *OrderUpdatePaymentParams `form:"payment"`
+	Payment *OrderUpdatePaymentParams `form:"payment" json:"payment,omitempty"`
 	// Settings for the customer cost of shipping for this order.
-	ShippingCost *OrderUpdateShippingCostParams `form:"shipping_cost"`
+	ShippingCost *OrderUpdateShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
 	// Shipping details for the order.
-	ShippingDetails *OrderUpdateShippingDetailsParams `form:"shipping_details"`
+	ShippingDetails *OrderUpdateShippingDetailsParams `form:"shipping_details" json:"shipping_details,omitempty"`
 	// Additional tax details about the purchaser to be used for this order.
-	TaxDetails  *OrderUpdateTaxDetailsParams  `form:"tax_details"`
+	TaxDetails  *OrderUpdateTaxDetailsParams  `form:"tax_details" json:"tax_details,omitempty"`
 	UnsetFields []OrderUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -5267,7 +5267,7 @@ type OrderPaymentSettingsAutomaticPaymentMethods struct {
 }
 type OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// A URL for custom mandate text
-	CustomMandateURL string `json:"custom_mandate_url"`
+	CustomMandateURL string `json:"custom_mandate_url,omitempty"`
 	// Description of the interval. Only required if the 'payment_schedule' parameter is 'interval' or 'combined'.
 	IntervalDescription string `json:"interval_description"`
 	// Payment schedule for the mandate.
@@ -5276,7 +5276,7 @@ type OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	TransactionType OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsACSSDebit struct {
-	MandateOptions *OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions `json:"mandate_options"`
+	MandateOptions *OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions `json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5284,15 +5284,15 @@ type OrderPaymentSettingsPaymentMethodOptionsACSSDebit struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsACSSDebitSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsACSSDebitSetupFutureUsage `json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate string `json:"target_date"`
+	TargetDate string `json:"target_date,omitempty"`
 	// Bank account verification method.
-	VerificationMethod OrderPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
+	VerificationMethod OrderPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpay struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethod `json:"capture_method"`
+	CaptureMethod OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayCaptureMethod `json:"capture_method,omitempty"`
 	// Order identifier shown to the user in Afterpay's online portal. We recommend using a value that helps you answer any questions a customer might have about the payment. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
 	Reference string `json:"reference"`
 	// Indicates that you intend to make future payments with the payment method.
@@ -5302,7 +5302,7 @@ type OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpay struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpaySetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpaySetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsAlipay struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -5312,7 +5312,7 @@ type OrderPaymentSettingsPaymentMethodOptionsAlipay struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsAlipaySetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsAlipaySetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
@@ -5324,7 +5324,7 @@ type OrderPaymentSettingsPaymentMethodOptionsBancontact struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsBancontactSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsBancontactSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsCard struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -5336,23 +5336,23 @@ type OrderPaymentSettingsPaymentMethodOptionsCard struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	//
 	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsCardSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsCardSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry `json:"country"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct {
-	EUBankTransfer *OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer `json:"eu_bank_transfer"`
+	EUBankTransfer *OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer `json:"eu_bank_transfer,omitempty"`
 	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 	//
 	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
-	RequestedAddressTypes []OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType `json:"requested_address_types"`
+	RequestedAddressTypes []OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType `json:"requested_address_types,omitempty"`
 	// The bank transfer type that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 	Type OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferType `json:"type"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsCustomerBalance struct {
-	BankTransfer *OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer `json:"bank_transfer"`
+	BankTransfer *OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer `json:"bank_transfer,omitempty"`
 	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
 	FundingType OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType `json:"funding_type"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -5362,7 +5362,7 @@ type OrderPaymentSettingsPaymentMethodOptionsCustomerBalance struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsCustomerBalanceSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsIDEAL struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -5372,11 +5372,11 @@ type OrderPaymentSettingsPaymentMethodOptionsIDEAL struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsIDEALSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsIDEALSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsKlarna struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod OrderPaymentSettingsPaymentMethodOptionsKlarnaCaptureMethod `json:"capture_method"`
+	CaptureMethod OrderPaymentSettingsPaymentMethodOptionsKlarnaCaptureMethod `json:"capture_method,omitempty"`
 	// Preferred locale of the Klarna checkout page that the customer is redirected to.
 	PreferredLocale string `json:"preferred_locale"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -5386,11 +5386,11 @@ type OrderPaymentSettingsPaymentMethodOptionsKlarna struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsKlarnaSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsKlarnaSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsLink struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod OrderPaymentSettingsPaymentMethodOptionsLinkCaptureMethod `json:"capture_method"`
+	CaptureMethod OrderPaymentSettingsPaymentMethodOptionsLinkCaptureMethod `json:"capture_method,omitempty"`
 	// [Deprecated] This is a legacy parameter that no longer has any function.
 	// Deprecated:
 	PersistentToken string `json:"persistent_token"`
@@ -5401,7 +5401,7 @@ type OrderPaymentSettingsPaymentMethodOptionsLink struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsLinkSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsLinkSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsOXXO struct {
 	// The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
@@ -5413,7 +5413,7 @@ type OrderPaymentSettingsPaymentMethodOptionsOXXO struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsOXXOSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsOXXOSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsP24 struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -5423,7 +5423,7 @@ type OrderPaymentSettingsPaymentMethodOptionsP24 struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsP24SetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsP24SetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTax struct {
 	// The tax for a single unit of the line item in minor units. Cannot be a negative number.
@@ -5435,32 +5435,32 @@ type OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTax struct {
 // The line items purchased by the customer.
 type OrderPaymentSettingsPaymentMethodOptionsPaypalLineItem struct {
 	// Type of the line item.
-	Category OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemCategory `json:"category"`
+	Category OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemCategory `json:"category,omitempty"`
 	// Description of the line item.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Descriptive name of the line item.
 	Name string `json:"name"`
 	// Quantity of the line item. Cannot be a negative number.
 	Quantity int64 `json:"quantity"`
 	// Client facing stock keeping unit, article number or similar.
-	SKU string `json:"sku"`
+	SKU string `json:"sku,omitempty"`
 	// The Stripe account ID of the connected account that sells the item. This is only needed when using [Separate Charges and Transfers](https://docs.stripe.com/connect/separate-charges-and-transfers).
-	SoldBy string                                                     `json:"sold_by"`
-	Tax    *OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTax `json:"tax"`
+	SoldBy string                                                     `json:"sold_by,omitempty"`
+	Tax    *OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTax `json:"tax,omitempty"`
 	// Price for a single unit of the line item in minor units. Cannot be a negative number.
 	UnitAmount int64 `json:"unit_amount"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsPaypal struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod OrderPaymentSettingsPaymentMethodOptionsPaypalCaptureMethod `json:"capture_method"`
+	CaptureMethod OrderPaymentSettingsPaymentMethodOptionsPaypalCaptureMethod `json:"capture_method,omitempty"`
 	// The line items purchased by the customer.
-	LineItems []*OrderPaymentSettingsPaymentMethodOptionsPaypalLineItem `json:"line_items"`
+	LineItems []*OrderPaymentSettingsPaymentMethodOptionsPaypalLineItem `json:"line_items,omitempty"`
 	// Preferred locale of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale string `json:"preferred_locale"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
 	Reference string `json:"reference"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
-	ReferenceID string `json:"reference_id"`
+	ReferenceID string `json:"reference_id,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5468,16 +5468,16 @@ type OrderPaymentSettingsPaymentMethodOptionsPaypal struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsPaypalSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsPaypalSetupFutureUsage `json:"setup_future_usage,omitempty"`
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
-	Subsellers []string `json:"subsellers"`
+	Subsellers []string `json:"subsellers,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptions struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
-	ReferencePrefix string `json:"reference_prefix"`
+	ReferencePrefix string `json:"reference_prefix,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsSEPADebit struct {
-	MandateOptions *OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
+	MandateOptions *OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5485,9 +5485,9 @@ type OrderPaymentSettingsPaymentMethodOptionsSEPADebit struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsSEPADebitSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsSEPADebitSetupFutureUsage `json:"setup_future_usage,omitempty"`
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
-	TargetDate string `json:"target_date"`
+	TargetDate string `json:"target_date,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsSofort struct {
 	// Preferred language of the SOFORT authorization page that the customer is redirected to.
@@ -5499,7 +5499,7 @@ type OrderPaymentSettingsPaymentMethodOptionsSofort struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsSofortSetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsSofortSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsWeChatPay struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
@@ -5513,26 +5513,26 @@ type OrderPaymentSettingsPaymentMethodOptionsWeChatPay struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsWeChatPaySetupFutureUsage `json:"setup_future_usage"`
+	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsWeChatPaySetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 
 // PaymentMethod-specific configuration to provide to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptions struct {
-	ACSSDebit        *OrderPaymentSettingsPaymentMethodOptionsACSSDebit        `json:"acss_debit"`
-	AfterpayClearpay *OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay"`
-	Alipay           *OrderPaymentSettingsPaymentMethodOptionsAlipay           `json:"alipay"`
-	Bancontact       *OrderPaymentSettingsPaymentMethodOptionsBancontact       `json:"bancontact"`
-	Card             *OrderPaymentSettingsPaymentMethodOptionsCard             `json:"card"`
-	CustomerBalance  *OrderPaymentSettingsPaymentMethodOptionsCustomerBalance  `json:"customer_balance"`
-	IDEAL            *OrderPaymentSettingsPaymentMethodOptionsIDEAL            `json:"ideal"`
-	Klarna           *OrderPaymentSettingsPaymentMethodOptionsKlarna           `json:"klarna"`
-	Link             *OrderPaymentSettingsPaymentMethodOptionsLink             `json:"link"`
-	OXXO             *OrderPaymentSettingsPaymentMethodOptionsOXXO             `json:"oxxo"`
-	P24              *OrderPaymentSettingsPaymentMethodOptionsP24              `json:"p24"`
-	Paypal           *OrderPaymentSettingsPaymentMethodOptionsPaypal           `json:"paypal"`
-	SEPADebit        *OrderPaymentSettingsPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
-	Sofort           *OrderPaymentSettingsPaymentMethodOptionsSofort           `json:"sofort"`
-	WeChatPay        *OrderPaymentSettingsPaymentMethodOptionsWeChatPay        `json:"wechat_pay"`
+	ACSSDebit        *OrderPaymentSettingsPaymentMethodOptionsACSSDebit        `json:"acss_debit,omitempty"`
+	AfterpayClearpay *OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay,omitempty"`
+	Alipay           *OrderPaymentSettingsPaymentMethodOptionsAlipay           `json:"alipay,omitempty"`
+	Bancontact       *OrderPaymentSettingsPaymentMethodOptionsBancontact       `json:"bancontact,omitempty"`
+	Card             *OrderPaymentSettingsPaymentMethodOptionsCard             `json:"card,omitempty"`
+	CustomerBalance  *OrderPaymentSettingsPaymentMethodOptionsCustomerBalance  `json:"customer_balance,omitempty"`
+	IDEAL            *OrderPaymentSettingsPaymentMethodOptionsIDEAL            `json:"ideal,omitempty"`
+	Klarna           *OrderPaymentSettingsPaymentMethodOptionsKlarna           `json:"klarna,omitempty"`
+	Link             *OrderPaymentSettingsPaymentMethodOptionsLink             `json:"link,omitempty"`
+	OXXO             *OrderPaymentSettingsPaymentMethodOptionsOXXO             `json:"oxxo,omitempty"`
+	P24              *OrderPaymentSettingsPaymentMethodOptionsP24              `json:"p24,omitempty"`
+	Paypal           *OrderPaymentSettingsPaymentMethodOptionsPaypal           `json:"paypal,omitempty"`
+	SEPADebit        *OrderPaymentSettingsPaymentMethodOptionsSEPADebit        `json:"sepa_debit,omitempty"`
+	Sofort           *OrderPaymentSettingsPaymentMethodOptionsSofort           `json:"sofort,omitempty"`
+	WeChatPay        *OrderPaymentSettingsPaymentMethodOptionsWeChatPay        `json:"wechat_pay,omitempty"`
 }
 
 // Provides configuration for completing a transfer for the order after it is paid.
@@ -5596,7 +5596,7 @@ type OrderShippingCost struct {
 	// The ID of the ShippingRate for this order.
 	ShippingRate *ShippingRate `json:"shipping_rate"`
 	// The taxes applied to the shipping rate.
-	Taxes []*OrderShippingCostTax `json:"taxes"`
+	Taxes []*OrderShippingCostTax `json:"taxes,omitempty"`
 }
 
 // Customer shipping information associated with the order.
@@ -5660,7 +5660,7 @@ type OrderTotalDetails struct {
 	AmountShipping int64 `json:"amount_shipping"`
 	// This is the sum of all the tax amounts.
 	AmountTax int64                       `json:"amount_tax"`
-	Breakdown *OrderTotalDetailsBreakdown `json:"breakdown"`
+	Breakdown *OrderTotalDetailsBreakdown `json:"breakdown,omitempty"`
 }
 
 // An Order describes a purchase being made by a customer, including the
@@ -5676,7 +5676,7 @@ type Order struct {
 	AmountTotal int64 `json:"amount_total"`
 	// ID of the Connect application that created the Order, if any.
 	Application  *Application       `json:"application"`
-	AutomaticTax *OrderAutomaticTax `json:"automatic_tax"`
+	AutomaticTax *OrderAutomaticTax `json:"automatic_tax,omitempty"`
 	// Customer billing details associated with the order.
 	BillingDetails *OrderBillingDetails `json:"billing_details"`
 	// The client secret of this Order. Used for client-side retrieval using a publishable key.
@@ -5700,7 +5700,7 @@ type Order struct {
 	// A recent IP address of the purchaser used for tax reporting and tax location inference.
 	IPAddress string `json:"ip_address"`
 	// A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost. There is a maximum of 100 line items.
-	LineItems *LineItemList `json:"line_items"`
+	LineItems *LineItemList `json:"line_items,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -5714,7 +5714,7 @@ type Order struct {
 	ShippingDetails *OrderShippingDetails `json:"shipping_details"`
 	// The overall status of the order.
 	Status       OrderStatus        `json:"status"`
-	TaxDetails   *OrderTaxDetails   `json:"tax_details"`
+	TaxDetails   *OrderTaxDetails   `json:"tax_details,omitempty"`
 	TotalDetails *OrderTotalDetails `json:"total_details"`
 }
 

@@ -297,7 +297,7 @@ type QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigCustom struct {
 	Second int64 `json:"second"`
 }
 type QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfig struct {
-	Custom *QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom"`
+	Custom *QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom,omitempty"`
 	// The type of service period anchor config.
 	Type QuoteLineActionAddDiscountSettingsServicePeriodAnchorConfigType `json:"type"`
 }
@@ -314,12 +314,12 @@ type QuoteLineActionAddDiscount struct {
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteLineActionAddDiscountDiscountEnd `json:"discount_end"`
+	DiscountEnd *QuoteLineActionAddDiscountDiscountEnd `json:"discount_end,omitempty"`
 	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
 	Index int64 `json:"index"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *PromotionCode                      `json:"promotion_code"`
-	Settings      *QuoteLineActionAddDiscountSettings `json:"settings"`
+	Settings      *QuoteLineActionAddDiscountSettings `json:"settings,omitempty"`
 }
 
 // Details to determine how long the discount should be applied for.
@@ -342,7 +342,7 @@ type QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustom struc
 	Second int64 `json:"second"`
 }
 type QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfig struct {
-	Custom *QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom"`
+	Custom *QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom,omitempty"`
 	// The type of service period anchor config.
 	Type QuoteLineActionAddItemDiscountSettingsServicePeriodAnchorConfigType `json:"type"`
 }
@@ -359,16 +359,16 @@ type QuoteLineActionAddItemDiscount struct {
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteLineActionAddItemDiscountDiscountEnd `json:"discount_end"`
+	DiscountEnd *QuoteLineActionAddItemDiscountDiscountEnd `json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *PromotionCode                          `json:"promotion_code"`
-	Settings      *QuoteLineActionAddItemDiscountSettings `json:"settings"`
+	Settings      *QuoteLineActionAddItemDiscountSettings `json:"settings,omitempty"`
 }
 
 // Options that configure the trial on the subscription item.
 type QuoteLineActionAddItemTrial struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
-	ConvertsTo []string `json:"converts_to"`
+	ConvertsTo []string `json:"converts_to,omitempty"`
 	// Determines the type of trial for this item.
 	Type QuoteLineActionAddItemTrialType `json:"type"`
 }
@@ -382,13 +382,13 @@ type QuoteLineActionAddItem struct {
 	// ID of the price to which the customer should be subscribed.
 	Price *Price `json:"price"`
 	// Quantity of the plan to which the customer should be subscribed.
-	Quantity int64 `json:"quantity"`
+	Quantity int64 `json:"quantity,omitempty"`
 	// The tax rates which apply to this `phase_item`. When set, the `default_tax_rates` on the phase do not apply to this `phase_item`.
-	TaxRates []*TaxRate `json:"tax_rates"`
+	TaxRates []*TaxRate `json:"tax_rates,omitempty"`
 	// Options that configure the trial on the subscription item.
-	Trial *QuoteLineActionAddItemTrial `json:"trial"`
+	Trial *QuoteLineActionAddItemTrial `json:"trial,omitempty"`
 	// The ID of the trial offer to apply to the configuration item.
-	TrialOffer string `json:"trial_offer"`
+	TrialOffer string `json:"trial_offer,omitempty"`
 }
 
 // Details to determine how long the discount should be applied for.
@@ -406,7 +406,7 @@ type QuoteLineActionRemoveDiscount struct {
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteLineActionRemoveDiscountDiscountEnd `json:"discount_end"`
+	DiscountEnd *QuoteLineActionRemoveDiscountDiscountEnd `json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *PromotionCode `json:"promotion_code"`
 }
@@ -437,7 +437,7 @@ type QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigCustom struct {
 	Second int64 `json:"second"`
 }
 type QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfig struct {
-	Custom *QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom"`
+	Custom *QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom,omitempty"`
 	// The type of service period anchor config.
 	Type QuoteLineActionSetDiscountSettingsServicePeriodAnchorConfigType `json:"type"`
 }
@@ -454,10 +454,10 @@ type QuoteLineActionSetDiscount struct {
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteLineActionSetDiscountDiscountEnd `json:"discount_end"`
+	DiscountEnd *QuoteLineActionSetDiscountDiscountEnd `json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *PromotionCode                      `json:"promotion_code"`
-	Settings      *QuoteLineActionSetDiscountSettings `json:"settings"`
+	Settings      *QuoteLineActionSetDiscountSettings `json:"settings,omitempty"`
 }
 
 // Details to determine how long the discount should be applied for.
@@ -480,7 +480,7 @@ type QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustom struc
 	Second int64 `json:"second"`
 }
 type QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfig struct {
-	Custom *QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom"`
+	Custom *QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom,omitempty"`
 	// The type of service period anchor config.
 	Type QuoteLineActionSetItemDiscountSettingsServicePeriodAnchorConfigType `json:"type"`
 }
@@ -497,16 +497,16 @@ type QuoteLineActionSetItemDiscount struct {
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuoteLineActionSetItemDiscountDiscountEnd `json:"discount_end"`
+	DiscountEnd *QuoteLineActionSetItemDiscountDiscountEnd `json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *PromotionCode                          `json:"promotion_code"`
-	Settings      *QuoteLineActionSetItemDiscountSettings `json:"settings"`
+	Settings      *QuoteLineActionSetItemDiscountSettings `json:"settings,omitempty"`
 }
 
 // Options that configure the trial on the subscription item.
 type QuoteLineActionSetItemTrial struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
-	ConvertsTo []string `json:"converts_to"`
+	ConvertsTo []string `json:"converts_to,omitempty"`
 	// Determines the type of trial for this item.
 	Type QuoteLineActionSetItemTrialType `json:"type"`
 }
@@ -520,13 +520,13 @@ type QuoteLineActionSetItem struct {
 	// ID of the price to which the customer should be subscribed.
 	Price *Price `json:"price"`
 	// Quantity of the plan to which the customer should be subscribed.
-	Quantity int64 `json:"quantity"`
+	Quantity int64 `json:"quantity,omitempty"`
 	// The tax rates which apply to this `phase_item`. When set, the `default_tax_rates` on the phase do not apply to this `phase_item`.
-	TaxRates []*TaxRate `json:"tax_rates"`
+	TaxRates []*TaxRate `json:"tax_rates,omitempty"`
 	// Options that configure the trial on the subscription item.
-	Trial *QuoteLineActionSetItemTrial `json:"trial"`
+	Trial *QuoteLineActionSetItemTrial `json:"trial,omitempty"`
 	// The ID of the trial offer to apply to the configuration item.
-	TrialOffer string `json:"trial_offer"`
+	TrialOffer string `json:"trial_offer,omitempty"`
 }
 
 // A list of items the customer is being quoted for.
@@ -592,7 +592,7 @@ type QuoteLineEndsAt struct {
 	// The timestamp value that will be used to determine when to make changes to the subscription schedule, as computed from the `ends_at` field. For example, if `ends_at[type]=upcoming_invoice`, the upcoming invoice date will be computed at the time the `ends_at` field was specified and saved. This field will not be recomputed upon future requests to update or finalize the quote unless `ends_at` is respecified. This field is guaranteed to be populated after quote acceptance.
 	Computed int64 `json:"computed"`
 	// Use the `end` time of a given discount.
-	DiscountEnd *QuoteLineEndsAtDiscountEnd `json:"discount_end"`
+	DiscountEnd *QuoteLineEndsAtDiscountEnd `json:"discount_end,omitempty"`
 	// Time span for the quote line starting from the `starts_at` date.
 	Duration *QuoteLineEndsAtDuration `json:"duration"`
 	// A precise Unix timestamp.
@@ -610,7 +610,7 @@ type QuoteLineSetPauseCollectionSet struct {
 // Details to modify the pause_collection behavior of the subscription schedule.
 type QuoteLineSetPauseCollection struct {
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
-	Set *QuoteLineSetPauseCollectionSet `json:"set"`
+	Set *QuoteLineSetPauseCollectionSet `json:"set,omitempty"`
 	// Defines the type of the pause_collection behavior for the quote line.
 	Type QuoteLineSetPauseCollectionType `json:"type"`
 }
@@ -632,7 +632,7 @@ type QuoteLineStartsAt struct {
 	// The timestamp value that will be used to determine when to make changes to the subscription schedule, as computed from the `starts_at` field. For example, if `starts_at[type]=upcoming_invoice`, the upcoming invoice date will be computed at the time the `starts_at` field was specified and saved. This field will not be recomputed upon future requests to update or finalize the quote unless `starts_at` is respecified. This field is guaranteed to be populated after quote acceptance.
 	Computed int64 `json:"computed"`
 	// Use the `end` time of a given discount.
-	DiscountEnd *QuoteLineStartsAtDiscountEnd `json:"discount_end"`
+	DiscountEnd *QuoteLineStartsAtDiscountEnd `json:"discount_end,omitempty"`
 	// The timestamp the given line ends at.
 	LineEndsAt *QuoteLineStartsAtLineEndsAt `json:"line_ends_at"`
 	// A precise Unix timestamp.
@@ -656,7 +656,7 @@ type QuoteLineTrialSettings struct {
 // A quote line defines a set of changes, in the order provided, that will be applied upon quote acceptance.
 type QuoteLine struct {
 	// A list of items the customer is being quoted for.
-	Actions []*QuoteLineAction `json:"actions"`
+	Actions []*QuoteLineAction `json:"actions,omitempty"`
 	// Details to identify the subscription schedule the quote line applies to.
 	AppliesTo *QuoteLineAppliesTo `json:"applies_to"`
 	// For point-in-time quote lines (having no `ends_at` timestamp), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the Quote Line `starts_at` timestamp.For time-span based quote lines (having both `starts_at` and `ends_at`), the only valid value is `automatic`, which removes any previously configured billing cycle anchor resets during the window of time spanning the quote line.
@@ -664,7 +664,7 @@ type QuoteLine struct {
 	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
 	CancelSubscriptionSchedule *QuoteLineCancelSubscriptionSchedule `json:"cancel_subscription_schedule"`
 	// Configures how the subscription schedule handles billing for phase transitions.
-	EffectiveAt QuoteLineEffectiveAt `json:"effective_at"`
+	EffectiveAt QuoteLineEffectiveAt `json:"effective_at,omitempty"`
 	// Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
 	EndsAt *QuoteLineEndsAt `json:"ends_at"`
 	// Unique identifier for the object.
@@ -674,13 +674,13 @@ type QuoteLine struct {
 	// Changes to how Stripe handles prorations during the quote line's time span. Affects if and how prorations are created when a future phase starts.
 	ProrationBehavior QuoteLineProrationBehavior `json:"proration_behavior"`
 	// Details to modify the pause_collection behavior of the subscription schedule.
-	SetPauseCollection *QuoteLineSetPauseCollection `json:"set_pause_collection"`
+	SetPauseCollection *QuoteLineSetPauseCollection `json:"set_pause_collection,omitempty"`
 	// Timestamp helper to end the underlying schedule early, based on the acompanying line's start or end date.
 	SetScheduleEnd QuoteLineSetScheduleEnd `json:"set_schedule_end"`
 	// Details to identify the earliest timestamp where the proposed change should take effect.
 	StartsAt *QuoteLineStartsAt `json:"starts_at"`
 	// Settings related to subscription trials.
-	TrialSettings *QuoteLineTrialSettings `json:"trial_settings"`
+	TrialSettings *QuoteLineTrialSettings `json:"trial_settings,omitempty"`
 }
 
 // QuoteLineList is a list of QuoteLines as retrieved from a list endpoint.

@@ -21,7 +21,7 @@ const (
 type SigmaScheduledQueryRunListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -33,7 +33,7 @@ func (p *SigmaScheduledQueryRunListParams) AddExpand(f string) {
 type SigmaScheduledQueryRunParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -45,7 +45,7 @@ func (p *SigmaScheduledQueryRunParams) AddExpand(f string) {
 type SigmaScheduledQueryRunRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -68,7 +68,7 @@ type SigmaScheduledQueryRun struct {
 	Created int64 `json:"created"`
 	// When the query was run, Sigma contained a snapshot of your Stripe data at this time.
 	DataLoadTime int64                        `json:"data_load_time"`
-	Error        *SigmaScheduledQueryRunError `json:"error"`
+	Error        *SigmaScheduledQueryRunError `json:"error,omitempty"`
 	// The file object representing the results of the query.
 	File *File `json:"file"`
 	// Unique identifier for the object.

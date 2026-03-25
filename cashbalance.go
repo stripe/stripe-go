@@ -19,9 +19,9 @@ const (
 type CashBalanceParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A hash of settings for this cash balance.
-	Settings *CashBalanceSettingsParams `form:"settings"`
+	Settings *CashBalanceSettingsParams `form:"settings" json:"settings,omitempty"`
 	Customer *string                    `form:"-"` // Included in URL
 }
 
@@ -33,14 +33,14 @@ func (p *CashBalanceParams) AddExpand(f string) {
 // A hash of settings for this cash balance.
 type CashBalanceSettingsParams struct {
 	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://docs.stripe.com/payments/customer-balance/reconciliation).
-	ReconciliationMode *string `form:"reconciliation_mode"`
+	ReconciliationMode *string `form:"reconciliation_mode" json:"reconciliation_mode,omitempty"`
 }
 
 // Retrieves a customer's cash balance.
 type CashBalanceRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand   []*string `form:"expand"`
+	Expand   []*string `form:"expand" json:"expand,omitempty"`
 	Customer *string   `form:"-"` // Included in URL
 }
 
@@ -52,16 +52,16 @@ func (p *CashBalanceRetrieveParams) AddExpand(f string) {
 // A hash of settings for this cash balance.
 type CashBalanceUpdateSettingsParams struct {
 	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://docs.stripe.com/payments/customer-balance/reconciliation).
-	ReconciliationMode *string `form:"reconciliation_mode"`
+	ReconciliationMode *string `form:"reconciliation_mode" json:"reconciliation_mode,omitempty"`
 }
 
 // Changes the settings on a customer's cash balance.
 type CashBalanceUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A hash of settings for this cash balance.
-	Settings *CashBalanceUpdateSettingsParams `form:"settings"`
+	Settings *CashBalanceUpdateSettingsParams `form:"settings" json:"settings,omitempty"`
 	Customer *string                          `form:"-"` // Included in URL
 }
 

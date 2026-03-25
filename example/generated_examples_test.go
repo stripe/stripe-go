@@ -16812,7 +16812,7 @@ func TestV2CoreBatchJobPostService(t *testing.T) {
 	params := &stripe.V2CoreBatchJobParams{
 		Endpoint: &stripe.V2CoreBatchJobEndpointParams{
 			HTTPMethod: stripe.String("post"),
-			Path:       stripe.String("path"),
+			Path:       stripe.Pointer(stripe.V2CoreBatchJobsPath("/v1/subscription_schedules")),
 		},
 		SkipValidation: stripe.Bool(true),
 	}
@@ -16832,7 +16832,7 @@ func TestV2CoreBatchJobPostClient(t *testing.T) {
 	params := &stripe.V2CoreBatchJobCreateParams{
 		Endpoint: &stripe.V2CoreBatchJobCreateEndpointParams{
 			HTTPMethod: stripe.String("post"),
-			Path:       stripe.String("path"),
+			Path:       stripe.Pointer(stripe.V2CoreBatchJobsPath("/v1/subscription_schedules")),
 		},
 		SkipValidation: stripe.Bool(true),
 	}

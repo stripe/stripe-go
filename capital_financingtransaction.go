@@ -36,15 +36,15 @@ const (
 type CapitalFinancingTransactionListParams struct {
 	ListParams `form:"*"`
 	// For transactions of type `paydown` and reason `automatic_withholding` only, only returns transactions that were created as a result of this charge.
-	Charge *string `form:"charge"`
+	Charge *string `form:"charge" json:"charge,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Returns transactions that were created that apply to this financing offer ID.
-	FinancingOffer *string `form:"financing_offer"`
+	FinancingOffer *string `form:"financing_offer" json:"financing_offer,omitempty"`
 	// Only returns transactions that are responsible for reversing this financing transaction ID.
-	ReversedTransaction *string `form:"reversed_transaction"`
+	ReversedTransaction *string `form:"reversed_transaction" json:"reversed_transaction,omitempty"`
 	// For transactions of type `paydown` and reason `automatic_withholding` only, only returns transactions that were created as a result of this Treasury Transaction.
-	TreasuryTransaction *string `form:"treasury_transaction"`
+	TreasuryTransaction *string `form:"treasury_transaction" json:"treasury_transaction,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -56,7 +56,7 @@ func (p *CapitalFinancingTransactionListParams) AddExpand(f string) {
 type CapitalFinancingTransactionParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -68,7 +68,7 @@ func (p *CapitalFinancingTransactionParams) AddExpand(f string) {
 type CapitalFinancingTransactionRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -79,9 +79,9 @@ func (p *CapitalFinancingTransactionRetrieveParams) AddExpand(f string) {
 // This is an object representing a linked transaction on a Capital Financing Transaction.
 type CapitalFinancingTransactionDetailsTransaction struct {
 	// The linked payment ID.
-	Charge string `json:"charge"`
+	Charge string `json:"charge,omitempty"`
 	// The linked Treasury Financing Transaction ID.
-	TreasuryTransaction string `json:"treasury_transaction"`
+	TreasuryTransaction string `json:"treasury_transaction,omitempty"`
 }
 
 // This is an object representing a transaction on a Capital financing offer.
@@ -93,16 +93,16 @@ type CapitalFinancingTransactionDetails struct {
 	// The fee amount being repaid, paid out, or reversed in minor units.
 	FeeAmount int64 `json:"fee_amount"`
 	// The linked payment for the transaction. This field only applies to financing transactions of type `paydown` and reason `automatic_withholding`.
-	LinkedPayment string `json:"linked_payment"`
+	LinkedPayment string `json:"linked_payment,omitempty"`
 	// The reason for the financing transaction (if applicable).
-	Reason CapitalFinancingTransactionDetailsReason `json:"reason"`
+	Reason CapitalFinancingTransactionDetailsReason `json:"reason,omitempty"`
 	// The reversed transaction. This field only applies to financing
 	// transactions of type `reversal`.
-	ReversedTransaction string `json:"reversed_transaction"`
+	ReversedTransaction string `json:"reversed_transaction,omitempty"`
 	// The advance and fee amount being repaid, paid out, or reversed in minor units.
 	TotalAmount int64 `json:"total_amount"`
 	// This is an object representing a linked transaction on a Capital Financing Transaction.
-	Transaction *CapitalFinancingTransactionDetailsTransaction `json:"transaction"`
+	Transaction *CapitalFinancingTransactionDetailsTransaction `json:"transaction,omitempty"`
 }
 
 // This is an object representing the details of a transaction on a Capital financing object.
@@ -121,7 +121,7 @@ type CapitalFinancingTransaction struct {
 	// The Capital transaction object that predates the Financing Transactions API and
 	// corresponds with the balance transaction that was created as a result of this
 	// financing transaction.
-	LegacyBalanceTransactionSource string `json:"legacy_balance_transaction_source"`
+	LegacyBalanceTransactionSource string `json:"legacy_balance_transaction_source,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// The object type: financing_transaction

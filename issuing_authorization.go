@@ -443,17 +443,17 @@ const (
 type IssuingAuthorizationListParams struct {
 	ListParams `form:"*"`
 	// Only return authorizations that belong to the given card.
-	Card *string `form:"card"`
+	Card *string `form:"card" json:"card,omitempty"`
 	// Only return authorizations that belong to the given cardholder.
-	Cardholder *string `form:"cardholder"`
+	Cardholder *string `form:"cardholder" json:"cardholder,omitempty"`
 	// Only return authorizations that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return authorizations that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return authorizations with the given status. One of `pending`, `closed`, or `reversed`.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -465,9 +465,9 @@ func (p *IssuingAuthorizationListParams) AddExpand(f string) {
 type IssuingAuthorizationParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                      `form:"metadata"`
+	Metadata    map[string]string                      `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []IssuingAuthorizationParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -502,11 +502,11 @@ func (p *IssuingAuthorizationParams) AddMetadata(key string, value string) {
 type IssuingAuthorizationApproveParams struct {
 	Params `form:"*"`
 	// If the authorization's `pending_request.is_amount_controllable` property is `true`, you may provide this value to control how much to hold for the authorization. Must be positive (use [`decline`](https://docs.stripe.com/api/issuing/authorizations/decline) to decline an authorization request).
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                             `form:"metadata"`
+	Metadata    map[string]string                             `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []IssuingAuthorizationApproveParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -541,9 +541,9 @@ func (p *IssuingAuthorizationApproveParams) AddMetadata(key string, value string
 type IssuingAuthorizationDeclineParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                             `form:"metadata"`
+	Metadata    map[string]string                             `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []IssuingAuthorizationDeclineParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -577,7 +577,7 @@ func (p *IssuingAuthorizationDeclineParams) AddMetadata(key string, value string
 type IssuingAuthorizationRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -589,9 +589,9 @@ func (p *IssuingAuthorizationRetrieveParams) AddExpand(f string) {
 type IssuingAuthorizationUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                            `form:"metadata"`
+	Metadata    map[string]string                            `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []IssuingAuthorizationUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -833,15 +833,15 @@ type IssuingAuthorizationVerificationData struct {
 }
 type IssuingAuthorizationTokenDetailsNetworkDataDevice struct {
 	// The IP address of the device at provisioning time.
-	IPAddress string `json:"ip_address"`
+	IPAddress string `json:"ip_address,omitempty"`
 	// The ISO 639-1 language code of the device associated with the tokenization request.
-	Language IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage `json:"language"`
+	Language IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage `json:"language,omitempty"`
 	// The phone number of the device used for tokenization.
-	PhoneNumber string `json:"phone_number"`
+	PhoneNumber string `json:"phone_number,omitempty"`
 }
 type IssuingAuthorizationTokenDetailsNetworkDataMastercard struct {
 	// A unique reference ID from the network to represent the card account number.
-	CardReferenceID string `json:"card_reference_id"`
+	CardReferenceID string `json:"card_reference_id,omitempty"`
 	// The network-unique identifier for the token.
 	TokenReferenceID string `json:"token_reference_id"`
 	// The ID of the entity requesting tokenization.
@@ -849,33 +849,33 @@ type IssuingAuthorizationTokenDetailsNetworkDataMastercard struct {
 }
 type IssuingAuthorizationTokenDetailsNetworkDataVisa struct {
 	// A unique reference ID from the network to represent the card account number.
-	CardReferenceID string `json:"card_reference_id"`
+	CardReferenceID string `json:"card_reference_id,omitempty"`
 	// The network-unique identifier for the token.
 	TokenReferenceID string `json:"token_reference_id"`
 	// The ID of the entity requesting tokenization.
 	TokenRequestorID string `json:"token_requestor_id"`
 	// Degree of risk associated with the token between `01` and `99`, with higher number indicating higher risk. A `00` value indicates the token was not scored by Visa.
-	TokenRiskScore string `json:"token_risk_score"`
+	TokenRiskScore string `json:"token_risk_score,omitempty"`
 }
 type IssuingAuthorizationTokenDetailsNetworkDataWalletProvider struct {
 	// An evaluation on the trustworthiness of the wallet account between 1 and 5. A higher score indicates more trustworthy.
-	AccountTrustScore int64 `json:"account_trust_score"`
+	AccountTrustScore int64 `json:"account_trust_score,omitempty"`
 	// The method used for tokenizing a card.
-	CardNumberSource IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSource `json:"card_number_source"`
+	CardNumberSource IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSource `json:"card_number_source,omitempty"`
 	// An evaluation on the trustworthiness of the device. A higher score indicates more trustworthy.
-	DeviceTrustScore int64 `json:"device_trust_score"`
+	DeviceTrustScore int64 `json:"device_trust_score,omitempty"`
 	// The reasons for suggested tokenization given by the card network.
-	ReasonCodes []IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode `json:"reason_codes"`
+	ReasonCodes []IssuingAuthorizationTokenDetailsNetworkDataWalletProviderReasonCode `json:"reason_codes,omitempty"`
 	// The recommendation on responding to the tokenization request.
-	SuggestedDecision IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision `json:"suggested_decision"`
+	SuggestedDecision IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision `json:"suggested_decision,omitempty"`
 }
 type IssuingAuthorizationTokenDetailsNetworkData struct {
-	Device     *IssuingAuthorizationTokenDetailsNetworkDataDevice     `json:"device"`
-	Mastercard *IssuingAuthorizationTokenDetailsNetworkDataMastercard `json:"mastercard"`
+	Device     *IssuingAuthorizationTokenDetailsNetworkDataDevice     `json:"device,omitempty"`
+	Mastercard *IssuingAuthorizationTokenDetailsNetworkDataMastercard `json:"mastercard,omitempty"`
 	// The card network for this token.
 	Type           IssuingAuthorizationTokenDetailsNetworkDataType            `json:"type"`
-	Visa           *IssuingAuthorizationTokenDetailsNetworkDataVisa           `json:"visa"`
-	WalletProvider *IssuingAuthorizationTokenDetailsNetworkDataWalletProvider `json:"wallet_provider"`
+	Visa           *IssuingAuthorizationTokenDetailsNetworkDataVisa           `json:"visa,omitempty"`
+	WalletProvider *IssuingAuthorizationTokenDetailsNetworkDataWalletProvider `json:"wallet_provider,omitempty"`
 }
 type IssuingAuthorizationTokenDetails struct {
 	// The card associated with this token.
@@ -883,8 +883,8 @@ type IssuingAuthorizationTokenDetails struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// The hashed ID derived from the device ID from the card network associated with the token.
-	DeviceFingerprint string                                       `json:"device_fingerprint"`
-	NetworkData       *IssuingAuthorizationTokenDetailsNetworkData `json:"network_data"`
+	DeviceFingerprint string                                       `json:"device_fingerprint,omitempty"`
+	NetworkData       *IssuingAuthorizationTokenDetailsNetworkData `json:"network_data,omitempty"`
 }
 
 // When an [issued card](https://docs.stripe.com/issuing) is used to make a purchase, an Issuing `Authorization`
@@ -915,7 +915,7 @@ type IssuingAuthorization struct {
 	// Fleet-specific information for authorizations using Fleet cards.
 	Fleet *IssuingAuthorizationFleet `json:"fleet"`
 	// Fraud challenges sent to the cardholder, if this authorization was declined for fraud risk reasons.
-	FraudChallenges []*IssuingAuthorizationFraudChallenge `json:"fraud_challenges"`
+	FraudChallenges []*IssuingAuthorizationFraudChallenge `json:"fraud_challenges,omitempty"`
 	// Information about fuel that was purchased with this transaction. Typically this information is received from the merchant after the authorization has been approved and the fuel dispensed.
 	Fuel *IssuingAuthorizationFuel `json:"fuel"`
 	// Unique identifier for the object.
@@ -940,12 +940,12 @@ type IssuingAuthorization struct {
 	// The current status of the authorization in its lifecycle.
 	Status IssuingAuthorizationStatus `json:"status"`
 	// [Token](https://docs.stripe.com/api/issuing/tokens/object) object used for this authorization. If a network token was not used for this authorization, this field will be null.
-	Token        *IssuingToken                     `json:"token"`
-	TokenDetails *IssuingAuthorizationTokenDetails `json:"token_details"`
+	Token        *IssuingToken                     `json:"token,omitempty"`
+	TokenDetails *IssuingAuthorizationTokenDetails `json:"token_details,omitempty"`
 	// List of [transactions](https://docs.stripe.com/api/issuing/transactions) associated with this authorization.
 	Transactions []*IssuingTransaction `json:"transactions"`
 	// [Treasury](https://docs.stripe.com/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://docs.stripe.com/api/treasury/financial_accounts).
-	Treasury         *IssuingAuthorizationTreasury         `json:"treasury"`
+	Treasury         *IssuingAuthorizationTreasury         `json:"treasury,omitempty"`
 	VerificationData *IssuingAuthorizationVerificationData `json:"verification_data"`
 	// Whether the authorization bypassed fraud risk checks because the cardholder has previously completed a fraud challenge on a similar high-risk authorization from the same merchant.
 	VerifiedByFraudChallenge bool `json:"verified_by_fraud_challenge"`

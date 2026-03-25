@@ -22,9 +22,9 @@ const (
 type TaxLocationListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Type of the tax location. Currently the only option is `performance`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // AddExpand appends a new field to expand.
@@ -36,13 +36,13 @@ func (p *TaxLocationListParams) AddExpand(f string) {
 type TaxLocationParams struct {
 	Params `form:"*"`
 	// The physical address of the tax location.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Details to identify the tax location by its venue, types of events held, or available services, such as "A spacious auditorium suitable for large concerts and events.".
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The type of tax location. The only supported value is "performance".
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -54,13 +54,13 @@ func (p *TaxLocationParams) AddExpand(f string) {
 type TaxLocationCreateParams struct {
 	Params `form:"*"`
 	// The physical address of the tax location.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 	// Details to identify the tax location by its venue, types of events held, or available services, such as "A spacious auditorium suitable for large concerts and events.".
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The type of tax location. The only supported value is "performance".
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // AddExpand appends a new field to expand.
@@ -72,7 +72,7 @@ func (p *TaxLocationCreateParams) AddExpand(f string) {
 type TaxLocationRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

@@ -545,7 +545,7 @@ type QuotePreviewInvoiceListParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -584,7 +584,7 @@ type QuotePreviewInvoiceAppliesTo struct {
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type QuotePreviewInvoiceAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// Type of the account referenced.
 	Type QuotePreviewInvoiceAutomaticTaxLiabilityType `json:"type"`
 }
@@ -634,7 +634,7 @@ type QuotePreviewInvoiceFromInvoice struct {
 }
 type QuotePreviewInvoiceIssuer struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// Type of the account referenced.
 	Type QuotePreviewInvoiceIssuerType `json:"type"`
 }
@@ -673,21 +673,21 @@ type QuotePreviewInvoiceParentSubscriptionDetails struct {
 	//  *Note: This attribute is populated only for invoices created on or after June 29, 2023.*
 	Metadata map[string]string `json:"metadata"`
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
-	PauseCollection *QuotePreviewInvoiceParentSubscriptionDetailsPauseCollection `json:"pause_collection"`
+	PauseCollection *QuotePreviewInvoiceParentSubscriptionDetailsPauseCollection `json:"pause_collection,omitempty"`
 	// The subscription that generated this invoice
 	Subscription *Subscription `json:"subscription"`
 	// Only set for upcoming invoices that preview prorations. The time used to calculate prorations.
-	SubscriptionProrationDate int64 `json:"subscription_proration_date"`
+	SubscriptionProrationDate int64 `json:"subscription_proration_date,omitempty"`
 }
 
 // The parent that generated this invoice
 type QuotePreviewInvoiceParent struct {
 	// Details about the billing cadence that generated this invoice
-	BillingCadenceDetails *QuotePreviewInvoiceParentBillingCadenceDetails `json:"billing_cadence_details"`
+	BillingCadenceDetails *QuotePreviewInvoiceParentBillingCadenceDetails `json:"billing_cadence_details,omitempty"`
 	// Details about the quote that generated this invoice
 	QuoteDetails *QuotePreviewInvoiceParentQuoteDetails `json:"quote_details"`
 	// Details about the schedule that generated this invoice
-	ScheduleDetails *QuotePreviewInvoiceParentScheduleDetails `json:"schedule_details"`
+	ScheduleDetails *QuotePreviewInvoiceParentScheduleDetails `json:"schedule_details,omitempty"`
 	// Details about the subscription that generated this invoice
 	SubscriptionDetails *QuotePreviewInvoiceParentSubscriptionDetails `json:"subscription_details"`
 	// The type of parent that generated this invoice
@@ -700,9 +700,9 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptio
 
 // If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebit struct {
-	MandateOptions *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions `json:"mandate_options"`
+	MandateOptions *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions `json:"mandate_options,omitempty"`
 	// Bank account verification method.
-	VerificationMethod QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
+	VerificationMethod QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 
 // If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
@@ -717,7 +717,7 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardInstallments stru
 
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCard struct {
-	Installments *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardInstallments `json:"installments"`
+	Installments *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardInstallments `json:"installments,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
@@ -726,14 +726,14 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTr
 	Country QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferCountry `json:"country"`
 }
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct {
-	EUBankTransfer *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer `json:"eu_bank_transfer"`
+	EUBankTransfer *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer `json:"eu_bank_transfer,omitempty"`
 	// The bank transfer type that can be used for funding. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 	Type string `json:"type"`
 }
 
 // If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalance struct {
-	BankTransfer *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer `json:"bank_transfer"`
+	BankTransfer *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer `json:"bank_transfer,omitempty"`
 	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
 	FundingType QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType `json:"funding_type"`
 }
@@ -754,7 +754,7 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptions s
 
 // If paying by `payto`, this sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPayto struct {
-	MandateOptions *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptions `json:"mandate_options"`
+	MandateOptions *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPaytoMandateOptions `json:"mandate_options,omitempty"`
 }
 
 // If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
@@ -778,27 +778,27 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptions str
 
 // If paying by `upi`, this sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpi struct {
-	MandateOptions *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptions `json:"mandate_options"`
+	MandateOptions *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptions `json:"mandate_options,omitempty"`
 }
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
-	AccountSubcategories []QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
+	AccountSubcategories []QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories,omitempty"`
 	// The institution to use to filter for possible accounts to link.
-	Institution string `json:"institution"`
+	Institution string `json:"institution,omitempty"`
 }
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections struct {
-	Filters *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters `json:"filters"`
+	Filters *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters `json:"filters,omitempty"`
 	// The list of permissions to request. The `payment_method` permission must be included.
-	Permissions []QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
+	Permissions []QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions,omitempty"`
 	// Data features requested to be retrieved upon account creation.
 	Prefetch []QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch `json:"prefetch"`
 }
 
 // If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccount struct {
-	FinancialConnections *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections"`
+	FinancialConnections *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections,omitempty"`
 	// Bank account verification method.
-	VerificationMethod QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
+	VerificationMethod QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
 
 // Payment-method-specific configuration to provide to the invoice's PaymentIntent.
@@ -812,17 +812,17 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 	CustomerBalance *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalance `json:"customer_balance"`
 	// If paying by `id_bank_transfer`, this sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
-	IDBankTransfer *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsIDBankTransfer `json:"id_bank_transfer"`
+	IDBankTransfer *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsIDBankTransfer `json:"id_bank_transfer,omitempty"`
 	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
 	// If paying by `payto`, this sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
 	Payto *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPayto `json:"payto"`
 	// If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
-	Pix *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPix `json:"pix"`
+	Pix *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPix `json:"pix,omitempty"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsSEPADebit `json:"sepa_debit"`
 	// If paying by `upi`, this sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
-	Upi *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpi `json:"upi"`
+	Upi *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpi `json:"upi,omitempty"`
 	// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
@@ -878,7 +878,7 @@ type QuotePreviewInvoiceShippingCost struct {
 	// The ID of the ShippingRate for this invoice.
 	ShippingRate *ShippingRate `json:"shipping_rate"`
 	// The taxes applied to the shipping rate.
-	Taxes []*QuotePreviewInvoiceShippingCostTax `json:"taxes"`
+	Taxes []*QuotePreviewInvoiceShippingCostTax `json:"taxes,omitempty"`
 }
 type QuotePreviewInvoiceStatusTransitions struct {
 	// The time that the invoice draft was finalized.
@@ -926,11 +926,11 @@ type QuotePreviewInvoiceTotalPretaxCreditAmount struct {
 	// The amount, in cents (or local equivalent), of the pretax credit amount.
 	Amount int64 `json:"amount"`
 	// The credit balance transaction that was applied to get this pretax credit amount.
-	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction"`
+	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction,omitempty"`
 	// The discount that was applied to get this pretax credit amount.
-	Discount *Discount `json:"discount"`
+	Discount *Discount `json:"discount,omitempty"`
 	// The margin that was applied to get this pretax credit amount.
-	Margin *Margin `json:"margin"`
+	Margin *Margin `json:"margin,omitempty"`
 	// Type of the pretax credit amount referenced.
 	Type QuotePreviewInvoiceTotalPretaxCreditAmountType `json:"type"`
 }
@@ -1005,7 +1005,7 @@ type QuotePreviewInvoice struct {
 	// The difference between amount_due and amount_paid, in cents (or local equivalent).
 	AmountRemaining int64 `json:"amount_remaining"`
 	// List of expected payments and corresponding due dates. This value will be null for invoices where collection_method=charge_automatically.
-	AmountsDue []*QuotePreviewInvoiceAmountsDue `json:"amounts_due"`
+	AmountsDue []*QuotePreviewInvoiceAmountsDue `json:"amounts_due,omitempty"`
 	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
 	// ID of the Connect Application that created the invoice.
@@ -1031,7 +1031,7 @@ type QuotePreviewInvoice struct {
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions.
 	CollectionMethod QuotePreviewInvoiceCollectionMethod `json:"collection_method"`
 	// The confirmation secret associated with this invoice. Currently, this contains the client_secret of the PaymentIntent that Stripe creates during invoice finalization.
-	ConfirmationSecret *QuotePreviewInvoiceConfirmationSecret `json:"confirmation_secret"`
+	ConfirmationSecret *QuotePreviewInvoiceConfirmationSecret `json:"confirmation_secret,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -1051,11 +1051,11 @@ type QuotePreviewInvoice struct {
 	// The customer's tax exempt status. Until the invoice is finalized, this field will equal `customer.tax_exempt`. Once the invoice is finalized, this field will no longer be updated.
 	CustomerTaxExempt QuotePreviewInvoiceCustomerTaxExempt `json:"customer_tax_exempt"`
 	// The customer's tax IDs. Until the invoice is finalized, this field will contain the same tax IDs as `customer.tax_ids`. Once the invoice is finalized, this field will no longer be updated.
-	CustomerTaxIDs []*QuotePreviewInvoiceCustomerTaxID `json:"customer_tax_ids"`
+	CustomerTaxIDs []*QuotePreviewInvoiceCustomerTaxID `json:"customer_tax_ids,omitempty"`
 	// Custom fields displayed on the invoice.
 	CustomFields []*QuotePreviewInvoiceCustomField `json:"custom_fields"`
 	// The margins applied to the invoice. Can be overridden by line item `margins`. Use `expand[]=default_margins` to expand each margin.
-	DefaultMargins []*Margin `json:"default_margins"`
+	DefaultMargins []*Margin `json:"default_margins,omitempty"`
 	// ID of the default payment method for the invoice. It must belong to the customer associated with the invoice. If not set, defaults to the subscription's default payment method, if any, or to the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
 	// ID of the default payment source for the invoice. It must belong to the customer associated with the invoice and be in a chargeable state. If not set, defaults to the subscription's default source, if any, or to the customer's default source.
@@ -1100,7 +1100,7 @@ type QuotePreviewInvoice struct {
 	// The parent that generated this invoice
 	Parent *QuotePreviewInvoiceParent `json:"parent"`
 	// Payments for this invoice. Use [invoice payment](https://docs.stripe.com/api/invoice-payment) to get more details.
-	Payments        *InvoicePaymentList                 `json:"payments"`
+	Payments        *InvoicePaymentList                 `json:"payments,omitempty"`
 	PaymentSettings *QuotePreviewInvoicePaymentSettings `json:"payment_settings"`
 	// End of the usage period during which invoice items were added to this invoice. This looks back one period for a subscription invoice. Use the [line item period](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price.
 	PeriodEnd int64 `json:"period_end"`
@@ -1132,7 +1132,7 @@ type QuotePreviewInvoice struct {
 	SubtotalExcludingTax int64 `json:"subtotal_excluding_tax"`
 	// ID of the test clock this invoice belongs to.
 	TestClock       *TestHelpersTestClock               `json:"test_clock"`
-	ThresholdReason *QuotePreviewInvoiceThresholdReason `json:"threshold_reason"`
+	ThresholdReason *QuotePreviewInvoiceThresholdReason `json:"threshold_reason,omitempty"`
 	// Total after discounts and taxes.
 	Total int64 `json:"total"`
 	// The aggregate amounts calculated per discount across all line items.
@@ -1140,7 +1140,7 @@ type QuotePreviewInvoice struct {
 	// The integer amount in cents (or local equivalent) representing the total amount of the invoice including all discounts but excluding all tax.
 	TotalExcludingTax int64 `json:"total_excluding_tax"`
 	// The aggregate amounts calculated per margin across all line items.
-	TotalMarginAmounts []*QuotePreviewInvoiceTotalMarginAmount `json:"total_margin_amounts"`
+	TotalMarginAmounts []*QuotePreviewInvoiceTotalMarginAmount `json:"total_margin_amounts,omitempty"`
 	// Contains pretax credit amounts (ex: discount, credit grants, etc) that apply to this invoice. This is a combined list of total_pretax_credit_amounts across all invoice line items.
 	TotalPretaxCreditAmounts []*QuotePreviewInvoiceTotalPretaxCreditAmount `json:"total_pretax_credit_amounts"`
 	// The aggregate tax information of all line items.

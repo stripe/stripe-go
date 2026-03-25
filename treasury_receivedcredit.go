@@ -100,20 +100,20 @@ const (
 // Only return ReceivedCredits described by the flow.
 type TreasuryReceivedCreditListLinkedFlowsParams struct {
 	// The source flow type.
-	SourceFlowType *string `form:"source_flow_type"`
+	SourceFlowType *string `form:"source_flow_type" json:"source_flow_type"`
 }
 
 // Returns a list of ReceivedCredits.
 type TreasuryReceivedCreditListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The FinancialAccount that received the funds.
-	FinancialAccount *string `form:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 	// Only return ReceivedCredits described by the flow.
-	LinkedFlows *TreasuryReceivedCreditListLinkedFlowsParams `form:"linked_flows"`
+	LinkedFlows *TreasuryReceivedCreditListLinkedFlowsParams `form:"linked_flows" json:"linked_flows,omitempty"`
 	// Only return ReceivedCredits that have the given status: `succeeded` or `failed`.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -125,7 +125,7 @@ func (p *TreasuryReceivedCreditListParams) AddExpand(f string) {
 type TreasuryReceivedCreditParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -137,7 +137,7 @@ func (p *TreasuryReceivedCreditParams) AddExpand(f string) {
 type TreasuryReceivedCreditRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -168,32 +168,32 @@ type TreasuryReceivedCreditInitiatingPaymentMethodDetailsUSBankAccount struct {
 }
 type TreasuryReceivedCreditInitiatingPaymentMethodDetails struct {
 	// Set when `type` is `balance`.
-	Balance          TreasuryReceivedCreditInitiatingPaymentMethodDetailsBalance           `json:"balance"`
+	Balance          TreasuryReceivedCreditInitiatingPaymentMethodDetailsBalance           `json:"balance,omitempty"`
 	BillingDetails   *TreasuryReceivedCreditInitiatingPaymentMethodDetailsBillingDetails   `json:"billing_details"`
-	FinancialAccount *TreasuryReceivedCreditInitiatingPaymentMethodDetailsFinancialAccount `json:"financial_account"`
+	FinancialAccount *TreasuryReceivedCreditInitiatingPaymentMethodDetailsFinancialAccount `json:"financial_account,omitempty"`
 	// Set when `type` is `issuing_card`. This is an [Issuing Card](https://api.stripe.com#issuing_cards) ID.
-	IssuingCard string `json:"issuing_card"`
+	IssuingCard string `json:"issuing_card,omitempty"`
 	// Polymorphic type matching the originating money movement's source. This can be an external account, a Stripe balance, or a FinancialAccount.
 	Type          TreasuryReceivedCreditInitiatingPaymentMethodDetailsType           `json:"type"`
-	USBankAccount *TreasuryReceivedCreditInitiatingPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
+	USBankAccount *TreasuryReceivedCreditInitiatingPaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
 }
 
 // The expandable object of the source flow.
 type TreasuryReceivedCreditLinkedFlowsSourceFlowDetails struct {
 	// You can reverse some [ReceivedCredits](https://api.stripe.com#received_credits) depending on their network and source flow. Reversing a ReceivedCredit leads to the creation of a new object known as a CreditReversal.
-	CreditReversal *TreasuryCreditReversal `json:"credit_reversal"`
+	CreditReversal *TreasuryCreditReversal `json:"credit_reversal,omitempty"`
 	// Use [OutboundPayments](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-payments) to send funds to another party's external bank account or [FinancialAccount](https://api.stripe.com#financial_accounts). To send money to an account belonging to the same user, use an [OutboundTransfer](https://api.stripe.com#outbound_transfers).
 	//
 	// Simulate OutboundPayment state changes with the `/v1/test_helpers/treasury/outbound_payments` endpoints. These methods can only be called on test mode objects.
 	//
 	// Related guide: [Moving money with Treasury using OutboundPayment objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-payments)
-	OutboundPayment *TreasuryOutboundPayment `json:"outbound_payment"`
+	OutboundPayment *TreasuryOutboundPayment `json:"outbound_payment,omitempty"`
 	// Use [OutboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-transfers) to transfer funds from a [FinancialAccount](https://api.stripe.com#financial_accounts) to a PaymentMethod belonging to the same entity. To send funds to a different party, use [OutboundPayments](https://api.stripe.com#outbound_payments) instead. You can send funds over ACH rails or through a domestic wire transfer to a user's own external bank account.
 	//
 	// Simulate OutboundTransfer state changes with the `/v1/test_helpers/treasury/outbound_transfers` endpoints. These methods can only be called on test mode objects.
 	//
 	// Related guide: [Moving money with Treasury using OutboundTransfer objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-transfers)
-	OutboundTransfer *TreasuryOutboundTransfer `json:"outbound_transfer"`
+	OutboundTransfer *TreasuryOutboundTransfer `json:"outbound_transfer,omitempty"`
 	// A `Payout` object is created when you receive funds from Stripe, or when you
 	// initiate a payout to either a bank account or debit card of a [connected
 	// Stripe account](https://docs.stripe.com/docs/connect/bank-debit-card-payouts). You can retrieve individual payouts,
@@ -202,7 +202,7 @@ type TreasuryReceivedCreditLinkedFlowsSourceFlowDetails struct {
 	// industry.
 	//
 	// Related guide: [Receiving payouts](https://docs.stripe.com/payouts)
-	Payout *Payout `json:"payout"`
+	Payout *Payout `json:"payout,omitempty"`
 	// The type of the source flow that originated the ReceivedCredit.
 	Type TreasuryReceivedCreditLinkedFlowsSourceFlowDetailsType `json:"type"`
 }
@@ -216,7 +216,7 @@ type TreasuryReceivedCreditLinkedFlows struct {
 	// ID of the source flow. Set if `network` is `stripe` and the source flow is visible to the user. Examples of source flows include OutboundPayments, payouts, or CreditReversals.
 	SourceFlow string `json:"source_flow"`
 	// The expandable object of the source flow.
-	SourceFlowDetails *TreasuryReceivedCreditLinkedFlowsSourceFlowDetails `json:"source_flow_details"`
+	SourceFlowDetails *TreasuryReceivedCreditLinkedFlowsSourceFlowDetails `json:"source_flow_details,omitempty"`
 	// The type of flow that originated the ReceivedCredit (for example, `outbound_payment`).
 	SourceFlowType string `json:"source_flow_type"`
 }
@@ -230,7 +230,7 @@ type TreasuryReceivedCreditNetworkDetailsACH struct {
 // Details specific to the money movement rails.
 type TreasuryReceivedCreditNetworkDetails struct {
 	// Details about an ACH transaction.
-	ACH *TreasuryReceivedCreditNetworkDetailsACH `json:"ach"`
+	ACH *TreasuryReceivedCreditNetworkDetailsACH `json:"ach,omitempty"`
 	// The type of flow that originated the ReceivedCredit.
 	Type TreasuryReceivedCreditNetworkDetailsType `json:"type"`
 }
@@ -269,7 +269,7 @@ type TreasuryReceivedCredit struct {
 	// The rails used to send the funds.
 	Network TreasuryReceivedCreditNetwork `json:"network"`
 	// Details specific to the money movement rails.
-	NetworkDetails *TreasuryReceivedCreditNetworkDetails `json:"network_details"`
+	NetworkDetails *TreasuryReceivedCreditNetworkDetails `json:"network_details,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Details describing when a ReceivedCredit may be reversed.

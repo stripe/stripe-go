@@ -77,9 +77,9 @@ type CreditNoteLineItemPretaxCreditAmount struct {
 	// The amount, in cents (or local equivalent), of the pretax credit amount.
 	Amount int64 `json:"amount"`
 	// The credit balance transaction that was applied to get this pretax credit amount.
-	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction"`
+	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction,omitempty"`
 	// The discount that was applied to get this pretax credit amount.
-	Discount *Discount `json:"discount"`
+	Discount *Discount `json:"discount,omitempty"`
 	// Type of the pretax credit amount referenced.
 	Type CreditNoteLineItemPretaxCreditAmountType `json:"type"`
 }
@@ -129,7 +129,7 @@ type CreditNoteLineItem struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// ID of the invoice line item being credited
-	InvoiceLineItem string `json:"invoice_line_item"`
+	InvoiceLineItem string `json:"invoice_line_item,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
@@ -139,7 +139,7 @@ type CreditNoteLineItem struct {
 	// The number of units of product being credited.
 	Quantity int64 `json:"quantity"`
 	// The tax calculation identifiers of the line item.
-	TaxCalculationReference *CreditNoteLineItemTaxCalculationReference `json:"tax_calculation_reference"`
+	TaxCalculationReference *CreditNoteLineItemTaxCalculationReference `json:"tax_calculation_reference,omitempty"`
 	// The tax information of the line item.
 	Taxes []*CreditNoteLineItemTax `json:"taxes"`
 	// The tax rates which apply to the line item.

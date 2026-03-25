@@ -65,15 +65,15 @@ const (
 type CapitalFinancingOfferListParams struct {
 	ListParams `form:"*"`
 	// limit list to offers belonging to given connected account
-	ConnectedAccount *string `form:"connected_account"`
+	ConnectedAccount *string `form:"connected_account" json:"connected_account,omitempty"`
 	// Only return offers that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return offers that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// limit list to offers with given status
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -85,7 +85,7 @@ func (p *CapitalFinancingOfferListParams) AddExpand(f string) {
 type CapitalFinancingOfferParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -98,7 +98,7 @@ func (p *CapitalFinancingOfferParams) AddExpand(f string) {
 type CapitalFinancingOfferMarkDeliveredParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -110,7 +110,7 @@ func (p *CapitalFinancingOfferMarkDeliveredParams) AddExpand(f string) {
 type CapitalFinancingOfferRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -165,39 +165,39 @@ type CapitalFinancingOffer struct {
 	// Stripe Capital to a Connected account. This resource represents
 	// the terms accepted by the Connected account, which may differ from those
 	// offered.
-	AcceptedTerms *CapitalFinancingOfferAcceptedTerms `json:"accepted_terms"`
+	AcceptedTerms *CapitalFinancingOfferAcceptedTerms `json:"accepted_terms,omitempty"`
 	// The ID of the merchant associated with this financing object.
 	Account string `json:"account"`
 	// The time at which this financing offer was charged off, if applicable. Given in seconds since unix epoch.
-	ChargedOffAt int64 `json:"charged_off_at"`
+	ChargedOffAt int64 `json:"charged_off_at,omitempty"`
 	// Time at which the offer was created. Given in seconds since unix epoch.
 	Created int64 `json:"created"`
 	// Time at which the offer expires. Given in seconds since unix epoch.
 	ExpiresAfter float64 `json:"expires_after"`
 	// The type of financing being offered.
-	FinancingType CapitalFinancingOfferFinancingType `json:"financing_type"`
+	FinancingType CapitalFinancingOfferFinancingType `json:"financing_type,omitempty"`
 	// A unique identifier for the financing object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// The object type: financing_offer.
 	Object string `json:"object"`
 	// This is an object representing the terms of an offer of financing from
 	// Stripe Capital to a Connected account. This resource represents
 	// both the terms offered to the Connected account.
-	OfferedTerms *CapitalFinancingOfferOfferedTerms `json:"offered_terms"`
+	OfferedTerms *CapitalFinancingOfferOfferedTerms `json:"offered_terms,omitempty"`
 	// Financing product identifier.
-	ProductType CapitalFinancingOfferProductType `json:"product_type"`
+	ProductType CapitalFinancingOfferProductType `json:"product_type,omitempty"`
 	// The ID of the financing offer that replaced this offer.
-	Replacement string `json:"replacement"`
+	Replacement string `json:"replacement,omitempty"`
 	// The ID of the financing offer that this offer is a replacement for.
-	ReplacementFor string `json:"replacement_for"`
+	ReplacementFor string `json:"replacement_for,omitempty"`
 	// The current status of the offer.
 	Status CapitalFinancingOfferStatus `json:"status"`
 	// See [financing_type](https://docs.stripe.com/api/capital/connect_financing_object#financing_offer_object-financing_type).
-	Type CapitalFinancingOfferType `json:"type"`
+	Type CapitalFinancingOfferType `json:"type,omitempty"`
 }
 
 // CapitalFinancingOfferList is a list of FinancingOffers as retrieved from a list endpoint.

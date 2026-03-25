@@ -27,15 +27,15 @@ const (
 type RadarValueListParams struct {
 	Params `form:"*"`
 	// The name of the value list for use in rules.
-	Alias *string `form:"alias"`
+	Alias *string `form:"alias" json:"alias,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Type of the items in the value list. One of `card_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. Use `string` if the item type is unknown or mixed.
-	ItemType *string `form:"item_type"`
+	ItemType *string `form:"item_type" json:"item_type,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The human-readable name of the value list.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -56,15 +56,15 @@ func (p *RadarValueListParams) AddMetadata(key string, value string) {
 type RadarValueListListParams struct {
 	ListParams `form:"*"`
 	// The alias used to reference the value list when writing rules.
-	Alias *string `form:"alias"`
+	Alias *string `form:"alias" json:"alias,omitempty"`
 	// A value contained within a value list - returns all value lists containing this value.
-	Contains *string `form:"contains"`
+	Contains *string `form:"contains" json:"contains,omitempty"`
 	// Only return value lists that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return value lists that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -81,7 +81,7 @@ type RadarValueListDeleteParams struct {
 type RadarValueListRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -93,13 +93,13 @@ func (p *RadarValueListRetrieveParams) AddExpand(f string) {
 type RadarValueListUpdateParams struct {
 	Params `form:"*"`
 	// The name of the value list for use in rules.
-	Alias *string `form:"alias"`
+	Alias *string `form:"alias" json:"alias,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The human-readable name of the value list.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -120,15 +120,15 @@ func (p *RadarValueListUpdateParams) AddMetadata(key string, value string) {
 type RadarValueListCreateParams struct {
 	Params `form:"*"`
 	// The name of the value list for use in rules.
-	Alias *string `form:"alias"`
+	Alias *string `form:"alias" json:"alias"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Type of the items in the value list. One of `card_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. Use `string` if the item type is unknown or mixed.
-	ItemType *string `form:"item_type"`
+	ItemType *string `form:"item_type" json:"item_type,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The human-readable name of the value list.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // AddExpand appends a new field to expand.
@@ -156,7 +156,7 @@ type RadarValueList struct {
 	Created int64 `json:"created"`
 	// The name or email address of the user who created this value list.
 	CreatedBy string `json:"created_by"`
-	Deleted   bool   `json:"deleted"`
+	Deleted   bool   `json:"deleted,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The type of items in the value list. One of `card_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`.

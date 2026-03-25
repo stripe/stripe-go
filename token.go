@@ -22,21 +22,21 @@ const (
 type TokenParams struct {
 	Params `form:"*"`
 	// Information for the account this token represents.
-	Account *TokenAccountParams `form:"account"`
+	Account *TokenAccountParams `form:"account" json:"account,omitempty"`
 	// The bank account this token will represent.
-	BankAccount *BankAccountParams `form:"bank_account"`
+	BankAccount *BankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The card this token will represent. If you also pass in a customer, the card must be the ID of a card belonging to the customer. Otherwise, if you do not pass in a customer, this is a dictionary containing a user's credit card details, with the options described below.
-	Card *CardParams `form:"card"`
+	Card *CardParams `form:"card" json:"card,omitempty"`
 	// Create a token for the customer, which is owned by the application's account. You can only use this with an [OAuth access token](https://docs.stripe.com/connect/standard-accounts) or [Stripe-Account header](https://docs.stripe.com/connect/authentication). Learn more about [cloning saved payment methods](https://docs.stripe.com/connect/cloning-saved-payment-methods).
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The updated CVC value this token represents.
-	CVCUpdate *TokenCVCUpdateParams `form:"cvc_update"`
+	CVCUpdate *TokenCVCUpdateParams `form:"cvc_update" json:"cvc_update,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Information for the person this token represents.
-	Person *PersonParams `form:"person"`
+	Person *PersonParams `form:"person" json:"person,omitempty"`
 	// The PII this token represents.
-	PII *TokenPIIParams `form:"pii"`
+	PII *TokenPIIParams `form:"pii" json:"pii,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -47,32 +47,32 @@ func (p *TokenParams) AddExpand(f string) {
 // Information for the account this token represents.
 type TokenAccountParams struct {
 	// The business type.
-	BusinessType *string `form:"business_type"`
+	BusinessType *string `form:"business_type" json:"business_type,omitempty"`
 	// Information about the company or business.
-	Company *AccountCompanyParams `form:"company"`
+	Company *AccountCompanyParams `form:"company" json:"company,omitempty"`
 	// Information about the person represented by the account.
-	Individual *PersonParams `form:"individual"`
+	Individual *PersonParams `form:"individual" json:"individual,omitempty"`
 	// Whether the user described by the data in the token has been shown [the Stripe Connected Account Agreement](https://docs.stripe.com/connect/account-tokens#stripe-connected-account-agreement). When creating an account token to create a new Connect account, this value must be `true`.
-	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
+	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted" json:"tos_shown_and_accepted,omitempty"`
 }
 
 // The updated CVC value this token represents.
 type TokenCVCUpdateParams struct {
 	// The CVC value, in string form.
-	CVC *string `form:"cvc"`
+	CVC *string `form:"cvc" json:"cvc"`
 }
 
 // The PII this token represents.
 type TokenPIIParams struct {
 	// The `id_number` for the PII, in string form.
-	IDNumber *string `form:"id_number"`
+	IDNumber *string `form:"id_number" json:"id_number,omitempty"`
 }
 
 // Retrieves the token with the given ID.
 type TokenRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -83,25 +83,25 @@ func (p *TokenRetrieveParams) AddExpand(f string) {
 // Information for the account this token represents.
 type TokenCreateAccountParams struct {
 	// The business type.
-	BusinessType *string `form:"business_type"`
+	BusinessType *string `form:"business_type" json:"business_type,omitempty"`
 	// Information about the company or business.
-	Company *AccountCompanyParams `form:"company"`
+	Company *AccountCompanyParams `form:"company" json:"company,omitempty"`
 	// Information about the person represented by the account.
-	Individual *PersonParams `form:"individual"`
+	Individual *PersonParams `form:"individual" json:"individual,omitempty"`
 	// Whether the user described by the data in the token has been shown [the Stripe Connected Account Agreement](https://docs.stripe.com/connect/account-tokens#stripe-connected-account-agreement). When creating an account token to create a new Connect account, this value must be `true`.
-	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
+	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted" json:"tos_shown_and_accepted,omitempty"`
 }
 
 // The updated CVC value this token represents.
 type TokenCreateCVCUpdateParams struct {
 	// The CVC value, in string form.
-	CVC *string `form:"cvc"`
+	CVC *string `form:"cvc" json:"cvc"`
 }
 
 // The PII this token represents.
 type TokenCreatePIIParams struct {
 	// The `id_number` for the PII, in string form.
-	IDNumber *string `form:"id_number"`
+	IDNumber *string `form:"id_number" json:"id_number,omitempty"`
 }
 
 // Creates a single-use token that represents a bank account's details.
@@ -109,21 +109,21 @@ type TokenCreatePIIParams struct {
 type TokenCreateParams struct {
 	Params `form:"*"`
 	// Information for the account this token represents.
-	Account *TokenCreateAccountParams `form:"account"`
+	Account *TokenCreateAccountParams `form:"account" json:"account,omitempty"`
 	// The bank account this token will represent.
-	BankAccount *BankAccountParams `form:"bank_account"`
+	BankAccount *BankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The card this token will represent. If you also pass in a customer, the card must be the ID of a card belonging to the customer. Otherwise, if you do not pass in a customer, this is a dictionary containing a user's credit card details, with the options described below.
-	Card *CardParams `form:"card"`
+	Card *CardParams `form:"card" json:"card,omitempty"`
 	// Create a token for the customer, which is owned by the application's account. You can only use this with an [OAuth access token](https://docs.stripe.com/connect/standard-accounts) or [Stripe-Account header](https://docs.stripe.com/connect/authentication). Learn more about [cloning saved payment methods](https://docs.stripe.com/connect/cloning-saved-payment-methods).
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The updated CVC value this token represents.
-	CVCUpdate *TokenCreateCVCUpdateParams `form:"cvc_update"`
+	CVCUpdate *TokenCreateCVCUpdateParams `form:"cvc_update" json:"cvc_update,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Information for the person this token represents.
-	Person *PersonParams `form:"person"`
+	Person *PersonParams `form:"person" json:"person,omitempty"`
 	// The PII this token represents.
-	PII *TokenCreatePIIParams `form:"pii"`
+	PII *TokenCreatePIIParams `form:"pii" json:"pii,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -160,13 +160,13 @@ type Token struct {
 	// They can be bank accounts or debit cards as well, and are documented in the links above.
 	//
 	// Related guide: [Bank debits and transfers](https://docs.stripe.com/payments/bank-debits-transfers)
-	BankAccount *BankAccount `json:"bank_account"`
+	BankAccount *BankAccount `json:"bank_account,omitempty"`
 	// You can store multiple cards on a customer in order to charge the customer
 	// later. You can also store multiple debit cards on a recipient in order to
 	// transfer to those cards later.
 	//
 	// Related guide: [Card payments with Sources](https://docs.stripe.com/sources/cards)
-	Card *Card `json:"card"`
+	Card *Card `json:"card,omitempty"`
 	// IP address of the client that generates the token.
 	ClientIP string `json:"client_ip"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

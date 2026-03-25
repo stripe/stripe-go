@@ -293,7 +293,7 @@ const (
 type IssuingCreditUnderwritingRecordListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -305,7 +305,7 @@ func (p *IssuingCreditUnderwritingRecordListParams) AddExpand(f string) {
 type IssuingCreditUnderwritingRecordParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -316,98 +316,98 @@ func (p *IssuingCreditUnderwritingRecordParams) AddExpand(f string) {
 // Details about the application submission.
 type IssuingCreditUnderwritingRecordCorrectApplicationParams struct {
 	// The channel through which the applicant has submitted their application. Defaults to `online`.
-	ApplicationMethod *string `form:"application_method"`
+	ApplicationMethod *string `form:"application_method" json:"application_method,omitempty"`
 	// Scope of demand made by the applicant.
-	Purpose *string `form:"purpose"`
+	Purpose *string `form:"purpose" json:"purpose"`
 	// Date when the applicant submitted their application.
-	SubmittedAt *int64 `form:"submitted_at"`
+	SubmittedAt *int64 `form:"submitted_at" json:"submitted_at"`
 }
 
 // Information about the company or person applying or holding the account.
 type IssuingCreditUnderwritingRecordCorrectCreditUserParams struct {
 	// Email of the applicant or accountholder.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email"`
 	// Full name of the company or person.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details about the application rejection.
 type IssuingCreditUnderwritingRecordCorrectDecisionApplicationRejectedParams struct {
 	// Details about the `reasons.other` when present.
-	ReasonOtherExplanation *string `form:"reason_other_explanation"`
+	ReasonOtherExplanation *string `form:"reason_other_explanation" json:"reason_other_explanation,omitempty"`
 	// List of reasons why the application was rejected, up to 4 reasons, in order of importance.
-	Reasons []*string `form:"reasons"`
+	Reasons []*string `form:"reasons" json:"reasons"`
 }
 
 // Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy/)
 type IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitApprovedParams struct {
 	// The credit approved, in the currency of the account and [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The currency of the credit approved, will default to the Account's Issuing currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 }
 
 // Details about the credit limit decreased.
 type IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitDecreasedParams struct {
 	// The credit approved, in the currency of the account and [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The currency of the credit approved, will default to the Account's Issuing currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Details about the `reasons.other` when present.
-	ReasonOtherExplanation *string `form:"reason_other_explanation"`
+	ReasonOtherExplanation *string `form:"reason_other_explanation" json:"reason_other_explanation,omitempty"`
 	// List of reasons why the existing credit was decreased, up to 4 reasons, in order of importance.
-	Reasons []*string `form:"reasons"`
+	Reasons []*string `form:"reasons" json:"reasons"`
 }
 
 // Details about the credit line closed.
 type IssuingCreditUnderwritingRecordCorrectDecisionCreditLineClosedParams struct {
 	// Details about the `reasons.other` when present.
-	ReasonOtherExplanation *string `form:"reason_other_explanation"`
+	ReasonOtherExplanation *string `form:"reason_other_explanation" json:"reason_other_explanation,omitempty"`
 	// List of reasons why the credit line was closed, up to 4 reasons, in order of importance.
-	Reasons []*string `form:"reasons"`
+	Reasons []*string `form:"reasons" json:"reasons"`
 }
 
 // Details about the decision.
 type IssuingCreditUnderwritingRecordCorrectDecisionParams struct {
 	// Details about the application rejection.
-	ApplicationRejected *IssuingCreditUnderwritingRecordCorrectDecisionApplicationRejectedParams `form:"application_rejected"`
+	ApplicationRejected *IssuingCreditUnderwritingRecordCorrectDecisionApplicationRejectedParams `form:"application_rejected" json:"application_rejected,omitempty"`
 	// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy/)
-	CreditLimitApproved *IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitApprovedParams `form:"credit_limit_approved"`
+	CreditLimitApproved *IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitApprovedParams `form:"credit_limit_approved" json:"credit_limit_approved,omitempty"`
 	// Details about the credit limit decreased.
-	CreditLimitDecreased *IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitDecreasedParams `form:"credit_limit_decreased"`
+	CreditLimitDecreased *IssuingCreditUnderwritingRecordCorrectDecisionCreditLimitDecreasedParams `form:"credit_limit_decreased" json:"credit_limit_decreased,omitempty"`
 	// Details about the credit line closed.
-	CreditLineClosed *IssuingCreditUnderwritingRecordCorrectDecisionCreditLineClosedParams `form:"credit_line_closed"`
+	CreditLineClosed *IssuingCreditUnderwritingRecordCorrectDecisionCreditLineClosedParams `form:"credit_line_closed" json:"credit_line_closed,omitempty"`
 	// Outcome of the decision.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
 type IssuingCreditUnderwritingRecordCorrectUnderwritingExceptionParams struct {
 	// Written explanation for the exception.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation"`
 	// The decision before the exception was applied.
-	OriginalDecisionType *string `form:"original_decision_type"`
+	OriginalDecisionType *string `form:"original_decision_type" json:"original_decision_type"`
 }
 
 // Update a CreditUnderwritingRecord object to correct mistakes.
 type IssuingCreditUnderwritingRecordCorrectParams struct {
 	Params `form:"*"`
 	// Details about the application submission.
-	Application *IssuingCreditUnderwritingRecordCorrectApplicationParams `form:"application"`
+	Application *IssuingCreditUnderwritingRecordCorrectApplicationParams `form:"application" json:"application,omitempty"`
 	// Information about the company or person applying or holding the account.
-	CreditUser *IssuingCreditUnderwritingRecordCorrectCreditUserParams `form:"credit_user"`
+	CreditUser *IssuingCreditUnderwritingRecordCorrectCreditUserParams `form:"credit_user" json:"credit_user,omitempty"`
 	// Date when a decision was made.
-	DecidedAt *int64 `form:"decided_at"`
+	DecidedAt *int64 `form:"decided_at" json:"decided_at,omitempty"`
 	// Details about the decision.
-	Decision *IssuingCreditUnderwritingRecordCorrectDecisionParams `form:"decision"`
+	Decision *IssuingCreditUnderwritingRecordCorrectDecisionParams `form:"decision" json:"decision,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// File containing regulatory reporting data for the decision. Required if you are subject to this [reporting requirement](https://docs.stripe.com/issuing/credit/report-required-regulatory-data-for-credit-decisions). Optional if previously provided and no changes are needed.
-	RegulatoryReportingFile *string `form:"regulatory_reporting_file"`
+	RegulatoryReportingFile *string `form:"regulatory_reporting_file" json:"regulatory_reporting_file,omitempty"`
 	// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
-	UnderwritingException *IssuingCreditUnderwritingRecordCorrectUnderwritingExceptionParams `form:"underwriting_exception"`
+	UnderwritingException *IssuingCreditUnderwritingRecordCorrectUnderwritingExceptionParams `form:"underwriting_exception" json:"underwriting_exception,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -427,52 +427,52 @@ func (p *IssuingCreditUnderwritingRecordCorrectParams) AddMetadata(key string, v
 // Details about the application rejection.
 type IssuingCreditUnderwritingRecordReportDecisionDecisionApplicationRejectedParams struct {
 	// Details about the `reasons.other` when present.
-	ReasonOtherExplanation *string `form:"reason_other_explanation"`
+	ReasonOtherExplanation *string `form:"reason_other_explanation" json:"reason_other_explanation,omitempty"`
 	// List of reasons why the application was rejected, up to 4 reasons, in order of importance.
-	Reasons []*string `form:"reasons"`
+	Reasons []*string `form:"reasons" json:"reasons"`
 }
 
 // Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy/)
 type IssuingCreditUnderwritingRecordReportDecisionDecisionCreditLimitApprovedParams struct {
 	// The credit approved, in the currency of the account and [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The currency of the credit approved, will default to the Account's Issuing currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 }
 
 // Details about the decision.
 type IssuingCreditUnderwritingRecordReportDecisionDecisionParams struct {
 	// Details about the application rejection.
-	ApplicationRejected *IssuingCreditUnderwritingRecordReportDecisionDecisionApplicationRejectedParams `form:"application_rejected"`
+	ApplicationRejected *IssuingCreditUnderwritingRecordReportDecisionDecisionApplicationRejectedParams `form:"application_rejected" json:"application_rejected,omitempty"`
 	// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy/)
-	CreditLimitApproved *IssuingCreditUnderwritingRecordReportDecisionDecisionCreditLimitApprovedParams `form:"credit_limit_approved"`
+	CreditLimitApproved *IssuingCreditUnderwritingRecordReportDecisionDecisionCreditLimitApprovedParams `form:"credit_limit_approved" json:"credit_limit_approved,omitempty"`
 	// Outcome of the decision.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
 type IssuingCreditUnderwritingRecordReportDecisionUnderwritingExceptionParams struct {
 	// Written explanation for the exception.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation"`
 	// The decision before the exception was applied.
-	OriginalDecisionType *string `form:"original_decision_type"`
+	OriginalDecisionType *string `form:"original_decision_type" json:"original_decision_type"`
 }
 
 // Update a CreditUnderwritingRecord object from a decision made on a credit application.
 type IssuingCreditUnderwritingRecordReportDecisionParams struct {
 	Params `form:"*"`
 	// Date when a decision was made.
-	DecidedAt *int64 `form:"decided_at"`
+	DecidedAt *int64 `form:"decided_at" json:"decided_at"`
 	// Details about the decision.
-	Decision *IssuingCreditUnderwritingRecordReportDecisionDecisionParams `form:"decision"`
+	Decision *IssuingCreditUnderwritingRecordReportDecisionDecisionParams `form:"decision" json:"decision"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// File containing regulatory reporting data for the decision. Required if you are subject to this [reporting requirement](https://docs.stripe.com/issuing/credit/report-required-regulatory-data-for-credit-decisions).
-	RegulatoryReportingFile *string `form:"regulatory_reporting_file"`
+	RegulatoryReportingFile *string `form:"regulatory_reporting_file" json:"regulatory_reporting_file,omitempty"`
 	// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
-	UnderwritingException *IssuingCreditUnderwritingRecordReportDecisionUnderwritingExceptionParams `form:"underwriting_exception"`
+	UnderwritingException *IssuingCreditUnderwritingRecordReportDecisionUnderwritingExceptionParams `form:"underwriting_exception" json:"underwriting_exception,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -492,32 +492,32 @@ func (p *IssuingCreditUnderwritingRecordReportDecisionParams) AddMetadata(key st
 // Details about the application submission.
 type IssuingCreditUnderwritingRecordCreateFromApplicationApplicationParams struct {
 	// The channel through which the applicant has submitted their application. Defaults to `online`.
-	ApplicationMethod *string `form:"application_method"`
+	ApplicationMethod *string `form:"application_method" json:"application_method,omitempty"`
 	// Scope of demand made by the applicant.
-	Purpose *string `form:"purpose"`
+	Purpose *string `form:"purpose" json:"purpose"`
 	// Date when the applicant submitted their application.
-	SubmittedAt *int64 `form:"submitted_at"`
+	SubmittedAt *int64 `form:"submitted_at" json:"submitted_at"`
 }
 
 // Information about the company or person applying or holding the account.
 type IssuingCreditUnderwritingRecordCreateFromApplicationCreditUserParams struct {
 	// Email of the applicant or accountholder.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email"`
 	// Full name of the company or person.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Creates a CreditUnderwritingRecord object with information about a credit application submission.
 type IssuingCreditUnderwritingRecordCreateFromApplicationParams struct {
 	Params `form:"*"`
 	// Details about the application submission.
-	Application *IssuingCreditUnderwritingRecordCreateFromApplicationApplicationParams `form:"application"`
+	Application *IssuingCreditUnderwritingRecordCreateFromApplicationApplicationParams `form:"application" json:"application"`
 	// Information about the company or person applying or holding the account.
-	CreditUser *IssuingCreditUnderwritingRecordCreateFromApplicationCreditUserParams `form:"credit_user"`
+	CreditUser *IssuingCreditUnderwritingRecordCreateFromApplicationCreditUserParams `form:"credit_user" json:"credit_user"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -537,76 +537,76 @@ func (p *IssuingCreditUnderwritingRecordCreateFromApplicationParams) AddMetadata
 // Information about the company or person applying or holding the account.
 type IssuingCreditUnderwritingRecordCreateFromProactiveReviewCreditUserParams struct {
 	// Email of the applicant or accountholder.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email"`
 	// Full name of the company or person.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 }
 
 // Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy/)
 type IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLimitApprovedParams struct {
 	// The credit approved, in the currency of the account and [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The currency of the credit approved, will default to the Account's Issuing currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 }
 
 // Details about the credit limit decreased.
 type IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLimitDecreasedParams struct {
 	// The credit approved, in the currency of the account and [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The currency of the credit approved, will default to the Account's Issuing currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Details about the `reasons.other` when present.
-	ReasonOtherExplanation *string `form:"reason_other_explanation"`
+	ReasonOtherExplanation *string `form:"reason_other_explanation" json:"reason_other_explanation,omitempty"`
 	// List of reasons why the existing credit was decreased, up to 4 reasons, in order of importance.
-	Reasons []*string `form:"reasons"`
+	Reasons []*string `form:"reasons" json:"reasons"`
 }
 
 // Details about the credit line closed.
 type IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLineClosedParams struct {
 	// Details about the `reasons.other` when present.
-	ReasonOtherExplanation *string `form:"reason_other_explanation"`
+	ReasonOtherExplanation *string `form:"reason_other_explanation" json:"reason_other_explanation,omitempty"`
 	// List of reasons why the credit line was closed, up to 4 reasons, in order of importance.
-	Reasons []*string `form:"reasons"`
+	Reasons []*string `form:"reasons" json:"reasons"`
 }
 
 // Details about the decision.
 type IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionParams struct {
 	// Details about the credit limit approved. An approved credit limit is required before you can set a `credit_limit_amount` in the [CreditPolicy API](https://docs.stripe.com/api/issuing/credit_policy/)
-	CreditLimitApproved *IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLimitApprovedParams `form:"credit_limit_approved"`
+	CreditLimitApproved *IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLimitApprovedParams `form:"credit_limit_approved" json:"credit_limit_approved,omitempty"`
 	// Details about the credit limit decreased.
-	CreditLimitDecreased *IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLimitDecreasedParams `form:"credit_limit_decreased"`
+	CreditLimitDecreased *IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLimitDecreasedParams `form:"credit_limit_decreased" json:"credit_limit_decreased,omitempty"`
 	// Details about the credit line closed.
-	CreditLineClosed *IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLineClosedParams `form:"credit_line_closed"`
+	CreditLineClosed *IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionCreditLineClosedParams `form:"credit_line_closed" json:"credit_line_closed,omitempty"`
 	// Outcome of the decision.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
 type IssuingCreditUnderwritingRecordCreateFromProactiveReviewUnderwritingExceptionParams struct {
 	// Written explanation for the exception.
-	Explanation *string `form:"explanation"`
+	Explanation *string `form:"explanation" json:"explanation"`
 	// The decision before the exception was applied.
-	OriginalDecisionType *string `form:"original_decision_type"`
+	OriginalDecisionType *string `form:"original_decision_type" json:"original_decision_type"`
 }
 
 // Creates a CreditUnderwritingRecord object from an underwriting decision coming from a proactive review of an existing accountholder.
 type IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams struct {
 	Params `form:"*"`
 	// Information about the company or person applying or holding the account.
-	CreditUser *IssuingCreditUnderwritingRecordCreateFromProactiveReviewCreditUserParams `form:"credit_user"`
+	CreditUser *IssuingCreditUnderwritingRecordCreateFromProactiveReviewCreditUserParams `form:"credit_user" json:"credit_user"`
 	// Date when a decision was made.
-	DecidedAt *int64 `form:"decided_at"`
+	DecidedAt *int64 `form:"decided_at" json:"decided_at"`
 	// Details about the decision.
-	Decision *IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionParams `form:"decision"`
+	Decision *IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionParams `form:"decision" json:"decision"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// File containing regulatory reporting data for the decision. Required if you are subject to this [reporting requirement](https://docs.stripe.com/issuing/credit/report-required-regulatory-data-for-credit-decisions).
-	RegulatoryReportingFile *string `form:"regulatory_reporting_file"`
+	RegulatoryReportingFile *string `form:"regulatory_reporting_file" json:"regulatory_reporting_file,omitempty"`
 	// If an exception to the usual underwriting criteria was made for this decision, details about the exception must be provided. Exceptions should only be granted in rare circumstances, in consultation with Stripe Compliance.
-	UnderwritingException *IssuingCreditUnderwritingRecordCreateFromProactiveReviewUnderwritingExceptionParams `form:"underwriting_exception"`
+	UnderwritingException *IssuingCreditUnderwritingRecordCreateFromProactiveReviewUnderwritingExceptionParams `form:"underwriting_exception" json:"underwriting_exception,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -627,7 +627,7 @@ func (p *IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams) AddMeta
 type IssuingCreditUnderwritingRecordRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
