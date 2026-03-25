@@ -38,7 +38,7 @@ const (
 type FinancialConnectionsAuthorizationParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -50,7 +50,7 @@ func (p *FinancialConnectionsAuthorizationParams) AddExpand(f string) {
 type FinancialConnectionsAuthorizationRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -61,10 +61,10 @@ func (p *FinancialConnectionsAuthorizationRetrieveParams) AddExpand(f string) {
 // The account holder that this authorization belongs to.
 type FinancialConnectionsAuthorizationAccountHolder struct {
 	// The ID of the Stripe account that this account belongs to. Only available when `account_holder.type` is `account`.
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// The ID for an Account representing a customer that this account belongs to. Only available when `account_holder.type` is `customer`.
-	Customer        *Customer `json:"customer"`
-	CustomerAccount string    `json:"customer_account"`
+	Customer        *Customer `json:"customer,omitempty"`
+	CustomerAccount string    `json:"customer_account,omitempty"`
 	// Type of account holder that this account belongs to.
 	Type FinancialConnectionsAuthorizationAccountHolderType `json:"type"`
 }
@@ -73,18 +73,18 @@ type FinancialConnectionsAuthorizationStatusDetailsInactive struct {
 	Action FinancialConnectionsAuthorizationStatusDetailsInactiveAction `json:"action"`
 }
 type FinancialConnectionsAuthorizationStatusDetails struct {
-	Inactive *FinancialConnectionsAuthorizationStatusDetailsInactive `json:"inactive"`
+	Inactive *FinancialConnectionsAuthorizationStatusDetailsInactive `json:"inactive,omitempty"`
 }
 
 // An Authorization represents the set of credentials used to connect a group of Financial Connections Accounts.
 type FinancialConnectionsAuthorization struct {
 	APIResource
 	// The account holder that this authorization belongs to.
-	AccountHolder *FinancialConnectionsAuthorizationAccountHolder `json:"account_holder"`
+	AccountHolder *FinancialConnectionsAuthorizationAccountHolder `json:"account_holder,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The ID of the Financial Connections Institution this account belongs to. Note that this relationship may sometimes change in rare circumstances (e.g. institution mergers).
-	Institution *FinancialConnectionsInstitution `json:"institution"`
+	Institution *FinancialConnectionsInstitution `json:"institution,omitempty"`
 	// The name of the institution that this authorization belongs to.
 	InstitutionName string `json:"institution_name"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.

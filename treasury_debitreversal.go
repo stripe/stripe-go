@@ -29,15 +29,15 @@ const (
 type TreasuryDebitReversalListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Returns objects associated with this FinancialAccount.
-	FinancialAccount *string `form:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 	// Only return DebitReversals for the ReceivedDebit ID.
-	ReceivedDebit *string `form:"received_debit"`
+	ReceivedDebit *string `form:"received_debit" json:"received_debit,omitempty"`
 	// Only return DebitReversals for a given resolution.
-	Resolution *string `form:"resolution"`
+	Resolution *string `form:"resolution" json:"resolution,omitempty"`
 	// Only return DebitReversals for a given status.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -49,11 +49,11 @@ func (p *TreasuryDebitReversalListParams) AddExpand(f string) {
 type TreasuryDebitReversalParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ReceivedDebit to reverse.
-	ReceivedDebit *string `form:"received_debit"`
+	ReceivedDebit *string `form:"received_debit" json:"received_debit,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -74,11 +74,11 @@ func (p *TreasuryDebitReversalParams) AddMetadata(key string, value string) {
 type TreasuryDebitReversalCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ReceivedDebit to reverse.
-	ReceivedDebit *string `form:"received_debit"`
+	ReceivedDebit *string `form:"received_debit" json:"received_debit"`
 }
 
 // AddExpand appends a new field to expand.
@@ -99,7 +99,7 @@ func (p *TreasuryDebitReversalCreateParams) AddMetadata(key string, value string
 type TreasuryDebitReversalRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

@@ -55,9 +55,9 @@ type IssuingSettlement struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The total amount of any additional fees assessed by the card network.
-	OtherFeesAmount int64 `json:"other_fees_amount"`
+	OtherFeesAmount int64 `json:"other_fees_amount,omitempty"`
 	// The total number of additional fees assessed by the card network.
-	OtherFeesCount int64 `json:"other_fees_count"`
+	OtherFeesCount int64 `json:"other_fees_count,omitempty"`
 	// One of `international` or `uk_national_net`.
 	SettlementService string `json:"settlement_service"`
 	// The current processing status of this settlement.

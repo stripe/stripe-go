@@ -9,16 +9,16 @@ package stripe
 // Details about a failed InboundTransfer.
 type TestHelpersTreasuryInboundTransferFailFailureDetailsParams struct {
 	// Reason for the failure.
-	Code *string `form:"code"`
+	Code *string `form:"code" json:"code,omitempty"`
 }
 
 // Transitions a test mode created InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
 type TestHelpersTreasuryInboundTransferFailParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Details about a failed InboundTransfer.
-	FailureDetails *TestHelpersTreasuryInboundTransferFailFailureDetailsParams `form:"failure_details"`
+	FailureDetails *TestHelpersTreasuryInboundTransferFailFailureDetailsParams `form:"failure_details" json:"failure_details,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -30,7 +30,7 @@ func (p *TestHelpersTreasuryInboundTransferFailParams) AddExpand(f string) {
 type TestHelpersTreasuryInboundTransferReturnInboundTransferParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -42,7 +42,7 @@ func (p *TestHelpersTreasuryInboundTransferReturnInboundTransferParams) AddExpan
 type TestHelpersTreasuryInboundTransferSucceedParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

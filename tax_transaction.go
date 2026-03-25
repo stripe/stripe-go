@@ -240,7 +240,7 @@ const (
 type TaxTransactionParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -253,7 +253,7 @@ type TaxTransactionListLineItemsParams struct {
 	ListParams  `form:"*"`
 	Transaction *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -265,15 +265,15 @@ func (p *TaxTransactionListLineItemsParams) AddExpand(f string) {
 type TaxTransactionCreateFromCalculationParams struct {
 	Params `form:"*"`
 	// Tax Calculation ID to be used as input when creating the transaction.
-	Calculation *string `form:"calculation"`
+	Calculation *string `form:"calculation" json:"calculation"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Unix timestamp representing when the tax liability is assumed or reduced, which determines the liability posting period and handling in tax liability reports. The timestamp must fall within the `tax_date` and the current time, unless the `tax_date` is scheduled in advance. Defaults to the current time.
-	PostedAt *int64 `form:"posted_at"`
+	PostedAt *int64 `form:"posted_at" json:"posted_at,omitempty"`
 	// A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions, including reversals.
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference"`
 }
 
 // AddExpand appends a new field to expand.
@@ -293,17 +293,17 @@ func (p *TaxTransactionCreateFromCalculationParams) AddMetadata(key string, valu
 // The line item amounts to reverse.
 type TaxTransactionCreateReversalLineItemParams struct {
 	// The amount to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units) in negative.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The amount of tax to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units) in negative.
-	AmountTax *int64 `form:"amount_tax"`
+	AmountTax *int64 `form:"amount_tax" json:"amount_tax"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The `id` of the line item to reverse in the original transaction.
-	OriginalLineItem *string `form:"original_line_item"`
+	OriginalLineItem *string `form:"original_line_item" json:"original_line_item"`
 	// The quantity reversed. Appears in [tax exports](https://docs.stripe.com/tax/reports), but does not affect the amount of tax reversed.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// A custom identifier for this line item in the reversal transaction, such as 'L1-refund'.
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -318,30 +318,30 @@ func (p *TaxTransactionCreateReversalLineItemParams) AddMetadata(key string, val
 // The shipping cost to reverse.
 type TaxTransactionCreateReversalShippingCostParams struct {
 	// The amount to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units) in negative.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The amount of tax to reverse, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units) in negative.
-	AmountTax *int64 `form:"amount_tax"`
+	AmountTax *int64 `form:"amount_tax" json:"amount_tax"`
 }
 
 // Partially or fully reverses a previously created Transaction.
 type TaxTransactionCreateReversalParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A flat amount to reverse across the entire transaction, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units) in negative. This value represents the total amount to refund from the transaction, including taxes.
-	FlatAmount *int64 `form:"flat_amount"`
+	FlatAmount *int64 `form:"flat_amount" json:"flat_amount,omitempty"`
 	// The line item amounts to reverse.
-	LineItems []*TaxTransactionCreateReversalLineItemParams `form:"line_items"`
+	LineItems []*TaxTransactionCreateReversalLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// If `partial`, the provided line item or shipping cost amounts are reversed. If `full`, the original transaction is fully reversed.
-	Mode *string `form:"mode"`
+	Mode *string `form:"mode" json:"mode"`
 	// The ID of the Transaction to partially or fully reverse.
-	OriginalTransaction *string `form:"original_transaction"`
+	OriginalTransaction *string `form:"original_transaction" json:"original_transaction"`
 	// A custom identifier for this reversal, such as `myOrder_123-refund_1`, which must be unique across all transactions. The reference helps identify this reversal transaction in exported [tax reports](https://docs.stripe.com/tax/reports).
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference"`
 	// The shipping cost to reverse.
-	ShippingCost *TaxTransactionCreateReversalShippingCostParams `form:"shipping_cost"`
+	ShippingCost *TaxTransactionCreateReversalShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -362,7 +362,7 @@ func (p *TaxTransactionCreateReversalParams) AddMetadata(key string, value strin
 type TaxTransactionRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -443,11 +443,11 @@ type TaxTransactionShippingCost struct {
 	// The amount of tax calculated for shipping, in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
 	AmountTax int64 `json:"amount_tax"`
 	// The ID of an existing [ShippingRate](https://docs.stripe.com/api/shipping_rates/object).
-	ShippingRate string `json:"shipping_rate"`
+	ShippingRate string `json:"shipping_rate,omitempty"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
 	TaxBehavior TaxTransactionShippingCostTaxBehavior `json:"tax_behavior"`
 	// Detailed account of taxes relevant to shipping cost. (It is not populated for the transaction resource object and will be removed in the next API version.)
-	TaxBreakdown []*TaxTransactionShippingCostTaxBreakdown `json:"tax_breakdown"`
+	TaxBreakdown []*TaxTransactionShippingCostTaxBreakdown `json:"tax_breakdown,omitempty"`
 	// The [tax code](https://docs.stripe.com/tax/tax-categories) ID used for shipping.
 	TaxCode string `json:"tax_code"`
 }
@@ -467,7 +467,7 @@ type TaxTransaction struct {
 	// Unique identifier for the transaction.
 	ID string `json:"id"`
 	// The tax collected or refunded, by line item.
-	LineItems *TaxTransactionLineItemList `json:"line_items"`
+	LineItems *TaxTransactionLineItemList `json:"line_items,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

@@ -89,11 +89,11 @@ const (
 type TreasuryReceivedDebitListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The FinancialAccount that funds were pulled from.
-	FinancialAccount *string `form:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 	// Only return ReceivedDebits that have the given status: `succeeded` or `failed`.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -105,7 +105,7 @@ func (p *TreasuryReceivedDebitListParams) AddExpand(f string) {
 type TreasuryReceivedDebitParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -117,7 +117,7 @@ func (p *TreasuryReceivedDebitParams) AddExpand(f string) {
 type TreasuryReceivedDebitRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -148,14 +148,14 @@ type TreasuryReceivedDebitInitiatingPaymentMethodDetailsUSBankAccount struct {
 }
 type TreasuryReceivedDebitInitiatingPaymentMethodDetails struct {
 	// Set when `type` is `balance`.
-	Balance          TreasuryReceivedDebitInitiatingPaymentMethodDetailsBalance           `json:"balance"`
+	Balance          TreasuryReceivedDebitInitiatingPaymentMethodDetailsBalance           `json:"balance,omitempty"`
 	BillingDetails   *TreasuryReceivedDebitInitiatingPaymentMethodDetailsBillingDetails   `json:"billing_details"`
-	FinancialAccount *TreasuryReceivedDebitInitiatingPaymentMethodDetailsFinancialAccount `json:"financial_account"`
+	FinancialAccount *TreasuryReceivedDebitInitiatingPaymentMethodDetailsFinancialAccount `json:"financial_account,omitempty"`
 	// Set when `type` is `issuing_card`. This is an [Issuing Card](https://api.stripe.com#issuing_cards) ID.
-	IssuingCard string `json:"issuing_card"`
+	IssuingCard string `json:"issuing_card,omitempty"`
 	// Polymorphic type matching the originating money movement's source. This can be an external account, a Stripe balance, or a FinancialAccount.
 	Type          TreasuryReceivedDebitInitiatingPaymentMethodDetailsType           `json:"type"`
-	USBankAccount *TreasuryReceivedDebitInitiatingPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
+	USBankAccount *TreasuryReceivedDebitInitiatingPaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
 }
 type TreasuryReceivedDebitLinkedFlows struct {
 	// The DebitReversal created as a result of this ReceivedDebit being reversed.
@@ -169,7 +169,7 @@ type TreasuryReceivedDebitLinkedFlows struct {
 	// Set if the ReceivedDebit was created due to a [Payout](https://api.stripe.com#payouts) object.
 	Payout string `json:"payout"`
 	// The ReceivedCredit that Capital withheld from
-	ReceivedCreditCapitalWithholding string `json:"received_credit_capital_withholding"`
+	ReceivedCreditCapitalWithholding string `json:"received_credit_capital_withholding,omitempty"`
 	// Set if the ReceivedDebit was created due to a [Topup](https://api.stripe.com#topups) object.
 	Topup string `json:"topup"`
 }
@@ -183,7 +183,7 @@ type TreasuryReceivedDebitNetworkDetailsACH struct {
 // Details specific to the money movement rails.
 type TreasuryReceivedDebitNetworkDetails struct {
 	// Details about an ACH transaction.
-	ACH *TreasuryReceivedDebitNetworkDetailsACH `json:"ach"`
+	ACH *TreasuryReceivedDebitNetworkDetailsACH `json:"ach,omitempty"`
 	// The type of flow that originated the ReceivedDebit.
 	Type TreasuryReceivedDebitNetworkDetailsType `json:"type"`
 }
@@ -215,14 +215,14 @@ type TreasuryReceivedDebit struct {
 	HostedRegulatoryReceiptURL string `json:"hosted_regulatory_receipt_url"`
 	// Unique identifier for the object.
 	ID                             string                                               `json:"id"`
-	InitiatingPaymentMethodDetails *TreasuryReceivedDebitInitiatingPaymentMethodDetails `json:"initiating_payment_method_details"`
+	InitiatingPaymentMethodDetails *TreasuryReceivedDebitInitiatingPaymentMethodDetails `json:"initiating_payment_method_details,omitempty"`
 	LinkedFlows                    *TreasuryReceivedDebitLinkedFlows                    `json:"linked_flows"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// The network used for the ReceivedDebit.
 	Network TreasuryReceivedDebitNetwork `json:"network"`
 	// Details specific to the money movement rails.
-	NetworkDetails *TreasuryReceivedDebitNetworkDetails `json:"network_details"`
+	NetworkDetails *TreasuryReceivedDebitNetworkDetails `json:"network_details,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Details describing when a ReceivedDebit might be reversed.

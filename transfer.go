@@ -22,15 +22,15 @@ const (
 type TransferListParams struct {
 	ListParams `form:"*"`
 	// Only return transfers that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return transfers that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Only return transfers for the destination specified by this account ID.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return transfers with the specified transfer group.
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string `form:"transfer_group" json:"transfer_group,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -42,25 +42,25 @@ func (p *TransferListParams) AddExpand(f string) {
 type TransferParams struct {
 	Params `form:"*"`
 	// A positive integer in cents (or local equivalent) representing how much to transfer.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Three-letter [ISO code for currency](https://www.iso.org/iso-4217-currency-codes.html) in lowercase. Must be a [supported currency](https://docs.stripe.com/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The ID of a connected Stripe account. [See the Connect documentation](https://docs.stripe.com/docs/connect/separate-charges-and-transfers) for details.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The FX rate in the quote is validated and used to convert the transfer amount to the destination currency.
-	FxQuote *string `form:"fx_quote"`
+	FxQuote *string `form:"fx_quote" json:"fx_quote,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// You can use this parameter to transfer funds from a charge before they are added to your available balance. A pending balance will transfer immediately but the funds will not become available until the original charge becomes available. [See the Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-availability) for details.
-	SourceTransaction *string `form:"source_transaction"`
+	SourceTransaction *string `form:"source_transaction" json:"source_transaction,omitempty"`
 	// The source balance to use for this transfer. One of `bank_account`, `card`, or `fpx`. For most users, this will default to `card`.
-	SourceType *string `form:"source_type"`
+	SourceType *string `form:"source_type" json:"source_type,omitempty"`
 	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
-	TransferGroup *string                    `form:"transfer_group"`
+	TransferGroup *string                    `form:"transfer_group" json:"transfer_group,omitempty"`
 	UnsetFields   []TransferParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -94,25 +94,25 @@ func (p *TransferParams) AddMetadata(key string, value string) {
 type TransferCreateParams struct {
 	Params `form:"*"`
 	// A positive integer in cents (or local equivalent) representing how much to transfer.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Three-letter [ISO code for currency](https://www.iso.org/iso-4217-currency-codes.html) in lowercase. Must be a [supported currency](https://docs.stripe.com/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The ID of a connected Stripe account. [See the Connect documentation](https://docs.stripe.com/docs/connect/separate-charges-and-transfers) for details.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The FX rate in the quote is validated and used to convert the transfer amount to the destination currency.
-	FxQuote *string `form:"fx_quote"`
+	FxQuote *string `form:"fx_quote" json:"fx_quote,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// You can use this parameter to transfer funds from a charge before they are added to your available balance. A pending balance will transfer immediately but the funds will not become available until the original charge becomes available. [See the Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-availability) for details.
-	SourceTransaction *string `form:"source_transaction"`
+	SourceTransaction *string `form:"source_transaction" json:"source_transaction,omitempty"`
 	// The source balance to use for this transfer. One of `bank_account`, `card`, or `fpx`. For most users, this will default to `card`.
-	SourceType *string `form:"source_type"`
+	SourceType *string `form:"source_type" json:"source_type,omitempty"`
 	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
-	TransferGroup *string `form:"transfer_group"`
+	TransferGroup *string `form:"transfer_group" json:"transfer_group,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -133,7 +133,7 @@ func (p *TransferCreateParams) AddMetadata(key string, value string) {
 type TransferRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -147,11 +147,11 @@ func (p *TransferRetrieveParams) AddExpand(f string) {
 type TransferUpdateParams struct {
 	Params `form:"*"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                `form:"metadata"`
+	Metadata    map[string]string                `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []TransferUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -208,9 +208,9 @@ type Transfer struct {
 	// ID of the Stripe account the transfer was sent to.
 	Destination *Account `json:"destination"`
 	// If the destination is a Stripe account, this will be the ID of the payment that the destination account received for the transfer.
-	DestinationPayment *Charge `json:"destination_payment"`
+	DestinationPayment *Charge `json:"destination_payment,omitempty"`
 	// The FX Quote used for the transfer.
-	FxQuote string `json:"fx_quote"`
+	FxQuote string `json:"fx_quote,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
@@ -226,7 +226,7 @@ type Transfer struct {
 	// ID of the charge that was used to fund the transfer. If null, the transfer was funded from the available balance.
 	SourceTransaction *Charge `json:"source_transaction"`
 	// The source balance this transfer came from. One of `card`, `fpx`, or `bank_account`.
-	SourceType TransferSourceType `json:"source_type"`
+	SourceType TransferSourceType `json:"source_type,omitempty"`
 	// A string that identifies this transaction as part of a group. See the [Connect documentation](https://docs.stripe.com/connect/separate-charges-and-transfers#transfer-options) for details.
 	TransferGroup string `json:"transfer_group"`
 }

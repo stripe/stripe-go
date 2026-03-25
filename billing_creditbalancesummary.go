@@ -25,38 +25,38 @@ const (
 // A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 type BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams struct {
 	// The price ID this credit grant should apply to.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 }
 
 // The billing credit applicability scope for which to fetch credit balance summary.
 type BillingCreditBalanceSummaryFilterApplicabilityScopeParams struct {
 	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
-	Prices []*BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams `form:"prices"`
+	Prices []*BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
-	PriceType *string `form:"price_type"`
+	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
 
 // The filter criteria for the credit balance summary.
 type BillingCreditBalanceSummaryFilterParams struct {
 	// The billing credit applicability scope for which to fetch credit balance summary.
-	ApplicabilityScope *BillingCreditBalanceSummaryFilterApplicabilityScopeParams `form:"applicability_scope"`
+	ApplicabilityScope *BillingCreditBalanceSummaryFilterApplicabilityScopeParams `form:"applicability_scope" json:"applicability_scope,omitempty"`
 	// The credit grant for which to fetch credit balance summary.
-	CreditGrant *string `form:"credit_grant"`
+	CreditGrant *string `form:"credit_grant" json:"credit_grant,omitempty"`
 	// Specify the type of this filter.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Retrieves the credit balance summary for a customer.
 type BillingCreditBalanceSummaryParams struct {
 	Params `form:"*"`
 	// The customer whose credit balance summary you're retrieving.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The account representing the customer whose credit balance summary you're retrieving.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The filter criteria for the credit balance summary.
-	Filter *BillingCreditBalanceSummaryFilterParams `form:"filter"`
+	Filter *BillingCreditBalanceSummaryFilterParams `form:"filter" json:"filter"`
 }
 
 // AddExpand appends a new field to expand.
@@ -67,38 +67,38 @@ func (p *BillingCreditBalanceSummaryParams) AddExpand(f string) {
 // A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopePriceParams struct {
 	// The price ID this credit grant should apply to.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 }
 
 // The billing credit applicability scope for which to fetch credit balance summary.
 type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopeParams struct {
 	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
-	Prices []*BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopePriceParams `form:"prices"`
+	Prices []*BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
-	PriceType *string `form:"price_type"`
+	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
 
 // The filter criteria for the credit balance summary.
 type BillingCreditBalanceSummaryRetrieveFilterParams struct {
 	// The billing credit applicability scope for which to fetch credit balance summary.
-	ApplicabilityScope *BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopeParams `form:"applicability_scope"`
+	ApplicabilityScope *BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopeParams `form:"applicability_scope" json:"applicability_scope,omitempty"`
 	// The credit grant for which to fetch credit balance summary.
-	CreditGrant *string `form:"credit_grant"`
+	CreditGrant *string `form:"credit_grant" json:"credit_grant,omitempty"`
 	// Specify the type of this filter.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Retrieves the credit balance summary for a customer.
 type BillingCreditBalanceSummaryRetrieveParams struct {
 	Params `form:"*"`
 	// The customer whose credit balance summary you're retrieving.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The account representing the customer whose credit balance summary you're retrieving.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The filter criteria for the credit balance summary.
-	Filter *BillingCreditBalanceSummaryRetrieveFilterParams `form:"filter"`
+	Filter *BillingCreditBalanceSummaryRetrieveFilterParams `form:"filter" json:"filter"`
 }
 
 // AddExpand appends a new field to expand.

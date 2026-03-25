@@ -10,11 +10,11 @@ package stripe
 type IssuingFraudLiabilityDebitListParams struct {
 	ListParams `form:"*"`
 	// Only return Issuing Fraud Liability Debits that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return Issuing Fraud Liability Debits that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -26,7 +26,7 @@ func (p *IssuingFraudLiabilityDebitListParams) AddExpand(f string) {
 type IssuingFraudLiabilityDebitParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -38,7 +38,7 @@ func (p *IssuingFraudLiabilityDebitParams) AddExpand(f string) {
 type IssuingFraudLiabilityDebitRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

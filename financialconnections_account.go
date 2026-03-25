@@ -191,22 +191,22 @@ const (
 // If present, only return accounts that belong to the specified account holder. `account_holder[customer]` and `account_holder[account]` are mutually exclusive.
 type FinancialConnectionsAccountListAccountHolderParams struct {
 	// The ID of the Stripe account whose accounts you will retrieve.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// The ID of the Stripe customer whose accounts you will retrieve.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The ID of the Account representing a customer whose accounts you will retrieve.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 }
 
 // Returns a list of Financial Connections Account objects.
 type FinancialConnectionsAccountListParams struct {
 	ListParams `form:"*"`
 	// If present, only return accounts that belong to the specified account holder. `account_holder[customer]` and `account_holder[account]` are mutually exclusive.
-	AccountHolder *FinancialConnectionsAccountListAccountHolderParams `form:"account_holder"`
+	AccountHolder *FinancialConnectionsAccountListAccountHolderParams `form:"account_holder" json:"account_holder,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// If present, only return accounts that were collected as part of the given session.
-	Session *string `form:"session"`
+	Session *string `form:"session" json:"session,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -218,7 +218,7 @@ func (p *FinancialConnectionsAccountListParams) AddExpand(f string) {
 type FinancialConnectionsAccountParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -231,9 +231,9 @@ type FinancialConnectionsAccountListOwnersParams struct {
 	ListParams `form:"*"`
 	Account    *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The ID of the ownership object to fetch owners from.
-	Ownership *string `form:"ownership"`
+	Ownership *string `form:"ownership" json:"ownership"`
 }
 
 // AddExpand appends a new field to expand.
@@ -245,7 +245,7 @@ func (p *FinancialConnectionsAccountListOwnersParams) AddExpand(f string) {
 type FinancialConnectionsAccountDisconnectParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -257,9 +257,9 @@ func (p *FinancialConnectionsAccountDisconnectParams) AddExpand(f string) {
 type FinancialConnectionsAccountRefreshParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The list of account features that you would like to refresh.
-	Features []*string `form:"features"`
+	Features []*string `form:"features" json:"features"`
 }
 
 // AddExpand appends a new field to expand.
@@ -271,9 +271,9 @@ func (p *FinancialConnectionsAccountRefreshParams) AddExpand(f string) {
 type FinancialConnectionsAccountSubscribeParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The list of account features to which you would like to subscribe.
-	Features []*string `form:"features"`
+	Features []*string `form:"features" json:"features"`
 }
 
 // AddExpand appends a new field to expand.
@@ -285,9 +285,9 @@ func (p *FinancialConnectionsAccountSubscribeParams) AddExpand(f string) {
 type FinancialConnectionsAccountUnsubscribeParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The list of account features from which you would like to unsubscribe.
-	Features []*string `form:"features"`
+	Features []*string `form:"features" json:"features"`
 }
 
 // AddExpand appends a new field to expand.
@@ -299,7 +299,7 @@ func (p *FinancialConnectionsAccountUnsubscribeParams) AddExpand(f string) {
 type FinancialConnectionsAccountRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -310,10 +310,10 @@ func (p *FinancialConnectionsAccountRetrieveParams) AddExpand(f string) {
 // The account holder that this account belongs to.
 type FinancialConnectionsAccountAccountHolder struct {
 	// The ID of the Stripe account that this account belongs to. Only available when `account_holder.type` is `account`.
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// The ID for an Account representing a customer that this account belongs to. Only available when `account_holder.type` is `customer`.
-	Customer        *Customer `json:"customer"`
-	CustomerAccount string    `json:"customer_account"`
+	Customer        *Customer `json:"customer,omitempty"`
+	CustomerAccount string    `json:"customer_account,omitempty"`
 	// Type of account holder that this account belongs to.
 	Type FinancialConnectionsAccountAccountHolderType `json:"type"`
 }
@@ -350,8 +350,8 @@ type FinancialConnectionsAccountBalanceCredit struct {
 type FinancialConnectionsAccountBalance struct {
 	// The time that the external institution calculated this balance. Measured in seconds since the Unix epoch.
 	AsOf   int64                                     `json:"as_of"`
-	Cash   *FinancialConnectionsAccountBalanceCash   `json:"cash"`
-	Credit *FinancialConnectionsAccountBalanceCredit `json:"credit"`
+	Cash   *FinancialConnectionsAccountBalanceCash   `json:"cash,omitempty"`
+	Credit *FinancialConnectionsAccountBalanceCredit `json:"credit,omitempty"`
 	// The balances owed to (or by) the account holder, before subtracting any outbound pending transactions or adding any inbound pending transactions.
 	//
 	// Each key is a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
@@ -398,7 +398,7 @@ type FinancialConnectionsAccountStatusDetailsInactive struct {
 	Cause FinancialConnectionsAccountStatusDetailsInactiveCause `json:"cause"`
 }
 type FinancialConnectionsAccountStatusDetails struct {
-	Inactive *FinancialConnectionsAccountStatusDetailsInactive `json:"inactive"`
+	Inactive *FinancialConnectionsAccountStatusDetailsInactive `json:"inactive,omitempty"`
 }
 
 // The state of the most recent attempt to refresh the account transactions.
@@ -421,7 +421,7 @@ type FinancialConnectionsAccount struct {
 	// Details about the account numbers.
 	AccountNumbers []*FinancialConnectionsAccountAccountNumber `json:"account_numbers"`
 	// The ID of the Financial Connections Authorization this account belongs to.
-	Authorization string `json:"authorization"`
+	Authorization string `json:"authorization,omitempty"`
 	// The most recent information about the account's balance.
 	Balance *FinancialConnectionsAccountBalance `json:"balance"`
 	// The state of the most recent attempt to refresh the account balance.
@@ -435,9 +435,9 @@ type FinancialConnectionsAccount struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The state of the most recent attempt to refresh the account's inferred balance history.
-	InferredBalancesRefresh *FinancialConnectionsAccountInferredBalancesRefresh `json:"inferred_balances_refresh"`
+	InferredBalancesRefresh *FinancialConnectionsAccountInferredBalancesRefresh `json:"inferred_balances_refresh,omitempty"`
 	// The ID of the Financial Connections Institution this account belongs to. Note that this relationship may sometimes change in rare circumstances (e.g. institution mergers).
-	Institution *FinancialConnectionsInstitution `json:"institution"`
+	Institution *FinancialConnectionsInstitution `json:"institution,omitempty"`
 	// The name of the institution that holds this account.
 	InstitutionName string `json:"institution_name"`
 	// The last 4 digits of the account number. If present, this will be 4 numeric characters.
@@ -454,7 +454,7 @@ type FinancialConnectionsAccount struct {
 	Permissions []FinancialConnectionsAccountPermission `json:"permissions"`
 	// The status of the link to the account.
 	Status        FinancialConnectionsAccountStatus         `json:"status"`
-	StatusDetails *FinancialConnectionsAccountStatusDetails `json:"status_details"`
+	StatusDetails *FinancialConnectionsAccountStatusDetails `json:"status_details,omitempty"`
 	// If `category` is `cash`, one of:
 	//
 	//  - `checking`

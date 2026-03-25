@@ -37,11 +37,11 @@ const (
 type BillingCreditGrantListParams struct {
 	ListParams `form:"*"`
 	// Only return credit grants for this customer.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Only return credit grants for this account representing the customer.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -52,64 +52,64 @@ func (p *BillingCreditGrantListParams) AddExpand(f string) {
 // The monetary amount.
 type BillingCreditGrantAmountMonetaryParams struct {
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// A positive integer representing the amount of the credit grant.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Amount of this credit grant.
 type BillingCreditGrantAmountParams struct {
 	// The monetary amount.
-	Monetary *BillingCreditGrantAmountMonetaryParams `form:"monetary"`
+	Monetary *BillingCreditGrantAmountMonetaryParams `form:"monetary" json:"monetary,omitempty"`
 	// The type of this amount. We currently only support `monetary` billing credits.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 type BillingCreditGrantApplicabilityConfigScopePriceParams struct {
 	// The price ID this credit grant should apply to.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 }
 
 // Specify the scope of this applicability config.
 type BillingCreditGrantApplicabilityConfigScopeParams struct {
 	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
-	Prices []*BillingCreditGrantApplicabilityConfigScopePriceParams `form:"prices"`
+	Prices []*BillingCreditGrantApplicabilityConfigScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
-	PriceType *string `form:"price_type"`
+	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
 
 // Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 type BillingCreditGrantApplicabilityConfigParams struct {
 	// Specify the scope of this applicability config.
-	Scope *BillingCreditGrantApplicabilityConfigScopeParams `form:"scope"`
+	Scope *BillingCreditGrantApplicabilityConfigScopeParams `form:"scope" json:"scope"`
 }
 
 // Creates a credit grant.
 type BillingCreditGrantParams struct {
 	Params `form:"*"`
 	// Amount of this credit grant.
-	Amount *BillingCreditGrantAmountParams `form:"amount"`
+	Amount *BillingCreditGrantAmountParams `form:"amount" json:"amount,omitempty"`
 	// Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
-	ApplicabilityConfig *BillingCreditGrantApplicabilityConfigParams `form:"applicability_config"`
+	ApplicabilityConfig *BillingCreditGrantApplicabilityConfigParams `form:"applicability_config" json:"applicability_config,omitempty"`
 	// The category of this credit grant. It defaults to `paid` if not specified.
-	Category *string `form:"category"`
+	Category *string `form:"category" json:"category,omitempty"`
 	// ID of the customer receiving the billing credits.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// ID of the account representing the customer receiving the billing credits.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// The time when the billing credits become effective-when they're eligible for use. It defaults to the current timestamp if not specified.
-	EffectiveAt *int64 `form:"effective_at"`
+	EffectiveAt *int64 `form:"effective_at" json:"effective_at,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The time when the billing credits created by this credit grant expire. If set to empty, the billing credits never expire.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Set of key-value pairs that you can attach to an object. You can use this to store additional information about the object (for example, cost basis) in a structured format.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A descriptive name shown in the Dashboard.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
-	Priority    *int64                               `form:"priority"`
+	Priority    *int64                               `form:"priority" json:"priority,omitempty"`
 	UnsetFields []BillingCreditGrantParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -143,7 +143,7 @@ func (p *BillingCreditGrantParams) AddMetadata(key string, value string) {
 type BillingCreditGrantExpireParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -155,7 +155,7 @@ func (p *BillingCreditGrantExpireParams) AddExpand(f string) {
 type BillingCreditGrantVoidGrantParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -166,64 +166,64 @@ func (p *BillingCreditGrantVoidGrantParams) AddExpand(f string) {
 // The monetary amount.
 type BillingCreditGrantCreateAmountMonetaryParams struct {
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// A positive integer representing the amount of the credit grant.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Amount of this credit grant.
 type BillingCreditGrantCreateAmountParams struct {
 	// The monetary amount.
-	Monetary *BillingCreditGrantCreateAmountMonetaryParams `form:"monetary"`
+	Monetary *BillingCreditGrantCreateAmountMonetaryParams `form:"monetary" json:"monetary,omitempty"`
 	// The type of this amount. We currently only support `monetary` billing credits.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 type BillingCreditGrantCreateApplicabilityConfigScopePriceParams struct {
 	// The price ID this credit grant should apply to.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 }
 
 // Specify the scope of this applicability config.
 type BillingCreditGrantCreateApplicabilityConfigScopeParams struct {
 	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
-	Prices []*BillingCreditGrantCreateApplicabilityConfigScopePriceParams `form:"prices"`
+	Prices []*BillingCreditGrantCreateApplicabilityConfigScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
-	PriceType *string `form:"price_type"`
+	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
 
 // Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 type BillingCreditGrantCreateApplicabilityConfigParams struct {
 	// Specify the scope of this applicability config.
-	Scope *BillingCreditGrantCreateApplicabilityConfigScopeParams `form:"scope"`
+	Scope *BillingCreditGrantCreateApplicabilityConfigScopeParams `form:"scope" json:"scope"`
 }
 
 // Creates a credit grant.
 type BillingCreditGrantCreateParams struct {
 	Params `form:"*"`
 	// Amount of this credit grant.
-	Amount *BillingCreditGrantCreateAmountParams `form:"amount"`
+	Amount *BillingCreditGrantCreateAmountParams `form:"amount" json:"amount"`
 	// Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
-	ApplicabilityConfig *BillingCreditGrantCreateApplicabilityConfigParams `form:"applicability_config"`
+	ApplicabilityConfig *BillingCreditGrantCreateApplicabilityConfigParams `form:"applicability_config" json:"applicability_config"`
 	// The category of this credit grant. It defaults to `paid` if not specified.
-	Category *string `form:"category"`
+	Category *string `form:"category" json:"category,omitempty"`
 	// ID of the customer receiving the billing credits.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// ID of the account representing the customer receiving the billing credits.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// The time when the billing credits become effective-when they're eligible for use. It defaults to the current timestamp if not specified.
-	EffectiveAt *int64 `form:"effective_at"`
+	EffectiveAt *int64 `form:"effective_at" json:"effective_at,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The time when the billing credits expire. If not specified, the billing credits don't expire.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Set of key-value pairs that you can attach to an object. You can use this to store additional information about the object (for example, cost basis) in a structured format.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A descriptive name shown in the Dashboard.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
-	Priority *int64 `form:"priority"`
+	Priority *int64 `form:"priority" json:"priority,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -244,7 +244,7 @@ func (p *BillingCreditGrantCreateParams) AddMetadata(key string, value string) {
 type BillingCreditGrantRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -256,11 +256,11 @@ func (p *BillingCreditGrantRetrieveParams) AddExpand(f string) {
 type BillingCreditGrantUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The time when the billing credits created by this credit grant expire. If set to empty, the billing credits never expire.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// Set of key-value pairs you can attach to an object. You can use this to store additional information about the object (for example, cost basis) in a structured format.
-	Metadata    map[string]string                          `form:"metadata"`
+	Metadata    map[string]string                          `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []BillingCreditGrantUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -311,9 +311,9 @@ type BillingCreditGrantApplicabilityConfigScopePrice struct {
 }
 type BillingCreditGrantApplicabilityConfigScope struct {
 	// The prices that credit grants can apply to. We currently only support `metered` prices. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `price_type`.
-	Prices []*BillingCreditGrantApplicabilityConfigScopePrice `json:"prices"`
+	Prices []*BillingCreditGrantApplicabilityConfigScopePrice `json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `prices`.
-	PriceType BillingCreditGrantApplicabilityConfigScopePriceType `json:"price_type"`
+	PriceType BillingCreditGrantApplicabilityConfigScopePriceType `json:"price_type,omitempty"`
 }
 type BillingCreditGrantApplicabilityConfig struct {
 	Scope *BillingCreditGrantApplicabilityConfigScope `json:"scope"`
@@ -349,7 +349,7 @@ type BillingCreditGrant struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The priority for applying this credit grant. The highest priority is 0 and the lowest is 100.
-	Priority int64 `json:"priority"`
+	Priority int64 `json:"priority,omitempty"`
 	// ID of the test clock this credit grant belongs to.
 	TestClock *TestHelpersTestClock `json:"test_clock"`
 	// Time at which the object was last updated. Measured in seconds since the Unix epoch.

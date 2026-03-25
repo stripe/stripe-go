@@ -17,28 +17,28 @@ const (
 // The options associated with the Apple Terms and Conditions link type.
 type TerminalOnboardingLinkLinkOptionsAppleTermsAndConditionsParams struct {
 	// Whether the link should also support users relinking their Apple account.
-	AllowRelinking *bool `form:"allow_relinking"`
+	AllowRelinking *bool `form:"allow_relinking" json:"allow_relinking,omitempty"`
 	// The business name of the merchant accepting Apple's Terms and Conditions.
-	MerchantDisplayName *string `form:"merchant_display_name"`
+	MerchantDisplayName *string `form:"merchant_display_name" json:"merchant_display_name"`
 }
 
 // Specific fields needed to generate the desired link type.
 type TerminalOnboardingLinkLinkOptionsParams struct {
 	// The options associated with the Apple Terms and Conditions link type.
-	AppleTermsAndConditions *TerminalOnboardingLinkLinkOptionsAppleTermsAndConditionsParams `form:"apple_terms_and_conditions"`
+	AppleTermsAndConditions *TerminalOnboardingLinkLinkOptionsAppleTermsAndConditionsParams `form:"apple_terms_and_conditions" json:"apple_terms_and_conditions,omitempty"`
 }
 
 // Creates a new OnboardingLink object that contains a redirect_url used for onboarding onto Tap to Pay on iPhone.
 type TerminalOnboardingLinkParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Specific fields needed to generate the desired link type.
-	LinkOptions *TerminalOnboardingLinkLinkOptionsParams `form:"link_options"`
+	LinkOptions *TerminalOnboardingLinkLinkOptionsParams `form:"link_options" json:"link_options"`
 	// The type of link being generated.
-	LinkType *string `form:"link_type"`
+	LinkType *string `form:"link_type" json:"link_type"`
 	// Stripe account ID to generate the link for.
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -49,28 +49,28 @@ func (p *TerminalOnboardingLinkParams) AddExpand(f string) {
 // The options associated with the Apple Terms and Conditions link type.
 type TerminalOnboardingLinkCreateLinkOptionsAppleTermsAndConditionsParams struct {
 	// Whether the link should also support users relinking their Apple account.
-	AllowRelinking *bool `form:"allow_relinking"`
+	AllowRelinking *bool `form:"allow_relinking" json:"allow_relinking,omitempty"`
 	// The business name of the merchant accepting Apple's Terms and Conditions.
-	MerchantDisplayName *string `form:"merchant_display_name"`
+	MerchantDisplayName *string `form:"merchant_display_name" json:"merchant_display_name"`
 }
 
 // Specific fields needed to generate the desired link type.
 type TerminalOnboardingLinkCreateLinkOptionsParams struct {
 	// The options associated with the Apple Terms and Conditions link type.
-	AppleTermsAndConditions *TerminalOnboardingLinkCreateLinkOptionsAppleTermsAndConditionsParams `form:"apple_terms_and_conditions"`
+	AppleTermsAndConditions *TerminalOnboardingLinkCreateLinkOptionsAppleTermsAndConditionsParams `form:"apple_terms_and_conditions" json:"apple_terms_and_conditions,omitempty"`
 }
 
 // Creates a new OnboardingLink object that contains a redirect_url used for onboarding onto Tap to Pay on iPhone.
 type TerminalOnboardingLinkCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Specific fields needed to generate the desired link type.
-	LinkOptions *TerminalOnboardingLinkCreateLinkOptionsParams `form:"link_options"`
+	LinkOptions *TerminalOnboardingLinkCreateLinkOptionsParams `form:"link_options" json:"link_options"`
 	// The type of link being generated.
-	LinkType *string `form:"link_type"`
+	LinkType *string `form:"link_type" json:"link_type"`
 	// Stripe account ID to generate the link for.
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

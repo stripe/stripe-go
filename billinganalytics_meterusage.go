@@ -9,32 +9,32 @@ package stripe
 // An array of meter parameters to specify which meters to include in the usage data. If not specified, usage across all meters for the customer is included.
 type BillingAnalyticsMeterUsageMeterParams struct {
 	// Key-value pairs used to filter usage events by meter dimension values. Each value is an array that can include multiple values for the key. If specified, usage is filtered for matching usage events.
-	DimensionFilters map[string][]*string `form:"dimension_filters"`
+	DimensionFilters map[string][]*string `form:"dimension_filters" json:"dimension_filters,omitempty"`
 	// List of meter dimension keys to group by. If specified, usage events will be grouped by the given meter dimension key's values.
-	DimensionGroupByKeys []*string `form:"dimension_group_by_keys"`
+	DimensionGroupByKeys []*string `form:"dimension_group_by_keys" json:"dimension_group_by_keys,omitempty"`
 	// Meter id to query usage for.
-	Meter *string `form:"meter"`
+	Meter *string `form:"meter" json:"meter"`
 	// Key-value pairs used to filter usage events by high cardinality tenant dimension values. Each value is an array that can include multiple values for the key. If specified, usage is filtered for matching usage events.
-	TenantFilters map[string][]*string `form:"tenant_filters"`
+	TenantFilters map[string][]*string `form:"tenant_filters" json:"tenant_filters,omitempty"`
 }
 
 // Returns aggregated meter usage data for a customer within a specified time interval. The data can be grouped by various dimensions and can include multiple meters if specified.
 type BillingAnalyticsMeterUsageParams struct {
 	Params `form:"*"`
 	// The customer id to fetch meter usage data for.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer"`
 	// The timestamp from when to stop aggregating meter events (exclusive). Must be aligned with minute boundaries.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// An array of meter parameters to specify which meters to include in the usage data. If not specified, usage across all meters for the customer is included.
-	Meters []*BillingAnalyticsMeterUsageMeterParams `form:"meters"`
+	Meters []*BillingAnalyticsMeterUsageMeterParams `form:"meters" json:"meters,omitempty"`
 	// The timestamp from when to start aggregating meter events (inclusive). Must be aligned with minute boundaries.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at"`
 	// The timezone to use for the start and end times. Defaults to UTC if not specified.
-	Timezone *string `form:"timezone"`
+	Timezone *string `form:"timezone" json:"timezone,omitempty"`
 	// Specifies what granularity to use when aggregating meter usage events. If not specified, a single event would be returned for the specified time range.
-	ValueGroupingWindow *string `form:"value_grouping_window"`
+	ValueGroupingWindow *string `form:"value_grouping_window" json:"value_grouping_window,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -45,32 +45,32 @@ func (p *BillingAnalyticsMeterUsageParams) AddExpand(f string) {
 // An array of meter parameters to specify which meters to include in the usage data. If not specified, usage across all meters for the customer is included.
 type BillingAnalyticsMeterUsageRetrieveMeterParams struct {
 	// Key-value pairs used to filter usage events by meter dimension values. Each value is an array that can include multiple values for the key. If specified, usage is filtered for matching usage events.
-	DimensionFilters map[string][]*string `form:"dimension_filters"`
+	DimensionFilters map[string][]*string `form:"dimension_filters" json:"dimension_filters,omitempty"`
 	// List of meter dimension keys to group by. If specified, usage events will be grouped by the given meter dimension key's values.
-	DimensionGroupByKeys []*string `form:"dimension_group_by_keys"`
+	DimensionGroupByKeys []*string `form:"dimension_group_by_keys" json:"dimension_group_by_keys,omitempty"`
 	// Meter id to query usage for.
-	Meter *string `form:"meter"`
+	Meter *string `form:"meter" json:"meter"`
 	// Key-value pairs used to filter usage events by high cardinality tenant dimension values. Each value is an array that can include multiple values for the key. If specified, usage is filtered for matching usage events.
-	TenantFilters map[string][]*string `form:"tenant_filters"`
+	TenantFilters map[string][]*string `form:"tenant_filters" json:"tenant_filters,omitempty"`
 }
 
 // Returns aggregated meter usage data for a customer within a specified time interval. The data can be grouped by various dimensions and can include multiple meters if specified.
 type BillingAnalyticsMeterUsageRetrieveParams struct {
 	Params `form:"*"`
 	// The customer id to fetch meter usage data for.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer"`
 	// The timestamp from when to stop aggregating meter events (exclusive). Must be aligned with minute boundaries.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at" json:"ends_at"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// An array of meter parameters to specify which meters to include in the usage data. If not specified, usage across all meters for the customer is included.
-	Meters []*BillingAnalyticsMeterUsageRetrieveMeterParams `form:"meters"`
+	Meters []*BillingAnalyticsMeterUsageRetrieveMeterParams `form:"meters" json:"meters,omitempty"`
 	// The timestamp from when to start aggregating meter events (inclusive). Must be aligned with minute boundaries.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at" json:"starts_at"`
 	// The timezone to use for the start and end times. Defaults to UTC if not specified.
-	Timezone *string `form:"timezone"`
+	Timezone *string `form:"timezone" json:"timezone,omitempty"`
 	// Specifies what granularity to use when aggregating meter usage events. If not specified, a single event would be returned for the specified time range.
-	ValueGroupingWindow *string `form:"value_grouping_window"`
+	ValueGroupingWindow *string `form:"value_grouping_window" json:"value_grouping_window,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

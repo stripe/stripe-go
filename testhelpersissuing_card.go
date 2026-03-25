@@ -10,7 +10,7 @@ package stripe
 type TestHelpersIssuingCardDeliverCardParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -22,7 +22,7 @@ func (p *TestHelpersIssuingCardDeliverCardParams) AddExpand(f string) {
 type TestHelpersIssuingCardFailCardParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -34,7 +34,7 @@ func (p *TestHelpersIssuingCardFailCardParams) AddExpand(f string) {
 type TestHelpersIssuingCardReturnCardParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -46,7 +46,7 @@ func (p *TestHelpersIssuingCardReturnCardParams) AddExpand(f string) {
 type TestHelpersIssuingCardShipCardParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -58,7 +58,7 @@ func (p *TestHelpersIssuingCardShipCardParams) AddExpand(f string) {
 type TestHelpersIssuingCardSubmitCardParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

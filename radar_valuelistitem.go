@@ -10,11 +10,11 @@ package stripe
 type RadarValueListItemParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The value of the item (whose type must match the type of the parent value list).
-	Value *string `form:"value"`
+	Value *string `form:"value" json:"value,omitempty"`
 	// The identifier of the value list which the created item will be added to.
-	ValueList *string `form:"value_list"`
+	ValueList *string `form:"value_list" json:"value_list,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -26,15 +26,15 @@ func (p *RadarValueListItemParams) AddExpand(f string) {
 type RadarValueListItemListParams struct {
 	ListParams `form:"*"`
 	// Only return items that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return items that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Return items belonging to the parent list whose value matches the specified value (using an "is like" match).
-	Value *string `form:"value"`
+	Value *string `form:"value" json:"value,omitempty"`
 	// Identifier for the parent value list this item belongs to.
-	ValueList *string `form:"value_list"`
+	ValueList *string `form:"value_list" json:"value_list"`
 }
 
 // AddExpand appends a new field to expand.
@@ -51,7 +51,7 @@ type RadarValueListItemDeleteParams struct {
 type RadarValueListItemRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -63,11 +63,11 @@ func (p *RadarValueListItemRetrieveParams) AddExpand(f string) {
 type RadarValueListItemCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The value of the item (whose type must match the type of the parent value list).
-	Value *string `form:"value"`
+	Value *string `form:"value" json:"value"`
 	// The identifier of the value list which the created item will be added to.
-	ValueList *string `form:"value_list"`
+	ValueList *string `form:"value_list" json:"value_list"`
 }
 
 // AddExpand appends a new field to expand.
@@ -84,7 +84,7 @@ type RadarValueListItem struct {
 	Created int64 `json:"created"`
 	// The name or email address of the user who added this item to the value list.
 	CreatedBy string `json:"created_by"`
-	Deleted   bool   `json:"deleted"`
+	Deleted   bool   `json:"deleted,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.

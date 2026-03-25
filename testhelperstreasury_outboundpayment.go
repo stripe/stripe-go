@@ -9,36 +9,36 @@ package stripe
 // ACH network tracking details.
 type TestHelpersTreasuryOutboundPaymentTrackingDetailsACHParams struct {
 	// ACH trace ID for funds sent over the `ach` network.
-	TraceID *string `form:"trace_id"`
+	TraceID *string `form:"trace_id" json:"trace_id"`
 }
 
 // US domestic wire network tracking details.
 type TestHelpersTreasuryOutboundPaymentTrackingDetailsUSDomesticWireParams struct {
 	// CHIPS System Sequence Number (SSN) for funds sent over the `us_domestic_wire` network.
-	Chips *string `form:"chips"`
+	Chips *string `form:"chips" json:"chips,omitempty"`
 	// IMAD for funds sent over the `us_domestic_wire` network.
-	Imad *string `form:"imad"`
+	Imad *string `form:"imad" json:"imad,omitempty"`
 	// OMAD for funds sent over the `us_domestic_wire` network.
-	Omad *string `form:"omad"`
+	Omad *string `form:"omad" json:"omad,omitempty"`
 }
 
 // Details about network-specific tracking information.
 type TestHelpersTreasuryOutboundPaymentTrackingDetailsParams struct {
 	// ACH network tracking details.
-	ACH *TestHelpersTreasuryOutboundPaymentTrackingDetailsACHParams `form:"ach"`
+	ACH *TestHelpersTreasuryOutboundPaymentTrackingDetailsACHParams `form:"ach" json:"ach,omitempty"`
 	// The US bank account network used to send funds.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// US domestic wire network tracking details.
-	USDomesticWire *TestHelpersTreasuryOutboundPaymentTrackingDetailsUSDomesticWireParams `form:"us_domestic_wire"`
+	USDomesticWire *TestHelpersTreasuryOutboundPaymentTrackingDetailsUSDomesticWireParams `form:"us_domestic_wire" json:"us_domestic_wire,omitempty"`
 }
 
 // Updates a test mode created OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and cannot be in the canceled or failed states.
 type TestHelpersTreasuryOutboundPaymentParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Details about network-specific tracking information.
-	TrackingDetails *TestHelpersTreasuryOutboundPaymentTrackingDetailsParams `form:"tracking_details"`
+	TrackingDetails *TestHelpersTreasuryOutboundPaymentTrackingDetailsParams `form:"tracking_details" json:"tracking_details"`
 }
 
 // AddExpand appends a new field to expand.
@@ -50,7 +50,7 @@ func (p *TestHelpersTreasuryOutboundPaymentParams) AddExpand(f string) {
 type TestHelpersTreasuryOutboundPaymentFailParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -62,7 +62,7 @@ func (p *TestHelpersTreasuryOutboundPaymentFailParams) AddExpand(f string) {
 type TestHelpersTreasuryOutboundPaymentPostParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -73,16 +73,16 @@ func (p *TestHelpersTreasuryOutboundPaymentPostParams) AddExpand(f string) {
 // Optional hash to set the return code.
 type TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentReturnedDetailsParams struct {
 	// The return code to be set on the OutboundPayment object.
-	Code *string `form:"code"`
+	Code *string `form:"code" json:"code,omitempty"`
 }
 
 // Transitions a test mode created OutboundPayment to the returned status. The OutboundPayment must already be in the processing state.
 type TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Optional hash to set the return code.
-	ReturnedDetails *TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentReturnedDetailsParams `form:"returned_details"`
+	ReturnedDetails *TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentReturnedDetailsParams `form:"returned_details" json:"returned_details,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -93,36 +93,36 @@ func (p *TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentParams) AddExpan
 // ACH network tracking details.
 type TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsACHParams struct {
 	// ACH trace ID for funds sent over the `ach` network.
-	TraceID *string `form:"trace_id"`
+	TraceID *string `form:"trace_id" json:"trace_id"`
 }
 
 // US domestic wire network tracking details.
 type TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsUSDomesticWireParams struct {
 	// CHIPS System Sequence Number (SSN) for funds sent over the `us_domestic_wire` network.
-	Chips *string `form:"chips"`
+	Chips *string `form:"chips" json:"chips,omitempty"`
 	// IMAD for funds sent over the `us_domestic_wire` network.
-	Imad *string `form:"imad"`
+	Imad *string `form:"imad" json:"imad,omitempty"`
 	// OMAD for funds sent over the `us_domestic_wire` network.
-	Omad *string `form:"omad"`
+	Omad *string `form:"omad" json:"omad,omitempty"`
 }
 
 // Details about network-specific tracking information.
 type TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsParams struct {
 	// ACH network tracking details.
-	ACH *TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsACHParams `form:"ach"`
+	ACH *TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsACHParams `form:"ach" json:"ach,omitempty"`
 	// The US bank account network used to send funds.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// US domestic wire network tracking details.
-	USDomesticWire *TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsUSDomesticWireParams `form:"us_domestic_wire"`
+	USDomesticWire *TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsUSDomesticWireParams `form:"us_domestic_wire" json:"us_domestic_wire,omitempty"`
 }
 
 // Updates a test mode created OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and cannot be in the canceled or failed states.
 type TestHelpersTreasuryOutboundPaymentUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Details about network-specific tracking information.
-	TrackingDetails *TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsParams `form:"tracking_details"`
+	TrackingDetails *TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsParams `form:"tracking_details" json:"tracking_details"`
 }
 
 // AddExpand appends a new field to expand.

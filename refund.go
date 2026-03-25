@@ -65,15 +65,15 @@ const (
 type RefundListParams struct {
 	ListParams `form:"*"`
 	// Only return refunds for the charge specified by this charge ID.
-	Charge *string `form:"charge"`
+	Charge *string `form:"charge" json:"charge,omitempty"`
 	// Only return refunds that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return refunds that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return refunds for the PaymentIntent specified by this ID.
-	PaymentIntent *string `form:"payment_intent"`
+	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -94,31 +94,31 @@ func (p *RefundListParams) AddExpand(f string) {
 // or when trying to refund more money than is left on a charge.
 type RefundParams struct {
 	Params `form:"*"`
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The identifier of the charge to refund.
-	Charge *string `form:"charge"`
+	Charge *string `form:"charge" json:"charge,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Customer whose customer balance to refund from.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// For payment methods without native refund support (e.g., Konbini, PromptPay), use this email from the customer to receive refund instructions.
-	InstructionsEmail *string `form:"instructions_email"`
+	InstructionsEmail *string `form:"instructions_email" json:"instructions_email,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Origin of the refund
-	Origin *string `form:"origin"`
+	Origin *string `form:"origin" json:"origin,omitempty"`
 	// The identifier of the PaymentIntent to refund.
-	PaymentIntent *string `form:"payment_intent"`
+	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
 	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://docs.stripe.com/radar/lists), and will also help us improve our fraud detection algorithms.
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason,omitempty"`
 	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
-	RefundApplicationFee *bool `form:"refund_application_fee"`
+	RefundApplicationFee *bool `form:"refund_application_fee" json:"refund_application_fee,omitempty"`
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount).
 	//
 	// A transfer can be reversed only by the application that created the charge.
-	ReverseTransfer *bool                    `form:"reverse_transfer"`
+	ReverseTransfer *bool                    `form:"reverse_transfer" json:"reverse_transfer,omitempty"`
 	UnsetFields     []RefundParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -154,7 +154,7 @@ func (p *RefundParams) AddMetadata(key string, value string) {
 type RefundCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -175,31 +175,31 @@ func (p *RefundCancelParams) AddExpand(f string) {
 // or when trying to refund more money than is left on a charge.
 type RefundCreateParams struct {
 	Params `form:"*"`
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The identifier of the charge to refund.
-	Charge *string `form:"charge"`
+	Charge *string `form:"charge" json:"charge,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Customer whose customer balance to refund from.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// For payment methods without native refund support (e.g., Konbini, PromptPay), use this email from the customer to receive refund instructions.
-	InstructionsEmail *string `form:"instructions_email"`
+	InstructionsEmail *string `form:"instructions_email" json:"instructions_email,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Origin of the refund
-	Origin *string `form:"origin"`
+	Origin *string `form:"origin" json:"origin,omitempty"`
 	// The identifier of the PaymentIntent to refund.
-	PaymentIntent *string `form:"payment_intent"`
+	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
 	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://docs.stripe.com/radar/lists), and will also help us improve our fraud detection algorithms.
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason,omitempty"`
 	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
-	RefundApplicationFee *bool `form:"refund_application_fee"`
+	RefundApplicationFee *bool `form:"refund_application_fee" json:"refund_application_fee,omitempty"`
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount).
 	//
 	// A transfer can be reversed only by the application that created the charge.
-	ReverseTransfer *bool                          `form:"reverse_transfer"`
+	ReverseTransfer *bool                          `form:"reverse_transfer" json:"reverse_transfer,omitempty"`
 	UnsetFields     []RefundCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -233,7 +233,7 @@ func (p *RefundCreateParams) AddMetadata(key string, value string) {
 type RefundRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -247,9 +247,9 @@ func (p *RefundRetrieveParams) AddExpand(f string) {
 type RefundUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string              `form:"metadata"`
+	Metadata    map[string]string              `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []RefundUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -301,11 +301,11 @@ type RefundDestinationDetailsBrBankTransfer struct {
 }
 type RefundDestinationDetailsCard struct {
 	// Value of the reference number assigned to the refund.
-	Reference string `json:"reference"`
+	Reference string `json:"reference,omitempty"`
 	// Status of the reference number on the refund. This can be `pending`, `available` or `unavailable`.
-	ReferenceStatus string `json:"reference_status"`
+	ReferenceStatus string `json:"reference_status,omitempty"`
 	// Type of the reference number assigned to the refund.
-	ReferenceType string `json:"reference_type"`
+	ReferenceType string `json:"reference_type,omitempty"`
 	// The type of refund. This can be `refund`, `reversal`, or `pending`.
 	Type RefundDestinationDetailsCardType `json:"type"`
 }
@@ -400,44 +400,44 @@ type RefundDestinationDetailsUSBankTransfer struct {
 type RefundDestinationDetailsWeChatPay struct{}
 type RefundDestinationDetailsZip struct{}
 type RefundDestinationDetails struct {
-	Affirm              *RefundDestinationDetailsAffirm              `json:"affirm"`
-	AfterpayClearpay    *RefundDestinationDetailsAfterpayClearpay    `json:"afterpay_clearpay"`
-	Alipay              *RefundDestinationDetailsAlipay              `json:"alipay"`
-	Alma                *RefundDestinationDetailsAlma                `json:"alma"`
-	AmazonPay           *RefundDestinationDetailsAmazonPay           `json:"amazon_pay"`
-	AuBankTransfer      *RefundDestinationDetailsAuBankTransfer      `json:"au_bank_transfer"`
-	BLIK                *RefundDestinationDetailsBLIK                `json:"blik"`
-	BrBankTransfer      *RefundDestinationDetailsBrBankTransfer      `json:"br_bank_transfer"`
-	Card                *RefundDestinationDetailsCard                `json:"card"`
-	CashApp             *RefundDestinationDetailsCashApp             `json:"cashapp"`
-	Crypto              *RefundDestinationDetailsCrypto              `json:"crypto"`
-	CustomerCashBalance *RefundDestinationDetailsCustomerCashBalance `json:"customer_cash_balance"`
-	EPS                 *RefundDestinationDetailsEPS                 `json:"eps"`
-	EUBankTransfer      *RefundDestinationDetailsEUBankTransfer      `json:"eu_bank_transfer"`
-	GBBankTransfer      *RefundDestinationDetailsGBBankTransfer      `json:"gb_bank_transfer"`
-	Giropay             *RefundDestinationDetailsGiropay             `json:"giropay"`
-	Grabpay             *RefundDestinationDetailsGrabpay             `json:"grabpay"`
-	IDBankTransfer      *RefundDestinationDetailsIDBankTransfer      `json:"id_bank_transfer"`
-	JPBankTransfer      *RefundDestinationDetailsJPBankTransfer      `json:"jp_bank_transfer"`
-	Klarna              *RefundDestinationDetailsKlarna              `json:"klarna"`
-	MbWay               *RefundDestinationDetailsMbWay               `json:"mb_way"`
-	Multibanco          *RefundDestinationDetailsMultibanco          `json:"multibanco"`
-	MXBankTransfer      *RefundDestinationDetailsMXBankTransfer      `json:"mx_bank_transfer"`
-	NzBankTransfer      *RefundDestinationDetailsNzBankTransfer      `json:"nz_bank_transfer"`
-	P24                 *RefundDestinationDetailsP24                 `json:"p24"`
-	PayNow              *RefundDestinationDetailsPayNow              `json:"paynow"`
-	Paypal              *RefundDestinationDetailsPaypal              `json:"paypal"`
-	Pix                 *RefundDestinationDetailsPix                 `json:"pix"`
-	Revolut             *RefundDestinationDetailsRevolut             `json:"revolut"`
-	Sofort              *RefundDestinationDetailsSofort              `json:"sofort"`
-	Swish               *RefundDestinationDetailsSwish               `json:"swish"`
-	THBankTransfer      *RefundDestinationDetailsTHBankTransfer      `json:"th_bank_transfer"`
-	TWINT               *RefundDestinationDetailsTWINT               `json:"twint"`
+	Affirm              *RefundDestinationDetailsAffirm              `json:"affirm,omitempty"`
+	AfterpayClearpay    *RefundDestinationDetailsAfterpayClearpay    `json:"afterpay_clearpay,omitempty"`
+	Alipay              *RefundDestinationDetailsAlipay              `json:"alipay,omitempty"`
+	Alma                *RefundDestinationDetailsAlma                `json:"alma,omitempty"`
+	AmazonPay           *RefundDestinationDetailsAmazonPay           `json:"amazon_pay,omitempty"`
+	AuBankTransfer      *RefundDestinationDetailsAuBankTransfer      `json:"au_bank_transfer,omitempty"`
+	BLIK                *RefundDestinationDetailsBLIK                `json:"blik,omitempty"`
+	BrBankTransfer      *RefundDestinationDetailsBrBankTransfer      `json:"br_bank_transfer,omitempty"`
+	Card                *RefundDestinationDetailsCard                `json:"card,omitempty"`
+	CashApp             *RefundDestinationDetailsCashApp             `json:"cashapp,omitempty"`
+	Crypto              *RefundDestinationDetailsCrypto              `json:"crypto,omitempty"`
+	CustomerCashBalance *RefundDestinationDetailsCustomerCashBalance `json:"customer_cash_balance,omitempty"`
+	EPS                 *RefundDestinationDetailsEPS                 `json:"eps,omitempty"`
+	EUBankTransfer      *RefundDestinationDetailsEUBankTransfer      `json:"eu_bank_transfer,omitempty"`
+	GBBankTransfer      *RefundDestinationDetailsGBBankTransfer      `json:"gb_bank_transfer,omitempty"`
+	Giropay             *RefundDestinationDetailsGiropay             `json:"giropay,omitempty"`
+	Grabpay             *RefundDestinationDetailsGrabpay             `json:"grabpay,omitempty"`
+	IDBankTransfer      *RefundDestinationDetailsIDBankTransfer      `json:"id_bank_transfer,omitempty"`
+	JPBankTransfer      *RefundDestinationDetailsJPBankTransfer      `json:"jp_bank_transfer,omitempty"`
+	Klarna              *RefundDestinationDetailsKlarna              `json:"klarna,omitempty"`
+	MbWay               *RefundDestinationDetailsMbWay               `json:"mb_way,omitempty"`
+	Multibanco          *RefundDestinationDetailsMultibanco          `json:"multibanco,omitempty"`
+	MXBankTransfer      *RefundDestinationDetailsMXBankTransfer      `json:"mx_bank_transfer,omitempty"`
+	NzBankTransfer      *RefundDestinationDetailsNzBankTransfer      `json:"nz_bank_transfer,omitempty"`
+	P24                 *RefundDestinationDetailsP24                 `json:"p24,omitempty"`
+	PayNow              *RefundDestinationDetailsPayNow              `json:"paynow,omitempty"`
+	Paypal              *RefundDestinationDetailsPaypal              `json:"paypal,omitempty"`
+	Pix                 *RefundDestinationDetailsPix                 `json:"pix,omitempty"`
+	Revolut             *RefundDestinationDetailsRevolut             `json:"revolut,omitempty"`
+	Sofort              *RefundDestinationDetailsSofort              `json:"sofort,omitempty"`
+	Swish               *RefundDestinationDetailsSwish               `json:"swish,omitempty"`
+	THBankTransfer      *RefundDestinationDetailsTHBankTransfer      `json:"th_bank_transfer,omitempty"`
+	TWINT               *RefundDestinationDetailsTWINT               `json:"twint,omitempty"`
 	// The type of transaction-specific details of the payment method used in the refund (e.g., `card`). An additional hash is included on `destination_details` with a name matching this value. It contains information specific to the refund transaction.
 	Type           string                                  `json:"type"`
-	USBankTransfer *RefundDestinationDetailsUSBankTransfer `json:"us_bank_transfer"`
-	WeChatPay      *RefundDestinationDetailsWeChatPay      `json:"wechat_pay"`
-	Zip            *RefundDestinationDetailsZip            `json:"zip"`
+	USBankTransfer *RefundDestinationDetailsUSBankTransfer `json:"us_bank_transfer,omitempty"`
+	WeChatPay      *RefundDestinationDetailsWeChatPay      `json:"wechat_pay,omitempty"`
+	Zip            *RefundDestinationDetailsZip            `json:"zip,omitempty"`
 }
 type RefundNextActionDisplayDetailsEmailSent struct {
 	// The timestamp when the email was sent.
@@ -451,7 +451,7 @@ type RefundNextActionDisplayDetails struct {
 	ExpiresAt int64 `json:"expires_at"`
 }
 type RefundNextAction struct {
-	DisplayDetails *RefundNextActionDisplayDetails `json:"display_details"`
+	DisplayDetails *RefundNextActionDisplayDetails `json:"display_details,omitempty"`
 	// Type of the next action to perform.
 	Type string `json:"type"`
 }
@@ -480,26 +480,26 @@ type Refund struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. You can use this for displaying to users (available on non-card refunds only).
-	Description        string                    `json:"description"`
-	DestinationDetails *RefundDestinationDetails `json:"destination_details"`
+	Description        string                    `json:"description,omitempty"`
+	DestinationDetails *RefundDestinationDetails `json:"destination_details,omitempty"`
 	// After the refund fails, this balance transaction describes the adjustment made on your account balance that reverses the initial balance transaction.
-	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
+	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction,omitempty"`
 	// Provides the reason for the refund failure. Possible values are: `lost_or_stolen_card`, `expired_or_canceled_card`, `charge_for_pending_refund_disputed`, `insufficient_funds`, `declined`, `merchant_request`, or `unknown`.
-	FailureReason RefundFailureReason `json:"failure_reason"`
+	FailureReason RefundFailureReason `json:"failure_reason,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// For payment methods without native refund support (for example, Konbini, PromptPay), provide an email address for the customer to receive refund instructions.
-	InstructionsEmail string `json:"instructions_email"`
+	InstructionsEmail string `json:"instructions_email,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata   map[string]string `json:"metadata"`
-	NextAction *RefundNextAction `json:"next_action"`
+	NextAction *RefundNextAction `json:"next_action,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// ID of the PaymentIntent that's refunded.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// Provides the reason for why the refund is pending. Possible values are: `processing`, `insufficient_funds`, or `charge_pending`.
-	PendingReason      RefundPendingReason       `json:"pending_reason"`
-	PresentmentDetails *RefundPresentmentDetails `json:"presentment_details"`
+	PendingReason      RefundPendingReason       `json:"pending_reason,omitempty"`
+	PresentmentDetails *RefundPresentmentDetails `json:"presentment_details,omitempty"`
 	// Reason for the refund, which is either user-provided (`duplicate`, `fraudulent`, or `requested_by_customer`) or generated by Stripe internally (`expired_uncaptured_charge`).
 	Reason RefundReason `json:"reason"`
 	// This is the transaction number that appears on email receipts sent for this refund.

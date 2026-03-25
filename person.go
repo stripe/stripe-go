@@ -118,63 +118,63 @@ type PersonParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
 	// Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
-	AdditionalTOSAcceptances *PersonAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances"`
+	AdditionalTOSAcceptances *PersonAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances" json:"additional_tos_acceptances,omitempty"`
 	// The person's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The Kana variation of the person's address (Japan only).
-	AddressKana *PersonAddressKanaParams `form:"address_kana"`
+	AddressKana *PersonAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the person's address (Japan only).
-	AddressKanji *PersonAddressKanjiParams `form:"address_kanji"`
+	AddressKanji *PersonAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
 	// The person's date of birth.
-	DOB *PersonDOBParams `form:"dob"`
+	DOB *PersonDOBParams `form:"dob" json:"dob,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
-	Documents *PersonDocumentsParams `form:"documents"`
+	Documents *PersonDocumentsParams `form:"documents" json:"documents,omitempty"`
 	// The person's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The person's first name.
-	FirstName *string `form:"first_name"`
+	FirstName *string `form:"first_name" json:"first_name,omitempty"`
 	// The Kana variation of the person's first name (Japan only).
-	FirstNameKana *string `form:"first_name_kana"`
+	FirstNameKana *string `form:"first_name_kana" json:"first_name_kana,omitempty"`
 	// The Kanji variation of the person's first name (Japan only).
-	FirstNameKanji *string `form:"first_name_kanji"`
+	FirstNameKanji *string `form:"first_name_kanji" json:"first_name_kanji,omitempty"`
 	// A list of alternate names or aliases that the person is known by.
-	FullNameAliases []*string `form:"full_name_aliases"`
+	FullNameAliases []*string `form:"full_name_aliases" json:"full_name_aliases,omitempty"`
 	// The person's gender (International regulations require either "male" or "female").
-	Gender *string `form:"gender"`
+	Gender *string `form:"gender" json:"gender,omitempty"`
 	// The person's ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
-	IDNumber *string `form:"id_number"`
+	IDNumber *string `form:"id_number" json:"id_number,omitempty"`
 	// The person's secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
-	IDNumberSecondary *string `form:"id_number_secondary"`
+	IDNumberSecondary *string `form:"id_number_secondary" json:"id_number_secondary,omitempty"`
 	// The person's last name.
-	LastName *string `form:"last_name"`
+	LastName *string `form:"last_name" json:"last_name,omitempty"`
 	// The Kana variation of the person's last name (Japan only).
-	LastNameKana *string `form:"last_name_kana"`
+	LastNameKana *string `form:"last_name_kana" json:"last_name_kana,omitempty"`
 	// The Kanji variation of the person's last name (Japan only).
-	LastNameKanji *string `form:"last_name_kanji"`
+	LastNameKanji *string `form:"last_name_kanji" json:"last_name_kanji,omitempty"`
 	// The person's maiden name.
-	MaidenName *string `form:"maiden_name"`
+	MaidenName *string `form:"maiden_name" json:"maiden_name,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The country where the person is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)), or "XX" if unavailable.
-	Nationality *string `form:"nationality"`
+	Nationality *string `form:"nationality" json:"nationality,omitempty"`
 	// A [person token](https://docs.stripe.com/connect/account-tokens), used to securely provide details to the person.
-	PersonToken *string `form:"person_token"`
+	PersonToken *string `form:"person_token" json:"person_token,omitempty"`
 	// The person's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 	// Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction.
-	PoliticalExposure *string `form:"political_exposure"`
+	PoliticalExposure *string `form:"political_exposure" json:"political_exposure,omitempty"`
 	// The person's registered address.
-	RegisteredAddress *AddressParams `form:"registered_address"`
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
 	// The relationship that this person has with the account's legal entity.
-	Relationship *PersonRelationshipParams `form:"relationship"`
+	Relationship *PersonRelationshipParams `form:"relationship" json:"relationship,omitempty"`
 	// The last four digits of the person's Social Security number (U.S. only).
-	SSNLast4 *string `form:"ssn_last_4"`
+	SSNLast4 *string `form:"ssn_last_4" json:"ssn_last_4,omitempty"`
 	// Demographic data related to the person.
-	USCfpbData *PersonUSCfpbDataParams `form:"us_cfpb_data"`
+	USCfpbData *PersonUSCfpbDataParams `form:"us_cfpb_data" json:"us_cfpb_data,omitempty"`
 	// The person's verification status.
-	Verification *PersonVerificationParams `form:"verification"`
+	Verification *PersonVerificationParams `form:"verification" json:"verification,omitempty"`
 	UnsetFields  []PersonParamsUnsetField  `form:"-" json:"-"`
 }
 
@@ -209,11 +209,11 @@ func (p *PersonParams) AddMetadata(key string, value string) {
 // Details on the legal guardian's acceptance of the main Stripe service agreement.
 type PersonAdditionalTOSAcceptancesAccountParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
-	Date *int64 `form:"date"`
+	Date *int64 `form:"date" json:"date,omitempty"`
 	// The IP address from which the account representative accepted the service agreement.
-	IP *string `form:"ip"`
+	IP *string `form:"ip" json:"ip,omitempty"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
-	UserAgent   *string                                                 `form:"user_agent"`
+	UserAgent   *string                                                 `form:"user_agent" json:"user_agent,omitempty"`
 	UnsetFields []PersonAdditionalTOSAcceptancesAccountParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -232,101 +232,101 @@ func (p *PersonAdditionalTOSAcceptancesAccountParams) AddUnsetField(field Person
 // Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
 type PersonAdditionalTOSAcceptancesParams struct {
 	// Details on the legal guardian's acceptance of the main Stripe service agreement.
-	Account *PersonAdditionalTOSAcceptancesAccountParams `form:"account"`
+	Account *PersonAdditionalTOSAcceptancesAccountParams `form:"account" json:"account,omitempty"`
 }
 
 // The Kana variation of the person's address (Japan only).
 type PersonAddressKanaParams struct {
 	// City or ward.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Block or building number.
-	Line1 *string `form:"line1"`
+	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Building details.
-	Line2 *string `form:"line2"`
+	Line2 *string `form:"line2" json:"line2,omitempty"`
 	// Postal code.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// Prefecture.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// Town or cho-me.
-	Town *string `form:"town"`
+	Town *string `form:"town" json:"town,omitempty"`
 }
 
 // The Kanji variation of the person's address (Japan only).
 type PersonAddressKanjiParams struct {
 	// City or ward.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Block or building number.
-	Line1 *string `form:"line1"`
+	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Building details.
-	Line2 *string `form:"line2"`
+	Line2 *string `form:"line2" json:"line2,omitempty"`
 	// Postal code.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// Prefecture.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// Town or cho-me.
-	Town *string `form:"town"`
+	Town *string `form:"town" json:"town,omitempty"`
 }
 
 // The person's date of birth.
 type PersonDOBParams struct {
 	// The day of birth, between 1 and 31.
-	Day *int64 `form:"day"`
+	Day *int64 `form:"day" json:"day"`
 	// The month of birth, between 1 and 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month"`
 	// The four-digit year of birth.
-	Year *int64 `form:"year"`
+	Year *int64 `form:"year" json:"year"`
 }
 
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type PersonDocumentsCompanyAuthorizationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents showing the person's passport page with photo and personal data.
 type PersonDocumentsPassportParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type PersonDocumentsVisaParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // Documents that may be submitted to satisfy various informational requests.
 type PersonDocumentsParams struct {
 	// One or more documents that demonstrate proof that this person is authorized to represent the company.
-	CompanyAuthorization *PersonDocumentsCompanyAuthorizationParams `form:"company_authorization"`
+	CompanyAuthorization *PersonDocumentsCompanyAuthorizationParams `form:"company_authorization" json:"company_authorization,omitempty"`
 	// One or more documents showing the person's passport page with photo and personal data.
-	Passport *PersonDocumentsPassportParams `form:"passport"`
+	Passport *PersonDocumentsPassportParams `form:"passport" json:"passport,omitempty"`
 	// One or more documents showing the person's visa required for living in the country where they are residing.
-	Visa *PersonDocumentsVisaParams `form:"visa"`
+	Visa *PersonDocumentsVisaParams `form:"visa" json:"visa,omitempty"`
 }
 
 // The relationship that this person has with the account's legal entity.
 type PersonRelationshipParams struct {
 	// Whether the person is the authorizer of the account's representative.
-	Authorizer *bool `form:"authorizer"`
+	Authorizer *bool `form:"authorizer" json:"authorizer,omitempty"`
 	// Whether the person is a director of the account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
-	Director *bool `form:"director"`
+	Director *bool `form:"director" json:"director,omitempty"`
 	// Whether the person has significant responsibility to control, manage, or direct the organization.
-	Executive *bool `form:"executive"`
+	Executive *bool `form:"executive" json:"executive,omitempty"`
 	// Whether the person is the legal guardian of the account's representative.
-	LegalGuardian *bool `form:"legal_guardian"`
+	LegalGuardian *bool `form:"legal_guardian" json:"legal_guardian,omitempty"`
 	// Whether the person is an owner of the account's legal entity.
-	Owner *bool `form:"owner"`
+	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// The percent owned by the person of the account's legal entity.
-	PercentOwnership *float64 `form:"percent_ownership"`
+	PercentOwnership *float64 `form:"percent_ownership" json:"percent_ownership,omitempty"`
 	// Whether the person is authorized as the primary representative of the account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
-	Representative *bool `form:"representative"`
+	Representative *bool `form:"representative" json:"representative,omitempty"`
 	// The person's title (e.g., CEO, Support Engineer).
-	Title       *string                              `form:"title"`
+	Title       *string                              `form:"title" json:"title,omitempty"`
 	UnsetFields []PersonRelationshipParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -345,59 +345,59 @@ func (p *PersonRelationshipParams) AddUnsetField(field PersonRelationshipParamsU
 // The persons ethnicity details
 type PersonUSCfpbDataEthnicityDetailsParams struct {
 	// The persons ethnicity
-	Ethnicity []*string `form:"ethnicity"`
+	Ethnicity []*string `form:"ethnicity" json:"ethnicity,omitempty"`
 	// Please specify your origin, when other is selected.
-	EthnicityOther *string `form:"ethnicity_other"`
+	EthnicityOther *string `form:"ethnicity_other" json:"ethnicity_other,omitempty"`
 }
 
 // The persons race details
 type PersonUSCfpbDataRaceDetailsParams struct {
 	// The persons race.
-	Race []*string `form:"race"`
+	Race []*string `form:"race" json:"race,omitempty"`
 	// Please specify your race, when other is selected.
-	RaceOther *string `form:"race_other"`
+	RaceOther *string `form:"race_other" json:"race_other,omitempty"`
 }
 
 // Demographic data related to the person.
 type PersonUSCfpbDataParams struct {
 	// The persons ethnicity details
-	EthnicityDetails *PersonUSCfpbDataEthnicityDetailsParams `form:"ethnicity_details"`
+	EthnicityDetails *PersonUSCfpbDataEthnicityDetailsParams `form:"ethnicity_details" json:"ethnicity_details,omitempty"`
 	// The persons race details
-	RaceDetails *PersonUSCfpbDataRaceDetailsParams `form:"race_details"`
+	RaceDetails *PersonUSCfpbDataRaceDetailsParams `form:"race_details" json:"race_details,omitempty"`
 	// The persons self-identified gender
-	SelfIdentifiedGender *string `form:"self_identified_gender"`
+	SelfIdentifiedGender *string `form:"self_identified_gender" json:"self_identified_gender,omitempty"`
 }
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type PersonVerificationDocumentParams struct {
 	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-	Back *string `form:"back"`
+	Back *string `form:"back" json:"back,omitempty"`
 	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-	Front *string `form:"front"`
+	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // The person's verification status.
 type PersonVerificationParams struct {
 	// A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
-	AdditionalDocument *PersonVerificationDocumentParams `form:"additional_document"`
+	AdditionalDocument *PersonVerificationDocumentParams `form:"additional_document" json:"additional_document,omitempty"`
 	// An identifying document, either a passport or local ID card.
-	Document *PersonVerificationDocumentParams `form:"document"`
+	Document *PersonVerificationDocumentParams `form:"document" json:"document,omitempty"`
 }
 
 // Filters on the list of people returned based on the person's relationship to the account's company.
 type PersonListRelationshipParams struct {
 	// A filter on the list of people returned based on whether these people are authorizers of the account's representative.
-	Authorizer *bool `form:"authorizer"`
+	Authorizer *bool `form:"authorizer" json:"authorizer,omitempty"`
 	// A filter on the list of people returned based on whether these people are directors of the account's company.
-	Director *bool `form:"director"`
+	Director *bool `form:"director" json:"director,omitempty"`
 	// A filter on the list of people returned based on whether these people are executives of the account's company.
-	Executive *bool `form:"executive"`
+	Executive *bool `form:"executive" json:"executive,omitempty"`
 	// A filter on the list of people returned based on whether these people are legal guardians of the account's representative.
-	LegalGuardian *bool `form:"legal_guardian"`
+	LegalGuardian *bool `form:"legal_guardian" json:"legal_guardian,omitempty"`
 	// A filter on the list of people returned based on whether these people are owners of the account's company.
-	Owner *bool `form:"owner"`
+	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// A filter on the list of people returned based on whether these people are the representative of the account's company.
-	Representative *bool `form:"representative"`
+	Representative *bool `form:"representative" json:"representative,omitempty"`
 }
 
 // Returns a list of people associated with the account's legal entity. The people are returned sorted by creation date, with the most recent people appearing first.
@@ -405,9 +405,9 @@ type PersonListParams struct {
 	ListParams `form:"*"`
 	Account    *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Filters on the list of people returned based on the person's relationship to the account's company.
-	Relationship *PersonListRelationshipParams `form:"relationship"`
+	Relationship *PersonListRelationshipParams `form:"relationship" json:"relationship,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -426,7 +426,7 @@ type PersonRetrieveParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -437,11 +437,11 @@ func (p *PersonRetrieveParams) AddExpand(f string) {
 // Details on the legal guardian's acceptance of the main Stripe service agreement.
 type PersonUpdateAdditionalTOSAcceptancesAccountParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
-	Date *int64 `form:"date"`
+	Date *int64 `form:"date" json:"date,omitempty"`
 	// The IP address from which the account representative accepted the service agreement.
-	IP *string `form:"ip"`
+	IP *string `form:"ip" json:"ip,omitempty"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
-	UserAgent   *string                                                       `form:"user_agent"`
+	UserAgent   *string                                                       `form:"user_agent" json:"user_agent,omitempty"`
 	UnsetFields []PersonUpdateAdditionalTOSAcceptancesAccountParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -460,101 +460,101 @@ func (p *PersonUpdateAdditionalTOSAcceptancesAccountParams) AddUnsetField(field 
 // Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
 type PersonUpdateAdditionalTOSAcceptancesParams struct {
 	// Details on the legal guardian's acceptance of the main Stripe service agreement.
-	Account *PersonUpdateAdditionalTOSAcceptancesAccountParams `form:"account"`
+	Account *PersonUpdateAdditionalTOSAcceptancesAccountParams `form:"account" json:"account,omitempty"`
 }
 
 // The Kana variation of the person's address (Japan only).
 type PersonUpdateAddressKanaParams struct {
 	// City or ward.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Block or building number.
-	Line1 *string `form:"line1"`
+	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Building details.
-	Line2 *string `form:"line2"`
+	Line2 *string `form:"line2" json:"line2,omitempty"`
 	// Postal code.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// Prefecture.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// Town or cho-me.
-	Town *string `form:"town"`
+	Town *string `form:"town" json:"town,omitempty"`
 }
 
 // The Kanji variation of the person's address (Japan only).
 type PersonUpdateAddressKanjiParams struct {
 	// City or ward.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Block or building number.
-	Line1 *string `form:"line1"`
+	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Building details.
-	Line2 *string `form:"line2"`
+	Line2 *string `form:"line2" json:"line2,omitempty"`
 	// Postal code.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// Prefecture.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// Town or cho-me.
-	Town *string `form:"town"`
+	Town *string `form:"town" json:"town,omitempty"`
 }
 
 // The person's date of birth.
 type PersonUpdateDOBParams struct {
 	// The day of birth, between 1 and 31.
-	Day *int64 `form:"day"`
+	Day *int64 `form:"day" json:"day"`
 	// The month of birth, between 1 and 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month"`
 	// The four-digit year of birth.
-	Year *int64 `form:"year"`
+	Year *int64 `form:"year" json:"year"`
 }
 
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type PersonUpdateDocumentsCompanyAuthorizationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents showing the person's passport page with photo and personal data.
 type PersonUpdateDocumentsPassportParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type PersonUpdateDocumentsVisaParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // Documents that may be submitted to satisfy various informational requests.
 type PersonUpdateDocumentsParams struct {
 	// One or more documents that demonstrate proof that this person is authorized to represent the company.
-	CompanyAuthorization *PersonUpdateDocumentsCompanyAuthorizationParams `form:"company_authorization"`
+	CompanyAuthorization *PersonUpdateDocumentsCompanyAuthorizationParams `form:"company_authorization" json:"company_authorization,omitempty"`
 	// One or more documents showing the person's passport page with photo and personal data.
-	Passport *PersonUpdateDocumentsPassportParams `form:"passport"`
+	Passport *PersonUpdateDocumentsPassportParams `form:"passport" json:"passport,omitempty"`
 	// One or more documents showing the person's visa required for living in the country where they are residing.
-	Visa *PersonUpdateDocumentsVisaParams `form:"visa"`
+	Visa *PersonUpdateDocumentsVisaParams `form:"visa" json:"visa,omitempty"`
 }
 
 // The relationship that this person has with the account's legal entity.
 type PersonUpdateRelationshipParams struct {
 	// Whether the person is the authorizer of the account's representative.
-	Authorizer *bool `form:"authorizer"`
+	Authorizer *bool `form:"authorizer" json:"authorizer,omitempty"`
 	// Whether the person is a director of the account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
-	Director *bool `form:"director"`
+	Director *bool `form:"director" json:"director,omitempty"`
 	// Whether the person has significant responsibility to control, manage, or direct the organization.
-	Executive *bool `form:"executive"`
+	Executive *bool `form:"executive" json:"executive,omitempty"`
 	// Whether the person is the legal guardian of the account's representative.
-	LegalGuardian *bool `form:"legal_guardian"`
+	LegalGuardian *bool `form:"legal_guardian" json:"legal_guardian,omitempty"`
 	// Whether the person is an owner of the account's legal entity.
-	Owner *bool `form:"owner"`
+	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// The percent owned by the person of the account's legal entity.
-	PercentOwnership *float64 `form:"percent_ownership"`
+	PercentOwnership *float64 `form:"percent_ownership" json:"percent_ownership,omitempty"`
 	// Whether the person is authorized as the primary representative of the account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
-	Representative *bool `form:"representative"`
+	Representative *bool `form:"representative" json:"representative,omitempty"`
 	// The person's title (e.g., CEO, Support Engineer).
-	Title       *string                                    `form:"title"`
+	Title       *string                                    `form:"title" json:"title,omitempty"`
 	UnsetFields []PersonUpdateRelationshipParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -573,51 +573,51 @@ func (p *PersonUpdateRelationshipParams) AddUnsetField(field PersonUpdateRelatio
 // The persons ethnicity details
 type PersonUpdateUSCfpbDataEthnicityDetailsParams struct {
 	// The persons ethnicity
-	Ethnicity []*string `form:"ethnicity"`
+	Ethnicity []*string `form:"ethnicity" json:"ethnicity,omitempty"`
 	// Please specify your origin, when other is selected.
-	EthnicityOther *string `form:"ethnicity_other"`
+	EthnicityOther *string `form:"ethnicity_other" json:"ethnicity_other,omitempty"`
 }
 
 // The persons race details
 type PersonUpdateUSCfpbDataRaceDetailsParams struct {
 	// The persons race.
-	Race []*string `form:"race"`
+	Race []*string `form:"race" json:"race,omitempty"`
 	// Please specify your race, when other is selected.
-	RaceOther *string `form:"race_other"`
+	RaceOther *string `form:"race_other" json:"race_other,omitempty"`
 }
 
 // Demographic data related to the person.
 type PersonUpdateUSCfpbDataParams struct {
 	// The persons ethnicity details
-	EthnicityDetails *PersonUpdateUSCfpbDataEthnicityDetailsParams `form:"ethnicity_details"`
+	EthnicityDetails *PersonUpdateUSCfpbDataEthnicityDetailsParams `form:"ethnicity_details" json:"ethnicity_details,omitempty"`
 	// The persons race details
-	RaceDetails *PersonUpdateUSCfpbDataRaceDetailsParams `form:"race_details"`
+	RaceDetails *PersonUpdateUSCfpbDataRaceDetailsParams `form:"race_details" json:"race_details,omitempty"`
 	// The persons self-identified gender
-	SelfIdentifiedGender *string `form:"self_identified_gender"`
+	SelfIdentifiedGender *string `form:"self_identified_gender" json:"self_identified_gender,omitempty"`
 }
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type PersonUpdateVerificationAdditionalDocumentParams struct {
 	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-	Back *string `form:"back"`
+	Back *string `form:"back" json:"back,omitempty"`
 	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-	Front *string `form:"front"`
+	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // An identifying document, either a passport or local ID card.
 type PersonUpdateVerificationDocumentParams struct {
 	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-	Back *string `form:"back"`
+	Back *string `form:"back" json:"back,omitempty"`
 	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-	Front *string `form:"front"`
+	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // The person's verification status.
 type PersonUpdateVerificationParams struct {
 	// A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
-	AdditionalDocument *PersonUpdateVerificationAdditionalDocumentParams `form:"additional_document"`
+	AdditionalDocument *PersonUpdateVerificationAdditionalDocumentParams `form:"additional_document" json:"additional_document,omitempty"`
 	// An identifying document, either a passport or local ID card.
-	Document *PersonUpdateVerificationDocumentParams `form:"document"`
+	Document *PersonUpdateVerificationDocumentParams `form:"document" json:"document,omitempty"`
 }
 
 // Updates an existing person.
@@ -625,63 +625,63 @@ type PersonUpdateParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
 	// Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
-	AdditionalTOSAcceptances *PersonUpdateAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances"`
+	AdditionalTOSAcceptances *PersonUpdateAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances" json:"additional_tos_acceptances,omitempty"`
 	// The person's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The Kana variation of the person's address (Japan only).
-	AddressKana *PersonUpdateAddressKanaParams `form:"address_kana"`
+	AddressKana *PersonUpdateAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the person's address (Japan only).
-	AddressKanji *PersonUpdateAddressKanjiParams `form:"address_kanji"`
+	AddressKanji *PersonUpdateAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
 	// The person's date of birth.
-	DOB *PersonUpdateDOBParams `form:"dob"`
+	DOB *PersonUpdateDOBParams `form:"dob" json:"dob,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
-	Documents *PersonUpdateDocumentsParams `form:"documents"`
+	Documents *PersonUpdateDocumentsParams `form:"documents" json:"documents,omitempty"`
 	// The person's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The person's first name.
-	FirstName *string `form:"first_name"`
+	FirstName *string `form:"first_name" json:"first_name,omitempty"`
 	// The Kana variation of the person's first name (Japan only).
-	FirstNameKana *string `form:"first_name_kana"`
+	FirstNameKana *string `form:"first_name_kana" json:"first_name_kana,omitempty"`
 	// The Kanji variation of the person's first name (Japan only).
-	FirstNameKanji *string `form:"first_name_kanji"`
+	FirstNameKanji *string `form:"first_name_kanji" json:"first_name_kanji,omitempty"`
 	// A list of alternate names or aliases that the person is known by.
-	FullNameAliases []*string `form:"full_name_aliases"`
+	FullNameAliases []*string `form:"full_name_aliases" json:"full_name_aliases,omitempty"`
 	// The person's gender (International regulations require either "male" or "female").
-	Gender *string `form:"gender"`
+	Gender *string `form:"gender" json:"gender,omitempty"`
 	// The person's ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
-	IDNumber *string `form:"id_number"`
+	IDNumber *string `form:"id_number" json:"id_number,omitempty"`
 	// The person's secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
-	IDNumberSecondary *string `form:"id_number_secondary"`
+	IDNumberSecondary *string `form:"id_number_secondary" json:"id_number_secondary,omitempty"`
 	// The person's last name.
-	LastName *string `form:"last_name"`
+	LastName *string `form:"last_name" json:"last_name,omitempty"`
 	// The Kana variation of the person's last name (Japan only).
-	LastNameKana *string `form:"last_name_kana"`
+	LastNameKana *string `form:"last_name_kana" json:"last_name_kana,omitempty"`
 	// The Kanji variation of the person's last name (Japan only).
-	LastNameKanji *string `form:"last_name_kanji"`
+	LastNameKanji *string `form:"last_name_kanji" json:"last_name_kanji,omitempty"`
 	// The person's maiden name.
-	MaidenName *string `form:"maiden_name"`
+	MaidenName *string `form:"maiden_name" json:"maiden_name,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The country where the person is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)), or "XX" if unavailable.
-	Nationality *string `form:"nationality"`
+	Nationality *string `form:"nationality" json:"nationality,omitempty"`
 	// A [person token](https://docs.stripe.com/connect/account-tokens), used to securely provide details to the person.
-	PersonToken *string `form:"person_token"`
+	PersonToken *string `form:"person_token" json:"person_token,omitempty"`
 	// The person's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 	// Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction.
-	PoliticalExposure *string `form:"political_exposure"`
+	PoliticalExposure *string `form:"political_exposure" json:"political_exposure,omitempty"`
 	// The person's registered address.
-	RegisteredAddress *AddressParams `form:"registered_address"`
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
 	// The relationship that this person has with the account's legal entity.
-	Relationship *PersonUpdateRelationshipParams `form:"relationship"`
+	Relationship *PersonUpdateRelationshipParams `form:"relationship" json:"relationship,omitempty"`
 	// The last four digits of the person's Social Security number (U.S. only).
-	SSNLast4 *string `form:"ssn_last_4"`
+	SSNLast4 *string `form:"ssn_last_4" json:"ssn_last_4,omitempty"`
 	// Demographic data related to the person.
-	USCfpbData *PersonUpdateUSCfpbDataParams `form:"us_cfpb_data"`
+	USCfpbData *PersonUpdateUSCfpbDataParams `form:"us_cfpb_data" json:"us_cfpb_data,omitempty"`
 	// The person's verification status.
-	Verification *PersonUpdateVerificationParams `form:"verification"`
+	Verification *PersonUpdateVerificationParams `form:"verification" json:"verification,omitempty"`
 	UnsetFields  []PersonUpdateParamsUnsetField  `form:"-" json:"-"`
 }
 
@@ -716,11 +716,11 @@ func (p *PersonUpdateParams) AddMetadata(key string, value string) {
 // Details on the legal guardian's acceptance of the main Stripe service agreement.
 type PersonCreateAdditionalTOSAcceptancesAccountParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
-	Date *int64 `form:"date"`
+	Date *int64 `form:"date" json:"date,omitempty"`
 	// The IP address from which the account representative accepted the service agreement.
-	IP *string `form:"ip"`
+	IP *string `form:"ip" json:"ip,omitempty"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
-	UserAgent   *string                                                       `form:"user_agent"`
+	UserAgent   *string                                                       `form:"user_agent" json:"user_agent,omitempty"`
 	UnsetFields []PersonCreateAdditionalTOSAcceptancesAccountParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -739,101 +739,101 @@ func (p *PersonCreateAdditionalTOSAcceptancesAccountParams) AddUnsetField(field 
 // Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
 type PersonCreateAdditionalTOSAcceptancesParams struct {
 	// Details on the legal guardian's acceptance of the main Stripe service agreement.
-	Account *PersonCreateAdditionalTOSAcceptancesAccountParams `form:"account"`
+	Account *PersonCreateAdditionalTOSAcceptancesAccountParams `form:"account" json:"account,omitempty"`
 }
 
 // The Kana variation of the person's address (Japan only).
 type PersonCreateAddressKanaParams struct {
 	// City or ward.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Block or building number.
-	Line1 *string `form:"line1"`
+	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Building details.
-	Line2 *string `form:"line2"`
+	Line2 *string `form:"line2" json:"line2,omitempty"`
 	// Postal code.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// Prefecture.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// Town or cho-me.
-	Town *string `form:"town"`
+	Town *string `form:"town" json:"town,omitempty"`
 }
 
 // The Kanji variation of the person's address (Japan only).
 type PersonCreateAddressKanjiParams struct {
 	// City or ward.
-	City *string `form:"city"`
+	City *string `form:"city" json:"city,omitempty"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country *string `form:"country"`
+	Country *string `form:"country" json:"country,omitempty"`
 	// Block or building number.
-	Line1 *string `form:"line1"`
+	Line1 *string `form:"line1" json:"line1,omitempty"`
 	// Building details.
-	Line2 *string `form:"line2"`
+	Line2 *string `form:"line2" json:"line2,omitempty"`
 	// Postal code.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// Prefecture.
-	State *string `form:"state"`
+	State *string `form:"state" json:"state,omitempty"`
 	// Town or cho-me.
-	Town *string `form:"town"`
+	Town *string `form:"town" json:"town,omitempty"`
 }
 
 // The person's date of birth.
 type PersonCreateDOBParams struct {
 	// The day of birth, between 1 and 31.
-	Day *int64 `form:"day"`
+	Day *int64 `form:"day" json:"day"`
 	// The month of birth, between 1 and 12.
-	Month *int64 `form:"month"`
+	Month *int64 `form:"month" json:"month"`
 	// The four-digit year of birth.
-	Year *int64 `form:"year"`
+	Year *int64 `form:"year" json:"year"`
 }
 
 // One or more documents that demonstrate proof that this person is authorized to represent the company.
 type PersonCreateDocumentsCompanyAuthorizationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents showing the person's passport page with photo and personal data.
 type PersonCreateDocumentsPassportParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // One or more documents showing the person's visa required for living in the country where they are residing.
 type PersonCreateDocumentsVisaParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files"`
+	Files []*string `form:"files" json:"files,omitempty"`
 }
 
 // Documents that may be submitted to satisfy various informational requests.
 type PersonCreateDocumentsParams struct {
 	// One or more documents that demonstrate proof that this person is authorized to represent the company.
-	CompanyAuthorization *PersonCreateDocumentsCompanyAuthorizationParams `form:"company_authorization"`
+	CompanyAuthorization *PersonCreateDocumentsCompanyAuthorizationParams `form:"company_authorization" json:"company_authorization,omitempty"`
 	// One or more documents showing the person's passport page with photo and personal data.
-	Passport *PersonCreateDocumentsPassportParams `form:"passport"`
+	Passport *PersonCreateDocumentsPassportParams `form:"passport" json:"passport,omitempty"`
 	// One or more documents showing the person's visa required for living in the country where they are residing.
-	Visa *PersonCreateDocumentsVisaParams `form:"visa"`
+	Visa *PersonCreateDocumentsVisaParams `form:"visa" json:"visa,omitempty"`
 }
 
 // The relationship that this person has with the account's legal entity.
 type PersonCreateRelationshipParams struct {
 	// Whether the person is the authorizer of the account's representative.
-	Authorizer *bool `form:"authorizer"`
+	Authorizer *bool `form:"authorizer" json:"authorizer,omitempty"`
 	// Whether the person is a director of the account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
-	Director *bool `form:"director"`
+	Director *bool `form:"director" json:"director,omitempty"`
 	// Whether the person has significant responsibility to control, manage, or direct the organization.
-	Executive *bool `form:"executive"`
+	Executive *bool `form:"executive" json:"executive,omitempty"`
 	// Whether the person is the legal guardian of the account's representative.
-	LegalGuardian *bool `form:"legal_guardian"`
+	LegalGuardian *bool `form:"legal_guardian" json:"legal_guardian,omitempty"`
 	// Whether the person is an owner of the account's legal entity.
-	Owner *bool `form:"owner"`
+	Owner *bool `form:"owner" json:"owner,omitempty"`
 	// The percent owned by the person of the account's legal entity.
-	PercentOwnership *float64 `form:"percent_ownership"`
+	PercentOwnership *float64 `form:"percent_ownership" json:"percent_ownership,omitempty"`
 	// Whether the person is authorized as the primary representative of the account. This is the person nominated by the business to provide information about themselves, and general information about the account. There can only be one representative at any given time. At the time the account is created, this person should be set to the person responsible for opening the account.
-	Representative *bool `form:"representative"`
+	Representative *bool `form:"representative" json:"representative,omitempty"`
 	// The person's title (e.g., CEO, Support Engineer).
-	Title       *string                                    `form:"title"`
+	Title       *string                                    `form:"title" json:"title,omitempty"`
 	UnsetFields []PersonCreateRelationshipParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -852,51 +852,51 @@ func (p *PersonCreateRelationshipParams) AddUnsetField(field PersonCreateRelatio
 // The persons ethnicity details
 type PersonCreateUSCfpbDataEthnicityDetailsParams struct {
 	// The persons ethnicity
-	Ethnicity []*string `form:"ethnicity"`
+	Ethnicity []*string `form:"ethnicity" json:"ethnicity,omitempty"`
 	// Please specify your origin, when other is selected.
-	EthnicityOther *string `form:"ethnicity_other"`
+	EthnicityOther *string `form:"ethnicity_other" json:"ethnicity_other,omitempty"`
 }
 
 // The persons race details
 type PersonCreateUSCfpbDataRaceDetailsParams struct {
 	// The persons race.
-	Race []*string `form:"race"`
+	Race []*string `form:"race" json:"race,omitempty"`
 	// Please specify your race, when other is selected.
-	RaceOther *string `form:"race_other"`
+	RaceOther *string `form:"race_other" json:"race_other,omitempty"`
 }
 
 // Demographic data related to the person.
 type PersonCreateUSCfpbDataParams struct {
 	// The persons ethnicity details
-	EthnicityDetails *PersonCreateUSCfpbDataEthnicityDetailsParams `form:"ethnicity_details"`
+	EthnicityDetails *PersonCreateUSCfpbDataEthnicityDetailsParams `form:"ethnicity_details" json:"ethnicity_details,omitempty"`
 	// The persons race details
-	RaceDetails *PersonCreateUSCfpbDataRaceDetailsParams `form:"race_details"`
+	RaceDetails *PersonCreateUSCfpbDataRaceDetailsParams `form:"race_details" json:"race_details,omitempty"`
 	// The persons self-identified gender
-	SelfIdentifiedGender *string `form:"self_identified_gender"`
+	SelfIdentifiedGender *string `form:"self_identified_gender" json:"self_identified_gender,omitempty"`
 }
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type PersonCreateVerificationAdditionalDocumentParams struct {
 	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-	Back *string `form:"back"`
+	Back *string `form:"back" json:"back,omitempty"`
 	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-	Front *string `form:"front"`
+	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // An identifying document, either a passport or local ID card.
 type PersonCreateVerificationDocumentParams struct {
 	// The back of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-	Back *string `form:"back"`
+	Back *string `form:"back" json:"back,omitempty"`
 	// The front of an ID returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
-	Front *string `form:"front"`
+	Front *string `form:"front" json:"front,omitempty"`
 }
 
 // The person's verification status.
 type PersonCreateVerificationParams struct {
 	// A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
-	AdditionalDocument *PersonCreateVerificationAdditionalDocumentParams `form:"additional_document"`
+	AdditionalDocument *PersonCreateVerificationAdditionalDocumentParams `form:"additional_document" json:"additional_document,omitempty"`
 	// An identifying document, either a passport or local ID card.
-	Document *PersonCreateVerificationDocumentParams `form:"document"`
+	Document *PersonCreateVerificationDocumentParams `form:"document" json:"document,omitempty"`
 }
 
 // Creates a new person.
@@ -904,63 +904,63 @@ type PersonCreateParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
 	// Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
-	AdditionalTOSAcceptances *PersonCreateAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances"`
+	AdditionalTOSAcceptances *PersonCreateAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances" json:"additional_tos_acceptances,omitempty"`
 	// The person's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The Kana variation of the person's address (Japan only).
-	AddressKana *PersonCreateAddressKanaParams `form:"address_kana"`
+	AddressKana *PersonCreateAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the person's address (Japan only).
-	AddressKanji *PersonCreateAddressKanjiParams `form:"address_kanji"`
+	AddressKanji *PersonCreateAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
 	// The person's date of birth.
-	DOB *PersonCreateDOBParams `form:"dob"`
+	DOB *PersonCreateDOBParams `form:"dob" json:"dob,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
-	Documents *PersonCreateDocumentsParams `form:"documents"`
+	Documents *PersonCreateDocumentsParams `form:"documents" json:"documents,omitempty"`
 	// The person's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The person's first name.
-	FirstName *string `form:"first_name"`
+	FirstName *string `form:"first_name" json:"first_name,omitempty"`
 	// The Kana variation of the person's first name (Japan only).
-	FirstNameKana *string `form:"first_name_kana"`
+	FirstNameKana *string `form:"first_name_kana" json:"first_name_kana,omitempty"`
 	// The Kanji variation of the person's first name (Japan only).
-	FirstNameKanji *string `form:"first_name_kanji"`
+	FirstNameKanji *string `form:"first_name_kanji" json:"first_name_kanji,omitempty"`
 	// A list of alternate names or aliases that the person is known by.
-	FullNameAliases []*string `form:"full_name_aliases"`
+	FullNameAliases []*string `form:"full_name_aliases" json:"full_name_aliases,omitempty"`
 	// The person's gender (International regulations require either "male" or "female").
-	Gender *string `form:"gender"`
+	Gender *string `form:"gender" json:"gender,omitempty"`
 	// The person's ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
-	IDNumber *string `form:"id_number"`
+	IDNumber *string `form:"id_number" json:"id_number,omitempty"`
 	// The person's secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
-	IDNumberSecondary *string `form:"id_number_secondary"`
+	IDNumberSecondary *string `form:"id_number_secondary" json:"id_number_secondary,omitempty"`
 	// The person's last name.
-	LastName *string `form:"last_name"`
+	LastName *string `form:"last_name" json:"last_name,omitempty"`
 	// The Kana variation of the person's last name (Japan only).
-	LastNameKana *string `form:"last_name_kana"`
+	LastNameKana *string `form:"last_name_kana" json:"last_name_kana,omitempty"`
 	// The Kanji variation of the person's last name (Japan only).
-	LastNameKanji *string `form:"last_name_kanji"`
+	LastNameKanji *string `form:"last_name_kanji" json:"last_name_kanji,omitempty"`
 	// The person's maiden name.
-	MaidenName *string `form:"maiden_name"`
+	MaidenName *string `form:"maiden_name" json:"maiden_name,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The country where the person is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)), or "XX" if unavailable.
-	Nationality *string `form:"nationality"`
+	Nationality *string `form:"nationality" json:"nationality,omitempty"`
 	// A [person token](https://docs.stripe.com/connect/account-tokens), used to securely provide details to the person.
-	PersonToken *string `form:"person_token"`
+	PersonToken *string `form:"person_token" json:"person_token,omitempty"`
 	// The person's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 	// Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction.
-	PoliticalExposure *string `form:"political_exposure"`
+	PoliticalExposure *string `form:"political_exposure" json:"political_exposure,omitempty"`
 	// The person's registered address.
-	RegisteredAddress *AddressParams `form:"registered_address"`
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
 	// The relationship that this person has with the account's legal entity.
-	Relationship *PersonCreateRelationshipParams `form:"relationship"`
+	Relationship *PersonCreateRelationshipParams `form:"relationship" json:"relationship,omitempty"`
 	// The last four digits of the person's Social Security number (U.S. only).
-	SSNLast4 *string `form:"ssn_last_4"`
+	SSNLast4 *string `form:"ssn_last_4" json:"ssn_last_4,omitempty"`
 	// Demographic data related to the person.
-	USCfpbData *PersonCreateUSCfpbDataParams `form:"us_cfpb_data"`
+	USCfpbData *PersonCreateUSCfpbDataParams `form:"us_cfpb_data" json:"us_cfpb_data,omitempty"`
 	// The person's verification status.
-	Verification *PersonCreateVerificationParams `form:"verification"`
+	Verification *PersonCreateVerificationParams `form:"verification" json:"verification,omitempty"`
 	UnsetFields  []PersonCreateParamsUnsetField  `form:"-" json:"-"`
 }
 
@@ -1165,12 +1165,12 @@ type PersonVerificationDocument struct {
 }
 type PersonVerification struct {
 	// A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
-	AdditionalDocument *PersonVerificationDocument `json:"additional_document"`
+	AdditionalDocument *PersonVerificationDocument `json:"additional_document,omitempty"`
 	// A user-displayable string describing the verification state for the person. For example, this may say "Provided identity information could not be verified".
-	Details string `json:"details"`
+	Details string `json:"details,omitempty"`
 	// One of `document_address_mismatch`, `document_dob_mismatch`, `document_duplicate_type`, `document_id_number_mismatch`, `document_name_mismatch`, `document_nationality_mismatch`, `failed_keyed_identity`, or `failed_other`. A machine-readable code specifying the verification state for the person.
-	DetailsCode PersonVerificationDetailsCode `json:"details_code"`
-	Document    *PersonVerificationDocument   `json:"document"`
+	DetailsCode PersonVerificationDetailsCode `json:"details_code,omitempty"`
+	Document    *PersonVerificationDocument   `json:"document,omitempty"`
 	// The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`. Please refer [guide](https://docs.stripe.com/connect/handling-api-verification) to handle verification updates.
 	Status PersonVerificationStatus `json:"status"`
 }
@@ -1183,64 +1183,64 @@ type PersonVerification struct {
 type Person struct {
 	APIResource
 	// The account the person is associated with.
-	Account                  string                          `json:"account"`
-	AdditionalTOSAcceptances *PersonAdditionalTOSAcceptances `json:"additional_tos_acceptances"`
-	Address                  *Address                        `json:"address"`
+	Account                  string                          `json:"account,omitempty"`
+	AdditionalTOSAcceptances *PersonAdditionalTOSAcceptances `json:"additional_tos_acceptances,omitempty"`
+	Address                  *Address                        `json:"address,omitempty"`
 	// The Kana variation of the person's address (Japan only).
-	AddressKana *PersonAddressKana `json:"address_kana"`
+	AddressKana *PersonAddressKana `json:"address_kana,omitempty"`
 	// The Kanji variation of the person's address (Japan only).
-	AddressKanji *PersonAddressKanji `json:"address_kanji"`
+	AddressKanji *PersonAddressKanji `json:"address_kanji,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64      `json:"created"`
-	Deleted bool       `json:"deleted"`
-	DOB     *PersonDOB `json:"dob"`
+	Deleted bool       `json:"deleted,omitempty"`
+	DOB     *PersonDOB `json:"dob,omitempty"`
 	// The person's email address. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
-	Email string `json:"email"`
+	Email string `json:"email,omitempty"`
 	// The person's first name. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
-	FirstName string `json:"first_name"`
+	FirstName string `json:"first_name,omitempty"`
 	// The Kana variation of the person's first name (Japan only). Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
-	FirstNameKana string `json:"first_name_kana"`
+	FirstNameKana string `json:"first_name_kana,omitempty"`
 	// The Kanji variation of the person's first name (Japan only). Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
-	FirstNameKanji string `json:"first_name_kanji"`
+	FirstNameKanji string `json:"first_name_kanji,omitempty"`
 	// A list of alternate names or aliases that the person is known by. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
-	FullNameAliases []string `json:"full_name_aliases"`
+	FullNameAliases []string `json:"full_name_aliases,omitempty"`
 	// Information about the [upcoming new requirements for this person](https://docs.stripe.com/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.
-	FutureRequirements *PersonFutureRequirements `json:"future_requirements"`
+	FutureRequirements *PersonFutureRequirements `json:"future_requirements,omitempty"`
 	// The person's gender.
-	Gender string `json:"gender"`
+	Gender string `json:"gender,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Whether the person's `id_number` was provided. True if either the full ID number was provided or if only the required part of the ID number was provided (ex. last four of an individual's SSN for the US indicated by `ssn_last_4_provided`).
-	IDNumberProvided bool `json:"id_number_provided"`
+	IDNumberProvided bool `json:"id_number_provided,omitempty"`
 	// Whether the person's `id_number_secondary` was provided.
-	IDNumberSecondaryProvided bool `json:"id_number_secondary_provided"`
+	IDNumberSecondaryProvided bool `json:"id_number_secondary_provided,omitempty"`
 	// The person's last name. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
-	LastName string `json:"last_name"`
+	LastName string `json:"last_name,omitempty"`
 	// The Kana variation of the person's last name (Japan only). Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
-	LastNameKana string `json:"last_name_kana"`
+	LastNameKana string `json:"last_name_kana,omitempty"`
 	// The Kanji variation of the person's last name (Japan only). Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
-	LastNameKanji string `json:"last_name_kanji"`
+	LastNameKanji string `json:"last_name_kanji,omitempty"`
 	// The person's maiden name.
-	MaidenName string `json:"maiden_name"`
+	MaidenName string `json:"maiden_name,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// The country where the person is a national.
-	Nationality string `json:"nationality"`
+	Nationality string `json:"nationality,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The person's phone number.
-	Phone string `json:"phone"`
+	Phone string `json:"phone,omitempty"`
 	// Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction.
-	PoliticalExposure PersonPoliticalExposure `json:"political_exposure"`
-	RegisteredAddress *Address                `json:"registered_address"`
-	Relationship      *PersonRelationship     `json:"relationship"`
+	PoliticalExposure PersonPoliticalExposure `json:"political_exposure,omitempty"`
+	RegisteredAddress *Address                `json:"registered_address,omitempty"`
+	Relationship      *PersonRelationship     `json:"relationship,omitempty"`
 	// Information about the requirements for this person, including what information needs to be collected, and by when.
-	Requirements *PersonRequirements `json:"requirements"`
+	Requirements *PersonRequirements `json:"requirements,omitempty"`
 	// Whether the last four digits of the person's Social Security number have been provided (U.S. only).
-	SSNLast4Provided bool `json:"ssn_last_4_provided"`
+	SSNLast4Provided bool `json:"ssn_last_4_provided,omitempty"`
 	// Demographic data related to the person.
-	USCfpbData   *PersonUSCfpbData   `json:"us_cfpb_data"`
-	Verification *PersonVerification `json:"verification"`
+	USCfpbData   *PersonUSCfpbData   `json:"us_cfpb_data,omitempty"`
+	Verification *PersonVerification `json:"verification,omitempty"`
 }
 
 // PersonList is a list of Persons as retrieved from a list endpoint.

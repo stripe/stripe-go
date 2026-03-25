@@ -117,15 +117,15 @@ const (
 type IssuingTokenListParams struct {
 	ListParams `form:"*"`
 	// The Issuing card identifier to list tokens for.
-	Card *string `form:"card"`
+	Card *string `form:"card" json:"card"`
 	// Only return Issuing tokens that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return Issuing tokens that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Select Issuing tokens with the given status.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -137,9 +137,9 @@ func (p *IssuingTokenListParams) AddExpand(f string) {
 type IssuingTokenParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Specifies which status the token should be updated to.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -151,7 +151,7 @@ func (p *IssuingTokenParams) AddExpand(f string) {
 type IssuingTokenRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -163,9 +163,9 @@ func (p *IssuingTokenRetrieveParams) AddExpand(f string) {
 type IssuingTokenUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Specifies which status the token should be updated to.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status"`
 }
 
 // AddExpand appends a new field to expand.
@@ -175,27 +175,27 @@ func (p *IssuingTokenUpdateParams) AddExpand(f string) {
 
 type IssuingTokenNetworkDataDevice struct {
 	// An obfuscated ID derived from the device ID.
-	DeviceFingerprint string `json:"device_fingerprint"`
+	DeviceFingerprint string `json:"device_fingerprint,omitempty"`
 	// The IP address of the device at provisioning time.
-	IPAddress string `json:"ip_address"`
+	IPAddress string `json:"ip_address,omitempty"`
 	// The geographic latitude/longitude coordinates of the device at provisioning time. The format is [+-]decimal/[+-]decimal.
-	Location string `json:"location"`
+	Location string `json:"location,omitempty"`
 	// The name of the device used for tokenization.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The phone number of the device used for tokenization.
-	PhoneNumber string `json:"phone_number"`
+	PhoneNumber string `json:"phone_number,omitempty"`
 	// The type of device used for tokenization.
-	Type IssuingTokenNetworkDataDeviceType `json:"type"`
+	Type IssuingTokenNetworkDataDeviceType `json:"type,omitempty"`
 }
 type IssuingTokenNetworkDataMastercard struct {
 	// A unique reference ID from MasterCard to represent the card account number.
-	CardReferenceID string `json:"card_reference_id"`
+	CardReferenceID string `json:"card_reference_id,omitempty"`
 	// The network-unique identifier for the token.
 	TokenReferenceID string `json:"token_reference_id"`
 	// The ID of the entity requesting tokenization, specific to MasterCard.
 	TokenRequestorID string `json:"token_requestor_id"`
 	// The name of the entity requesting tokenization, if known. This is directly provided from MasterCard.
-	TokenRequestorName string `json:"token_requestor_name"`
+	TokenRequestorName string `json:"token_requestor_name,omitempty"`
 }
 type IssuingTokenNetworkDataVisa struct {
 	// A unique reference ID from Visa to represent the card account number.
@@ -205,7 +205,7 @@ type IssuingTokenNetworkDataVisa struct {
 	// The ID of the entity requesting tokenization, specific to Visa.
 	TokenRequestorID string `json:"token_requestor_id"`
 	// Degree of risk associated with the token between `01` and `99`, with higher number indicating higher risk. A `00` value indicates the token was not scored by Visa.
-	TokenRiskScore string `json:"token_risk_score"`
+	TokenRiskScore string `json:"token_risk_score,omitempty"`
 }
 type IssuingTokenNetworkDataWalletProviderCardholderAddress struct {
 	// The street address of the cardholder tokenizing the card.
@@ -215,32 +215,32 @@ type IssuingTokenNetworkDataWalletProviderCardholderAddress struct {
 }
 type IssuingTokenNetworkDataWalletProvider struct {
 	// The wallet provider-given account ID of the digital wallet the token belongs to.
-	AccountID string `json:"account_id"`
+	AccountID string `json:"account_id,omitempty"`
 	// An evaluation on the trustworthiness of the wallet account between 1 and 5. A higher score indicates more trustworthy.
-	AccountTrustScore int64                                                   `json:"account_trust_score"`
-	CardholderAddress *IssuingTokenNetworkDataWalletProviderCardholderAddress `json:"cardholder_address"`
+	AccountTrustScore int64                                                   `json:"account_trust_score,omitempty"`
+	CardholderAddress *IssuingTokenNetworkDataWalletProviderCardholderAddress `json:"cardholder_address,omitempty"`
 	// The name of the cardholder tokenizing the card.
-	CardholderName string `json:"cardholder_name"`
+	CardholderName string `json:"cardholder_name,omitempty"`
 	// The method used for tokenizing a card.
-	CardNumberSource IssuingTokenNetworkDataWalletProviderCardNumberSource `json:"card_number_source"`
+	CardNumberSource IssuingTokenNetworkDataWalletProviderCardNumberSource `json:"card_number_source,omitempty"`
 	// An evaluation on the trustworthiness of the device. A higher score indicates more trustworthy.
-	DeviceTrustScore int64 `json:"device_trust_score"`
+	DeviceTrustScore int64 `json:"device_trust_score,omitempty"`
 	// The hashed email address of the cardholder's account with the wallet provider.
-	HashedAccountEmailAddress string `json:"hashed_account_email_address"`
+	HashedAccountEmailAddress string `json:"hashed_account_email_address,omitempty"`
 	// The reasons for suggested tokenization given by the card network.
-	ReasonCodes []IssuingTokenNetworkDataWalletProviderReasonCode `json:"reason_codes"`
+	ReasonCodes []IssuingTokenNetworkDataWalletProviderReasonCode `json:"reason_codes,omitempty"`
 	// The recommendation on responding to the tokenization request.
-	SuggestedDecision IssuingTokenNetworkDataWalletProviderSuggestedDecision `json:"suggested_decision"`
+	SuggestedDecision IssuingTokenNetworkDataWalletProviderSuggestedDecision `json:"suggested_decision,omitempty"`
 	// The version of the standard for mapping reason codes followed by the wallet provider.
-	SuggestedDecisionVersion string `json:"suggested_decision_version"`
+	SuggestedDecisionVersion string `json:"suggested_decision_version,omitempty"`
 }
 type IssuingTokenNetworkData struct {
-	Device     *IssuingTokenNetworkDataDevice     `json:"device"`
-	Mastercard *IssuingTokenNetworkDataMastercard `json:"mastercard"`
+	Device     *IssuingTokenNetworkDataDevice     `json:"device,omitempty"`
+	Mastercard *IssuingTokenNetworkDataMastercard `json:"mastercard,omitempty"`
 	// The network that the token is associated with. An additional hash is included with a name matching this value, containing tokenization data specific to the card network.
 	Type           IssuingTokenNetworkDataType            `json:"type"`
-	Visa           *IssuingTokenNetworkDataVisa           `json:"visa"`
-	WalletProvider *IssuingTokenNetworkDataWalletProvider `json:"wallet_provider"`
+	Visa           *IssuingTokenNetworkDataVisa           `json:"visa,omitempty"`
+	WalletProvider *IssuingTokenNetworkDataWalletProvider `json:"wallet_provider,omitempty"`
 }
 
 // An issuing token object is created when an issued card is added to a digital wallet. As a [card issuer](https://docs.stripe.com/issuing), you can [view and manage these tokens](https://docs.stripe.com/issuing/controls/token-management) through Stripe.
@@ -255,12 +255,12 @@ type IssuingToken struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The last four digits of the token.
-	Last4 string `json:"last4"`
+	Last4 string `json:"last4,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// The token service provider / card network associated with the token.
 	Network     IssuingTokenNetwork      `json:"network"`
-	NetworkData *IssuingTokenNetworkData `json:"network_data"`
+	NetworkData *IssuingTokenNetworkData `json:"network_data,omitempty"`
 	// Time at which the token was last updated by the card network. Measured in seconds since the Unix epoch.
 	NetworkUpdatedAt int64 `json:"network_updated_at"`
 	// String representing the object's type. Objects of the same type share the same value.
@@ -268,7 +268,7 @@ type IssuingToken struct {
 	// The usage state of the token.
 	Status IssuingTokenStatus `json:"status"`
 	// The digital wallet for this token, if one was used.
-	WalletProvider IssuingTokenWalletProvider `json:"wallet_provider"`
+	WalletProvider IssuingTokenWalletProvider `json:"wallet_provider,omitempty"`
 }
 
 // IssuingTokenList is a list of Tokens as retrieved from a list endpoint.

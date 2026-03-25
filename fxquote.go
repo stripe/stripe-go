@@ -52,7 +52,7 @@ const (
 type FxQuoteListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -65,11 +65,11 @@ type FxQuoteUsagePaymentParams struct {
 	// The Stripe account ID that the funds will be transferred to.
 	//
 	// This field should match the account ID that would be used in the PaymentIntent's transfer_data[destination] field.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination,omitempty"`
 	// The Stripe account ID that these funds are intended for.
 	//
 	// This field should match the account ID that would be used in the PaymentIntent's on_behalf_of field.
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 }
 
 // The transfer transaction details that are intended for the FX Quote.
@@ -77,34 +77,34 @@ type FxQuoteUsageTransferParams struct {
 	// The Stripe account ID that the funds will be transferred to.
 	//
 	// This field should match the account ID that would be used in the Transfer's destination field.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 
 // The usage specific information for the quote.
 type FxQuoteUsageParams struct {
 	// The payment transaction details that are intended for the FX Quote.
-	Payment *FxQuoteUsagePaymentParams `form:"payment"`
+	Payment *FxQuoteUsagePaymentParams `form:"payment" json:"payment,omitempty"`
 	// The transfer transaction details that are intended for the FX Quote.
-	Transfer *FxQuoteUsageTransferParams `form:"transfer"`
+	Transfer *FxQuoteUsageTransferParams `form:"transfer" json:"transfer,omitempty"`
 	// Which transaction the FX Quote will be used for
 	//
 	// Can be “payment” | “transfer”
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Creates an FX Quote object
 type FxQuoteParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A list of three letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be [supported currencies](https://stripe.com/docs/currencies).
-	FromCurrencies []*string `form:"from_currencies"`
+	FromCurrencies []*string `form:"from_currencies" json:"from_currencies,omitempty"`
 	// The duration that you wish the quote to be locked for. The quote will be usable for the duration specified. The default is `none`. The maximum is 1 day.
-	LockDuration *string `form:"lock_duration"`
+	LockDuration *string `form:"lock_duration" json:"lock_duration,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	ToCurrency *string `form:"to_currency"`
+	ToCurrency *string `form:"to_currency" json:"to_currency,omitempty"`
 	// The usage specific information for the quote.
-	Usage *FxQuoteUsageParams `form:"usage"`
+	Usage *FxQuoteUsageParams `form:"usage" json:"usage,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -117,11 +117,11 @@ type FxQuoteCreateUsagePaymentParams struct {
 	// The Stripe account ID that the funds will be transferred to.
 	//
 	// This field should match the account ID that would be used in the PaymentIntent's transfer_data[destination] field.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination,omitempty"`
 	// The Stripe account ID that these funds are intended for.
 	//
 	// This field should match the account ID that would be used in the PaymentIntent's on_behalf_of field.
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 }
 
 // The transfer transaction details that are intended for the FX Quote.
@@ -129,34 +129,34 @@ type FxQuoteCreateUsageTransferParams struct {
 	// The Stripe account ID that the funds will be transferred to.
 	//
 	// This field should match the account ID that would be used in the Transfer's destination field.
-	Destination *string `form:"destination"`
+	Destination *string `form:"destination" json:"destination"`
 }
 
 // The usage specific information for the quote.
 type FxQuoteCreateUsageParams struct {
 	// The payment transaction details that are intended for the FX Quote.
-	Payment *FxQuoteCreateUsagePaymentParams `form:"payment"`
+	Payment *FxQuoteCreateUsagePaymentParams `form:"payment" json:"payment,omitempty"`
 	// The transfer transaction details that are intended for the FX Quote.
-	Transfer *FxQuoteCreateUsageTransferParams `form:"transfer"`
+	Transfer *FxQuoteCreateUsageTransferParams `form:"transfer" json:"transfer,omitempty"`
 	// Which transaction the FX Quote will be used for
 	//
 	// Can be “payment” | “transfer”
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Creates an FX Quote object
 type FxQuoteCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A list of three letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be [supported currencies](https://stripe.com/docs/currencies).
-	FromCurrencies []*string `form:"from_currencies"`
+	FromCurrencies []*string `form:"from_currencies" json:"from_currencies"`
 	// The duration that you wish the quote to be locked for. The quote will be usable for the duration specified. The default is `none`. The maximum is 1 day.
-	LockDuration *string `form:"lock_duration"`
+	LockDuration *string `form:"lock_duration" json:"lock_duration"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	ToCurrency *string `form:"to_currency"`
+	ToCurrency *string `form:"to_currency" json:"to_currency"`
 	// The usage specific information for the quote.
-	Usage *FxQuoteCreateUsageParams `form:"usage"`
+	Usage *FxQuoteCreateUsageParams `form:"usage" json:"usage,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -168,7 +168,7 @@ func (p *FxQuoteCreateParams) AddExpand(f string) {
 type FxQuoteRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

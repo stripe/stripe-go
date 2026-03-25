@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 
 	"github.com/stripe/stripe-go/v84/form"
@@ -77,6 +78,99 @@ func (c v1SubscriptionScheduleService) Cancel(ctx context.Context, id string, pa
 	subscriptionschedule := &SubscriptionSchedule{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, subscriptionschedule)
 	return subscriptionschedule, err
+}
+
+// Serializes a SubscriptionSchedule cancel request into a batch job JSONL line.
+func (c v1SubscriptionScheduleService) MarshalBatchCancel(id string, params *SubscriptionScheduleCancelParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    map[string]string{"schedule": id},
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+// Serializes a SubscriptionSchedule create request into a batch job JSONL line.
+func (c v1SubscriptionScheduleService) MarshalBatchCreate(params *SubscriptionScheduleCreateParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    nil,
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+// Serializes a SubscriptionSchedule update request into a batch job JSONL line.
+func (c v1SubscriptionScheduleService) MarshalBatchUpdate(id string, params *SubscriptionScheduleUpdateParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    map[string]string{"schedule": id},
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
 
 // Releases the subscription schedule immediately, which will stop scheduling of its phases, but leave any existing subscription in place. A schedule can only be released if its status is not_started or active. If the subscription schedule is currently associated with a subscription, releasing it will remove its subscription property and set the subscription's ID to the released_subscription property.

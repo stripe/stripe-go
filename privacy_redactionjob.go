@@ -34,8 +34,9 @@ const (
 type PrivacyRedactionJobListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	Status *string   `form:"status"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// If provided, only RedactionJob objects with the given status will be returned.
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -45,27 +46,27 @@ func (p *PrivacyRedactionJobListParams) AddExpand(f string) {
 
 // The objects to redact. These root objects and their related ones will be validated for redaction.
 type PrivacyRedactionJobObjectsParams struct {
-	Charges                      []*string `form:"charges"`
-	CheckoutSessions             []*string `form:"checkout_sessions"`
-	Customers                    []*string `form:"customers"`
-	IdentityVerificationSessions []*string `form:"identity_verification_sessions"`
-	Invoices                     []*string `form:"invoices"`
-	IssuingCardholders           []*string `form:"issuing_cardholders"`
-	IssuingCards                 []*string `form:"issuing_cards"`
-	PaymentIntents               []*string `form:"payment_intents"`
-	RadarValueListItems          []*string `form:"radar_value_list_items"`
-	SetupIntents                 []*string `form:"setup_intents"`
+	Charges                      []*string `form:"charges" json:"charges,omitempty"`
+	CheckoutSessions             []*string `form:"checkout_sessions" json:"checkout_sessions,omitempty"`
+	Customers                    []*string `form:"customers" json:"customers,omitempty"`
+	IdentityVerificationSessions []*string `form:"identity_verification_sessions" json:"identity_verification_sessions,omitempty"`
+	Invoices                     []*string `form:"invoices" json:"invoices,omitempty"`
+	IssuingCardholders           []*string `form:"issuing_cardholders" json:"issuing_cardholders,omitempty"`
+	IssuingCards                 []*string `form:"issuing_cards" json:"issuing_cards,omitempty"`
+	PaymentIntents               []*string `form:"payment_intents" json:"payment_intents,omitempty"`
+	RadarValueListItems          []*string `form:"radar_value_list_items" json:"radar_value_list_items,omitempty"`
+	SetupIntents                 []*string `form:"setup_intents" json:"setup_intents,omitempty"`
 }
 
 // Creates a redaction job. When a job is created, it will start to validate.
 type PrivacyRedactionJobParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The objects to redact. These root objects and their related ones will be validated for redaction.
-	Objects *PrivacyRedactionJobObjectsParams `form:"objects"`
+	Objects *PrivacyRedactionJobObjectsParams `form:"objects" json:"objects,omitempty"`
 	// Determines the validation behavior of the job. Default is `error`.
-	ValidationBehavior *string `form:"validation_behavior"`
+	ValidationBehavior *string `form:"validation_behavior" json:"validation_behavior,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -79,7 +80,7 @@ func (p *PrivacyRedactionJobParams) AddExpand(f string) {
 type PrivacyRedactionJobCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -95,7 +96,7 @@ func (p *PrivacyRedactionJobCancelParams) AddExpand(f string) {
 type PrivacyRedactionJobRunParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -111,7 +112,7 @@ func (p *PrivacyRedactionJobRunParams) AddExpand(f string) {
 type PrivacyRedactionJobValidateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -121,27 +122,27 @@ func (p *PrivacyRedactionJobValidateParams) AddExpand(f string) {
 
 // The objects to redact. These root objects and their related ones will be validated for redaction.
 type PrivacyRedactionJobCreateObjectsParams struct {
-	Charges                      []*string `form:"charges"`
-	CheckoutSessions             []*string `form:"checkout_sessions"`
-	Customers                    []*string `form:"customers"`
-	IdentityVerificationSessions []*string `form:"identity_verification_sessions"`
-	Invoices                     []*string `form:"invoices"`
-	IssuingCardholders           []*string `form:"issuing_cardholders"`
-	IssuingCards                 []*string `form:"issuing_cards"`
-	PaymentIntents               []*string `form:"payment_intents"`
-	RadarValueListItems          []*string `form:"radar_value_list_items"`
-	SetupIntents                 []*string `form:"setup_intents"`
+	Charges                      []*string `form:"charges" json:"charges,omitempty"`
+	CheckoutSessions             []*string `form:"checkout_sessions" json:"checkout_sessions,omitempty"`
+	Customers                    []*string `form:"customers" json:"customers,omitempty"`
+	IdentityVerificationSessions []*string `form:"identity_verification_sessions" json:"identity_verification_sessions,omitempty"`
+	Invoices                     []*string `form:"invoices" json:"invoices,omitempty"`
+	IssuingCardholders           []*string `form:"issuing_cardholders" json:"issuing_cardholders,omitempty"`
+	IssuingCards                 []*string `form:"issuing_cards" json:"issuing_cards,omitempty"`
+	PaymentIntents               []*string `form:"payment_intents" json:"payment_intents,omitempty"`
+	RadarValueListItems          []*string `form:"radar_value_list_items" json:"radar_value_list_items,omitempty"`
+	SetupIntents                 []*string `form:"setup_intents" json:"setup_intents,omitempty"`
 }
 
 // Creates a redaction job. When a job is created, it will start to validate.
 type PrivacyRedactionJobCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The objects to redact. These root objects and their related ones will be validated for redaction.
-	Objects *PrivacyRedactionJobCreateObjectsParams `form:"objects"`
+	Objects *PrivacyRedactionJobCreateObjectsParams `form:"objects" json:"objects"`
 	// Determines the validation behavior of the job. Default is `error`.
-	ValidationBehavior *string `form:"validation_behavior"`
+	ValidationBehavior *string `form:"validation_behavior" json:"validation_behavior,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -153,7 +154,7 @@ func (p *PrivacyRedactionJobCreateParams) AddExpand(f string) {
 type PrivacyRedactionJobRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -167,9 +168,9 @@ func (p *PrivacyRedactionJobRetrieveParams) AddExpand(f string) {
 type PrivacyRedactionJobUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Determines the validation behavior of the job. Default is `error`.
-	ValidationBehavior *string `form:"validation_behavior"`
+	ValidationBehavior *string `form:"validation_behavior" json:"validation_behavior,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -214,7 +215,7 @@ type PrivacyRedactionJob struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The objects to redact in this job.
-	Objects *PrivacyRedactionJobObjects `json:"objects"`
+	Objects *PrivacyRedactionJobObjects `json:"objects,omitempty"`
 	// The status of the job.
 	Status PrivacyRedactionJobStatus `json:"status"`
 	// Validation behavior determines how a job validates objects for redaction eligibility. Default is `error`.

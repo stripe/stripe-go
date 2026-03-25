@@ -137,7 +137,7 @@ type TaxCalculationLineItem struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Indicates the line item represents a performance where the venue location might determine the tax, not the customer address. Leave empty if the tax code doesn't require a tax location. If you provide this value for tax codes with an `optional` location requirement, it overrides the customer address.
-	PerformanceLocation string `json:"performance_location"`
+	PerformanceLocation string `json:"performance_location,omitempty"`
 	// The ID of an existing [Product](https://docs.stripe.com/api/products/object).
 	Product string `json:"product"`
 	// The number of units of the item being purchased. For reversals, this is the quantity reversed.
@@ -147,7 +147,7 @@ type TaxCalculationLineItem struct {
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
 	TaxBehavior TaxCalculationLineItemTaxBehavior `json:"tax_behavior"`
 	// Detailed account of taxes relevant to this line item.
-	TaxBreakdown []*TaxCalculationLineItemTaxBreakdown `json:"tax_breakdown"`
+	TaxBreakdown []*TaxCalculationLineItemTaxBreakdown `json:"tax_breakdown,omitempty"`
 	// The [tax code](https://docs.stripe.com/tax/tax-categories) ID used for this resource.
 	TaxCode string `json:"tax_code"`
 }
