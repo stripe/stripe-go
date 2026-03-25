@@ -1131,9 +1131,9 @@ const (
 type PaymentMethodConfigurationListParams struct {
 	ListParams `form:"*"`
 	// The Connect application to filter by.
-	Application *string `form:"application"`
+	Application *string `form:"application" json:"application,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1144,868 +1144,868 @@ func (p *PaymentMethodConfigurationListParams) AddExpand(f string) {
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationACSSDebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Canadian pre-authorized debit payments, check this [page](https://docs.stripe.com/payments/acss-debit) for more details like country availability.
 type PaymentMethodConfigurationACSSDebitParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationACSSDebitDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationACSSDebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationAffirmDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // [Affirm](https://www.affirm.com/) gives your customers a way to split purchases over a series of payments. Depending on the purchase, they can pay with four interest-free payments (Split Pay) or pay over a longer term (Installments), which might include interest. Check this [page](https://docs.stripe.com/payments/affirm) for more details like country availability.
 type PaymentMethodConfigurationAffirmParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationAffirmDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationAffirmDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationAfterpayClearpayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Afterpay gives your customers a way to pay for purchases in installments, check this [page](https://docs.stripe.com/payments/afterpay-clearpay) for more details like country availability. Afterpay is particularly popular among businesses selling fashion, beauty, and sports products.
 type PaymentMethodConfigurationAfterpayClearpayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationAfterpayClearpayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationAfterpayClearpayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationAlipayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Alipay is a digital wallet in China that has more than a billion active users worldwide. Alipay users can pay on the web or on a mobile device using login credentials or their Alipay app. Alipay has a low dispute rate and reduces fraud by authenticating payments using the customer's login credentials. Check this [page](https://docs.stripe.com/payments/alipay) for more details.
 type PaymentMethodConfigurationAlipayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationAlipayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationAlipayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationAlmaDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Alma is a Buy Now, Pay Later payment method that offers customers the ability to pay in 2, 3, or 4 installments.
 type PaymentMethodConfigurationAlmaParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationAlmaDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationAlmaDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationAmazonPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
 type PaymentMethodConfigurationAmazonPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationAmazonPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationAmazonPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationApplePayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://docs.stripe.com/apple-pay) for more details.
 type PaymentMethodConfigurationApplePayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationApplePayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationApplePayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationApplePayLaterDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
 type PaymentMethodConfigurationApplePayLaterParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationApplePayLaterDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationApplePayLaterDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationAUBECSDebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in Australia can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with an Australian bank account. Check this [page](https://docs.stripe.com/payments/au-becs-debit) for more details.
 type PaymentMethodConfigurationAUBECSDebitParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationAUBECSDebitDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationAUBECSDebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationBACSDebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in the UK can accept Bacs Direct Debit payments from customers with a UK bank account, check this [page](https://docs.stripe.com/payments/payment-methods/bacs-debit) for more details.
 type PaymentMethodConfigurationBACSDebitParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationBACSDebitDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationBACSDebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationBancontactDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://docs.stripe.com/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://docs.stripe.com/payments/bancontact) for more details.
 type PaymentMethodConfigurationBancontactParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationBancontactDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationBancontactDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationBillieDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationBillieParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationBillieDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationBillieDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationBLIKDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // BLIK is a [single use](https://docs.stripe.com/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://docs.stripe.com/payments/blik) for more details.
 type PaymentMethodConfigurationBLIKParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationBLIKDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationBLIKDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationBoletoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Boleto is an official (regulated by the Central Bank of Brazil) payment method in Brazil. Check this [page](https://docs.stripe.com/payments/boleto) for more details.
 type PaymentMethodConfigurationBoletoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationBoletoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationBoletoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCardDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Cards are a popular way for consumers and businesses to pay online or in person. Stripe supports global and local card networks.
 type PaymentMethodConfigurationCardParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCardDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCardDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCartesBancairesDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Cartes Bancaires is France's local card network. More than 95% of these cards are co-branded with either Visa or Mastercard, meaning you can process these cards over either Cartes Bancaires or the Visa or Mastercard networks. Check this [page](https://docs.stripe.com/payments/cartes-bancaires) for more details.
 type PaymentMethodConfigurationCartesBancairesParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCartesBancairesDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCartesBancairesDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCashAppDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Cash App is a popular consumer app in the US that allows customers to bank, invest, send, and receive money using their digital wallet. Check this [page](https://docs.stripe.com/payments/cash-app-pay) for more details.
 type PaymentMethodConfigurationCashAppParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCashAppDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCashAppDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCryptoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // [Stablecoin payments](https://docs.stripe.com/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
 type PaymentMethodConfigurationCryptoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCryptoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCryptoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCustomerBalanceDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Uses a customer's [cash balance](https://docs.stripe.com/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://docs.stripe.com/payments/bank-transfers) for more details.
 type PaymentMethodConfigurationCustomerBalanceParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCustomerBalanceDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCustomerBalanceDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationEPSDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://docs.stripe.com/payments/eps) for more details.
 type PaymentMethodConfigurationEPSParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationEPSDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationEPSDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationFPXDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Financial Process Exchange (FPX) is a Malaysia-based payment method that allows customers to complete transactions online using their bank credentials. Bank Negara Malaysia (BNM), the Central Bank of Malaysia, and eleven other major Malaysian financial institutions are members of the PayNet Group, which owns and operates FPX. It is one of the most popular online payment methods in Malaysia, with nearly 90 million transactions in 2018 according to BNM. Check this [page](https://docs.stripe.com/payments/fpx) for more details.
 type PaymentMethodConfigurationFPXParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationFPXDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationFPXDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/meal-vouchers/fr-meal-vouchers) for more details.
 type PaymentMethodConfigurationFRMealVoucherConecsParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationFRMealVoucherConecsDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationGiropayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // giropay is a German payment method based on online banking, introduced in 2006. It allows customers to complete transactions online using their online banking environment, with funds debited from their bank account. Depending on their bank, customers confirm payments on giropay using a second factor of authentication or a PIN. giropay accounts for 10% of online checkouts in Germany. Check this [page](https://docs.stripe.com/payments/giropay) for more details.
 type PaymentMethodConfigurationGiropayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationGiropayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationGiropayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationGooglePayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Google Pay allows customers to make payments in your app or website using any credit or debit card saved to their Google Account, including those from Google Play, YouTube, Chrome, or an Android device. Use the Google Pay API to request any credit or debit card stored in your customer's Google account. Check this [page](https://docs.stripe.com/google-pay) for more details.
 type PaymentMethodConfigurationGooglePayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationGooglePayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationGooglePayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationGopayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // GoPay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Gojek app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Gojek app to confirm payment.
 type PaymentMethodConfigurationGopayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationGopayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationGopayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationGrabpayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // GrabPay is a payment method developed by [Grab](https://www.grab.com/sg/consumer/finance/pay/). GrabPay is a digital wallet - customers maintain a balance in their wallets that they pay out with. Check this [page](https://docs.stripe.com/payments/grabpay) for more details.
 type PaymentMethodConfigurationGrabpayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationGrabpayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationGrabpayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationIDBankTransferDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
 type PaymentMethodConfigurationIDBankTransferParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationIDBankTransferDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationIDBankTransferDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationIDEALDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // iDEAL is a Netherlands-based payment method that allows customers to complete transactions online using their bank credentials. All major Dutch banks are members of Currence, the scheme that operates iDEAL, making it the most popular online payment method in the Netherlands with a share of online transactions close to 55%. Check this [page](https://docs.stripe.com/payments/ideal) for more details.
 type PaymentMethodConfigurationIDEALParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationIDEALDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationIDEALDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationJCBDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in Australia, Canada, Hong Kong, Japan, New Zealand, Singapore, Switzerland, United Kingdom, United States, and all countries in the European Economic Area except Iceland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
 type PaymentMethodConfigurationJCBParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationJCBDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationJCBDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationKakaoPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Kakao Pay is a popular local wallet available in South Korea.
 type PaymentMethodConfigurationKakaoPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationKakaoPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationKakaoPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationKlarnaDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Klarna gives customers a range of [payment options](https://docs.stripe.com/payments/klarna#payment-options) during checkout. Available payment options vary depending on the customer's billing address and the transaction amount. These payment options make it convenient for customers to purchase items in all price ranges. Check this [page](https://docs.stripe.com/payments/klarna) for more details.
 type PaymentMethodConfigurationKlarnaParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationKlarnaDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationKlarnaDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationKonbiniDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Konbini allows customers in Japan to pay for bills and online purchases at convenience stores with cash. Check this [page](https://docs.stripe.com/payments/konbini) for more details.
 type PaymentMethodConfigurationKonbiniParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationKonbiniDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationKonbiniDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationKrCardDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Korean cards let users pay using locally issued cards from South Korea.
 type PaymentMethodConfigurationKrCardParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationKrCardDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationKrCardDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationLinkDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // [Link](https://docs.stripe.com/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
 type PaymentMethodConfigurationLinkParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationLinkDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationLinkDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationMbWayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://docs.stripe.com/payments/mb-way) for more details.
 type PaymentMethodConfigurationMbWayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationMbWayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationMbWayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationMobilepayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // MobilePay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://docs.stripe.com/payments/mobilepay) for more details.
 type PaymentMethodConfigurationMobilepayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationMobilepayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationMobilepayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationMultibancoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
 type PaymentMethodConfigurationMultibancoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationMultibancoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationMultibancoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationNaverPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Naver Pay is a popular local wallet available in South Korea.
 type PaymentMethodConfigurationNaverPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationNaverPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationNaverPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationNzBankAccountDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in New Zealand can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with a New Zeland bank account. Check this [page](https://docs.stripe.com/payments/nz-bank-account) for more details.
 type PaymentMethodConfigurationNzBankAccountParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationNzBankAccountDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationNzBankAccountDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationOXXODisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // OXXO is a Mexican chain of convenience stores with thousands of locations across Latin America and represents nearly 20% of online transactions in Mexico. OXXO allows customers to pay bills and online purchases in-store with cash. Check this [page](https://docs.stripe.com/payments/oxxo) for more details.
 type PaymentMethodConfigurationOXXOParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationOXXODisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationOXXODisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationP24DisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Przelewy24 is a Poland-based payment method aggregator that allows customers to complete transactions online using bank transfers and other methods. Bank transfers account for 30% of online payments in Poland and Przelewy24 provides a way for customers to pay with over 165 banks. Check this [page](https://docs.stripe.com/payments/p24) for more details.
 type PaymentMethodConfigurationP24Params struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationP24DisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationP24DisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPayByBankDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Pay by bank is a redirect payment method backed by bank transfers. A customer is redirected to their bank to authorize a bank transfer for a given amount. This removes a lot of the error risks inherent in waiting for the customer to initiate a transfer themselves, and is less expensive than card payments.
 type PaymentMethodConfigurationPayByBankParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationPayByBankDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationPayByBankDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPaycoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PAYCO is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
 type PaymentMethodConfigurationPaycoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationPaycoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationPaycoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPayNowDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PayNow is a Singapore-based payment method that allows customers to make a payment using their preferred app from participating banks and participating non-bank financial institutions. Check this [page](https://docs.stripe.com/payments/paynow) for more details.
 type PaymentMethodConfigurationPayNowParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationPayNowDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationPayNowDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPaypalDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://docs.stripe.com/payments/paypal) for more details.
 type PaymentMethodConfigurationPaypalParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationPaypalDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationPaypalDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPaypayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Customers can pay with PayPay online or using the PayPay app.
 type PaymentMethodConfigurationPaypayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationPaypayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationPaypayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPaytoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
 type PaymentMethodConfigurationPaytoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationPaytoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationPaytoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPixDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
 type PaymentMethodConfigurationPixParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationPixDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationPixDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPromptPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://docs.stripe.com/payments/promptpay) for more details.
 type PaymentMethodConfigurationPromptPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationPromptPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationPromptPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationQrisDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
 type PaymentMethodConfigurationQrisParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationQrisDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationQrisDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationRevolutPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
 type PaymentMethodConfigurationRevolutPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationRevolutPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationRevolutPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationSamsungPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
 type PaymentMethodConfigurationSamsungPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationSamsungPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationSamsungPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationSatispayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationSatispayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationSatispayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationSatispayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationSEPADebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
 type PaymentMethodConfigurationSEPADebitParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationSEPADebitDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationSEPADebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationShopeepayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // ShopeePay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
 type PaymentMethodConfigurationShopeepayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationShopeepayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationShopeepayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationSofortDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
 type PaymentMethodConfigurationSofortParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationSofortDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationSofortDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationSwishDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
 type PaymentMethodConfigurationSwishParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationSwishDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationSwishDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationTWINTDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
 type PaymentMethodConfigurationTWINTParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationTWINTDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationTWINTDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUSBankAccountDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
 type PaymentMethodConfigurationUSBankAccountParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUSBankAccountDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUSBankAccountDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationWeChatPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
 type PaymentMethodConfigurationWeChatPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationWeChatPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationWeChatPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationZipDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
 type PaymentMethodConfigurationZipParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationZipDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationZipDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Creates a payment method configuration
 type PaymentMethodConfigurationParams struct {
 	Params `form:"*"`
 	// Canadian pre-authorized debit payments, check this [page](https://docs.stripe.com/payments/acss-debit) for more details like country availability.
-	ACSSDebit *PaymentMethodConfigurationACSSDebitParams `form:"acss_debit"`
+	ACSSDebit *PaymentMethodConfigurationACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// Whether the configuration can be used for new payments.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// [Affirm](https://www.affirm.com/) gives your customers a way to split purchases over a series of payments. Depending on the purchase, they can pay with four interest-free payments (Split Pay) or pay over a longer term (Installments), which might include interest. Check this [page](https://docs.stripe.com/payments/affirm) for more details like country availability.
-	Affirm *PaymentMethodConfigurationAffirmParams `form:"affirm"`
+	Affirm *PaymentMethodConfigurationAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// Afterpay gives your customers a way to pay for purchases in installments, check this [page](https://docs.stripe.com/payments/afterpay-clearpay) for more details like country availability. Afterpay is particularly popular among businesses selling fashion, beauty, and sports products.
-	AfterpayClearpay *PaymentMethodConfigurationAfterpayClearpayParams `form:"afterpay_clearpay"`
+	AfterpayClearpay *PaymentMethodConfigurationAfterpayClearpayParams `form:"afterpay_clearpay" json:"afterpay_clearpay,omitempty"`
 	// Alipay is a digital wallet in China that has more than a billion active users worldwide. Alipay users can pay on the web or on a mobile device using login credentials or their Alipay app. Alipay has a low dispute rate and reduces fraud by authenticating payments using the customer's login credentials. Check this [page](https://docs.stripe.com/payments/alipay) for more details.
-	Alipay *PaymentMethodConfigurationAlipayParams `form:"alipay"`
+	Alipay *PaymentMethodConfigurationAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// Alma is a Buy Now, Pay Later payment method that offers customers the ability to pay in 2, 3, or 4 installments.
-	Alma *PaymentMethodConfigurationAlmaParams `form:"alma"`
+	Alma *PaymentMethodConfigurationAlmaParams `form:"alma" json:"alma,omitempty"`
 	// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
-	AmazonPay *PaymentMethodConfigurationAmazonPayParams `form:"amazon_pay"`
+	AmazonPay *PaymentMethodConfigurationAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://docs.stripe.com/apple-pay) for more details.
-	ApplePay *PaymentMethodConfigurationApplePayParams `form:"apple_pay"`
+	ApplePay *PaymentMethodConfigurationApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
 	// Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
-	ApplePayLater *PaymentMethodConfigurationApplePayLaterParams `form:"apple_pay_later"`
+	ApplePayLater *PaymentMethodConfigurationApplePayLaterParams `form:"apple_pay_later" json:"apple_pay_later,omitempty"`
 	// Stripe users in Australia can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with an Australian bank account. Check this [page](https://docs.stripe.com/payments/au-becs-debit) for more details.
-	AUBECSDebit *PaymentMethodConfigurationAUBECSDebitParams `form:"au_becs_debit"`
+	AUBECSDebit *PaymentMethodConfigurationAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
 	// Stripe users in the UK can accept Bacs Direct Debit payments from customers with a UK bank account, check this [page](https://docs.stripe.com/payments/payment-methods/bacs-debit) for more details.
-	BACSDebit *PaymentMethodConfigurationBACSDebitParams `form:"bacs_debit"`
+	BACSDebit *PaymentMethodConfigurationBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://docs.stripe.com/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://docs.stripe.com/payments/bancontact) for more details.
-	Bancontact *PaymentMethodConfigurationBancontactParams `form:"bancontact"`
+	Bancontact *PaymentMethodConfigurationBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
-	Billie *PaymentMethodConfigurationBillieParams `form:"billie"`
+	Billie *PaymentMethodConfigurationBillieParams `form:"billie" json:"billie,omitempty"`
 	// BLIK is a [single use](https://docs.stripe.com/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://docs.stripe.com/payments/blik) for more details.
-	BLIK *PaymentMethodConfigurationBLIKParams `form:"blik"`
+	BLIK *PaymentMethodConfigurationBLIKParams `form:"blik" json:"blik,omitempty"`
 	// Boleto is an official (regulated by the Central Bank of Brazil) payment method in Brazil. Check this [page](https://docs.stripe.com/payments/boleto) for more details.
-	Boleto *PaymentMethodConfigurationBoletoParams `form:"boleto"`
+	Boleto *PaymentMethodConfigurationBoletoParams `form:"boleto" json:"boleto,omitempty"`
 	// Cards are a popular way for consumers and businesses to pay online or in person. Stripe supports global and local card networks.
-	Card *PaymentMethodConfigurationCardParams `form:"card"`
+	Card *PaymentMethodConfigurationCardParams `form:"card" json:"card,omitempty"`
 	// Cartes Bancaires is France's local card network. More than 95% of these cards are co-branded with either Visa or Mastercard, meaning you can process these cards over either Cartes Bancaires or the Visa or Mastercard networks. Check this [page](https://docs.stripe.com/payments/cartes-bancaires) for more details.
-	CartesBancaires *PaymentMethodConfigurationCartesBancairesParams `form:"cartes_bancaires"`
+	CartesBancaires *PaymentMethodConfigurationCartesBancairesParams `form:"cartes_bancaires" json:"cartes_bancaires,omitempty"`
 	// Cash App is a popular consumer app in the US that allows customers to bank, invest, send, and receive money using their digital wallet. Check this [page](https://docs.stripe.com/payments/cash-app-pay) for more details.
-	CashApp *PaymentMethodConfigurationCashAppParams `form:"cashapp"`
+	CashApp *PaymentMethodConfigurationCashAppParams `form:"cashapp" json:"cashapp,omitempty"`
 	// [Stablecoin payments](https://docs.stripe.com/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
-	Crypto *PaymentMethodConfigurationCryptoParams `form:"crypto"`
+	Crypto *PaymentMethodConfigurationCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// Uses a customer's [cash balance](https://docs.stripe.com/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://docs.stripe.com/payments/bank-transfers) for more details.
-	CustomerBalance *PaymentMethodConfigurationCustomerBalanceParams `form:"customer_balance"`
+	CustomerBalance *PaymentMethodConfigurationCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://docs.stripe.com/payments/eps) for more details.
-	EPS *PaymentMethodConfigurationEPSParams `form:"eps"`
+	EPS *PaymentMethodConfigurationEPSParams `form:"eps" json:"eps,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Financial Process Exchange (FPX) is a Malaysia-based payment method that allows customers to complete transactions online using their bank credentials. Bank Negara Malaysia (BNM), the Central Bank of Malaysia, and eleven other major Malaysian financial institutions are members of the PayNet Group, which owns and operates FPX. It is one of the most popular online payment methods in Malaysia, with nearly 90 million transactions in 2018 according to BNM. Check this [page](https://docs.stripe.com/payments/fpx) for more details.
-	FPX *PaymentMethodConfigurationFPXParams `form:"fpx"`
+	FPX *PaymentMethodConfigurationFPXParams `form:"fpx" json:"fpx,omitempty"`
 	// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/meal-vouchers/fr-meal-vouchers) for more details.
-	FRMealVoucherConecs *PaymentMethodConfigurationFRMealVoucherConecsParams `form:"fr_meal_voucher_conecs"`
+	FRMealVoucherConecs *PaymentMethodConfigurationFRMealVoucherConecsParams `form:"fr_meal_voucher_conecs" json:"fr_meal_voucher_conecs,omitempty"`
 	// giropay is a German payment method based on online banking, introduced in 2006. It allows customers to complete transactions online using their online banking environment, with funds debited from their bank account. Depending on their bank, customers confirm payments on giropay using a second factor of authentication or a PIN. giropay accounts for 10% of online checkouts in Germany. Check this [page](https://docs.stripe.com/payments/giropay) for more details.
-	Giropay *PaymentMethodConfigurationGiropayParams `form:"giropay"`
+	Giropay *PaymentMethodConfigurationGiropayParams `form:"giropay" json:"giropay,omitempty"`
 	// Google Pay allows customers to make payments in your app or website using any credit or debit card saved to their Google Account, including those from Google Play, YouTube, Chrome, or an Android device. Use the Google Pay API to request any credit or debit card stored in your customer's Google account. Check this [page](https://docs.stripe.com/google-pay) for more details.
-	GooglePay *PaymentMethodConfigurationGooglePayParams `form:"google_pay"`
+	GooglePay *PaymentMethodConfigurationGooglePayParams `form:"google_pay" json:"google_pay,omitempty"`
 	// GoPay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Gojek app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Gojek app to confirm payment.
-	Gopay *PaymentMethodConfigurationGopayParams `form:"gopay"`
+	Gopay *PaymentMethodConfigurationGopayParams `form:"gopay" json:"gopay,omitempty"`
 	// GrabPay is a payment method developed by [Grab](https://www.grab.com/sg/consumer/finance/pay/). GrabPay is a digital wallet - customers maintain a balance in their wallets that they pay out with. Check this [page](https://docs.stripe.com/payments/grabpay) for more details.
-	Grabpay *PaymentMethodConfigurationGrabpayParams `form:"grabpay"`
+	Grabpay *PaymentMethodConfigurationGrabpayParams `form:"grabpay" json:"grabpay,omitempty"`
 	// Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
-	IDBankTransfer *PaymentMethodConfigurationIDBankTransferParams `form:"id_bank_transfer"`
+	IDBankTransfer *PaymentMethodConfigurationIDBankTransferParams `form:"id_bank_transfer" json:"id_bank_transfer,omitempty"`
 	// iDEAL is a Netherlands-based payment method that allows customers to complete transactions online using their bank credentials. All major Dutch banks are members of Currence, the scheme that operates iDEAL, making it the most popular online payment method in the Netherlands with a share of online transactions close to 55%. Check this [page](https://docs.stripe.com/payments/ideal) for more details.
-	IDEAL *PaymentMethodConfigurationIDEALParams `form:"ideal"`
+	IDEAL *PaymentMethodConfigurationIDEALParams `form:"ideal" json:"ideal,omitempty"`
 	// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in Australia, Canada, Hong Kong, Japan, New Zealand, Singapore, Switzerland, United Kingdom, United States, and all countries in the European Economic Area except Iceland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
-	JCB *PaymentMethodConfigurationJCBParams `form:"jcb"`
+	JCB *PaymentMethodConfigurationJCBParams `form:"jcb" json:"jcb,omitempty"`
 	// Kakao Pay is a popular local wallet available in South Korea.
-	KakaoPay *PaymentMethodConfigurationKakaoPayParams `form:"kakao_pay"`
+	KakaoPay *PaymentMethodConfigurationKakaoPayParams `form:"kakao_pay" json:"kakao_pay,omitempty"`
 	// Klarna gives customers a range of [payment options](https://docs.stripe.com/payments/klarna#payment-options) during checkout. Available payment options vary depending on the customer's billing address and the transaction amount. These payment options make it convenient for customers to purchase items in all price ranges. Check this [page](https://docs.stripe.com/payments/klarna) for more details.
-	Klarna *PaymentMethodConfigurationKlarnaParams `form:"klarna"`
+	Klarna *PaymentMethodConfigurationKlarnaParams `form:"klarna" json:"klarna,omitempty"`
 	// Konbini allows customers in Japan to pay for bills and online purchases at convenience stores with cash. Check this [page](https://docs.stripe.com/payments/konbini) for more details.
-	Konbini *PaymentMethodConfigurationKonbiniParams `form:"konbini"`
+	Konbini *PaymentMethodConfigurationKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// Korean cards let users pay using locally issued cards from South Korea.
-	KrCard *PaymentMethodConfigurationKrCardParams `form:"kr_card"`
+	KrCard *PaymentMethodConfigurationKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
 	// [Link](https://docs.stripe.com/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
-	Link *PaymentMethodConfigurationLinkParams `form:"link"`
+	Link *PaymentMethodConfigurationLinkParams `form:"link" json:"link,omitempty"`
 	// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://docs.stripe.com/payments/mb-way) for more details.
-	MbWay *PaymentMethodConfigurationMbWayParams `form:"mb_way"`
+	MbWay *PaymentMethodConfigurationMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
 	// MobilePay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://docs.stripe.com/payments/mobilepay) for more details.
-	Mobilepay *PaymentMethodConfigurationMobilepayParams `form:"mobilepay"`
+	Mobilepay *PaymentMethodConfigurationMobilepayParams `form:"mobilepay" json:"mobilepay,omitempty"`
 	// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
-	Multibanco *PaymentMethodConfigurationMultibancoParams `form:"multibanco"`
+	Multibanco *PaymentMethodConfigurationMultibancoParams `form:"multibanco" json:"multibanco,omitempty"`
 	// Configuration name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Naver Pay is a popular local wallet available in South Korea.
-	NaverPay *PaymentMethodConfigurationNaverPayParams `form:"naver_pay"`
+	NaverPay *PaymentMethodConfigurationNaverPayParams `form:"naver_pay" json:"naver_pay,omitempty"`
 	// Stripe users in New Zealand can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with a New Zeland bank account. Check this [page](https://docs.stripe.com/payments/nz-bank-account) for more details.
-	NzBankAccount *PaymentMethodConfigurationNzBankAccountParams `form:"nz_bank_account"`
+	NzBankAccount *PaymentMethodConfigurationNzBankAccountParams `form:"nz_bank_account" json:"nz_bank_account,omitempty"`
 	// OXXO is a Mexican chain of convenience stores with thousands of locations across Latin America and represents nearly 20% of online transactions in Mexico. OXXO allows customers to pay bills and online purchases in-store with cash. Check this [page](https://docs.stripe.com/payments/oxxo) for more details.
-	OXXO *PaymentMethodConfigurationOXXOParams `form:"oxxo"`
+	OXXO *PaymentMethodConfigurationOXXOParams `form:"oxxo" json:"oxxo,omitempty"`
 	// Przelewy24 is a Poland-based payment method aggregator that allows customers to complete transactions online using bank transfers and other methods. Bank transfers account for 30% of online payments in Poland and Przelewy24 provides a way for customers to pay with over 165 banks. Check this [page](https://docs.stripe.com/payments/p24) for more details.
-	P24 *PaymentMethodConfigurationP24Params `form:"p24"`
+	P24 *PaymentMethodConfigurationP24Params `form:"p24" json:"p24,omitempty"`
 	// Configuration's parent configuration. Specify to create a child configuration.
-	Parent *string `form:"parent"`
+	Parent *string `form:"parent" json:"parent,omitempty"`
 	// Pay by bank is a redirect payment method backed by bank transfers. A customer is redirected to their bank to authorize a bank transfer for a given amount. This removes a lot of the error risks inherent in waiting for the customer to initiate a transfer themselves, and is less expensive than card payments.
-	PayByBank *PaymentMethodConfigurationPayByBankParams `form:"pay_by_bank"`
+	PayByBank *PaymentMethodConfigurationPayByBankParams `form:"pay_by_bank" json:"pay_by_bank,omitempty"`
 	// PAYCO is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
-	Payco *PaymentMethodConfigurationPaycoParams `form:"payco"`
+	Payco *PaymentMethodConfigurationPaycoParams `form:"payco" json:"payco,omitempty"`
 	// PayNow is a Singapore-based payment method that allows customers to make a payment using their preferred app from participating banks and participating non-bank financial institutions. Check this [page](https://docs.stripe.com/payments/paynow) for more details.
-	PayNow *PaymentMethodConfigurationPayNowParams `form:"paynow"`
+	PayNow *PaymentMethodConfigurationPayNowParams `form:"paynow" json:"paynow,omitempty"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://docs.stripe.com/payments/paypal) for more details.
-	Paypal *PaymentMethodConfigurationPaypalParams `form:"paypal"`
+	Paypal *PaymentMethodConfigurationPaypalParams `form:"paypal" json:"paypal,omitempty"`
 	// Customers can pay with PayPay online or using the PayPay app.
-	Paypay *PaymentMethodConfigurationPaypayParams `form:"paypay"`
+	Paypay *PaymentMethodConfigurationPaypayParams `form:"paypay" json:"paypay,omitempty"`
 	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
-	Payto *PaymentMethodConfigurationPaytoParams `form:"payto"`
+	Payto *PaymentMethodConfigurationPaytoParams `form:"payto" json:"payto,omitempty"`
 	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
-	Pix *PaymentMethodConfigurationPixParams `form:"pix"`
+	Pix *PaymentMethodConfigurationPixParams `form:"pix" json:"pix,omitempty"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://docs.stripe.com/payments/promptpay) for more details.
-	PromptPay *PaymentMethodConfigurationPromptPayParams `form:"promptpay"`
+	PromptPay *PaymentMethodConfigurationPromptPayParams `form:"promptpay" json:"promptpay,omitempty"`
 	// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
-	Qris *PaymentMethodConfigurationQrisParams `form:"qris"`
+	Qris *PaymentMethodConfigurationQrisParams `form:"qris" json:"qris,omitempty"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
-	RevolutPay *PaymentMethodConfigurationRevolutPayParams `form:"revolut_pay"`
+	RevolutPay *PaymentMethodConfigurationRevolutPayParams `form:"revolut_pay" json:"revolut_pay,omitempty"`
 	// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
-	SamsungPay *PaymentMethodConfigurationSamsungPayParams `form:"samsung_pay"`
+	SamsungPay *PaymentMethodConfigurationSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
-	Satispay *PaymentMethodConfigurationSatispayParams `form:"satispay"`
+	Satispay *PaymentMethodConfigurationSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
-	SEPADebit *PaymentMethodConfigurationSEPADebitParams `form:"sepa_debit"`
+	SEPADebit *PaymentMethodConfigurationSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ShopeePay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
-	Shopeepay *PaymentMethodConfigurationShopeepayParams `form:"shopeepay"`
+	Shopeepay *PaymentMethodConfigurationShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
-	Sofort *PaymentMethodConfigurationSofortParams `form:"sofort"`
+	Sofort *PaymentMethodConfigurationSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
-	Swish *PaymentMethodConfigurationSwishParams `form:"swish"`
+	Swish *PaymentMethodConfigurationSwishParams `form:"swish" json:"swish,omitempty"`
 	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
-	TWINT *PaymentMethodConfigurationTWINTParams `form:"twint"`
+	TWINT *PaymentMethodConfigurationTWINTParams `form:"twint" json:"twint,omitempty"`
 	// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
-	USBankAccount *PaymentMethodConfigurationUSBankAccountParams `form:"us_bank_account"`
+	USBankAccount *PaymentMethodConfigurationUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
-	WeChatPay *PaymentMethodConfigurationWeChatPayParams `form:"wechat_pay"`
+	WeChatPay *PaymentMethodConfigurationWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
-	Zip *PaymentMethodConfigurationZipParams `form:"zip"`
+	Zip *PaymentMethodConfigurationZipParams `form:"zip" json:"zip,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -2016,866 +2016,866 @@ func (p *PaymentMethodConfigurationParams) AddExpand(f string) {
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateACSSDebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Canadian pre-authorized debit payments, check this [page](https://docs.stripe.com/payments/acss-debit) for more details like country availability.
 type PaymentMethodConfigurationCreateACSSDebitParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateACSSDebitDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateACSSDebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateAffirmDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // [Affirm](https://www.affirm.com/) gives your customers a way to split purchases over a series of payments. Depending on the purchase, they can pay with four interest-free payments (Split Pay) or pay over a longer term (Installments), which might include interest. Check this [page](https://docs.stripe.com/payments/affirm) for more details like country availability.
 type PaymentMethodConfigurationCreateAffirmParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateAffirmDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateAffirmDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateAfterpayClearpayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Afterpay gives your customers a way to pay for purchases in installments, check this [page](https://docs.stripe.com/payments/afterpay-clearpay) for more details like country availability. Afterpay is particularly popular among businesses selling fashion, beauty, and sports products.
 type PaymentMethodConfigurationCreateAfterpayClearpayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateAfterpayClearpayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateAfterpayClearpayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateAlipayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Alipay is a digital wallet in China that has more than a billion active users worldwide. Alipay users can pay on the web or on a mobile device using login credentials or their Alipay app. Alipay has a low dispute rate and reduces fraud by authenticating payments using the customer's login credentials. Check this [page](https://docs.stripe.com/payments/alipay) for more details.
 type PaymentMethodConfigurationCreateAlipayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateAlipayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateAlipayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateAlmaDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Alma is a Buy Now, Pay Later payment method that offers customers the ability to pay in 2, 3, or 4 installments.
 type PaymentMethodConfigurationCreateAlmaParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateAlmaDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateAlmaDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateAmazonPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
 type PaymentMethodConfigurationCreateAmazonPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateAmazonPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateAmazonPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateApplePayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://docs.stripe.com/apple-pay) for more details.
 type PaymentMethodConfigurationCreateApplePayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateApplePayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateApplePayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateApplePayLaterDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
 type PaymentMethodConfigurationCreateApplePayLaterParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateApplePayLaterDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateApplePayLaterDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateAUBECSDebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in Australia can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with an Australian bank account. Check this [page](https://docs.stripe.com/payments/au-becs-debit) for more details.
 type PaymentMethodConfigurationCreateAUBECSDebitParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateAUBECSDebitDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateAUBECSDebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateBACSDebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in the UK can accept Bacs Direct Debit payments from customers with a UK bank account, check this [page](https://docs.stripe.com/payments/payment-methods/bacs-debit) for more details.
 type PaymentMethodConfigurationCreateBACSDebitParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateBACSDebitDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateBACSDebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateBancontactDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://docs.stripe.com/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://docs.stripe.com/payments/bancontact) for more details.
 type PaymentMethodConfigurationCreateBancontactParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateBancontactDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateBancontactDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateBillieDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationCreateBillieParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateBillieDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateBillieDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateBLIKDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // BLIK is a [single use](https://docs.stripe.com/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://docs.stripe.com/payments/blik) for more details.
 type PaymentMethodConfigurationCreateBLIKParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateBLIKDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateBLIKDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateBoletoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Boleto is an official (regulated by the Central Bank of Brazil) payment method in Brazil. Check this [page](https://docs.stripe.com/payments/boleto) for more details.
 type PaymentMethodConfigurationCreateBoletoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateBoletoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateBoletoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateCardDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Cards are a popular way for consumers and businesses to pay online or in person. Stripe supports global and local card networks.
 type PaymentMethodConfigurationCreateCardParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateCardDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateCardDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateCartesBancairesDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Cartes Bancaires is France's local card network. More than 95% of these cards are co-branded with either Visa or Mastercard, meaning you can process these cards over either Cartes Bancaires or the Visa or Mastercard networks. Check this [page](https://docs.stripe.com/payments/cartes-bancaires) for more details.
 type PaymentMethodConfigurationCreateCartesBancairesParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateCartesBancairesDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateCartesBancairesDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateCashAppDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Cash App is a popular consumer app in the US that allows customers to bank, invest, send, and receive money using their digital wallet. Check this [page](https://docs.stripe.com/payments/cash-app-pay) for more details.
 type PaymentMethodConfigurationCreateCashAppParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateCashAppDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateCashAppDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateCryptoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // [Stablecoin payments](https://docs.stripe.com/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
 type PaymentMethodConfigurationCreateCryptoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateCryptoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateCryptoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateCustomerBalanceDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Uses a customer's [cash balance](https://docs.stripe.com/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://docs.stripe.com/payments/bank-transfers) for more details.
 type PaymentMethodConfigurationCreateCustomerBalanceParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateCustomerBalanceDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateCustomerBalanceDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateEPSDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://docs.stripe.com/payments/eps) for more details.
 type PaymentMethodConfigurationCreateEPSParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateEPSDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateEPSDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateFPXDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Financial Process Exchange (FPX) is a Malaysia-based payment method that allows customers to complete transactions online using their bank credentials. Bank Negara Malaysia (BNM), the Central Bank of Malaysia, and eleven other major Malaysian financial institutions are members of the PayNet Group, which owns and operates FPX. It is one of the most popular online payment methods in Malaysia, with nearly 90 million transactions in 2018 according to BNM. Check this [page](https://docs.stripe.com/payments/fpx) for more details.
 type PaymentMethodConfigurationCreateFPXParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateFPXDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateFPXDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateFRMealVoucherConecsDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/meal-vouchers/fr-meal-vouchers) for more details.
 type PaymentMethodConfigurationCreateFRMealVoucherConecsParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateFRMealVoucherConecsDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateFRMealVoucherConecsDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateGiropayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // giropay is a German payment method based on online banking, introduced in 2006. It allows customers to complete transactions online using their online banking environment, with funds debited from their bank account. Depending on their bank, customers confirm payments on giropay using a second factor of authentication or a PIN. giropay accounts for 10% of online checkouts in Germany. Check this [page](https://docs.stripe.com/payments/giropay) for more details.
 type PaymentMethodConfigurationCreateGiropayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateGiropayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateGiropayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateGooglePayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Google Pay allows customers to make payments in your app or website using any credit or debit card saved to their Google Account, including those from Google Play, YouTube, Chrome, or an Android device. Use the Google Pay API to request any credit or debit card stored in your customer's Google account. Check this [page](https://docs.stripe.com/google-pay) for more details.
 type PaymentMethodConfigurationCreateGooglePayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateGooglePayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateGooglePayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateGopayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // GoPay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Gojek app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Gojek app to confirm payment.
 type PaymentMethodConfigurationCreateGopayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateGopayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateGopayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateGrabpayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // GrabPay is a payment method developed by [Grab](https://www.grab.com/sg/consumer/finance/pay/). GrabPay is a digital wallet - customers maintain a balance in their wallets that they pay out with. Check this [page](https://docs.stripe.com/payments/grabpay) for more details.
 type PaymentMethodConfigurationCreateGrabpayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateGrabpayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateGrabpayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateIDBankTransferDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
 type PaymentMethodConfigurationCreateIDBankTransferParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateIDBankTransferDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateIDBankTransferDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateIDEALDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // iDEAL is a Netherlands-based payment method that allows customers to complete transactions online using their bank credentials. All major Dutch banks are members of Currence, the scheme that operates iDEAL, making it the most popular online payment method in the Netherlands with a share of online transactions close to 55%. Check this [page](https://docs.stripe.com/payments/ideal) for more details.
 type PaymentMethodConfigurationCreateIDEALParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateIDEALDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateIDEALDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateJCBDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in Australia, Canada, Hong Kong, Japan, New Zealand, Singapore, Switzerland, United Kingdom, United States, and all countries in the European Economic Area except Iceland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
 type PaymentMethodConfigurationCreateJCBParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateJCBDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateJCBDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateKakaoPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Kakao Pay is a popular local wallet available in South Korea.
 type PaymentMethodConfigurationCreateKakaoPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateKakaoPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateKakaoPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateKlarnaDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Klarna gives customers a range of [payment options](https://docs.stripe.com/payments/klarna#payment-options) during checkout. Available payment options vary depending on the customer's billing address and the transaction amount. These payment options make it convenient for customers to purchase items in all price ranges. Check this [page](https://docs.stripe.com/payments/klarna) for more details.
 type PaymentMethodConfigurationCreateKlarnaParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateKlarnaDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateKlarnaDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateKonbiniDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Konbini allows customers in Japan to pay for bills and online purchases at convenience stores with cash. Check this [page](https://docs.stripe.com/payments/konbini) for more details.
 type PaymentMethodConfigurationCreateKonbiniParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateKonbiniDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateKonbiniDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateKrCardDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Korean cards let users pay using locally issued cards from South Korea.
 type PaymentMethodConfigurationCreateKrCardParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateKrCardDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateKrCardDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateLinkDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // [Link](https://docs.stripe.com/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
 type PaymentMethodConfigurationCreateLinkParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateLinkDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateLinkDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateMbWayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://docs.stripe.com/payments/mb-way) for more details.
 type PaymentMethodConfigurationCreateMbWayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateMbWayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateMbWayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateMobilepayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // MobilePay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://docs.stripe.com/payments/mobilepay) for more details.
 type PaymentMethodConfigurationCreateMobilepayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateMobilepayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateMobilepayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateMultibancoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
 type PaymentMethodConfigurationCreateMultibancoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateMultibancoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateMultibancoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateNaverPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Naver Pay is a popular local wallet available in South Korea.
 type PaymentMethodConfigurationCreateNaverPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateNaverPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateNaverPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateNzBankAccountDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in New Zealand can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with a New Zeland bank account. Check this [page](https://docs.stripe.com/payments/nz-bank-account) for more details.
 type PaymentMethodConfigurationCreateNzBankAccountParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateNzBankAccountDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateNzBankAccountDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateOXXODisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // OXXO is a Mexican chain of convenience stores with thousands of locations across Latin America and represents nearly 20% of online transactions in Mexico. OXXO allows customers to pay bills and online purchases in-store with cash. Check this [page](https://docs.stripe.com/payments/oxxo) for more details.
 type PaymentMethodConfigurationCreateOXXOParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateOXXODisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateOXXODisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateP24DisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Przelewy24 is a Poland-based payment method aggregator that allows customers to complete transactions online using bank transfers and other methods. Bank transfers account for 30% of online payments in Poland and Przelewy24 provides a way for customers to pay with over 165 banks. Check this [page](https://docs.stripe.com/payments/p24) for more details.
 type PaymentMethodConfigurationCreateP24Params struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateP24DisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateP24DisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreatePayByBankDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Pay by bank is a redirect payment method backed by bank transfers. A customer is redirected to their bank to authorize a bank transfer for a given amount. This removes a lot of the error risks inherent in waiting for the customer to initiate a transfer themselves, and is less expensive than card payments.
 type PaymentMethodConfigurationCreatePayByBankParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreatePayByBankDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreatePayByBankDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreatePaycoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PAYCO is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
 type PaymentMethodConfigurationCreatePaycoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreatePaycoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreatePaycoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreatePayNowDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PayNow is a Singapore-based payment method that allows customers to make a payment using their preferred app from participating banks and participating non-bank financial institutions. Check this [page](https://docs.stripe.com/payments/paynow) for more details.
 type PaymentMethodConfigurationCreatePayNowParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreatePayNowDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreatePayNowDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreatePaypalDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://docs.stripe.com/payments/paypal) for more details.
 type PaymentMethodConfigurationCreatePaypalParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreatePaypalDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreatePaypalDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreatePaypayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Customers can pay with PayPay online or using the PayPay app.
 type PaymentMethodConfigurationCreatePaypayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreatePaypayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreatePaypayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreatePaytoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
 type PaymentMethodConfigurationCreatePaytoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreatePaytoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreatePaytoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreatePixDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
 type PaymentMethodConfigurationCreatePixParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreatePixDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreatePixDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreatePromptPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://docs.stripe.com/payments/promptpay) for more details.
 type PaymentMethodConfigurationCreatePromptPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreatePromptPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreatePromptPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateQrisDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
 type PaymentMethodConfigurationCreateQrisParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateQrisDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateQrisDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateRevolutPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
 type PaymentMethodConfigurationCreateRevolutPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateRevolutPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateRevolutPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateSamsungPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
 type PaymentMethodConfigurationCreateSamsungPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateSamsungPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateSamsungPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateSatispayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationCreateSatispayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateSatispayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateSatispayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateSEPADebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
 type PaymentMethodConfigurationCreateSEPADebitParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateSEPADebitDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateSEPADebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateShopeepayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // ShopeePay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
 type PaymentMethodConfigurationCreateShopeepayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateShopeepayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateShopeepayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateSofortDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
 type PaymentMethodConfigurationCreateSofortParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateSofortDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateSofortDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateSwishDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
 type PaymentMethodConfigurationCreateSwishParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateSwishDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateSwishDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateTWINTDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
 type PaymentMethodConfigurationCreateTWINTParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateTWINTDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateTWINTDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateUSBankAccountDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
 type PaymentMethodConfigurationCreateUSBankAccountParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateUSBankAccountDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateUSBankAccountDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateWeChatPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
 type PaymentMethodConfigurationCreateWeChatPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateWeChatPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateWeChatPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateZipDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
 type PaymentMethodConfigurationCreateZipParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationCreateZipDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationCreateZipDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Creates a payment method configuration
 type PaymentMethodConfigurationCreateParams struct {
 	Params `form:"*"`
 	// Canadian pre-authorized debit payments, check this [page](https://docs.stripe.com/payments/acss-debit) for more details like country availability.
-	ACSSDebit *PaymentMethodConfigurationCreateACSSDebitParams `form:"acss_debit"`
+	ACSSDebit *PaymentMethodConfigurationCreateACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// [Affirm](https://www.affirm.com/) gives your customers a way to split purchases over a series of payments. Depending on the purchase, they can pay with four interest-free payments (Split Pay) or pay over a longer term (Installments), which might include interest. Check this [page](https://docs.stripe.com/payments/affirm) for more details like country availability.
-	Affirm *PaymentMethodConfigurationCreateAffirmParams `form:"affirm"`
+	Affirm *PaymentMethodConfigurationCreateAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// Afterpay gives your customers a way to pay for purchases in installments, check this [page](https://docs.stripe.com/payments/afterpay-clearpay) for more details like country availability. Afterpay is particularly popular among businesses selling fashion, beauty, and sports products.
-	AfterpayClearpay *PaymentMethodConfigurationCreateAfterpayClearpayParams `form:"afterpay_clearpay"`
+	AfterpayClearpay *PaymentMethodConfigurationCreateAfterpayClearpayParams `form:"afterpay_clearpay" json:"afterpay_clearpay,omitempty"`
 	// Alipay is a digital wallet in China that has more than a billion active users worldwide. Alipay users can pay on the web or on a mobile device using login credentials or their Alipay app. Alipay has a low dispute rate and reduces fraud by authenticating payments using the customer's login credentials. Check this [page](https://docs.stripe.com/payments/alipay) for more details.
-	Alipay *PaymentMethodConfigurationCreateAlipayParams `form:"alipay"`
+	Alipay *PaymentMethodConfigurationCreateAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// Alma is a Buy Now, Pay Later payment method that offers customers the ability to pay in 2, 3, or 4 installments.
-	Alma *PaymentMethodConfigurationCreateAlmaParams `form:"alma"`
+	Alma *PaymentMethodConfigurationCreateAlmaParams `form:"alma" json:"alma,omitempty"`
 	// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
-	AmazonPay *PaymentMethodConfigurationCreateAmazonPayParams `form:"amazon_pay"`
+	AmazonPay *PaymentMethodConfigurationCreateAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://docs.stripe.com/apple-pay) for more details.
-	ApplePay *PaymentMethodConfigurationCreateApplePayParams `form:"apple_pay"`
+	ApplePay *PaymentMethodConfigurationCreateApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
 	// Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
-	ApplePayLater *PaymentMethodConfigurationCreateApplePayLaterParams `form:"apple_pay_later"`
+	ApplePayLater *PaymentMethodConfigurationCreateApplePayLaterParams `form:"apple_pay_later" json:"apple_pay_later,omitempty"`
 	// Stripe users in Australia can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with an Australian bank account. Check this [page](https://docs.stripe.com/payments/au-becs-debit) for more details.
-	AUBECSDebit *PaymentMethodConfigurationCreateAUBECSDebitParams `form:"au_becs_debit"`
+	AUBECSDebit *PaymentMethodConfigurationCreateAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
 	// Stripe users in the UK can accept Bacs Direct Debit payments from customers with a UK bank account, check this [page](https://docs.stripe.com/payments/payment-methods/bacs-debit) for more details.
-	BACSDebit *PaymentMethodConfigurationCreateBACSDebitParams `form:"bacs_debit"`
+	BACSDebit *PaymentMethodConfigurationCreateBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://docs.stripe.com/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://docs.stripe.com/payments/bancontact) for more details.
-	Bancontact *PaymentMethodConfigurationCreateBancontactParams `form:"bancontact"`
+	Bancontact *PaymentMethodConfigurationCreateBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
-	Billie *PaymentMethodConfigurationCreateBillieParams `form:"billie"`
+	Billie *PaymentMethodConfigurationCreateBillieParams `form:"billie" json:"billie,omitempty"`
 	// BLIK is a [single use](https://docs.stripe.com/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://docs.stripe.com/payments/blik) for more details.
-	BLIK *PaymentMethodConfigurationCreateBLIKParams `form:"blik"`
+	BLIK *PaymentMethodConfigurationCreateBLIKParams `form:"blik" json:"blik,omitempty"`
 	// Boleto is an official (regulated by the Central Bank of Brazil) payment method in Brazil. Check this [page](https://docs.stripe.com/payments/boleto) for more details.
-	Boleto *PaymentMethodConfigurationCreateBoletoParams `form:"boleto"`
+	Boleto *PaymentMethodConfigurationCreateBoletoParams `form:"boleto" json:"boleto,omitempty"`
 	// Cards are a popular way for consumers and businesses to pay online or in person. Stripe supports global and local card networks.
-	Card *PaymentMethodConfigurationCreateCardParams `form:"card"`
+	Card *PaymentMethodConfigurationCreateCardParams `form:"card" json:"card,omitempty"`
 	// Cartes Bancaires is France's local card network. More than 95% of these cards are co-branded with either Visa or Mastercard, meaning you can process these cards over either Cartes Bancaires or the Visa or Mastercard networks. Check this [page](https://docs.stripe.com/payments/cartes-bancaires) for more details.
-	CartesBancaires *PaymentMethodConfigurationCreateCartesBancairesParams `form:"cartes_bancaires"`
+	CartesBancaires *PaymentMethodConfigurationCreateCartesBancairesParams `form:"cartes_bancaires" json:"cartes_bancaires,omitempty"`
 	// Cash App is a popular consumer app in the US that allows customers to bank, invest, send, and receive money using their digital wallet. Check this [page](https://docs.stripe.com/payments/cash-app-pay) for more details.
-	CashApp *PaymentMethodConfigurationCreateCashAppParams `form:"cashapp"`
+	CashApp *PaymentMethodConfigurationCreateCashAppParams `form:"cashapp" json:"cashapp,omitempty"`
 	// [Stablecoin payments](https://docs.stripe.com/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
-	Crypto *PaymentMethodConfigurationCreateCryptoParams `form:"crypto"`
+	Crypto *PaymentMethodConfigurationCreateCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// Uses a customer's [cash balance](https://docs.stripe.com/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://docs.stripe.com/payments/bank-transfers) for more details.
-	CustomerBalance *PaymentMethodConfigurationCreateCustomerBalanceParams `form:"customer_balance"`
+	CustomerBalance *PaymentMethodConfigurationCreateCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://docs.stripe.com/payments/eps) for more details.
-	EPS *PaymentMethodConfigurationCreateEPSParams `form:"eps"`
+	EPS *PaymentMethodConfigurationCreateEPSParams `form:"eps" json:"eps,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Financial Process Exchange (FPX) is a Malaysia-based payment method that allows customers to complete transactions online using their bank credentials. Bank Negara Malaysia (BNM), the Central Bank of Malaysia, and eleven other major Malaysian financial institutions are members of the PayNet Group, which owns and operates FPX. It is one of the most popular online payment methods in Malaysia, with nearly 90 million transactions in 2018 according to BNM. Check this [page](https://docs.stripe.com/payments/fpx) for more details.
-	FPX *PaymentMethodConfigurationCreateFPXParams `form:"fpx"`
+	FPX *PaymentMethodConfigurationCreateFPXParams `form:"fpx" json:"fpx,omitempty"`
 	// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/meal-vouchers/fr-meal-vouchers) for more details.
-	FRMealVoucherConecs *PaymentMethodConfigurationCreateFRMealVoucherConecsParams `form:"fr_meal_voucher_conecs"`
+	FRMealVoucherConecs *PaymentMethodConfigurationCreateFRMealVoucherConecsParams `form:"fr_meal_voucher_conecs" json:"fr_meal_voucher_conecs,omitempty"`
 	// giropay is a German payment method based on online banking, introduced in 2006. It allows customers to complete transactions online using their online banking environment, with funds debited from their bank account. Depending on their bank, customers confirm payments on giropay using a second factor of authentication or a PIN. giropay accounts for 10% of online checkouts in Germany. Check this [page](https://docs.stripe.com/payments/giropay) for more details.
-	Giropay *PaymentMethodConfigurationCreateGiropayParams `form:"giropay"`
+	Giropay *PaymentMethodConfigurationCreateGiropayParams `form:"giropay" json:"giropay,omitempty"`
 	// Google Pay allows customers to make payments in your app or website using any credit or debit card saved to their Google Account, including those from Google Play, YouTube, Chrome, or an Android device. Use the Google Pay API to request any credit or debit card stored in your customer's Google account. Check this [page](https://docs.stripe.com/google-pay) for more details.
-	GooglePay *PaymentMethodConfigurationCreateGooglePayParams `form:"google_pay"`
+	GooglePay *PaymentMethodConfigurationCreateGooglePayParams `form:"google_pay" json:"google_pay,omitempty"`
 	// GoPay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Gojek app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Gojek app to confirm payment.
-	Gopay *PaymentMethodConfigurationCreateGopayParams `form:"gopay"`
+	Gopay *PaymentMethodConfigurationCreateGopayParams `form:"gopay" json:"gopay,omitempty"`
 	// GrabPay is a payment method developed by [Grab](https://www.grab.com/sg/consumer/finance/pay/). GrabPay is a digital wallet - customers maintain a balance in their wallets that they pay out with. Check this [page](https://docs.stripe.com/payments/grabpay) for more details.
-	Grabpay *PaymentMethodConfigurationCreateGrabpayParams `form:"grabpay"`
+	Grabpay *PaymentMethodConfigurationCreateGrabpayParams `form:"grabpay" json:"grabpay,omitempty"`
 	// Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
-	IDBankTransfer *PaymentMethodConfigurationCreateIDBankTransferParams `form:"id_bank_transfer"`
+	IDBankTransfer *PaymentMethodConfigurationCreateIDBankTransferParams `form:"id_bank_transfer" json:"id_bank_transfer,omitempty"`
 	// iDEAL is a Netherlands-based payment method that allows customers to complete transactions online using their bank credentials. All major Dutch banks are members of Currence, the scheme that operates iDEAL, making it the most popular online payment method in the Netherlands with a share of online transactions close to 55%. Check this [page](https://docs.stripe.com/payments/ideal) for more details.
-	IDEAL *PaymentMethodConfigurationCreateIDEALParams `form:"ideal"`
+	IDEAL *PaymentMethodConfigurationCreateIDEALParams `form:"ideal" json:"ideal,omitempty"`
 	// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in Australia, Canada, Hong Kong, Japan, New Zealand, Singapore, Switzerland, United Kingdom, United States, and all countries in the European Economic Area except Iceland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
-	JCB *PaymentMethodConfigurationCreateJCBParams `form:"jcb"`
+	JCB *PaymentMethodConfigurationCreateJCBParams `form:"jcb" json:"jcb,omitempty"`
 	// Kakao Pay is a popular local wallet available in South Korea.
-	KakaoPay *PaymentMethodConfigurationCreateKakaoPayParams `form:"kakao_pay"`
+	KakaoPay *PaymentMethodConfigurationCreateKakaoPayParams `form:"kakao_pay" json:"kakao_pay,omitempty"`
 	// Klarna gives customers a range of [payment options](https://docs.stripe.com/payments/klarna#payment-options) during checkout. Available payment options vary depending on the customer's billing address and the transaction amount. These payment options make it convenient for customers to purchase items in all price ranges. Check this [page](https://docs.stripe.com/payments/klarna) for more details.
-	Klarna *PaymentMethodConfigurationCreateKlarnaParams `form:"klarna"`
+	Klarna *PaymentMethodConfigurationCreateKlarnaParams `form:"klarna" json:"klarna,omitempty"`
 	// Konbini allows customers in Japan to pay for bills and online purchases at convenience stores with cash. Check this [page](https://docs.stripe.com/payments/konbini) for more details.
-	Konbini *PaymentMethodConfigurationCreateKonbiniParams `form:"konbini"`
+	Konbini *PaymentMethodConfigurationCreateKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// Korean cards let users pay using locally issued cards from South Korea.
-	KrCard *PaymentMethodConfigurationCreateKrCardParams `form:"kr_card"`
+	KrCard *PaymentMethodConfigurationCreateKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
 	// [Link](https://docs.stripe.com/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
-	Link *PaymentMethodConfigurationCreateLinkParams `form:"link"`
+	Link *PaymentMethodConfigurationCreateLinkParams `form:"link" json:"link,omitempty"`
 	// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://docs.stripe.com/payments/mb-way) for more details.
-	MbWay *PaymentMethodConfigurationCreateMbWayParams `form:"mb_way"`
+	MbWay *PaymentMethodConfigurationCreateMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
 	// MobilePay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://docs.stripe.com/payments/mobilepay) for more details.
-	Mobilepay *PaymentMethodConfigurationCreateMobilepayParams `form:"mobilepay"`
+	Mobilepay *PaymentMethodConfigurationCreateMobilepayParams `form:"mobilepay" json:"mobilepay,omitempty"`
 	// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
-	Multibanco *PaymentMethodConfigurationCreateMultibancoParams `form:"multibanco"`
+	Multibanco *PaymentMethodConfigurationCreateMultibancoParams `form:"multibanco" json:"multibanco,omitempty"`
 	// Configuration name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Naver Pay is a popular local wallet available in South Korea.
-	NaverPay *PaymentMethodConfigurationCreateNaverPayParams `form:"naver_pay"`
+	NaverPay *PaymentMethodConfigurationCreateNaverPayParams `form:"naver_pay" json:"naver_pay,omitempty"`
 	// Stripe users in New Zealand can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with a New Zeland bank account. Check this [page](https://docs.stripe.com/payments/nz-bank-account) for more details.
-	NzBankAccount *PaymentMethodConfigurationCreateNzBankAccountParams `form:"nz_bank_account"`
+	NzBankAccount *PaymentMethodConfigurationCreateNzBankAccountParams `form:"nz_bank_account" json:"nz_bank_account,omitempty"`
 	// OXXO is a Mexican chain of convenience stores with thousands of locations across Latin America and represents nearly 20% of online transactions in Mexico. OXXO allows customers to pay bills and online purchases in-store with cash. Check this [page](https://docs.stripe.com/payments/oxxo) for more details.
-	OXXO *PaymentMethodConfigurationCreateOXXOParams `form:"oxxo"`
+	OXXO *PaymentMethodConfigurationCreateOXXOParams `form:"oxxo" json:"oxxo,omitempty"`
 	// Przelewy24 is a Poland-based payment method aggregator that allows customers to complete transactions online using bank transfers and other methods. Bank transfers account for 30% of online payments in Poland and Przelewy24 provides a way for customers to pay with over 165 banks. Check this [page](https://docs.stripe.com/payments/p24) for more details.
-	P24 *PaymentMethodConfigurationCreateP24Params `form:"p24"`
+	P24 *PaymentMethodConfigurationCreateP24Params `form:"p24" json:"p24,omitempty"`
 	// Configuration's parent configuration. Specify to create a child configuration.
-	Parent *string `form:"parent"`
+	Parent *string `form:"parent" json:"parent,omitempty"`
 	// Pay by bank is a redirect payment method backed by bank transfers. A customer is redirected to their bank to authorize a bank transfer for a given amount. This removes a lot of the error risks inherent in waiting for the customer to initiate a transfer themselves, and is less expensive than card payments.
-	PayByBank *PaymentMethodConfigurationCreatePayByBankParams `form:"pay_by_bank"`
+	PayByBank *PaymentMethodConfigurationCreatePayByBankParams `form:"pay_by_bank" json:"pay_by_bank,omitempty"`
 	// PAYCO is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
-	Payco *PaymentMethodConfigurationCreatePaycoParams `form:"payco"`
+	Payco *PaymentMethodConfigurationCreatePaycoParams `form:"payco" json:"payco,omitempty"`
 	// PayNow is a Singapore-based payment method that allows customers to make a payment using their preferred app from participating banks and participating non-bank financial institutions. Check this [page](https://docs.stripe.com/payments/paynow) for more details.
-	PayNow *PaymentMethodConfigurationCreatePayNowParams `form:"paynow"`
+	PayNow *PaymentMethodConfigurationCreatePayNowParams `form:"paynow" json:"paynow,omitempty"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://docs.stripe.com/payments/paypal) for more details.
-	Paypal *PaymentMethodConfigurationCreatePaypalParams `form:"paypal"`
+	Paypal *PaymentMethodConfigurationCreatePaypalParams `form:"paypal" json:"paypal,omitempty"`
 	// Customers can pay with PayPay online or using the PayPay app.
-	Paypay *PaymentMethodConfigurationCreatePaypayParams `form:"paypay"`
+	Paypay *PaymentMethodConfigurationCreatePaypayParams `form:"paypay" json:"paypay,omitempty"`
 	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
-	Payto *PaymentMethodConfigurationCreatePaytoParams `form:"payto"`
+	Payto *PaymentMethodConfigurationCreatePaytoParams `form:"payto" json:"payto,omitempty"`
 	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
-	Pix *PaymentMethodConfigurationCreatePixParams `form:"pix"`
+	Pix *PaymentMethodConfigurationCreatePixParams `form:"pix" json:"pix,omitempty"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://docs.stripe.com/payments/promptpay) for more details.
-	PromptPay *PaymentMethodConfigurationCreatePromptPayParams `form:"promptpay"`
+	PromptPay *PaymentMethodConfigurationCreatePromptPayParams `form:"promptpay" json:"promptpay,omitempty"`
 	// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
-	Qris *PaymentMethodConfigurationCreateQrisParams `form:"qris"`
+	Qris *PaymentMethodConfigurationCreateQrisParams `form:"qris" json:"qris,omitempty"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
-	RevolutPay *PaymentMethodConfigurationCreateRevolutPayParams `form:"revolut_pay"`
+	RevolutPay *PaymentMethodConfigurationCreateRevolutPayParams `form:"revolut_pay" json:"revolut_pay,omitempty"`
 	// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
-	SamsungPay *PaymentMethodConfigurationCreateSamsungPayParams `form:"samsung_pay"`
+	SamsungPay *PaymentMethodConfigurationCreateSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
-	Satispay *PaymentMethodConfigurationCreateSatispayParams `form:"satispay"`
+	Satispay *PaymentMethodConfigurationCreateSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
-	SEPADebit *PaymentMethodConfigurationCreateSEPADebitParams `form:"sepa_debit"`
+	SEPADebit *PaymentMethodConfigurationCreateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ShopeePay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
-	Shopeepay *PaymentMethodConfigurationCreateShopeepayParams `form:"shopeepay"`
+	Shopeepay *PaymentMethodConfigurationCreateShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
-	Sofort *PaymentMethodConfigurationCreateSofortParams `form:"sofort"`
+	Sofort *PaymentMethodConfigurationCreateSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
-	Swish *PaymentMethodConfigurationCreateSwishParams `form:"swish"`
+	Swish *PaymentMethodConfigurationCreateSwishParams `form:"swish" json:"swish,omitempty"`
 	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
-	TWINT *PaymentMethodConfigurationCreateTWINTParams `form:"twint"`
+	TWINT *PaymentMethodConfigurationCreateTWINTParams `form:"twint" json:"twint,omitempty"`
 	// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
-	USBankAccount *PaymentMethodConfigurationCreateUSBankAccountParams `form:"us_bank_account"`
+	USBankAccount *PaymentMethodConfigurationCreateUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
-	WeChatPay *PaymentMethodConfigurationCreateWeChatPayParams `form:"wechat_pay"`
+	WeChatPay *PaymentMethodConfigurationCreateWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
-	Zip *PaymentMethodConfigurationCreateZipParams `form:"zip"`
+	Zip *PaymentMethodConfigurationCreateZipParams `form:"zip" json:"zip,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -2887,7 +2887,7 @@ func (p *PaymentMethodConfigurationCreateParams) AddExpand(f string) {
 type PaymentMethodConfigurationRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -2898,866 +2898,866 @@ func (p *PaymentMethodConfigurationRetrieveParams) AddExpand(f string) {
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateACSSDebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Canadian pre-authorized debit payments, check this [page](https://docs.stripe.com/payments/acss-debit) for more details like country availability.
 type PaymentMethodConfigurationUpdateACSSDebitParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateACSSDebitDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateACSSDebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateAffirmDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // [Affirm](https://www.affirm.com/) gives your customers a way to split purchases over a series of payments. Depending on the purchase, they can pay with four interest-free payments (Split Pay) or pay over a longer term (Installments), which might include interest. Check this [page](https://docs.stripe.com/payments/affirm) for more details like country availability.
 type PaymentMethodConfigurationUpdateAffirmParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateAffirmDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateAffirmDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateAfterpayClearpayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Afterpay gives your customers a way to pay for purchases in installments, check this [page](https://docs.stripe.com/payments/afterpay-clearpay) for more details like country availability. Afterpay is particularly popular among businesses selling fashion, beauty, and sports products.
 type PaymentMethodConfigurationUpdateAfterpayClearpayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateAfterpayClearpayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateAfterpayClearpayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateAlipayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Alipay is a digital wallet in China that has more than a billion active users worldwide. Alipay users can pay on the web or on a mobile device using login credentials or their Alipay app. Alipay has a low dispute rate and reduces fraud by authenticating payments using the customer's login credentials. Check this [page](https://docs.stripe.com/payments/alipay) for more details.
 type PaymentMethodConfigurationUpdateAlipayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateAlipayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateAlipayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateAlmaDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Alma is a Buy Now, Pay Later payment method that offers customers the ability to pay in 2, 3, or 4 installments.
 type PaymentMethodConfigurationUpdateAlmaParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateAlmaDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateAlmaDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateAmazonPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
 type PaymentMethodConfigurationUpdateAmazonPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateAmazonPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateAmazonPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateApplePayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://docs.stripe.com/apple-pay) for more details.
 type PaymentMethodConfigurationUpdateApplePayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateApplePayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateApplePayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateApplePayLaterDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
 type PaymentMethodConfigurationUpdateApplePayLaterParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateApplePayLaterDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateApplePayLaterDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateAUBECSDebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in Australia can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with an Australian bank account. Check this [page](https://docs.stripe.com/payments/au-becs-debit) for more details.
 type PaymentMethodConfigurationUpdateAUBECSDebitParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateAUBECSDebitDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateAUBECSDebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateBACSDebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in the UK can accept Bacs Direct Debit payments from customers with a UK bank account, check this [page](https://docs.stripe.com/payments/payment-methods/bacs-debit) for more details.
 type PaymentMethodConfigurationUpdateBACSDebitParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateBACSDebitDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateBACSDebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateBancontactDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://docs.stripe.com/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://docs.stripe.com/payments/bancontact) for more details.
 type PaymentMethodConfigurationUpdateBancontactParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateBancontactDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateBancontactDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateBillieDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationUpdateBillieParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateBillieDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateBillieDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateBLIKDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // BLIK is a [single use](https://docs.stripe.com/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://docs.stripe.com/payments/blik) for more details.
 type PaymentMethodConfigurationUpdateBLIKParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateBLIKDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateBLIKDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateBoletoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Boleto is an official (regulated by the Central Bank of Brazil) payment method in Brazil. Check this [page](https://docs.stripe.com/payments/boleto) for more details.
 type PaymentMethodConfigurationUpdateBoletoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateBoletoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateBoletoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateCardDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Cards are a popular way for consumers and businesses to pay online or in person. Stripe supports global and local card networks.
 type PaymentMethodConfigurationUpdateCardParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateCardDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateCardDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateCartesBancairesDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Cartes Bancaires is France's local card network. More than 95% of these cards are co-branded with either Visa or Mastercard, meaning you can process these cards over either Cartes Bancaires or the Visa or Mastercard networks. Check this [page](https://docs.stripe.com/payments/cartes-bancaires) for more details.
 type PaymentMethodConfigurationUpdateCartesBancairesParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateCartesBancairesDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateCartesBancairesDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateCashAppDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Cash App is a popular consumer app in the US that allows customers to bank, invest, send, and receive money using their digital wallet. Check this [page](https://docs.stripe.com/payments/cash-app-pay) for more details.
 type PaymentMethodConfigurationUpdateCashAppParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateCashAppDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateCashAppDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateCryptoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // [Stablecoin payments](https://docs.stripe.com/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
 type PaymentMethodConfigurationUpdateCryptoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateCryptoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateCryptoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateCustomerBalanceDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Uses a customer's [cash balance](https://docs.stripe.com/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://docs.stripe.com/payments/bank-transfers) for more details.
 type PaymentMethodConfigurationUpdateCustomerBalanceParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateCustomerBalanceDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateCustomerBalanceDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateEPSDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://docs.stripe.com/payments/eps) for more details.
 type PaymentMethodConfigurationUpdateEPSParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateEPSDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateEPSDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateFPXDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Financial Process Exchange (FPX) is a Malaysia-based payment method that allows customers to complete transactions online using their bank credentials. Bank Negara Malaysia (BNM), the Central Bank of Malaysia, and eleven other major Malaysian financial institutions are members of the PayNet Group, which owns and operates FPX. It is one of the most popular online payment methods in Malaysia, with nearly 90 million transactions in 2018 according to BNM. Check this [page](https://docs.stripe.com/payments/fpx) for more details.
 type PaymentMethodConfigurationUpdateFPXParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateFPXDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateFPXDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateFRMealVoucherConecsDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/meal-vouchers/fr-meal-vouchers) for more details.
 type PaymentMethodConfigurationUpdateFRMealVoucherConecsParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateFRMealVoucherConecsDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateFRMealVoucherConecsDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateGiropayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // giropay is a German payment method based on online banking, introduced in 2006. It allows customers to complete transactions online using their online banking environment, with funds debited from their bank account. Depending on their bank, customers confirm payments on giropay using a second factor of authentication or a PIN. giropay accounts for 10% of online checkouts in Germany. Check this [page](https://docs.stripe.com/payments/giropay) for more details.
 type PaymentMethodConfigurationUpdateGiropayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateGiropayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateGiropayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateGooglePayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Google Pay allows customers to make payments in your app or website using any credit or debit card saved to their Google Account, including those from Google Play, YouTube, Chrome, or an Android device. Use the Google Pay API to request any credit or debit card stored in your customer's Google account. Check this [page](https://docs.stripe.com/google-pay) for more details.
 type PaymentMethodConfigurationUpdateGooglePayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateGooglePayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateGooglePayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateGopayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // GoPay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Gojek app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Gojek app to confirm payment.
 type PaymentMethodConfigurationUpdateGopayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateGopayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateGopayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateGrabpayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // GrabPay is a payment method developed by [Grab](https://www.grab.com/sg/consumer/finance/pay/). GrabPay is a digital wallet - customers maintain a balance in their wallets that they pay out with. Check this [page](https://docs.stripe.com/payments/grabpay) for more details.
 type PaymentMethodConfigurationUpdateGrabpayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateGrabpayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateGrabpayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateIDBankTransferDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
 type PaymentMethodConfigurationUpdateIDBankTransferParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateIDBankTransferDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateIDBankTransferDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateIDEALDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // iDEAL is a Netherlands-based payment method that allows customers to complete transactions online using their bank credentials. All major Dutch banks are members of Currence, the scheme that operates iDEAL, making it the most popular online payment method in the Netherlands with a share of online transactions close to 55%. Check this [page](https://docs.stripe.com/payments/ideal) for more details.
 type PaymentMethodConfigurationUpdateIDEALParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateIDEALDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateIDEALDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateJCBDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in Australia, Canada, Hong Kong, Japan, New Zealand, Singapore, Switzerland, United Kingdom, United States, and all countries in the European Economic Area except Iceland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
 type PaymentMethodConfigurationUpdateJCBParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateJCBDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateJCBDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateKakaoPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Kakao Pay is a popular local wallet available in South Korea.
 type PaymentMethodConfigurationUpdateKakaoPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateKakaoPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateKakaoPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateKlarnaDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Klarna gives customers a range of [payment options](https://docs.stripe.com/payments/klarna#payment-options) during checkout. Available payment options vary depending on the customer's billing address and the transaction amount. These payment options make it convenient for customers to purchase items in all price ranges. Check this [page](https://docs.stripe.com/payments/klarna) for more details.
 type PaymentMethodConfigurationUpdateKlarnaParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateKlarnaDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateKlarnaDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateKonbiniDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Konbini allows customers in Japan to pay for bills and online purchases at convenience stores with cash. Check this [page](https://docs.stripe.com/payments/konbini) for more details.
 type PaymentMethodConfigurationUpdateKonbiniParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateKonbiniDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateKonbiniDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateKrCardDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Korean cards let users pay using locally issued cards from South Korea.
 type PaymentMethodConfigurationUpdateKrCardParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateKrCardDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateKrCardDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateLinkDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // [Link](https://docs.stripe.com/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
 type PaymentMethodConfigurationUpdateLinkParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateLinkDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateLinkDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateMbWayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://docs.stripe.com/payments/mb-way) for more details.
 type PaymentMethodConfigurationUpdateMbWayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateMbWayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateMbWayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateMobilepayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // MobilePay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://docs.stripe.com/payments/mobilepay) for more details.
 type PaymentMethodConfigurationUpdateMobilepayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateMobilepayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateMobilepayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateMultibancoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
 type PaymentMethodConfigurationUpdateMultibancoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateMultibancoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateMultibancoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateNaverPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Naver Pay is a popular local wallet available in South Korea.
 type PaymentMethodConfigurationUpdateNaverPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateNaverPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateNaverPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateNzBankAccountDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in New Zealand can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with a New Zeland bank account. Check this [page](https://docs.stripe.com/payments/nz-bank-account) for more details.
 type PaymentMethodConfigurationUpdateNzBankAccountParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateNzBankAccountDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateNzBankAccountDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateOXXODisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // OXXO is a Mexican chain of convenience stores with thousands of locations across Latin America and represents nearly 20% of online transactions in Mexico. OXXO allows customers to pay bills and online purchases in-store with cash. Check this [page](https://docs.stripe.com/payments/oxxo) for more details.
 type PaymentMethodConfigurationUpdateOXXOParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateOXXODisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateOXXODisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateP24DisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Przelewy24 is a Poland-based payment method aggregator that allows customers to complete transactions online using bank transfers and other methods. Bank transfers account for 30% of online payments in Poland and Przelewy24 provides a way for customers to pay with over 165 banks. Check this [page](https://docs.stripe.com/payments/p24) for more details.
 type PaymentMethodConfigurationUpdateP24Params struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateP24DisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateP24DisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdatePayByBankDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Pay by bank is a redirect payment method backed by bank transfers. A customer is redirected to their bank to authorize a bank transfer for a given amount. This removes a lot of the error risks inherent in waiting for the customer to initiate a transfer themselves, and is less expensive than card payments.
 type PaymentMethodConfigurationUpdatePayByBankParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdatePayByBankDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdatePayByBankDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdatePaycoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PAYCO is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
 type PaymentMethodConfigurationUpdatePaycoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdatePaycoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdatePaycoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdatePayNowDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PayNow is a Singapore-based payment method that allows customers to make a payment using their preferred app from participating banks and participating non-bank financial institutions. Check this [page](https://docs.stripe.com/payments/paynow) for more details.
 type PaymentMethodConfigurationUpdatePayNowParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdatePayNowDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdatePayNowDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdatePaypalDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://docs.stripe.com/payments/paypal) for more details.
 type PaymentMethodConfigurationUpdatePaypalParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdatePaypalDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdatePaypalDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdatePaypayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Customers can pay with PayPay online or using the PayPay app.
 type PaymentMethodConfigurationUpdatePaypayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdatePaypayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdatePaypayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdatePaytoDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
 type PaymentMethodConfigurationUpdatePaytoParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdatePaytoDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdatePaytoDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdatePixDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
 type PaymentMethodConfigurationUpdatePixParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdatePixDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdatePixDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdatePromptPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://docs.stripe.com/payments/promptpay) for more details.
 type PaymentMethodConfigurationUpdatePromptPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdatePromptPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdatePromptPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateQrisDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
 type PaymentMethodConfigurationUpdateQrisParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateQrisDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateQrisDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateRevolutPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
 type PaymentMethodConfigurationUpdateRevolutPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateRevolutPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateRevolutPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateSamsungPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
 type PaymentMethodConfigurationUpdateSamsungPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateSamsungPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateSamsungPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateSatispayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationUpdateSatispayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateSatispayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateSatispayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateSEPADebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
 type PaymentMethodConfigurationUpdateSEPADebitParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateSEPADebitDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateSEPADebitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateShopeepayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // ShopeePay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
 type PaymentMethodConfigurationUpdateShopeepayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateShopeepayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateShopeepayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateSofortDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
 type PaymentMethodConfigurationUpdateSofortParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateSofortDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateSofortDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateSwishDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
 type PaymentMethodConfigurationUpdateSwishParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateSwishDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateSwishDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateTWINTDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
 type PaymentMethodConfigurationUpdateTWINTParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateTWINTDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateTWINTDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateUSBankAccountDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
 type PaymentMethodConfigurationUpdateUSBankAccountParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateUSBankAccountDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateUSBankAccountDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateWeChatPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
 type PaymentMethodConfigurationUpdateWeChatPayParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateWeChatPayDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateWeChatPayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateZipDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
-	Preference *string `form:"preference"`
+	Preference *string `form:"preference" json:"preference,omitempty"`
 }
 
 // Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
 type PaymentMethodConfigurationUpdateZipParams struct {
 	// Whether or not the payment method should be displayed.
-	DisplayPreference *PaymentMethodConfigurationUpdateZipDisplayPreferenceParams `form:"display_preference"`
+	DisplayPreference *PaymentMethodConfigurationUpdateZipDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Update payment method configuration
 type PaymentMethodConfigurationUpdateParams struct {
 	Params `form:"*"`
 	// Canadian pre-authorized debit payments, check this [page](https://docs.stripe.com/payments/acss-debit) for more details like country availability.
-	ACSSDebit *PaymentMethodConfigurationUpdateACSSDebitParams `form:"acss_debit"`
+	ACSSDebit *PaymentMethodConfigurationUpdateACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// Whether the configuration can be used for new payments.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// [Affirm](https://www.affirm.com/) gives your customers a way to split purchases over a series of payments. Depending on the purchase, they can pay with four interest-free payments (Split Pay) or pay over a longer term (Installments), which might include interest. Check this [page](https://docs.stripe.com/payments/affirm) for more details like country availability.
-	Affirm *PaymentMethodConfigurationUpdateAffirmParams `form:"affirm"`
+	Affirm *PaymentMethodConfigurationUpdateAffirmParams `form:"affirm" json:"affirm,omitempty"`
 	// Afterpay gives your customers a way to pay for purchases in installments, check this [page](https://docs.stripe.com/payments/afterpay-clearpay) for more details like country availability. Afterpay is particularly popular among businesses selling fashion, beauty, and sports products.
-	AfterpayClearpay *PaymentMethodConfigurationUpdateAfterpayClearpayParams `form:"afterpay_clearpay"`
+	AfterpayClearpay *PaymentMethodConfigurationUpdateAfterpayClearpayParams `form:"afterpay_clearpay" json:"afterpay_clearpay,omitempty"`
 	// Alipay is a digital wallet in China that has more than a billion active users worldwide. Alipay users can pay on the web or on a mobile device using login credentials or their Alipay app. Alipay has a low dispute rate and reduces fraud by authenticating payments using the customer's login credentials. Check this [page](https://docs.stripe.com/payments/alipay) for more details.
-	Alipay *PaymentMethodConfigurationUpdateAlipayParams `form:"alipay"`
+	Alipay *PaymentMethodConfigurationUpdateAlipayParams `form:"alipay" json:"alipay,omitempty"`
 	// Alma is a Buy Now, Pay Later payment method that offers customers the ability to pay in 2, 3, or 4 installments.
-	Alma *PaymentMethodConfigurationUpdateAlmaParams `form:"alma"`
+	Alma *PaymentMethodConfigurationUpdateAlmaParams `form:"alma" json:"alma,omitempty"`
 	// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
-	AmazonPay *PaymentMethodConfigurationUpdateAmazonPayParams `form:"amazon_pay"`
+	AmazonPay *PaymentMethodConfigurationUpdateAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://docs.stripe.com/apple-pay) for more details.
-	ApplePay *PaymentMethodConfigurationUpdateApplePayParams `form:"apple_pay"`
+	ApplePay *PaymentMethodConfigurationUpdateApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
 	// Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
-	ApplePayLater *PaymentMethodConfigurationUpdateApplePayLaterParams `form:"apple_pay_later"`
+	ApplePayLater *PaymentMethodConfigurationUpdateApplePayLaterParams `form:"apple_pay_later" json:"apple_pay_later,omitempty"`
 	// Stripe users in Australia can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with an Australian bank account. Check this [page](https://docs.stripe.com/payments/au-becs-debit) for more details.
-	AUBECSDebit *PaymentMethodConfigurationUpdateAUBECSDebitParams `form:"au_becs_debit"`
+	AUBECSDebit *PaymentMethodConfigurationUpdateAUBECSDebitParams `form:"au_becs_debit" json:"au_becs_debit,omitempty"`
 	// Stripe users in the UK can accept Bacs Direct Debit payments from customers with a UK bank account, check this [page](https://docs.stripe.com/payments/payment-methods/bacs-debit) for more details.
-	BACSDebit *PaymentMethodConfigurationUpdateBACSDebitParams `form:"bacs_debit"`
+	BACSDebit *PaymentMethodConfigurationUpdateBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
 	// Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://docs.stripe.com/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://docs.stripe.com/payments/bancontact) for more details.
-	Bancontact *PaymentMethodConfigurationUpdateBancontactParams `form:"bancontact"`
+	Bancontact *PaymentMethodConfigurationUpdateBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
-	Billie *PaymentMethodConfigurationUpdateBillieParams `form:"billie"`
+	Billie *PaymentMethodConfigurationUpdateBillieParams `form:"billie" json:"billie,omitempty"`
 	// BLIK is a [single use](https://docs.stripe.com/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://docs.stripe.com/payments/blik) for more details.
-	BLIK *PaymentMethodConfigurationUpdateBLIKParams `form:"blik"`
+	BLIK *PaymentMethodConfigurationUpdateBLIKParams `form:"blik" json:"blik,omitempty"`
 	// Boleto is an official (regulated by the Central Bank of Brazil) payment method in Brazil. Check this [page](https://docs.stripe.com/payments/boleto) for more details.
-	Boleto *PaymentMethodConfigurationUpdateBoletoParams `form:"boleto"`
+	Boleto *PaymentMethodConfigurationUpdateBoletoParams `form:"boleto" json:"boleto,omitempty"`
 	// Cards are a popular way for consumers and businesses to pay online or in person. Stripe supports global and local card networks.
-	Card *PaymentMethodConfigurationUpdateCardParams `form:"card"`
+	Card *PaymentMethodConfigurationUpdateCardParams `form:"card" json:"card,omitempty"`
 	// Cartes Bancaires is France's local card network. More than 95% of these cards are co-branded with either Visa or Mastercard, meaning you can process these cards over either Cartes Bancaires or the Visa or Mastercard networks. Check this [page](https://docs.stripe.com/payments/cartes-bancaires) for more details.
-	CartesBancaires *PaymentMethodConfigurationUpdateCartesBancairesParams `form:"cartes_bancaires"`
+	CartesBancaires *PaymentMethodConfigurationUpdateCartesBancairesParams `form:"cartes_bancaires" json:"cartes_bancaires,omitempty"`
 	// Cash App is a popular consumer app in the US that allows customers to bank, invest, send, and receive money using their digital wallet. Check this [page](https://docs.stripe.com/payments/cash-app-pay) for more details.
-	CashApp *PaymentMethodConfigurationUpdateCashAppParams `form:"cashapp"`
+	CashApp *PaymentMethodConfigurationUpdateCashAppParams `form:"cashapp" json:"cashapp,omitempty"`
 	// [Stablecoin payments](https://docs.stripe.com/payments/stablecoin-payments) enable customers to pay in stablecoins like USDC from 100s of wallets including Phantom and Metamask.
-	Crypto *PaymentMethodConfigurationUpdateCryptoParams `form:"crypto"`
+	Crypto *PaymentMethodConfigurationUpdateCryptoParams `form:"crypto" json:"crypto,omitempty"`
 	// Uses a customer's [cash balance](https://docs.stripe.com/payments/customer-balance) for the payment. The cash balance can be funded via a bank transfer. Check this [page](https://docs.stripe.com/payments/bank-transfers) for more details.
-	CustomerBalance *PaymentMethodConfigurationUpdateCustomerBalanceParams `form:"customer_balance"`
+	CustomerBalance *PaymentMethodConfigurationUpdateCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// EPS is an Austria-based payment method that allows customers to complete transactions online using their bank credentials. EPS is supported by all Austrian banks and is accepted by over 80% of Austrian online retailers. Check this [page](https://docs.stripe.com/payments/eps) for more details.
-	EPS *PaymentMethodConfigurationUpdateEPSParams `form:"eps"`
+	EPS *PaymentMethodConfigurationUpdateEPSParams `form:"eps" json:"eps,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Financial Process Exchange (FPX) is a Malaysia-based payment method that allows customers to complete transactions online using their bank credentials. Bank Negara Malaysia (BNM), the Central Bank of Malaysia, and eleven other major Malaysian financial institutions are members of the PayNet Group, which owns and operates FPX. It is one of the most popular online payment methods in Malaysia, with nearly 90 million transactions in 2018 according to BNM. Check this [page](https://docs.stripe.com/payments/fpx) for more details.
-	FPX *PaymentMethodConfigurationUpdateFPXParams `form:"fpx"`
+	FPX *PaymentMethodConfigurationUpdateFPXParams `form:"fpx" json:"fpx,omitempty"`
 	// Meal vouchers in France, or “titres-restaurant”, is a local benefits program commonly offered by employers for their employees to purchase prepared food and beverages on working days. Check this [page](https://docs.stripe.com/payments/meal-vouchers/fr-meal-vouchers) for more details.
-	FRMealVoucherConecs *PaymentMethodConfigurationUpdateFRMealVoucherConecsParams `form:"fr_meal_voucher_conecs"`
+	FRMealVoucherConecs *PaymentMethodConfigurationUpdateFRMealVoucherConecsParams `form:"fr_meal_voucher_conecs" json:"fr_meal_voucher_conecs,omitempty"`
 	// giropay is a German payment method based on online banking, introduced in 2006. It allows customers to complete transactions online using their online banking environment, with funds debited from their bank account. Depending on their bank, customers confirm payments on giropay using a second factor of authentication or a PIN. giropay accounts for 10% of online checkouts in Germany. Check this [page](https://docs.stripe.com/payments/giropay) for more details.
-	Giropay *PaymentMethodConfigurationUpdateGiropayParams `form:"giropay"`
+	Giropay *PaymentMethodConfigurationUpdateGiropayParams `form:"giropay" json:"giropay,omitempty"`
 	// Google Pay allows customers to make payments in your app or website using any credit or debit card saved to their Google Account, including those from Google Play, YouTube, Chrome, or an Android device. Use the Google Pay API to request any credit or debit card stored in your customer's Google account. Check this [page](https://docs.stripe.com/google-pay) for more details.
-	GooglePay *PaymentMethodConfigurationUpdateGooglePayParams `form:"google_pay"`
+	GooglePay *PaymentMethodConfigurationUpdateGooglePayParams `form:"google_pay" json:"google_pay,omitempty"`
 	// GoPay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Gojek app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Gojek app to confirm payment.
-	Gopay *PaymentMethodConfigurationUpdateGopayParams `form:"gopay"`
+	Gopay *PaymentMethodConfigurationUpdateGopayParams `form:"gopay" json:"gopay,omitempty"`
 	// GrabPay is a payment method developed by [Grab](https://www.grab.com/sg/consumer/finance/pay/). GrabPay is a digital wallet - customers maintain a balance in their wallets that they pay out with. Check this [page](https://docs.stripe.com/payments/grabpay) for more details.
-	Grabpay *PaymentMethodConfigurationUpdateGrabpayParams `form:"grabpay"`
+	Grabpay *PaymentMethodConfigurationUpdateGrabpayParams `form:"grabpay" json:"grabpay,omitempty"`
 	// Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
-	IDBankTransfer *PaymentMethodConfigurationUpdateIDBankTransferParams `form:"id_bank_transfer"`
+	IDBankTransfer *PaymentMethodConfigurationUpdateIDBankTransferParams `form:"id_bank_transfer" json:"id_bank_transfer,omitempty"`
 	// iDEAL is a Netherlands-based payment method that allows customers to complete transactions online using their bank credentials. All major Dutch banks are members of Currence, the scheme that operates iDEAL, making it the most popular online payment method in the Netherlands with a share of online transactions close to 55%. Check this [page](https://docs.stripe.com/payments/ideal) for more details.
-	IDEAL *PaymentMethodConfigurationUpdateIDEALParams `form:"ideal"`
+	IDEAL *PaymentMethodConfigurationUpdateIDEALParams `form:"ideal" json:"ideal,omitempty"`
 	// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in Australia, Canada, Hong Kong, Japan, New Zealand, Singapore, Switzerland, United Kingdom, United States, and all countries in the European Economic Area except Iceland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
-	JCB *PaymentMethodConfigurationUpdateJCBParams `form:"jcb"`
+	JCB *PaymentMethodConfigurationUpdateJCBParams `form:"jcb" json:"jcb,omitempty"`
 	// Kakao Pay is a popular local wallet available in South Korea.
-	KakaoPay *PaymentMethodConfigurationUpdateKakaoPayParams `form:"kakao_pay"`
+	KakaoPay *PaymentMethodConfigurationUpdateKakaoPayParams `form:"kakao_pay" json:"kakao_pay,omitempty"`
 	// Klarna gives customers a range of [payment options](https://docs.stripe.com/payments/klarna#payment-options) during checkout. Available payment options vary depending on the customer's billing address and the transaction amount. These payment options make it convenient for customers to purchase items in all price ranges. Check this [page](https://docs.stripe.com/payments/klarna) for more details.
-	Klarna *PaymentMethodConfigurationUpdateKlarnaParams `form:"klarna"`
+	Klarna *PaymentMethodConfigurationUpdateKlarnaParams `form:"klarna" json:"klarna,omitempty"`
 	// Konbini allows customers in Japan to pay for bills and online purchases at convenience stores with cash. Check this [page](https://docs.stripe.com/payments/konbini) for more details.
-	Konbini *PaymentMethodConfigurationUpdateKonbiniParams `form:"konbini"`
+	Konbini *PaymentMethodConfigurationUpdateKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// Korean cards let users pay using locally issued cards from South Korea.
-	KrCard *PaymentMethodConfigurationUpdateKrCardParams `form:"kr_card"`
+	KrCard *PaymentMethodConfigurationUpdateKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
 	// [Link](https://docs.stripe.com/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
-	Link *PaymentMethodConfigurationUpdateLinkParams `form:"link"`
+	Link *PaymentMethodConfigurationUpdateLinkParams `form:"link" json:"link,omitempty"`
 	// MB WAY is the most popular wallet in Portugal. After entering their phone number in your checkout, customers approve the payment directly in their MB WAY app. Check this [page](https://docs.stripe.com/payments/mb-way) for more details.
-	MbWay *PaymentMethodConfigurationUpdateMbWayParams `form:"mb_way"`
+	MbWay *PaymentMethodConfigurationUpdateMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
 	// MobilePay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://docs.stripe.com/payments/mobilepay) for more details.
-	Mobilepay *PaymentMethodConfigurationUpdateMobilepayParams `form:"mobilepay"`
+	Mobilepay *PaymentMethodConfigurationUpdateMobilepayParams `form:"mobilepay" json:"mobilepay,omitempty"`
 	// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
-	Multibanco *PaymentMethodConfigurationUpdateMultibancoParams `form:"multibanco"`
+	Multibanco *PaymentMethodConfigurationUpdateMultibancoParams `form:"multibanco" json:"multibanco,omitempty"`
 	// Configuration name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Naver Pay is a popular local wallet available in South Korea.
-	NaverPay *PaymentMethodConfigurationUpdateNaverPayParams `form:"naver_pay"`
+	NaverPay *PaymentMethodConfigurationUpdateNaverPayParams `form:"naver_pay" json:"naver_pay,omitempty"`
 	// Stripe users in New Zealand can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with a New Zeland bank account. Check this [page](https://docs.stripe.com/payments/nz-bank-account) for more details.
-	NzBankAccount *PaymentMethodConfigurationUpdateNzBankAccountParams `form:"nz_bank_account"`
+	NzBankAccount *PaymentMethodConfigurationUpdateNzBankAccountParams `form:"nz_bank_account" json:"nz_bank_account,omitempty"`
 	// OXXO is a Mexican chain of convenience stores with thousands of locations across Latin America and represents nearly 20% of online transactions in Mexico. OXXO allows customers to pay bills and online purchases in-store with cash. Check this [page](https://docs.stripe.com/payments/oxxo) for more details.
-	OXXO *PaymentMethodConfigurationUpdateOXXOParams `form:"oxxo"`
+	OXXO *PaymentMethodConfigurationUpdateOXXOParams `form:"oxxo" json:"oxxo,omitempty"`
 	// Przelewy24 is a Poland-based payment method aggregator that allows customers to complete transactions online using bank transfers and other methods. Bank transfers account for 30% of online payments in Poland and Przelewy24 provides a way for customers to pay with over 165 banks. Check this [page](https://docs.stripe.com/payments/p24) for more details.
-	P24 *PaymentMethodConfigurationUpdateP24Params `form:"p24"`
+	P24 *PaymentMethodConfigurationUpdateP24Params `form:"p24" json:"p24,omitempty"`
 	// Pay by bank is a redirect payment method backed by bank transfers. A customer is redirected to their bank to authorize a bank transfer for a given amount. This removes a lot of the error risks inherent in waiting for the customer to initiate a transfer themselves, and is less expensive than card payments.
-	PayByBank *PaymentMethodConfigurationUpdatePayByBankParams `form:"pay_by_bank"`
+	PayByBank *PaymentMethodConfigurationUpdatePayByBankParams `form:"pay_by_bank" json:"pay_by_bank,omitempty"`
 	// PAYCO is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
-	Payco *PaymentMethodConfigurationUpdatePaycoParams `form:"payco"`
+	Payco *PaymentMethodConfigurationUpdatePaycoParams `form:"payco" json:"payco,omitempty"`
 	// PayNow is a Singapore-based payment method that allows customers to make a payment using their preferred app from participating banks and participating non-bank financial institutions. Check this [page](https://docs.stripe.com/payments/paynow) for more details.
-	PayNow *PaymentMethodConfigurationUpdatePayNowParams `form:"paynow"`
+	PayNow *PaymentMethodConfigurationUpdatePayNowParams `form:"paynow" json:"paynow,omitempty"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://docs.stripe.com/payments/paypal) for more details.
-	Paypal *PaymentMethodConfigurationUpdatePaypalParams `form:"paypal"`
+	Paypal *PaymentMethodConfigurationUpdatePaypalParams `form:"paypal" json:"paypal,omitempty"`
 	// Customers can pay with PayPay online or using the PayPay app.
-	Paypay *PaymentMethodConfigurationUpdatePaypayParams `form:"paypay"`
+	Paypay *PaymentMethodConfigurationUpdatePaypayParams `form:"paypay" json:"paypay,omitempty"`
 	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
-	Payto *PaymentMethodConfigurationUpdatePaytoParams `form:"payto"`
+	Payto *PaymentMethodConfigurationUpdatePaytoParams `form:"payto" json:"payto,omitempty"`
 	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
-	Pix *PaymentMethodConfigurationUpdatePixParams `form:"pix"`
+	Pix *PaymentMethodConfigurationUpdatePixParams `form:"pix" json:"pix,omitempty"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://docs.stripe.com/payments/promptpay) for more details.
-	PromptPay *PaymentMethodConfigurationUpdatePromptPayParams `form:"promptpay"`
+	PromptPay *PaymentMethodConfigurationUpdatePromptPayParams `form:"promptpay" json:"promptpay,omitempty"`
 	// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
-	Qris *PaymentMethodConfigurationUpdateQrisParams `form:"qris"`
+	Qris *PaymentMethodConfigurationUpdateQrisParams `form:"qris" json:"qris,omitempty"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
-	RevolutPay *PaymentMethodConfigurationUpdateRevolutPayParams `form:"revolut_pay"`
+	RevolutPay *PaymentMethodConfigurationUpdateRevolutPayParams `form:"revolut_pay" json:"revolut_pay,omitempty"`
 	// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
-	SamsungPay *PaymentMethodConfigurationUpdateSamsungPayParams `form:"samsung_pay"`
+	SamsungPay *PaymentMethodConfigurationUpdateSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
-	Satispay *PaymentMethodConfigurationUpdateSatispayParams `form:"satispay"`
+	Satispay *PaymentMethodConfigurationUpdateSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
-	SEPADebit *PaymentMethodConfigurationUpdateSEPADebitParams `form:"sepa_debit"`
+	SEPADebit *PaymentMethodConfigurationUpdateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ShopeePay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
-	Shopeepay *PaymentMethodConfigurationUpdateShopeepayParams `form:"shopeepay"`
+	Shopeepay *PaymentMethodConfigurationUpdateShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
-	Sofort *PaymentMethodConfigurationUpdateSofortParams `form:"sofort"`
+	Sofort *PaymentMethodConfigurationUpdateSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
-	Swish *PaymentMethodConfigurationUpdateSwishParams `form:"swish"`
+	Swish *PaymentMethodConfigurationUpdateSwishParams `form:"swish" json:"swish,omitempty"`
 	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
-	TWINT *PaymentMethodConfigurationUpdateTWINTParams `form:"twint"`
+	TWINT *PaymentMethodConfigurationUpdateTWINTParams `form:"twint" json:"twint,omitempty"`
 	// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
-	USBankAccount *PaymentMethodConfigurationUpdateUSBankAccountParams `form:"us_bank_account"`
+	USBankAccount *PaymentMethodConfigurationUpdateUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
-	WeChatPay *PaymentMethodConfigurationUpdateWeChatPayParams `form:"wechat_pay"`
+	WeChatPay *PaymentMethodConfigurationUpdateWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
-	Zip *PaymentMethodConfigurationUpdateZipParams `form:"zip"`
+	Zip *PaymentMethodConfigurationUpdateZipParams `form:"zip" json:"zip,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -4549,81 +4549,81 @@ type PaymentMethodConfigurationZip struct {
 // - [Multiple configurations for your Connect accounts](https://docs.stripe.com/connect/multiple-payment-method-configurations)
 type PaymentMethodConfiguration struct {
 	APIResource
-	ACSSDebit *PaymentMethodConfigurationACSSDebit `json:"acss_debit"`
+	ACSSDebit *PaymentMethodConfigurationACSSDebit `json:"acss_debit,omitempty"`
 	// Whether the configuration can be used for new payments.
 	Active           bool                                        `json:"active"`
-	Affirm           *PaymentMethodConfigurationAffirm           `json:"affirm"`
-	AfterpayClearpay *PaymentMethodConfigurationAfterpayClearpay `json:"afterpay_clearpay"`
-	Alipay           *PaymentMethodConfigurationAlipay           `json:"alipay"`
-	Alma             *PaymentMethodConfigurationAlma             `json:"alma"`
-	AmazonPay        *PaymentMethodConfigurationAmazonPay        `json:"amazon_pay"`
-	ApplePay         *PaymentMethodConfigurationApplePay         `json:"apple_pay"`
+	Affirm           *PaymentMethodConfigurationAffirm           `json:"affirm,omitempty"`
+	AfterpayClearpay *PaymentMethodConfigurationAfterpayClearpay `json:"afterpay_clearpay,omitempty"`
+	Alipay           *PaymentMethodConfigurationAlipay           `json:"alipay,omitempty"`
+	Alma             *PaymentMethodConfigurationAlma             `json:"alma,omitempty"`
+	AmazonPay        *PaymentMethodConfigurationAmazonPay        `json:"amazon_pay,omitempty"`
+	ApplePay         *PaymentMethodConfigurationApplePay         `json:"apple_pay,omitempty"`
 	// For child configs, the Connect application associated with the configuration.
 	Application     string                                     `json:"application"`
-	AUBECSDebit     *PaymentMethodConfigurationAUBECSDebit     `json:"au_becs_debit"`
-	BACSDebit       *PaymentMethodConfigurationBACSDebit       `json:"bacs_debit"`
-	Bancontact      *PaymentMethodConfigurationBancontact      `json:"bancontact"`
-	Billie          *PaymentMethodConfigurationBillie          `json:"billie"`
-	BLIK            *PaymentMethodConfigurationBLIK            `json:"blik"`
-	Boleto          *PaymentMethodConfigurationBoleto          `json:"boleto"`
-	Card            *PaymentMethodConfigurationCard            `json:"card"`
-	CartesBancaires *PaymentMethodConfigurationCartesBancaires `json:"cartes_bancaires"`
-	CashApp         *PaymentMethodConfigurationCashApp         `json:"cashapp"`
-	Crypto          *PaymentMethodConfigurationCrypto          `json:"crypto"`
-	CustomerBalance *PaymentMethodConfigurationCustomerBalance `json:"customer_balance"`
-	EPS             *PaymentMethodConfigurationEPS             `json:"eps"`
-	FPX             *PaymentMethodConfigurationFPX             `json:"fpx"`
-	Giropay         *PaymentMethodConfigurationGiropay         `json:"giropay"`
-	GooglePay       *PaymentMethodConfigurationGooglePay       `json:"google_pay"`
-	Gopay           *PaymentMethodConfigurationGopay           `json:"gopay"`
-	Grabpay         *PaymentMethodConfigurationGrabpay         `json:"grabpay"`
+	AUBECSDebit     *PaymentMethodConfigurationAUBECSDebit     `json:"au_becs_debit,omitempty"`
+	BACSDebit       *PaymentMethodConfigurationBACSDebit       `json:"bacs_debit,omitempty"`
+	Bancontact      *PaymentMethodConfigurationBancontact      `json:"bancontact,omitempty"`
+	Billie          *PaymentMethodConfigurationBillie          `json:"billie,omitempty"`
+	BLIK            *PaymentMethodConfigurationBLIK            `json:"blik,omitempty"`
+	Boleto          *PaymentMethodConfigurationBoleto          `json:"boleto,omitempty"`
+	Card            *PaymentMethodConfigurationCard            `json:"card,omitempty"`
+	CartesBancaires *PaymentMethodConfigurationCartesBancaires `json:"cartes_bancaires,omitempty"`
+	CashApp         *PaymentMethodConfigurationCashApp         `json:"cashapp,omitempty"`
+	Crypto          *PaymentMethodConfigurationCrypto          `json:"crypto,omitempty"`
+	CustomerBalance *PaymentMethodConfigurationCustomerBalance `json:"customer_balance,omitempty"`
+	EPS             *PaymentMethodConfigurationEPS             `json:"eps,omitempty"`
+	FPX             *PaymentMethodConfigurationFPX             `json:"fpx,omitempty"`
+	Giropay         *PaymentMethodConfigurationGiropay         `json:"giropay,omitempty"`
+	GooglePay       *PaymentMethodConfigurationGooglePay       `json:"google_pay,omitempty"`
+	Gopay           *PaymentMethodConfigurationGopay           `json:"gopay,omitempty"`
+	Grabpay         *PaymentMethodConfigurationGrabpay         `json:"grabpay,omitempty"`
 	// Unique identifier for the object.
 	ID             string                                    `json:"id"`
-	IDBankTransfer *PaymentMethodConfigurationIDBankTransfer `json:"id_bank_transfer"`
-	IDEAL          *PaymentMethodConfigurationIDEAL          `json:"ideal"`
+	IDBankTransfer *PaymentMethodConfigurationIDBankTransfer `json:"id_bank_transfer,omitempty"`
+	IDEAL          *PaymentMethodConfigurationIDEAL          `json:"ideal,omitempty"`
 	// The default configuration is used whenever a payment method configuration is not specified.
 	IsDefault bool                                `json:"is_default"`
-	JCB       *PaymentMethodConfigurationJCB      `json:"jcb"`
-	KakaoPay  *PaymentMethodConfigurationKakaoPay `json:"kakao_pay"`
-	Klarna    *PaymentMethodConfigurationKlarna   `json:"klarna"`
-	Konbini   *PaymentMethodConfigurationKonbini  `json:"konbini"`
-	KrCard    *PaymentMethodConfigurationKrCard   `json:"kr_card"`
-	Link      *PaymentMethodConfigurationLink     `json:"link"`
+	JCB       *PaymentMethodConfigurationJCB      `json:"jcb,omitempty"`
+	KakaoPay  *PaymentMethodConfigurationKakaoPay `json:"kakao_pay,omitempty"`
+	Klarna    *PaymentMethodConfigurationKlarna   `json:"klarna,omitempty"`
+	Konbini   *PaymentMethodConfigurationKonbini  `json:"konbini,omitempty"`
+	KrCard    *PaymentMethodConfigurationKrCard   `json:"kr_card,omitempty"`
+	Link      *PaymentMethodConfigurationLink     `json:"link,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode   bool                                  `json:"livemode"`
-	MbWay      *PaymentMethodConfigurationMbWay      `json:"mb_way"`
-	Mobilepay  *PaymentMethodConfigurationMobilepay  `json:"mobilepay"`
-	Multibanco *PaymentMethodConfigurationMultibanco `json:"multibanco"`
+	MbWay      *PaymentMethodConfigurationMbWay      `json:"mb_way,omitempty"`
+	Mobilepay  *PaymentMethodConfigurationMobilepay  `json:"mobilepay,omitempty"`
+	Multibanco *PaymentMethodConfigurationMultibanco `json:"multibanco,omitempty"`
 	// The configuration's name.
 	Name          string                                   `json:"name"`
-	NaverPay      *PaymentMethodConfigurationNaverPay      `json:"naver_pay"`
-	NzBankAccount *PaymentMethodConfigurationNzBankAccount `json:"nz_bank_account"`
+	NaverPay      *PaymentMethodConfigurationNaverPay      `json:"naver_pay,omitempty"`
+	NzBankAccount *PaymentMethodConfigurationNzBankAccount `json:"nz_bank_account,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string                          `json:"object"`
-	OXXO   *PaymentMethodConfigurationOXXO `json:"oxxo"`
-	P24    *PaymentMethodConfigurationP24  `json:"p24"`
+	OXXO   *PaymentMethodConfigurationOXXO `json:"oxxo,omitempty"`
+	P24    *PaymentMethodConfigurationP24  `json:"p24,omitempty"`
 	// For child configs, the configuration's parent configuration.
 	Parent        string                                   `json:"parent"`
-	PayByBank     *PaymentMethodConfigurationPayByBank     `json:"pay_by_bank"`
-	Payco         *PaymentMethodConfigurationPayco         `json:"payco"`
-	PayNow        *PaymentMethodConfigurationPayNow        `json:"paynow"`
-	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal"`
-	Paypay        *PaymentMethodConfigurationPaypay        `json:"paypay"`
-	Payto         *PaymentMethodConfigurationPayto         `json:"payto"`
-	Pix           *PaymentMethodConfigurationPix           `json:"pix"`
-	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay"`
-	Qris          *PaymentMethodConfigurationQris          `json:"qris"`
-	RevolutPay    *PaymentMethodConfigurationRevolutPay    `json:"revolut_pay"`
-	SamsungPay    *PaymentMethodConfigurationSamsungPay    `json:"samsung_pay"`
-	Satispay      *PaymentMethodConfigurationSatispay      `json:"satispay"`
-	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit"`
-	Shopeepay     *PaymentMethodConfigurationShopeepay     `json:"shopeepay"`
-	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort"`
-	Swish         *PaymentMethodConfigurationSwish         `json:"swish"`
-	TWINT         *PaymentMethodConfigurationTWINT         `json:"twint"`
-	USBankAccount *PaymentMethodConfigurationUSBankAccount `json:"us_bank_account"`
-	WeChatPay     *PaymentMethodConfigurationWeChatPay     `json:"wechat_pay"`
-	Zip           *PaymentMethodConfigurationZip           `json:"zip"`
+	PayByBank     *PaymentMethodConfigurationPayByBank     `json:"pay_by_bank,omitempty"`
+	Payco         *PaymentMethodConfigurationPayco         `json:"payco,omitempty"`
+	PayNow        *PaymentMethodConfigurationPayNow        `json:"paynow,omitempty"`
+	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal,omitempty"`
+	Paypay        *PaymentMethodConfigurationPaypay        `json:"paypay,omitempty"`
+	Payto         *PaymentMethodConfigurationPayto         `json:"payto,omitempty"`
+	Pix           *PaymentMethodConfigurationPix           `json:"pix,omitempty"`
+	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay,omitempty"`
+	Qris          *PaymentMethodConfigurationQris          `json:"qris,omitempty"`
+	RevolutPay    *PaymentMethodConfigurationRevolutPay    `json:"revolut_pay,omitempty"`
+	SamsungPay    *PaymentMethodConfigurationSamsungPay    `json:"samsung_pay,omitempty"`
+	Satispay      *PaymentMethodConfigurationSatispay      `json:"satispay,omitempty"`
+	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit,omitempty"`
+	Shopeepay     *PaymentMethodConfigurationShopeepay     `json:"shopeepay,omitempty"`
+	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort,omitempty"`
+	Swish         *PaymentMethodConfigurationSwish         `json:"swish,omitempty"`
+	TWINT         *PaymentMethodConfigurationTWINT         `json:"twint,omitempty"`
+	USBankAccount *PaymentMethodConfigurationUSBankAccount `json:"us_bank_account,omitempty"`
+	WeChatPay     *PaymentMethodConfigurationWeChatPay     `json:"wechat_pay,omitempty"`
+	Zip           *PaymentMethodConfigurationZip           `json:"zip,omitempty"`
 }
 
 // PaymentMethodConfigurationList is a list of PaymentMethodConfigurations as retrieved from a list endpoint.

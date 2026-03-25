@@ -10,7 +10,7 @@ package stripe
 type OrchestrationPaymentAttemptParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -22,7 +22,7 @@ func (p *OrchestrationPaymentAttemptParams) AddExpand(f string) {
 type OrchestrationPaymentAttemptRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

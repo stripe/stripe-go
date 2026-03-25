@@ -59,7 +59,7 @@ const (
 type FRMealVouchersOnboardingListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -71,15 +71,15 @@ func (p *FRMealVouchersOnboardingListParams) AddExpand(f string) {
 type FRMealVouchersOnboardingParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. This cannot be changed after creation of this object.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Name of the restaurant. This cannot be changed after creation of this object.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Corrected Postal code of the restaurant.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// SIRET number associated with the restaurant. This cannot be changed after creation of this object.
-	Siret *string `form:"siret"`
+	Siret *string `form:"siret" json:"siret,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -100,15 +100,15 @@ func (p *FRMealVouchersOnboardingParams) AddMetadata(key string, value string) {
 type FRMealVouchersOnboardingCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. This cannot be changed after creation of this object.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Name of the restaurant. This cannot be changed after creation of this object.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// Postal code of the restaurant.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code"`
 	// SIRET number associated with the restaurant. This cannot be changed after creation of this object.
-	Siret *string `form:"siret"`
+	Siret *string `form:"siret" json:"siret"`
 }
 
 // AddExpand appends a new field to expand.
@@ -132,7 +132,7 @@ func (p *FRMealVouchersOnboardingCreateParams) AddMetadata(key string, value str
 type FRMealVouchersOnboardingRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -148,9 +148,9 @@ func (p *FRMealVouchersOnboardingRetrieveParams) AddExpand(f string) {
 type FRMealVouchersOnboardingUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Corrected Postal code of the restaurant.
-	PostalCode *string `form:"postal_code"`
+	PostalCode *string `form:"postal_code" json:"postal_code"`
 }
 
 // AddExpand appends a new field to expand.

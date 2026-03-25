@@ -31,13 +31,13 @@ const (
 type ApplicationFeeListParams struct {
 	ListParams `form:"*"`
 	// Only return application fees for the charge specified by this charge ID.
-	Charge *string `form:"charge"`
+	Charge *string `form:"charge" json:"charge,omitempty"`
 	// Only return applications fees that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return applications fees that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -49,7 +49,7 @@ func (p *ApplicationFeeListParams) AddExpand(f string) {
 type ApplicationFeeParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -61,7 +61,7 @@ func (p *ApplicationFeeParams) AddExpand(f string) {
 type ApplicationFeeRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -72,11 +72,11 @@ func (p *ApplicationFeeRetrieveParams) AddExpand(f string) {
 // Polymorphic source of the application fee. Includes the ID of the object the application fee was created from.
 type ApplicationFeeFeeSource struct {
 	// Charge ID that created this application fee.
-	Charge string `json:"charge"`
+	Charge string `json:"charge,omitempty"`
 	// Payout ID that created this application fee.
-	Payout string `json:"payout"`
+	Payout string `json:"payout,omitempty"`
 	// Transfer ID that created this application fee.
-	Transfer string `json:"transfer"`
+	Transfer string `json:"transfer,omitempty"`
 	// Type of object that created the application fee.
 	Type ApplicationFeeFeeSourceType `json:"type"`
 }
@@ -84,7 +84,7 @@ type ApplicationFeeFeeSource struct {
 // Polymorphic funding source of the application fee. Includes the type and details of the funding source.
 type ApplicationFeeFundingSource struct {
 	// The invoice ID associated with this funding source, if applicable.
-	Invoice string `json:"invoice"`
+	Invoice string `json:"invoice,omitempty"`
 	// The type of funding source.
 	Type string `json:"type"`
 }
@@ -109,7 +109,7 @@ type ApplicationFee struct {
 	// Polymorphic source of the application fee. Includes the ID of the object the application fee was created from.
 	FeeSource *ApplicationFeeFeeSource `json:"fee_source"`
 	// Polymorphic funding source of the application fee. Includes the type and details of the funding source.
-	FundingSource *ApplicationFeeFundingSource `json:"funding_source"`
+	FundingSource *ApplicationFeeFundingSource `json:"funding_source,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -123,7 +123,7 @@ type ApplicationFee struct {
 	// A list of refunds that have been applied to the fee.
 	Refunds *FeeRefundList `json:"refunds"`
 	// Type of settlement for the application fee. One of `net_settled` or `gross_settled`.
-	SettlementType ApplicationFeeSettlementType `json:"settlement_type"`
+	SettlementType ApplicationFeeSettlementType `json:"settlement_type,omitempty"`
 }
 
 // ApplicationFeeList is a list of ApplicationFees as retrieved from a list endpoint.

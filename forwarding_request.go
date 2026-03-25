@@ -30,9 +30,9 @@ const (
 type ForwardingRequestListParams struct {
 	ListParams `form:"*"`
 	// Similar to other List endpoints, filters results based on created timestamp. You can pass gt, gte, lt, and lte timestamp values.
-	Created *RangeQueryParams `form:"created"`
+	Created *RangeQueryParams `form:"created" json:"created,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -43,34 +43,34 @@ func (p *ForwardingRequestListParams) AddExpand(f string) {
 // The headers to include in the forwarded request. Can be omitted if no additional headers (excluding Stripe-generated ones such as the Content-Type header) should be included.
 type ForwardingRequestRequestHeaderParams struct {
 	// The header name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// The header value.
-	Value *string `form:"value"`
+	Value *string `form:"value" json:"value"`
 }
 
 // The request body and headers to be sent to the destination endpoint.
 type ForwardingRequestRequestParams struct {
 	// The body payload to send to the destination endpoint.
-	Body *string `form:"body"`
+	Body *string `form:"body" json:"body,omitempty"`
 	// The headers to include in the forwarded request. Can be omitted if no additional headers (excluding Stripe-generated ones such as the Content-Type header) should be included.
-	Headers []*ForwardingRequestRequestHeaderParams `form:"headers"`
+	Headers []*ForwardingRequestRequestHeaderParams `form:"headers" json:"headers,omitempty"`
 }
 
 // Creates a ForwardingRequest object.
 type ForwardingRequestParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The PaymentMethod to insert into the forwarded request. Forwarding previously consumed PaymentMethods is allowed.
-	PaymentMethod *string `form:"payment_method"`
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The field kinds to be replaced in the forwarded request.
-	Replacements []*string `form:"replacements"`
+	Replacements []*string `form:"replacements" json:"replacements,omitempty"`
 	// The request body and headers to be sent to the destination endpoint.
-	Request *ForwardingRequestRequestParams `form:"request"`
+	Request *ForwardingRequestRequestParams `form:"request" json:"request,omitempty"`
 	// The destination URL for the forwarded request. Must be supported by the config.
-	URL *string `form:"url"`
+	URL *string `form:"url" json:"url,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -90,34 +90,34 @@ func (p *ForwardingRequestParams) AddMetadata(key string, value string) {
 // The headers to include in the forwarded request. Can be omitted if no additional headers (excluding Stripe-generated ones such as the Content-Type header) should be included.
 type ForwardingRequestCreateRequestHeaderParams struct {
 	// The header name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// The header value.
-	Value *string `form:"value"`
+	Value *string `form:"value" json:"value"`
 }
 
 // The request body and headers to be sent to the destination endpoint.
 type ForwardingRequestCreateRequestParams struct {
 	// The body payload to send to the destination endpoint.
-	Body *string `form:"body"`
+	Body *string `form:"body" json:"body,omitempty"`
 	// The headers to include in the forwarded request. Can be omitted if no additional headers (excluding Stripe-generated ones such as the Content-Type header) should be included.
-	Headers []*ForwardingRequestCreateRequestHeaderParams `form:"headers"`
+	Headers []*ForwardingRequestCreateRequestHeaderParams `form:"headers" json:"headers,omitempty"`
 }
 
 // Creates a ForwardingRequest object.
 type ForwardingRequestCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The PaymentMethod to insert into the forwarded request. Forwarding previously consumed PaymentMethods is allowed.
-	PaymentMethod *string `form:"payment_method"`
+	PaymentMethod *string `form:"payment_method" json:"payment_method"`
 	// The field kinds to be replaced in the forwarded request.
-	Replacements []*string `form:"replacements"`
+	Replacements []*string `form:"replacements" json:"replacements"`
 	// The request body and headers to be sent to the destination endpoint.
-	Request *ForwardingRequestCreateRequestParams `form:"request"`
+	Request *ForwardingRequestCreateRequestParams `form:"request" json:"request"`
 	// The destination URL for the forwarded request. Must be supported by the config.
-	URL *string `form:"url"`
+	URL *string `form:"url" json:"url"`
 }
 
 // AddExpand appends a new field to expand.
@@ -138,7 +138,7 @@ func (p *ForwardingRequestCreateParams) AddMetadata(key string, value string) {
 type ForwardingRequestRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -215,7 +215,7 @@ type ForwardingRequest struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The PaymentMethod to insert into the forwarded request. Forwarding previously consumed PaymentMethods is allowed.

@@ -136,16 +136,16 @@ type SetupAttemptListParams struct {
 	// A filter on the list, based on the object `created` field. The value
 	// can be a string with an integer Unix timestamp or a
 	// dictionary with a number of different query options.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// A filter on the list, based on the object `created` field. The value
 	// can be a string with an integer Unix timestamp or a
 	// dictionary with a number of different query options.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return SetupAttempts created by the SetupIntent specified by
 	// this ID.
-	SetupIntent *string `form:"setup_intent"`
+	SetupIntent *string `form:"setup_intent" json:"setup_intent"`
 }
 
 // AddExpand appends a new field to expand.
@@ -213,8 +213,8 @@ type SetupAttemptPaymentMethodDetailsCardWalletGooglePay struct{}
 
 // If this Card is part of a card wallet, this contains the details of the card wallet.
 type SetupAttemptPaymentMethodDetailsCardWallet struct {
-	ApplePay  *SetupAttemptPaymentMethodDetailsCardWalletApplePay  `json:"apple_pay"`
-	GooglePay *SetupAttemptPaymentMethodDetailsCardWalletGooglePay `json:"google_pay"`
+	ApplePay  *SetupAttemptPaymentMethodDetailsCardWalletApplePay  `json:"apple_pay,omitempty"`
+	GooglePay *SetupAttemptPaymentMethodDetailsCardWalletGooglePay `json:"google_pay,omitempty"`
 	// The type of the card wallet, one of `apple_pay`, `google_pay`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 	Type SetupAttemptPaymentMethodDetailsCardWalletType `json:"type"`
 }
@@ -226,7 +226,7 @@ type SetupAttemptPaymentMethodDetailsCard struct {
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Two-digit number representing the card's expiration month.
 	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
@@ -234,13 +234,13 @@ type SetupAttemptPaymentMethodDetailsCard struct {
 	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
 	//
 	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
-	Fingerprint string `json:"fingerprint"`
+	Fingerprint string `json:"fingerprint,omitempty"`
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 	Funding string `json:"funding"`
 	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
-	IIN string `json:"iin"`
+	IIN string `json:"iin,omitempty"`
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
@@ -296,7 +296,7 @@ type SetupAttemptPaymentMethodDetailsKrCard struct{}
 type SetupAttemptPaymentMethodDetailsLink struct{}
 type SetupAttemptPaymentMethodDetailsNaverPay struct {
 	// Uniquely identifies this particular Naver Pay account. You can use this attribute to check whether two Naver Pay accounts are the same.
-	BuyerID string `json:"buyer_id"`
+	BuyerID string `json:"buyer_id,omitempty"`
 }
 type SetupAttemptPaymentMethodDetailsNzBankAccount struct{}
 type SetupAttemptPaymentMethodDetailsPaypal struct{}
@@ -327,33 +327,33 @@ type SetupAttemptPaymentMethodDetailsSofort struct {
 type SetupAttemptPaymentMethodDetailsStripeBalance struct{}
 type SetupAttemptPaymentMethodDetailsUSBankAccount struct{}
 type SetupAttemptPaymentMethodDetails struct {
-	ACSSDebit      *SetupAttemptPaymentMethodDetailsACSSDebit      `json:"acss_debit"`
-	AmazonPay      *SetupAttemptPaymentMethodDetailsAmazonPay      `json:"amazon_pay"`
-	AUBECSDebit    *SetupAttemptPaymentMethodDetailsAUBECSDebit    `json:"au_becs_debit"`
-	BACSDebit      *SetupAttemptPaymentMethodDetailsBACSDebit      `json:"bacs_debit"`
-	Bancontact     *SetupAttemptPaymentMethodDetailsBancontact     `json:"bancontact"`
-	Boleto         *SetupAttemptPaymentMethodDetailsBoleto         `json:"boleto"`
-	Card           *SetupAttemptPaymentMethodDetailsCard           `json:"card"`
-	CardPresent    *SetupAttemptPaymentMethodDetailsCardPresent    `json:"card_present"`
-	CashApp        *SetupAttemptPaymentMethodDetailsCashApp        `json:"cashapp"`
-	IDBankTransfer *SetupAttemptPaymentMethodDetailsIDBankTransfer `json:"id_bank_transfer"`
-	IDEAL          *SetupAttemptPaymentMethodDetailsIDEAL          `json:"ideal"`
-	KakaoPay       *SetupAttemptPaymentMethodDetailsKakaoPay       `json:"kakao_pay"`
-	Klarna         *SetupAttemptPaymentMethodDetailsKlarna         `json:"klarna"`
-	KrCard         *SetupAttemptPaymentMethodDetailsKrCard         `json:"kr_card"`
-	Link           *SetupAttemptPaymentMethodDetailsLink           `json:"link"`
-	NaverPay       *SetupAttemptPaymentMethodDetailsNaverPay       `json:"naver_pay"`
-	NzBankAccount  *SetupAttemptPaymentMethodDetailsNzBankAccount  `json:"nz_bank_account"`
-	Paypal         *SetupAttemptPaymentMethodDetailsPaypal         `json:"paypal"`
-	Payto          *SetupAttemptPaymentMethodDetailsPayto          `json:"payto"`
-	Pix            *SetupAttemptPaymentMethodDetailsPix            `json:"pix"`
-	RevolutPay     *SetupAttemptPaymentMethodDetailsRevolutPay     `json:"revolut_pay"`
-	SEPADebit      *SetupAttemptPaymentMethodDetailsSEPADebit      `json:"sepa_debit"`
-	Sofort         *SetupAttemptPaymentMethodDetailsSofort         `json:"sofort"`
-	StripeBalance  *SetupAttemptPaymentMethodDetailsStripeBalance  `json:"stripe_balance"`
+	ACSSDebit      *SetupAttemptPaymentMethodDetailsACSSDebit      `json:"acss_debit,omitempty"`
+	AmazonPay      *SetupAttemptPaymentMethodDetailsAmazonPay      `json:"amazon_pay,omitempty"`
+	AUBECSDebit    *SetupAttemptPaymentMethodDetailsAUBECSDebit    `json:"au_becs_debit,omitempty"`
+	BACSDebit      *SetupAttemptPaymentMethodDetailsBACSDebit      `json:"bacs_debit,omitempty"`
+	Bancontact     *SetupAttemptPaymentMethodDetailsBancontact     `json:"bancontact,omitempty"`
+	Boleto         *SetupAttemptPaymentMethodDetailsBoleto         `json:"boleto,omitempty"`
+	Card           *SetupAttemptPaymentMethodDetailsCard           `json:"card,omitempty"`
+	CardPresent    *SetupAttemptPaymentMethodDetailsCardPresent    `json:"card_present,omitempty"`
+	CashApp        *SetupAttemptPaymentMethodDetailsCashApp        `json:"cashapp,omitempty"`
+	IDBankTransfer *SetupAttemptPaymentMethodDetailsIDBankTransfer `json:"id_bank_transfer,omitempty"`
+	IDEAL          *SetupAttemptPaymentMethodDetailsIDEAL          `json:"ideal,omitempty"`
+	KakaoPay       *SetupAttemptPaymentMethodDetailsKakaoPay       `json:"kakao_pay,omitempty"`
+	Klarna         *SetupAttemptPaymentMethodDetailsKlarna         `json:"klarna,omitempty"`
+	KrCard         *SetupAttemptPaymentMethodDetailsKrCard         `json:"kr_card,omitempty"`
+	Link           *SetupAttemptPaymentMethodDetailsLink           `json:"link,omitempty"`
+	NaverPay       *SetupAttemptPaymentMethodDetailsNaverPay       `json:"naver_pay,omitempty"`
+	NzBankAccount  *SetupAttemptPaymentMethodDetailsNzBankAccount  `json:"nz_bank_account,omitempty"`
+	Paypal         *SetupAttemptPaymentMethodDetailsPaypal         `json:"paypal,omitempty"`
+	Payto          *SetupAttemptPaymentMethodDetailsPayto          `json:"payto,omitempty"`
+	Pix            *SetupAttemptPaymentMethodDetailsPix            `json:"pix,omitempty"`
+	RevolutPay     *SetupAttemptPaymentMethodDetailsRevolutPay     `json:"revolut_pay,omitempty"`
+	SEPADebit      *SetupAttemptPaymentMethodDetailsSEPADebit      `json:"sepa_debit,omitempty"`
+	Sofort         *SetupAttemptPaymentMethodDetailsSofort         `json:"sofort,omitempty"`
+	StripeBalance  *SetupAttemptPaymentMethodDetailsStripeBalance  `json:"stripe_balance,omitempty"`
 	// The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.
 	Type          SetupAttemptPaymentMethodDetailsType           `json:"type"`
-	USBankAccount *SetupAttemptPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
+	USBankAccount *SetupAttemptPaymentMethodDetailsUSBankAccount `json:"us_bank_account,omitempty"`
 }
 
 // A SetupAttempt describes one attempted confirmation of a SetupIntent,
@@ -367,7 +367,7 @@ type SetupAttempt struct {
 	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
 	//
 	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
-	AttachToSelf bool `json:"attach_to_self"`
+	AttachToSelf bool `json:"attach_to_self,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// The value of [customer](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-customer) on the SetupIntent at the time of this confirmation.

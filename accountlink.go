@@ -9,11 +9,11 @@ package stripe
 // Specifies the requirements that Stripe collects from connected accounts in the Connect Onboarding flow.
 type AccountLinkCollectionOptionsParams struct {
 	// Specifies whether the platform collects external account information from connected accounts during Connect Onboarding. When set to `true`, the platform only collects external account information if the connected account has capabilities which require it. Some capabilities, such as `treasury`, don't require external account collection. When set to `false`, external account collection is skipped. Defaults to `true`.
-	ExternalAccountCollection *bool `form:"external_account_collection"`
+	ExternalAccountCollection *bool `form:"external_account_collection" json:"external_account_collection,omitempty"`
 	// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify `collection_options`, the default value is `currently_due`.
-	Fields *string `form:"fields"`
+	Fields *string `form:"fields" json:"fields,omitempty"`
 	// Specifies whether the platform collects future_requirements in addition to requirements in Connect Onboarding. The default value is `omit`.
-	FutureRequirements *string `form:"future_requirements"`
+	FutureRequirements *string `form:"future_requirements" json:"future_requirements,omitempty"`
 }
 
 // AccountLinkType is the type of an account link.
@@ -38,21 +38,21 @@ const (
 type AccountLinkParams struct {
 	Params `form:"*"`
 	// The identifier of the account to create an account link for.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account"`
 	// The collect parameter is deprecated. Use `collection_options` instead.
-	Collect *string `form:"collect"`
+	Collect *string `form:"collect" json:"collect,omitempty"`
 	// Specifies the requirements that Stripe collects from connected accounts in the Connect Onboarding flow.
-	CollectionOptions *AccountLinkCollectionOptionsParams `form:"collection_options"`
+	CollectionOptions *AccountLinkCollectionOptionsParams `form:"collection_options" json:"collection_options,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The URL the user will be redirected to if the account link is expired, has been previously-visited, or is otherwise invalid. The URL you specify should attempt to generate a new account link with the same parameters used to create the original account link, then redirect the user to the new account link's URL so they can continue with Connect Onboarding. If a new account link cannot be generated or the redirect fails you should display a useful error to the user.
-	RefreshURL *string `form:"refresh_url"`
+	RefreshURL *string `form:"refresh_url" json:"refresh_url,omitempty"`
 	// The URL that the user will be redirected to upon leaving or completing the linked flow.
-	ReturnURL *string `form:"return_url"`
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// The type of account link the user is requesting.
 	//
 	// You can create Account Links of type `account_update` only for connected accounts where your platform is responsible for collecting requirements, including Custom accounts. You can't create them for accounts that have access to a Stripe-hosted Dashboard. If you use [Connect embedded components](https://docs.stripe.com/connect/get-started-connect-embedded-components), you can include components that allow your connected accounts to update their own information. For an account without Stripe-hosted Dashboard access where Stripe is liable for negative balances, you must use embedded components.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // AddExpand appends a new field to expand.
@@ -63,32 +63,32 @@ func (p *AccountLinkParams) AddExpand(f string) {
 // Specifies the requirements that Stripe collects from connected accounts in the Connect Onboarding flow.
 type AccountLinkCreateCollectionOptionsParams struct {
 	// Specifies whether the platform collects external account information from connected accounts during Connect Onboarding. When set to `true`, the platform only collects external account information if the connected account has capabilities which require it. Some capabilities, such as `treasury`, don't require external account collection. When set to `false`, external account collection is skipped. Defaults to `true`.
-	ExternalAccountCollection *bool `form:"external_account_collection"`
+	ExternalAccountCollection *bool `form:"external_account_collection" json:"external_account_collection,omitempty"`
 	// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify `collection_options`, the default value is `currently_due`.
-	Fields *string `form:"fields"`
+	Fields *string `form:"fields" json:"fields,omitempty"`
 	// Specifies whether the platform collects future_requirements in addition to requirements in Connect Onboarding. The default value is `omit`.
-	FutureRequirements *string `form:"future_requirements"`
+	FutureRequirements *string `form:"future_requirements" json:"future_requirements,omitempty"`
 }
 
 // Creates an AccountLink object that includes a single-use Stripe URL that the platform can redirect their user to in order to take them through the Connect Onboarding flow.
 type AccountLinkCreateParams struct {
 	Params `form:"*"`
 	// The identifier of the account to create an account link for.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account"`
 	// The collect parameter is deprecated. Use `collection_options` instead.
-	Collect *string `form:"collect"`
+	Collect *string `form:"collect" json:"collect,omitempty"`
 	// Specifies the requirements that Stripe collects from connected accounts in the Connect Onboarding flow.
-	CollectionOptions *AccountLinkCreateCollectionOptionsParams `form:"collection_options"`
+	CollectionOptions *AccountLinkCreateCollectionOptionsParams `form:"collection_options" json:"collection_options,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The URL the user will be redirected to if the account link is expired, has been previously-visited, or is otherwise invalid. The URL you specify should attempt to generate a new account link with the same parameters used to create the original account link, then redirect the user to the new account link's URL so they can continue with Connect Onboarding. If a new account link cannot be generated or the redirect fails you should display a useful error to the user.
-	RefreshURL *string `form:"refresh_url"`
+	RefreshURL *string `form:"refresh_url" json:"refresh_url,omitempty"`
 	// The URL that the user will be redirected to upon leaving or completing the linked flow.
-	ReturnURL *string `form:"return_url"`
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// The type of account link the user is requesting.
 	//
 	// You can create Account Links of type `account_update` only for connected accounts where your platform is responsible for collecting requirements, including Custom accounts. You can't create them for accounts that have access to a Stripe-hosted Dashboard. If you use [Connect embedded components](https://docs.stripe.com/connect/get-started-connect-embedded-components), you can include components that allow your connected accounts to update their own information. For an account without Stripe-hosted Dashboard access where Stripe is liable for negative balances, you must use embedded components.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // AddExpand appends a new field to expand.

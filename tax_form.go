@@ -54,22 +54,22 @@ const (
 // The payee whose volume is represented on the tax form.
 type TaxFormListPayeeParams struct {
 	// The ID of the Stripe account whose forms will be retrieved.
-	Account *string `form:"account"`
+	Account *string `form:"account" json:"account,omitempty"`
 	// The external reference to the payee whose forms will be retrieved.
-	ExternalReference *string `form:"external_reference"`
+	ExternalReference *string `form:"external_reference" json:"external_reference,omitempty"`
 	// Specifies the payee type. Either `account` or `external_reference`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Returns a list of tax forms which were previously created. The tax forms are returned in sorted order, with the oldest tax forms appearing first.
 type TaxFormListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The payee whose volume is represented on the tax form.
-	Payee *TaxFormListPayeeParams `form:"payee"`
+	Payee *TaxFormListPayeeParams `form:"payee" json:"payee"`
 	// An optional filter on the list, based on the object `type` field. Without the filter, the list includes all current and future tax form types. If your integration expects only one type of tax form in the response, make sure to provide a type value in the request.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -81,7 +81,7 @@ func (p *TaxFormListParams) AddExpand(f string) {
 type TaxFormParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -93,7 +93,7 @@ func (p *TaxFormParams) AddExpand(f string) {
 type TaxFormPDFParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -105,7 +105,7 @@ func (p *TaxFormPDFParams) AddExpand(f string) {
 type TaxFormRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -186,29 +186,29 @@ type TaxFormUS1099Nec struct {
 // Related guide: [US tax reporting for Connect platforms](https://stripe.com/docs/connect/tax-reporting)
 type TaxForm struct {
 	APIResource
-	AuSerr *TaxFormAuSerr `json:"au_serr"`
-	CaMrdp *TaxFormCaMrdp `json:"ca_mrdp"`
+	AuSerr *TaxFormAuSerr `json:"au_serr,omitempty"`
+	CaMrdp *TaxFormCaMrdp `json:"ca_mrdp,omitempty"`
 	// The form that corrects this form, if any.
 	CorrectedBy *TaxForm `json:"corrected_by"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64          `json:"created"`
-	EUDac7  *TaxFormEUDac7 `json:"eu_dac7"`
+	EUDac7  *TaxFormEUDac7 `json:"eu_dac7,omitempty"`
 	// A list of tax filing statuses. Note that a filing status will only be included if the form has been filed directly with the jurisdiction's tax authority.
 	FilingStatuses []*TaxFormFilingStatus `json:"filing_statuses"`
-	GBMrdp         *TaxFormGBMrdp         `json:"gb_mrdp"`
+	GBMrdp         *TaxFormGBMrdp         `json:"gb_mrdp,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool           `json:"livemode"`
-	NzMrdp   *TaxFormNzMrdp `json:"nz_mrdp"`
+	NzMrdp   *TaxFormNzMrdp `json:"nz_mrdp,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string        `json:"object"`
 	Payee  *TaxFormPayee `json:"payee"`
 	// The type of the tax form. An additional hash is included on the tax form with a name matching this value. It contains additional information specific to the tax form type.
 	Type       TaxFormType        `json:"type"`
-	US1099K    *TaxFormUS1099K    `json:"us_1099_k"`
-	US1099MISC *TaxFormUS1099MISC `json:"us_1099_misc"`
-	US1099Nec  *TaxFormUS1099Nec  `json:"us_1099_nec"`
+	US1099K    *TaxFormUS1099K    `json:"us_1099_k,omitempty"`
+	US1099MISC *TaxFormUS1099MISC `json:"us_1099_misc,omitempty"`
+	US1099Nec  *TaxFormUS1099Nec  `json:"us_1099_nec,omitempty"`
 }
 
 // TaxFormList is a list of Forms as retrieved from a list endpoint.

@@ -58,13 +58,13 @@ const (
 type BillingCreditBalanceTransactionListParams struct {
 	ListParams `form:"*"`
 	// The credit grant for which to fetch credit balance transactions.
-	CreditGrant *string `form:"credit_grant"`
+	CreditGrant *string `form:"credit_grant" json:"credit_grant,omitempty"`
 	// The customer whose credit balance transactions you're retrieving.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The account representing the customer whose credit balance transactions you're retrieving.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -76,7 +76,7 @@ func (p *BillingCreditBalanceTransactionListParams) AddExpand(f string) {
 type BillingCreditBalanceTransactionParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -88,7 +88,7 @@ func (p *BillingCreditBalanceTransactionParams) AddExpand(f string) {
 type BillingCreditBalanceTransactionRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -131,7 +131,7 @@ type BillingCreditBalanceTransactionCreditAmountMonetary struct {
 }
 type BillingCreditBalanceTransactionCreditAmount struct {
 	// The custom pricing unit amount.
-	CustomPricingUnit *BillingCreditBalanceTransactionCreditAmountCustomPricingUnit `json:"custom_pricing_unit"`
+	CustomPricingUnit *BillingCreditBalanceTransactionCreditAmountCustomPricingUnit `json:"custom_pricing_unit,omitempty"`
 	// The monetary amount.
 	Monetary *BillingCreditBalanceTransactionCreditAmountMonetary `json:"monetary"`
 	// The type of this amount. We currently only support `monetary` billing credits.
@@ -190,7 +190,7 @@ type BillingCreditBalanceTransactionDebitAmountMonetary struct {
 }
 type BillingCreditBalanceTransactionDebitAmount struct {
 	// The custom pricing unit amount.
-	CustomPricingUnit *BillingCreditBalanceTransactionDebitAmountCustomPricingUnit `json:"custom_pricing_unit"`
+	CustomPricingUnit *BillingCreditBalanceTransactionDebitAmountCustomPricingUnit `json:"custom_pricing_unit,omitempty"`
 	// The monetary amount.
 	Monetary *BillingCreditBalanceTransactionDebitAmountMonetary `json:"monetary"`
 	// The type of this amount. We currently only support `monetary` billing credits.

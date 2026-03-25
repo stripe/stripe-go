@@ -64,15 +64,15 @@ const (
 type ShippingRateListParams struct {
 	ListParams `form:"*"`
 	// Only return shipping rates that are active or inactive.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Only return shipping rates for the given currency.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -83,66 +83,66 @@ func (p *ShippingRateListParams) AddExpand(f string) {
 // The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 type ShippingRateDeliveryEstimateMaximumParams struct {
 	// A unit of time.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit"`
 	// Must be greater than 0.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The lower bound of the estimated range. If empty, represents no lower bound.
 type ShippingRateDeliveryEstimateMinimumParams struct {
 	// A unit of time.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit"`
 	// Must be greater than 0.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 type ShippingRateDeliveryEstimateParams struct {
 	// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
-	Maximum *ShippingRateDeliveryEstimateMaximumParams `form:"maximum"`
+	Maximum *ShippingRateDeliveryEstimateMaximumParams `form:"maximum" json:"maximum,omitempty"`
 	// The lower bound of the estimated range. If empty, represents no lower bound.
-	Minimum *ShippingRateDeliveryEstimateMinimumParams `form:"minimum"`
+	Minimum *ShippingRateDeliveryEstimateMinimumParams `form:"minimum" json:"minimum,omitempty"`
 }
 
 // Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 type ShippingRateFixedAmountCurrencyOptionsParams struct {
 	// A non-negative integer in cents representing how much to charge.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 }
 
 // Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 type ShippingRateFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-	CurrencyOptions map[string]*ShippingRateFixedAmountCurrencyOptionsParams `form:"currency_options"`
+	CurrencyOptions map[string]*ShippingRateFixedAmountCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
 }
 
 // Creates a new shipping rate object.
 type ShippingRateParams struct {
 	Params `form:"*"`
 	// Whether the shipping rate can be used for new purchases. Defaults to `true`.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
-	DeliveryEstimate *ShippingRateDeliveryEstimateParams `form:"delivery_estimate"`
+	DeliveryEstimate *ShippingRateDeliveryEstimateParams `form:"delivery_estimate" json:"delivery_estimate,omitempty"`
 	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
-	DisplayName *string `form:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
-	FixedAmount *ShippingRateFixedAmountParams `form:"fixed_amount"`
+	FixedAmount *ShippingRateFixedAmountParams `form:"fixed_amount" json:"fixed_amount,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 	// The type of calculation to use on the shipping rate.
-	Type        *string                        `form:"type"`
+	Type        *string                        `form:"type" json:"type,omitempty"`
 	UnsetFields []ShippingRateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -175,64 +175,64 @@ func (p *ShippingRateParams) AddMetadata(key string, value string) {
 // The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 type ShippingRateCreateDeliveryEstimateMaximumParams struct {
 	// A unit of time.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit"`
 	// Must be greater than 0.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The lower bound of the estimated range. If empty, represents no lower bound.
 type ShippingRateCreateDeliveryEstimateMinimumParams struct {
 	// A unit of time.
-	Unit *string `form:"unit"`
+	Unit *string `form:"unit" json:"unit"`
 	// Must be greater than 0.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 type ShippingRateCreateDeliveryEstimateParams struct {
 	// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
-	Maximum *ShippingRateCreateDeliveryEstimateMaximumParams `form:"maximum"`
+	Maximum *ShippingRateCreateDeliveryEstimateMaximumParams `form:"maximum" json:"maximum,omitempty"`
 	// The lower bound of the estimated range. If empty, represents no lower bound.
-	Minimum *ShippingRateCreateDeliveryEstimateMinimumParams `form:"minimum"`
+	Minimum *ShippingRateCreateDeliveryEstimateMinimumParams `form:"minimum" json:"minimum,omitempty"`
 }
 
 // Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 type ShippingRateCreateFixedAmountCurrencyOptionsParams struct {
 	// A non-negative integer in cents representing how much to charge.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 }
 
 // Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 type ShippingRateCreateFixedAmountParams struct {
 	// A non-negative integer in cents representing how much to charge.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-	CurrencyOptions map[string]*ShippingRateCreateFixedAmountCurrencyOptionsParams `form:"currency_options"`
+	CurrencyOptions map[string]*ShippingRateCreateFixedAmountCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
 }
 
 // Creates a new shipping rate object.
 type ShippingRateCreateParams struct {
 	Params `form:"*"`
 	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
-	DeliveryEstimate *ShippingRateCreateDeliveryEstimateParams `form:"delivery_estimate"`
+	DeliveryEstimate *ShippingRateCreateDeliveryEstimateParams `form:"delivery_estimate" json:"delivery_estimate,omitempty"`
 	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
-	DisplayName *string `form:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
-	FixedAmount *ShippingRateCreateFixedAmountParams `form:"fixed_amount"`
+	FixedAmount *ShippingRateCreateFixedAmountParams `form:"fixed_amount" json:"fixed_amount,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 	// The type of calculation to use on the shipping rate.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -253,7 +253,7 @@ func (p *ShippingRateCreateParams) AddMetadata(key string, value string) {
 type ShippingRateRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -264,30 +264,30 @@ func (p *ShippingRateRetrieveParams) AddExpand(f string) {
 // Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 type ShippingRateUpdateFixedAmountCurrencyOptionsParams struct {
 	// A non-negative integer in cents representing how much to charge.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 }
 
 // Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 type ShippingRateUpdateFixedAmountParams struct {
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-	CurrencyOptions map[string]*ShippingRateUpdateFixedAmountCurrencyOptionsParams `form:"currency_options"`
+	CurrencyOptions map[string]*ShippingRateUpdateFixedAmountCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
 }
 
 // Updates an existing shipping rate object.
 type ShippingRateUpdateParams struct {
 	Params `form:"*"`
 	// Whether the shipping rate can be used for new purchases. Defaults to `true`.
-	Active *bool `form:"active"`
+	Active *bool `form:"active" json:"active,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
-	FixedAmount *ShippingRateUpdateFixedAmountParams `form:"fixed_amount"`
+	FixedAmount *ShippingRateUpdateFixedAmountParams `form:"fixed_amount" json:"fixed_amount,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
-	TaxBehavior *string                              `form:"tax_behavior"`
+	TaxBehavior *string                              `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	UnsetFields []ShippingRateUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -354,7 +354,7 @@ type ShippingRateFixedAmount struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
-	CurrencyOptions map[string]*ShippingRateFixedAmountCurrencyOptions `json:"currency_options"`
+	CurrencyOptions map[string]*ShippingRateFixedAmountCurrencyOptions `json:"currency_options,omitempty"`
 }
 
 // Shipping rates describe the price of shipping presented to your customers and
@@ -369,7 +369,7 @@ type ShippingRate struct {
 	DeliveryEstimate *ShippingRateDeliveryEstimate `json:"delivery_estimate"`
 	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
 	DisplayName string                   `json:"display_name"`
-	FixedAmount *ShippingRateFixedAmount `json:"fixed_amount"`
+	FixedAmount *ShippingRateFixedAmount `json:"fixed_amount,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

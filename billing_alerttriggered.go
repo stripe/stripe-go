@@ -34,27 +34,27 @@ type BillingAlertTriggeredGroupBy struct {
 }
 type BillingAlertTriggered struct {
 	// The aggregation period for which this alert triggered
-	AggregationPeriod *BillingAlertTriggeredAggregationPeriod `json:"aggregation_period"`
+	AggregationPeriod *BillingAlertTriggeredAggregationPeriod `json:"aggregation_period,omitempty"`
 	// A billing alert is a resource that notifies you when a certain usage threshold on a meter is crossed. For example, you might create a billing alert to notify you when a certain user made 100 API requests.
 	Alert *BillingAlert `json:"alert"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Currency for the threshold value
-	Currency Currency `json:"currency"`
+	Currency Currency `json:"currency,omitempty"`
 	// ID of customer for which the alert triggered
 	Customer string `json:"customer"`
 	// Custom pricing unit for the threshold value
-	CustomPricingUnit string `json:"custom_pricing_unit"`
+	CustomPricingUnit string `json:"custom_pricing_unit,omitempty"`
 	// External customer ID for the customer for which the alert triggered
-	ExternalCustomerID string `json:"external_customer_id"`
+	ExternalCustomerID string `json:"external_customer_id,omitempty"`
 	// Populated specifically for spend alerts to notify merchants which group_by entity has the exceeded spend
-	GroupBy *BillingAlertTriggeredGroupBy `json:"group_by"`
+	GroupBy *BillingAlertTriggeredGroupBy `json:"group_by,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Timestamp at which the threshold was crossed
-	TriggeredAt int64 `json:"triggered_at"`
+	TriggeredAt int64 `json:"triggered_at,omitempty"`
 	// The value triggering the alert
 	Value float64 `json:"value,string"`
 }

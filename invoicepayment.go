@@ -19,28 +19,28 @@ const (
 // The payment details of the invoice payments to return.
 type InvoicePaymentListPaymentParams struct {
 	// Only return invoice payments associated by this payment intent ID.
-	PaymentIntent *string `form:"payment_intent"`
+	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
 	// Only return invoice payments associated by this payment record ID.
-	PaymentRecord *string `form:"payment_record"`
+	PaymentRecord *string `form:"payment_record" json:"payment_record,omitempty"`
 	// Only return invoice payments associated by this payment type.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
 type InvoicePaymentListParams struct {
 	ListParams `form:"*"`
 	// Only return invoice payments that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return invoice payments that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The identifier of the invoice whose payments to return.
-	Invoice *string `form:"invoice"`
+	Invoice *string `form:"invoice" json:"invoice,omitempty"`
 	// The payment details of the invoice payments to return.
-	Payment *InvoicePaymentListPaymentParams `form:"payment"`
+	Payment *InvoicePaymentListPaymentParams `form:"payment" json:"payment,omitempty"`
 	// The status of the invoice payments to return.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -52,7 +52,7 @@ func (p *InvoicePaymentListParams) AddExpand(f string) {
 type InvoicePaymentParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -64,7 +64,7 @@ func (p *InvoicePaymentParams) AddExpand(f string) {
 type InvoicePaymentRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -74,11 +74,11 @@ func (p *InvoicePaymentRetrieveParams) AddExpand(f string) {
 
 type InvoicePaymentPayment struct {
 	// ID of the successful charge for this payment when `type` is `charge`.Note: charge is only surfaced if the charge object is not associated with a payment intent. If the charge object does have a payment intent, the Invoice Payment surfaces the payment intent instead.
-	Charge *Charge `json:"charge"`
+	Charge *Charge `json:"charge,omitempty"`
 	// ID of the PaymentIntent associated with this payment when `type` is `payment_intent`. Note: This property is only populated for invoices finalized on or after March 15th, 2019.
-	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	PaymentIntent *PaymentIntent `json:"payment_intent,omitempty"`
 	// ID of the PaymentRecord associated with this payment when `type` is `payment_record`.
-	PaymentRecord *PaymentRecord `json:"payment_record"`
+	PaymentRecord *PaymentRecord `json:"payment_record,omitempty"`
 	// Type of payment object associated with this invoice payment.
 	Type InvoicePaymentPaymentType `json:"type"`
 }

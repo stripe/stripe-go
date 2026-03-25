@@ -51,7 +51,7 @@ type CustomerCashBalanceTransactionListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -64,7 +64,7 @@ type CustomerCashBalanceTransactionParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -77,7 +77,7 @@ type CustomerCashBalanceTransactionRetrieveParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -121,19 +121,19 @@ type CustomerCashBalanceTransactionFundedBankTransferJPBankTransfer struct {
 }
 type CustomerCashBalanceTransactionFundedBankTransferUSBankTransfer struct {
 	// The banking network used for this funding.
-	Network CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork `json:"network"`
+	Network CustomerCashBalanceTransactionFundedBankTransferUSBankTransferNetwork `json:"network,omitempty"`
 	// The full name of the sender, as supplied by the sending bank.
 	SenderName string `json:"sender_name"`
 }
 type CustomerCashBalanceTransactionFundedBankTransfer struct {
-	EUBankTransfer *CustomerCashBalanceTransactionFundedBankTransferEUBankTransfer `json:"eu_bank_transfer"`
-	GBBankTransfer *CustomerCashBalanceTransactionFundedBankTransferGBBankTransfer `json:"gb_bank_transfer"`
-	JPBankTransfer *CustomerCashBalanceTransactionFundedBankTransferJPBankTransfer `json:"jp_bank_transfer"`
+	EUBankTransfer *CustomerCashBalanceTransactionFundedBankTransferEUBankTransfer `json:"eu_bank_transfer,omitempty"`
+	GBBankTransfer *CustomerCashBalanceTransactionFundedBankTransferGBBankTransfer `json:"gb_bank_transfer,omitempty"`
+	JPBankTransfer *CustomerCashBalanceTransactionFundedBankTransferJPBankTransfer `json:"jp_bank_transfer,omitempty"`
 	// The user-supplied reference field on the bank transfer.
 	Reference string `json:"reference"`
 	// The funding method type used to fund the customer balance. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 	Type           CustomerCashBalanceTransactionFundedBankTransferType            `json:"type"`
-	USBankTransfer *CustomerCashBalanceTransactionFundedBankTransferUSBankTransfer `json:"us_bank_transfer"`
+	USBankTransfer *CustomerCashBalanceTransactionFundedBankTransferUSBankTransfer `json:"us_bank_transfer,omitempty"`
 }
 type CustomerCashBalanceTransactionFunded struct {
 	BankTransfer *CustomerCashBalanceTransactionFundedBankTransfer `json:"bank_transfer"`
@@ -157,8 +157,8 @@ type CustomerCashBalanceTransactionUnappliedFromPayment struct {
 // to payments, and refunds to the customer.
 type CustomerCashBalanceTransaction struct {
 	APIResource
-	AdjustedForOverdraft *CustomerCashBalanceTransactionAdjustedForOverdraft `json:"adjusted_for_overdraft"`
-	AppliedToPayment     *CustomerCashBalanceTransactionAppliedToPayment     `json:"applied_to_payment"`
+	AdjustedForOverdraft *CustomerCashBalanceTransactionAdjustedForOverdraft `json:"adjusted_for_overdraft,omitempty"`
+	AppliedToPayment     *CustomerCashBalanceTransactionAppliedToPayment     `json:"applied_to_payment,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -169,7 +169,7 @@ type CustomerCashBalanceTransaction struct {
 	CustomerAccount string `json:"customer_account"`
 	// The total available cash balance for the specified currency after this transaction was applied. Represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	EndingBalance int64                                 `json:"ending_balance"`
-	Funded        *CustomerCashBalanceTransactionFunded `json:"funded"`
+	Funded        *CustomerCashBalanceTransactionFunded `json:"funded,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -178,11 +178,11 @@ type CustomerCashBalanceTransaction struct {
 	NetAmount int64 `json:"net_amount"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object               string                                              `json:"object"`
-	RefundedFromPayment  *CustomerCashBalanceTransactionRefundedFromPayment  `json:"refunded_from_payment"`
-	TransferredToBalance *CustomerCashBalanceTransactionTransferredToBalance `json:"transferred_to_balance"`
+	RefundedFromPayment  *CustomerCashBalanceTransactionRefundedFromPayment  `json:"refunded_from_payment,omitempty"`
+	TransferredToBalance *CustomerCashBalanceTransactionTransferredToBalance `json:"transferred_to_balance,omitempty"`
 	// The type of the cash balance transaction. New types may be added in future. See [Customer Balance](https://docs.stripe.com/payments/customer-balance#types) to learn more about these types.
 	Type                 CustomerCashBalanceTransactionType                  `json:"type"`
-	UnappliedFromPayment *CustomerCashBalanceTransactionUnappliedFromPayment `json:"unapplied_from_payment"`
+	UnappliedFromPayment *CustomerCashBalanceTransactionUnappliedFromPayment `json:"unapplied_from_payment,omitempty"`
 }
 
 // CustomerCashBalanceTransactionList is a list of CustomerCashBalanceTransactions as retrieved from a list endpoint.

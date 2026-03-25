@@ -32,13 +32,13 @@ type CustomerBalanceTransactionListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
 	// Only return customer balance transactions that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return customer balance transactions that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return transactions that are related to the specified invoice.
-	Invoice *string `form:"invoice"`
+	Invoice *string `form:"invoice" json:"invoice,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -51,15 +51,15 @@ type CustomerBalanceTransactionParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// The integer amount in **cents (or local equivalent)** to apply to the customer's credit balance.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Specifies the [`invoice_credit_balance`](https://docs.stripe.com/api/customers/object#customer_object-invoice_credit_balance) that this transaction will apply to. If the customer's `currency` is not set, it will be updated to this value.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                            `form:"metadata"`
+	Metadata    map[string]string                            `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []CustomerBalanceTransactionParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -94,15 +94,15 @@ type CustomerBalanceTransactionCreateParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// The integer amount in **cents (or local equivalent)** to apply to the customer's credit balance.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Specifies the [`invoice_credit_balance`](https://docs.stripe.com/api/customers/object#customer_object-invoice_credit_balance) that this transaction will apply to. If the customer's `currency` is not set, it will be updated to this value.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                                  `form:"metadata"`
+	Metadata    map[string]string                                  `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []CustomerBalanceTransactionCreateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -137,7 +137,7 @@ type CustomerBalanceTransactionRetrieveParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -150,11 +150,11 @@ type CustomerBalanceTransactionUpdateParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// An arbitrary string attached to the object. Often useful for displaying to users.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                                  `form:"metadata"`
+	Metadata    map[string]string                                  `form:"metadata" json:"metadata,omitempty"`
 	UnsetFields []CustomerBalanceTransactionUpdateParamsUnsetField `form:"-" json:"-"`
 }
 

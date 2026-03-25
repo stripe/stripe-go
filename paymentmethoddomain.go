@@ -64,11 +64,11 @@ const (
 type PaymentMethodDomainListParams struct {
 	ListParams `form:"*"`
 	// The domain name that this payment method domain object represents.
-	DomainName *string `form:"domain_name"`
+	DomainName *string `form:"domain_name" json:"domain_name,omitempty"`
 	// Whether this payment method domain is enabled. If the domain is not enabled, payment methods will not appear in Elements or Embedded Checkout
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -80,11 +80,11 @@ func (p *PaymentMethodDomainListParams) AddExpand(f string) {
 type PaymentMethodDomainParams struct {
 	Params `form:"*"`
 	// The domain name that this payment method domain object represents.
-	DomainName *string `form:"domain_name"`
+	DomainName *string `form:"domain_name" json:"domain_name,omitempty"`
 	// Whether this payment method domain is enabled. If the domain is not enabled, payment methods that require a payment method domain will not appear in Elements or Embedded Checkout.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -101,7 +101,7 @@ func (p *PaymentMethodDomainParams) AddExpand(f string) {
 type PaymentMethodDomainValidateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -113,11 +113,11 @@ func (p *PaymentMethodDomainValidateParams) AddExpand(f string) {
 type PaymentMethodDomainCreateParams struct {
 	Params `form:"*"`
 	// The domain name that this payment method domain object represents.
-	DomainName *string `form:"domain_name"`
+	DomainName *string `form:"domain_name" json:"domain_name"`
 	// Whether this payment method domain is enabled. If the domain is not enabled, payment methods that require a payment method domain will not appear in Elements or Embedded Checkout.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -129,7 +129,7 @@ func (p *PaymentMethodDomainCreateParams) AddExpand(f string) {
 type PaymentMethodDomainRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -141,9 +141,9 @@ func (p *PaymentMethodDomainRetrieveParams) AddExpand(f string) {
 type PaymentMethodDomainUpdateParams struct {
 	Params `form:"*"`
 	// Whether this payment method domain is enabled. If the domain is not enabled, payment methods that require a payment method domain will not appear in Elements or Embedded Checkout.
-	Enabled *bool `form:"enabled"`
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -162,7 +162,7 @@ type PaymentMethodDomainAmazonPay struct {
 	// The status of the payment method on the domain.
 	Status PaymentMethodDomainAmazonPayStatus `json:"status"`
 	// Contains additional details about the status of a payment method for a specific payment method domain.
-	StatusDetails *PaymentMethodDomainAmazonPayStatusDetails `json:"status_details"`
+	StatusDetails *PaymentMethodDomainAmazonPayStatusDetails `json:"status_details,omitempty"`
 }
 
 // Contains additional details about the status of a payment method for a specific payment method domain.
@@ -176,7 +176,7 @@ type PaymentMethodDomainApplePay struct {
 	// The status of the payment method on the domain.
 	Status PaymentMethodDomainApplePayStatus `json:"status"`
 	// Contains additional details about the status of a payment method for a specific payment method domain.
-	StatusDetails *PaymentMethodDomainApplePayStatusDetails `json:"status_details"`
+	StatusDetails *PaymentMethodDomainApplePayStatusDetails `json:"status_details,omitempty"`
 }
 
 // Contains additional details about the status of a payment method for a specific payment method domain.
@@ -190,7 +190,7 @@ type PaymentMethodDomainGooglePay struct {
 	// The status of the payment method on the domain.
 	Status PaymentMethodDomainGooglePayStatus `json:"status"`
 	// Contains additional details about the status of a payment method for a specific payment method domain.
-	StatusDetails *PaymentMethodDomainGooglePayStatusDetails `json:"status_details"`
+	StatusDetails *PaymentMethodDomainGooglePayStatusDetails `json:"status_details,omitempty"`
 }
 
 // Contains additional details about the status of a payment method for a specific payment method domain.
@@ -204,7 +204,7 @@ type PaymentMethodDomainKlarna struct {
 	// The status of the payment method on the domain.
 	Status PaymentMethodDomainKlarnaStatus `json:"status"`
 	// Contains additional details about the status of a payment method for a specific payment method domain.
-	StatusDetails *PaymentMethodDomainKlarnaStatusDetails `json:"status_details"`
+	StatusDetails *PaymentMethodDomainKlarnaStatusDetails `json:"status_details,omitempty"`
 }
 
 // Contains additional details about the status of a payment method for a specific payment method domain.
@@ -218,7 +218,7 @@ type PaymentMethodDomainLink struct {
 	// The status of the payment method on the domain.
 	Status PaymentMethodDomainLinkStatus `json:"status"`
 	// Contains additional details about the status of a payment method for a specific payment method domain.
-	StatusDetails *PaymentMethodDomainLinkStatusDetails `json:"status_details"`
+	StatusDetails *PaymentMethodDomainLinkStatusDetails `json:"status_details,omitempty"`
 }
 
 // Contains additional details about the status of a payment method for a specific payment method domain.
@@ -232,7 +232,7 @@ type PaymentMethodDomainPaypal struct {
 	// The status of the payment method on the domain.
 	Status PaymentMethodDomainPaypalStatus `json:"status"`
 	// Contains additional details about the status of a payment method for a specific payment method domain.
-	StatusDetails *PaymentMethodDomainPaypalStatusDetails `json:"status_details"`
+	StatusDetails *PaymentMethodDomainPaypalStatusDetails `json:"status_details,omitempty"`
 }
 
 // A payment method domain represents a web domain that you have registered with Stripe.

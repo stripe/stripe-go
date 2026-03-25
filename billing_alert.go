@@ -87,13 +87,13 @@ const (
 type BillingAlertListParams struct {
 	ListParams `form:"*"`
 	// Filter results to only include this type of alert.
-	AlertType *string `form:"alert_type"`
+	AlertType *string `form:"alert_type" json:"alert_type,omitempty"`
 	// Filter results to only include alerts for the given customer.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Filter results to only include alerts with the given meter.
-	Meter *string `form:"meter"`
+	Meter *string `form:"meter" json:"meter,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -104,166 +104,166 @@ func (p *BillingAlertListParams) AddExpand(f string) {
 // A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
 type BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeBillableItemParams struct {
 	// The billable item ID this credit grant should apply to.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 }
 
 // A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 type BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopePriceParams struct {
 	// The price ID this credit grant should apply to.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 }
 
 // Specify the scope of this applicability config.
 type BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeParams struct {
 	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
-	BillableItems []*BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeBillableItemParams `form:"billable_items"`
+	BillableItems []*BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeBillableItemParams `form:"billable_items" json:"billable_items,omitempty"`
 	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
-	Prices []*BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopePriceParams `form:"prices"`
+	Prices []*BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
-	PriceType *string `form:"price_type"`
+	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
 
 // The applicability configuration for this credit grants filter.
 type BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigParams struct {
 	// Specify the scope of this applicability config.
-	Scope *BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeParams `form:"scope"`
+	Scope *BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeParams `form:"scope" json:"scope"`
 }
 
 // The credit grants for which to configure the credit balance alert.
 type BillingAlertCreditBalanceThresholdFilterCreditGrantsParams struct {
 	// The applicability configuration for this credit grants filter.
-	ApplicabilityConfig *BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigParams `form:"applicability_config"`
+	ApplicabilityConfig *BillingAlertCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigParams `form:"applicability_config" json:"applicability_config"`
 }
 
 // The filters allows limiting the scope of this credit balance alert. You must specify a customer filter at this time.
 type BillingAlertCreditBalanceThresholdFilterParams struct {
 	// The credit grants for which to configure the credit balance alert.
-	CreditGrants *BillingAlertCreditBalanceThresholdFilterCreditGrantsParams `form:"credit_grants"`
+	CreditGrants *BillingAlertCreditBalanceThresholdFilterCreditGrantsParams `form:"credit_grants" json:"credit_grants,omitempty"`
 	// Limit the scope to this credit balance alert only to this customer.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// What type of filter is being applied to this credit balance alert.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The custom pricing unit amount.
 type BillingAlertCreditBalanceThresholdLteCustomPricingUnitParams struct {
 	// The ID of the custom pricing unit.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 	// A positive decimal string representing the amount of the custom pricing unit threshold.
-	Value *float64 `form:"value,high_precision"`
+	Value *float64 `form:"value,high_precision" json:"value,string"`
 }
 
 // The monetary amount.
 type BillingAlertCreditBalanceThresholdLteMonetaryParams struct {
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// An integer representing the amount of the threshold.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Defines at which value the alert will fire.
 type BillingAlertCreditBalanceThresholdLteParams struct {
 	// Specify the type of this balance. We currently only support `monetary` billing credits.
-	BalanceType *string `form:"balance_type"`
+	BalanceType *string `form:"balance_type" json:"balance_type"`
 	// The custom pricing unit amount.
-	CustomPricingUnit *BillingAlertCreditBalanceThresholdLteCustomPricingUnitParams `form:"custom_pricing_unit"`
+	CustomPricingUnit *BillingAlertCreditBalanceThresholdLteCustomPricingUnitParams `form:"custom_pricing_unit" json:"custom_pricing_unit,omitempty"`
 	// The monetary amount.
-	Monetary *BillingAlertCreditBalanceThresholdLteMonetaryParams `form:"monetary"`
+	Monetary *BillingAlertCreditBalanceThresholdLteMonetaryParams `form:"monetary" json:"monetary,omitempty"`
 }
 
 // The configuration of the credit balance threshold.
 type BillingAlertCreditBalanceThresholdParams struct {
 	// The filters allows limiting the scope of this credit balance alert. You must specify a customer filter at this time.
-	Filters []*BillingAlertCreditBalanceThresholdFilterParams `form:"filters"`
+	Filters []*BillingAlertCreditBalanceThresholdFilterParams `form:"filters" json:"filters,omitempty"`
 	// Defines at which value the alert will fire.
-	Lte *BillingAlertCreditBalanceThresholdLteParams `form:"lte"`
+	Lte *BillingAlertCreditBalanceThresholdLteParams `form:"lte" json:"lte"`
 }
 
 // Filters to scope the spend calculation.
 type BillingAlertSpendThresholdFiltersParams struct {
 	// Filter by billable item IDs. Maximum of 20 billable items.
-	BillableItems []*string `form:"billable_items"`
+	BillableItems []*string `form:"billable_items" json:"billable_items,omitempty"`
 	// Filter by billing cadence ID.
-	BillingCadence *string `form:"billing_cadence"`
+	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
 	// Filter by pricing plan ID.
-	PricingPlan *string `form:"pricing_plan"`
+	PricingPlan *string `form:"pricing_plan" json:"pricing_plan,omitempty"`
 	// Filter by pricing plan subscription ID.
-	PricingPlanSubscription *string `form:"pricing_plan_subscription"`
+	PricingPlanSubscription *string `form:"pricing_plan_subscription" json:"pricing_plan_subscription,omitempty"`
 }
 
 // The monetary amount. Required when type is `amount`. The threshold is the total_before_tax, the amount consumed after all credits and discounts are applied, but before tax is applied.
 type BillingAlertSpendThresholdGTEAmountParams struct {
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// An integer representing the amount of the threshold.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The custom pricing unit amount. Required when type is `custom_pricing_unit`.
 type BillingAlertSpendThresholdGTECustomPricingUnitParams struct {
 	// The ID of the custom pricing unit.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 	// A positive decimal string representing the amount of the custom pricing unit threshold.
-	Value *float64 `form:"value,high_precision"`
+	Value *float64 `form:"value,high_precision" json:"value,string"`
 }
 
 // Defines at which value the alert will fire.
 type BillingAlertSpendThresholdGTEParams struct {
 	// The monetary amount. Required when type is `amount`. The threshold is the total_before_tax, the amount consumed after all credits and discounts are applied, but before tax is applied.
-	Amount *BillingAlertSpendThresholdGTEAmountParams `form:"amount"`
+	Amount *BillingAlertSpendThresholdGTEAmountParams `form:"amount" json:"amount,omitempty"`
 	// The custom pricing unit amount. Required when type is `custom_pricing_unit`.
-	CustomPricingUnit *BillingAlertSpendThresholdGTECustomPricingUnitParams `form:"custom_pricing_unit"`
+	CustomPricingUnit *BillingAlertSpendThresholdGTECustomPricingUnitParams `form:"custom_pricing_unit" json:"custom_pricing_unit,omitempty"`
 	// The type of the threshold amount.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The configuration of the spend threshold. An event fires when the amount consumed exceeds the threshold, after all credits and discounts are applied but before tax is applied.
 type BillingAlertSpendThresholdParams struct {
 	// Defines the period over which spend is aggregated.
-	AggregationPeriod *string `form:"aggregation_period"`
+	AggregationPeriod *string `form:"aggregation_period" json:"aggregation_period"`
 	// Filters to scope the spend calculation.
-	Filters *BillingAlertSpendThresholdFiltersParams `form:"filters"`
+	Filters *BillingAlertSpendThresholdFiltersParams `form:"filters" json:"filters,omitempty"`
 	// Defines the granularity of spend aggregation. Defaults to `pricing_plan_subscription`.
-	GroupBy *string `form:"group_by"`
+	GroupBy *string `form:"group_by" json:"group_by,omitempty"`
 	// Defines at which value the alert will fire.
-	GTE *BillingAlertSpendThresholdGTEParams `form:"gte"`
+	GTE *BillingAlertSpendThresholdGTEParams `form:"gte" json:"gte"`
 }
 
 // The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
 type BillingAlertUsageThresholdFilterParams struct {
 	// Limit the scope to this usage alert only to this customer.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// What type of filter is being applied to this usage alert.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The configuration of the usage threshold.
 type BillingAlertUsageThresholdParams struct {
 	// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
-	Filters []*BillingAlertUsageThresholdFilterParams `form:"filters"`
+	Filters []*BillingAlertUsageThresholdFilterParams `form:"filters" json:"filters,omitempty"`
 	// Defines the threshold value that triggers the alert.
-	GTE *int64 `form:"gte"`
+	GTE *int64 `form:"gte" json:"gte"`
 	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
-	Meter *string `form:"meter"`
+	Meter *string `form:"meter" json:"meter"`
 	// Defines how the alert will behave.
-	Recurrence *string `form:"recurrence"`
+	Recurrence *string `form:"recurrence" json:"recurrence"`
 }
 
 // Creates a billing alert
 type BillingAlertParams struct {
 	Params `form:"*"`
 	// The type of alert to create.
-	AlertType *string `form:"alert_type"`
+	AlertType *string `form:"alert_type" json:"alert_type,omitempty"`
 	// The configuration of the credit balance threshold.
-	CreditBalanceThreshold *BillingAlertCreditBalanceThresholdParams `form:"credit_balance_threshold"`
+	CreditBalanceThreshold *BillingAlertCreditBalanceThresholdParams `form:"credit_balance_threshold" json:"credit_balance_threshold,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The configuration of the spend threshold. An event fires when the amount consumed exceeds the threshold, after all credits and discounts are applied but before tax is applied.
-	SpendThreshold *BillingAlertSpendThresholdParams `form:"spend_threshold"`
+	SpendThreshold *BillingAlertSpendThresholdParams `form:"spend_threshold" json:"spend_threshold,omitempty"`
 	// The title of the alert.
-	Title *string `form:"title"`
+	Title *string `form:"title" json:"title,omitempty"`
 	// The configuration of the usage threshold.
-	UsageThreshold *BillingAlertUsageThresholdParams `form:"usage_threshold"`
+	UsageThreshold *BillingAlertUsageThresholdParams `form:"usage_threshold" json:"usage_threshold,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -275,7 +275,7 @@ func (p *BillingAlertParams) AddExpand(f string) {
 type BillingAlertActivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -287,7 +287,7 @@ func (p *BillingAlertActivateParams) AddExpand(f string) {
 type BillingAlertArchiveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -299,7 +299,7 @@ func (p *BillingAlertArchiveParams) AddExpand(f string) {
 type BillingAlertDeactivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -310,166 +310,166 @@ func (p *BillingAlertDeactivateParams) AddExpand(f string) {
 // A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
 type BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeBillableItemParams struct {
 	// The billable item ID this credit grant should apply to.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 }
 
 // A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 type BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopePriceParams struct {
 	// The price ID this credit grant should apply to.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 }
 
 // Specify the scope of this applicability config.
 type BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeParams struct {
 	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
-	BillableItems []*BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeBillableItemParams `form:"billable_items"`
+	BillableItems []*BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeBillableItemParams `form:"billable_items" json:"billable_items,omitempty"`
 	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
-	Prices []*BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopePriceParams `form:"prices"`
+	Prices []*BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
-	PriceType *string `form:"price_type"`
+	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
 
 // The applicability configuration for this credit grants filter.
 type BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigParams struct {
 	// Specify the scope of this applicability config.
-	Scope *BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeParams `form:"scope"`
+	Scope *BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigScopeParams `form:"scope" json:"scope"`
 }
 
 // The credit grants for which to configure the credit balance alert.
 type BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsParams struct {
 	// The applicability configuration for this credit grants filter.
-	ApplicabilityConfig *BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigParams `form:"applicability_config"`
+	ApplicabilityConfig *BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsApplicabilityConfigParams `form:"applicability_config" json:"applicability_config"`
 }
 
 // The filters allows limiting the scope of this credit balance alert. You must specify a customer filter at this time.
 type BillingAlertCreateCreditBalanceThresholdFilterParams struct {
 	// The credit grants for which to configure the credit balance alert.
-	CreditGrants *BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsParams `form:"credit_grants"`
+	CreditGrants *BillingAlertCreateCreditBalanceThresholdFilterCreditGrantsParams `form:"credit_grants" json:"credit_grants,omitempty"`
 	// Limit the scope to this credit balance alert only to this customer.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// What type of filter is being applied to this credit balance alert.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The custom pricing unit amount.
 type BillingAlertCreateCreditBalanceThresholdLteCustomPricingUnitParams struct {
 	// The ID of the custom pricing unit.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 	// A positive decimal string representing the amount of the custom pricing unit threshold.
-	Value *float64 `form:"value,high_precision"`
+	Value *float64 `form:"value,high_precision" json:"value,string"`
 }
 
 // The monetary amount.
 type BillingAlertCreateCreditBalanceThresholdLteMonetaryParams struct {
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// An integer representing the amount of the threshold.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // Defines at which value the alert will fire.
 type BillingAlertCreateCreditBalanceThresholdLteParams struct {
 	// Specify the type of this balance. We currently only support `monetary` billing credits.
-	BalanceType *string `form:"balance_type"`
+	BalanceType *string `form:"balance_type" json:"balance_type"`
 	// The custom pricing unit amount.
-	CustomPricingUnit *BillingAlertCreateCreditBalanceThresholdLteCustomPricingUnitParams `form:"custom_pricing_unit"`
+	CustomPricingUnit *BillingAlertCreateCreditBalanceThresholdLteCustomPricingUnitParams `form:"custom_pricing_unit" json:"custom_pricing_unit,omitempty"`
 	// The monetary amount.
-	Monetary *BillingAlertCreateCreditBalanceThresholdLteMonetaryParams `form:"monetary"`
+	Monetary *BillingAlertCreateCreditBalanceThresholdLteMonetaryParams `form:"monetary" json:"monetary,omitempty"`
 }
 
 // The configuration of the credit balance threshold.
 type BillingAlertCreateCreditBalanceThresholdParams struct {
 	// The filters allows limiting the scope of this credit balance alert. You must specify a customer filter at this time.
-	Filters []*BillingAlertCreateCreditBalanceThresholdFilterParams `form:"filters"`
+	Filters []*BillingAlertCreateCreditBalanceThresholdFilterParams `form:"filters" json:"filters,omitempty"`
 	// Defines at which value the alert will fire.
-	Lte *BillingAlertCreateCreditBalanceThresholdLteParams `form:"lte"`
+	Lte *BillingAlertCreateCreditBalanceThresholdLteParams `form:"lte" json:"lte"`
 }
 
 // Filters to scope the spend calculation.
 type BillingAlertCreateSpendThresholdFiltersParams struct {
 	// Filter by billable item IDs. Maximum of 20 billable items.
-	BillableItems []*string `form:"billable_items"`
+	BillableItems []*string `form:"billable_items" json:"billable_items,omitempty"`
 	// Filter by billing cadence ID.
-	BillingCadence *string `form:"billing_cadence"`
+	BillingCadence *string `form:"billing_cadence" json:"billing_cadence,omitempty"`
 	// Filter by pricing plan ID.
-	PricingPlan *string `form:"pricing_plan"`
+	PricingPlan *string `form:"pricing_plan" json:"pricing_plan,omitempty"`
 	// Filter by pricing plan subscription ID.
-	PricingPlanSubscription *string `form:"pricing_plan_subscription"`
+	PricingPlanSubscription *string `form:"pricing_plan_subscription" json:"pricing_plan_subscription,omitempty"`
 }
 
 // The monetary amount. Required when type is `amount`. The threshold is the total_before_tax, the amount consumed after all credits and discounts are applied, but before tax is applied.
 type BillingAlertCreateSpendThresholdGTEAmountParams struct {
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// An integer representing the amount of the threshold.
-	Value *int64 `form:"value"`
+	Value *int64 `form:"value" json:"value"`
 }
 
 // The custom pricing unit amount. Required when type is `custom_pricing_unit`.
 type BillingAlertCreateSpendThresholdGTECustomPricingUnitParams struct {
 	// The ID of the custom pricing unit.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 	// A positive decimal string representing the amount of the custom pricing unit threshold.
-	Value *float64 `form:"value,high_precision"`
+	Value *float64 `form:"value,high_precision" json:"value,string"`
 }
 
 // Defines at which value the alert will fire.
 type BillingAlertCreateSpendThresholdGTEParams struct {
 	// The monetary amount. Required when type is `amount`. The threshold is the total_before_tax, the amount consumed after all credits and discounts are applied, but before tax is applied.
-	Amount *BillingAlertCreateSpendThresholdGTEAmountParams `form:"amount"`
+	Amount *BillingAlertCreateSpendThresholdGTEAmountParams `form:"amount" json:"amount,omitempty"`
 	// The custom pricing unit amount. Required when type is `custom_pricing_unit`.
-	CustomPricingUnit *BillingAlertCreateSpendThresholdGTECustomPricingUnitParams `form:"custom_pricing_unit"`
+	CustomPricingUnit *BillingAlertCreateSpendThresholdGTECustomPricingUnitParams `form:"custom_pricing_unit" json:"custom_pricing_unit,omitempty"`
 	// The type of the threshold amount.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The configuration of the spend threshold. An event fires when the amount consumed exceeds the threshold, after all credits and discounts are applied but before tax is applied.
 type BillingAlertCreateSpendThresholdParams struct {
 	// Defines the period over which spend is aggregated.
-	AggregationPeriod *string `form:"aggregation_period"`
+	AggregationPeriod *string `form:"aggregation_period" json:"aggregation_period"`
 	// Filters to scope the spend calculation.
-	Filters *BillingAlertCreateSpendThresholdFiltersParams `form:"filters"`
+	Filters *BillingAlertCreateSpendThresholdFiltersParams `form:"filters" json:"filters,omitempty"`
 	// Defines the granularity of spend aggregation. Defaults to `pricing_plan_subscription`.
-	GroupBy *string `form:"group_by"`
+	GroupBy *string `form:"group_by" json:"group_by,omitempty"`
 	// Defines at which value the alert will fire.
-	GTE *BillingAlertCreateSpendThresholdGTEParams `form:"gte"`
+	GTE *BillingAlertCreateSpendThresholdGTEParams `form:"gte" json:"gte"`
 }
 
 // The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
 type BillingAlertCreateUsageThresholdFilterParams struct {
 	// Limit the scope to this usage alert only to this customer.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// What type of filter is being applied to this usage alert.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The configuration of the usage threshold.
 type BillingAlertCreateUsageThresholdParams struct {
 	// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
-	Filters []*BillingAlertCreateUsageThresholdFilterParams `form:"filters"`
+	Filters []*BillingAlertCreateUsageThresholdFilterParams `form:"filters" json:"filters,omitempty"`
 	// Defines the threshold value that triggers the alert.
-	GTE *int64 `form:"gte"`
+	GTE *int64 `form:"gte" json:"gte"`
 	// The [Billing Meter](https://docs.stripe.com/api/billing/meter) ID whose usage is monitored.
-	Meter *string `form:"meter"`
+	Meter *string `form:"meter" json:"meter"`
 	// Defines how the alert will behave.
-	Recurrence *string `form:"recurrence"`
+	Recurrence *string `form:"recurrence" json:"recurrence"`
 }
 
 // Creates a billing alert
 type BillingAlertCreateParams struct {
 	Params `form:"*"`
 	// The type of alert to create.
-	AlertType *string `form:"alert_type"`
+	AlertType *string `form:"alert_type" json:"alert_type"`
 	// The configuration of the credit balance threshold.
-	CreditBalanceThreshold *BillingAlertCreateCreditBalanceThresholdParams `form:"credit_balance_threshold"`
+	CreditBalanceThreshold *BillingAlertCreateCreditBalanceThresholdParams `form:"credit_balance_threshold" json:"credit_balance_threshold,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The configuration of the spend threshold. An event fires when the amount consumed exceeds the threshold, after all credits and discounts are applied but before tax is applied.
-	SpendThreshold *BillingAlertCreateSpendThresholdParams `form:"spend_threshold"`
+	SpendThreshold *BillingAlertCreateSpendThresholdParams `form:"spend_threshold" json:"spend_threshold,omitempty"`
 	// The title of the alert.
-	Title *string `form:"title"`
+	Title *string `form:"title" json:"title"`
 	// The configuration of the usage threshold.
-	UsageThreshold *BillingAlertCreateUsageThresholdParams `form:"usage_threshold"`
+	UsageThreshold *BillingAlertCreateUsageThresholdParams `form:"usage_threshold" json:"usage_threshold,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -481,7 +481,7 @@ func (p *BillingAlertCreateParams) AddExpand(f string) {
 type BillingAlertRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -533,7 +533,7 @@ type BillingAlertCreditBalanceThresholdLte struct {
 	// The type of this balance. We currently only support `monetary` amounts.
 	BalanceType BillingAlertCreditBalanceThresholdLteBalanceType `json:"balance_type"`
 	// The custom pricing unit amount.
-	CustomPricingUnit *BillingAlertCreditBalanceThresholdLteCustomPricingUnit `json:"custom_pricing_unit"`
+	CustomPricingUnit *BillingAlertCreditBalanceThresholdLteCustomPricingUnit `json:"custom_pricing_unit,omitempty"`
 	// The monetary amount.
 	Monetary *BillingAlertCreditBalanceThresholdLteMonetary `json:"monetary"`
 }
@@ -638,7 +638,7 @@ type BillingAlert struct {
 	// Defines the type of the alert.
 	AlertType BillingAlertAlertType `json:"alert_type"`
 	// Encapsulates configuration of the alert to monitor billing credit balance.
-	CreditBalanceThreshold *BillingAlertCreditBalanceThreshold `json:"credit_balance_threshold"`
+	CreditBalanceThreshold *BillingAlertCreditBalanceThreshold `json:"credit_balance_threshold,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -646,7 +646,7 @@ type BillingAlert struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Encapsulates the alert's configuration to monitor spend on pricing plan subscriptions.
-	SpendThreshold *BillingAlertSpendThreshold `json:"spend_threshold"`
+	SpendThreshold *BillingAlertSpendThreshold `json:"spend_threshold,omitempty"`
 	// Status of the alert. This can be active, inactive or archived.
 	Status BillingAlertStatus `json:"status"`
 	// Title of the alert.

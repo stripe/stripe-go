@@ -27,9 +27,9 @@ type PaymentSourceListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Filter sources according to a particular object type.
-	Object *string `form:"object"`
+	Object *string `form:"object" json:"object,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -84,35 +84,35 @@ type PaymentSourceParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account.
-	AccountHolderName *string `form:"account_holder_name"`
+	AccountHolderName *string `form:"account_holder_name" json:"account_holder_name,omitempty"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
-	AccountHolderType *string `form:"account_holder_type"`
+	AccountHolderType *string `form:"account_holder_type" json:"account_holder_type,omitempty"`
 	// City/District/Suburb/Town/Village.
-	AddressCity *string `form:"address_city"`
+	AddressCity *string `form:"address_city" json:"address_city,omitempty"`
 	// Billing address country, if provided when creating card.
-	AddressCountry *string `form:"address_country"`
+	AddressCountry *string `form:"address_country" json:"address_country,omitempty"`
 	// Address line 1 (Street address/PO Box/Company name).
-	AddressLine1 *string `form:"address_line1"`
+	AddressLine1 *string `form:"address_line1" json:"address_line1,omitempty"`
 	// Address line 2 (Apartment/Suite/Unit/Building).
-	AddressLine2 *string `form:"address_line2"`
+	AddressLine2 *string `form:"address_line2" json:"address_line2,omitempty"`
 	// State/County/Province/Region.
-	AddressState *string `form:"address_state"`
+	AddressState *string `form:"address_state" json:"address_state,omitempty"`
 	// ZIP or postal code.
-	AddressZip *string `form:"address_zip"`
+	AddressZip *string `form:"address_zip" json:"address_zip,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Two digit number representing the card's expiration month.
-	ExpMonth *string `form:"exp_month"`
+	ExpMonth *string `form:"exp_month" json:"exp_month,omitempty"`
 	// Four digit number representing the card's expiration year.
-	ExpYear *string `form:"exp_year"`
+	ExpYear *string `form:"exp_year" json:"exp_year,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Cardholder name.
-	Name  *string                   `form:"name"`
-	Owner *PaymentSourceOwnerParams `form:"owner"`
+	Name  *string                   `form:"name" json:"name,omitempty"`
+	Owner *PaymentSourceOwnerParams `form:"owner" json:"owner,omitempty"`
 	// Please refer to full [documentation](https://api.stripe.com) instead.
 	Source      *PaymentSourceSourceParams      `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
-	Validate    *bool                           `form:"validate"`
+	Validate    *bool                           `form:"validate" json:"validate,omitempty"`
 	UnsetFields []PaymentSourceParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -144,13 +144,13 @@ func (p *PaymentSourceParams) AddMetadata(key string, value string) {
 
 type PaymentSourceOwnerParams struct {
 	// Owner's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Owner's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Owner's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Owner's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Verify a specified bank account for a given customer.
@@ -158,10 +158,10 @@ type PaymentSourceVerifyParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
-	Amounts [2]int64 `form:"amounts"` // Amounts is used when verifying bank accounts
+	Amounts [2]int64 `form:"amounts" json:"amounts,omitempty"` // Amounts is used when verifying bank accounts
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	Values []*string `form:"values"` // Values is used when verifying sources
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	Values []*string `form:"values" json:"values,omitempty"` // Values is used when verifying sources
 }
 
 // AddExpand appends a new field to expand.
@@ -178,12 +178,12 @@ type PaymentSourceCreateParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Please refer to full [documentation](https://api.stripe.com) instead.
 	Source   *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
-	Validate *bool                      `form:"validate"`
+	Validate *bool                      `form:"validate" json:"validate,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -205,7 +205,7 @@ type PaymentSourceRetrieveParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -215,13 +215,13 @@ func (p *PaymentSourceRetrieveParams) AddExpand(f string) {
 
 type PaymentSourceUpdateOwnerParams struct {
 	// Owner's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Owner's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Owner's full name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Owner's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Update a specified source for a given customer.
@@ -229,32 +229,32 @@ type PaymentSourceUpdateParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account.
-	AccountHolderName *string `form:"account_holder_name"`
+	AccountHolderName *string `form:"account_holder_name" json:"account_holder_name,omitempty"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
-	AccountHolderType *string `form:"account_holder_type"`
+	AccountHolderType *string `form:"account_holder_type" json:"account_holder_type,omitempty"`
 	// City/District/Suburb/Town/Village.
-	AddressCity *string `form:"address_city"`
+	AddressCity *string `form:"address_city" json:"address_city,omitempty"`
 	// Billing address country, if provided when creating card.
-	AddressCountry *string `form:"address_country"`
+	AddressCountry *string `form:"address_country" json:"address_country,omitempty"`
 	// Address line 1 (Street address/PO Box/Company name).
-	AddressLine1 *string `form:"address_line1"`
+	AddressLine1 *string `form:"address_line1" json:"address_line1,omitempty"`
 	// Address line 2 (Apartment/Suite/Unit/Building).
-	AddressLine2 *string `form:"address_line2"`
+	AddressLine2 *string `form:"address_line2" json:"address_line2,omitempty"`
 	// State/County/Province/Region.
-	AddressState *string `form:"address_state"`
+	AddressState *string `form:"address_state" json:"address_state,omitempty"`
 	// ZIP or postal code.
-	AddressZip *string `form:"address_zip"`
+	AddressZip *string `form:"address_zip" json:"address_zip,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Two digit number representing the card's expiration month.
-	ExpMonth *string `form:"exp_month"`
+	ExpMonth *string `form:"exp_month" json:"exp_month,omitempty"`
 	// Four digit number representing the card's expiration year.
-	ExpYear *string `form:"exp_year"`
+	ExpYear *string `form:"exp_year" json:"exp_year,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Cardholder name.
-	Name        *string                               `form:"name"`
-	Owner       *PaymentSourceUpdateOwnerParams       `form:"owner"`
+	Name        *string                               `form:"name" json:"name,omitempty"`
+	Owner       *PaymentSourceUpdateOwnerParams       `form:"owner" json:"owner,omitempty"`
 	UnsetFields []PaymentSourceUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -289,7 +289,7 @@ type PaymentSourceDeleteParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -301,8 +301,8 @@ type PaymentSource struct {
 	APIResource
 	BankAccount *BankAccount      `json:"-"`
 	Card        *Card             `json:"-"`
-	Deleted     bool              `json:"deleted"`
-	ID          string            `json:"id"`
+	Deleted     bool              `json:"deleted,omitempty"`
+	ID          string            `json:"id,omitempty"`
 	Source      *Source           `json:"-"`
 	Type        PaymentSourceType `json:"object"`
 }

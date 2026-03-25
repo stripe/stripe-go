@@ -11,7 +11,7 @@ type FinancialConnectionsAccountInferredBalanceListParams struct {
 	ListParams `form:"*"`
 	Account    *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

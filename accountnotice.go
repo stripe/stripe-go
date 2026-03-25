@@ -30,9 +30,9 @@ const (
 type AccountNoticeListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set to false to only return unsent AccountNotices.
-	Sent *bool `form:"sent"`
+	Sent *bool `form:"sent" json:"sent,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -44,13 +44,13 @@ func (p *AccountNoticeListParams) AddExpand(f string) {
 type AccountNoticeParams struct {
 	Params `form:"*"`
 	// Information about the email you sent.
-	Email *AccountNoticeEmailParams `form:"email"`
+	Email *AccountNoticeEmailParams `form:"email" json:"email,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Date when you sent the notice.
-	SentAt *int64 `form:"sent_at"`
+	SentAt *int64 `form:"sent_at" json:"sent_at,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -70,18 +70,18 @@ func (p *AccountNoticeParams) AddMetadata(key string, value string) {
 // Information about the email you sent.
 type AccountNoticeEmailParams struct {
 	// Content of the email in plain text. The copy must match exactly the language that Stripe Compliance has approved for use.
-	PlainText *string `form:"plain_text"`
+	PlainText *string `form:"plain_text" json:"plain_text"`
 	// Email address of the recipient.
-	Recipient *string `form:"recipient"`
+	Recipient *string `form:"recipient" json:"recipient"`
 	// Subject of the email.
-	Subject *string `form:"subject"`
+	Subject *string `form:"subject" json:"subject"`
 }
 
 // Retrieves an AccountNotice object.
 type AccountNoticeRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -92,24 +92,24 @@ func (p *AccountNoticeRetrieveParams) AddExpand(f string) {
 // Information about the email you sent.
 type AccountNoticeUpdateEmailParams struct {
 	// Content of the email in plain text. The copy must match exactly the language that Stripe Compliance has approved for use.
-	PlainText *string `form:"plain_text"`
+	PlainText *string `form:"plain_text" json:"plain_text"`
 	// Email address of the recipient.
-	Recipient *string `form:"recipient"`
+	Recipient *string `form:"recipient" json:"recipient"`
 	// Subject of the email.
-	Subject *string `form:"subject"`
+	Subject *string `form:"subject" json:"subject"`
 }
 
 // Updates an AccountNotice object.
 type AccountNoticeUpdateParams struct {
 	Params `form:"*"`
 	// Information about the email you sent.
-	Email *AccountNoticeUpdateEmailParams `form:"email"`
+	Email *AccountNoticeUpdateEmailParams `form:"email" json:"email"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Date when you sent the notice.
-	SentAt *int64 `form:"sent_at"`
+	SentAt *int64 `form:"sent_at" json:"sent_at"`
 }
 
 // AddExpand appends a new field to expand.
@@ -141,7 +141,7 @@ type AccountNoticeLinkedObjects struct {
 	// Associated [Capability](https://docs.stripe.com/api/capabilities)
 	Capability string `json:"capability"`
 	// Associated [Credit Underwriting Record](https://docs.stripe.com/api/issuing/credit_underwriting_record)
-	IssuingCreditUnderwritingRecord string `json:"issuing_credit_underwriting_record"`
+	IssuingCreditUnderwritingRecord string `json:"issuing_credit_underwriting_record,omitempty"`
 	// Associated [Issuing Dispute](https://docs.stripe.com/api/issuing/disputes)
 	IssuingDispute string `json:"issuing_dispute"`
 }

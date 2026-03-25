@@ -64,29 +64,29 @@ const (
 type DelegatedCheckoutRequestedSessionParams struct {
 	Params `form:"*"`
 	// Affiliate attribution data associated with this requested session.
-	AffiliateAttribution *DelegatedCheckoutRequestedSessionAffiliateAttributionParams `form:"affiliate_attribution"`
+	AffiliateAttribution *DelegatedCheckoutRequestedSessionAffiliateAttributionParams `form:"affiliate_attribution" json:"affiliate_attribution,omitempty"`
 	// The currency for this requested session.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The customer for this requested session.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The details of the fulfillment.
-	FulfillmentDetails *DelegatedCheckoutRequestedSessionFulfillmentDetailsParams `form:"fulfillment_details"`
+	FulfillmentDetails *DelegatedCheckoutRequestedSessionFulfillmentDetailsParams `form:"fulfillment_details" json:"fulfillment_details,omitempty"`
 	// The details of the line items.
-	LineItemDetails []*DelegatedCheckoutRequestedSessionLineItemDetailParams `form:"line_item_details"`
+	LineItemDetails []*DelegatedCheckoutRequestedSessionLineItemDetailParams `form:"line_item_details" json:"line_item_details,omitempty"`
 	// The metadata for this requested session.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payment method for this requested session.
-	PaymentMethod *string `form:"payment_method"`
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The payment method data for this requested session.
-	PaymentMethodData *DelegatedCheckoutRequestedSessionPaymentMethodDataParams `form:"payment_method_data"`
+	PaymentMethodData *DelegatedCheckoutRequestedSessionPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// The details of the seller.
-	SellerDetails *DelegatedCheckoutRequestedSessionSellerDetailsParams `form:"seller_details"`
+	SellerDetails *DelegatedCheckoutRequestedSessionSellerDetailsParams `form:"seller_details" json:"seller_details,omitempty"`
 	// The setup future usage for this requested session.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// The shared metadata for this requested session.
-	SharedMetadata map[string]string                                   `form:"shared_metadata"`
+	SharedMetadata map[string]string                                   `form:"shared_metadata" json:"shared_metadata,omitempty"`
 	UnsetFields    []DelegatedCheckoutRequestedSessionParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -121,254 +121,254 @@ func (p *DelegatedCheckoutRequestedSessionParams) AddMetadata(key string, value 
 // The shipping fulfillment option.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShippingParams struct {
 	// The shipping option identifier.
-	ShippingOption *string `form:"shipping_option"`
+	ShippingOption *string `form:"shipping_option" json:"shipping_option"`
 }
 
 // The digital fulfillment option.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionDigitalParams struct {
 	// The digital option identifier.
-	DigitalOption *string `form:"digital_option"`
+	DigitalOption *string `form:"digital_option" json:"digital_option"`
 }
 
 // The fulfillment option to select.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionParams struct {
 	// The digital fulfillment option.
-	Digital *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionDigitalParams `form:"digital"`
+	Digital *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionDigitalParams `form:"digital" json:"digital,omitempty"`
 	// The shipping fulfillment option.
-	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShippingParams `form:"shipping"`
+	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShippingParams `form:"shipping" json:"shipping,omitempty"`
 	// The type of fulfillment option.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The digital fulfillment option.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideDigitalParams struct {
 	// The digital option identifier.
-	DigitalOption *string `form:"digital_option"`
+	DigitalOption *string `form:"digital_option" json:"digital_option"`
 }
 
 // The shipping fulfillment option.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideShippingParams struct {
 	// The shipping option identifier.
-	ShippingOption *string `form:"shipping_option"`
+	ShippingOption *string `form:"shipping_option" json:"shipping_option"`
 }
 
 // The fulfillment option overrides for specific line items.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideParams struct {
 	// The digital fulfillment option.
-	Digital *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideDigitalParams `form:"digital"`
+	Digital *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideDigitalParams `form:"digital" json:"digital,omitempty"`
 	// The line item keys that this fulfillment option override applies to.
-	LineItemKeys []*string `form:"line_item_keys"`
+	LineItemKeys []*string `form:"line_item_keys" json:"line_item_keys"`
 	// The shipping fulfillment option.
-	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideShippingParams `form:"shipping"`
+	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideShippingParams `form:"shipping" json:"shipping,omitempty"`
 	// The type of fulfillment option.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The details of the fulfillment.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsParams struct {
 	// The customer's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The customer's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The customer's name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The customer's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The fulfillment option to select.
-	SelectedFulfillmentOption *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionParams `form:"selected_fulfillment_option"`
+	SelectedFulfillmentOption *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionParams `form:"selected_fulfillment_option" json:"selected_fulfillment_option,omitempty"`
 	// The fulfillment option overrides for specific line items.
-	SelectedFulfillmentOptionOverrides []*DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideParams `form:"selected_fulfillment_option_overrides"`
+	SelectedFulfillmentOptionOverrides []*DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideParams `form:"selected_fulfillment_option_overrides" json:"selected_fulfillment_option_overrides,omitempty"`
 }
 
 // The details of the line items.
 type DelegatedCheckoutRequestedSessionLineItemDetailParams struct {
 	// The key of the line item.
-	Key *string `form:"key"`
+	Key *string `form:"key" json:"key,omitempty"`
 	// The quantity of the line item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity"`
 	// The SKU ID of the line item.
-	SKUID *string `form:"sku_id"`
+	SKUID *string `form:"sku_id" json:"sku_id,omitempty"`
 }
 
 // The billing details for the payment method data.
 type DelegatedCheckoutRequestedSessionPaymentMethodDataBillingDetailsParams struct {
 	// The address for the billing details.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The email for the billing details.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name for the billing details.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone for the billing details.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // The card for the payment method data.
 type DelegatedCheckoutRequestedSessionPaymentMethodDataCardParams struct {
 	// The CVC of the card.
-	CVC *string `form:"cvc"`
+	CVC *string `form:"cvc" json:"cvc,omitempty"`
 	// The expiration month of the card.
-	ExpMonth *int64 `form:"exp_month"`
+	ExpMonth *int64 `form:"exp_month" json:"exp_month"`
 	// The expiration year of the card.
-	ExpYear *int64 `form:"exp_year"`
+	ExpYear *int64 `form:"exp_year" json:"exp_year"`
 	// The number of the card.
-	Number *string `form:"number"`
+	Number *string `form:"number" json:"number"`
 }
 
 // The payment method data for this requested session.
 type DelegatedCheckoutRequestedSessionPaymentMethodDataParams struct {
 	// The billing details for the payment method data.
-	BillingDetails *DelegatedCheckoutRequestedSessionPaymentMethodDataBillingDetailsParams `form:"billing_details"`
+	BillingDetails *DelegatedCheckoutRequestedSessionPaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
 	// The card for the payment method data.
-	Card *DelegatedCheckoutRequestedSessionPaymentMethodDataCardParams `form:"card"`
+	Card *DelegatedCheckoutRequestedSessionPaymentMethodDataCardParams `form:"card" json:"card,omitempty"`
 	// The type of the payment method data.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // The details of the seller.
 type DelegatedCheckoutRequestedSessionSellerDetailsParams struct {
 	// The network profile for the seller.
-	NetworkProfile *string `form:"network_profile"`
+	NetworkProfile *string `form:"network_profile" json:"network_profile"`
 }
 
 // Context about where the attribution originated.
 type DelegatedCheckoutRequestedSessionAffiliateAttributionSourceParams struct {
 	// The platform where the attribution originated.
-	Platform *string `form:"platform"`
+	Platform *string `form:"platform" json:"platform,omitempty"`
 	// The type of the attribution source.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// The URL where the attribution originated.
-	URL *string `form:"url"`
+	URL *string `form:"url" json:"url,omitempty"`
 }
 
 // Affiliate attribution data associated with this requested session.
 type DelegatedCheckoutRequestedSessionAffiliateAttributionParams struct {
 	// Agent-scoped campaign identifier.
-	CampaignID *string `form:"campaign_id"`
+	CampaignID *string `form:"campaign_id" json:"campaign_id,omitempty"`
 	// Agent-scoped creative identifier.
-	CreativeID *string `form:"creative_id"`
+	CreativeID *string `form:"creative_id" json:"creative_id,omitempty"`
 	// Timestamp when the attribution token expires.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at"`
 	// Agent-issued secret to validate the legitimacy of the source of this data.
-	IdentificationToken *string `form:"identification_token"`
+	IdentificationToken *string `form:"identification_token" json:"identification_token"`
 	// Timestamp for when the attribution token was issued.
-	IssuedAt *int64 `form:"issued_at"`
+	IssuedAt *int64 `form:"issued_at" json:"issued_at"`
 	// Identifier for the attribution agent / affiliate network namespace.
-	Provider *string `form:"provider"`
+	Provider *string `form:"provider" json:"provider"`
 	// Agent-scoped affiliate/publisher identifier.
-	PublisherID *string `form:"publisher_id"`
+	PublisherID *string `form:"publisher_id" json:"publisher_id,omitempty"`
 	// Freeform key/value pairs for additional non-sensitive per-agent data.
-	SharedMetadata map[string]string `form:"shared_metadata"`
+	SharedMetadata map[string]string `form:"shared_metadata" json:"shared_metadata,omitempty"`
 	// Context about where the attribution originated.
-	Source *DelegatedCheckoutRequestedSessionAffiliateAttributionSourceParams `form:"source"`
+	Source *DelegatedCheckoutRequestedSessionAffiliateAttributionSourceParams `form:"source" json:"source,omitempty"`
 	// Agent-scoped sub-tracking identifier.
-	SubID *string `form:"sub_id"`
+	SubID *string `form:"sub_id" json:"sub_id,omitempty"`
 	// Whether this is the first or last touchpoint.
-	Touchpoint *string `form:"touchpoint"`
+	Touchpoint *string `form:"touchpoint" json:"touchpoint"`
 }
 
 // The billing details for the payment method data.
 type DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataBillingDetailsParams struct {
 	// The address for the billing details.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The email for the billing details.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name for the billing details.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone for the billing details.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // The card for the payment method data.
 type DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataCardParams struct {
 	// The CVC of the card.
-	CVC *string `form:"cvc"`
+	CVC *string `form:"cvc" json:"cvc,omitempty"`
 	// The expiration month of the card.
-	ExpMonth *int64 `form:"exp_month"`
+	ExpMonth *int64 `form:"exp_month" json:"exp_month"`
 	// The expiration year of the card.
-	ExpYear *int64 `form:"exp_year"`
+	ExpYear *int64 `form:"exp_year" json:"exp_year"`
 	// The number of the card.
-	Number *string `form:"number"`
+	Number *string `form:"number" json:"number"`
 }
 
 // The payment method data for this requested session.
 type DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataParams struct {
 	// The billing details for the payment method data.
-	BillingDetails *DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataBillingDetailsParams `form:"billing_details"`
+	BillingDetails *DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
 	// The card for the payment method data.
-	Card *DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataCardParams `form:"card"`
+	Card *DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataCardParams `form:"card" json:"card,omitempty"`
 	// The type of the payment method data.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // The client device metadata details for this requested session.
 type DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams struct {
 	// The radar session.
-	RadarSession *string `form:"radar_session"`
+	RadarSession *string `form:"radar_session" json:"radar_session,omitempty"`
 	// The referrer of the client device.
-	Referrer *string `form:"referrer"`
+	Referrer *string `form:"referrer" json:"referrer,omitempty"`
 	// The remote IP address of the client device.
-	RemoteIP *string `form:"remote_ip"`
+	RemoteIP *string `form:"remote_ip" json:"remote_ip,omitempty"`
 	// The time on page in milliseconds.
-	TimeOnPageMS *int64 `form:"time_on_page_ms"`
+	TimeOnPageMS *int64 `form:"time_on_page_ms" json:"time_on_page_ms,omitempty"`
 	// The user agent of the client device.
-	UserAgent *string `form:"user_agent"`
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
 // Risk details/signals associated with the requested session
 type DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams struct {
 	// The client device metadata details for this requested session.
-	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
+	ClientDeviceMetadataDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams `form:"client_device_metadata_details" json:"client_device_metadata_details,omitempty"`
 }
 
 // Context about where the attribution originated.
 type DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionSourceParams struct {
 	// The platform where the attribution originated.
-	Platform *string `form:"platform"`
+	Platform *string `form:"platform" json:"platform,omitempty"`
 	// The type of the attribution source.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// The URL where the attribution originated.
-	URL *string `form:"url"`
+	URL *string `form:"url" json:"url,omitempty"`
 }
 
 // Affiliate attribution data associated with this requested session.
 type DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionParams struct {
 	// Agent-scoped campaign identifier.
-	CampaignID *string `form:"campaign_id"`
+	CampaignID *string `form:"campaign_id" json:"campaign_id,omitempty"`
 	// Agent-scoped creative identifier.
-	CreativeID *string `form:"creative_id"`
+	CreativeID *string `form:"creative_id" json:"creative_id,omitempty"`
 	// Timestamp when the attribution token expires.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at"`
 	// Agent-issued secret to validate the legitimacy of the source of this data.
-	IdentificationToken *string `form:"identification_token"`
+	IdentificationToken *string `form:"identification_token" json:"identification_token"`
 	// Timestamp for when the attribution token was issued.
-	IssuedAt *int64 `form:"issued_at"`
+	IssuedAt *int64 `form:"issued_at" json:"issued_at"`
 	// Identifier for the attribution agent / affiliate network namespace.
-	Provider *string `form:"provider"`
+	Provider *string `form:"provider" json:"provider"`
 	// Agent-scoped affiliate/publisher identifier.
-	PublisherID *string `form:"publisher_id"`
+	PublisherID *string `form:"publisher_id" json:"publisher_id,omitempty"`
 	// Freeform key/value pairs for additional non-sensitive per-agent data.
-	SharedMetadata map[string]string `form:"shared_metadata"`
+	SharedMetadata map[string]string `form:"shared_metadata" json:"shared_metadata,omitempty"`
 	// Context about where the attribution originated.
-	Source *DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionSourceParams `form:"source"`
+	Source *DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionSourceParams `form:"source" json:"source,omitempty"`
 	// Agent-scoped sub-tracking identifier.
-	SubID *string `form:"sub_id"`
+	SubID *string `form:"sub_id" json:"sub_id,omitempty"`
 	// Whether this is the first or last touchpoint.
-	Touchpoint *string `form:"touchpoint"`
+	Touchpoint *string `form:"touchpoint" json:"touchpoint"`
 }
 
 // Confirms a requested session
 type DelegatedCheckoutRequestedSessionConfirmParams struct {
 	Params `form:"*"`
 	// Affiliate attribution data associated with this requested session.
-	AffiliateAttribution *DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionParams `form:"affiliate_attribution"`
+	AffiliateAttribution *DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionParams `form:"affiliate_attribution" json:"affiliate_attribution,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The PaymentMethod to use with the requested session.
-	PaymentMethod *string `form:"payment_method"`
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The payment method data for this requested session.
-	PaymentMethodData *DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataParams `form:"payment_method_data"`
+	PaymentMethodData *DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Risk details/signals associated with the requested session
-	RiskDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams `form:"risk_details"`
+	RiskDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams `form:"risk_details" json:"risk_details,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -380,7 +380,7 @@ func (p *DelegatedCheckoutRequestedSessionConfirmParams) AddExpand(f string) {
 type DelegatedCheckoutRequestedSessionExpireParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -392,7 +392,7 @@ func (p *DelegatedCheckoutRequestedSessionExpireParams) AddExpand(f string) {
 type DelegatedCheckoutRequestedSessionRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -403,124 +403,124 @@ func (p *DelegatedCheckoutRequestedSessionRetrieveParams) AddExpand(f string) {
 // The shipping fulfillment option.
 type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionShippingParams struct {
 	// The shipping option identifier.
-	ShippingOption *string `form:"shipping_option"`
+	ShippingOption *string `form:"shipping_option" json:"shipping_option"`
 }
 
 // The digital fulfillment option.
 type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionDigitalParams struct {
 	// The digital option identifier.
-	DigitalOption *string `form:"digital_option"`
+	DigitalOption *string `form:"digital_option" json:"digital_option"`
 }
 
 // The fulfillment option to select.
 type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionParams struct {
 	// The digital fulfillment option.
-	Digital *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionDigitalParams `form:"digital"`
+	Digital *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionDigitalParams `form:"digital" json:"digital,omitempty"`
 	// The shipping fulfillment option.
-	Shipping *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionShippingParams `form:"shipping"`
+	Shipping *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionShippingParams `form:"shipping" json:"shipping,omitempty"`
 	// The type of fulfillment option.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The digital fulfillment option.
 type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideDigitalParams struct {
 	// The digital option identifier.
-	DigitalOption *string `form:"digital_option"`
+	DigitalOption *string `form:"digital_option" json:"digital_option"`
 }
 
 // The shipping fulfillment option.
 type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideShippingParams struct {
 	// The shipping option identifier.
-	ShippingOption *string `form:"shipping_option"`
+	ShippingOption *string `form:"shipping_option" json:"shipping_option"`
 }
 
 // The fulfillment option overrides for specific line items.
 type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideParams struct {
 	// The digital fulfillment option.
-	Digital *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideDigitalParams `form:"digital"`
+	Digital *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideDigitalParams `form:"digital" json:"digital,omitempty"`
 	// The line item keys that this fulfillment option override applies to.
-	LineItemKeys []*string `form:"line_item_keys"`
+	LineItemKeys []*string `form:"line_item_keys" json:"line_item_keys"`
 	// The shipping fulfillment option.
-	Shipping *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideShippingParams `form:"shipping"`
+	Shipping *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideShippingParams `form:"shipping" json:"shipping,omitempty"`
 	// The type of fulfillment option.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The details of the fulfillment.
 type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsParams struct {
 	// The customer's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The customer's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The customer's name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The customer's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 	// The fulfillment option to select.
-	SelectedFulfillmentOption *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionParams `form:"selected_fulfillment_option"`
+	SelectedFulfillmentOption *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionParams `form:"selected_fulfillment_option" json:"selected_fulfillment_option,omitempty"`
 	// The fulfillment option overrides for specific line items.
-	SelectedFulfillmentOptionOverrides []*DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideParams `form:"selected_fulfillment_option_overrides"`
+	SelectedFulfillmentOptionOverrides []*DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionOverrideParams `form:"selected_fulfillment_option_overrides" json:"selected_fulfillment_option_overrides,omitempty"`
 }
 
 // The details of the line items.
 type DelegatedCheckoutRequestedSessionUpdateLineItemDetailParams struct {
 	// The key of the line item.
-	Key *string `form:"key"`
+	Key *string `form:"key" json:"key"`
 	// The quantity of the line item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity"`
 }
 
 // The billing details for the payment method data.
 type DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataBillingDetailsParams struct {
 	// The address for the billing details.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The email for the billing details.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name for the billing details.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone for the billing details.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // The card for the payment method data.
 type DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataCardParams struct {
 	// The CVC of the card.
-	CVC *string `form:"cvc"`
+	CVC *string `form:"cvc" json:"cvc,omitempty"`
 	// The expiration month of the card.
-	ExpMonth *int64 `form:"exp_month"`
+	ExpMonth *int64 `form:"exp_month" json:"exp_month"`
 	// The expiration year of the card.
-	ExpYear *int64 `form:"exp_year"`
+	ExpYear *int64 `form:"exp_year" json:"exp_year"`
 	// The number of the card.
-	Number *string `form:"number"`
+	Number *string `form:"number" json:"number"`
 }
 
 // The payment method data for this requested session.
 type DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataParams struct {
 	// The billing details for the payment method data.
-	BillingDetails *DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataBillingDetailsParams `form:"billing_details"`
+	BillingDetails *DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
 	// The card for the payment method data.
-	Card *DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataCardParams `form:"card"`
+	Card *DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataCardParams `form:"card" json:"card,omitempty"`
 	// The type of the payment method data.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Updates a requested session
 type DelegatedCheckoutRequestedSessionUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The details of the fulfillment.
-	FulfillmentDetails *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsParams `form:"fulfillment_details"`
+	FulfillmentDetails *DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsParams `form:"fulfillment_details" json:"fulfillment_details,omitempty"`
 	// The details of the line items.
-	LineItemDetails []*DelegatedCheckoutRequestedSessionUpdateLineItemDetailParams `form:"line_item_details"`
+	LineItemDetails []*DelegatedCheckoutRequestedSessionUpdateLineItemDetailParams `form:"line_item_details" json:"line_item_details,omitempty"`
 	// The metadata for this requested session.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payment method for this requested session.
-	PaymentMethod *string `form:"payment_method"`
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The payment method data for this requested session.
-	PaymentMethodData *DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataParams `form:"payment_method_data"`
+	PaymentMethodData *DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// The shared metadata for this requested session.
-	SharedMetadata map[string]string                                         `form:"shared_metadata"`
+	SharedMetadata map[string]string                                         `form:"shared_metadata" json:"shared_metadata,omitempty"`
 	UnsetFields    []DelegatedCheckoutRequestedSessionUpdateParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -555,126 +555,126 @@ func (p *DelegatedCheckoutRequestedSessionUpdateParams) AddMetadata(key string, 
 // The details of the fulfillment.
 type DelegatedCheckoutRequestedSessionCreateFulfillmentDetailsParams struct {
 	// The customer's address.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The customer's email address.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The customer's name.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The customer's phone number.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // The details of the line items.
 type DelegatedCheckoutRequestedSessionCreateLineItemDetailParams struct {
 	// The quantity of the line item.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity"`
 	// The SKU ID of the line item.
-	SKUID *string `form:"sku_id"`
+	SKUID *string `form:"sku_id" json:"sku_id"`
 }
 
 // The billing details for the payment method data.
 type DelegatedCheckoutRequestedSessionCreatePaymentMethodDataBillingDetailsParams struct {
 	// The address for the billing details.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The email for the billing details.
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// The name for the billing details.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// The phone for the billing details.
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // The card for the payment method data.
 type DelegatedCheckoutRequestedSessionCreatePaymentMethodDataCardParams struct {
 	// The CVC of the card.
-	CVC *string `form:"cvc"`
+	CVC *string `form:"cvc" json:"cvc,omitempty"`
 	// The expiration month of the card.
-	ExpMonth *int64 `form:"exp_month"`
+	ExpMonth *int64 `form:"exp_month" json:"exp_month"`
 	// The expiration year of the card.
-	ExpYear *int64 `form:"exp_year"`
+	ExpYear *int64 `form:"exp_year" json:"exp_year"`
 	// The number of the card.
-	Number *string `form:"number"`
+	Number *string `form:"number" json:"number"`
 }
 
 // The payment method data for this requested session.
 type DelegatedCheckoutRequestedSessionCreatePaymentMethodDataParams struct {
 	// The billing details for the payment method data.
-	BillingDetails *DelegatedCheckoutRequestedSessionCreatePaymentMethodDataBillingDetailsParams `form:"billing_details"`
+	BillingDetails *DelegatedCheckoutRequestedSessionCreatePaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
 	// The card for the payment method data.
-	Card *DelegatedCheckoutRequestedSessionCreatePaymentMethodDataCardParams `form:"card"`
+	Card *DelegatedCheckoutRequestedSessionCreatePaymentMethodDataCardParams `form:"card" json:"card,omitempty"`
 	// The type of the payment method data.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // The details of the seller.
 type DelegatedCheckoutRequestedSessionCreateSellerDetailsParams struct {
 	// The network profile for the seller.
-	NetworkProfile *string `form:"network_profile"`
+	NetworkProfile *string `form:"network_profile" json:"network_profile"`
 }
 
 // Context about where the attribution originated.
 type DelegatedCheckoutRequestedSessionCreateAffiliateAttributionSourceParams struct {
 	// The platform where the attribution originated.
-	Platform *string `form:"platform"`
+	Platform *string `form:"platform" json:"platform,omitempty"`
 	// The type of the attribution source.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// The URL where the attribution originated.
-	URL *string `form:"url"`
+	URL *string `form:"url" json:"url,omitempty"`
 }
 
 // Affiliate attribution data associated with this requested session.
 type DelegatedCheckoutRequestedSessionCreateAffiliateAttributionParams struct {
 	// Agent-scoped campaign identifier.
-	CampaignID *string `form:"campaign_id"`
+	CampaignID *string `form:"campaign_id" json:"campaign_id,omitempty"`
 	// Agent-scoped creative identifier.
-	CreativeID *string `form:"creative_id"`
+	CreativeID *string `form:"creative_id" json:"creative_id,omitempty"`
 	// Timestamp when the attribution token expires.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at"`
 	// Agent-issued secret to validate the legitimacy of the source of this data.
-	IdentificationToken *string `form:"identification_token"`
+	IdentificationToken *string `form:"identification_token" json:"identification_token"`
 	// Timestamp for when the attribution token was issued.
-	IssuedAt *int64 `form:"issued_at"`
+	IssuedAt *int64 `form:"issued_at" json:"issued_at"`
 	// Identifier for the attribution agent / affiliate network namespace.
-	Provider *string `form:"provider"`
+	Provider *string `form:"provider" json:"provider"`
 	// Agent-scoped affiliate/publisher identifier.
-	PublisherID *string `form:"publisher_id"`
+	PublisherID *string `form:"publisher_id" json:"publisher_id,omitempty"`
 	// Freeform key/value pairs for additional non-sensitive per-agent data.
-	SharedMetadata map[string]string `form:"shared_metadata"`
+	SharedMetadata map[string]string `form:"shared_metadata" json:"shared_metadata,omitempty"`
 	// Context about where the attribution originated.
-	Source *DelegatedCheckoutRequestedSessionCreateAffiliateAttributionSourceParams `form:"source"`
+	Source *DelegatedCheckoutRequestedSessionCreateAffiliateAttributionSourceParams `form:"source" json:"source,omitempty"`
 	// Agent-scoped sub-tracking identifier.
-	SubID *string `form:"sub_id"`
+	SubID *string `form:"sub_id" json:"sub_id,omitempty"`
 	// Whether this is the first or last touchpoint.
-	Touchpoint *string `form:"touchpoint"`
+	Touchpoint *string `form:"touchpoint" json:"touchpoint"`
 }
 
 // Creates a requested session
 type DelegatedCheckoutRequestedSessionCreateParams struct {
 	Params `form:"*"`
 	// Affiliate attribution data associated with this requested session.
-	AffiliateAttribution *DelegatedCheckoutRequestedSessionCreateAffiliateAttributionParams `form:"affiliate_attribution"`
+	AffiliateAttribution *DelegatedCheckoutRequestedSessionCreateAffiliateAttributionParams `form:"affiliate_attribution" json:"affiliate_attribution,omitempty"`
 	// The currency for this requested session.
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// The customer for this requested session.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The details of the fulfillment.
-	FulfillmentDetails *DelegatedCheckoutRequestedSessionCreateFulfillmentDetailsParams `form:"fulfillment_details"`
+	FulfillmentDetails *DelegatedCheckoutRequestedSessionCreateFulfillmentDetailsParams `form:"fulfillment_details" json:"fulfillment_details,omitempty"`
 	// The details of the line items.
-	LineItemDetails []*DelegatedCheckoutRequestedSessionCreateLineItemDetailParams `form:"line_item_details"`
+	LineItemDetails []*DelegatedCheckoutRequestedSessionCreateLineItemDetailParams `form:"line_item_details" json:"line_item_details"`
 	// The metadata for this requested session.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payment method for this requested session.
-	PaymentMethod *string `form:"payment_method"`
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The payment method data for this requested session.
-	PaymentMethodData *DelegatedCheckoutRequestedSessionCreatePaymentMethodDataParams `form:"payment_method_data"`
+	PaymentMethodData *DelegatedCheckoutRequestedSessionCreatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// The details of the seller.
-	SellerDetails *DelegatedCheckoutRequestedSessionCreateSellerDetailsParams `form:"seller_details"`
+	SellerDetails *DelegatedCheckoutRequestedSessionCreateSellerDetailsParams `form:"seller_details" json:"seller_details"`
 	// The setup future usage for this requested session.
-	SetupFutureUsage *string `form:"setup_future_usage"`
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// The shared metadata for this requested session.
-	SharedMetadata map[string]string `form:"shared_metadata"`
+	SharedMetadata map[string]string `form:"shared_metadata" json:"shared_metadata,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -819,7 +819,7 @@ type DelegatedCheckoutRequestedSessionLineItemDetail struct {
 	FulfillmentType string `json:"fulfillment_type"`
 	// The key of the line item.
 	Key            string                                                         `json:"key"`
-	ProductDetails *DelegatedCheckoutRequestedSessionLineItemDetailProductDetails `json:"product_details"`
+	ProductDetails *DelegatedCheckoutRequestedSessionLineItemDetailProductDetails `json:"product_details,omitempty"`
 	// The quantity of the line item.
 	Quantity int64 `json:"quantity"`
 	// The SKU ID of the line item.
@@ -967,7 +967,7 @@ type DelegatedCheckoutRequestedSessionAffiliateAttribution struct {
 type DelegatedCheckoutRequestedSession struct {
 	APIResource
 	// Affiliate attribution data associated with this requested session.
-	AffiliateAttributions []*DelegatedCheckoutRequestedSessionAffiliateAttribution `json:"affiliate_attributions"`
+	AffiliateAttributions []*DelegatedCheckoutRequestedSessionAffiliateAttribution `json:"affiliate_attributions,omitempty"`
 	// The subtotal amount of the requested session.
 	AmountSubtotal int64 `json:"amount_subtotal"`
 	// The total amount of the requested session.

@@ -291,21 +291,21 @@ const (
 type TaxCalculationParams struct {
 	Params `form:"*"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The ID of an existing customer to use for this calculation. If provided, the customer's address and tax IDs are copied to `customer_details`.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Details about the customer, including address and tax IDs.
-	CustomerDetails *TaxCalculationCustomerDetailsParams `form:"customer_details"`
+	CustomerDetails *TaxCalculationCustomerDetailsParams `form:"customer_details" json:"customer_details,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A list of items the customer is purchasing.
-	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
+	LineItems []*TaxCalculationLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Details about the address from which the goods are being shipped.
-	ShipFromDetails *TaxCalculationShipFromDetailsParams `form:"ship_from_details"`
+	ShipFromDetails *TaxCalculationShipFromDetailsParams `form:"ship_from_details" json:"ship_from_details,omitempty"`
 	// Shipping cost details to be used for the calculation.
-	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost"`
+	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
-	TaxDate *int64 `form:"tax_date"`
+	TaxDate *int64 `form:"tax_date" json:"tax_date,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -318,7 +318,7 @@ type TaxCalculationListLineItemsParams struct {
 	ListParams  `form:"*"`
 	Calculation *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -329,44 +329,44 @@ func (p *TaxCalculationListLineItemsParams) AddExpand(f string) {
 // The customer's tax IDs. Stripe Tax might consider a transaction with applicable tax IDs to be B2B, which might affect the tax calculation result. Stripe Tax doesn't validate tax IDs for correctness.
 type TaxCalculationCustomerDetailsTaxIDParams struct {
 	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// Value of the tax ID.
-	Value *string `form:"value"`
+	Value *string `form:"value" json:"value"`
 }
 
 // Details about the customer, including address and tax IDs.
 type TaxCalculationCustomerDetailsParams struct {
 	// The customer's postal address (for example, home or business location).
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The type of customer address provided.
-	AddressSource *string `form:"address_source"`
+	AddressSource *string `form:"address_source" json:"address_source,omitempty"`
 	// The customer's IP address (IPv4 or IPv6).
-	IPAddress *string `form:"ip_address"`
+	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
 	// Overrides the tax calculation result to allow you to not collect tax from your customer. Use this if you've manually checked your customer's tax exemptions. Prefer providing the customer's `tax_ids` where possible, which automatically determines whether `reverse_charge` applies.
-	TaxabilityOverride *string `form:"taxability_override"`
+	TaxabilityOverride *string `form:"taxability_override" json:"taxability_override,omitempty"`
 	// The customer's tax IDs. Stripe Tax might consider a transaction with applicable tax IDs to be B2B, which might affect the tax calculation result. Stripe Tax doesn't validate tax IDs for correctness.
-	TaxIDs []*TaxCalculationCustomerDetailsTaxIDParams `form:"tax_ids"`
+	TaxIDs []*TaxCalculationCustomerDetailsTaxIDParams `form:"tax_ids" json:"tax_ids,omitempty"`
 }
 
 // A list of items the customer is purchasing.
 type TaxCalculationLineItemParams struct {
 	// A positive integer representing the line item's total price in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	// If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
-	PerformanceLocation *string `form:"performance_location"`
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// If provided, the product's `tax_code` will be used as the line item's `tax_code`.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product,omitempty"`
 	// The number of units of the item being purchased. Used to calculate the per-unit price from the total `amount` for the line. For example, if `amount=100` and `quantity=4`, the calculated unit price is 25.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// A custom identifier for this line item, which must be unique across the line items in the calculation. The reference helps identify each line item in exported [tax reports](https://docs.stripe.com/tax/reports).
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference,omitempty"`
 	// Specifies whether the `amount` includes taxes. Defaults to `exclusive`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID to use for this line item. If not provided, we will use the tax code from the provided `product` param. If neither `tax_code` nor `product` is provided, we will use the default tax code from your Tax Settings.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -381,26 +381,26 @@ func (p *TaxCalculationLineItemParams) AddMetadata(key string, value string) {
 // Details about the address from which the goods are being shipped.
 type TaxCalculationShipFromDetailsParams struct {
 	// The address from which the goods are being shipped from.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 }
 
 // Shipping cost details to be used for the calculation.
 type TaxCalculationShippingCostParams struct {
 	// A positive integer in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) representing the shipping charge. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// If provided, the [shipping rate](https://docs.stripe.com/api/shipping_rates/object)'s `amount`, `tax_code` and `tax_behavior` are used. If you provide a shipping rate, then you cannot pass the `amount`, `tax_code`, or `tax_behavior` parameters.
-	ShippingRate *string `form:"shipping_rate"`
+	ShippingRate *string `form:"shipping_rate" json:"shipping_rate,omitempty"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes. Defaults to `exclusive`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// The [tax code](https://docs.stripe.com/tax/tax-categories) used to calculate tax on shipping. If not provided, the default shipping tax code from your [Tax Settings](https://dashboard.stripe.com/settings/tax) is used.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 }
 
 // Retrieves a Tax Calculation object, if the calculation hasn't expired.
 type TaxCalculationRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -411,44 +411,44 @@ func (p *TaxCalculationRetrieveParams) AddExpand(f string) {
 // The customer's tax IDs. Stripe Tax might consider a transaction with applicable tax IDs to be B2B, which might affect the tax calculation result. Stripe Tax doesn't validate tax IDs for correctness.
 type TaxCalculationCreateCustomerDetailsTaxIDParams struct {
 	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// Value of the tax ID.
-	Value *string `form:"value"`
+	Value *string `form:"value" json:"value"`
 }
 
 // Details about the customer, including address and tax IDs.
 type TaxCalculationCreateCustomerDetailsParams struct {
 	// The customer's postal address (for example, home or business location).
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// The type of customer address provided.
-	AddressSource *string `form:"address_source"`
+	AddressSource *string `form:"address_source" json:"address_source,omitempty"`
 	// The customer's IP address (IPv4 or IPv6).
-	IPAddress *string `form:"ip_address"`
+	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
 	// Overrides the tax calculation result to allow you to not collect tax from your customer. Use this if you've manually checked your customer's tax exemptions. Prefer providing the customer's `tax_ids` where possible, which automatically determines whether `reverse_charge` applies.
-	TaxabilityOverride *string `form:"taxability_override"`
+	TaxabilityOverride *string `form:"taxability_override" json:"taxability_override,omitempty"`
 	// The customer's tax IDs. Stripe Tax might consider a transaction with applicable tax IDs to be B2B, which might affect the tax calculation result. Stripe Tax doesn't validate tax IDs for correctness.
-	TaxIDs []*TaxCalculationCreateCustomerDetailsTaxIDParams `form:"tax_ids"`
+	TaxIDs []*TaxCalculationCreateCustomerDetailsTaxIDParams `form:"tax_ids" json:"tax_ids,omitempty"`
 }
 
 // A list of items the customer is purchasing.
 type TaxCalculationCreateLineItemParams struct {
 	// A positive integer representing the line item's total price in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	// If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
-	PerformanceLocation *string `form:"performance_location"`
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
 	// If provided, the product's `tax_code` will be used as the line item's `tax_code`.
-	Product *string `form:"product"`
+	Product *string `form:"product" json:"product,omitempty"`
 	// The number of units of the item being purchased. Used to calculate the per-unit price from the total `amount` for the line. For example, if `amount=100` and `quantity=4`, the calculated unit price is 25.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// A custom identifier for this line item, which must be unique across the line items in the calculation. The reference helps identify each line item in exported [tax reports](https://docs.stripe.com/tax/reports).
-	Reference *string `form:"reference"`
+	Reference *string `form:"reference" json:"reference,omitempty"`
 	// Specifies whether the `amount` includes taxes. Defaults to `exclusive`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID to use for this line item. If not provided, we will use the tax code from the provided `product` param. If neither `tax_code` nor `product` is provided, we will use the default tax code from your Tax Settings.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -463,40 +463,40 @@ func (p *TaxCalculationCreateLineItemParams) AddMetadata(key string, value strin
 // Details about the address from which the goods are being shipped.
 type TaxCalculationCreateShipFromDetailsParams struct {
 	// The address from which the goods are being shipped from.
-	Address *AddressParams `form:"address"`
+	Address *AddressParams `form:"address" json:"address"`
 }
 
 // Shipping cost details to be used for the calculation.
 type TaxCalculationCreateShippingCostParams struct {
 	// A positive integer in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) representing the shipping charge. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// If provided, the [shipping rate](https://docs.stripe.com/api/shipping_rates/object)'s `amount`, `tax_code` and `tax_behavior` are used. If you provide a shipping rate, then you cannot pass the `amount`, `tax_code`, or `tax_behavior` parameters.
-	ShippingRate *string `form:"shipping_rate"`
+	ShippingRate *string `form:"shipping_rate" json:"shipping_rate,omitempty"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes. Defaults to `exclusive`.
-	TaxBehavior *string `form:"tax_behavior"`
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 	// The [tax code](https://docs.stripe.com/tax/tax-categories) used to calculate tax on shipping. If not provided, the default shipping tax code from your [Tax Settings](https://dashboard.stripe.com/settings/tax) is used.
-	TaxCode *string `form:"tax_code"`
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
 }
 
 // Calculates tax based on the input and returns a Tax Calculation object.
 type TaxCalculationCreateParams struct {
 	Params `form:"*"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// The ID of an existing customer to use for this calculation. If provided, the customer's address and tax IDs are copied to `customer_details`.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Details about the customer, including address and tax IDs.
-	CustomerDetails *TaxCalculationCreateCustomerDetailsParams `form:"customer_details"`
+	CustomerDetails *TaxCalculationCreateCustomerDetailsParams `form:"customer_details" json:"customer_details,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A list of items the customer is purchasing.
-	LineItems []*TaxCalculationCreateLineItemParams `form:"line_items"`
+	LineItems []*TaxCalculationCreateLineItemParams `form:"line_items" json:"line_items"`
 	// Details about the address from which the goods are being shipped.
-	ShipFromDetails *TaxCalculationCreateShipFromDetailsParams `form:"ship_from_details"`
+	ShipFromDetails *TaxCalculationCreateShipFromDetailsParams `form:"ship_from_details" json:"ship_from_details,omitempty"`
 	// Shipping cost details to be used for the calculation.
-	ShippingCost *TaxCalculationCreateShippingCostParams `form:"shipping_cost"`
+	ShippingCost *TaxCalculationCreateShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
-	TaxDate *int64 `form:"tax_date"`
+	TaxDate *int64 `form:"tax_date" json:"tax_date,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -571,11 +571,11 @@ type TaxCalculationShippingCost struct {
 	// The amount of tax calculated for shipping, in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	AmountTax int64 `json:"amount_tax"`
 	// The ID of an existing [ShippingRate](https://docs.stripe.com/api/shipping_rates/object).
-	ShippingRate string `json:"shipping_rate"`
+	ShippingRate string `json:"shipping_rate,omitempty"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes.
 	TaxBehavior TaxCalculationShippingCostTaxBehavior `json:"tax_behavior"`
 	// Detailed account of taxes relevant to shipping cost.
-	TaxBreakdown []*TaxCalculationShippingCostTaxBreakdown `json:"tax_breakdown"`
+	TaxBreakdown []*TaxCalculationShippingCostTaxBreakdown `json:"tax_breakdown,omitempty"`
 	// The [tax code](https://docs.stripe.com/tax/tax-categories) ID used for shipping.
 	TaxCode string `json:"tax_code"`
 }
@@ -632,7 +632,7 @@ type TaxCalculation struct {
 	// Unique identifier for the calculation.
 	ID string `json:"id"`
 	// The list of items the customer is purchasing.
-	LineItems *TaxCalculationLineItemList `json:"line_items"`
+	LineItems *TaxCalculationLineItemList `json:"line_items,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.

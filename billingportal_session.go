@@ -38,114 +38,114 @@ const (
 // Configuration when `after_completion.type=hosted_confirmation`.
 type BillingPortalSessionFlowDataAfterCompletionHostedConfirmationParams struct {
 	// A custom message to display to the customer after the flow is completed.
-	CustomMessage *string `form:"custom_message"`
+	CustomMessage *string `form:"custom_message" json:"custom_message,omitempty"`
 }
 
 // Configuration when `after_completion.type=redirect`.
 type BillingPortalSessionFlowDataAfterCompletionRedirectParams struct {
 	// The URL the customer will be redirected to after the flow is completed.
-	ReturnURL *string `form:"return_url"`
+	ReturnURL *string `form:"return_url" json:"return_url"`
 }
 
 // Behavior after the flow is completed.
 type BillingPortalSessionFlowDataAfterCompletionParams struct {
 	// Configuration when `after_completion.type=hosted_confirmation`.
-	HostedConfirmation *BillingPortalSessionFlowDataAfterCompletionHostedConfirmationParams `form:"hosted_confirmation"`
+	HostedConfirmation *BillingPortalSessionFlowDataAfterCompletionHostedConfirmationParams `form:"hosted_confirmation" json:"hosted_confirmation,omitempty"`
 	// Configuration when `after_completion.type=redirect`.
-	Redirect *BillingPortalSessionFlowDataAfterCompletionRedirectParams `form:"redirect"`
+	Redirect *BillingPortalSessionFlowDataAfterCompletionRedirectParams `form:"redirect" json:"redirect,omitempty"`
 	// The specified behavior after the flow is completed.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Configuration when `retention.type=coupon_offer`.
 type BillingPortalSessionFlowDataSubscriptionCancelRetentionCouponOfferParams struct {
 	// The ID of the coupon to be offered.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon"`
 }
 
 // Specify a retention strategy to be used in the cancellation flow.
 type BillingPortalSessionFlowDataSubscriptionCancelRetentionParams struct {
 	// Configuration when `retention.type=coupon_offer`.
-	CouponOffer *BillingPortalSessionFlowDataSubscriptionCancelRetentionCouponOfferParams `form:"coupon_offer"`
+	CouponOffer *BillingPortalSessionFlowDataSubscriptionCancelRetentionCouponOfferParams `form:"coupon_offer" json:"coupon_offer"`
 	// Type of retention strategy to use with the customer.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Configuration when `flow_data.type=subscription_cancel`.
 type BillingPortalSessionFlowDataSubscriptionCancelParams struct {
 	// Specify a retention strategy to be used in the cancellation flow.
-	Retention *BillingPortalSessionFlowDataSubscriptionCancelRetentionParams `form:"retention"`
+	Retention *BillingPortalSessionFlowDataSubscriptionCancelRetentionParams `form:"retention" json:"retention,omitempty"`
 	// The ID of the subscription to be canceled.
-	Subscription *string `form:"subscription"`
+	Subscription *string `form:"subscription" json:"subscription"`
 }
 
 // Configuration when `flow_data.type=subscription_update`.
 type BillingPortalSessionFlowDataSubscriptionUpdateParams struct {
 	// The ID of the subscription to be updated.
-	Subscription *string `form:"subscription"`
+	Subscription *string `form:"subscription" json:"subscription"`
 }
 
 // The coupon or promotion code to apply to this subscription update.
 type BillingPortalSessionFlowDataSubscriptionUpdateConfirmDiscountParams struct {
 	// The ID of the coupon to apply to this subscription update.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// The ID of a promotion code to apply to this subscription update.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The [subscription item](https://docs.stripe.com/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
 type BillingPortalSessionFlowDataSubscriptionUpdateConfirmItemParams struct {
 	// The ID of the [subscription item](https://docs.stripe.com/api/subscriptions/object#subscription_object-items-data-id) to be updated.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 	// The price the customer should subscribe to through this flow. The price must also be included in the configuration's [`features.subscription_update.products`](https://docs.stripe.com/api/customer_portal/configuration#portal_configuration_object-features-subscription_update-products).
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// [Quantity](https://docs.stripe.com/subscriptions/quantities) for this item that the customer should subscribe to through this flow.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 }
 
 // Configuration when `flow_data.type=subscription_update_confirm`.
 type BillingPortalSessionFlowDataSubscriptionUpdateConfirmParams struct {
 	// The coupon or promotion code to apply to this subscription update.
-	Discounts []*BillingPortalSessionFlowDataSubscriptionUpdateConfirmDiscountParams `form:"discounts"`
+	Discounts []*BillingPortalSessionFlowDataSubscriptionUpdateConfirmDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// The [subscription item](https://docs.stripe.com/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
-	Items []*BillingPortalSessionFlowDataSubscriptionUpdateConfirmItemParams `form:"items"`
+	Items []*BillingPortalSessionFlowDataSubscriptionUpdateConfirmItemParams `form:"items" json:"items"`
 	// The ID of the subscription to be updated.
-	Subscription *string `form:"subscription"`
+	Subscription *string `form:"subscription" json:"subscription"`
 }
 
 // Information about a specific flow for the customer to go through. See the [docs](https://docs.stripe.com/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 type BillingPortalSessionFlowDataParams struct {
 	// Behavior after the flow is completed.
-	AfterCompletion *BillingPortalSessionFlowDataAfterCompletionParams `form:"after_completion"`
+	AfterCompletion *BillingPortalSessionFlowDataAfterCompletionParams `form:"after_completion" json:"after_completion,omitempty"`
 	// Configuration when `flow_data.type=subscription_cancel`.
-	SubscriptionCancel *BillingPortalSessionFlowDataSubscriptionCancelParams `form:"subscription_cancel"`
+	SubscriptionCancel *BillingPortalSessionFlowDataSubscriptionCancelParams `form:"subscription_cancel" json:"subscription_cancel,omitempty"`
 	// Configuration when `flow_data.type=subscription_update`.
-	SubscriptionUpdate *BillingPortalSessionFlowDataSubscriptionUpdateParams `form:"subscription_update"`
+	SubscriptionUpdate *BillingPortalSessionFlowDataSubscriptionUpdateParams `form:"subscription_update" json:"subscription_update,omitempty"`
 	// Configuration when `flow_data.type=subscription_update_confirm`.
-	SubscriptionUpdateConfirm *BillingPortalSessionFlowDataSubscriptionUpdateConfirmParams `form:"subscription_update_confirm"`
+	SubscriptionUpdateConfirm *BillingPortalSessionFlowDataSubscriptionUpdateConfirmParams `form:"subscription_update_confirm" json:"subscription_update_confirm,omitempty"`
 	// Type of flow that the customer will go through.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Creates a session of the customer portal.
 type BillingPortalSessionParams struct {
 	Params `form:"*"`
 	// The ID of an existing [configuration](https://docs.stripe.com/api/customer_portal/configurations) to use for this session, describing its functionality and features. If not specified, the session uses the default configuration.
-	Configuration *string `form:"configuration"`
+	Configuration *string `form:"configuration" json:"configuration,omitempty"`
 	// The ID of an existing customer.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The ID of an existing account.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Information about a specific flow for the customer to go through. See the [docs](https://docs.stripe.com/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
-	FlowData *BillingPortalSessionFlowDataParams `form:"flow_data"`
+	FlowData *BillingPortalSessionFlowDataParams `form:"flow_data" json:"flow_data,omitempty"`
 	// The IETF language tag of the locale customer portal is displayed in. If blank or auto, the customer's `preferred_locales` or browser's locale is used.
-	Locale *string `form:"locale"`
+	Locale *string `form:"locale" json:"locale,omitempty"`
 	// The `on_behalf_of` account to use for this session. When specified, only subscriptions and invoices with this `on_behalf_of` account appear in the portal. For more information, see the [docs](https://docs.stripe.com/connect/separate-charges-and-transfers#settlement-merchant). Use the [Accounts API](https://docs.stripe.com/api/accounts/object#account_object-settings-branding) to modify the `on_behalf_of` account's branding settings, which the portal displays.
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// The default URL to redirect customers to when they click on the portal's link to return to your website.
-	ReturnURL *string `form:"return_url"`
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -156,114 +156,114 @@ func (p *BillingPortalSessionParams) AddExpand(f string) {
 // Configuration when `after_completion.type=hosted_confirmation`.
 type BillingPortalSessionCreateFlowDataAfterCompletionHostedConfirmationParams struct {
 	// A custom message to display to the customer after the flow is completed.
-	CustomMessage *string `form:"custom_message"`
+	CustomMessage *string `form:"custom_message" json:"custom_message,omitempty"`
 }
 
 // Configuration when `after_completion.type=redirect`.
 type BillingPortalSessionCreateFlowDataAfterCompletionRedirectParams struct {
 	// The URL the customer will be redirected to after the flow is completed.
-	ReturnURL *string `form:"return_url"`
+	ReturnURL *string `form:"return_url" json:"return_url"`
 }
 
 // Behavior after the flow is completed.
 type BillingPortalSessionCreateFlowDataAfterCompletionParams struct {
 	// Configuration when `after_completion.type=hosted_confirmation`.
-	HostedConfirmation *BillingPortalSessionCreateFlowDataAfterCompletionHostedConfirmationParams `form:"hosted_confirmation"`
+	HostedConfirmation *BillingPortalSessionCreateFlowDataAfterCompletionHostedConfirmationParams `form:"hosted_confirmation" json:"hosted_confirmation,omitempty"`
 	// Configuration when `after_completion.type=redirect`.
-	Redirect *BillingPortalSessionCreateFlowDataAfterCompletionRedirectParams `form:"redirect"`
+	Redirect *BillingPortalSessionCreateFlowDataAfterCompletionRedirectParams `form:"redirect" json:"redirect,omitempty"`
 	// The specified behavior after the flow is completed.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Configuration when `retention.type=coupon_offer`.
 type BillingPortalSessionCreateFlowDataSubscriptionCancelRetentionCouponOfferParams struct {
 	// The ID of the coupon to be offered.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon"`
 }
 
 // Specify a retention strategy to be used in the cancellation flow.
 type BillingPortalSessionCreateFlowDataSubscriptionCancelRetentionParams struct {
 	// Configuration when `retention.type=coupon_offer`.
-	CouponOffer *BillingPortalSessionCreateFlowDataSubscriptionCancelRetentionCouponOfferParams `form:"coupon_offer"`
+	CouponOffer *BillingPortalSessionCreateFlowDataSubscriptionCancelRetentionCouponOfferParams `form:"coupon_offer" json:"coupon_offer"`
 	// Type of retention strategy to use with the customer.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Configuration when `flow_data.type=subscription_cancel`.
 type BillingPortalSessionCreateFlowDataSubscriptionCancelParams struct {
 	// Specify a retention strategy to be used in the cancellation flow.
-	Retention *BillingPortalSessionCreateFlowDataSubscriptionCancelRetentionParams `form:"retention"`
+	Retention *BillingPortalSessionCreateFlowDataSubscriptionCancelRetentionParams `form:"retention" json:"retention,omitempty"`
 	// The ID of the subscription to be canceled.
-	Subscription *string `form:"subscription"`
+	Subscription *string `form:"subscription" json:"subscription"`
 }
 
 // Configuration when `flow_data.type=subscription_update`.
 type BillingPortalSessionCreateFlowDataSubscriptionUpdateParams struct {
 	// The ID of the subscription to be updated.
-	Subscription *string `form:"subscription"`
+	Subscription *string `form:"subscription" json:"subscription"`
 }
 
 // The coupon or promotion code to apply to this subscription update.
 type BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmDiscountParams struct {
 	// The ID of the coupon to apply to this subscription update.
-	Coupon *string `form:"coupon"`
+	Coupon *string `form:"coupon" json:"coupon,omitempty"`
 	// The ID of a promotion code to apply to this subscription update.
-	PromotionCode *string `form:"promotion_code"`
+	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
 // The [subscription item](https://docs.stripe.com/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
 type BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmItemParams struct {
 	// The ID of the [subscription item](https://docs.stripe.com/api/subscriptions/object#subscription_object-items-data-id) to be updated.
-	ID *string `form:"id"`
+	ID *string `form:"id" json:"id"`
 	// The price the customer should subscribe to through this flow. The price must also be included in the configuration's [`features.subscription_update.products`](https://docs.stripe.com/api/customer_portal/configuration#portal_configuration_object-features-subscription_update-products).
-	Price *string `form:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 	// [Quantity](https://docs.stripe.com/subscriptions/quantities) for this item that the customer should subscribe to through this flow.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 }
 
 // Configuration when `flow_data.type=subscription_update_confirm`.
 type BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmParams struct {
 	// The coupon or promotion code to apply to this subscription update.
-	Discounts []*BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmDiscountParams `form:"discounts"`
+	Discounts []*BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// The [subscription item](https://docs.stripe.com/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
-	Items []*BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmItemParams `form:"items"`
+	Items []*BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmItemParams `form:"items" json:"items"`
 	// The ID of the subscription to be updated.
-	Subscription *string `form:"subscription"`
+	Subscription *string `form:"subscription" json:"subscription"`
 }
 
 // Information about a specific flow for the customer to go through. See the [docs](https://docs.stripe.com/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 type BillingPortalSessionCreateFlowDataParams struct {
 	// Behavior after the flow is completed.
-	AfterCompletion *BillingPortalSessionCreateFlowDataAfterCompletionParams `form:"after_completion"`
+	AfterCompletion *BillingPortalSessionCreateFlowDataAfterCompletionParams `form:"after_completion" json:"after_completion,omitempty"`
 	// Configuration when `flow_data.type=subscription_cancel`.
-	SubscriptionCancel *BillingPortalSessionCreateFlowDataSubscriptionCancelParams `form:"subscription_cancel"`
+	SubscriptionCancel *BillingPortalSessionCreateFlowDataSubscriptionCancelParams `form:"subscription_cancel" json:"subscription_cancel,omitempty"`
 	// Configuration when `flow_data.type=subscription_update`.
-	SubscriptionUpdate *BillingPortalSessionCreateFlowDataSubscriptionUpdateParams `form:"subscription_update"`
+	SubscriptionUpdate *BillingPortalSessionCreateFlowDataSubscriptionUpdateParams `form:"subscription_update" json:"subscription_update,omitempty"`
 	// Configuration when `flow_data.type=subscription_update_confirm`.
-	SubscriptionUpdateConfirm *BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmParams `form:"subscription_update_confirm"`
+	SubscriptionUpdateConfirm *BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmParams `form:"subscription_update_confirm" json:"subscription_update_confirm,omitempty"`
 	// Type of flow that the customer will go through.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Creates a session of the customer portal.
 type BillingPortalSessionCreateParams struct {
 	Params `form:"*"`
 	// The ID of an existing [configuration](https://docs.stripe.com/api/customer_portal/configurations) to use for this session, describing its functionality and features. If not specified, the session uses the default configuration.
-	Configuration *string `form:"configuration"`
+	Configuration *string `form:"configuration" json:"configuration,omitempty"`
 	// The ID of an existing customer.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// The ID of an existing account.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Information about a specific flow for the customer to go through. See the [docs](https://docs.stripe.com/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
-	FlowData *BillingPortalSessionCreateFlowDataParams `form:"flow_data"`
+	FlowData *BillingPortalSessionCreateFlowDataParams `form:"flow_data" json:"flow_data,omitempty"`
 	// The IETF language tag of the locale customer portal is displayed in. If blank or auto, the customer's `preferred_locales` or browser's locale is used.
-	Locale *string `form:"locale"`
+	Locale *string `form:"locale" json:"locale,omitempty"`
 	// The `on_behalf_of` account to use for this session. When specified, only subscriptions and invoices with this `on_behalf_of` account appear in the portal. For more information, see the [docs](https://docs.stripe.com/connect/separate-charges-and-transfers#settlement-merchant). Use the [Accounts API](https://docs.stripe.com/api/accounts/object#account_object-settings-branding) to modify the `on_behalf_of` account's branding settings, which the portal displays.
-	OnBehalfOf *string `form:"on_behalf_of"`
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// The default URL to redirect customers to when they click on the portal's link to return to your website.
-	ReturnURL *string `form:"return_url"`
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -334,7 +334,7 @@ type BillingPortalSessionFlowSubscriptionUpdateConfirmItem struct {
 	// The price the customer should subscribe to through this flow. The price must also be included in the configuration's [`features.subscription_update.products`](https://docs.stripe.com/api/customer_portal/configuration#portal_configuration_object-features-subscription_update-products).
 	Price string `json:"price"`
 	// [Quantity](https://docs.stripe.com/subscriptions/quantities) for this item that the customer should subscribe to through this flow.
-	Quantity int64 `json:"quantity"`
+	Quantity int64 `json:"quantity,omitempty"`
 }
 
 // Configuration when `flow.type=subscription_update_confirm`.

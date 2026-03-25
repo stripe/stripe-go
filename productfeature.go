@@ -12,9 +12,9 @@ type ProductFeatureParams struct {
 	// The ID of the product.
 	Product *string `form:"-"` // Included in URL
 	// The ID of the [Feature](https://docs.stripe.com/api/entitlements/feature) object attached to this product.
-	EntitlementFeature *string `form:"entitlement_feature"`
+	EntitlementFeature *string `form:"entitlement_feature" json:"entitlement_feature,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -27,7 +27,7 @@ type ProductFeatureListParams struct {
 	ListParams `form:"*"`
 	Product    *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -47,7 +47,7 @@ type ProductFeatureRetrieveParams struct {
 	// The ID of the product.
 	Product *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -60,9 +60,9 @@ type ProductFeatureCreateParams struct {
 	Params  `form:"*"`
 	Product *string `form:"-"` // Included in URL
 	// The ID of the [Feature](https://docs.stripe.com/api/entitlements/feature) object attached to this product.
-	EntitlementFeature *string `form:"entitlement_feature"`
+	EntitlementFeature *string `form:"entitlement_feature" json:"entitlement_feature"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -74,7 +74,7 @@ func (p *ProductFeatureCreateParams) AddExpand(f string) {
 // When a product is purchased that has a feature attached, Stripe will create an entitlement to the feature for the purchasing customer.
 type ProductFeature struct {
 	APIResource
-	Deleted bool `json:"deleted"`
+	Deleted bool `json:"deleted,omitempty"`
 	// A feature represents a monetizable ability or functionality in your system.
 	// Features can be assigned to products, and when those products are purchased, Stripe will create an entitlement to the feature for the purchasing customer.
 	EntitlementFeature *EntitlementsFeature `json:"entitlement_feature"`

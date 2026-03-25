@@ -9,37 +9,37 @@ package stripe
 // The balance to which funds are transferred.
 type BalanceTransferDestinationBalanceParams struct {
 	// Destination balance type to push funds into for the Balance Transfer.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 type BalanceTransferSourceBalanceAllocatedFundsParams struct {
 	// The charge ID that the funds are originally sourced from. Required if `type` is `charge`.
-	Charge *string `form:"charge"`
+	Charge *string `form:"charge" json:"charge"`
 	// The type of object that the funds are originally sourced from. One of `charge`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The balance from which funds are transferred, including details specific to the balance you choose.
 type BalanceTransferSourceBalanceParams struct {
-	AllocatedFunds *BalanceTransferSourceBalanceAllocatedFundsParams `form:"allocated_funds"`
+	AllocatedFunds *BalanceTransferSourceBalanceAllocatedFundsParams `form:"allocated_funds" json:"allocated_funds,omitempty"`
 	// Source balance type to pull funds from for the Balance Transfer.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Creates a balance transfer. For Issuing use cases, funds will be debited immediately from the source balance and credited to the destination balance immediately (if your account is based in the US) or next-business-day (if your account is based in the EU). For Segregated Separate Charges and Transfers use cases, funds will be debited immediately from the source balance and credited immediately to the destination balance.
 type BalanceTransferParams struct {
 	Params `form:"*"`
 	// A positive integer representing how much to transfer in the smallest currency unit.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// The balance to which funds are transferred.
-	DestinationBalance *BalanceTransferDestinationBalanceParams `form:"destination_balance"`
+	DestinationBalance *BalanceTransferDestinationBalanceParams `form:"destination_balance" json:"destination_balance"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The balance from which funds are transferred, including details specific to the balance you choose.
-	SourceBalance *BalanceTransferSourceBalanceParams `form:"source_balance"`
+	SourceBalance *BalanceTransferSourceBalanceParams `form:"source_balance" json:"source_balance"`
 }
 
 // AddExpand appends a new field to expand.
@@ -59,37 +59,37 @@ func (p *BalanceTransferParams) AddMetadata(key string, value string) {
 // The balance to which funds are transferred.
 type BalanceTransferCreateDestinationBalanceParams struct {
 	// Destination balance type to push funds into for the Balance Transfer.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 type BalanceTransferCreateSourceBalanceAllocatedFundsParams struct {
 	// The charge ID that the funds are originally sourced from. Required if `type` is `charge`.
-	Charge *string `form:"charge"`
+	Charge *string `form:"charge" json:"charge"`
 	// The type of object that the funds are originally sourced from. One of `charge`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // The balance from which funds are transferred, including details specific to the balance you choose.
 type BalanceTransferCreateSourceBalanceParams struct {
-	AllocatedFunds *BalanceTransferCreateSourceBalanceAllocatedFundsParams `form:"allocated_funds"`
+	AllocatedFunds *BalanceTransferCreateSourceBalanceAllocatedFundsParams `form:"allocated_funds" json:"allocated_funds,omitempty"`
 	// Source balance type to pull funds from for the Balance Transfer.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // Creates a balance transfer. For Issuing use cases, funds will be debited immediately from the source balance and credited to the destination balance immediately (if your account is based in the US) or next-business-day (if your account is based in the EU). For Segregated Separate Charges and Transfers use cases, funds will be debited immediately from the source balance and credited immediately to the destination balance.
 type BalanceTransferCreateParams struct {
 	Params `form:"*"`
 	// A positive integer representing how much to transfer in the smallest currency unit.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
+	Currency *string `form:"currency" json:"currency"`
 	// The balance to which funds are transferred.
-	DestinationBalance *BalanceTransferCreateDestinationBalanceParams `form:"destination_balance"`
+	DestinationBalance *BalanceTransferCreateDestinationBalanceParams `form:"destination_balance" json:"destination_balance"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The balance from which funds are transferred, including details specific to the balance you choose.
-	SourceBalance *BalanceTransferCreateSourceBalanceParams `form:"source_balance"`
+	SourceBalance *BalanceTransferCreateSourceBalanceParams `form:"source_balance" json:"source_balance"`
 }
 
 // AddExpand appends a new field to expand.
@@ -108,35 +108,35 @@ func (p *BalanceTransferCreateParams) AddMetadata(key string, value string) {
 
 type BalanceTransferDestinationBalanceIssuing struct {
 	// Identifier for the balance_transaction that increased the destination balance.
-	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
+	BalanceTransaction *BalanceTransaction `json:"balance_transaction,omitempty"`
 }
 type BalanceTransferDestinationBalancePayments struct {
 	// Identifier for the balance_transaction that increased the destination balance.
-	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
+	BalanceTransaction *BalanceTransaction `json:"balance_transaction,omitempty"`
 }
 
 // The balance that funds were transferred to.
 type BalanceTransferDestinationBalance struct {
-	Issuing  *BalanceTransferDestinationBalanceIssuing  `json:"issuing"`
-	Payments *BalanceTransferDestinationBalancePayments `json:"payments"`
+	Issuing  *BalanceTransferDestinationBalanceIssuing  `json:"issuing,omitempty"`
+	Payments *BalanceTransferDestinationBalancePayments `json:"payments,omitempty"`
 	// Destination balance type to adjust for the Balance Transfer. One of `payments`, `issuing`, or `allocated_funds`.
 	Type string `json:"type"`
 }
 type BalanceTransferSourceBalanceIssuing struct {
 	// Identifier for the balance_transaction that decreased the source balance.
-	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
+	BalanceTransaction *BalanceTransaction `json:"balance_transaction,omitempty"`
 }
 type BalanceTransferSourceBalancePayments struct {
 	// Identifier for the balance_transaction that decreased the source balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	// The payments balance type that this BalanceTransfer pulled funds from. One of `card`, `fpx`, or `bank_account`.
-	SourceType string `json:"source_type"`
+	SourceType string `json:"source_type,omitempty"`
 }
 
 // The balance that funds were transferred from. One of `card`, `fpx`, or `bank_account`.
 type BalanceTransferSourceBalance struct {
-	Issuing  *BalanceTransferSourceBalanceIssuing  `json:"issuing"`
-	Payments *BalanceTransferSourceBalancePayments `json:"payments"`
+	Issuing  *BalanceTransferSourceBalanceIssuing  `json:"issuing,omitempty"`
+	Payments *BalanceTransferSourceBalancePayments `json:"payments,omitempty"`
 	// Source balance type to adjust for the Balance Transfer. One of `payments`, `issuing`, or `allocated_funds`.
 	Type string `json:"type"`
 }

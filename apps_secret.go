@@ -18,18 +18,18 @@ const (
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 type AppsSecretListScopeParams struct {
 	// The secret scope type.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`.
-	User *string `form:"user"`
+	User *string `form:"user" json:"user,omitempty"`
 }
 
 // List all secrets stored on the given scope.
 type AppsSecretListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
-	Scope *AppsSecretListScopeParams `form:"scope"`
+	Scope *AppsSecretListScopeParams `form:"scope" json:"scope"`
 }
 
 // AddExpand appends a new field to expand.
@@ -40,24 +40,24 @@ func (p *AppsSecretListParams) AddExpand(f string) {
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 type AppsSecretScopeParams struct {
 	// The secret scope type.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`.
-	User *string `form:"user"`
+	User *string `form:"user" json:"user,omitempty"`
 }
 
 // Create or replace a secret in the secret store.
 type AppsSecretParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The Unix timestamp for the expiry time of the secret, after which the secret deletes.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// A name for the secret that's unique within the scope.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// The plaintext secret value to be stored.
-	Payload *string `form:"payload"`
+	Payload *string `form:"payload" json:"payload"`
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
-	Scope *AppsSecretScopeParams `form:"scope"`
+	Scope *AppsSecretScopeParams `form:"scope" json:"scope"`
 }
 
 // AddExpand appends a new field to expand.
@@ -68,20 +68,20 @@ func (p *AppsSecretParams) AddExpand(f string) {
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 type AppsSecretFindScopeParams struct {
 	// The secret scope type.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`.
-	User *string `form:"user"`
+	User *string `form:"user" json:"user,omitempty"`
 }
 
 // Finds a secret in the secret store by name and scope.
 type AppsSecretFindParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A name for the secret that's unique within the scope.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
-	Scope *AppsSecretFindScopeParams `form:"scope"`
+	Scope *AppsSecretFindScopeParams `form:"scope" json:"scope"`
 }
 
 // AddExpand appends a new field to expand.
@@ -92,20 +92,20 @@ func (p *AppsSecretFindParams) AddExpand(f string) {
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 type AppsSecretDeleteWhereScopeParams struct {
 	// The secret scope type.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`.
-	User *string `form:"user"`
+	User *string `form:"user" json:"user,omitempty"`
 }
 
 // Deletes a secret from the secret store by name and scope.
 type AppsSecretDeleteWhereParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A name for the secret that's unique within the scope.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
-	Scope *AppsSecretDeleteWhereScopeParams `form:"scope"`
+	Scope *AppsSecretDeleteWhereScopeParams `form:"scope" json:"scope"`
 }
 
 // AddExpand appends a new field to expand.
@@ -116,24 +116,24 @@ func (p *AppsSecretDeleteWhereParams) AddExpand(f string) {
 // Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 type AppsSecretCreateScopeParams struct {
 	// The secret scope type.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`.
-	User *string `form:"user"`
+	User *string `form:"user" json:"user,omitempty"`
 }
 
 // Create or replace a secret in the secret store.
 type AppsSecretCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The Unix timestamp for the expiry time of the secret, after which the secret deletes.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
 	// A name for the secret that's unique within the scope.
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name"`
 	// The plaintext secret value to be stored.
-	Payload *string `form:"payload"`
+	Payload *string `form:"payload" json:"payload"`
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
-	Scope *AppsSecretCreateScopeParams `form:"scope"`
+	Scope *AppsSecretCreateScopeParams `form:"scope" json:"scope"`
 }
 
 // AddExpand appends a new field to expand.
@@ -145,7 +145,7 @@ type AppsSecretScope struct {
 	// The secret scope type.
 	Type AppsSecretScopeType `json:"type"`
 	// The user ID, if type is set to "user"
-	User string `json:"user"`
+	User string `json:"user,omitempty"`
 }
 
 // Secret Store is an API that allows Stripe Apps developers to securely persist secrets for use by UI Extensions and app backends.
@@ -162,7 +162,7 @@ type AppsSecret struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// If true, indicates that this secret has been deleted
-	Deleted bool `json:"deleted"`
+	Deleted bool `json:"deleted,omitempty"`
 	// The Unix timestamp for the expiry time of the secret, after which the secret deletes.
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
@@ -174,7 +174,7 @@ type AppsSecret struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The plaintext secret value to be stored.
-	Payload string           `json:"payload"`
+	Payload string           `json:"payload,omitempty"`
 	Scope   *AppsSecretScope `json:"scope"`
 }
 

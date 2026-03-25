@@ -157,19 +157,19 @@ const (
 type IdentityVerificationReportListParams struct {
 	ListParams `form:"*"`
 	// Only return VerificationReports that were blocked by this BlocklistEntry id.
-	BlockedByEntry *string `form:"blocked_by_entry"`
+	BlockedByEntry *string `form:"blocked_by_entry" json:"blocked_by_entry,omitempty"`
 	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
-	ClientReferenceID *string `form:"client_reference_id"`
+	ClientReferenceID *string `form:"client_reference_id" json:"client_reference_id,omitempty"`
 	// Only return VerificationReports that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return VerificationReports that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return VerificationReports of this type
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 	// Only return VerificationReports created by this VerificationSession ID. It is allowed to provide a VerificationIntent ID.
-	VerificationSession *string `form:"verification_session"`
+	VerificationSession *string `form:"verification_session" json:"verification_session,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -181,7 +181,7 @@ func (p *IdentityVerificationReportListParams) AddExpand(f string) {
 type IdentityVerificationReportParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -193,7 +193,7 @@ func (p *IdentityVerificationReportParams) AddExpand(f string) {
 type IdentityVerificationReportRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -244,13 +244,13 @@ type IdentityVerificationReportDocument struct {
 	// Address as it appears in the document.
 	Address *Address `json:"address"`
 	// If document was not verified due to extracted data being on the blocklist, this is the token of the BlocklistEntry that blocked it
-	BlockedByEntry *IdentityBlocklistEntry `json:"blocked_by_entry"`
+	BlockedByEntry *IdentityBlocklistEntry `json:"blocked_by_entry,omitempty"`
 	// Date of birth as it appears in the document.
-	DOB *IdentityVerificationReportDocumentDOB `json:"dob"`
+	DOB *IdentityVerificationReportDocumentDOB `json:"dob,omitempty"`
 	// Details on the verification error. Present when status is `unverified`.
 	Error *IdentityVerificationReportDocumentError `json:"error"`
 	// Expiration date of the document.
-	ExpirationDate *IdentityVerificationReportDocumentExpirationDate `json:"expiration_date"`
+	ExpirationDate *IdentityVerificationReportDocumentExpirationDate `json:"expiration_date,omitempty"`
 	// Array of [File](https://docs.stripe.com/api/files) ids containing images for this document.
 	Files []string `json:"files"`
 	// First name as it appears in the document.
@@ -262,17 +262,17 @@ type IdentityVerificationReportDocument struct {
 	// Last name as it appears in the document.
 	LastName string `json:"last_name"`
 	// Document ID number.
-	Number string `json:"number"`
+	Number string `json:"number,omitempty"`
 	// Sex of the person in the document.
-	Sex IdentityVerificationReportDocumentSex `json:"sex"`
+	Sex IdentityVerificationReportDocumentSex `json:"sex,omitempty"`
 	// Status of this `document` check.
 	Status IdentityVerificationReportDocumentStatus `json:"status"`
 	// Type of the document.
 	Type IdentityVerificationReportDocumentType `json:"type"`
 	// Place of birth as it appears in the document.
-	UnparsedPlaceOfBirth string `json:"unparsed_place_of_birth"`
+	UnparsedPlaceOfBirth string `json:"unparsed_place_of_birth,omitempty"`
 	// Sex as it appears in the document.
-	UnparsedSex string `json:"unparsed_sex"`
+	UnparsedSex string `json:"unparsed_sex,omitempty"`
 }
 
 // Details on the verification error. Present when status is `unverified`.
@@ -314,13 +314,13 @@ type IdentityVerificationReportIDNumberError struct {
 // Result from an id_number check
 type IdentityVerificationReportIDNumber struct {
 	// Date of birth.
-	DOB *IdentityVerificationReportIDNumberDOB `json:"dob"`
+	DOB *IdentityVerificationReportIDNumberDOB `json:"dob,omitempty"`
 	// Details on the verification error. Present when status is `unverified`.
 	Error *IdentityVerificationReportIDNumberError `json:"error"`
 	// First name.
 	FirstName string `json:"first_name"`
 	// ID number. When `id_number_type` is `us_ssn`, only the last 4 digits are present.
-	IDNumber string `json:"id_number"`
+	IDNumber string `json:"id_number,omitempty"`
 	// Type of ID number.
 	IDNumberType IdentityVerificationReportIDNumberIDNumberType `json:"id_number_type"`
 	// Last name.
@@ -330,18 +330,18 @@ type IdentityVerificationReportIDNumber struct {
 }
 type IdentityVerificationReportOptionsDocument struct {
 	// Array of strings of allowed identity document types. If the provided identity document isn't one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
-	AllowedTypes []IdentityVerificationReportOptionsDocumentAllowedType `json:"allowed_types"`
+	AllowedTypes []IdentityVerificationReportOptionsDocumentAllowedType `json:"allowed_types,omitempty"`
 	// Collect an ID number and perform an [ID number check](https://docs.stripe.com/identity/verification-checks?type=id-number) with the document's extracted name and date of birth.
-	RequireIDNumber bool `json:"require_id_number"`
+	RequireIDNumber bool `json:"require_id_number,omitempty"`
 	// Disable image uploads, identity document images have to be captured using the device's camera.
-	RequireLiveCapture bool `json:"require_live_capture"`
+	RequireLiveCapture bool `json:"require_live_capture,omitempty"`
 	// Capture a face image and perform a [selfie check](https://docs.stripe.com/identity/verification-checks?type=selfie) comparing a photo ID and a picture of your user's face. [Learn more](https://docs.stripe.com/identity/selfie).
-	RequireMatchingSelfie bool `json:"require_matching_selfie"`
+	RequireMatchingSelfie bool `json:"require_matching_selfie,omitempty"`
 }
 type IdentityVerificationReportOptionsIDNumber struct{}
 type IdentityVerificationReportOptions struct {
-	Document *IdentityVerificationReportOptionsDocument `json:"document"`
-	IDNumber *IdentityVerificationReportOptionsIDNumber `json:"id_number"`
+	Document *IdentityVerificationReportOptionsDocument `json:"document,omitempty"`
+	IDNumber *IdentityVerificationReportOptionsIDNumber `json:"id_number,omitempty"`
 }
 
 // Details on the verification error. Present when status is `unverified`.
@@ -373,7 +373,7 @@ type IdentityVerificationReportSelfieError struct {
 // Result from a selfie check
 type IdentityVerificationReportSelfie struct {
 	// If selfie was not verified due to being on the blocklist, this is the token of the BlocklistEntry that blocked it
-	BlockedByEntry *IdentityBlocklistEntry `json:"blocked_by_entry"`
+	BlockedByEntry *IdentityBlocklistEntry `json:"blocked_by_entry,omitempty"`
 	// ID of the [File](https://docs.stripe.com/api/files) holding the image of the identity document used in this check.
 	Document string `json:"document"`
 	// Details on the verification error. Present when status is `unverified`.
@@ -402,26 +402,26 @@ type IdentityVerificationReport struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Result from a document check
-	Document *IdentityVerificationReportDocument `json:"document"`
+	Document *IdentityVerificationReportDocument `json:"document,omitempty"`
 	// Result from a email check
-	Email *IdentityVerificationReportEmail `json:"email"`
+	Email *IdentityVerificationReportEmail `json:"email,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Result from an id_number check
-	IDNumber *IdentityVerificationReportIDNumber `json:"id_number"`
+	IDNumber *IdentityVerificationReportIDNumber `json:"id_number,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object  string                             `json:"object"`
-	Options *IdentityVerificationReportOptions `json:"options"`
+	Options *IdentityVerificationReportOptions `json:"options,omitempty"`
 	// Result from a phone check
-	Phone *IdentityVerificationReportPhone `json:"phone"`
+	Phone *IdentityVerificationReportPhone `json:"phone,omitempty"`
 	// Result from a selfie check
-	Selfie *IdentityVerificationReportSelfie `json:"selfie"`
+	Selfie *IdentityVerificationReportSelfie `json:"selfie,omitempty"`
 	// Type of report.
 	Type IdentityVerificationReportType `json:"type"`
 	// The configuration token of a verification flow from the dashboard.
-	VerificationFlow string `json:"verification_flow"`
+	VerificationFlow string `json:"verification_flow,omitempty"`
 	// ID of the VerificationSession that created this report.
 	VerificationSession string `json:"verification_session"`
 }

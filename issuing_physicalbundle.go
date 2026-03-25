@@ -61,11 +61,11 @@ const (
 type IssuingPhysicalBundleListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return physical bundles with the given status.
-	Status *string `form:"status"`
+	Status *string `form:"status" json:"status,omitempty"`
 	// Only return physical bundles with the given type.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -77,7 +77,7 @@ func (p *IssuingPhysicalBundleListParams) AddExpand(f string) {
 type IssuingPhysicalBundleParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -89,7 +89,7 @@ func (p *IssuingPhysicalBundleParams) AddExpand(f string) {
 type IssuingPhysicalBundleRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

@@ -12,13 +12,13 @@ type BillingAlertRecovered struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Currency for the threshold value
-	Currency Currency `json:"currency"`
+	Currency Currency `json:"currency,omitempty"`
 	// ID of customer for which the alert recovered
 	Customer string `json:"customer"`
 	// Custom pricing unit for the threshold value
-	CustomPricingUnit string `json:"custom_pricing_unit"`
+	CustomPricingUnit string `json:"custom_pricing_unit,omitempty"`
 	// External customer ID for the customer for which the alert recovered
-	ExternalCustomerID string `json:"external_customer_id"`
+	ExternalCustomerID string `json:"external_customer_id,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.

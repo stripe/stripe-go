@@ -10,17 +10,17 @@ package stripe
 type RadarAccountEvaluationParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Event payload for login_failed.
-	LoginFailed *RadarAccountEvaluationLoginFailedParams `form:"login_failed"`
+	LoginFailed *RadarAccountEvaluationLoginFailedParams `form:"login_failed" json:"login_failed,omitempty"`
 	// Event payload for login_initiated.
-	LoginInitiated *RadarAccountEvaluationLoginInitiatedParams `form:"login_initiated"`
+	LoginInitiated *RadarAccountEvaluationLoginInitiatedParams `form:"login_initiated" json:"login_initiated,omitempty"`
 	// Event payload for registration_failed.
-	RegistrationFailed *RadarAccountEvaluationRegistrationFailedParams `form:"registration_failed"`
+	RegistrationFailed *RadarAccountEvaluationRegistrationFailedParams `form:"registration_failed" json:"registration_failed,omitempty"`
 	// Event payload for registration_initiated.
-	RegistrationInitiated *RadarAccountEvaluationRegistrationInitiatedParams `form:"registration_initiated"`
+	RegistrationInitiated *RadarAccountEvaluationRegistrationInitiatedParams `form:"registration_initiated" json:"registration_initiated,omitempty"`
 	// The type of evaluation requested.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -31,60 +31,60 @@ func (p *RadarAccountEvaluationParams) AddExpand(f string) {
 // Client device metadata details (e.g., radar_session).
 type RadarAccountEvaluationLoginInitiatedClientDeviceMetadataDetailsParams struct {
 	// ID for the Radar Session associated with the account evaluation.
-	RadarSession *string `form:"radar_session"`
+	RadarSession *string `form:"radar_session" json:"radar_session"`
 }
 
 // Event payload for login_initiated.
 type RadarAccountEvaluationLoginInitiatedParams struct {
 	// Client device metadata details (e.g., radar_session).
-	ClientDeviceMetadataDetails *RadarAccountEvaluationLoginInitiatedClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
+	ClientDeviceMetadataDetails *RadarAccountEvaluationLoginInitiatedClientDeviceMetadataDetailsParams `form:"client_device_metadata_details" json:"client_device_metadata_details"`
 	// Stripe customer ID
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer"`
 }
 
 // Client device metadata details (e.g., radar_session).
 type RadarAccountEvaluationRegistrationInitiatedClientDeviceMetadataDetailsParams struct {
 	// ID for the Radar Session associated with the account evaluation.
-	RadarSession *string `form:"radar_session"`
+	RadarSession *string `form:"radar_session" json:"radar_session"`
 }
 
 // Customer data
 type RadarAccountEvaluationRegistrationInitiatedCustomerDataParams struct {
 	// Customer email
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Customer name
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Customer phone
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Event payload for registration_initiated.
 type RadarAccountEvaluationRegistrationInitiatedParams struct {
 	// Client device metadata details (e.g., radar_session).
-	ClientDeviceMetadataDetails *RadarAccountEvaluationRegistrationInitiatedClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
+	ClientDeviceMetadataDetails *RadarAccountEvaluationRegistrationInitiatedClientDeviceMetadataDetailsParams `form:"client_device_metadata_details" json:"client_device_metadata_details"`
 	// Stripe customer ID
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Customer data
-	CustomerData *RadarAccountEvaluationRegistrationInitiatedCustomerDataParams `form:"customer_data"`
+	CustomerData *RadarAccountEvaluationRegistrationInitiatedCustomerDataParams `form:"customer_data" json:"customer_data,omitempty"`
 }
 
 // Event payload for login_failed.
 type RadarAccountEvaluationLoginFailedParams struct {
 	// The reason why this login failed.
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason"`
 }
 
 // Event payload for registration_failed.
 type RadarAccountEvaluationRegistrationFailedParams struct {
 	// The reason why this registration failed.
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason"`
 }
 
 // Retrieves an AccountEvaluation object.
 type RadarAccountEvaluationRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -95,54 +95,54 @@ func (p *RadarAccountEvaluationRetrieveParams) AddExpand(f string) {
 // Client device metadata details (e.g., radar_session).
 type RadarAccountEvaluationCreateLoginInitiatedClientDeviceMetadataDetailsParams struct {
 	// ID for the Radar Session associated with the account evaluation.
-	RadarSession *string `form:"radar_session"`
+	RadarSession *string `form:"radar_session" json:"radar_session"`
 }
 
 // Event payload for login_initiated.
 type RadarAccountEvaluationCreateLoginInitiatedParams struct {
 	// Client device metadata details (e.g., radar_session).
-	ClientDeviceMetadataDetails *RadarAccountEvaluationCreateLoginInitiatedClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
+	ClientDeviceMetadataDetails *RadarAccountEvaluationCreateLoginInitiatedClientDeviceMetadataDetailsParams `form:"client_device_metadata_details" json:"client_device_metadata_details"`
 	// Stripe customer ID
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer"`
 }
 
 // Client device metadata details (e.g., radar_session).
 type RadarAccountEvaluationCreateRegistrationInitiatedClientDeviceMetadataDetailsParams struct {
 	// ID for the Radar Session associated with the account evaluation.
-	RadarSession *string `form:"radar_session"`
+	RadarSession *string `form:"radar_session" json:"radar_session"`
 }
 
 // Customer data
 type RadarAccountEvaluationCreateRegistrationInitiatedCustomerDataParams struct {
 	// Customer email
-	Email *string `form:"email"`
+	Email *string `form:"email" json:"email,omitempty"`
 	// Customer name
-	Name *string `form:"name"`
+	Name *string `form:"name" json:"name,omitempty"`
 	// Customer phone
-	Phone *string `form:"phone"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
 // Event payload for registration_initiated.
 type RadarAccountEvaluationCreateRegistrationInitiatedParams struct {
 	// Client device metadata details (e.g., radar_session).
-	ClientDeviceMetadataDetails *RadarAccountEvaluationCreateRegistrationInitiatedClientDeviceMetadataDetailsParams `form:"client_device_metadata_details"`
+	ClientDeviceMetadataDetails *RadarAccountEvaluationCreateRegistrationInitiatedClientDeviceMetadataDetailsParams `form:"client_device_metadata_details" json:"client_device_metadata_details"`
 	// Stripe customer ID
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Customer data
-	CustomerData *RadarAccountEvaluationCreateRegistrationInitiatedCustomerDataParams `form:"customer_data"`
+	CustomerData *RadarAccountEvaluationCreateRegistrationInitiatedCustomerDataParams `form:"customer_data" json:"customer_data,omitempty"`
 }
 
 // Creates a new AccountEvaluation object.
 type RadarAccountEvaluationCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Event payload for login_initiated.
-	LoginInitiated *RadarAccountEvaluationCreateLoginInitiatedParams `form:"login_initiated"`
+	LoginInitiated *RadarAccountEvaluationCreateLoginInitiatedParams `form:"login_initiated" json:"login_initiated,omitempty"`
 	// Event payload for registration_initiated.
-	RegistrationInitiated *RadarAccountEvaluationCreateRegistrationInitiatedParams `form:"registration_initiated"`
+	RegistrationInitiated *RadarAccountEvaluationCreateRegistrationInitiatedParams `form:"registration_initiated" json:"registration_initiated,omitempty"`
 	// The type of evaluation requested.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // AddExpand appends a new field to expand.
@@ -153,26 +153,26 @@ func (p *RadarAccountEvaluationCreateParams) AddExpand(f string) {
 // Event payload for login_failed.
 type RadarAccountEvaluationUpdateLoginFailedParams struct {
 	// The reason why this login failed.
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason"`
 }
 
 // Event payload for registration_failed.
 type RadarAccountEvaluationUpdateRegistrationFailedParams struct {
 	// The reason why this registration failed.
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason"`
 }
 
 // Reports an event on an AccountEvaluation object.
 type RadarAccountEvaluationUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Event payload for login_failed.
-	LoginFailed *RadarAccountEvaluationUpdateLoginFailedParams `form:"login_failed"`
+	LoginFailed *RadarAccountEvaluationUpdateLoginFailedParams `form:"login_failed" json:"login_failed,omitempty"`
 	// Event payload for registration_failed.
-	RegistrationFailed *RadarAccountEvaluationUpdateRegistrationFailedParams `form:"registration_failed"`
+	RegistrationFailed *RadarAccountEvaluationUpdateRegistrationFailedParams `form:"registration_failed" json:"registration_failed,omitempty"`
 	// The type of event to report.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 }
 
 // AddExpand appends a new field to expand.
@@ -195,11 +195,11 @@ type RadarAccountEvaluationEventRegistrationFailed struct {
 // The list of events that were reported for this Account Evaluation object via the report API.
 type RadarAccountEvaluationEvent struct {
 	// Data about a failed login event.
-	LoginFailed *RadarAccountEvaluationEventLoginFailed `json:"login_failed"`
+	LoginFailed *RadarAccountEvaluationEventLoginFailed `json:"login_failed,omitempty"`
 	// Time at which the event occurred. Measured in seconds since the Unix epoch.
 	OccurredAt int64 `json:"occurred_at"`
 	// Data about a failed registration event.
-	RegistrationFailed *RadarAccountEvaluationEventRegistrationFailed `json:"registration_failed"`
+	RegistrationFailed *RadarAccountEvaluationEventRegistrationFailed `json:"registration_failed,omitempty"`
 	// The type of event that occurred.
 	Type string `json:"type"`
 }
@@ -214,8 +214,8 @@ type RadarAccountEvaluationSignalsMultiAccounting struct {
 
 // A hash of signal objects providing Radar's evaluation for the lifecycle event.
 type RadarAccountEvaluationSignals struct {
-	AccountSharing  *RadarAccountEvaluationSignalsAccountSharing  `json:"account_sharing"`
-	MultiAccounting *RadarAccountEvaluationSignalsMultiAccounting `json:"multi_accounting"`
+	AccountSharing  *RadarAccountEvaluationSignalsAccountSharing  `json:"account_sharing,omitempty"`
+	MultiAccounting *RadarAccountEvaluationSignalsMultiAccounting `json:"multi_accounting,omitempty"`
 }
 
 // Account Evaluation resource returned by the Radar Account Evaluations API.

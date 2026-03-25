@@ -358,7 +358,7 @@ type QuotePreviewSubscriptionScheduleListParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -378,7 +378,7 @@ type QuotePreviewSubscriptionScheduleAppliesTo struct {
 // Configure behavior for flexible billing mode
 type QuotePreviewSubscriptionScheduleBillingModeFlexible struct {
 	// Controls how invoices and invoice items display proration amounts and discount amounts.
-	ProrationDiscounts QuotePreviewSubscriptionScheduleBillingModeFlexibleProrationDiscounts `json:"proration_discounts"`
+	ProrationDiscounts QuotePreviewSubscriptionScheduleBillingModeFlexibleProrationDiscounts `json:"proration_discounts,omitempty"`
 }
 
 // The billing mode of the subscription.
@@ -388,7 +388,7 @@ type QuotePreviewSubscriptionScheduleBillingMode struct {
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	Type QuotePreviewSubscriptionScheduleBillingModeType `json:"type"`
 	// Details on when the current billing_mode was adopted.
-	UpdatedAt int64 `json:"updated_at"`
+	UpdatedAt int64 `json:"updated_at,omitempty"`
 }
 
 // Specifies which subscription items the billing schedule applies to.
@@ -434,7 +434,7 @@ type QuotePreviewSubscriptionScheduleBillingSchedule struct {
 	// Specifies which subscription items the billing schedule applies to.
 	AppliesTo []*QuotePreviewSubscriptionScheduleBillingScheduleAppliesTo `json:"applies_to"`
 	// Specifies the start of the billing period.
-	BillFrom *QuotePreviewSubscriptionScheduleBillingScheduleBillFrom `json:"bill_from"`
+	BillFrom *QuotePreviewSubscriptionScheduleBillingScheduleBillFrom `json:"bill_from,omitempty"`
 	// Specifies the end of billing period.
 	BillUntil *QuotePreviewSubscriptionScheduleBillingScheduleBillUntil `json:"bill_until"`
 	// Unique identifier for the billing schedule.
@@ -452,7 +452,7 @@ type QuotePreviewSubscriptionScheduleCurrentPhase struct {
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// Type of the account referenced.
 	Type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityType `json:"type"`
 }
@@ -474,7 +474,7 @@ type QuotePreviewSubscriptionScheduleDefaultSettingsBillingThresholds struct {
 }
 type QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuer struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// Type of the account referenced.
 	Type QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerType `json:"type"`
 }
@@ -496,7 +496,7 @@ type QuotePreviewSubscriptionScheduleDefaultSettingsTransferData struct {
 type QuotePreviewSubscriptionScheduleDefaultSettings struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account during this phase of the schedule.
 	ApplicationFeePercent float64                                                      `json:"application_fee_percent"`
-	AutomaticTax          *QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTax `json:"automatic_tax"`
+	AutomaticTax          *QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTax `json:"automatic_tax,omitempty"`
 	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor QuotePreviewSubscriptionScheduleDefaultSettingsBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
@@ -511,7 +511,7 @@ type QuotePreviewSubscriptionScheduleDefaultSettings struct {
 	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
-	PhaseEffectiveAt QuotePreviewSubscriptionScheduleDefaultSettingsPhaseEffectiveAt `json:"phase_effective_at"`
+	PhaseEffectiveAt QuotePreviewSubscriptionScheduleDefaultSettingsPhaseEffectiveAt `json:"phase_effective_at,omitempty"`
 	// The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 	TransferData *QuotePreviewSubscriptionScheduleDefaultSettingsTransferData `json:"transfer_data"`
 }
@@ -549,19 +549,19 @@ type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscount struct {
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd `json:"discount_end"`
+	DiscountEnd *QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd `json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *PromotionCode `json:"promotion_code"`
 }
 type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodEnd struct {
 	// A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp int64 `json:"timestamp,omitempty"`
 	// Select how to calculate the end of the invoice item period.
 	Type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodEndType `json:"type"`
 }
 type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodStart struct {
 	// A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp int64 `json:"timestamp,omitempty"`
 	// Select how to calculate the start of the invoice item period.
 	Type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodStartType `json:"type"`
 }
@@ -582,13 +582,13 @@ type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItem struct {
 	// The quantity of the invoice item.
 	Quantity int64 `json:"quantity"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
-	TaxRates []*TaxRate `json:"tax_rates"`
+	TaxRates []*TaxRate `json:"tax_rates,omitempty"`
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// Type of the account referenced.
 	Type QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityType `json:"type"`
 }
@@ -629,7 +629,7 @@ type QuotePreviewSubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorCon
 	Second int64 `json:"second"`
 }
 type QuotePreviewSubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfig struct {
-	Custom *QuotePreviewSubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom"`
+	Custom *QuotePreviewSubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom,omitempty"`
 	// The type of service period anchor config.
 	Type QuotePreviewSubscriptionSchedulePhaseDiscountSettingsServicePeriodAnchorConfigType `json:"type"`
 }
@@ -646,16 +646,16 @@ type QuotePreviewSubscriptionSchedulePhaseDiscount struct {
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd `json:"discount_end"`
+	DiscountEnd *QuotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd `json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *PromotionCode                                         `json:"promotion_code"`
-	Settings      *QuotePreviewSubscriptionSchedulePhaseDiscountSettings `json:"settings"`
+	Settings      *QuotePreviewSubscriptionSchedulePhaseDiscountSettings `json:"settings,omitempty"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuer struct {
 	// The connected account being referenced when `type` is `account`.
-	Account *Account `json:"account"`
+	Account *Account `json:"account,omitempty"`
 	// Type of the account referenced.
 	Type QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuerType `json:"type"`
 }
@@ -696,7 +696,7 @@ type QuotePreviewSubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAncho
 	Second int64 `json:"second"`
 }
 type QuotePreviewSubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfig struct {
-	Custom *QuotePreviewSubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom"`
+	Custom *QuotePreviewSubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfigCustom `json:"custom,omitempty"`
 	// The type of service period anchor config.
 	Type QuotePreviewSubscriptionSchedulePhaseItemDiscountSettingsServicePeriodAnchorConfigType `json:"type"`
 }
@@ -713,16 +713,16 @@ type QuotePreviewSubscriptionSchedulePhaseItemDiscount struct {
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
-	DiscountEnd *QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd `json:"discount_end"`
+	DiscountEnd *QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd `json:"discount_end,omitempty"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *PromotionCode                                             `json:"promotion_code"`
-	Settings      *QuotePreviewSubscriptionSchedulePhaseItemDiscountSettings `json:"settings"`
+	Settings      *QuotePreviewSubscriptionSchedulePhaseItemDiscountSettings `json:"settings,omitempty"`
 }
 
 // Options that configure the trial on the subscription item.
 type QuotePreviewSubscriptionSchedulePhaseItemTrial struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
-	ConvertsTo []string `json:"converts_to"`
+	ConvertsTo []string `json:"converts_to,omitempty"`
 	// Determines the type of trial for this item.
 	Type QuotePreviewSubscriptionSchedulePhaseItemTrialType `json:"type"`
 }
@@ -740,13 +740,13 @@ type QuotePreviewSubscriptionSchedulePhaseItem struct {
 	// ID of the price to which the customer should be subscribed.
 	Price *Price `json:"price"`
 	// Quantity of the plan to which the customer should be subscribed.
-	Quantity int64 `json:"quantity"`
+	Quantity int64 `json:"quantity,omitempty"`
 	// The tax rates which apply to this `phase_item`. When set, the `default_tax_rates` on the phase do not apply to this `phase_item`.
-	TaxRates []*TaxRate `json:"tax_rates"`
+	TaxRates []*TaxRate `json:"tax_rates,omitempty"`
 	// Options that configure the trial on the subscription item.
-	Trial *QuotePreviewSubscriptionSchedulePhaseItemTrial `json:"trial"`
+	Trial *QuotePreviewSubscriptionSchedulePhaseItemTrial `json:"trial,omitempty"`
 	// The ID of the trial offer to apply to the configuration item.
-	TrialOffer string `json:"trial_offer"`
+	TrialOffer string `json:"trial_offer,omitempty"`
 }
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
@@ -781,7 +781,7 @@ type QuotePreviewSubscriptionSchedulePhase struct {
 	AddInvoiceItems []*QuotePreviewSubscriptionSchedulePhaseAddInvoiceItem `json:"add_invoice_items"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account during this phase of the schedule.
 	ApplicationFeePercent float64                                            `json:"application_fee_percent"`
-	AutomaticTax          *QuotePreviewSubscriptionSchedulePhaseAutomaticTax `json:"automatic_tax"`
+	AutomaticTax          *QuotePreviewSubscriptionSchedulePhaseAutomaticTax `json:"automatic_tax,omitempty"`
 	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor QuotePreviewSubscriptionSchedulePhaseBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
@@ -793,13 +793,13 @@ type QuotePreviewSubscriptionSchedulePhase struct {
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
 	DefaultPaymentMethod *PaymentMethod `json:"default_payment_method"`
 	// The default tax rates to apply to the subscription during this phase of the subscription schedule.
-	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
+	DefaultTaxRates []*TaxRate `json:"default_tax_rates,omitempty"`
 	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
 	Discounts []*QuotePreviewSubscriptionSchedulePhaseDiscount `json:"discounts"`
 	// Configures how the subscription schedule handles billing for phase transitions. Possible values are `phase_start` (default) or `billing_period_start`. `phase_start` bills based on the current state of the subscription, ignoring changes scheduled in future phases. `billing_period_start` bills predictively for upcoming phase transitions within the current billing cycle, including pricing changes and service period adjustments that will occur before the next invoice.
-	EffectiveAt QuotePreviewSubscriptionSchedulePhaseEffectiveAt `json:"effective_at"`
+	EffectiveAt QuotePreviewSubscriptionSchedulePhaseEffectiveAt `json:"effective_at,omitempty"`
 	// The end of this phase of the subscription schedule.
 	EndDate int64 `json:"end_date"`
 	// The invoice settings applicable during this phase.
@@ -811,7 +811,7 @@ type QuotePreviewSubscriptionSchedulePhase struct {
 	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
-	PauseCollection *QuotePreviewSubscriptionSchedulePhasePauseCollection `json:"pause_collection"`
+	PauseCollection *QuotePreviewSubscriptionSchedulePhasePauseCollection `json:"pause_collection,omitempty"`
 	// When transitioning phases, controls how prorations are handled (if any). Possible values are `create_prorations`, `none`, and `always_invoice`.
 	ProrationBehavior QuotePreviewSubscriptionSchedulePhaseProrationBehavior `json:"proration_behavior"`
 	// The start of this phase of the subscription schedule.
@@ -819,11 +819,11 @@ type QuotePreviewSubscriptionSchedulePhase struct {
 	// The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 	TransferData *QuotePreviewSubscriptionSchedulePhaseTransferData `json:"transfer_data"`
 	// Specify behavior of the trial when crossing schedule phase boundaries
-	TrialContinuation QuotePreviewSubscriptionSchedulePhaseTrialContinuation `json:"trial_continuation"`
+	TrialContinuation QuotePreviewSubscriptionSchedulePhaseTrialContinuation `json:"trial_continuation,omitempty"`
 	// When the trial ends within the phase.
 	TrialEnd int64 `json:"trial_end"`
 	// Settings related to any trials on the subscription during this phase.
-	TrialSettings *QuotePreviewSubscriptionSchedulePhaseTrialSettings `json:"trial_settings"`
+	TrialSettings *QuotePreviewSubscriptionSchedulePhaseTrialSettings `json:"trial_settings,omitempty"`
 }
 
 // Time period and invoice for a Subscription billed in advance.
@@ -835,18 +835,18 @@ type QuotePreviewSubscriptionSchedulePrebilling struct {
 	// The start of the first period for which the invoice pre-bills.
 	PeriodStart int64 `json:"period_start"`
 	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
-	UpdateBehavior QuotePreviewSubscriptionSchedulePrebillingUpdateBehavior `json:"update_behavior"`
+	UpdateBehavior QuotePreviewSubscriptionSchedulePrebillingUpdateBehavior `json:"update_behavior,omitempty"`
 }
 type QuotePreviewSubscriptionSchedule struct {
 	// ID of the Connect Application that created the schedule.
 	Application *Application                               `json:"application"`
 	AppliesTo   *QuotePreviewSubscriptionScheduleAppliesTo `json:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
-	BillingBehavior QuotePreviewSubscriptionScheduleBillingBehavior `json:"billing_behavior"`
+	BillingBehavior QuotePreviewSubscriptionScheduleBillingBehavior `json:"billing_behavior,omitempty"`
 	// The billing mode of the subscription.
 	BillingMode *QuotePreviewSubscriptionScheduleBillingMode `json:"billing_mode"`
 	// Billing schedules for this subscription schedule.
-	BillingSchedules []*QuotePreviewSubscriptionScheduleBillingSchedule `json:"billing_schedules"`
+	BillingSchedules []*QuotePreviewSubscriptionScheduleBillingSchedule `json:"billing_schedules,omitempty"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.
 	CanceledAt int64 `json:"canceled_at"`
 	// Time at which the subscription schedule was completed. Measured in seconds since the Unix epoch.
@@ -865,9 +865,9 @@ type QuotePreviewSubscriptionSchedule struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Details of the most recent price migration that failed for the subscription schedule.
-	LastPriceMigrationError *QuotePreviewSubscriptionScheduleLastPriceMigrationError `json:"last_price_migration_error"`
+	LastPriceMigrationError *QuotePreviewSubscriptionScheduleLastPriceMigrationError `json:"last_price_migration_error,omitempty"`
 	// The most recent invoice this subscription schedule has generated.
-	LatestInvoice *Invoice `json:"latest_invoice"`
+	LatestInvoice *Invoice `json:"latest_invoice,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -877,7 +877,7 @@ type QuotePreviewSubscriptionSchedule struct {
 	// Configuration for the subscription schedule's phases.
 	Phases []*QuotePreviewSubscriptionSchedulePhase `json:"phases"`
 	// Time period and invoice for a Subscription billed in advance.
-	Prebilling *QuotePreviewSubscriptionSchedulePrebilling `json:"prebilling"`
+	Prebilling *QuotePreviewSubscriptionSchedulePrebilling `json:"prebilling,omitempty"`
 	// Time at which the subscription schedule was released. Measured in seconds since the Unix epoch.
 	ReleasedAt int64 `json:"released_at"`
 	// ID of the subscription once managed by the subscription schedule (if it is released).

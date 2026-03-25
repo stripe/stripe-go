@@ -10,9 +10,9 @@ package stripe
 type EntitlementsActiveEntitlementListParams struct {
 	ListParams `form:"*"`
 	// The ID of the customer.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -24,7 +24,7 @@ func (p *EntitlementsActiveEntitlementListParams) AddExpand(f string) {
 type EntitlementsActiveEntitlementParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -36,7 +36,7 @@ func (p *EntitlementsActiveEntitlementParams) AddExpand(f string) {
 type EntitlementsActiveEntitlementRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

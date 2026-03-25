@@ -122,17 +122,17 @@ const (
 type CreditNoteListParams struct {
 	ListParams `form:"*"`
 	// Only return credit notes that were created during the given date interval.
-	Created *int64 `form:"created"`
+	Created *int64 `form:"created" json:"created,omitempty"`
 	// Only return credit notes that were created during the given date interval.
-	CreatedRange *RangeQueryParams `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Only return credit notes for the customer specified by this customer ID.
-	Customer *string `form:"customer"`
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Only return credit notes for the account representing the customer specified by this account ID.
-	CustomerAccount *string `form:"customer_account"`
+	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Only return credit notes for the invoice specified by this invoice ID.
-	Invoice *string `form:"invoice"`
+	Invoice *string `form:"invoice" json:"invoice,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -143,33 +143,33 @@ func (p *CreditNoteListParams) AddExpand(f string) {
 // A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 type CreditNoteLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The amount on which tax is calculated, in cents (or local equivalent).
-	TaxableAmount *int64 `form:"taxable_amount"`
+	TaxableAmount *int64 `form:"taxable_amount" json:"taxable_amount"`
 	// The id of the tax rate for this tax amount. The tax rate must have been automatically created by Stripe.
-	TaxRate *string `form:"tax_rate"`
+	TaxRate *string `form:"tax_rate" json:"tax_rate"`
 }
 
 // Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNoteLineParams struct {
 	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
-	InvoiceLineItem *string `form:"invoice_line_item"`
+	InvoiceLineItem *string `form:"invoice_line_item" json:"invoice_line_item,omitempty"`
 	// The line item quantity to credit.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
-	TaxAmounts []*CreditNoteLineTaxAmountParams `form:"tax_amounts"`
+	TaxAmounts []*CreditNoteLineTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and `tax_amounts` is not used.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`. `custom_line_item` is not valid when the invoice is set up with `automatic_tax[enabled]=true`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64                         `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                         `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	UnsetFields       []CreditNoteLineParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -189,27 +189,27 @@ func (p *CreditNoteLineParams) AddUnsetField(field CreditNoteLineParamsUnsetFiel
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
 type CreditNoteRefundPaymentRecordRefundParams struct {
 	// The ID of the PaymentRecord with the refund to link to this credit note.
-	PaymentRecord *string `form:"payment_record"`
+	PaymentRecord *string `form:"payment_record" json:"payment_record"`
 	// The PaymentRecord refund group to link to this credit note. For refunds processed off-Stripe, this will correspond to the `processor_details.custom.refund_reference` field provided when reporting the refund on the PaymentRecord.
-	RefundGroup *string `form:"refund_group"`
+	RefundGroup *string `form:"refund_group" json:"refund_group"`
 }
 
 // Refunds to link to this credit note.
 type CreditNoteRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
-	AmountRefunded *int64 `form:"amount_refunded"`
+	AmountRefunded *int64 `form:"amount_refunded" json:"amount_refunded,omitempty"`
 	// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
-	PaymentRecordRefund *CreditNoteRefundPaymentRecordRefundParams `form:"payment_record_refund"`
+	PaymentRecordRefund *CreditNoteRefundPaymentRecordRefundParams `form:"payment_record_refund" json:"payment_record_refund,omitempty"`
 	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
-	Refund *string `form:"refund"`
+	Refund *string `form:"refund" json:"refund,omitempty"`
 	// Type of the refund, one of `refund` or `payment_record_refund`. Defaults to `refund`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNoteShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
-	ShippingRate *string `form:"shipping_rate"`
+	ShippingRate *string `form:"shipping_rate" json:"shipping_rate,omitempty"`
 }
 
 // Issue a credit note to adjust the amount of a finalized invoice. A credit note will first reduce the invoice's amount_remaining (and amount_due), but not below zero.
@@ -226,33 +226,33 @@ type CreditNoteShippingCostParams struct {
 type CreditNoteParams struct {
 	Params `form:"*"`
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
-	CreditAmount *int64 `form:"credit_amount"`
+	CreditAmount *int64 `form:"credit_amount" json:"credit_amount,omitempty"`
 	// The date when this credit note is in effect. Same as `created` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
-	EffectiveAt *int64 `form:"effective_at"`
+	EffectiveAt *int64 `form:"effective_at" json:"effective_at,omitempty"`
 	// Type of email to send to the customer, one of `credit_note` or `none` and the default is `credit_note`.
-	EmailType *string `form:"email_type"`
+	EmailType *string `form:"email_type" json:"email_type,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// ID of the invoice.
-	Invoice *string `form:"invoice"`
+	Invoice *string `form:"invoice" json:"invoice,omitempty"`
 	// Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
-	Lines []*CreditNoteLineParams `form:"lines"`
+	Lines []*CreditNoteLineParams `form:"lines" json:"lines,omitempty"`
 	// The credit note's memo appears on the credit note PDF.
-	Memo *string `form:"memo"`
+	Memo *string `form:"memo" json:"memo,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
-	OutOfBandAmount *int64 `form:"out_of_band_amount"`
+	OutOfBandAmount *int64 `form:"out_of_band_amount" json:"out_of_band_amount,omitempty"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason,omitempty"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
-	RefundAmount *int64 `form:"refund_amount"`
+	RefundAmount *int64 `form:"refund_amount" json:"refund_amount,omitempty"`
 	// Refunds to link to this credit note.
-	Refunds []*CreditNoteRefundParams `form:"refunds"`
+	Refunds []*CreditNoteRefundParams `form:"refunds" json:"refunds,omitempty"`
 	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
-	ShippingCost *CreditNoteShippingCostParams `form:"shipping_cost"`
+	ShippingCost *CreditNoteShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -272,33 +272,33 @@ func (p *CreditNoteParams) AddMetadata(key string, value string) {
 // A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 type CreditNotePreviewLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The amount on which tax is calculated, in cents (or local equivalent).
-	TaxableAmount *int64 `form:"taxable_amount"`
+	TaxableAmount *int64 `form:"taxable_amount" json:"taxable_amount"`
 	// The id of the tax rate for this tax amount. The tax rate must have been automatically created by Stripe.
-	TaxRate *string `form:"tax_rate"`
+	TaxRate *string `form:"tax_rate" json:"tax_rate"`
 }
 
 // Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNotePreviewLineParams struct {
 	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
-	InvoiceLineItem *string `form:"invoice_line_item"`
+	InvoiceLineItem *string `form:"invoice_line_item" json:"invoice_line_item,omitempty"`
 	// The line item quantity to credit.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
-	TaxAmounts []*CreditNotePreviewLineTaxAmountParams `form:"tax_amounts"`
+	TaxAmounts []*CreditNotePreviewLineTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and `tax_amounts` is not used.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`. `custom_line_item` is not valid when the invoice is set up with `automatic_tax[enabled]=true`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64                                `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                                `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	UnsetFields       []CreditNotePreviewLineParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -318,60 +318,60 @@ func (p *CreditNotePreviewLineParams) AddUnsetField(field CreditNotePreviewLineP
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
 type CreditNotePreviewRefundPaymentRecordRefundParams struct {
 	// The ID of the PaymentRecord with the refund to link to this credit note.
-	PaymentRecord *string `form:"payment_record"`
+	PaymentRecord *string `form:"payment_record" json:"payment_record"`
 	// The PaymentRecord refund group to link to this credit note. For refunds processed off-Stripe, this will correspond to the `processor_details.custom.refund_reference` field provided when reporting the refund on the PaymentRecord.
-	RefundGroup *string `form:"refund_group"`
+	RefundGroup *string `form:"refund_group" json:"refund_group"`
 }
 
 // Refunds to link to this credit note.
 type CreditNotePreviewRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
-	AmountRefunded *int64 `form:"amount_refunded"`
+	AmountRefunded *int64 `form:"amount_refunded" json:"amount_refunded,omitempty"`
 	// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
-	PaymentRecordRefund *CreditNotePreviewRefundPaymentRecordRefundParams `form:"payment_record_refund"`
+	PaymentRecordRefund *CreditNotePreviewRefundPaymentRecordRefundParams `form:"payment_record_refund" json:"payment_record_refund,omitempty"`
 	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
-	Refund *string `form:"refund"`
+	Refund *string `form:"refund" json:"refund,omitempty"`
 	// Type of the refund, one of `refund` or `payment_record_refund`. Defaults to `refund`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNotePreviewShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
-	ShippingRate *string `form:"shipping_rate"`
+	ShippingRate *string `form:"shipping_rate" json:"shipping_rate,omitempty"`
 }
 
 // Get a preview of a credit note without creating it.
 type CreditNotePreviewParams struct {
 	Params `form:"*"`
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
-	CreditAmount *int64 `form:"credit_amount"`
+	CreditAmount *int64 `form:"credit_amount" json:"credit_amount,omitempty"`
 	// The date when this credit note is in effect. Same as `created` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
-	EffectiveAt *int64 `form:"effective_at"`
+	EffectiveAt *int64 `form:"effective_at" json:"effective_at,omitempty"`
 	// Type of email to send to the customer, one of `credit_note` or `none` and the default is `credit_note`.
-	EmailType *string `form:"email_type"`
+	EmailType *string `form:"email_type" json:"email_type,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// ID of the invoice.
-	Invoice *string `form:"invoice"`
+	Invoice *string `form:"invoice" json:"invoice"`
 	// Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
-	Lines []*CreditNotePreviewLineParams `form:"lines"`
+	Lines []*CreditNotePreviewLineParams `form:"lines" json:"lines,omitempty"`
 	// The credit note's memo appears on the credit note PDF.
-	Memo *string `form:"memo"`
+	Memo *string `form:"memo" json:"memo,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
-	OutOfBandAmount *int64 `form:"out_of_band_amount"`
+	OutOfBandAmount *int64 `form:"out_of_band_amount" json:"out_of_band_amount,omitempty"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason,omitempty"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
-	RefundAmount *int64 `form:"refund_amount"`
+	RefundAmount *int64 `form:"refund_amount" json:"refund_amount,omitempty"`
 	// Refunds to link to this credit note.
-	Refunds []*CreditNotePreviewRefundParams `form:"refunds"`
+	Refunds []*CreditNotePreviewRefundParams `form:"refunds" json:"refunds,omitempty"`
 	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
-	ShippingCost *CreditNotePreviewShippingCostParams `form:"shipping_cost"`
+	ShippingCost *CreditNotePreviewShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -391,33 +391,33 @@ func (p *CreditNotePreviewParams) AddMetadata(key string, value string) {
 // A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 type CreditNotePreviewLinesLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The amount on which tax is calculated, in cents (or local equivalent).
-	TaxableAmount *int64 `form:"taxable_amount"`
+	TaxableAmount *int64 `form:"taxable_amount" json:"taxable_amount"`
 	// The id of the tax rate for this tax amount. The tax rate must have been automatically created by Stripe.
-	TaxRate *string `form:"tax_rate"`
+	TaxRate *string `form:"tax_rate" json:"tax_rate"`
 }
 
 // Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNotePreviewLinesLineParams struct {
 	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
-	InvoiceLineItem *string `form:"invoice_line_item"`
+	InvoiceLineItem *string `form:"invoice_line_item" json:"invoice_line_item,omitempty"`
 	// The line item quantity to credit.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
-	TaxAmounts []*CreditNotePreviewLinesLineTaxAmountParams `form:"tax_amounts"`
+	TaxAmounts []*CreditNotePreviewLinesLineTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and `tax_amounts` is not used.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`. `custom_line_item` is not valid when the invoice is set up with `automatic_tax[enabled]=true`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64                                     `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                                     `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	UnsetFields       []CreditNotePreviewLinesLineParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -437,60 +437,60 @@ func (p *CreditNotePreviewLinesLineParams) AddUnsetField(field CreditNotePreview
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
 type CreditNotePreviewLinesRefundPaymentRecordRefundParams struct {
 	// The ID of the PaymentRecord with the refund to link to this credit note.
-	PaymentRecord *string `form:"payment_record"`
+	PaymentRecord *string `form:"payment_record" json:"payment_record"`
 	// The PaymentRecord refund group to link to this credit note. For refunds processed off-Stripe, this will correspond to the `processor_details.custom.refund_reference` field provided when reporting the refund on the PaymentRecord.
-	RefundGroup *string `form:"refund_group"`
+	RefundGroup *string `form:"refund_group" json:"refund_group"`
 }
 
 // Refunds to link to this credit note.
 type CreditNotePreviewLinesRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
-	AmountRefunded *int64 `form:"amount_refunded"`
+	AmountRefunded *int64 `form:"amount_refunded" json:"amount_refunded,omitempty"`
 	// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
-	PaymentRecordRefund *CreditNotePreviewLinesRefundPaymentRecordRefundParams `form:"payment_record_refund"`
+	PaymentRecordRefund *CreditNotePreviewLinesRefundPaymentRecordRefundParams `form:"payment_record_refund" json:"payment_record_refund,omitempty"`
 	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
-	Refund *string `form:"refund"`
+	Refund *string `form:"refund" json:"refund,omitempty"`
 	// Type of the refund, one of `refund` or `payment_record_refund`. Defaults to `refund`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNotePreviewLinesShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
-	ShippingRate *string `form:"shipping_rate"`
+	ShippingRate *string `form:"shipping_rate" json:"shipping_rate,omitempty"`
 }
 
 // Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNotePreviewLinesParams struct {
 	ListParams `form:"*"`
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
-	CreditAmount *int64 `form:"credit_amount"`
+	CreditAmount *int64 `form:"credit_amount" json:"credit_amount,omitempty"`
 	// The date when this credit note is in effect. Same as `created` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
-	EffectiveAt *int64 `form:"effective_at"`
+	EffectiveAt *int64 `form:"effective_at" json:"effective_at,omitempty"`
 	// Type of email to send to the customer, one of `credit_note` or `none` and the default is `credit_note`.
-	EmailType *string `form:"email_type"`
+	EmailType *string `form:"email_type" json:"email_type,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// ID of the invoice.
-	Invoice *string `form:"invoice"`
+	Invoice *string `form:"invoice" json:"invoice"`
 	// Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
-	Lines []*CreditNotePreviewLinesLineParams `form:"lines"`
+	Lines []*CreditNotePreviewLinesLineParams `form:"lines" json:"lines,omitempty"`
 	// The credit note's memo appears on the credit note PDF.
-	Memo *string `form:"memo"`
+	Memo *string `form:"memo" json:"memo,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
-	OutOfBandAmount *int64 `form:"out_of_band_amount"`
+	OutOfBandAmount *int64 `form:"out_of_band_amount" json:"out_of_band_amount,omitempty"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason,omitempty"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
-	RefundAmount *int64 `form:"refund_amount"`
+	RefundAmount *int64 `form:"refund_amount" json:"refund_amount,omitempty"`
 	// Refunds to link to this credit note.
-	Refunds []*CreditNotePreviewLinesRefundParams `form:"refunds"`
+	Refunds []*CreditNotePreviewLinesRefundParams `form:"refunds" json:"refunds,omitempty"`
 	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
-	ShippingCost *CreditNotePreviewLinesShippingCostParams `form:"shipping_cost"`
+	ShippingCost *CreditNotePreviewLinesShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -511,7 +511,7 @@ func (p *CreditNotePreviewLinesParams) AddMetadata(key string, value string) {
 type CreditNoteVoidCreditNoteParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -524,7 +524,7 @@ type CreditNoteListLinesParams struct {
 	ListParams `form:"*"`
 	CreditNote *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -535,33 +535,33 @@ func (p *CreditNoteListLinesParams) AddExpand(f string) {
 // A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 type CreditNoteCreateLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount"`
 	// The amount on which tax is calculated, in cents (or local equivalent).
-	TaxableAmount *int64 `form:"taxable_amount"`
+	TaxableAmount *int64 `form:"taxable_amount" json:"taxable_amount"`
 	// The id of the tax rate for this tax amount. The tax rate must have been automatically created by Stripe.
-	TaxRate *string `form:"tax_rate"`
+	TaxRate *string `form:"tax_rate" json:"tax_rate"`
 }
 
 // Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNoteCreateLineParams struct {
 	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
-	Description *string `form:"description"`
+	Description *string `form:"description" json:"description,omitempty"`
 	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
-	InvoiceLineItem *string `form:"invoice_line_item"`
+	InvoiceLineItem *string `form:"invoice_line_item" json:"invoice_line_item,omitempty"`
 	// The line item quantity to credit.
-	Quantity *int64 `form:"quantity"`
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
-	TaxAmounts []*CreditNoteCreateLineTaxAmountParams `form:"tax_amounts"`
+	TaxAmounts []*CreditNoteCreateLineTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and `tax_amounts` is not used.
-	TaxRates []*string `form:"tax_rates"`
+	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`. `custom_line_item` is not valid when the invoice is set up with `automatic_tax[enabled]=true`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type"`
 	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
-	UnitAmount *int64 `form:"unit_amount"`
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
-	UnitAmountDecimal *float64                               `form:"unit_amount_decimal,high_precision"`
+	UnitAmountDecimal *float64                               `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 	UnsetFields       []CreditNoteCreateLineParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -581,27 +581,27 @@ func (p *CreditNoteCreateLineParams) AddUnsetField(field CreditNoteCreateLinePar
 // The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
 type CreditNoteCreateRefundPaymentRecordRefundParams struct {
 	// The ID of the PaymentRecord with the refund to link to this credit note.
-	PaymentRecord *string `form:"payment_record"`
+	PaymentRecord *string `form:"payment_record" json:"payment_record"`
 	// The PaymentRecord refund group to link to this credit note. For refunds processed off-Stripe, this will correspond to the `processor_details.custom.refund_reference` field provided when reporting the refund on the PaymentRecord.
-	RefundGroup *string `form:"refund_group"`
+	RefundGroup *string `form:"refund_group" json:"refund_group"`
 }
 
 // Refunds to link to this credit note.
 type CreditNoteCreateRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
-	AmountRefunded *int64 `form:"amount_refunded"`
+	AmountRefunded *int64 `form:"amount_refunded" json:"amount_refunded,omitempty"`
 	// The PaymentRecord refund details to link to this credit note. Required when `type` is `payment_record_refund`.
-	PaymentRecordRefund *CreditNoteCreateRefundPaymentRecordRefundParams `form:"payment_record_refund"`
+	PaymentRecordRefund *CreditNoteCreateRefundPaymentRecordRefundParams `form:"payment_record_refund" json:"payment_record_refund,omitempty"`
 	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
-	Refund *string `form:"refund"`
+	Refund *string `form:"refund" json:"refund,omitempty"`
 	// Type of the refund, one of `refund` or `payment_record_refund`. Defaults to `refund`.
-	Type *string `form:"type"`
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNoteCreateShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
-	ShippingRate *string `form:"shipping_rate"`
+	ShippingRate *string `form:"shipping_rate" json:"shipping_rate,omitempty"`
 }
 
 // Issue a credit note to adjust the amount of a finalized invoice. A credit note will first reduce the invoice's amount_remaining (and amount_due), but not below zero.
@@ -618,33 +618,33 @@ type CreditNoteCreateShippingCostParams struct {
 type CreditNoteCreateParams struct {
 	Params `form:"*"`
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
-	Amount *int64 `form:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
-	CreditAmount *int64 `form:"credit_amount"`
+	CreditAmount *int64 `form:"credit_amount" json:"credit_amount,omitempty"`
 	// The date when this credit note is in effect. Same as `created` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
-	EffectiveAt *int64 `form:"effective_at"`
+	EffectiveAt *int64 `form:"effective_at" json:"effective_at,omitempty"`
 	// Type of email to send to the customer, one of `credit_note` or `none` and the default is `credit_note`.
-	EmailType *string `form:"email_type"`
+	EmailType *string `form:"email_type" json:"email_type,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// ID of the invoice.
-	Invoice *string `form:"invoice"`
+	Invoice *string `form:"invoice" json:"invoice"`
 	// Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
-	Lines []*CreditNoteCreateLineParams `form:"lines"`
+	Lines []*CreditNoteCreateLineParams `form:"lines" json:"lines,omitempty"`
 	// The credit note's memo appears on the credit note PDF.
-	Memo *string `form:"memo"`
+	Memo *string `form:"memo" json:"memo,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
-	OutOfBandAmount *int64 `form:"out_of_band_amount"`
+	OutOfBandAmount *int64 `form:"out_of_band_amount" json:"out_of_band_amount,omitempty"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
-	Reason *string `form:"reason"`
+	Reason *string `form:"reason" json:"reason,omitempty"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
-	RefundAmount *int64 `form:"refund_amount"`
+	RefundAmount *int64 `form:"refund_amount" json:"refund_amount,omitempty"`
 	// Refunds to link to this credit note.
-	Refunds []*CreditNoteCreateRefundParams `form:"refunds"`
+	Refunds []*CreditNoteCreateRefundParams `form:"refunds" json:"refunds,omitempty"`
 	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
-	ShippingCost *CreditNoteCreateShippingCostParams `form:"shipping_cost"`
+	ShippingCost *CreditNoteCreateShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -665,7 +665,7 @@ func (p *CreditNoteCreateParams) AddMetadata(key string, value string) {
 type CreditNoteRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -677,11 +677,11 @@ func (p *CreditNoteRetrieveParams) AddExpand(f string) {
 type CreditNoteUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Credit note memo.
-	Memo *string `form:"memo"`
+	Memo *string `form:"memo" json:"memo,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -711,9 +711,9 @@ type CreditNotePretaxCreditAmount struct {
 	// The amount, in cents (or local equivalent), of the pretax credit amount.
 	Amount int64 `json:"amount"`
 	// The credit balance transaction that was applied to get this pretax credit amount.
-	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction"`
+	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction,omitempty"`
 	// The discount that was applied to get this pretax credit amount.
-	Discount *Discount `json:"discount"`
+	Discount *Discount `json:"discount,omitempty"`
 	// Type of the pretax credit amount referenced.
 	Type CreditNotePretaxCreditAmountType `json:"type"`
 }
@@ -763,7 +763,7 @@ type CreditNoteShippingCost struct {
 	// The ID of the ShippingRate for this invoice.
 	ShippingRate *ShippingRate `json:"shipping_rate"`
 	// The taxes applied to the shipping rate.
-	Taxes []*CreditNoteShippingCostTax `json:"taxes"`
+	Taxes []*CreditNoteShippingCostTax `json:"taxes,omitempty"`
 }
 
 // Additional details about the tax rate. Only present when `type` is `tax_rate_details`.

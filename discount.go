@@ -40,7 +40,7 @@ type Discount struct {
 	Customer *Customer `json:"customer"`
 	// The ID of the account representing the customer associated with this discount.
 	CustomerAccount string `json:"customer_account"`
-	Deleted         bool   `json:"deleted"`
+	Deleted         bool   `json:"deleted,omitempty"`
 	// If the coupon has a duration of `repeating`, the date that this discount will end. If the coupon has a duration of `once` or `forever`, this attribute will be null.
 	End int64 `json:"end"`
 	// The ID of the discount object. Discounts cannot be fetched by ID. Use `expand[]=discounts` in API calls to expand discount IDs in an array.
@@ -54,8 +54,8 @@ type Discount struct {
 	// The promotion code applied to create this discount.
 	PromotionCode *PromotionCode `json:"promotion_code"`
 	// The subscription schedule that this coupon is applied to, if it is applied to a particular subscription schedule.
-	Schedule             string                        `json:"schedule"`
-	ServicePeriodDetails *DiscountServicePeriodDetails `json:"service_period_details"`
+	Schedule             string                        `json:"schedule,omitempty"`
+	ServicePeriodDetails *DiscountServicePeriodDetails `json:"service_period_details,omitempty"`
 	Source               *DiscountSource               `json:"source"`
 	// Date that the coupon was applied.
 	Start int64 `json:"start"`

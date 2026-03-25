@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 
 	"github.com/stripe/stripe-go/v84/form"
@@ -98,6 +99,37 @@ func (c v1AccountService) Delete(ctx context.Context, id string, params *Account
 	account := &Account{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, account)
 	return account, err
+}
+
+// Serializes an Account update request into a batch job JSONL line.
+func (c v1AccountService) MarshalBatchUpdate(id string, params *AccountUpdateParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    map[string]string{"account": id},
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
 
 // With [Connect](https://docs.stripe.com/connect), you can reject accounts that you have flagged as suspicious.
