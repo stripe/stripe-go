@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v84/form"
+	"github.com/stripe/stripe-go/v85/form"
 )
 
 // v1PaymentMethodDomainService is used to invoke /v1/payment_method_domains APIs.

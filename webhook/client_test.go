@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v85"
 )
 
 var testPayload = []byte(fmt.Sprintf(`{

@@ -1,5 +1,70 @@
 # Changelog
 
+## 85.0.0 - 2026-03-25
+
+This release changes the pinned API version to `2026-03-25.dahlia` and contains breaking changes (prefixed with ⚠️ below). There's also a [detailed migration guide](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v85) to simplify your upgrade process.
+
+Please review details for the breaking changes and alternatives in the [Stripe API changelog](https://docs.stripe.com/changelog/dahlia) before upgrading.
+
+* ⚠️ **Breaking change:** [#2301](https://github.com/stripe/stripe-go/pull/2301) Make unmarshalJSONVerbose unexported and context-aware
+  - Unexported `BackendImplementation.UnmarshalJSONVerbose` (now `unmarshalJSONVerbose`) and added a `context.Context` parameter for proper context propagation in error logging.
+* ⚠️ **Breaking change:** [#2324](https://github.com/stripe/stripe-go/pull/2324) Fix MinimumBalanceByCurrency map value type to support clearing
+  * `MinimumBalanceByCurrency` changed from `map[string]int64` to `map[string]*int64` on `BalanceSettingsPaymentsPayoutsParams` and `BalanceSettingsUpdatePaymentsPayoutsParams`. This field now supports clearing a value in the map by assigning null to the map key.
+* ⚠️ **Breaking change:** [#2320](https://github.com/stripe/stripe-go/pull/2320) Throw an error when using the wrong webhook parsing method
+* ⚠️ **Breaking change:** [#2310](https://github.com/stripe/stripe-go/pull/2310) Regenerate with decimal_string enabled for v2 APIs
+  - V2 API decimal fields changed type from `string` to `float64` with `json:",string"` and `form:",high_precision"` struct tags. Code that passes these fields as `string` will need to use `float64` instead. Affected fields:
+    - **V2CoreAccountIdentityIndividualRelationship**: `PercentOwnership`
+    - **V2CoreAccountPersonRelationship**: `PercentOwnership`
+    - Params: `V2CoreAccountIdentityIndividualRelationshipParams`, `V2CoreAccountCreateIdentityIndividualRelationshipParams`, `V2CoreAccountUpdateIdentityIndividualRelationshipParams`, `V2CoreAccountTokenIdentityIndividualRelationshipParams`, `V2CoreAccountTokenCreateIdentityIndividualRelationshipParams`, `V2CoreAccountsPersonRelationshipParams`, `V2CoreAccountsPersonCreateRelationshipParams`, `V2CoreAccountsPersonUpdateRelationshipParams`, `V2CoreAccountsPersonTokenRelationshipParams`, `V2CoreAccountsPersonTokenCreateRelationshipParams`
+* ⚠️ **Breaking change:** [#2309](https://github.com/stripe/stripe-go/pull/2309) Drop support for Go < 1.22 
+* ⚠️ **Breaking change:** [#2179](https://github.com/stripe/stripe-go/pull/2179) [Breaking] Update `List` and `Search` methods with `stripe.Client` to return a `struct`
+  - `List` and `Search` methods using `stripe.Client` now return a `struct` instead of `Seq2`. This is a backwards incompatible change, and you will need to add an additional call to `.All(ctx)` in your `for` loop. E.g.
+
+  ```diff
+  -for c, err := range sc.V1Customers.List(ctx, nil) {
+  +for c, err := range sc.V1Customers.List(ctx, nil).All(ctx) {
+  	// handle err
+  	// do something
+  }
+  ```
+  - For manual pagination use cases, you can access the API call's `error` by calling `list.Err()`, a page's data using `list.Data()`, and its metadata by calling `list.Meta()`.
+
+* ⚠️ **Breaking change:** [#2260](https://github.com/stripe/stripe-go/pull/2260) Fix typo in V2RawError struct field name
+  - Fixes misspelling in `V2RawError.UserMesage` -->  `V2RawError.UserMessage`
+* [#2263](https://github.com/stripe/stripe-go/pull/2263) Add helpers in preparation for BatchJobs public preview support
+* [#2322](https://github.com/stripe/stripe-go/pull/2322) Add `UnsetFields` for clearing field values in v1 and v2 API requests
+  - Added `UnsetFields` field and `AddUnsetField` method to `Params` for explicitly clearing field values in API requests. For v2 JSON requests, listed fields are sent as `"field": null`. For v1 form requests, listed fields are sent as `field=` (empty string).
+  - Nested params structs with emptyable fields carry their own `UnsetFields` slice, enabling clearing of nested fields (e.g. `params.CancellationDetails.AddUnsetField(...)`).
+  - Generated `UnsetField` string enum types provide type-safe constants for each clearable field (e.g. `SubscriptionUpdateParamsUnsetFieldDescription`).
+
+### ⚠️ Breaking changes due to changes in the Stripe API
+
+* Generated changes from [#2333](https://github.com/stripe/stripe-go/pull/2333), [#2326](https://github.com/stripe/stripe-go/pull/2326), [#2323](https://github.com/stripe/stripe-go/pull/2323), [#2286](https://github.com/stripe/stripe-go/pull/2286)
+  * Add support for `UpiPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `Upi` on `ChargePaymentMethodDetails`, `CheckoutSessionPaymentMethodOptionsParams`, `CheckoutSessionPaymentMethodOptions`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `MandatePaymentMethodDetails`, `PaymentAttemptRecordPaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodConfigurationParams`, `PaymentMethodConfiguration`, `PaymentMethodParams`, `PaymentMethod`, `PaymentRecordPaymentMethodDetails`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodDataParams`, `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodDataParams`, `SetupIntentPaymentMethodOptionsParams`, and `SetupIntentPaymentMethodOptions`
+  * Add support for new value `tempo` on enums `ChargePaymentMethodDetailsCrypto.Network`, `PaymentAttemptRecordPaymentMethodDetailsCrypto.Network`, and `PaymentRecordPaymentMethodDetailsCrypto.Network`
+  * Add support for `IntegrationIdentifier` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `Crypto` on `CheckoutSessionPaymentMethodOptionsParams`
+  * Add support for `PendingInvoiceItemInterval` on `CheckoutSessionSubscriptionDataParams`
+  * Add support for new values `elements`, `embedded_page`, `form`, and `hosted_page` on enum `CheckoutSession.UIMode`
+  * Add support for new value `marine_carbon_removal` on enum `ClimateSupplier.RemovalPathway`
+  * Add support for new value `upi` on enums `ConfirmationTokenPaymentMethodPreview.Type` and `PaymentMethod.Type`
+  * Add support for `Metadata` on `CreditNoteLineItem`, `CreditNoteLineParams`, `CreditNotePreviewLineParams`, and `CreditNotePreviewLinesLineParams`
+  * Add support for `QuantityDecimal` on `InvoiceAddLinesLineParams`, `InvoiceCreatePreviewInvoiceItemParams`, `InvoiceItemParams`, `InvoiceItem`, `InvoiceLineItemParams`, `InvoiceLineItem`, and `InvoiceUpdateLinesLineParams`
+  * ⚠️ Add support for `Level` on `IssuingAuthorizationRiskAssessmentCardTestingRiskParams` and `IssuingAuthorizationRiskAssessmentMerchantDisputeRiskParams`
+  * ⚠️ Remove support for `RiskLevel` on `IssuingAuthorizationRiskAssessmentCardTestingRiskParams` and `IssuingAuthorizationRiskAssessmentMerchantDisputeRiskParams`
+  * Add support for `LifecycleControls` on `IssuingCardParams` and `IssuingCard`
+  * Add support for `Cryptogram`, `ElectronicCommerceIndicator`, `ExemptionIndicatorApplied`, and `ExemptionIndicator` on `PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure` and `PaymentRecordPaymentMethodDetailsCardThreeDSecure`
+  * Add support for new value `upi` on enums `PaymentIntent.ExcludedPaymentMethodTypes` and `SetupIntent.ExcludedPaymentMethodTypes`
+  * Add support for `UpiHandleRedirectOrDisplayQRCode` on `PaymentIntentNextAction` and `SetupIntentNextAction`
+  * Add support for new value `upi` on enum `PaymentLink.PaymentMethodTypes`
+  * Add support for `RecommendedAction` and `Signals` on `RadarPaymentEvaluation`
+  * ⚠️ Remove support for `Insights` on `RadarPaymentEvaluation`
+  * Add support for new value `crypto_fingerprint` on enum `RadarValueList.ItemType`
+  * Add support for new value `canceled_by_retention_policy` on enum `SubscriptionCancellationDetails.Reason`
+  * ⚠️ Change type of `V2CoreEventDestination.EventsFrom` from `enum('other_accounts'|'self')` to `string`
+  * Add support for error code `service_period_coupon_with_metered_tiered_item_unsupported` on `Error`, `InvoiceLastFinalizationError`, `PaymentIntentLastPaymentError`, `SetupAttemptSetupError`, `SetupIntentLastSetupError`, and `StripeError`
+
 ## 84.4.1 - 2026-03-06
 * [#2288](https://github.com/stripe/stripe-go/pull/2288) Add Stripe-Request-Trigger header
 * [#2285](https://github.com/stripe/stripe-go/pull/2285) Add agent information to UserAgent

@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v84"
-	"github.com/stripe/stripe-go/v84/form"
-	. "github.com/stripe/stripe-go/v84/testing"
+	stripe "github.com/stripe/stripe-go/v85"
+	"github.com/stripe/stripe-go/v85/form"
+	. "github.com/stripe/stripe-go/v85/testing"
 )
 
 func TestRangeQueryParamsAppendTo(t *testing.T) {

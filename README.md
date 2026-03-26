@@ -1,6 +1,6 @@
 # Go Stripe
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go/v84)
+[![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go/v85)
 [![Build Status](https://github.com/stripe/stripe-go/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/stripe/stripe-go/actions/workflows/ci.yml?query=branch%3Amaster)
 
 > [!TIP]
@@ -27,8 +27,8 @@ Then, reference stripe-go in a Go program with `import`:
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v84"
-	"github.com/stripe/stripe-go/v84/customer"
+	"github.com/stripe/stripe-go/v85"
+	"github.com/stripe/stripe-go/v85/customer"
 )
 ```
 
@@ -38,7 +38,7 @@ toolchain will resolve and fetch the stripe-go module automatically.
 Alternatively, you can also explicitly `go get` the package into a project:
 
 ```bash
-go get -u github.com/stripe/stripe-go/v84
+go get -u github.com/stripe/stripe-go/v85
 ```
 
 ## Documentation
@@ -112,7 +112,7 @@ To use a key, pass it into `stripe.NewClient`:
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v85"
 )
 
 sc := stripe.NewClient("access_token")
@@ -132,7 +132,7 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/urlfetch"
 
-	"github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v85"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -165,7 +165,7 @@ applied throughout the library for a given resource (like `Customer`).
 The recommended pattern to access all Stripe resources is using `stripe.Client`. Below are some examples of how to use it to access the `Customer` resource.
 
 ```go
-import "github.com/stripe/stripe-go/v84"
+import "github.com/stripe/stripe-go/v85"
 
 // Setup
 sc := stripe.NewClient("sk_key")
@@ -201,8 +201,8 @@ The legacy pattern to access Stripe APIs is the "resource pattern" shown below. 
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v84"
-	"github.com/stripe/stripe-go/v84/customer"
+	"github.com/stripe/stripe-go/v85"
+	"github.com/stripe/stripe-go/v85/customer"
 )
 
 // Setup
@@ -264,7 +264,7 @@ with `MaxNetworkRetries`:
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v85"
 )
 
 config := &stripe.BackendConfig{
@@ -474,7 +474,7 @@ To mock a Stripe client for a unit tests using [GoMock](https://github.com/golan
 1. Generate a `Backend` type mock.
 
 ```
-mockgen -destination=mocks/backend.go -package=mocks github.com/stripe/stripe-go/v84 Backend
+mockgen -destination=mocks/backend.go -package=mocks github.com/stripe/stripe-go/v85 Backend
 ```
 
 2. Use the `Backend` mock to initialize and call methods on the client.
@@ -487,7 +487,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"github.com/stripe/stripe-go/v84"
+	"github.com/stripe/stripe-go/v85"
 )
 
 func UseMockedStripeClient(t *testing.T) {
@@ -528,7 +528,7 @@ To install, pick the latest version with the `beta` suffix by reviewing the [rel
 ```
 require (
 	...
-	github.com/stripe/stripe-go/v84 <replace-with-the-version-of-your-choice>
+	github.com/stripe/stripe-go/v85 <replace-with-the-version-of-your-choice>
 	...
 )
 ```
@@ -562,9 +562,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/stripe/stripe-go/v84"
-	"github.com/stripe/stripe-go/v84/form"
-	"github.com/stripe/stripe-go/v84/rawrequest"
+	"github.com/stripe/stripe-go/v85"
+	"github.com/stripe/stripe-go/v85/form"
+	"github.com/stripe/stripe-go/v85/rawrequest"
 )
 
 func make_raw_request() error {
@@ -683,7 +683,7 @@ pull request][pulls].
 [connect]: https://stripe.com/docs/connect/authentication
 [depgomodsupport]: https://github.com/golang/dep/pull/1963
 [expandableobjects]: https://stripe.com/docs/api/expanding_objects
-[goref]: https://pkg.go.dev/github.com/stripe/stripe-go/v84
+[goref]: https://pkg.go.dev/github.com/stripe/stripe-go/v85
 [gomodrevert]: https://github.com/stripe/stripe-go/pull/774
 [gomodvsdep]: https://github.com/stripe/stripe-go/pull/712
 [idempotency-keys]: https://stripe.com/docs/api/idempotent_requests?lang=go

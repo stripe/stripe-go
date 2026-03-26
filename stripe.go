@@ -21,7 +21,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/stripe/stripe-go/v84/form"
+	"github.com/stripe/stripe-go/v85/form"
 )
 
 //
@@ -1756,7 +1756,7 @@ func TimeValue(v *time.Time) time.Time {
 //
 
 // clientversion is the binding version
-const clientversion = "84.4.1"
+const clientversion = "85.0.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and
