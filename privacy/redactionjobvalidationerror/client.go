@@ -10,8 +10,8 @@ package redactionjobvalidationerror
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v84"
-	"github.com/stripe/stripe-go/v84/form"
+	stripe "github.com/stripe/stripe-go/v85"
+	"github.com/stripe/stripe-go/v85/form"
 )
 
 // Client is used to invoke /v1/privacy/redaction_jobs/{job}/validation_errors APIs.

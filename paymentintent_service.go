@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v84/form"
+	"github.com/stripe/stripe-go/v85/form"
 )
 
 // v1PaymentIntentService is used to invoke /v1/payment_intents APIs.

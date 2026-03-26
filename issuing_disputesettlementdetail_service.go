@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v84/form"
+	"github.com/stripe/stripe-go/v85/form"
 )
 
 // v1IssuingDisputeSettlementDetailService is used to invoke /v1/issuing/dispute_settlement_details APIs.
