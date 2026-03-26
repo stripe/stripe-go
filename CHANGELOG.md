@@ -1,5 +1,136 @@
 # Changelog
 
+## 85.1.0-alpha.1 - 2026-03-25
+
+This release changes the pinned API version to 2026-03-25.preview and contains additional breaking changes. See the [GA changelog](https://github.com/stripe/stripe-go/blob/master/CHANGELOG.md#8500---2026-03-25) for more information.
+
+* [#2334](https://github.com/stripe/stripe-go/pull/2334) Update generated code for private-preview
+  * Add support for new resource `RiskSignals`
+  * Add support for `FinancialAccountRewards` and `NestingDemo` on `AccountSessionComponents`
+  * Add support for `UpiPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `RiskSignals` on `Account`
+  * Add support for `FraudIntent` on `AccountSignals`
+  * Add support for new value `related_accounts` on enum `AccountSignalsDelinquencyIndicators.Indicator`
+  * Add support for `RiskReserved` on `Balance`
+  * ⚠️ Remove support for `BillableItems` on `BillingAlertSpendThresholdFilters`
+  * Add support for `Upi` on `ChargePaymentMethodDetails`, `CheckoutSessionPaymentMethodOptionsParams`, `CheckoutSessionPaymentMethodOptions`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `MandatePaymentMethodDetails`, `PaymentAttemptRecordPaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodConfigurationParams`, `PaymentMethodConfiguration`, `PaymentMethodParams`, `PaymentMethod`, `PaymentRecordPaymentMethodDetails`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodDataParams`, `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodDataParams`, `SetupIntentPaymentMethodOptionsParams`, and `SetupIntentPaymentMethodOptions`
+  * Add support for new value `tempo` on enums `ChargePaymentMethodDetailsCrypto.Network`, `PaymentAttemptRecordPaymentMethodDetailsCrypto.Network`, and `PaymentRecordPaymentMethodDetailsCrypto.Network`
+  * ⚠️ Remove support for `SourceType` on `ChargePaymentMethodDetailsStripeBalance`, `ConfirmationTokenPaymentMethodDataStripeBalanceParams`, `ConfirmationTokenPaymentMethodPreviewStripeBalance`, `PaymentAttemptRecordPaymentMethodDetailsStripeBalance`, `PaymentIntentConfirmPaymentMethodDataStripeBalanceParams`, `PaymentIntentPaymentMethodDataStripeBalanceParams`, `PaymentMethodStripeBalanceParams`, `PaymentMethodStripeBalance`, `PaymentRecordPaymentMethodDetailsStripeBalance`, `SetupIntentConfirmPaymentMethodDataStripeBalanceParams`, and `SetupIntentPaymentMethodDataStripeBalanceParams`
+  * Add support for `IntegrationIdentifier` on `CheckoutSessionParams` and `CheckoutSession`
+  * Change type of `CheckoutSessionLineItemPriceDataProductDataTaxDetailsParams.TaxCode`, `InvoiceAddLinesLinePriceDataProductDataTaxDetailsParams.TaxCode`, `InvoiceLineItemPriceDataProductDataTaxDetailsParams.TaxCode`, `InvoiceUpdateLinesLinePriceDataProductDataTaxDetailsParams.TaxCode`, `PaymentLinkLineItemPriceDataProductDataTaxDetailsParams.TaxCode`, `PlanProductTaxDetailsParams.TaxCode`, `PriceProductDataTaxDetailsParams.TaxCode`, and `ProductTaxDetailsParams.TaxCode` from `string` to `emptyable(string)`
+  * Add support for `Crypto` on `CheckoutSessionPaymentMethodOptionsParams`
+  * Add support for `PendingInvoiceItemInterval` on `CheckoutSessionSubscriptionDataParams`
+  * Add support for new value `application` on enums `CheckoutSessionAutomaticTaxLiability.Type`, `CheckoutSessionInvoiceCreationInvoiceDataIssuer.Type`, `InvoiceAutomaticTaxLiability.Type`, `InvoiceIssuer.Type`, `PaymentLinkAutomaticTaxLiability.Type`, `PaymentLinkInvoiceCreationInvoiceDataIssuer.Type`, `PaymentLinkSubscriptionDataInvoiceSettingsIssuer.Type`, `QuoteAutomaticTaxLiability.Type`, `QuoteInvoiceSettingsIssuer.Type`, `QuotePreviewInvoiceAutomaticTaxLiability.Type`, `QuotePreviewInvoiceIssuer.Type`, `QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiability.Type`, `QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuer.Type`, `QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiability.Type`, `QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuer.Type`, `SubscriptionAutomaticTaxLiability.Type`, `SubscriptionInvoiceSettingsIssuer.Type`, `SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuer.Type`, and `SubscriptionSchedulePhaseInvoiceSettingsIssuer.Type`
+  * Add support for `AUBECSDebit`, `BACSDebit`, `Boleto`, `Link`, `SEPADebit`, and `USBankAccount` on `CheckoutSessionCurrentAttemptPaymentMethodDetails`
+  * Add support for new values `elements`, `embedded_page`, `form`, and `hosted_page` on enum `CheckoutSession.UIMode`
+  * ⚠️ Remove support for values `custom`, `embedded`, and `hosted` from enum `CheckoutSession.UIMode`
+  * Add support for new value `marine_carbon_removal` on enum `ClimateSupplier.RemovalPathway`
+  * Add support for new value `upi` on enums `ConfirmationTokenPaymentMethodPreview.Type` and `PaymentMethod.Type`
+  * Add support for `Metadata` on `CreditNoteLineItem`, `CreditNoteLineParams`, `CreditNotePreviewLineParams`, and `CreditNotePreviewLinesLineParams`
+  * Add support for `SelectedFulfillmentOptionOverrides` on `DelegatedCheckoutRequestedSessionFulfillmentDetails`
+  * Add support for `LineItemKeys` on `DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionsDigitalDigitalOptions` and `DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionsShippingShippingOptions`
+  * Add support for `QuantityDecimal` on `InvoiceAddLinesLineParams`, `InvoiceCreatePreviewInvoiceItemParams`, `InvoiceItemParams`, `InvoiceItem`, `InvoiceLineItemParams`, `InvoiceLineItem`, and `InvoiceUpdateLinesLineParams`
+  * Add support for `ExpiresAfterSeconds` on `InvoicePaymentSettingsPaymentMethodOptionsPixParams`, `InvoicePaymentSettingsPaymentMethodOptionsPix`, `QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsPix`, `SubscriptionPaymentSettingsPaymentMethodOptionsPixParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsPix`
+  * ⚠️ Add support for `Level` on `IssuingAuthorizationRiskAssessmentCardTestingRiskParams` and `IssuingAuthorizationRiskAssessmentMerchantDisputeRiskParams`
+  * ⚠️ Remove support for `RiskLevel` on `IssuingAuthorizationRiskAssessmentCardTestingRiskParams` and `IssuingAuthorizationRiskAssessmentMerchantDisputeRiskParams`
+  * Add support for new values `da`, `pl`, and `sv` on enum `IssuingCardholder.PreferredLocales`
+  * Add support for `LifecycleControls` on `IssuingCardParams` and `IssuingCard`
+  * Add support for `Cryptogram`, `ElectronicCommerceIndicator`, `ExemptionIndicatorApplied`, and `ExemptionIndicator` on `PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure` and `PaymentRecordPaymentMethodDetailsCardThreeDSecure`
+  * Add support for `Surcharge` on `PaymentIntentAmountDetailsParams`, `PaymentIntentAmountDetails`, `PaymentIntentCaptureAmountDetailsParams`, `PaymentIntentConfirmAmountDetailsParams`, and `PaymentIntentIncrementAuthorizationAmountDetailsParams`
+  * Add support for `MandateOptions` on `PaymentIntentConfirmPaymentMethodOptionsStripeBalanceParams`, `PaymentIntentPaymentMethodOptionsStripeBalanceParams`, and `PaymentIntentPaymentMethodOptionsStripeBalance`
+  * Add support for `AmountDetails` and `PaymentDetails` on `PaymentIntentDecrementAuthorizationParams`
+  * Add support for new value `upi` on enums `PaymentIntent.ExcludedPaymentMethodTypes` and `SetupIntent.ExcludedPaymentMethodTypes`
+  * Add support for `UpiHandleRedirectOrDisplayQRCode` on `PaymentIntentNextAction` and `SetupIntentNextAction`
+  * Add support for `ManagedPayments` on `PaymentLinkParams` and `PaymentLink`
+  * Add support for new value `upi` on enum `PaymentLink.PaymentMethodTypes`
+  * Add support for `RecommendedAction` and `Signals` on `RadarPaymentEvaluation`
+  * ⚠️ Remove support for `Insights` on `RadarPaymentEvaluation`
+  * Add support for new value `crypto_fingerprint` on enum `RadarValueList.ItemType`
+  * Add support for `StripeBalance` on `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodOptionsParams`, and `SetupIntentPaymentMethodOptions`
+  * Add support for new value `resolved` on enum `SharedPaymentGrantedToken.DeactivatedReason`
+  * Add support for `RecurringInterval` on `SharedPaymentGrantedTokenUsageLimits`
+  * Add support for `PresentmentDetails` on `Subscription`
+  * Add support for new value `canceled_by_retention_policy` on enum `SubscriptionCancellationDetails.Reason`
+  * ⚠️ Remove support for `InvoiceResources` on `V2BillingIntent`
+  * ⚠️ Remove support for `AmountDue` and `CustomerBalanceApplied` on `V2BillingIntentAmountDetails`
+  * Add support for `RecurringCreditGrant` on `V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams`, `V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior`, `V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams`, and `V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior`
+  * Add support for `ConsumerPrivacyDisclosures` and `ConsumerStorer` on `V2CoreAccountIdentityAttestationsTermsOfServiceParams` and `V2CoreAccountIdentityAttestationsTermsOfService`
+  * ⚠️ Remove support for `Include` on `V2BillingIntentParams` and `V2BillingIntentReserveParams`
+  * Add support for error code `service_period_coupon_with_metered_tiered_item_unsupported` on `Error`, `InvoiceLastFinalizationError`, `PaymentIntentLastPaymentError`, `QuotePreviewInvoiceLastFinalizationError`, `SetupAttemptSetupError`, `SetupIntentLastSetupError`, and `StripeError`
+* [#2332](https://github.com/stripe/stripe-go/pull/2332) Update generated code for private-preview
+  * Add support for new resource `V2CoreAccountEvaluation`
+  * ⚠️ Remove support for resources `V2BillingLicenseFeeSubscription` and `V2BillingPricingPlanSubscriptionComponents`
+  * Add support for `New` method on resource `V2CoreAccountEvaluation`
+  * ⚠️ Remove support for `Get` method on resources `V2BillingLicenseFeeSubscription` and `V2BillingPricingPlanSubscriptionComponents`
+  * Add support for `ModifyRates` method on resource `V2BillingRateCard`
+  * Add support for `RemoveDiscounts` method on resource `V2BillingPricingPlanSubscription`
+  * Add support for new value `eg_bank_account` on enum `V2AccountConfigurationRecipientDataDefaultOutboundDestination.Type`
+  * Add support for `InvoiceResources` on `V2BillingIntent`
+  * Add support for `AmountDue` and `CustomerBalanceApplied` on `V2BillingIntentAmountDetails`
+  * Add support for `ExpiresAt` on `V2BillingIntentStatusTransitions`
+  * Add support for `Discount` on `V2BillingIntentActionApplyParams` and `V2BillingIntentActionApply`
+  * Add support for `Timestamp` on `V2BillingIntentActionApplyEffectiveAtParams` and `V2BillingIntentActionApplyEffectiveAt`
+  * Add support for new values `current_billing_period_start` and `timestamp` on enum `V2BillingIntentActionApplyEffectiveAt.Type`
+  * Add support for new value `discount` on enum `V2BillingIntentActionApply.Type`
+  * ⚠️ Change type of `V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior.Type`, `V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams.Type`, `V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior.Type`, `V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams.Type`, `V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior.Type`, and `V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams.Type` from `literal('license_fee')` to `enum('license_fee'|'recurring_credit_grant')`
+  * Add support for `ServiceCycle` on `V2BillingLicenseFee` and `V2BillingRateCard`
+  * ⚠️ Remove support for `LatestVersion` on `V2BillingLicenseFee`, `V2BillingPricingPlan`, and `V2BillingRateCard`
+  * ⚠️ Remove support for `ServiceIntervalCount` and `ServiceInterval` on `V2BillingLicenseFee` and `V2BillingRateCard`
+  * ⚠️ Change type of `V2BillingLicenseFeeTransformQuantity.DivideBy`, `V2BillingLicenseFeeTransformQuantityParams.DivideBy`, `V2BillingLicenseFeeVersionTransformQuantity.DivideBy`, `V2BillingRateCardRateTransformQuantity.DivideBy`, and `V2BillingRateCardRateTransformQuantityParams.DivideBy` from `longInteger` to `int64_string`
+  * Add support for `DiscountDetails` and `PricingPlanComponentDetails` on `V2BillingPricingPlanSubscription`
+  * Add support for new value `crypto_wallets` on enums `V2CoreAccountFutureRequirementsEntryImpactRestrictsCapability.Capability` and `V2CoreAccountRequirementsEntryImpactRestrictsCapability.Capability`
+  * ⚠️ Remove support for value `crypto` from enums `V2CoreAccountFutureRequirementsEntryImpactRestrictsCapability.Capability` and `V2CoreAccountRequirementsEntryImpactRestrictsCapability.Capability`
+  * Add support for `BalanceByFundsType` on `V2MoneyManagementFinancialAccountPayments`
+  * Add support for new value `next_day_payout_fee` on enum `V2MoneyManagementOutboundPaymentQuoteEstimatedFee.Type`
+  * Add support for `TreasuryTransactionEntry` on `V2MoneyManagementTransactionEntry`
+  * Add support for `TreasuryCreditReversal`, `TreasuryDebitReversal`, `TreasuryInboundTransfer`, `TreasuryIssuingAuthorization`, `TreasuryOutboundPayment`, `TreasuryOutboundTransfer`, `TreasuryReceivedCredit`, and `TreasuryReceivedDebit` on `V2MoneyManagementTransactionEntryTransactionDetailsFlow` and `V2MoneyManagementTransactionFlow`
+  * Add support for new values `treasury_credit_reversal`, `treasury_debit_reversal`, `treasury_inbound_transfer`, `treasury_issuing_authorization`, `treasury_other`, `treasury_outbound_payment`, `treasury_outbound_transfer`, `treasury_received_credit`, and `treasury_received_debit` on enums `V2MoneyManagementTransactionEntryTransactionDetailsFlow.Type` and `V2MoneyManagementTransactionFlow.Type`
+  * Add support for `TreasuryTransaction` on `V2MoneyManagementTransaction`
+  * Add support for new value `no_valid_payment_method` on enum `V2PaymentsOffSessionPayment.FailureReason`
+  * Add support for `Metadata` on `V2PaymentsSettlementAllocationIntentSplit`
+  * ⚠️ Change type of `V2ReportingReportRunResultFile.Size` from `longInteger` to `int64_string`
+  * Add support for `StatementDescriptor` on `V2MoneyManagementOutboundPaymentParams` and `V2MoneyManagementOutboundTransferParams`
+  * Add support for `Include` on `V2BillingIntentParams`, `V2BillingIntentReserveParams`, `V2BillingPricingPlanSubscriptionListParams`, `V2BillingPricingPlanSubscriptionParams`, `V2MoneyManagementFinancialAccountListParams`, and `V2MoneyManagementFinancialAccountParams`
+  * Add support for event notifications `V1AccountSignalsIncludingDelinquencyCreatedEvent`, `V2CoreAccountSignalsFraudulentWebsiteReadyEvent`, and `V2SignalsAccountSignalFraudulentMerchantReadyEvent`
+* [#2305](https://github.com/stripe/stripe-go/pull/2305) Update generated code for private-preview
+  * Add support for new resource `V2CoreAccountEvaluation`
+  * ⚠️ Remove support for resources `V2BillingLicenseFeeSubscription` and `V2BillingPricingPlanSubscriptionComponents`
+  * Add support for `New` method on resource `V2CoreAccountEvaluation`
+  * ⚠️ Remove support for `Get` method on resources `V2BillingLicenseFeeSubscription` and `V2BillingPricingPlanSubscriptionComponents`
+  * Add support for `ModifyRates` method on resource `V2BillingRateCard`
+  * Add support for `RemoveDiscounts` method on resource `V2BillingPricingPlanSubscription`
+  * Add support for new value `eg_bank_account` on enum `V2AccountConfigurationRecipientDataDefaultOutboundDestination.Type`
+  * Add support for `InvoiceResources` on `V2BillingIntent`
+  * Add support for `AmountDue` and `CustomerBalanceApplied` on `V2BillingIntentAmountDetails`
+  * Add support for `ExpiresAt` on `V2BillingIntentStatusTransitions`
+  * Add support for `Discount` on `V2BillingIntentActionApplyParams` and `V2BillingIntentActionApply`
+  * Add support for `Timestamp` on `V2BillingIntentActionApplyEffectiveAtParams` and `V2BillingIntentActionApplyEffectiveAt`
+  * Add support for new values `current_billing_period_start` and `timestamp` on enum `V2BillingIntentActionApplyEffectiveAt.Type`
+  * Add support for new value `discount` on enum `V2BillingIntentActionApply.Type`
+  * ⚠️ Change type of `V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior.Type`, `V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams.Type`, `V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior.Type`, `V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams.Type`, `V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehavior.Type`, and `V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorParams.Type` from `literal('license_fee')` to `enum('license_fee'|'recurring_credit_grant')`
+  * Add support for `ServiceCycle` on `V2BillingLicenseFee` and `V2BillingRateCard`
+  * ⚠️ Remove support for `LatestVersion` on `V2BillingLicenseFee`, `V2BillingPricingPlan`, and `V2BillingRateCard`
+  * ⚠️ Remove support for `ServiceIntervalCount` and `ServiceInterval` on `V2BillingLicenseFee` and `V2BillingRateCard`
+  * ⚠️ Change type of `V2BillingLicenseFeeTransformQuantity.DivideBy`, `V2BillingLicenseFeeTransformQuantityParams.DivideBy`, `V2BillingLicenseFeeVersionTransformQuantity.DivideBy`, `V2BillingRateCardRateTransformQuantity.DivideBy`, and `V2BillingRateCardRateTransformQuantityParams.DivideBy` from `longInteger` to `int64_string`
+  * Add support for `DiscountDetails` and `PricingPlanComponentDetails` on `V2BillingPricingPlanSubscription`
+  * Add support for new value `crypto_wallets` on enums `V2CoreAccountFutureRequirementsEntryImpactRestrictsCapability.Capability` and `V2CoreAccountRequirementsEntryImpactRestrictsCapability.Capability`
+  * ⚠️ Remove support for value `crypto` from enums `V2CoreAccountFutureRequirementsEntryImpactRestrictsCapability.Capability` and `V2CoreAccountRequirementsEntryImpactRestrictsCapability.Capability`
+  * Add support for `BalanceByFundsType` on `V2MoneyManagementFinancialAccountPayments`
+  * Add support for new value `next_day_payout_fee` on enum `V2MoneyManagementOutboundPaymentQuoteEstimatedFee.Type`
+  * Add support for `TreasuryTransactionEntry` on `V2MoneyManagementTransactionEntry`
+  * Add support for `TreasuryCreditReversal`, `TreasuryDebitReversal`, `TreasuryInboundTransfer`, `TreasuryIssuingAuthorization`, `TreasuryOutboundPayment`, `TreasuryOutboundTransfer`, `TreasuryReceivedCredit`, and `TreasuryReceivedDebit` on `V2MoneyManagementTransactionEntryTransactionDetailsFlow` and `V2MoneyManagementTransactionFlow`
+  * Add support for new values `treasury_credit_reversal`, `treasury_debit_reversal`, `treasury_inbound_transfer`, `treasury_issuing_authorization`, `treasury_other`, `treasury_outbound_payment`, `treasury_outbound_transfer`, `treasury_received_credit`, and `treasury_received_debit` on enums `V2MoneyManagementTransactionEntryTransactionDetailsFlow.Type` and `V2MoneyManagementTransactionFlow.Type`
+  * Add support for `TreasuryTransaction` on `V2MoneyManagementTransaction`
+  * Add support for new value `no_valid_payment_method` on enum `V2PaymentsOffSessionPayment.FailureReason`
+  * Add support for `Metadata` on `V2PaymentsSettlementAllocationIntentSplit`
+  * ⚠️ Change type of `V2ReportingReportRunResultFile.Size` from `longInteger` to `int64_string`
+  * Add support for `StatementDescriptor` on `V2MoneyManagementOutboundPaymentParams` and `V2MoneyManagementOutboundTransferParams`
+  * Add support for `Include` on `V2BillingIntentParams`, `V2BillingIntentReserveParams`, `V2BillingPricingPlanSubscriptionListParams`, `V2BillingPricingPlanSubscriptionParams`, `V2MoneyManagementFinancialAccountListParams`, and `V2MoneyManagementFinancialAccountParams`
+  * Add support for event notifications `V1AccountSignalsIncludingDelinquencyCreatedEvent`, `V2CoreAccountSignalsFraudulentWebsiteReadyEvent`, and `V2SignalsAccountSignalFraudulentMerchantReadyEvent`
+* [#2330](https://github.com/stripe/stripe-go/pull/2330) Mbroshi/merge go private preview
+* [#2319](https://github.com/stripe/stripe-go/pull/2319) Commented out a failing test
+* [#2312](https://github.com/stripe/stripe-go/pull/2312) Merge to private-preview
+
 ## 84.5.0-alpha.4 - 2026-03-18
 * [#2296](https://github.com/stripe/stripe-go/pull/2296) Update generated code for private-preview
   * Add support for new resources `OrchestrationPaymentAttempt` and `RadarCustomerEvaluation`

@@ -10,7 +10,7 @@ package apikey
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v84"
+	stripe "github.com/stripe/stripe-go/v85"
 )
 
 // Client is used to invoke apikey related APIs.
