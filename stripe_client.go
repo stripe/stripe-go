@@ -452,6 +452,8 @@ type Client struct {
 	V2CoreVaultGBBankAccounts *v2CoreVaultGBBankAccountService
 	// V2CoreVaultUSBankAccounts is the service used to invoke /v2/core/vault/us_bank_accounts APIs.
 	V2CoreVaultUSBankAccounts *v2CoreVaultUSBankAccountService
+	// V2DataReportingQueryRuns is the service used to invoke /v2/data/reporting/query_runs APIs.
+	V2DataReportingQueryRuns *v2DataReportingQueryRunService
 	// V2IamAPIKeys is the service used to invoke /v2/iam/api_keys APIs.
 	V2IamAPIKeys *v2IamAPIKeyService
 	// V2MoneyManagementAdjustments is the service used to invoke /v2/money_management/adjustments APIs.
@@ -763,6 +765,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}
 	client.V2CoreVaultUSBankAccounts = &v2CoreVaultUSBankAccountService{B: backends.API, Key: key}
+	client.V2DataReportingQueryRuns = &v2DataReportingQueryRunService{B: backends.API, Key: key}
 	client.V2IamAPIKeys = &v2IamAPIKeyService{B: backends.API, Key: key}
 	client.V2MoneyManagementAdjustments = &v2MoneyManagementAdjustmentService{B: backends.API, Key: key}
 	client.V2MoneyManagementCurrencyConversions = &v2MoneyManagementCurrencyConversionService{B: backends.API, Key: key}

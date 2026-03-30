@@ -55,14 +55,6 @@ const (
 	SubscriptionBillingScheduleAppliesToTypePrice SubscriptionBillingScheduleAppliesToType = "price"
 )
 
-// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
-type SubscriptionBillingScheduleBillFromType string
-
-// List of values that SubscriptionBillingScheduleBillFromType can take
-const (
-	SubscriptionBillingScheduleBillFromTypeTimestamp SubscriptionBillingScheduleBillFromType = "timestamp"
-)
-
 // Specifies billing duration. Either `day`, `week`, `month` or `year`.
 type SubscriptionBillingScheduleBillUntilDurationInterval string
 
@@ -3181,16 +3173,6 @@ type SubscriptionBillingScheduleAppliesTo struct {
 	Type SubscriptionBillingScheduleAppliesToType `json:"type"`
 }
 
-// Specifies the start of the billing period.
-type SubscriptionBillingScheduleBillFrom struct {
-	// The time the billing schedule applies from.
-	ComputedTimestamp int64 `json:"computed_timestamp"`
-	// Use a precise Unix timestamp for prebilling to start. Must be earlier than `bill_until`.
-	Timestamp int64 `json:"timestamp"`
-	// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
-	Type SubscriptionBillingScheduleBillFromType `json:"type"`
-}
-
 // Specifies the billing period.
 type SubscriptionBillingScheduleBillUntilDuration struct {
 	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
@@ -3215,8 +3197,6 @@ type SubscriptionBillingScheduleBillUntil struct {
 type SubscriptionBillingSchedule struct {
 	// Specifies which subscription items the billing schedule applies to.
 	AppliesTo []*SubscriptionBillingScheduleAppliesTo `json:"applies_to"`
-	// Specifies the start of the billing period.
-	BillFrom *SubscriptionBillingScheduleBillFrom `json:"bill_from,omitempty"`
 	// Specifies the end of billing period.
 	BillUntil *SubscriptionBillingScheduleBillUntil `json:"bill_until"`
 	// Unique identifier for the billing schedule.

@@ -77,10 +77,78 @@ type SharedPaymentGrantedTokenUsageLimits struct {
 	RecurringInterval SharedPaymentGrantedTokenUsageLimitsRecurringInterval `json:"recurring_interval,omitempty"`
 }
 
+// Details about the agent that issued this SharedPaymentGrantedToken.
+type SharedPaymentGrantedTokenAgentDetails struct {
+	// The Stripe Profile ID of the agent that issued this SharedPaymentGrantedToken.
+	NetworkBusinessProfile string `json:"network_business_profile"`
+}
+
+// Bot risk insight (score: Float, recommended_action).
+type SharedPaymentGrantedTokenRiskDetailsInsightsBot struct {
+	// Recommended action for this insight.
+	RecommendedAction string `json:"recommended_action"`
+	// Risk score for this insight (float).
+	Score float64 `json:"score"`
+}
+
+// Card issuer decline risk insight (score: Float, recommended_action).
+type SharedPaymentGrantedTokenRiskDetailsInsightsCardIssuerDecline struct {
+	// Recommended action for this insight.
+	RecommendedAction string `json:"recommended_action"`
+	// Risk score for this insight (float).
+	Score float64 `json:"score"`
+}
+
+// Card testing risk insight (score: Float, recommended_action).
+type SharedPaymentGrantedTokenRiskDetailsInsightsCardTesting struct {
+	// Recommended action for this insight.
+	RecommendedAction string `json:"recommended_action"`
+	// Risk score for this insight (float).
+	Score float64 `json:"score"`
+}
+
+// Fraudulent dispute risk insight (score: Integer, recommended_action).
+type SharedPaymentGrantedTokenRiskDetailsInsightsFraudulentDispute struct {
+	// Recommended action for this insight.
+	RecommendedAction string `json:"recommended_action"`
+	// Risk score for this insight (integer).
+	Score int64 `json:"score"`
+}
+
+// Stolen card risk insight (score: Integer, recommended_action).
+type SharedPaymentGrantedTokenRiskDetailsInsightsStolenCard struct {
+	// Recommended action for this insight.
+	RecommendedAction string `json:"recommended_action"`
+	// Risk score for this insight (integer).
+	Score int64 `json:"score"`
+}
+
+// Risk insights for this token, including scores and recommended actions for each risk type.
+type SharedPaymentGrantedTokenRiskDetailsInsights struct {
+	// Bot risk insight (score: Float, recommended_action).
+	Bot *SharedPaymentGrantedTokenRiskDetailsInsightsBot `json:"bot,omitempty"`
+	// Card issuer decline risk insight (score: Float, recommended_action).
+	CardIssuerDecline *SharedPaymentGrantedTokenRiskDetailsInsightsCardIssuerDecline `json:"card_issuer_decline,omitempty"`
+	// Card testing risk insight (score: Float, recommended_action).
+	CardTesting *SharedPaymentGrantedTokenRiskDetailsInsightsCardTesting `json:"card_testing,omitempty"`
+	// Fraudulent dispute risk insight (score: Integer, recommended_action).
+	FraudulentDispute *SharedPaymentGrantedTokenRiskDetailsInsightsFraudulentDispute `json:"fraudulent_dispute"`
+	// Stolen card risk insight (score: Integer, recommended_action).
+	StolenCard *SharedPaymentGrantedTokenRiskDetailsInsightsStolenCard `json:"stolen_card,omitempty"`
+}
+
+// Risk details of the SharedPaymentGrantedToken.
+type SharedPaymentGrantedTokenRiskDetails struct {
+	// Risk insights for this token, including scores and recommended actions for each risk type.
+	Insights *SharedPaymentGrantedTokenRiskDetailsInsights `json:"insights"`
+}
+
 // SharedPaymentGrantedToken is the view-only resource of a SharedPaymentIssuedToken, which is a limited-use reference to a PaymentMethod.
 // When another Stripe merchant shares a SharedPaymentIssuedToken with you, you can view attributes of the shared token using the SharedPaymentGrantedToken API, and use it with a PaymentIntent.
 type SharedPaymentGrantedToken struct {
 	APIResource
+	// Details about the agent that issued this SharedPaymentGrantedToken.
+	AgentDetails *SharedPaymentGrantedTokenAgentDetails `json:"agent_details,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Time at which this SharedPaymentGrantedToken expires and can no longer be used to confirm a PaymentIntent.
@@ -93,6 +161,8 @@ type SharedPaymentGrantedToken struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// Risk details of the SharedPaymentGrantedToken.
+	RiskDetails *SharedPaymentGrantedTokenRiskDetails `json:"risk_details,omitempty"`
 	// Metadata about the SharedPaymentGrantedToken.
 	SharedMetadata map[string]string `json:"shared_metadata"`
 	// Some details about how the SharedPaymentGrantedToken has been used already.

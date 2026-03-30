@@ -19,6 +19,7 @@ const (
 	CouponDurationServicePeriod CouponDuration = "service_period"
 )
 
+// The type of iterations.
 type CouponServicePeriodIterationsType string
 
 // List of values that CouponServicePeriodIterationsType can take
@@ -348,11 +349,15 @@ type CouponScript struct {
 	ID string `json:"id"`
 }
 type CouponServicePeriodIterations struct {
-	Count int64                             `json:"count"`
-	Type  CouponServicePeriodIterationsType `json:"type"`
+	// The number of iterations the service period will repeat for. Only used when type is `count`.
+	Count int64 `json:"count"`
+	// The type of iterations.
+	Type CouponServicePeriodIterationsType `json:"type"`
 }
 type CouponServicePeriod struct {
-	Interval      string                         `json:"interval"`
+	// Specifies coupon frequency. Either `day`, `week`, `month` or `year`.
+	Interval string `json:"interval"`
+	// The number of intervals for which the coupon will be applied.
 	IntervalCount int64                          `json:"interval_count"`
 	Iterations    *CouponServicePeriodIterations `json:"iterations"`
 }

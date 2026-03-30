@@ -196,6 +196,16 @@ type V2PaymentsOffSessionPaymentCaptureTransferDataParams struct {
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 }
 
+// Pauses an OffSessionPayment that has previously been created.
+type V2PaymentsOffSessionPaymentPauseParams struct {
+	Params `form:"*"`
+}
+
+// Resumes an OffSessionPayment that has previously been paused.
+type V2PaymentsOffSessionPaymentResumeParams struct {
+	Params `form:"*"`
+}
+
 // Details about the capture configuration for the OffSessionPayment.
 type V2PaymentsOffSessionPaymentCreateCaptureParams struct {
 	// The method to use to capture the payment.

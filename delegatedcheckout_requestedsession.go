@@ -79,8 +79,6 @@ type DelegatedCheckoutRequestedSessionParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payment method for this requested session.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
-	// The payment method data for this requested session.
-	PaymentMethodData *DelegatedCheckoutRequestedSessionPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// The details of the seller.
 	SellerDetails *DelegatedCheckoutRequestedSessionSellerDetailsParams `form:"seller_details" json:"seller_details,omitempty"`
 	// The setup future usage for this requested session.
@@ -94,9 +92,8 @@ type DelegatedCheckoutRequestedSessionParams struct {
 type DelegatedCheckoutRequestedSessionParamsUnsetField string
 
 const (
-	DelegatedCheckoutRequestedSessionParamsUnsetFieldMetadata          DelegatedCheckoutRequestedSessionParamsUnsetField = "metadata"
-	DelegatedCheckoutRequestedSessionParamsUnsetFieldPaymentMethodData DelegatedCheckoutRequestedSessionParamsUnsetField = "payment_method_data"
-	DelegatedCheckoutRequestedSessionParamsUnsetFieldSharedMetadata    DelegatedCheckoutRequestedSessionParamsUnsetField = "shared_metadata"
+	DelegatedCheckoutRequestedSessionParamsUnsetFieldMetadata       DelegatedCheckoutRequestedSessionParamsUnsetField = "metadata"
+	DelegatedCheckoutRequestedSessionParamsUnsetFieldSharedMetadata DelegatedCheckoutRequestedSessionParamsUnsetField = "shared_metadata"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -190,40 +187,6 @@ type DelegatedCheckoutRequestedSessionLineItemDetailParams struct {
 	SKUID *string `form:"sku_id" json:"sku_id,omitempty"`
 }
 
-// The billing details for the payment method data.
-type DelegatedCheckoutRequestedSessionPaymentMethodDataBillingDetailsParams struct {
-	// The address for the billing details.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// The email for the billing details.
-	Email *string `form:"email" json:"email,omitempty"`
-	// The name for the billing details.
-	Name *string `form:"name" json:"name,omitempty"`
-	// The phone for the billing details.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// The card for the payment method data.
-type DelegatedCheckoutRequestedSessionPaymentMethodDataCardParams struct {
-	// The CVC of the card.
-	CVC *string `form:"cvc" json:"cvc,omitempty"`
-	// The expiration month of the card.
-	ExpMonth *int64 `form:"exp_month" json:"exp_month"`
-	// The expiration year of the card.
-	ExpYear *int64 `form:"exp_year" json:"exp_year"`
-	// The number of the card.
-	Number *string `form:"number" json:"number"`
-}
-
-// The payment method data for this requested session.
-type DelegatedCheckoutRequestedSessionPaymentMethodDataParams struct {
-	// The billing details for the payment method data.
-	BillingDetails *DelegatedCheckoutRequestedSessionPaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
-	// The card for the payment method data.
-	Card *DelegatedCheckoutRequestedSessionPaymentMethodDataCardParams `form:"card" json:"card,omitempty"`
-	// The type of the payment method data.
-	Type *string `form:"type" json:"type,omitempty"`
-}
-
 // Context about where the attribution originated.
 type DelegatedCheckoutRequestedSessionAffiliateAttributionSourceParams struct {
 	// The platform where the attribution originated.
@@ -302,40 +265,6 @@ type DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionParams struct {
 	Touchpoint *string `form:"touchpoint" json:"touchpoint"`
 }
 
-// The billing details for the payment method data.
-type DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataBillingDetailsParams struct {
-	// The address for the billing details.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// The email for the billing details.
-	Email *string `form:"email" json:"email,omitempty"`
-	// The name for the billing details.
-	Name *string `form:"name" json:"name,omitempty"`
-	// The phone for the billing details.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// The card for the payment method data.
-type DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataCardParams struct {
-	// The CVC of the card.
-	CVC *string `form:"cvc" json:"cvc,omitempty"`
-	// The expiration month of the card.
-	ExpMonth *int64 `form:"exp_month" json:"exp_month"`
-	// The expiration year of the card.
-	ExpYear *int64 `form:"exp_year" json:"exp_year"`
-	// The number of the card.
-	Number *string `form:"number" json:"number"`
-}
-
-// The payment method data for this requested session.
-type DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataParams struct {
-	// The billing details for the payment method data.
-	BillingDetails *DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
-	// The card for the payment method data.
-	Card *DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataCardParams `form:"card" json:"card,omitempty"`
-	// The type of the payment method data.
-	Type *string `form:"type" json:"type,omitempty"`
-}
-
 // The client device metadata details for this requested session.
 type DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams struct {
 	// The radar session.
@@ -365,8 +294,6 @@ type DelegatedCheckoutRequestedSessionConfirmParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The PaymentMethod to use with the requested session.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
-	// The payment method data for this requested session.
-	PaymentMethodData *DelegatedCheckoutRequestedSessionConfirmPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Risk details/signals associated with the requested session
 	RiskDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams `form:"risk_details" json:"risk_details,omitempty"`
 }
@@ -470,40 +397,6 @@ type DelegatedCheckoutRequestedSessionUpdateLineItemDetailParams struct {
 	Quantity *int64 `form:"quantity" json:"quantity"`
 }
 
-// The billing details for the payment method data.
-type DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataBillingDetailsParams struct {
-	// The address for the billing details.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// The email for the billing details.
-	Email *string `form:"email" json:"email,omitempty"`
-	// The name for the billing details.
-	Name *string `form:"name" json:"name,omitempty"`
-	// The phone for the billing details.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// The card for the payment method data.
-type DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataCardParams struct {
-	// The CVC of the card.
-	CVC *string `form:"cvc" json:"cvc,omitempty"`
-	// The expiration month of the card.
-	ExpMonth *int64 `form:"exp_month" json:"exp_month"`
-	// The expiration year of the card.
-	ExpYear *int64 `form:"exp_year" json:"exp_year"`
-	// The number of the card.
-	Number *string `form:"number" json:"number"`
-}
-
-// The payment method data for this requested session.
-type DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataParams struct {
-	// The billing details for the payment method data.
-	BillingDetails *DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
-	// The card for the payment method data.
-	Card *DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataCardParams `form:"card" json:"card,omitempty"`
-	// The type of the payment method data.
-	Type *string `form:"type" json:"type,omitempty"`
-}
-
 // Updates a requested session
 type DelegatedCheckoutRequestedSessionUpdateParams struct {
 	Params `form:"*"`
@@ -517,8 +410,6 @@ type DelegatedCheckoutRequestedSessionUpdateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payment method for this requested session.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
-	// The payment method data for this requested session.
-	PaymentMethodData *DelegatedCheckoutRequestedSessionUpdatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// The shared metadata for this requested session.
 	SharedMetadata map[string]string                                         `form:"shared_metadata" json:"shared_metadata,omitempty"`
 	UnsetFields    []DelegatedCheckoutRequestedSessionUpdateParamsUnsetField `form:"-" json:"-"`
@@ -528,9 +419,8 @@ type DelegatedCheckoutRequestedSessionUpdateParams struct {
 type DelegatedCheckoutRequestedSessionUpdateParamsUnsetField string
 
 const (
-	DelegatedCheckoutRequestedSessionUpdateParamsUnsetFieldMetadata          DelegatedCheckoutRequestedSessionUpdateParamsUnsetField = "metadata"
-	DelegatedCheckoutRequestedSessionUpdateParamsUnsetFieldPaymentMethodData DelegatedCheckoutRequestedSessionUpdateParamsUnsetField = "payment_method_data"
-	DelegatedCheckoutRequestedSessionUpdateParamsUnsetFieldSharedMetadata    DelegatedCheckoutRequestedSessionUpdateParamsUnsetField = "shared_metadata"
+	DelegatedCheckoutRequestedSessionUpdateParamsUnsetFieldMetadata       DelegatedCheckoutRequestedSessionUpdateParamsUnsetField = "metadata"
+	DelegatedCheckoutRequestedSessionUpdateParamsUnsetFieldSharedMetadata DelegatedCheckoutRequestedSessionUpdateParamsUnsetField = "shared_metadata"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -608,40 +498,6 @@ type DelegatedCheckoutRequestedSessionCreateLineItemDetailParams struct {
 	SKUID *string `form:"sku_id" json:"sku_id"`
 }
 
-// The billing details for the payment method data.
-type DelegatedCheckoutRequestedSessionCreatePaymentMethodDataBillingDetailsParams struct {
-	// The address for the billing details.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// The email for the billing details.
-	Email *string `form:"email" json:"email,omitempty"`
-	// The name for the billing details.
-	Name *string `form:"name" json:"name,omitempty"`
-	// The phone for the billing details.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// The card for the payment method data.
-type DelegatedCheckoutRequestedSessionCreatePaymentMethodDataCardParams struct {
-	// The CVC of the card.
-	CVC *string `form:"cvc" json:"cvc,omitempty"`
-	// The expiration month of the card.
-	ExpMonth *int64 `form:"exp_month" json:"exp_month"`
-	// The expiration year of the card.
-	ExpYear *int64 `form:"exp_year" json:"exp_year"`
-	// The number of the card.
-	Number *string `form:"number" json:"number"`
-}
-
-// The payment method data for this requested session.
-type DelegatedCheckoutRequestedSessionCreatePaymentMethodDataParams struct {
-	// The billing details for the payment method data.
-	BillingDetails *DelegatedCheckoutRequestedSessionCreatePaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
-	// The card for the payment method data.
-	Card *DelegatedCheckoutRequestedSessionCreatePaymentMethodDataCardParams `form:"card" json:"card,omitempty"`
-	// The type of the payment method data.
-	Type *string `form:"type" json:"type,omitempty"`
-}
-
 // The details of the seller.
 type DelegatedCheckoutRequestedSessionCreateSellerDetailsParams struct {
 	// The network profile for the seller.
@@ -667,8 +523,6 @@ type DelegatedCheckoutRequestedSessionCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payment method for this requested session.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
-	// The payment method data for this requested session.
-	PaymentMethodData *DelegatedCheckoutRequestedSessionCreatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// The details of the seller.
 	SellerDetails *DelegatedCheckoutRequestedSessionCreateSellerDetailsParams `form:"seller_details" json:"seller_details"`
 	// The setup future usage for this requested session.
@@ -1036,7 +890,7 @@ type DelegatedCheckoutRequestedSession struct {
 	// The metadata shared with the seller.
 	SharedMetadata map[string]string `json:"shared_metadata"`
 	// The SPT used for payment.
-	SharedPaymentIssuedToken string `json:"shared_payment_issued_token"`
+	SharedPaymentIssuedToken *SharedPaymentIssuedToken `json:"shared_payment_issued_token"`
 	// The status of the requested session.
 	Status       DelegatedCheckoutRequestedSessionStatus        `json:"status"`
 	TotalDetails *DelegatedCheckoutRequestedSessionTotalDetails `json:"total_details"`

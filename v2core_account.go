@@ -2275,6 +2275,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusActive      V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus = "active"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusPending     V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus = "pending"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusRestricted  V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus = "restricted"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusUnsupported V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolutionContactStripe V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolutionNoResolution  V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus string
 
 // List of values that V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus can take
@@ -2876,6 +2911,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusActive      V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus = "active"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusPending     V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus = "pending"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusRestricted  V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus = "restricted"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusUnsupported V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolutionContactStripe V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolutionNoResolution  V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsStatus string
 
 // List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsStatus can take
@@ -3254,10 +3324,12 @@ const (
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsBankAccounts        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.bank_accounts"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsCards               V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.cards"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsFinancialAccounts   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.financial_accounts"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsPaperChecks         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.paper_checks"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundTransfersBankAccounts       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_transfers.bank_accounts"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundTransfersFinancialAccounts  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_transfers.financial_accounts"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOXXOPayments                        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "oxxo_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityP24Payments                         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "p24_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPaperChecks                         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "paper_checks"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPaycoPayments                       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "payco_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPayNowPayments                      V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "paynow_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPayByBankPayments                   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "pay_by_bank_payments"
@@ -3925,10 +3997,12 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsBankAccounts        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.bank_accounts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsCards               V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.cards"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsFinancialAccounts   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.financial_accounts"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsPaperChecks         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.paper_checks"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundTransfersBankAccounts       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_transfers.bank_accounts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundTransfersFinancialAccounts  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_transfers.financial_accounts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOXXOPayments                        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "oxxo_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityP24Payments                         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "p24_payments"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPaperChecks                         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "paper_checks"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPaycoPayments                       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "payco_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPayNowPayments                      V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "paynow_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPayByBankPayments                   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "pay_by_bank_payments"
@@ -5480,6 +5554,22 @@ type V2CoreAccountConfigurationRecipientCapabilitiesCryptoWallets struct {
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolution `json:"resolution"`
+}
+
+// Capabilities that enable OutboundPayments via paper check.
+type V2CoreAccountConfigurationRecipientCapabilitiesPaperChecks struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetail `json:"status_details"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode `json:"code"`
@@ -5527,6 +5617,8 @@ type V2CoreAccountConfigurationRecipientCapabilities struct {
 	Cards *V2CoreAccountConfigurationRecipientCapabilitiesCards `json:"cards,omitempty"`
 	// Enables this Account to receive OutboundPayments to a linked crypto wallet.
 	CryptoWallets *V2CoreAccountConfigurationRecipientCapabilitiesCryptoWallets `json:"crypto_wallets,omitempty"`
+	// Capabilities that enable OutboundPayments via paper check.
+	PaperChecks *V2CoreAccountConfigurationRecipientCapabilitiesPaperChecks `json:"paper_checks,omitempty"`
 	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalance `json:"stripe_balance,omitempty"`
 }
@@ -5779,6 +5871,22 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccoun
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsStatusDetail `json:"status_details"`
 }
 
+// Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolution `json:"resolution"`
+}
+
+// Can send funds from a FinancialAccount to someone else via paper check.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecks struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetail `json:"status_details"`
+}
+
 // Hash containing capabilities related to [OutboundPayments](https://docs.stripe.com/api/treasury/outbound_payments?api-version=preview).
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundPayments struct {
 	// Can send funds from a FinancialAccount to a bank account owned by a different entity.
@@ -5789,6 +5897,8 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundPayments struct {
 	CryptoWallets *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWallets `json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to a FinancialAccount owned by a different entity.
 	FinancialAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccounts `json:"financial_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to someone else via paper check.
+	PaperChecks *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecks `json:"paper_checks,omitempty"`
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.

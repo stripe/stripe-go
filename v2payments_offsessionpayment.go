@@ -32,6 +32,7 @@ type V2PaymentsOffSessionPaymentFailureReason string
 // List of values that V2PaymentsOffSessionPaymentFailureReason can take
 const (
 	V2PaymentsOffSessionPaymentFailureReasonAuthorizationExpired V2PaymentsOffSessionPaymentFailureReason = "authorization_expired"
+	V2PaymentsOffSessionPaymentFailureReasonExceededRetryWindow  V2PaymentsOffSessionPaymentFailureReason = "exceeded_retry_window"
 	V2PaymentsOffSessionPaymentFailureReasonNoValidPaymentMethod V2PaymentsOffSessionPaymentFailureReason = "no_valid_payment_method"
 	V2PaymentsOffSessionPaymentFailureReasonRejectedByPartner    V2PaymentsOffSessionPaymentFailureReason = "rejected_by_partner"
 	V2PaymentsOffSessionPaymentFailureReasonRetriesExhausted     V2PaymentsOffSessionPaymentFailureReason = "retries_exhausted"
@@ -56,6 +57,7 @@ type V2PaymentsOffSessionPaymentStatus string
 const (
 	V2PaymentsOffSessionPaymentStatusCanceled        V2PaymentsOffSessionPaymentStatus = "canceled"
 	V2PaymentsOffSessionPaymentStatusFailed          V2PaymentsOffSessionPaymentStatus = "failed"
+	V2PaymentsOffSessionPaymentStatusPaused          V2PaymentsOffSessionPaymentStatus = "paused"
 	V2PaymentsOffSessionPaymentStatusPending         V2PaymentsOffSessionPaymentStatus = "pending"
 	V2PaymentsOffSessionPaymentStatusPendingRetry    V2PaymentsOffSessionPaymentStatus = "pending_retry"
 	V2PaymentsOffSessionPaymentStatusProcessing      V2PaymentsOffSessionPaymentStatus = "processing"
@@ -85,6 +87,8 @@ type V2PaymentsOffSessionPaymentRetryDetails struct {
 	RetryPolicy string `json:"retry_policy,omitempty"`
 	// Indicates the strategy for how you want Stripe to retry the payment.
 	RetryStrategy V2PaymentsOffSessionPaymentRetryDetailsRetryStrategy `json:"retry_strategy"`
+	// The timestamp when this payment is no longer eligible to be retried. When this timestamp is reached, the payment will be marked as failed.
+	RetryUntil time.Time `json:"retry_until,omitempty"`
 }
 
 // The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.stripe.com/payments/connected-accounts).
@@ -118,8 +122,6 @@ type V2PaymentsOffSessionPayment struct {
 	Cadence V2PaymentsOffSessionPaymentCadence `json:"cadence"`
 	// Details about the capture configuration for the OffSessionPayment.
 	Capture *V2PaymentsOffSessionPaymentCapture `json:"capture,omitempty"`
-	// ID of the owning compartment.
-	CompartmentID string `json:"compartment_id"`
 	// Creation time of the OffSessionPayment. Represented as a RFC 3339 date & time UTC
 	// value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`

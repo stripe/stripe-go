@@ -46,14 +46,6 @@ const (
 	SubscriptionScheduleBillingScheduleAppliesToTypePrice SubscriptionScheduleBillingScheduleAppliesToType = "price"
 )
 
-// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
-type SubscriptionScheduleBillingScheduleBillFromType string
-
-// List of values that SubscriptionScheduleBillingScheduleBillFromType can take
-const (
-	SubscriptionScheduleBillingScheduleBillFromTypeTimestamp SubscriptionScheduleBillingScheduleBillFromType = "timestamp"
-)
-
 // Specifies billing duration. Either `day`, `week`, `month` or `year`.
 type SubscriptionScheduleBillingScheduleBillUntilDurationInterval string
 
@@ -2909,16 +2901,6 @@ type SubscriptionScheduleBillingScheduleAppliesTo struct {
 	Type SubscriptionScheduleBillingScheduleAppliesToType `json:"type"`
 }
 
-// Specifies the start of the billing period.
-type SubscriptionScheduleBillingScheduleBillFrom struct {
-	// The time the billing schedule applies from.
-	ComputedTimestamp int64 `json:"computed_timestamp"`
-	// Use a precise Unix timestamp for prebilling to start. Must be earlier than `bill_until`.
-	Timestamp int64 `json:"timestamp"`
-	// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
-	Type SubscriptionScheduleBillingScheduleBillFromType `json:"type"`
-}
-
 // Specifies the billing period.
 type SubscriptionScheduleBillingScheduleBillUntilDuration struct {
 	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
@@ -2943,8 +2925,6 @@ type SubscriptionScheduleBillingScheduleBillUntil struct {
 type SubscriptionScheduleBillingSchedule struct {
 	// Specifies which subscription items the billing schedule applies to.
 	AppliesTo []*SubscriptionScheduleBillingScheduleAppliesTo `json:"applies_to"`
-	// Specifies the start of the billing period.
-	BillFrom *SubscriptionScheduleBillingScheduleBillFrom `json:"bill_from,omitempty"`
 	// Specifies the end of billing period.
 	BillUntil *SubscriptionScheduleBillingScheduleBillUntil `json:"bill_until"`
 	// Unique identifier for the billing schedule.

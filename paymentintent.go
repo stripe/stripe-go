@@ -2925,6 +2925,30 @@ type PaymentIntentPaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Account funding transaction details including sender and beneficiary information.
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for this PaymentIntent.
+type PaymentIntentPaymentDetailsMoneyServicesParams struct {
+	// Account funding transaction details including sender and beneficiary information.
+	AccountFunding *PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+	// The type of money services transaction.
+	TransactionType *string                                                    `form:"transaction_type" json:"transaction_type,omitempty"`
+	UnsetFields     []PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentDetailsMoneyServicesParams.
+type PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField string
+
+const (
+	PaymentIntentPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentDetailsMoneyServicesParams) AddUnsetField(field PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentPaymentDetailsParams struct {
 	// Benefit details for this PaymentIntent
@@ -2947,6 +2971,8 @@ type PaymentIntentPaymentDetailsParams struct {
 	Lodging *PaymentIntentPaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
 	LodgingData []*PaymentIntentPaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
+	// Money services details for this PaymentIntent.
+	MoneyServices *PaymentIntentPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -2965,6 +2991,7 @@ const (
 	PaymentIntentPaymentDetailsParamsUnsetFieldFlightData        PaymentIntentPaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentPaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentPaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentPaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentPaymentDetailsParamsUnsetField = "money_services"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3672,6 +3699,21 @@ type PaymentIntentPaymentMethodOptionsCardThreeDSecureParams struct {
 	Version *string `form:"version" json:"version"`
 }
 
+// Payment method specific account funding transaction details.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for payment method specific funding fields.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesParams struct {
+	// Payment method specific account funding transaction details.
+	AccountFunding *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+}
+
+// Payment details for payment method specific funding fields.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsParams struct {
+	// Money services details for payment method specific funding fields.
+	MoneyServices *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
+}
+
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -3694,6 +3736,8 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	MOTO *bool `form:"moto" json:"moto,omitempty"`
 	// Selected network to process this PaymentIntent on. Depends on the available networks of the card attached to the PaymentIntent. Can be only set confirm-time.
 	Network *string `form:"network" json:"network,omitempty"`
+	// Payment details for payment method specific funding fields.
+	PaymentDetails *PaymentIntentPaymentMethodOptionsCardPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Request ability to [decrement the authorization](https://docs.stripe.com/payments/decremental-authorization) for this PaymentIntent.
 	RequestDecrementalAuthorization *string `form:"request_decremental_authorization" json:"request_decremental_authorization,omitempty"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this PaymentIntent.
@@ -3756,6 +3800,21 @@ type PaymentIntentPaymentMethodOptionsCardPresentRoutingParams struct {
 	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
+// Payment method specific account funding transaction details.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for payment method specific funding fields.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams struct {
+	// Payment method specific account funding transaction details.
+	AccountFunding *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+}
+
+// Payment details for payment method specific funding transaction fields.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsParams struct {
+	// Money services details for payment method specific funding fields.
+	MoneyServices *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
+}
+
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -3764,6 +3823,8 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Payment details for payment method specific funding transaction fields.
+	PaymentDetails *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization" json:"request_extended_authorization,omitempty"`
 	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
@@ -7004,6 +7065,30 @@ type PaymentIntentCapturePaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Account funding transaction details including sender and beneficiary information.
+type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for this PaymentIntent.
+type PaymentIntentCapturePaymentDetailsMoneyServicesParams struct {
+	// Account funding transaction details including sender and beneficiary information.
+	AccountFunding *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+	// The type of money services transaction.
+	TransactionType *string                                                           `form:"transaction_type" json:"transaction_type,omitempty"`
+	UnsetFields     []PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCapturePaymentDetailsMoneyServicesParams.
+type PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField string
+
+const (
+	PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCapturePaymentDetailsMoneyServicesParams) AddUnsetField(field PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentCapturePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
@@ -7024,6 +7109,8 @@ type PaymentIntentCapturePaymentDetailsParams struct {
 	Lodging *PaymentIntentCapturePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
 	LodgingData []*PaymentIntentCapturePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
+	// Money services details for this PaymentIntent.
+	MoneyServices *PaymentIntentCapturePaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -7042,6 +7129,7 @@ const (
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentCapturePaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentCapturePaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCapturePaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentCapturePaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentCapturePaymentDetailsParamsUnsetField = "money_services"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -8137,6 +8225,30 @@ type PaymentIntentConfirmPaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Account funding transaction details including sender and beneficiary information.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for this PaymentIntent.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesParams struct {
+	// Account funding transaction details including sender and beneficiary information.
+	AccountFunding *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+	// The type of money services transaction.
+	TransactionType *string                                                           `form:"transaction_type" json:"transaction_type,omitempty"`
+	UnsetFields     []PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentConfirmPaymentDetailsMoneyServicesParams.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField string
+
+const (
+	PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentConfirmPaymentDetailsMoneyServicesParams) AddUnsetField(field PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentConfirmPaymentDetailsParams struct {
 	// Benefit details for this PaymentIntent
@@ -8159,6 +8271,8 @@ type PaymentIntentConfirmPaymentDetailsParams struct {
 	Lodging *PaymentIntentConfirmPaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
 	LodgingData []*PaymentIntentConfirmPaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
+	// Money services details for this PaymentIntent.
+	MoneyServices *PaymentIntentConfirmPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -8177,6 +8291,7 @@ const (
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldFlightData        PaymentIntentConfirmPaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentConfirmPaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentConfirmPaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentConfirmPaymentDetailsParamsUnsetField = "money_services"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -10049,6 +10164,30 @@ type PaymentIntentCreatePaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Account funding transaction details including sender and beneficiary information.
+type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for this PaymentIntent.
+type PaymentIntentCreatePaymentDetailsMoneyServicesParams struct {
+	// Account funding transaction details including sender and beneficiary information.
+	AccountFunding *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+	// The type of money services transaction.
+	TransactionType *string                                                          `form:"transaction_type" json:"transaction_type,omitempty"`
+	UnsetFields     []PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentDetailsMoneyServicesParams.
+type PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentDetailsMoneyServicesParams) AddUnsetField(field PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentCreatePaymentDetailsParams struct {
 	// Benefit details for this PaymentIntent
@@ -10071,6 +10210,8 @@ type PaymentIntentCreatePaymentDetailsParams struct {
 	Lodging *PaymentIntentCreatePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
 	LodgingData []*PaymentIntentCreatePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
+	// Money services details for this PaymentIntent.
+	MoneyServices *PaymentIntentCreatePaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -10089,6 +10230,7 @@ const (
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentCreatePaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentCreatePaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCreatePaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentCreatePaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentCreatePaymentDetailsParamsUnsetField = "money_services"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -10796,6 +10938,21 @@ type PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureParams struct {
 	Version *string `form:"version" json:"version"`
 }
 
+// Payment method specific account funding transaction details.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for payment method specific funding fields.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesParams struct {
+	// Payment method specific account funding transaction details.
+	AccountFunding *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+}
+
+// Payment details for payment method specific funding fields.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsParams struct {
+	// Money services details for payment method specific funding fields.
+	MoneyServices *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
+}
+
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentCreatePaymentMethodOptionsCardParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -10818,6 +10975,8 @@ type PaymentIntentCreatePaymentMethodOptionsCardParams struct {
 	MOTO *bool `form:"moto" json:"moto,omitempty"`
 	// Selected network to process this PaymentIntent on. Depends on the available networks of the card attached to the PaymentIntent. Can be only set confirm-time.
 	Network *string `form:"network" json:"network,omitempty"`
+	// Payment details for payment method specific funding fields.
+	PaymentDetails *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Request ability to [decrement the authorization](https://docs.stripe.com/payments/decremental-authorization) for this PaymentIntent.
 	RequestDecrementalAuthorization *string `form:"request_decremental_authorization" json:"request_decremental_authorization,omitempty"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this PaymentIntent.
@@ -10880,6 +11039,21 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams struct {
 	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
+// Payment method specific account funding transaction details.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for payment method specific funding fields.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams struct {
+	// Payment method specific account funding transaction details.
+	AccountFunding *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+}
+
+// Payment details for payment method specific funding transaction fields.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsParams struct {
+	// Money services details for payment method specific funding fields.
+	MoneyServices *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
+}
+
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentCreatePaymentMethodOptionsCardPresentParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -10888,6 +11062,8 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Payment details for payment method specific funding transaction fields.
+	PaymentDetails *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization" json:"request_extended_authorization,omitempty"`
 	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
@@ -14132,6 +14308,30 @@ type PaymentIntentUpdatePaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Account funding transaction details including sender and beneficiary information.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for this PaymentIntent.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesParams struct {
+	// Account funding transaction details including sender and beneficiary information.
+	AccountFunding *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+	// The type of money services transaction.
+	TransactionType *string                                                          `form:"transaction_type" json:"transaction_type,omitempty"`
+	UnsetFields     []PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentDetailsMoneyServicesParams.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentDetailsMoneyServicesParams) AddUnsetField(field PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentUpdatePaymentDetailsParams struct {
 	// Benefit details for this PaymentIntent
@@ -14154,6 +14354,8 @@ type PaymentIntentUpdatePaymentDetailsParams struct {
 	Lodging *PaymentIntentUpdatePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
 	LodgingData []*PaymentIntentUpdatePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
+	// Money services details for this PaymentIntent.
+	MoneyServices *PaymentIntentUpdatePaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -14172,6 +14374,7 @@ const (
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentUpdatePaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentUpdatePaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentUpdatePaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentUpdatePaymentDetailsParamsUnsetField = "money_services"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -14879,6 +15082,21 @@ type PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureParams struct {
 	Version *string `form:"version" json:"version"`
 }
 
+// Payment method specific account funding transaction details.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for payment method specific funding fields.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesParams struct {
+	// Payment method specific account funding transaction details.
+	AccountFunding *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+}
+
+// Payment details for payment method specific funding fields.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsParams struct {
+	// Money services details for payment method specific funding fields.
+	MoneyServices *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
+}
+
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentUpdatePaymentMethodOptionsCardParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -14901,6 +15119,8 @@ type PaymentIntentUpdatePaymentMethodOptionsCardParams struct {
 	MOTO *bool `form:"moto" json:"moto,omitempty"`
 	// Selected network to process this PaymentIntent on. Depends on the available networks of the card attached to the PaymentIntent. Can be only set confirm-time.
 	Network *string `form:"network" json:"network,omitempty"`
+	// Payment details for payment method specific funding fields.
+	PaymentDetails *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Request ability to [decrement the authorization](https://docs.stripe.com/payments/decremental-authorization) for this PaymentIntent.
 	RequestDecrementalAuthorization *string `form:"request_decremental_authorization" json:"request_decremental_authorization,omitempty"`
 	// Request ability to [capture beyond the standard authorization validity window](https://docs.stripe.com/payments/extended-authorization) for this PaymentIntent.
@@ -14963,6 +15183,21 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams struct {
 	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
+// Payment method specific account funding transaction details.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for payment method specific funding fields.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams struct {
+	// Payment method specific account funding transaction details.
+	AccountFunding *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+}
+
+// Payment details for payment method specific funding transaction fields.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsParams struct {
+	// Money services details for payment method specific funding fields.
+	MoneyServices *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
+}
+
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -14971,6 +15206,8 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Payment details for payment method specific funding transaction fields.
+	PaymentDetails *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization" json:"request_extended_authorization,omitempty"`
 	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
