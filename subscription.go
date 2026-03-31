@@ -318,6 +318,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeBoleto             SubscriptionPaymentSettingsPaymentMethodType = "boleto"
 	SubscriptionPaymentSettingsPaymentMethodTypeCard               SubscriptionPaymentSettingsPaymentMethodType = "card"
 	SubscriptionPaymentSettingsPaymentMethodTypeCashApp            SubscriptionPaymentSettingsPaymentMethodType = "cashapp"
+	SubscriptionPaymentSettingsPaymentMethodTypeCheckScan          SubscriptionPaymentSettingsPaymentMethodType = "check_scan"
 	SubscriptionPaymentSettingsPaymentMethodTypeCrypto             SubscriptionPaymentSettingsPaymentMethodType = "crypto"
 	SubscriptionPaymentSettingsPaymentMethodTypeCustom             SubscriptionPaymentSettingsPaymentMethodType = "custom"
 	SubscriptionPaymentSettingsPaymentMethodTypeCustomerBalance    SubscriptionPaymentSettingsPaymentMethodType = "customer_balance"
@@ -1112,6 +1113,11 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams struct {
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsCheckScanParams struct {
+	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
+}
+
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -1120,6 +1126,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
+	// This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
+	CheckScan *SubscriptionPaymentSettingsPaymentMethodOptionsCheckScanParams `form:"check_scan" json:"check_scan,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 	CustomerBalance *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -1154,6 +1162,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -2007,6 +2016,11 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams st
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
+	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
+}
+
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -2015,6 +2029,8 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
+	// This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
+	CheckScan *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCheckScanParams `form:"check_scan" json:"check_scan,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 	CustomerBalance *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -2049,6 +2065,7 @@ const (
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -2855,6 +2872,11 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams st
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
+	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
+}
+
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -2863,6 +2885,8 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
+	// This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
+	CheckScan *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCheckScanParams `form:"check_scan" json:"check_scan,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 	CustomerBalance *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -2897,6 +2921,7 @@ const (
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3388,6 +3413,11 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount struct {
 	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
 
+// This sub-hash contains details about the Check Scan payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsCheckScan struct {
+	CheckDepositAddress *Address `json:"check_deposit_address,omitempty"`
+}
+
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to invoices created by the subscription.
@@ -3396,6 +3426,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
 	// This sub-hash contains details about the Card payment method options to pass to invoices created by the subscription.
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCard `json:"card"`
+	// This sub-hash contains details about the Check Scan payment method options to pass to invoices created by the subscription.
+	CheckScan *SubscriptionPaymentSettingsPaymentMethodOptionsCheckScan `json:"check_scan,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to invoices created by the subscription.
 	CustomerBalance *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalance `json:"customer_balance"`
 	// This sub-hash contains details about the Indonesia bank transfer payment method options to pass to invoices created by the subscription.

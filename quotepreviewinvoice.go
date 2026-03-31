@@ -411,6 +411,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBoleto             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "boleto"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCard               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "card"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCashApp            QuotePreviewInvoicePaymentSettingsPaymentMethodType = "cashapp"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCheckScan          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "check_scan"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCrypto             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "crypto"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCustom             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "custom"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCustomerBalance    QuotePreviewInvoicePaymentSettingsPaymentMethodType = "customer_balance"
@@ -805,6 +806,11 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccount struct 
 	VerificationMethod QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
 
+// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCheckScan struct {
+	CheckDepositAddress *Address `json:"check_deposit_address,omitempty"`
+}
+
 // Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -813,6 +819,8 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	Bancontact *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCard `json:"card"`
+	// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
+	CheckScan *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCheckScan `json:"check_scan,omitempty"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 	CustomerBalance *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalance `json:"customer_balance"`
 	// If paying by `id_bank_transfer`, this sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
