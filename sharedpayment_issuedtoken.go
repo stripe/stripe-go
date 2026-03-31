@@ -19,24 +19,6 @@ const (
 	SharedPaymentIssuedTokenDeactivatedReasonRevoked  SharedPaymentIssuedTokenDeactivatedReason = "revoked"
 )
 
-// Which requested uses have been enabled for this SharedPaymentIssuedToken.
-type SharedPaymentIssuedTokenEnabledUS string
-
-// List of values that SharedPaymentIssuedTokenEnabledUS can take
-const (
-	SharedPaymentIssuedTokenEnabledUSStripePayments  SharedPaymentIssuedTokenEnabledUS = "stripe_payments"
-	SharedPaymentIssuedTokenEnabledUSVaultAndForward SharedPaymentIssuedTokenEnabledUS = "vault_and_forward"
-)
-
-// Requested uses for this SharedPaymentIssuedToken, which controls which Stripe APIs it can be used with.
-type SharedPaymentIssuedTokenRequestedUS string
-
-// List of values that SharedPaymentIssuedTokenRequestedUS can take
-const (
-	SharedPaymentIssuedTokenRequestedUSStripePayments  SharedPaymentIssuedTokenRequestedUS = "stripe_payments"
-	SharedPaymentIssuedTokenRequestedUSVaultAndForward SharedPaymentIssuedTokenRequestedUS = "vault_and_forward"
-)
-
 // Indicates that you intend to save the PaymentMethod of this SharedPaymentToken to a customer later.
 type SharedPaymentIssuedTokenSetupFutureUsage string
 
@@ -161,8 +143,6 @@ type SharedPaymentIssuedToken struct {
 	DeactivatedAt int64 `json:"deactivated_at"`
 	// The reason why the SharedPaymentIssuedToken has been deactivated.
 	DeactivatedReason SharedPaymentIssuedTokenDeactivatedReason `json:"deactivated_reason"`
-	// Which requested uses have been enabled for this SharedPaymentIssuedToken.
-	EnabledUses []SharedPaymentIssuedTokenEnabledUS `json:"enabled_uses"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
@@ -171,8 +151,6 @@ type SharedPaymentIssuedToken struct {
 	Object string `json:"object"`
 	// ID of an existing PaymentMethod.
 	PaymentMethod string `json:"payment_method"`
-	// Requested uses for this SharedPaymentIssuedToken, which controls which Stripe APIs it can be used with.
-	RequestedUses []SharedPaymentIssuedTokenRequestedUS `json:"requested_uses"`
 	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
 	ReturnURL string `json:"return_url,omitempty"`
 	// Risk details of the SharedPaymentIssuedToken.
