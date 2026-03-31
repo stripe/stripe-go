@@ -707,6 +707,20 @@ func (p *PaymentAttemptRecordReportCanceledParams) AddMetadata(key string, value
 	p.Metadata[key] = value
 }
 
+// Information about the custom processor used to make this payment.
+type PaymentAttemptRecordReportFailedProcessorDetailsCustomParams struct {
+	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
+	PaymentReference *string `form:"payment_reference" json:"payment_reference"`
+}
+
+// Processor information for this payment.
+type PaymentAttemptRecordReportFailedProcessorDetailsParams struct {
+	// Information about the custom processor used to make this payment.
+	Custom *PaymentAttemptRecordReportFailedProcessorDetailsCustomParams `form:"custom" json:"custom,omitempty"`
+	// The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor.
+	Type *string `form:"type" json:"type"`
+}
+
 // Report that the specified Payment Attempt Record failed.
 type PaymentAttemptRecordReportFailedParams struct {
 	Params `form:"*"`
@@ -717,8 +731,10 @@ type PaymentAttemptRecordReportFailedParams struct {
 	// The failure code for this payment attempt. Must be one of `payment_method_customer_decline` or `payment_method_provider_unknown_outcome`.
 	FailureCode *string `form:"failure_code" json:"failure_code,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                                  `form:"metadata" json:"metadata,omitempty"`
-	UnsetFields []PaymentAttemptRecordReportFailedParamsUnsetField `form:"-" json:"-"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Processor information for this payment.
+	ProcessorDetails *PaymentAttemptRecordReportFailedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
+	UnsetFields      []PaymentAttemptRecordReportFailedParamsUnsetField      `form:"-" json:"-"`
 }
 
 // PaymentAttemptRecordReportFailedParamsUnsetField is the list of fields that can be cleared/unset on PaymentAttemptRecordReportFailedParams.
@@ -747,6 +763,20 @@ func (p *PaymentAttemptRecordReportFailedParams) AddMetadata(key string, value s
 	p.Metadata[key] = value
 }
 
+// Information about the custom processor used to make this payment.
+type PaymentAttemptRecordReportGuaranteedProcessorDetailsCustomParams struct {
+	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
+	PaymentReference *string `form:"payment_reference" json:"payment_reference"`
+}
+
+// Processor information for this payment.
+type PaymentAttemptRecordReportGuaranteedProcessorDetailsParams struct {
+	// Information about the custom processor used to make this payment.
+	Custom *PaymentAttemptRecordReportGuaranteedProcessorDetailsCustomParams `form:"custom" json:"custom,omitempty"`
+	// The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor.
+	Type *string `form:"type" json:"type"`
+}
+
 // Report that the specified Payment Attempt Record was guaranteed.
 type PaymentAttemptRecordReportGuaranteedParams struct {
 	Params `form:"*"`
@@ -755,8 +785,10 @@ type PaymentAttemptRecordReportGuaranteedParams struct {
 	// When the reported payment was guaranteed. Measured in seconds since the Unix epoch.
 	GuaranteedAt *int64 `form:"guaranteed_at" json:"guaranteed_at,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                                      `form:"metadata" json:"metadata,omitempty"`
-	UnsetFields []PaymentAttemptRecordReportGuaranteedParamsUnsetField `form:"-" json:"-"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Processor information for this payment.
+	ProcessorDetails *PaymentAttemptRecordReportGuaranteedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
+	UnsetFields      []PaymentAttemptRecordReportGuaranteedParamsUnsetField      `form:"-" json:"-"`
 }
 
 // PaymentAttemptRecordReportGuaranteedParamsUnsetField is the list of fields that can be cleared/unset on PaymentAttemptRecordReportGuaranteedParams.
