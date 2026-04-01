@@ -57,9 +57,9 @@ type testStruct struct {
 
 	Map map[string]interface{} `form:"map"`
 
-	Slice    []string    `form:"slice"`
-	Slice2D  [][]string  `form:"slice2d"`
-	SlicePtr *[]string   `form:"slice_ptr"`
+	Slice    []string   `form:"slice"`
+	Slice2D  [][]string `form:"slice2d"`
+	SlicePtr *[]string  `form:"slice_ptr"`
 
 	String    string  `form:"string"`
 	StringPtr *string `form:"string_ptr"`
