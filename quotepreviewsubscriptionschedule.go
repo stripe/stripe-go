@@ -50,14 +50,6 @@ const (
 	QuotePreviewSubscriptionScheduleBillingScheduleAppliesToTypePrice QuotePreviewSubscriptionScheduleBillingScheduleAppliesToType = "price"
 )
 
-// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
-type QuotePreviewSubscriptionScheduleBillingScheduleBillFromType string
-
-// List of values that QuotePreviewSubscriptionScheduleBillingScheduleBillFromType can take
-const (
-	QuotePreviewSubscriptionScheduleBillingScheduleBillFromTypeTimestamp QuotePreviewSubscriptionScheduleBillingScheduleBillFromType = "timestamp"
-)
-
 // Specifies billing duration. Either `day`, `week`, `month` or `year`.
 type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDurationInterval string
 
@@ -403,16 +395,6 @@ type QuotePreviewSubscriptionScheduleBillingScheduleAppliesTo struct {
 	Type QuotePreviewSubscriptionScheduleBillingScheduleAppliesToType `json:"type"`
 }
 
-// Specifies the start of the billing period.
-type QuotePreviewSubscriptionScheduleBillingScheduleBillFrom struct {
-	// The time the billing schedule applies from.
-	ComputedTimestamp int64 `json:"computed_timestamp"`
-	// Use a precise Unix timestamp for prebilling to start. Must be earlier than `bill_until`.
-	Timestamp int64 `json:"timestamp"`
-	// Describes how the billing schedule determines the start date. Possible values are `timestamp`.
-	Type QuotePreviewSubscriptionScheduleBillingScheduleBillFromType `json:"type"`
-}
-
 // Specifies the billing period.
 type QuotePreviewSubscriptionScheduleBillingScheduleBillUntilDuration struct {
 	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
@@ -437,8 +419,6 @@ type QuotePreviewSubscriptionScheduleBillingScheduleBillUntil struct {
 type QuotePreviewSubscriptionScheduleBillingSchedule struct {
 	// Specifies which subscription items the billing schedule applies to.
 	AppliesTo []*QuotePreviewSubscriptionScheduleBillingScheduleAppliesTo `json:"applies_to"`
-	// Specifies the start of the billing period.
-	BillFrom *QuotePreviewSubscriptionScheduleBillingScheduleBillFrom `json:"bill_from,omitempty"`
 	// Specifies the end of billing period.
 	BillUntil *QuotePreviewSubscriptionScheduleBillingScheduleBillUntil `json:"bill_until"`
 	// Unique identifier for the billing schedule.

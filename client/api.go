@@ -236,6 +236,7 @@ import (
 	v2coreeventdestination "github.com/stripe/stripe-go/v85/v2/core/eventdestination"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v85/v2/core/vault/gbbankaccount"
 	v2corevaultusbankaccount "github.com/stripe/stripe-go/v85/v2/core/vault/usbankaccount"
+	v2datareportingqueryrun "github.com/stripe/stripe-go/v85/v2/data/reporting/queryrun"
 	v2iamapikey "github.com/stripe/stripe-go/v85/v2/iam/apikey"
 	v2moneymanagementadjustment "github.com/stripe/stripe-go/v85/v2/moneymanagement/adjustment"
 	v2moneymanagementcurrencyconversion "github.com/stripe/stripe-go/v85/v2/moneymanagement/currencyconversion"
@@ -716,6 +717,8 @@ type API struct {
 	V2CoreVaultGBBankAccounts *v2corevaultgbbankaccount.Client
 	// V2CoreVaultUSBankAccounts is the client used to invoke /v2/core/vault/us_bank_accounts APIs.
 	V2CoreVaultUSBankAccounts *v2corevaultusbankaccount.Client
+	// V2DataReportingQueryRuns is the client used to invoke /v2/data/reporting/query_runs APIs.
+	V2DataReportingQueryRuns *v2datareportingqueryrun.Client
 	// V2IamAPIKeys is the client used to invoke /v2/iam/api_keys APIs.
 	V2IamAPIKeys *v2iamapikey.Client
 	// V2MoneyManagementAdjustments is the client used to invoke /v2/money_management/adjustments APIs.
@@ -1007,6 +1010,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}
 	a.V2CoreVaultUSBankAccounts = &v2corevaultusbankaccount.Client{B: backends.API, Key: key}
+	a.V2DataReportingQueryRuns = &v2datareportingqueryrun.Client{B: backends.API, Key: key}
 	a.V2IamAPIKeys = &v2iamapikey.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementAdjustments = &v2moneymanagementadjustment.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementCurrencyConversions = &v2moneymanagementcurrencyconversion.Client{B: backends.API, Key: key}

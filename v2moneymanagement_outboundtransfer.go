@@ -38,6 +38,7 @@ type V2MoneyManagementOutboundTransferStatusDetailsFailedReason string
 
 // List of values that V2MoneyManagementOutboundTransferStatusDetailsFailedReason can take
 const (
+	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodAmountLimitExceeded         V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_amount_limit_exceeded"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodDeclined                    V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_declined"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodDoesNotExist                V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_does_not_exist"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodExpired                     V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_expired"

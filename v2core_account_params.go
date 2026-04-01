@@ -827,6 +827,12 @@ type V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Capabilities that enable OutboundPayments via paper check.
+type V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -847,6 +853,8 @@ type V2CoreAccountConfigurationRecipientCapabilitiesParams struct {
 	Cards *V2CoreAccountConfigurationRecipientCapabilitiesCardsParams `form:"cards" json:"cards,omitempty"`
 	// Capabilities that enable OutboundPayments to a crypto wallet linked to this Account.
 	CryptoWallets *V2CoreAccountConfigurationRecipientCapabilitiesCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+	// Capabilities that enable OutboundPayments via paper check.
+	PaperChecks *V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksParams `form:"paper_checks" json:"paper_checks,omitempty"`
 	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
@@ -971,6 +979,12 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccoun
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Can send funds from a FinancialAccount to someone else via paper check.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can send funds from a FinancialAccount to a destination owned by someone else.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsParams struct {
 	// Can send funds from a FinancialAccount to a bank account owned by someone else.
@@ -981,6 +995,8 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsParams struct {
 	CryptoWallets *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
 	FinancialAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to someone else via paper check.
+	PaperChecks *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksParams `form:"paper_checks" json:"paper_checks,omitempty"`
 }
 
 // Can send funds from a FinancialAccount to a bank account owned by yourself.
@@ -3163,6 +3179,12 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesCryptoWalletsParams st
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Capabilities that enable OutboundPayments via paper check.
+type V2CoreAccountCreateConfigurationRecipientCapabilitiesPaperChecksParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -3183,6 +3205,8 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesParams struct {
 	Cards *V2CoreAccountCreateConfigurationRecipientCapabilitiesCardsParams `form:"cards" json:"cards,omitempty"`
 	// Capabilities that enable OutboundPayments to a crypto wallet linked to this Account.
 	CryptoWallets *V2CoreAccountCreateConfigurationRecipientCapabilitiesCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+	// Capabilities that enable OutboundPayments via paper check.
+	PaperChecks *V2CoreAccountCreateConfigurationRecipientCapabilitiesPaperChecksParams `form:"paper_checks" json:"paper_checks,omitempty"`
 	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
@@ -3303,6 +3327,12 @@ type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsFinancial
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Can send funds from a FinancialAccount to someone else via paper check.
+type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Can send funds from a FinancialAccount to a destination owned by someone else.
 type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsParams struct {
 	// Can send funds from a FinancialAccount to a bank account owned by someone else.
@@ -3313,6 +3343,8 @@ type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsParams st
 	CryptoWallets *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
 	FinancialAccounts *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to someone else via paper check.
+	PaperChecks *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksParams `form:"paper_checks" json:"paper_checks,omitempty"`
 }
 
 // Can send funds from a FinancialAccount to a bank account owned by yourself.
@@ -5491,6 +5523,12 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesCryptoWalletsParams st
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Capabilities that enable OutboundPayments via paper check.
+type V2CoreAccountUpdateConfigurationRecipientCapabilitiesPaperChecksParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Enables this Account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -5511,6 +5549,8 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesParams struct {
 	Cards *V2CoreAccountUpdateConfigurationRecipientCapabilitiesCardsParams `form:"cards" json:"cards,omitempty"`
 	// Capabilities that enable OutboundPayments to a crypto wallet linked to this Account.
 	CryptoWallets *V2CoreAccountUpdateConfigurationRecipientCapabilitiesCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
+	// Capabilities that enable OutboundPayments via paper check.
+	PaperChecks *V2CoreAccountUpdateConfigurationRecipientCapabilitiesPaperChecksParams `form:"paper_checks" json:"paper_checks,omitempty"`
 	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
@@ -5635,6 +5675,12 @@ type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsFinancial
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Can send funds from a FinancialAccount to someone else via paper check.
+type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can send funds from a FinancialAccount to a destination owned by someone else.
 type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsParams struct {
 	// Can send funds from a FinancialAccount to a bank account owned by someone else.
@@ -5645,6 +5691,8 @@ type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsParams st
 	CryptoWallets *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsCryptoWalletsParams `form:"crypto_wallets" json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
 	FinancialAccounts *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to someone else via paper check.
+	PaperChecks *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksParams `form:"paper_checks" json:"paper_checks,omitempty"`
 }
 
 // Can send funds from a FinancialAccount to a bank account owned by yourself.

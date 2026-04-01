@@ -1412,6 +1412,30 @@ type ChargePaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Account funding transaction details including sender and beneficiary information.
+type ChargePaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for this PaymentIntent.
+type ChargePaymentDetailsMoneyServicesParams struct {
+	// Account funding transaction details including sender and beneficiary information.
+	AccountFunding *ChargePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+	// The type of money services transaction.
+	TransactionType *string                                             `form:"transaction_type" json:"transaction_type,omitempty"`
+	UnsetFields     []ChargePaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
+}
+
+// ChargePaymentDetailsMoneyServicesParamsUnsetField is the list of fields that can be cleared/unset on ChargePaymentDetailsMoneyServicesParams.
+type ChargePaymentDetailsMoneyServicesParamsUnsetField string
+
+const (
+	ChargePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding ChargePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargePaymentDetailsMoneyServicesParams) AddUnsetField(field ChargePaymentDetailsMoneyServicesParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the charge.
 type ChargePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
@@ -1432,6 +1456,8 @@ type ChargePaymentDetailsParams struct {
 	Lodging *ChargePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
 	LodgingData []*ChargePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
+	// Money services details for this PaymentIntent.
+	MoneyServices *ChargePaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -1450,6 +1476,7 @@ const (
 	ChargePaymentDetailsParamsUnsetFieldFlightData        ChargePaymentDetailsParamsUnsetField = "flight_data"
 	ChargePaymentDetailsParamsUnsetFieldLodgingData       ChargePaymentDetailsParamsUnsetField = "lodging_data"
 	ChargePaymentDetailsParamsUnsetFieldOrderReference    ChargePaymentDetailsParamsUnsetField = "order_reference"
+	ChargePaymentDetailsParamsUnsetFieldMoneyServices     ChargePaymentDetailsParamsUnsetField = "money_services"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -2266,6 +2293,30 @@ type ChargeCapturePaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Account funding transaction details including sender and beneficiary information.
+type ChargeCapturePaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for this PaymentIntent.
+type ChargeCapturePaymentDetailsMoneyServicesParams struct {
+	// Account funding transaction details including sender and beneficiary information.
+	AccountFunding *ChargeCapturePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+	// The type of money services transaction.
+	TransactionType *string                                                    `form:"transaction_type" json:"transaction_type,omitempty"`
+	UnsetFields     []ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
+}
+
+// ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField is the list of fields that can be cleared/unset on ChargeCapturePaymentDetailsMoneyServicesParams.
+type ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField string
+
+const (
+	ChargeCapturePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargeCapturePaymentDetailsMoneyServicesParams) AddUnsetField(field ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the charge.
 type ChargeCapturePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
@@ -2286,6 +2337,8 @@ type ChargeCapturePaymentDetailsParams struct {
 	Lodging *ChargeCapturePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
 	LodgingData []*ChargeCapturePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
+	// Money services details for this PaymentIntent.
+	MoneyServices *ChargeCapturePaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -2304,6 +2357,7 @@ const (
 	ChargeCapturePaymentDetailsParamsUnsetFieldFlightData        ChargeCapturePaymentDetailsParamsUnsetField = "flight_data"
 	ChargeCapturePaymentDetailsParamsUnsetFieldLodgingData       ChargeCapturePaymentDetailsParamsUnsetField = "lodging_data"
 	ChargeCapturePaymentDetailsParamsUnsetFieldOrderReference    ChargeCapturePaymentDetailsParamsUnsetField = "order_reference"
+	ChargeCapturePaymentDetailsParamsUnsetFieldMoneyServices     ChargeCapturePaymentDetailsParamsUnsetField = "money_services"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3295,6 +3349,30 @@ type ChargeUpdatePaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Account funding transaction details including sender and beneficiary information.
+type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParams struct{}
+
+// Money services details for this PaymentIntent.
+type ChargeUpdatePaymentDetailsMoneyServicesParams struct {
+	// Account funding transaction details including sender and beneficiary information.
+	AccountFunding *ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+	// The type of money services transaction.
+	TransactionType *string                                                   `form:"transaction_type" json:"transaction_type,omitempty"`
+	UnsetFields     []ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
+}
+
+// ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField is the list of fields that can be cleared/unset on ChargeUpdatePaymentDetailsMoneyServicesParams.
+type ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField string
+
+const (
+	ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargeUpdatePaymentDetailsMoneyServicesParams) AddUnsetField(field ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the charge.
 type ChargeUpdatePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
@@ -3315,6 +3393,8 @@ type ChargeUpdatePaymentDetailsParams struct {
 	Lodging *ChargeUpdatePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
 	LodgingData []*ChargeUpdatePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
+	// Money services details for this PaymentIntent.
+	MoneyServices *ChargeUpdatePaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -3333,6 +3413,7 @@ const (
 	ChargeUpdatePaymentDetailsParamsUnsetFieldFlightData        ChargeUpdatePaymentDetailsParamsUnsetField = "flight_data"
 	ChargeUpdatePaymentDetailsParamsUnsetFieldLodgingData       ChargeUpdatePaymentDetailsParamsUnsetField = "lodging_data"
 	ChargeUpdatePaymentDetailsParamsUnsetFieldOrderReference    ChargeUpdatePaymentDetailsParamsUnsetField = "order_reference"
+	ChargeUpdatePaymentDetailsParamsUnsetFieldMoneyServices     ChargeUpdatePaymentDetailsParamsUnsetField = "money_services"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.

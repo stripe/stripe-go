@@ -2275,6 +2275,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusActive      V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus = "active"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusPending     V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus = "pending"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusRestricted  V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus = "restricted"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusUnsupported V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolutionContactStripe V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolutionNoResolution  V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus string
 
 // List of values that V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus can take
@@ -2876,6 +2911,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusActive      V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus = "active"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusPending     V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus = "pending"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusRestricted  V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus = "restricted"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusUnsupported V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolutionContactStripe V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolutionNoResolution  V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsStatus string
 
 // List of values that V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsStatus can take
@@ -3254,10 +3324,12 @@ const (
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsBankAccounts        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.bank_accounts"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsCards               V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.cards"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsFinancialAccounts   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.financial_accounts"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsPaperChecks         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.paper_checks"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundTransfersBankAccounts       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_transfers.bank_accounts"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundTransfersFinancialAccounts  V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_transfers.financial_accounts"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityOXXOPayments                        V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "oxxo_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityP24Payments                         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "p24_payments"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPaperChecks                         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "paper_checks"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPaycoPayments                       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "payco_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPayNowPayments                      V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "paynow_payments"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityPayByBankPayments                   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "pay_by_bank_payments"
@@ -3446,7 +3518,10 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBeVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "be_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBGUIC    V2CoreAccountIdentityBusinessDetailsIDNumberType = "bg_uic"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBGVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "bg_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBmCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "bm_crn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBOTIN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "bo_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBRCNPJ   V2CoreAccountIdentityBusinessDetailsIDNumberType = "br_cnpj"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBtTpn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "bt_tpn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaCn     V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_cn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaCrarr  V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_crarr"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCAGSTHST V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_gst_hst"
@@ -3454,6 +3529,7 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaRid    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_rid"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeChChid   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ch_chid"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCHUID    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ch_uid"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCONIT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "co_nit"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCrCpj    V2CoreAccountIdentityBusinessDetailsIDNumberType = "cr_cpj"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCrNite   V2CoreAccountIdentityBusinessDetailsIDNumberType = "cr_nite"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCyHE     V2CoreAccountIdentityBusinessDetailsIDNumberType = "cy_he"
@@ -3467,8 +3543,10 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDkCvr    V2CoreAccountIdentityBusinessDetailsIDNumberType = "dk_cvr"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDkVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "dk_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDORCN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "do_rcn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeECRUC    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ec_ruc"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeEeRk     V2CoreAccountIdentityBusinessDetailsIDNumberType = "ee_rk"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeEeVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ee_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeEGTIN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "eg_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeESCIF    V2CoreAccountIdentityBusinessDetailsIDNumberType = "es_cif"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeESVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "es_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFIVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "fi_vat"
@@ -3478,13 +3556,16 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFRVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "fr_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGBCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gb_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGBVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gb_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGhTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gh_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGiCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gi_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGrAfm    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gr_afm"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGrGemi   V2CoreAccountIdentityBusinessDetailsIDNumberType = "gr_gemi"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGrVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gr_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGtNit    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gt_nit"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGyTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "gy_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHKBR     V2CoreAccountIdentityBusinessDetailsIDNumberType = "hk_br"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHkCr     V2CoreAccountIdentityBusinessDetailsIDNumberType = "hk_cr"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHnRtn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hn_rtn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHRMbs    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hr_mbs"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHROIB    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hr_oib"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHRVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hr_vat"
@@ -3496,9 +3577,14 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeIeVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ie_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeITRea    V2CoreAccountIdentityBusinessDetailsIDNumberType = "it_rea"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeITVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "it_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeJmTrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "jm_trn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeJoCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "jo_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeJPCN     V2CoreAccountIdentityBusinessDetailsIDNumberType = "jp_cn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeKEPIN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ke_pin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeKyCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ky_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeKzBin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "kz_bin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLIUID    V2CoreAccountIdentityBusinessDetailsIDNumberType = "li_uid"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLkTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lk_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLTCcrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "lt_ccrn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLTVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lt_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLuNif    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lu_nif"
@@ -3506,27 +3592,33 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLuVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lu_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLVUrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lv_urn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLVVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "lv_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMoTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mo_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMTCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mt_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMTTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mt_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMTVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mt_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMvTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mv_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMXRFC    V2CoreAccountIdentityBusinessDetailsIDNumberType = "mx_rfc"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMyBrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_brn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMyCoid   V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_coid"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMYITN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_itn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMYSST    V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_sst"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMzNuit   V2CoreAccountIdentityBusinessDetailsIDNumberType = "mz_nuit"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNgTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ng_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNLKvk    V2CoreAccountIdentityBusinessDetailsIDNumberType = "nl_kvk"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNLRsin   V2CoreAccountIdentityBusinessDetailsIDNumberType = "nl_rsin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNLVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "nl_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNoOrgnr  V2CoreAccountIdentityBusinessDetailsIDNumberType = "no_orgnr"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNzBn     V2CoreAccountIdentityBusinessDetailsIDNumberType = "nz_bn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNzIrd    V2CoreAccountIdentityBusinessDetailsIDNumberType = "nz_ird"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypePaRuc    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pa_ruc"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePERUC    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pe_ruc"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypePHTIN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ph_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePkNtn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pk_ntn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePLNip    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pl_nip"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePLRegon  V2CoreAccountIdentityBusinessDetailsIDNumberType = "pl_regon"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePLVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pl_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePTVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "pt_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypePyRuc    V2CoreAccountIdentityBusinessDetailsIDNumberType = "py_ruc"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeROCui    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ro_cui"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeROOrc    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ro_orc"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeROVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ro_vat"
@@ -3541,10 +3633,15 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSKDic    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sk_dic"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSKIco    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sk_ico"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSKVAT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sk_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSLTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sl_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSVNIT    V2CoreAccountIdentityBusinessDetailsIDNumberType = "sv_nit"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTHCrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "th_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTHPrn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "th_prn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeTHTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "th_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeUSEIN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "us_ein"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeUYRUC    V2CoreAccountIdentityBusinessDetailsIDNumberType = "uy_ruc"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeVgCn     V2CoreAccountIdentityBusinessDetailsIDNumberType = "vg_cn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeZaTin    V2CoreAccountIdentityBusinessDetailsIDNumberType = "za_tin"
 )
 
 // The category identifying the legal structure of the business.
@@ -3665,8 +3762,11 @@ const (
 	V2CoreAccountIdentityIndividualIDNumberTypeBdNid       V2CoreAccountIdentityIndividualIDNumberType = "bd_nid"
 	V2CoreAccountIdentityIndividualIDNumberTypeBeNrn       V2CoreAccountIdentityIndividualIDNumberType = "be_nrn"
 	V2CoreAccountIdentityIndividualIDNumberTypeBGUcn       V2CoreAccountIdentityIndividualIDNumberType = "bg_ucn"
+	V2CoreAccountIdentityIndividualIDNumberTypeBmPp        V2CoreAccountIdentityIndividualIDNumberType = "bm_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeBnNric      V2CoreAccountIdentityIndividualIDNumberType = "bn_nric"
+	V2CoreAccountIdentityIndividualIDNumberTypeBoCi        V2CoreAccountIdentityIndividualIDNumberType = "bo_ci"
 	V2CoreAccountIdentityIndividualIDNumberTypeBRCPF       V2CoreAccountIdentityIndividualIDNumberType = "br_cpf"
+	V2CoreAccountIdentityIndividualIDNumberTypeBtCid       V2CoreAccountIdentityIndividualIDNumberType = "bt_cid"
 	V2CoreAccountIdentityIndividualIDNumberTypeCaSin       V2CoreAccountIdentityIndividualIDNumberType = "ca_sin"
 	V2CoreAccountIdentityIndividualIDNumberTypeChOasi      V2CoreAccountIdentityIndividualIDNumberType = "ch_oasi"
 	V2CoreAccountIdentityIndividualIDNumberTypeClRut       V2CoreAccountIdentityIndividualIDNumberType = "cl_rut"
@@ -3684,26 +3784,37 @@ const (
 	V2CoreAccountIdentityIndividualIDNumberTypeDORCN       V2CoreAccountIdentityIndividualIDNumberType = "do_rcn"
 	V2CoreAccountIdentityIndividualIDNumberTypeEcCi        V2CoreAccountIdentityIndividualIDNumberType = "ec_ci"
 	V2CoreAccountIdentityIndividualIDNumberTypeEeIk        V2CoreAccountIdentityIndividualIDNumberType = "ee_ik"
+	V2CoreAccountIdentityIndividualIDNumberTypeEGTIN       V2CoreAccountIdentityIndividualIDNumberType = "eg_tin"
 	V2CoreAccountIdentityIndividualIDNumberTypeESNif       V2CoreAccountIdentityIndividualIDNumberType = "es_nif"
 	V2CoreAccountIdentityIndividualIDNumberTypeFIHetu      V2CoreAccountIdentityIndividualIDNumberType = "fi_hetu"
 	V2CoreAccountIdentityIndividualIDNumberTypeFRNir       V2CoreAccountIdentityIndividualIDNumberType = "fr_nir"
 	V2CoreAccountIdentityIndividualIDNumberTypeGBNino      V2CoreAccountIdentityIndividualIDNumberType = "gb_nino"
+	V2CoreAccountIdentityIndividualIDNumberTypeGhPIN       V2CoreAccountIdentityIndividualIDNumberType = "gh_pin"
 	V2CoreAccountIdentityIndividualIDNumberTypeGrAfm       V2CoreAccountIdentityIndividualIDNumberType = "gr_afm"
 	V2CoreAccountIdentityIndividualIDNumberTypeGtNit       V2CoreAccountIdentityIndividualIDNumberType = "gt_nit"
+	V2CoreAccountIdentityIndividualIDNumberTypeGyTin       V2CoreAccountIdentityIndividualIDNumberType = "gy_tin"
 	V2CoreAccountIdentityIndividualIDNumberTypeHkID        V2CoreAccountIdentityIndividualIDNumberType = "hk_id"
+	V2CoreAccountIdentityIndividualIDNumberTypeHnRtn       V2CoreAccountIdentityIndividualIDNumberType = "hn_rtn"
 	V2CoreAccountIdentityIndividualIDNumberTypeHROIB       V2CoreAccountIdentityIndividualIDNumberType = "hr_oib"
 	V2CoreAccountIdentityIndividualIDNumberTypeHUAd        V2CoreAccountIdentityIndividualIDNumberType = "hu_ad"
 	V2CoreAccountIdentityIndividualIDNumberTypeIDNik       V2CoreAccountIdentityIndividualIDNumberType = "id_nik"
 	V2CoreAccountIdentityIndividualIDNumberTypeIePpsn      V2CoreAccountIdentityIndividualIDNumberType = "ie_ppsn"
 	V2CoreAccountIdentityIndividualIDNumberTypeIsKt        V2CoreAccountIdentityIndividualIDNumberType = "is_kt"
 	V2CoreAccountIdentityIndividualIDNumberTypeITCf        V2CoreAccountIdentityIndividualIDNumberType = "it_cf"
+	V2CoreAccountIdentityIndividualIDNumberTypeJmTrn       V2CoreAccountIdentityIndividualIDNumberType = "jm_trn"
+	V2CoreAccountIdentityIndividualIDNumberTypeJoPIN       V2CoreAccountIdentityIndividualIDNumberType = "jo_pin"
 	V2CoreAccountIdentityIndividualIDNumberTypeJPInc       V2CoreAccountIdentityIndividualIDNumberType = "jp_inc"
 	V2CoreAccountIdentityIndividualIDNumberTypeKEPIN       V2CoreAccountIdentityIndividualIDNumberType = "ke_pin"
+	V2CoreAccountIdentityIndividualIDNumberTypeKyPp        V2CoreAccountIdentityIndividualIDNumberType = "ky_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeKzIIN       V2CoreAccountIdentityIndividualIDNumberType = "kz_iin"
 	V2CoreAccountIdentityIndividualIDNumberTypeLiPeid      V2CoreAccountIdentityIndividualIDNumberType = "li_peid"
+	V2CoreAccountIdentityIndividualIDNumberTypeLkNic       V2CoreAccountIdentityIndividualIDNumberType = "lk_nic"
 	V2CoreAccountIdentityIndividualIDNumberTypeLTAk        V2CoreAccountIdentityIndividualIDNumberType = "lt_ak"
 	V2CoreAccountIdentityIndividualIDNumberTypeLuNif       V2CoreAccountIdentityIndividualIDNumberType = "lu_nif"
 	V2CoreAccountIdentityIndividualIDNumberTypeLVPk        V2CoreAccountIdentityIndividualIDNumberType = "lv_pk"
+	V2CoreAccountIdentityIndividualIDNumberTypeMoBir       V2CoreAccountIdentityIndividualIDNumberType = "mo_bir"
+	V2CoreAccountIdentityIndividualIDNumberTypeMTNic       V2CoreAccountIdentityIndividualIDNumberType = "mt_nic"
+	V2CoreAccountIdentityIndividualIDNumberTypeMvTin       V2CoreAccountIdentityIndividualIDNumberType = "mv_tin"
 	V2CoreAccountIdentityIndividualIDNumberTypeMXRFC       V2CoreAccountIdentityIndividualIDNumberType = "mx_rfc"
 	V2CoreAccountIdentityIndividualIDNumberTypeMyNric      V2CoreAccountIdentityIndividualIDNumberType = "my_nric"
 	V2CoreAccountIdentityIndividualIDNumberTypeMzNuit      V2CoreAccountIdentityIndividualIDNumberType = "mz_nuit"
@@ -3711,17 +3822,22 @@ const (
 	V2CoreAccountIdentityIndividualIDNumberTypeNLBsn       V2CoreAccountIdentityIndividualIDNumberType = "nl_bsn"
 	V2CoreAccountIdentityIndividualIDNumberTypeNoNin       V2CoreAccountIdentityIndividualIDNumberType = "no_nin"
 	V2CoreAccountIdentityIndividualIDNumberTypeNzIrd       V2CoreAccountIdentityIndividualIDNumberType = "nz_ird"
+	V2CoreAccountIdentityIndividualIDNumberTypePaRuc       V2CoreAccountIdentityIndividualIDNumberType = "pa_ruc"
 	V2CoreAccountIdentityIndividualIDNumberTypePeDni       V2CoreAccountIdentityIndividualIDNumberType = "pe_dni"
+	V2CoreAccountIdentityIndividualIDNumberTypePHTIN       V2CoreAccountIdentityIndividualIDNumberType = "ph_tin"
 	V2CoreAccountIdentityIndividualIDNumberTypePkCnic      V2CoreAccountIdentityIndividualIDNumberType = "pk_cnic"
 	V2CoreAccountIdentityIndividualIDNumberTypePkSnic      V2CoreAccountIdentityIndividualIDNumberType = "pk_snic"
 	V2CoreAccountIdentityIndividualIDNumberTypePLPesel     V2CoreAccountIdentityIndividualIDNumberType = "pl_pesel"
 	V2CoreAccountIdentityIndividualIDNumberTypePTNif       V2CoreAccountIdentityIndividualIDNumberType = "pt_nif"
+	V2CoreAccountIdentityIndividualIDNumberTypePyRuc       V2CoreAccountIdentityIndividualIDNumberType = "py_ruc"
 	V2CoreAccountIdentityIndividualIDNumberTypeROCnp       V2CoreAccountIdentityIndividualIDNumberType = "ro_cnp"
 	V2CoreAccountIdentityIndividualIDNumberTypeSaTin       V2CoreAccountIdentityIndividualIDNumberType = "sa_tin"
 	V2CoreAccountIdentityIndividualIDNumberTypeSePIN       V2CoreAccountIdentityIndividualIDNumberType = "se_pin"
 	V2CoreAccountIdentityIndividualIDNumberTypeSgFin       V2CoreAccountIdentityIndividualIDNumberType = "sg_fin"
 	V2CoreAccountIdentityIndividualIDNumberTypeSGNRIC      V2CoreAccountIdentityIndividualIDNumberType = "sg_nric"
+	V2CoreAccountIdentityIndividualIDNumberTypeSiPIN       V2CoreAccountIdentityIndividualIDNumberType = "si_pin"
 	V2CoreAccountIdentityIndividualIDNumberTypeSKDic       V2CoreAccountIdentityIndividualIDNumberType = "sk_dic"
+	V2CoreAccountIdentityIndividualIDNumberTypeSVNIT       V2CoreAccountIdentityIndividualIDNumberType = "sv_nit"
 	V2CoreAccountIdentityIndividualIDNumberTypeTHLc        V2CoreAccountIdentityIndividualIDNumberType = "th_lc"
 	V2CoreAccountIdentityIndividualIDNumberTypeTHPIN       V2CoreAccountIdentityIndividualIDNumberType = "th_pin"
 	V2CoreAccountIdentityIndividualIDNumberTypeTRTIN       V2CoreAccountIdentityIndividualIDNumberType = "tr_tin"
@@ -3730,6 +3846,7 @@ const (
 	V2CoreAccountIdentityIndividualIDNumberTypeUSSSN       V2CoreAccountIdentityIndividualIDNumberType = "us_ssn"
 	V2CoreAccountIdentityIndividualIDNumberTypeUSSSNLast4  V2CoreAccountIdentityIndividualIDNumberType = "us_ssn_last_4"
 	V2CoreAccountIdentityIndividualIDNumberTypeUyDni       V2CoreAccountIdentityIndividualIDNumberType = "uy_dni"
+	V2CoreAccountIdentityIndividualIDNumberTypeVgPp        V2CoreAccountIdentityIndividualIDNumberType = "vg_pp"
 	V2CoreAccountIdentityIndividualIDNumberTypeZaID        V2CoreAccountIdentityIndividualIDNumberType = "za_id"
 )
 
@@ -3925,10 +4042,12 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsBankAccounts        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.bank_accounts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsCards               V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.cards"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsFinancialAccounts   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.financial_accounts"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundPaymentsPaperChecks         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_payments.paper_checks"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundTransfersBankAccounts       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_transfers.bank_accounts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOutboundTransfersFinancialAccounts  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "outbound_transfers.financial_accounts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityOXXOPayments                        V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "oxxo_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityP24Payments                         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "p24_payments"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPaperChecks                         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "paper_checks"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPaycoPayments                       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "payco_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPayNowPayments                      V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "paynow_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityPayByBankPayments                   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "pay_by_bank_payments"
@@ -5480,6 +5599,22 @@ type V2CoreAccountConfigurationRecipientCapabilitiesCryptoWallets struct {
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetailResolution `json:"resolution"`
+}
+
+// Capabilities that enable OutboundPayments via paper check.
+type V2CoreAccountConfigurationRecipientCapabilitiesPaperChecks struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationRecipientCapabilitiesPaperChecksStatusDetail `json:"status_details"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode `json:"code"`
@@ -5527,6 +5662,8 @@ type V2CoreAccountConfigurationRecipientCapabilities struct {
 	Cards *V2CoreAccountConfigurationRecipientCapabilitiesCards `json:"cards,omitempty"`
 	// Enables this Account to receive OutboundPayments to a linked crypto wallet.
 	CryptoWallets *V2CoreAccountConfigurationRecipientCapabilitiesCryptoWallets `json:"crypto_wallets,omitempty"`
+	// Capabilities that enable OutboundPayments via paper check.
+	PaperChecks *V2CoreAccountConfigurationRecipientCapabilitiesPaperChecks `json:"paper_checks,omitempty"`
 	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalance `json:"stripe_balance,omitempty"`
 }
@@ -5779,6 +5916,22 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccoun
 	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsStatusDetail `json:"status_details"`
 }
 
+// Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetailResolution `json:"resolution"`
+}
+
+// Can send funds from a FinancialAccount to someone else via paper check.
+type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecks struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecksStatusDetail `json:"status_details"`
+}
+
 // Hash containing capabilities related to [OutboundPayments](https://docs.stripe.com/api/treasury/outbound_payments?api-version=preview).
 type V2CoreAccountConfigurationStorerCapabilitiesOutboundPayments struct {
 	// Can send funds from a FinancialAccount to a bank account owned by a different entity.
@@ -5789,6 +5942,8 @@ type V2CoreAccountConfigurationStorerCapabilitiesOutboundPayments struct {
 	CryptoWallets *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCryptoWallets `json:"crypto_wallets,omitempty"`
 	// Can send funds from a FinancialAccount to a FinancialAccount owned by a different entity.
 	FinancialAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccounts `json:"financial_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to someone else via paper check.
+	PaperChecks *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsPaperChecks `json:"paper_checks,omitempty"`
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.

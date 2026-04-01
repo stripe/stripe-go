@@ -18,6 +18,8 @@ type V2PaymentsOffSessionPaymentCaptureParams struct {
 	Params `form:"*"`
 	// The amount to capture.
 	AmountToCapture *int64 `form:"amount_to_capture" json:"amount_to_capture,omitempty"`
+	// The amount of the application fee for this capture.
+	ApplicationFeeAmount *Amount `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// The method to use to capture the payment.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can
@@ -132,6 +134,9 @@ type V2PaymentsOffSessionPaymentParams struct {
 	Params `form:"*"`
 	// The “presentment amount” to be collected from the customer.
 	Amount *Amount `form:"amount" json:"amount,omitempty"`
+	// The amount of the application fee (if any) that will be requested to be applied to the
+	// payment and transferred to the application owner's Stripe account.
+	ApplicationFeeAmount *Amount `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// The frequency of the underlying payment.
 	Cadence *string `form:"cadence" json:"cadence,omitempty"`
 	// Details about the capture configuration for the OffSessionPayment.
@@ -194,6 +199,16 @@ type V2PaymentsOffSessionPaymentCaptureTransferDataParams struct {
 	// and must be a positive integer representing how much to transfer in the smallest
 	// currency unit (e.g., 100 cents to charge $1.00).
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
+}
+
+// Pauses an OffSessionPayment that has previously been created.
+type V2PaymentsOffSessionPaymentPauseParams struct {
+	Params `form:"*"`
+}
+
+// Resumes an OffSessionPayment that has previously been paused.
+type V2PaymentsOffSessionPaymentResumeParams struct {
+	Params `form:"*"`
 }
 
 // Details about the capture configuration for the OffSessionPayment.
@@ -287,6 +302,9 @@ type V2PaymentsOffSessionPaymentCreateParams struct {
 	Params `form:"*"`
 	// The “presentment amount” to be collected from the customer.
 	Amount *Amount `form:"amount" json:"amount"`
+	// The amount of the application fee (if any) that will be requested to be applied to the
+	// payment and transferred to the application owner's Stripe account.
+	ApplicationFeeAmount *Amount `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// The frequency of the underlying payment.
 	Cadence *string `form:"cadence" json:"cadence"`
 	// Details about the capture configuration for the OffSessionPayment.

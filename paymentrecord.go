@@ -619,6 +619,20 @@ func (p *PaymentRecordParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Information about the custom processor used to make this payment.
+type PaymentRecordReportPaymentAttemptFailedProcessorDetailsCustomParams struct {
+	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
+	PaymentReference *string `form:"payment_reference" json:"payment_reference"`
+}
+
+// Processor information for this payment.
+type PaymentRecordReportPaymentAttemptFailedProcessorDetailsParams struct {
+	// Information about the custom processor used to make this payment.
+	Custom *PaymentRecordReportPaymentAttemptFailedProcessorDetailsCustomParams `form:"custom" json:"custom,omitempty"`
+	// The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor.
+	Type *string `form:"type" json:"type"`
+}
+
 // Information about the payment attempt failure.
 type PaymentRecordReportPaymentAttemptFailedParams struct {
 	Params `form:"*"`
@@ -629,8 +643,10 @@ type PaymentRecordReportPaymentAttemptFailedParams struct {
 	// The failure code for this payment attempt. Must be one of `payment_method_customer_decline` or `payment_method_provider_unknown_outcome`.
 	FailureCode *string `form:"failure_code" json:"failure_code,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                                         `form:"metadata" json:"metadata,omitempty"`
-	UnsetFields []PaymentRecordReportPaymentAttemptFailedParamsUnsetField `form:"-" json:"-"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Processor information for this payment.
+	ProcessorDetails *PaymentRecordReportPaymentAttemptFailedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
+	UnsetFields      []PaymentRecordReportPaymentAttemptFailedParamsUnsetField      `form:"-" json:"-"`
 }
 
 // PaymentRecordReportPaymentAttemptFailedParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportPaymentAttemptFailedParams.
@@ -659,6 +675,20 @@ func (p *PaymentRecordReportPaymentAttemptFailedParams) AddMetadata(key string, 
 	p.Metadata[key] = value
 }
 
+// Information about the custom processor used to make this payment.
+type PaymentRecordReportPaymentAttemptGuaranteedProcessorDetailsCustomParams struct {
+	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
+	PaymentReference *string `form:"payment_reference" json:"payment_reference"`
+}
+
+// Processor information for this payment.
+type PaymentRecordReportPaymentAttemptGuaranteedProcessorDetailsParams struct {
+	// Information about the custom processor used to make this payment.
+	Custom *PaymentRecordReportPaymentAttemptGuaranteedProcessorDetailsCustomParams `form:"custom" json:"custom,omitempty"`
+	// The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor.
+	Type *string `form:"type" json:"type"`
+}
+
 // Information about the payment attempt guarantee.
 type PaymentRecordReportPaymentAttemptGuaranteedParams struct {
 	Params `form:"*"`
@@ -667,8 +697,10 @@ type PaymentRecordReportPaymentAttemptGuaranteedParams struct {
 	// When the reported payment was guaranteed. Measured in seconds since the Unix epoch.
 	GuaranteedAt *int64 `form:"guaranteed_at" json:"guaranteed_at,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                                             `form:"metadata" json:"metadata,omitempty"`
-	UnsetFields []PaymentRecordReportPaymentAttemptGuaranteedParamsUnsetField `form:"-" json:"-"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Processor information for this payment.
+	ProcessorDetails *PaymentRecordReportPaymentAttemptGuaranteedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
+	UnsetFields      []PaymentRecordReportPaymentAttemptGuaranteedParamsUnsetField      `form:"-" json:"-"`
 }
 
 // PaymentRecordReportPaymentAttemptGuaranteedParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportPaymentAttemptGuaranteedParams.
@@ -993,18 +1025,50 @@ type PaymentRecordReportPaymentCustomerDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
+// Information about the custom processor used to make this payment.
+type PaymentRecordReportPaymentFailedProcessorDetailsCustomParams struct {
+	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
+	PaymentReference *string `form:"payment_reference" json:"payment_reference"`
+}
+
+// Processor information for this payment.
+type PaymentRecordReportPaymentFailedProcessorDetailsParams struct {
+	// Information about the custom processor used to make this payment.
+	Custom *PaymentRecordReportPaymentFailedProcessorDetailsCustomParams `form:"custom" json:"custom,omitempty"`
+	// The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor.
+	Type *string `form:"type" json:"type"`
+}
+
 // Information about the payment attempt failure.
 type PaymentRecordReportPaymentFailedParams struct {
 	// When the reported payment failed. Measured in seconds since the Unix epoch.
 	FailedAt *int64 `form:"failed_at" json:"failed_at"`
 	// The failure code for this payment attempt. Must be one of `payment_method_customer_decline` or `payment_method_provider_unknown_outcome`.
 	FailureCode *string `form:"failure_code" json:"failure_code,omitempty"`
+	// Processor information for this payment.
+	ProcessorDetails *PaymentRecordReportPaymentFailedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
+}
+
+// Information about the custom processor used to make this payment.
+type PaymentRecordReportPaymentGuaranteedProcessorDetailsCustomParams struct {
+	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
+	PaymentReference *string `form:"payment_reference" json:"payment_reference"`
+}
+
+// Processor information for this payment.
+type PaymentRecordReportPaymentGuaranteedProcessorDetailsParams struct {
+	// Information about the custom processor used to make this payment.
+	Custom *PaymentRecordReportPaymentGuaranteedProcessorDetailsCustomParams `form:"custom" json:"custom,omitempty"`
+	// The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor.
+	Type *string `form:"type" json:"type"`
 }
 
 // Information about the payment attempt guarantee.
 type PaymentRecordReportPaymentGuaranteedParams struct {
 	// When the reported payment was guaranteed. Measured in seconds since the Unix epoch.
 	GuaranteedAt *int64 `form:"guaranteed_at" json:"guaranteed_at"`
+	// Processor information for this payment.
+	ProcessorDetails *PaymentRecordReportPaymentGuaranteedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
 }
 
 // The billing details associated with the method of payment.

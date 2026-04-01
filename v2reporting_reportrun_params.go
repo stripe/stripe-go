@@ -8,8 +8,8 @@ package stripe
 
 // Optional settings to customize the results of the `ReportRun`.
 type V2ReportingReportRunResultOptionsParams struct {
-	// If set, the generated report file will be compressed into a ZIP folder.
-	// This is useful for reducing file size and download time for large reports.
+	// If set, the generated results file will be compressed into a ZIP folder.
+	// This is useful for reducing file size and download time for large results.
 	CompressFile *bool `form:"compress_file" json:"compress_file,omitempty"`
 }
 
@@ -30,8 +30,8 @@ type V2ReportingReportRunParams struct {
 
 // Optional settings to customize the results of the `ReportRun`.
 type V2ReportingReportRunCreateResultOptionsParams struct {
-	// If set, the generated report file will be compressed into a ZIP folder.
-	// This is useful for reducing file size and download time for large reports.
+	// If set, the generated results file will be compressed into a ZIP folder.
+	// This is useful for reducing file size and download time for large results.
 	CompressFile *bool `form:"compress_file" json:"compress_file,omitempty"`
 }
 

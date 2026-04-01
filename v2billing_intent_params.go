@@ -59,6 +59,8 @@ type V2BillingIntentActionApplyInvoiceDiscountRuleParams struct {
 
 // The custom pricing unit amount.
 type V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmountCustomPricingUnitParams struct {
+	// The id of the custom pricing unit.
+	ID *string `form:"id" json:"id,omitempty"`
 	// The value of the custom pricing unit.
 	Value *string `form:"value" json:"value"`
 }
@@ -675,6 +677,8 @@ type V2BillingIntentCreateActionApplyInvoiceDiscountRuleParams struct {
 
 // The custom pricing unit amount.
 type V2BillingIntentCreateActionApplySpendModifierRuleMaxBillingPeriodSpendAmountCustomPricingUnitParams struct {
+	// The id of the custom pricing unit.
+	ID *string `form:"id" json:"id,omitempty"`
 	// The value of the custom pricing unit.
 	Value *string `form:"value" json:"value"`
 }

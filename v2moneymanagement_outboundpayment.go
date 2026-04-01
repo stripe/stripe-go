@@ -75,6 +75,9 @@ type V2MoneyManagementOutboundPaymentStatusDetailsFailedReason string
 
 // List of values that V2MoneyManagementOutboundPaymentStatusDetailsFailedReason can take
 const (
+	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPaperCheckAttachmentTooLarge            V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "paper_check_attachment_too_large"
+	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPaperCheckExpired                       V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "paper_check_expired"
+	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPaperCheckUndeliverable                 V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "paper_check_undeliverable"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodDeclined                    V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_declined"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodDoesNotExist                V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_does_not_exist"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodExpired                     V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_expired"
@@ -136,7 +139,7 @@ const (
 // Delivery options for paper check.
 type V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheck struct {
 	// Memo printed on the memo field of the check.
-	Memo string `json:"memo,omitempty"`
+	Memo string `json:"memo"`
 	// Open Enum. Shipping speed of the paper check.
 	ShippingSpeed V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeed `json:"shipping_speed"`
 	// Signature for the paper check.
@@ -225,24 +228,6 @@ type V2MoneyManagementOutboundPaymentTraceID struct {
 	Value string `json:"value,omitempty"`
 }
 
-// Mailing address of the paper check.
-type V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckMailingAddress struct {
-	// City, district, suburb, town, or village.
-	City string `json:"city,omitempty"`
-	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
-	Country string `json:"country,omitempty"`
-	// Address line 1 (e.g., street, PO Box, or company name).
-	Line1 string `json:"line1,omitempty"`
-	// Address line 2 (e.g., apartment, suite, unit, or building).
-	Line2 string `json:"line2,omitempty"`
-	// ZIP or postal code.
-	PostalCode string `json:"postal_code,omitempty"`
-	// State, county, province, or region.
-	State string `json:"state,omitempty"`
-	// Town or district.
-	Town string `json:"town,omitempty"`
-}
-
 // Paper check tracking details.
 type V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheck struct {
 	// Open Enum. Carrier of the paper check.
@@ -252,7 +237,7 @@ type V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheck struct {
 	// Postal code of the latest tracking update.
 	CurrentPostalCode string `json:"current_postal_code"`
 	// Mailing address of the paper check.
-	MailingAddress *V2MoneyManagementOutboundPaymentTrackingDetailsPaperCheckMailingAddress `json:"mailing_address"`
+	MailingAddress *Address `json:"mailing_address"`
 	// Tracking number for the check.
 	TrackingNumber string `json:"tracking_number"`
 	// Open Enum. Tracking status of the paper check.

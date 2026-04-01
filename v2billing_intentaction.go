@@ -346,6 +346,8 @@ type V2BillingIntentActionApplyInvoiceDiscountRule struct {
 
 // The custom pricing unit amount.
 type V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmountCustomPricingUnit struct {
+	// The id of the custom pricing unit.
+	ID string `json:"id,omitempty"`
 	// The value of the custom pricing unit.
 	Value string `json:"value"`
 }

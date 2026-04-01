@@ -8,6 +8,14 @@ package stripe
 
 import "time"
 
+// The type of the `ReportRun` or `QueryRun` result.
+type V2ReportingReportRunResultType string
+
+// List of values that V2ReportingReportRunResultType can take
+const (
+	V2ReportingReportRunResultTypeFile V2ReportingReportRunResultType = "file"
+)
+
 // The content type of the file.
 type V2ReportingReportRunResultFileContentType string
 
@@ -15,14 +23,6 @@ type V2ReportingReportRunResultFileContentType string
 const (
 	V2ReportingReportRunResultFileContentTypeCsv V2ReportingReportRunResultFileContentType = "csv"
 	V2ReportingReportRunResultFileContentTypeZip V2ReportingReportRunResultFileContentType = "zip"
-)
-
-// The type of the `ReportRun` result.
-type V2ReportingReportRunResultType string
-
-// List of values that V2ReportingReportRunResultType can take
-const (
-	V2ReportingReportRunResultTypeFile V2ReportingReportRunResultType = "file"
 )
 
 // The current status of the `ReportRun`.
@@ -52,7 +52,7 @@ type V2ReportingReportRunResultFileDownloadURL struct {
 	URL string `json:"url"`
 }
 
-// Contains metadata about the file produced by the `ReportRun`, including
+// Contains metadata about the file produced by the `ReportRun` or `QueryRun`, including
 // its content type, size, and a URL to download its contents.
 type V2ReportingReportRunResultFile struct {
 	// The content type of the file.
@@ -65,17 +65,17 @@ type V2ReportingReportRunResultFile struct {
 
 // Details how to retrieve the results of a successfully completed `ReportRun`.
 type V2ReportingReportRunResult struct {
-	// Contains metadata about the file produced by the `ReportRun`, including
+	// Contains metadata about the file produced by the `ReportRun` or `QueryRun`, including
 	// its content type, size, and a URL to download its contents.
-	File *V2ReportingReportRunResultFile `json:"file"`
-	// The type of the `ReportRun` result.
+	File *V2ReportingReportRunResultFile `json:"file,omitempty"`
+	// The type of the `ReportRun` or `QueryRun` result.
 	Type V2ReportingReportRunResultType `json:"type"`
 }
 
 // The options specified for customizing the output file of the `ReportRun`.
 type V2ReportingReportRunResultOptions struct {
-	// If set, the generated report file will be compressed into a ZIP folder.
-	// This is useful for reducing file size and download time for large reports.
+	// If set, the generated results file will be compressed into a ZIP folder.
+	// This is useful for reducing file size and download time for large results.
 	CompressFile bool `json:"compress_file,omitempty"`
 }
 

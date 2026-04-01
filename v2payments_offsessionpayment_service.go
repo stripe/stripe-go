@@ -65,6 +65,30 @@ func (c v2PaymentsOffSessionPaymentService) Capture(ctx context.Context, id stri
 	return offsessionpayment, err
 }
 
+// Pauses an OffSessionPayment that has previously been created.
+func (c v2PaymentsOffSessionPaymentService) Pause(ctx context.Context, id string, params *V2PaymentsOffSessionPaymentPauseParams) (*V2PaymentsOffSessionPayment, error) {
+	if params == nil {
+		params = &V2PaymentsOffSessionPaymentPauseParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/payments/off_session_payments/%s/pause", id)
+	offsessionpayment := &V2PaymentsOffSessionPayment{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, offsessionpayment)
+	return offsessionpayment, err
+}
+
+// Resumes an OffSessionPayment that has previously been paused.
+func (c v2PaymentsOffSessionPaymentService) Resume(ctx context.Context, id string, params *V2PaymentsOffSessionPaymentResumeParams) (*V2PaymentsOffSessionPayment, error) {
+	if params == nil {
+		params = &V2PaymentsOffSessionPaymentResumeParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/payments/off_session_payments/%s/resume", id)
+	offsessionpayment := &V2PaymentsOffSessionPayment{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, offsessionpayment)
+	return offsessionpayment, err
+}
+
 // Returns a list of OffSessionPayments matching a filter.
 func (c v2PaymentsOffSessionPaymentService) List(ctx context.Context, listParams *V2PaymentsOffSessionPaymentListParams) *V2List[*V2PaymentsOffSessionPayment] {
 	if listParams == nil {

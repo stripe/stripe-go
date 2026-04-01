@@ -177,6 +177,7 @@ const (
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsWire             V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.wire"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCards                        V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "cards"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCryptoWalletsV2              V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "crypto_wallets_v2"
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityPaperChecks                  V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "paper_checks"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalancePayouts         V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.payouts"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalanceStripeTransfers V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.stripe_transfers"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeTransfers              V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe.transfers"
@@ -199,6 +200,7 @@ const (
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsCards              V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.cards"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsCryptoWallets      V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.crypto_wallets"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsFinancialAccounts  V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.financial_accounts"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsPaperChecks        V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.paper_checks"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersBankAccounts      V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.bank_accounts"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersCryptoWallets     V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.crypto_wallets"
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersFinancialAccounts V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.financial_accounts"
@@ -4327,9 +4329,176 @@ func (n *V2CoreHealthWebhookLatencyResolvedEventNotification) FetchEvent(ctx con
 	return evt.(*V2CoreHealthWebhookLatencyResolvedEvent), nil
 }
 
+// V2DataReportingQueryRunCreatedEvent is the Go struct for the "v2.data.reporting.query_run.created" event.
+// Occurs when a QueryRun is created.
+type V2DataReportingQueryRunCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataReportingQueryRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (e *V2DataReportingQueryRunCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataReportingQueryRunCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.data.reporting.query_run.created"
+// Occurs when a QueryRun is created.
+type V2DataReportingQueryRunCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataReportingQueryRunCreatedEvent that created this Notification
+func (n *V2DataReportingQueryRunCreatedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataReportingQueryRunCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (n *V2DataReportingQueryRunCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataReportingQueryRun{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2DataReportingQueryRunFailedEvent is the Go struct for the "v2.data.reporting.query_run.failed" event.
+// Occurs when a QueryRun has failed to complete.
+type V2DataReportingQueryRunFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataReportingQueryRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (e *V2DataReportingQueryRunFailedEvent) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataReportingQueryRunFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.data.reporting.query_run.failed"
+// Occurs when a QueryRun has failed to complete.
+type V2DataReportingQueryRunFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataReportingQueryRunFailedEvent that created this Notification
+func (n *V2DataReportingQueryRunFailedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunFailedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataReportingQueryRunFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (n *V2DataReportingQueryRunFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataReportingQueryRun{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2DataReportingQueryRunSucceededEvent is the Go struct for the "v2.data.reporting.query_run.succeeded" event.
+// Occurs when a QueryRun has successfully completed.
+type V2DataReportingQueryRunSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataReportingQueryRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (e *V2DataReportingQueryRunSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataReportingQueryRunSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.data.reporting.query_run.succeeded"
+// Occurs when a QueryRun has successfully completed.
+type V2DataReportingQueryRunSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataReportingQueryRunSucceededEvent that created this Notification
+func (n *V2DataReportingQueryRunSucceededEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunSucceededEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataReportingQueryRunSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (n *V2DataReportingQueryRunSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataReportingQueryRun{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2DataReportingQueryRunUpdatedEvent is the Go struct for the "v2.data.reporting.query_run.updated" event.
+// Occurs when a QueryRun is updated.
+type V2DataReportingQueryRunUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataReportingQueryRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (e *V2DataReportingQueryRunUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataReportingQueryRunUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.data.reporting.query_run.updated"
+// Occurs when a QueryRun is updated.
+type V2DataReportingQueryRunUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataReportingQueryRunUpdatedEvent that created this Notification
+func (n *V2DataReportingQueryRunUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunUpdatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataReportingQueryRunUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (n *V2DataReportingQueryRunUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataReportingQueryRun{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2IamAPIKeyCreatedEvent is the Go struct for the "v2.iam.api_key.created" event.
 // Occurs when an API Key is created.
-type V2IamAPIKeyCreatedEvent struct{ V2BaseEvent }
+type V2IamAPIKeyCreatedEvent struct {
+	V2BaseEvent
+	Data V2IamAPIKeyCreatedEventData `json:"data"`
+}
 
 // V2IamAPIKeyCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.api_key.created"
 // Occurs when an API Key is created.
@@ -4346,7 +4515,10 @@ func (n *V2IamAPIKeyCreatedEventNotification) FetchEvent(ctx context.Context) (*
 
 // V2IamAPIKeyDefaultSecretRevealedEvent is the Go struct for the "v2.iam.api_key.default_secret_revealed" event.
 // Occurs when the default API Key's secret is revealed.
-type V2IamAPIKeyDefaultSecretRevealedEvent struct{ V2BaseEvent }
+type V2IamAPIKeyDefaultSecretRevealedEvent struct {
+	V2BaseEvent
+	Data V2IamAPIKeyDefaultSecretRevealedEventData `json:"data"`
+}
 
 // V2IamAPIKeyDefaultSecretRevealedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.api_key.default_secret_revealed"
 // Occurs when the default API Key's secret is revealed.
@@ -4365,7 +4537,10 @@ func (n *V2IamAPIKeyDefaultSecretRevealedEventNotification) FetchEvent(ctx conte
 
 // V2IamAPIKeyExpiredEvent is the Go struct for the "v2.iam.api_key.expired" event.
 // Occurs when an API Key is expired.
-type V2IamAPIKeyExpiredEvent struct{ V2BaseEvent }
+type V2IamAPIKeyExpiredEvent struct {
+	V2BaseEvent
+	Data V2IamAPIKeyExpiredEventData `json:"data"`
+}
 
 // V2IamAPIKeyExpiredEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.api_key.expired"
 // Occurs when an API Key is expired.
@@ -4382,7 +4557,10 @@ func (n *V2IamAPIKeyExpiredEventNotification) FetchEvent(ctx context.Context) (*
 
 // V2IamAPIKeyPermissionsUpdatedEvent is the Go struct for the "v2.iam.api_key.permissions_updated" event.
 // Occurs when an API Key's permissions are updated.
-type V2IamAPIKeyPermissionsUpdatedEvent struct{ V2BaseEvent }
+type V2IamAPIKeyPermissionsUpdatedEvent struct {
+	V2BaseEvent
+	Data V2IamAPIKeyPermissionsUpdatedEventData `json:"data"`
+}
 
 // V2IamAPIKeyPermissionsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.api_key.permissions_updated"
 // Occurs when an API Key's permissions are updated.
@@ -4421,7 +4599,10 @@ func (n *V2IamAPIKeyRotatedEventNotification) FetchEvent(ctx context.Context) (*
 
 // V2IamAPIKeyUpdatedEvent is the Go struct for the "v2.iam.api_key.updated" event.
 // Occurs when an API Key is updated.
-type V2IamAPIKeyUpdatedEvent struct{ V2BaseEvent }
+type V2IamAPIKeyUpdatedEvent struct {
+	V2BaseEvent
+	Data V2IamAPIKeyUpdatedEventData `json:"data"`
+}
 
 // V2IamAPIKeyUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.api_key.updated"
 // Occurs when an API Key is updated.
@@ -4438,7 +4619,10 @@ func (n *V2IamAPIKeyUpdatedEventNotification) FetchEvent(ctx context.Context) (*
 
 // V2IamStripeAccessGrantApprovedEvent is the Go struct for the "v2.iam.stripe_access_grant.approved" event.
 // Occurs when a Stripe Access Grant is approved.
-type V2IamStripeAccessGrantApprovedEvent struct{ V2BaseEvent }
+type V2IamStripeAccessGrantApprovedEvent struct {
+	V2BaseEvent
+	Data V2IamStripeAccessGrantApprovedEventData `json:"data"`
+}
 
 // V2IamStripeAccessGrantApprovedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.stripe_access_grant.approved"
 // Occurs when a Stripe Access Grant is approved.
@@ -4457,7 +4641,10 @@ func (n *V2IamStripeAccessGrantApprovedEventNotification) FetchEvent(ctx context
 
 // V2IamStripeAccessGrantCanceledEvent is the Go struct for the "v2.iam.stripe_access_grant.canceled" event.
 // Occurs when a Stripe Access Grant is canceled by the requesting Stripe.
-type V2IamStripeAccessGrantCanceledEvent struct{ V2BaseEvent }
+type V2IamStripeAccessGrantCanceledEvent struct {
+	V2BaseEvent
+	Data V2IamStripeAccessGrantCanceledEventData `json:"data"`
+}
 
 // V2IamStripeAccessGrantCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.stripe_access_grant.canceled"
 // Occurs when a Stripe Access Grant is canceled by the requesting Stripe.
@@ -4476,7 +4663,10 @@ func (n *V2IamStripeAccessGrantCanceledEventNotification) FetchEvent(ctx context
 
 // V2IamStripeAccessGrantDeniedEvent is the Go struct for the "v2.iam.stripe_access_grant.denied" event.
 // Occurs when a Stripe Access Grant is denied (was pending, then denied by the customer).
-type V2IamStripeAccessGrantDeniedEvent struct{ V2BaseEvent }
+type V2IamStripeAccessGrantDeniedEvent struct {
+	V2BaseEvent
+	Data V2IamStripeAccessGrantDeniedEventData `json:"data"`
+}
 
 // V2IamStripeAccessGrantDeniedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.stripe_access_grant.denied"
 // Occurs when a Stripe Access Grant is denied (was pending, then denied by the customer).
@@ -4495,7 +4685,10 @@ func (n *V2IamStripeAccessGrantDeniedEventNotification) FetchEvent(ctx context.C
 
 // V2IamStripeAccessGrantRemovedEvent is the Go struct for the "v2.iam.stripe_access_grant.removed" event.
 // Occurs when a Stripe Access Grant is removed (was approved, and then removed by the customer).
-type V2IamStripeAccessGrantRemovedEvent struct{ V2BaseEvent }
+type V2IamStripeAccessGrantRemovedEvent struct {
+	V2BaseEvent
+	Data V2IamStripeAccessGrantRemovedEventData `json:"data"`
+}
 
 // V2IamStripeAccessGrantRemovedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.stripe_access_grant.removed"
 // Occurs when a Stripe Access Grant is removed (was approved, and then removed by the customer).
@@ -4514,7 +4707,10 @@ func (n *V2IamStripeAccessGrantRemovedEventNotification) FetchEvent(ctx context.
 
 // V2IamStripeAccessGrantRequestedEvent is the Go struct for the "v2.iam.stripe_access_grant.requested" event.
 // Occurs when a Stripe Access Grant is requested.
-type V2IamStripeAccessGrantRequestedEvent struct{ V2BaseEvent }
+type V2IamStripeAccessGrantRequestedEvent struct {
+	V2BaseEvent
+	Data V2IamStripeAccessGrantRequestedEventData `json:"data"`
+}
 
 // V2IamStripeAccessGrantRequestedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.stripe_access_grant.requested"
 // Occurs when a Stripe Access Grant is requested.
@@ -4533,7 +4729,10 @@ func (n *V2IamStripeAccessGrantRequestedEventNotification) FetchEvent(ctx contex
 
 // V2IamStripeAccessGrantUpdatedEvent is the Go struct for the "v2.iam.stripe_access_grant.updated" event.
 // Occurs when a Stripe Access Grant is updated.
-type V2IamStripeAccessGrantUpdatedEvent struct{ V2BaseEvent }
+type V2IamStripeAccessGrantUpdatedEvent struct {
+	V2BaseEvent
+	Data V2IamStripeAccessGrantUpdatedEventData `json:"data"`
+}
 
 // V2IamStripeAccessGrantUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.iam.stripe_access_grant.updated"
 // Occurs when a Stripe Access Grant is updated.
@@ -6406,6 +6605,47 @@ func (n *V2PaymentsOffSessionPaymentFailedEventNotification) FetchRelatedObject(
 	return relatedObj, err
 }
 
+// V2PaymentsOffSessionPaymentPausedEvent is the Go struct for the "v2.payments.off_session_payment.paused" event.
+// Sent immediately following a user's call to the Off-Session Payments pause endpoint.
+type V2PaymentsOffSessionPaymentPausedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (e *V2PaymentsOffSessionPaymentPausedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentPausedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.paused"
+// Sent immediately following a user's call to the Off-Session Payments pause endpoint.
+type V2PaymentsOffSessionPaymentPausedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsOffSessionPaymentPausedEvent that created this Notification
+func (n *V2PaymentsOffSessionPaymentPausedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentPausedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsOffSessionPaymentPausedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (n *V2PaymentsOffSessionPaymentPausedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2PaymentsOffSessionPayment{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2PaymentsOffSessionPaymentRequiresCaptureEvent is the Go struct for the "v2.payments.off_session_payment.requires_capture" event.
 // Sent when the off-session payment becomes available for capture.
 type V2PaymentsOffSessionPaymentRequiresCaptureEvent struct {
@@ -6437,6 +6677,47 @@ func (n *V2PaymentsOffSessionPaymentRequiresCaptureEventNotification) FetchEvent
 
 // FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
 func (n *V2PaymentsOffSessionPaymentRequiresCaptureEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2PaymentsOffSessionPayment{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2PaymentsOffSessionPaymentResumedEvent is the Go struct for the "v2.payments.off_session_payment.resumed" event.
+// Sent immediately following a user's call to the Off-Session Payments resume endpoint.
+type V2PaymentsOffSessionPaymentResumedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (e *V2PaymentsOffSessionPaymentResumedEvent) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentResumedEventNotification is the webhook payload you'll get when handling an event with type "v2.payments.off_session_payment.resumed"
+// Sent immediately following a user's call to the Off-Session Payments resume endpoint.
+type V2PaymentsOffSessionPaymentResumedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2PaymentsOffSessionPaymentResumedEvent that created this Notification
+func (n *V2PaymentsOffSessionPaymentResumedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentResumedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2PaymentsOffSessionPaymentResumedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2PaymentsOffSessionPayment related to the event.
+func (n *V2PaymentsOffSessionPaymentResumedEventNotification) FetchRelatedObject(ctx context.Context) (*V2PaymentsOffSessionPayment, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -7442,6 +7723,8 @@ type V2CoreHealthAPIErrorResolvedEventDataImpact struct {
 
 // Occurs when an API error alert is resolved.
 type V2CoreHealthAPIErrorResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -7522,6 +7805,8 @@ type V2CoreHealthAPILatencyResolvedEventDataImpact struct {
 
 // Occurs when an API latency alert is resolved.
 type V2CoreHealthAPILatencyResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -7594,6 +7879,8 @@ type V2CoreHealthAuthorizationRateDropResolvedEventDataImpact struct {
 
 // Occurs when an authorization rate drop alert is resolved.
 type V2CoreHealthAuthorizationRateDropResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -7680,6 +7967,8 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventDataImpact struct {
 
 // Occurs when an issuing authorization request errors alert is firing.
 type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -7704,6 +7993,8 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventDataImpact struct
 
 // Occurs when an issuing authorization request errors alert is resolved.
 type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -7756,6 +8047,8 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventDataImpact struc
 
 // Occurs when an issuing authorization request timeout alert is resolved.
 type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -7832,6 +8125,8 @@ type V2CoreHealthPaymentMethodErrorResolvedEventDataImpact struct {
 
 // Occurs when a payment method error alert is resolved.
 type V2CoreHealthPaymentMethodErrorResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -7854,6 +8149,8 @@ type V2CoreHealthSEPADebitDelayedFiringEventDataImpact struct {
 
 // Occurs when a SEPA debit delayed alert is firing.
 type V2CoreHealthSEPADebitDelayedFiringEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -7874,6 +8171,8 @@ type V2CoreHealthSEPADebitDelayedResolvedEventDataImpact struct {
 
 // Occurs when a SEPA debit delayed alert is resolved.
 type V2CoreHealthSEPADebitDelayedResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -7922,6 +8221,8 @@ type V2CoreHealthTrafficVolumeDropResolvedEventDataImpact struct {
 
 // Occurs when a traffic volume drop alert is resolved.
 type V2CoreHealthTrafficVolumeDropResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -7962,6 +8263,8 @@ type V2CoreHealthWebhookLatencyResolvedEventDataImpact struct {
 
 // Occurs when a webhook latency alert is resolved.
 type V2CoreHealthWebhookLatencyResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
 	// The grouping key for the alert.
 	GroupingKey string `json:"grouping_key"`
 	// The user impact.
@@ -7974,10 +8277,78 @@ type V2CoreHealthWebhookLatencyResolvedEventData struct {
 	Summary string `json:"summary"`
 }
 
+// Occurs when an API Key is created.
+type V2IamAPIKeyCreatedEventData struct {
+	// ID of the created key.
+	APIKey string `json:"api_key"`
+}
+
+// Occurs when the default API Key's secret is revealed.
+type V2IamAPIKeyDefaultSecretRevealedEventData struct {
+	// ID of the default key whose secret was revealed.
+	APIKey string `json:"api_key"`
+}
+
+// Occurs when an API Key is expired.
+type V2IamAPIKeyExpiredEventData struct {
+	// ID of the expired key.
+	APIKey string `json:"api_key"`
+}
+
+// Occurs when an API Key's permissions are updated.
+type V2IamAPIKeyPermissionsUpdatedEventData struct {
+	// ID of the key whose permissions were updated.
+	APIKey string `json:"api_key"`
+}
+
 // Occurs when an API Key is rotated.
 type V2IamAPIKeyRotatedEventData struct {
+	// ID of the old key that was rotated.
+	APIKey string `json:"api_key"`
 	// ID of the new key that was created due to rotation.
 	NewAPIKey string `json:"new_api_key"`
+}
+
+// Occurs when an API Key is updated.
+type V2IamAPIKeyUpdatedEventData struct {
+	// ID of the updated key.
+	APIKey string `json:"api_key"`
+}
+
+// Occurs when a Stripe Access Grant is approved.
+type V2IamStripeAccessGrantApprovedEventData struct {
+	// ID of approved Stripe Access Grant.
+	StripeAccessGrant string `json:"stripe_access_grant"`
+}
+
+// Occurs when a Stripe Access Grant is canceled by the requesting Stripe.
+type V2IamStripeAccessGrantCanceledEventData struct {
+	// ID of canceled Stripe Access Grant.
+	StripeAccessGrant string `json:"stripe_access_grant"`
+}
+
+// Occurs when a Stripe Access Grant is denied (was pending, then denied by the customer).
+type V2IamStripeAccessGrantDeniedEventData struct {
+	// ID of denied Stripe Access Grant.
+	StripeAccessGrant string `json:"stripe_access_grant"`
+}
+
+// Occurs when a Stripe Access Grant is removed (was approved, and then removed by the customer).
+type V2IamStripeAccessGrantRemovedEventData struct {
+	// ID of removed Stripe Access Grant.
+	StripeAccessGrant string `json:"stripe_access_grant"`
+}
+
+// Occurs when a Stripe Access Grant is requested.
+type V2IamStripeAccessGrantRequestedEventData struct {
+	// ID of requested Stripe Access Grant.
+	StripeAccessGrant string `json:"stripe_access_grant"`
+}
+
+// Occurs when a Stripe Access Grant is updated.
+type V2IamStripeAccessGrantUpdatedEventData struct {
+	// ID of updated Stripe Access Grant.
+	StripeAccessGrant string `json:"stripe_access_grant"`
 }
 
 // Occurs when an InboundTransfer's funds are made available.
@@ -9420,21 +9791,93 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return nil, err
 		}
 		return result, nil
+	case "v2.data.reporting.query_run.created":
+		result := &V2DataReportingQueryRunCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataReportingQueryRun, error) {
+			v := &V2DataReportingQueryRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.data.reporting.query_run.failed":
+		result := &V2DataReportingQueryRunFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataReportingQueryRun, error) {
+			v := &V2DataReportingQueryRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.data.reporting.query_run.succeeded":
+		result := &V2DataReportingQueryRunSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataReportingQueryRun, error) {
+			v := &V2DataReportingQueryRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.data.reporting.query_run.updated":
+		result := &V2DataReportingQueryRunUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataReportingQueryRun, error) {
+			v := &V2DataReportingQueryRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.iam.api_key.created":
 		result := &V2IamAPIKeyCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.iam.api_key.default_secret_revealed":
 		result := &V2IamAPIKeyDefaultSecretRevealedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.iam.api_key.expired":
 		result := &V2IamAPIKeyExpiredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.iam.api_key.permissions_updated":
 		result := &V2IamAPIKeyPermissionsUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.iam.api_key.rotated":
 		result := &V2IamAPIKeyRotatedEvent{}
@@ -9446,30 +9889,51 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 	case "v2.iam.api_key.updated":
 		result := &V2IamAPIKeyUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.iam.stripe_access_grant.approved":
 		result := &V2IamStripeAccessGrantApprovedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.iam.stripe_access_grant.canceled":
 		result := &V2IamStripeAccessGrantCanceledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.iam.stripe_access_grant.denied":
 		result := &V2IamStripeAccessGrantDeniedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.iam.stripe_access_grant.removed":
 		result := &V2IamStripeAccessGrantRemovedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.iam.stripe_access_grant.requested":
 		result := &V2IamStripeAccessGrantRequestedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.iam.stripe_access_grant.updated":
 		result := &V2IamStripeAccessGrantUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.money_management.adjustment.created":
 		result := &V2MoneyManagementAdjustmentCreatedEvent{}
@@ -10155,8 +10619,38 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.payments.off_session_payment.paused":
+		result := &V2PaymentsOffSessionPaymentPausedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.payments.off_session_payment.requires_capture":
 		result := &V2PaymentsOffSessionPaymentRequiresCaptureEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.resumed":
+		result := &V2PaymentsOffSessionPaymentResumedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
@@ -11139,6 +11633,34 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.data.reporting.query_run.created":
+		evt := V2DataReportingQueryRunCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.reporting.query_run.failed":
+		evt := V2DataReportingQueryRunFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.reporting.query_run.succeeded":
+		evt := V2DataReportingQueryRunSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.reporting.query_run.updated":
+		evt := V2DataReportingQueryRunUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.iam.api_key.created":
 		evt := V2IamAPIKeyCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -11538,8 +12060,22 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.payments.off_session_payment.paused":
+		evt := V2PaymentsOffSessionPaymentPausedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.payments.off_session_payment.requires_capture":
 		evt := V2PaymentsOffSessionPaymentRequiresCaptureEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.payments.off_session_payment.resumed":
+		evt := V2PaymentsOffSessionPaymentResumedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

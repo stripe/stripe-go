@@ -23,6 +23,12 @@ type BillingMeterEventSummaryListParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The timestamp from when to start aggregating meter events (inclusive). Must be aligned with minute boundaries.
 	StartTime *int64 `form:"start_time" json:"start_time"`
+	// List of tenant payload keys to filter on. Must be used together with tenant_operator and tenant_values. Cannot be used with tenant_filters.
+	TenantKeys []*string `form:"tenant_keys" json:"tenant_keys,omitempty"`
+	// The operator to apply when filtering by tenant values. Must be used together with tenant_keys and tenant_values. Cannot be used with tenant_filters.
+	TenantOperator *string `form:"tenant_operator" json:"tenant_operator,omitempty"`
+	// List of value lists corresponding to each key in tenant_keys. Each element contains the values to filter on for the corresponding tenant key. Must be used together with tenant_operator and tenant_keys. Cannot be used with tenant_filters.
+	TenantValues []*[]*string `form:"tenant_values" json:"tenant_values,omitempty"`
 	// Specifies what granularity to use when generating event summaries. If not specified, a single event summary would be returned for the specified time range. For hourly granularity, start and end times must align with hour boundaries (e.g., 00:00, 01:00, ..., 23:00). For daily granularity, start and end times must align with UTC day boundaries (00:00 UTC).
 	ValueGroupingWindow *string `form:"value_grouping_window" json:"value_grouping_window,omitempty"`
 }
