@@ -57,8 +57,9 @@ type testStruct struct {
 
 	Map map[string]interface{} `form:"map"`
 
-	Slice    []string  `form:"slice"`
-	SlicePtr *[]string `form:"slice_ptr"`
+	Slice    []string   `form:"slice"`
+	Slice2D  [][]string `form:"slice2d"`
+	SlicePtr *[]string  `form:"slice_ptr"`
 
 	String    string  `form:"string"`
 	StringPtr *string `form:"string_ptr"`
@@ -280,6 +281,12 @@ func TestAppendTo(t *testing.T) {
 		{"slice[2]", &testStruct{Slice: sliceVal}, stringPtr("3")},
 		{"slice", &testStruct{Slice: []string{}}, stringPtr("")},
 		{"slice", &testStruct{Slice: nil}, nil},
+
+		// 2D slice
+		{"slice2d[0][0]", &testStruct{Slice2D: [][]string{{"a", "b"}, {"c"}}}, stringPtr("a")},
+		{"slice2d[0][1]", &testStruct{Slice2D: [][]string{{"a", "b"}, {"c"}}}, stringPtr("b")},
+		{"slice2d[1][0]", &testStruct{Slice2D: [][]string{{"a", "b"}, {"c"}}}, stringPtr("c")},
+		{"slice2d", &testStruct{Slice2D: nil}, nil},
 
 		{"slice_ptr[2]", &testStruct{SlicePtr: &sliceVal}, stringPtr("3")},
 
