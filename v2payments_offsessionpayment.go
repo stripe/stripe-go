@@ -118,6 +118,8 @@ type V2PaymentsOffSessionPayment struct {
 	AmountCapturable Amount `json:"amount_capturable,omitempty"`
 	// The “presentment amount” to be collected from the customer.
 	AmountRequested Amount `json:"amount_requested"`
+	// The amount of the application fee requested to be applied to the payment.
+	ApplicationFeeAmountRequested Amount `json:"application_fee_amount_requested,omitempty"`
 	// The frequency of the underlying payment.
 	Cadence V2PaymentsOffSessionPaymentCadence `json:"cadence"`
 	// Details about the capture configuration for the OffSessionPayment.

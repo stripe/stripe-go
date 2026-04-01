@@ -42,6 +42,9 @@ type V2CoreEventReasonRequestClientDashboardUser struct {
 	MachineIdentifier string `json:"machine_identifier"`
 }
 
+// Stripe action that triggered the event.
+type V2CoreEventReasonRequestClientStripeAction struct{}
+
 // The client details that made the request.
 type V2CoreEventReasonRequestClient struct {
 	// API key that triggered the event.
@@ -49,7 +52,7 @@ type V2CoreEventReasonRequestClient struct {
 	// Dashboard user that triggered the event.
 	DashboardUser *V2CoreEventReasonRequestClientDashboardUser `json:"dashboard_user,omitempty"`
 	// Stripe action that triggered the event.
-	StripeAction map[string]any `json:"stripe_action,omitempty"`
+	StripeAction *V2CoreEventReasonRequestClientStripeAction `json:"stripe_action,omitempty"`
 	// The type of the client.
 	Type V2CoreEventReasonRequestClientType `json:"type"`
 }

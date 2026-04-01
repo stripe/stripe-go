@@ -26,6 +26,8 @@ const (
 
 // The custom pricing unit amount. Present if type is `custom_pricing_unit`.
 type V2BillingCadenceSpendModifierMaxBillingPeriodSpendAmountCustomPricingUnit struct {
+	// The id of the custom pricing unit.
+	ID string `json:"id,omitempty"`
 	// The decimal value of custom pricing units, represented as a string.
 	Value string `json:"value"`
 }
