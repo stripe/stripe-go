@@ -139,6 +139,8 @@ type DelegatedCheckoutRequestedSessionParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payment method for this requested session.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
+	// The payment method options for this requested session.
+	PaymentMethodOptions *DelegatedCheckoutRequestedSessionPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The details of the seller.
 	SellerDetails *DelegatedCheckoutRequestedSessionSellerDetailsParams `form:"seller_details" json:"seller_details,omitempty"`
 	// The setup future usage for this requested session.
@@ -245,6 +247,20 @@ type DelegatedCheckoutRequestedSessionLineItemDetailParams struct {
 	Quantity *int64 `form:"quantity" json:"quantity"`
 	// The SKU ID of the line item.
 	SKUID *string `form:"sku_id" json:"sku_id,omitempty"`
+}
+
+// Card-specific payment method options.
+type DelegatedCheckoutRequestedSessionPaymentMethodOptionsCardParams struct {
+	// The card brands to exclude from the session.
+	BrandsBlocked []*string `form:"brands_blocked" json:"brands_blocked,omitempty"`
+}
+
+// The payment method options for this requested session.
+type DelegatedCheckoutRequestedSessionPaymentMethodOptionsParams struct {
+	// Card-specific payment method options.
+	Card *DelegatedCheckoutRequestedSessionPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
+	// The payment method types to exclude from the session.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types" json:"excluded_payment_method_types,omitempty"`
 }
 
 // Context about where the attribution originated.
@@ -457,6 +473,20 @@ type DelegatedCheckoutRequestedSessionUpdateLineItemDetailParams struct {
 	Quantity *int64 `form:"quantity" json:"quantity"`
 }
 
+// Card-specific payment method options.
+type DelegatedCheckoutRequestedSessionUpdatePaymentMethodOptionsCardParams struct {
+	// The card brands to exclude from the session.
+	BrandsBlocked []*string `form:"brands_blocked" json:"brands_blocked,omitempty"`
+}
+
+// The payment method options for this requested session.
+type DelegatedCheckoutRequestedSessionUpdatePaymentMethodOptionsParams struct {
+	// Card-specific payment method options.
+	Card *DelegatedCheckoutRequestedSessionUpdatePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
+	// The payment method types to exclude from the session.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types" json:"excluded_payment_method_types,omitempty"`
+}
+
 // Updates a requested session
 type DelegatedCheckoutRequestedSessionUpdateParams struct {
 	Params `form:"*"`
@@ -470,6 +500,8 @@ type DelegatedCheckoutRequestedSessionUpdateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payment method for this requested session.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
+	// The payment method options for this requested session.
+	PaymentMethodOptions *DelegatedCheckoutRequestedSessionUpdatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The shared metadata for this requested session.
 	SharedMetadata map[string]string                                         `form:"shared_metadata" json:"shared_metadata,omitempty"`
 	UnsetFields    []DelegatedCheckoutRequestedSessionUpdateParamsUnsetField `form:"-" json:"-"`
@@ -564,6 +596,20 @@ type DelegatedCheckoutRequestedSessionCreateSellerDetailsParams struct {
 	NetworkProfile *string `form:"network_profile" json:"network_profile"`
 }
 
+// Card-specific payment method options.
+type DelegatedCheckoutRequestedSessionCreatePaymentMethodOptionsCardParams struct {
+	// The card brands to exclude from the session.
+	BrandsBlocked []*string `form:"brands_blocked" json:"brands_blocked,omitempty"`
+}
+
+// The payment method options for this requested session.
+type DelegatedCheckoutRequestedSessionCreatePaymentMethodOptionsParams struct {
+	// Card-specific payment method options.
+	Card *DelegatedCheckoutRequestedSessionCreatePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
+	// The payment method types to exclude from the session.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types" json:"excluded_payment_method_types,omitempty"`
+}
+
 // Creates a requested session
 type DelegatedCheckoutRequestedSessionCreateParams struct {
 	Params `form:"*"`
@@ -583,6 +629,8 @@ type DelegatedCheckoutRequestedSessionCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The payment method for this requested session.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
+	// The payment method options for this requested session.
+	PaymentMethodOptions *DelegatedCheckoutRequestedSessionCreatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The details of the seller.
 	SellerDetails *DelegatedCheckoutRequestedSessionCreateSellerDetailsParams `form:"seller_details" json:"seller_details"`
 	// The setup future usage for this requested session.
