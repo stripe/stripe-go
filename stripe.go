@@ -1948,7 +1948,7 @@ func AddBetaVersion(betaName string, betaVersion string) error {
 //
 
 // clientversion is the binding version
-const clientversion = "85.1.0-alpha.1"
+const clientversion = "85.1.0-alpha.2"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and
