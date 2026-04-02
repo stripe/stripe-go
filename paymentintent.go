@@ -1866,10 +1866,20 @@ type PaymentIntentAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// Fleet data for this line item.
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -2925,6 +2935,44 @@ type PaymentIntentPaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentPaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentPaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentPaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentPaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentPaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
 type PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams struct{}
 
@@ -2963,6 +3011,8 @@ type PaymentIntentPaymentDetailsParams struct {
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentPaymentDetailsEventDetailsParams `form:"event_details" json:"event_details,omitempty"`
+	// Fleet data for this PaymentIntent.
+	FleetData []*PaymentIntentPaymentDetailsFleetDatumParams `form:"fleet_data" json:"fleet_data,omitempty"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentPaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
@@ -2991,6 +3041,7 @@ const (
 	PaymentIntentPaymentDetailsParamsUnsetFieldFlightData        PaymentIntentPaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentPaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentPaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentPaymentDetailsParamsUnsetFieldFleetData         PaymentIntentPaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentPaymentDetailsParamsUnsetField = "money_services"
 )
 
@@ -6070,10 +6121,20 @@ func (p *PaymentIntentCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Fleet data for this line item.
+type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -7065,6 +7126,44 @@ type PaymentIntentCapturePaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentCapturePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentCapturePaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentCapturePaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentCapturePaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentCapturePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentCapturePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentCapturePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
 type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams struct{}
 
@@ -7101,6 +7200,8 @@ type PaymentIntentCapturePaymentDetailsParams struct {
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentCapturePaymentDetailsEventDetailsParams `form:"event_details" json:"event_details,omitempty"`
+	// Fleet data for this PaymentIntent.
+	FleetData []*PaymentIntentCapturePaymentDetailsFleetDatumParams `form:"fleet_data" json:"fleet_data,omitempty"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentCapturePaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
@@ -7129,6 +7230,7 @@ const (
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentCapturePaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentCapturePaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCapturePaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentCapturePaymentDetailsParamsUnsetFieldFleetData         PaymentIntentCapturePaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentCapturePaymentDetailsParamsUnsetField = "money_services"
 )
 
@@ -7205,10 +7307,20 @@ type PaymentIntentConfirmAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// Fleet data for this line item.
+type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -8225,6 +8337,44 @@ type PaymentIntentConfirmPaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentConfirmPaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentConfirmPaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentConfirmPaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentConfirmPaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentConfirmPaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentConfirmPaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentConfirmPaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
 type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams struct{}
 
@@ -8263,6 +8413,8 @@ type PaymentIntentConfirmPaymentDetailsParams struct {
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentConfirmPaymentDetailsEventDetailsParams `form:"event_details" json:"event_details,omitempty"`
+	// Fleet data for this PaymentIntent.
+	FleetData []*PaymentIntentConfirmPaymentDetailsFleetDatumParams `form:"fleet_data" json:"fleet_data,omitempty"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentConfirmPaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
@@ -8291,6 +8443,7 @@ const (
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldFlightData        PaymentIntentConfirmPaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentConfirmPaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentConfirmPaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldFleetData         PaymentIntentConfirmPaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentConfirmPaymentDetailsParamsUnsetField = "money_services"
 )
 
@@ -8427,10 +8580,20 @@ func (p *PaymentIntentConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Fleet data for this line item.
+type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -8716,10 +8879,20 @@ func (p *PaymentIntentDecrementAuthorizationParams) AddMetadata(key string, valu
 	p.Metadata[key] = value
 }
 
+// Fleet data for this line item.
+type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -9105,10 +9278,20 @@ type PaymentIntentCreateAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// Fleet data for this line item.
+type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -10164,6 +10347,44 @@ type PaymentIntentCreatePaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentCreatePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentCreatePaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentCreatePaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentCreatePaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentCreatePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentCreatePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentCreatePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
 type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams struct{}
 
@@ -10202,6 +10423,8 @@ type PaymentIntentCreatePaymentDetailsParams struct {
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentCreatePaymentDetailsEventDetailsParams `form:"event_details" json:"event_details,omitempty"`
+	// Fleet data for this PaymentIntent.
+	FleetData []*PaymentIntentCreatePaymentDetailsFleetDatumParams `form:"fleet_data" json:"fleet_data,omitempty"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentCreatePaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
@@ -10230,6 +10453,7 @@ const (
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentCreatePaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentCreatePaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCreatePaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentCreatePaymentDetailsParamsUnsetFieldFleetData         PaymentIntentCreatePaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentCreatePaymentDetailsParamsUnsetField = "money_services"
 )
 
@@ -13266,10 +13490,20 @@ type PaymentIntentUpdateAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// Fleet data for this line item.
+type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -14308,6 +14542,44 @@ type PaymentIntentUpdatePaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentUpdatePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentUpdatePaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentUpdatePaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentUpdatePaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentUpdatePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentUpdatePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentUpdatePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
 type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams struct{}
 
@@ -14346,6 +14618,8 @@ type PaymentIntentUpdatePaymentDetailsParams struct {
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentUpdatePaymentDetailsEventDetailsParams `form:"event_details" json:"event_details,omitempty"`
+	// Fleet data for this PaymentIntent.
+	FleetData []*PaymentIntentUpdatePaymentDetailsFleetDatumParams `form:"fleet_data" json:"fleet_data,omitempty"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentUpdatePaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
@@ -14374,6 +14648,7 @@ const (
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentUpdatePaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentUpdatePaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentUpdatePaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldFleetData         PaymentIntentUpdatePaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentUpdatePaymentDetailsParamsUnsetField = "money_services"
 )
 
@@ -18385,6 +18660,34 @@ type PaymentIntentPaymentDetailsSubscription struct {
 	// Subscription start time. Measured in seconds since the Unix epoch.
 	StartsAt int64 `json:"starts_at,omitempty"`
 }
+type PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFields struct {
+	// The fuel brand.
+	Brand string `json:"brand,omitempty"`
+}
+type PaymentIntentPaymentDetailsFleetDatumStation struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo string `json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber string `json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode string `json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber     string   `json:"phone_number,omitempty"`
+	ServiceLocation *Address `json:"service_location,omitempty"`
+	// The URL of the station.
+	URL string `json:"url,omitempty"`
+}
+type PaymentIntentPaymentDetailsFleetDatumVAT struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator string `json:"iob_indicator,omitempty"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentPaymentDetailsFleetDatum struct {
+	PrimaryFuelFields *PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFields `json:"primary_fuel_fields,omitempty"`
+	Station           *PaymentIntentPaymentDetailsFleetDatumStation           `json:"station,omitempty"`
+	VAT               *PaymentIntentPaymentDetailsFleetDatumVAT               `json:"vat,omitempty"`
+}
 type PaymentIntentPaymentDetails struct {
 	Benefit       *PaymentIntentPaymentDetailsBenefit          `json:"benefit,omitempty"`
 	CarRental     *PaymentIntentPaymentDetailsCarRental        `json:"car_rental,omitempty"`
@@ -18392,10 +18695,12 @@ type PaymentIntentPaymentDetails struct {
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
-	CustomerReference string                                     `json:"customer_reference"`
-	EventDetails      *PaymentIntentPaymentDetailsEventDetails   `json:"event_details,omitempty"`
-	FlightData        []*PaymentIntentPaymentDetailsFlightDatum  `json:"flight_data,omitempty"`
-	LodgingData       []*PaymentIntentPaymentDetailsLodgingDatum `json:"lodging_data,omitempty"`
+	CustomerReference string                                   `json:"customer_reference"`
+	EventDetails      *PaymentIntentPaymentDetailsEventDetails `json:"event_details,omitempty"`
+	// Fleet data for this PaymentIntent.
+	FleetData   []*PaymentIntentPaymentDetailsFleetDatum   `json:"fleet_data,omitempty"`
+	FlightData  []*PaymentIntentPaymentDetailsFlightDatum  `json:"flight_data,omitempty"`
+	LodgingData []*PaymentIntentPaymentDetailsLodgingDatum `json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.

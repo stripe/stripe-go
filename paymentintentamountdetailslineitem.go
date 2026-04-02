@@ -29,8 +29,15 @@ func (p *PaymentIntentAmountDetailsLineItemListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetData struct {
+	// The type of product being purchased at this line item.
+	ProductType string `json:"product_type,omitempty"`
+	// The type of service received at the acceptor location.
+	ServiceType string `json:"service_type,omitempty"`
+}
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCard struct {
-	CommodityCode string `json:"commodity_code"`
+	CommodityCode string                                                               `json:"commodity_code"`
+	FleetData     *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetData `json:"fleet_data,omitempty"`
 }
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresent struct {
 	CommodityCode string `json:"commodity_code"`
