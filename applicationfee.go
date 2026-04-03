@@ -73,6 +73,8 @@ func (p *ApplicationFeeRetrieveParams) AddExpand(f string) {
 type ApplicationFeeFeeSource struct {
 	// Charge ID that created this application fee.
 	Charge string `json:"charge,omitempty"`
+	// PaymentRecord ID that created this application fee.
+	PaymentRecord string `json:"payment_record,omitempty"`
 	// Payout ID that created this application fee.
 	Payout string `json:"payout,omitempty"`
 	// Transfer ID that created this application fee.
