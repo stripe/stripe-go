@@ -6,6 +6,18 @@
 
 package stripe
 
+// Pasted fields from the checkout flow.
+type RadarPaymentEvaluationClientDeviceMetadataDetailsDataPastedField string
+
+// List of values that RadarPaymentEvaluationClientDeviceMetadataDetailsDataPastedField can take
+const (
+	RadarPaymentEvaluationClientDeviceMetadataDetailsDataPastedFieldCVC    RadarPaymentEvaluationClientDeviceMetadataDetailsDataPastedField = "cvc"
+	RadarPaymentEvaluationClientDeviceMetadataDetailsDataPastedFieldExp    RadarPaymentEvaluationClientDeviceMetadataDetailsDataPastedField = "exp"
+	RadarPaymentEvaluationClientDeviceMetadataDetailsDataPastedFieldNumber RadarPaymentEvaluationClientDeviceMetadataDetailsDataPastedField = "number"
+	RadarPaymentEvaluationClientDeviceMetadataDetailsDataPastedFieldOther  RadarPaymentEvaluationClientDeviceMetadataDetailsDataPastedField = "other"
+	RadarPaymentEvaluationClientDeviceMetadataDetailsDataPastedFieldZip    RadarPaymentEvaluationClientDeviceMetadataDetailsDataPastedField = "zip"
+)
+
 // Reason given by cardholder for dispute.
 type RadarPaymentEvaluationEventDisputeOpenedReason string
 
@@ -233,8 +245,24 @@ const (
 	RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevelNormal   RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel = "normal"
 )
 
+// Direct client device attributes such as IP address and user agent. Use this as an alternative to radar_session when a Radar Session isn't available.
+type RadarPaymentEvaluationClientDeviceMetadataDetailsDataParams struct {
+	// The IP address of the client device.
+	IP *string `form:"ip" json:"ip"`
+	// Pasted fields from the checkout flow.
+	PastedFields []*string `form:"pasted_fields" json:"pasted_fields,omitempty"`
+	// The referrer of the client device.
+	Referrer *string `form:"referrer" json:"referrer,omitempty"`
+	// The time on page in milliseconds.
+	TimeOnPageMS *int64 `form:"time_on_page_ms" json:"time_on_page_ms,omitempty"`
+	// The user agent of the client device.
+	UserAgent *string `form:"user_agent" json:"user_agent"`
+}
+
 // Details about the Client Device Metadata to associate with the payment evaluation.
 type RadarPaymentEvaluationClientDeviceMetadataDetailsParams struct {
+	// Direct client device attributes such as IP address and user agent. Use this as an alternative to radar_session when a Radar Session isn't available.
+	Data *RadarPaymentEvaluationClientDeviceMetadataDetailsDataParams `form:"data" json:"data,omitempty"`
 	// ID for the Radar Session to associate with the payment evaluation. A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	RadarSession *string `form:"radar_session" json:"radar_session"`
 }
@@ -346,8 +374,24 @@ func (p *RadarPaymentEvaluationParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Direct client device attributes such as IP address and user agent. Use this as an alternative to radar_session when a Radar Session isn't available.
+type RadarPaymentEvaluationCreateClientDeviceMetadataDetailsDataParams struct {
+	// The IP address of the client device.
+	IP *string `form:"ip" json:"ip"`
+	// Pasted fields from the checkout flow.
+	PastedFields []*string `form:"pasted_fields" json:"pasted_fields,omitempty"`
+	// The referrer of the client device.
+	Referrer *string `form:"referrer" json:"referrer,omitempty"`
+	// The time on page in milliseconds.
+	TimeOnPageMS *int64 `form:"time_on_page_ms" json:"time_on_page_ms,omitempty"`
+	// The user agent of the client device.
+	UserAgent *string `form:"user_agent" json:"user_agent"`
+}
+
 // Details about the Client Device Metadata to associate with the payment evaluation.
 type RadarPaymentEvaluationCreateClientDeviceMetadataDetailsParams struct {
+	// Direct client device attributes such as IP address and user agent. Use this as an alternative to radar_session when a Radar Session isn't available.
+	Data *RadarPaymentEvaluationCreateClientDeviceMetadataDetailsDataParams `form:"data" json:"data,omitempty"`
 	// ID for the Radar Session to associate with the payment evaluation. A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	RadarSession *string `form:"radar_session" json:"radar_session"`
 }
@@ -459,8 +503,24 @@ func (p *RadarPaymentEvaluationCreateParams) AddMetadata(key string, value strin
 	p.Metadata[key] = value
 }
 
+// Direct client device attributes such as IP address and user agent. Use this as an alternative to radar_session when a Radar Session isn't available.
+type RadarPaymentEvaluationClientDeviceMetadataDetailsData struct {
+	// The IP address of the client device.
+	IP string `json:"ip"`
+	// Pasted fields from the checkout flow.
+	PastedFields []RadarPaymentEvaluationClientDeviceMetadataDetailsDataPastedField `json:"pasted_fields"`
+	// The referrer of the client device.
+	Referrer string `json:"referrer"`
+	// The time on page in milliseconds.
+	TimeOnPageMS int64 `json:"time_on_page_ms"`
+	// The user agent of the client device.
+	UserAgent string `json:"user_agent"`
+}
+
 // Client device metadata attached to this payment evaluation.
 type RadarPaymentEvaluationClientDeviceMetadataDetails struct {
+	// Direct client device attributes such as IP address and user agent. Use this as an alternative to radar_session when a Radar Session isn't available.
+	Data *RadarPaymentEvaluationClientDeviceMetadataDetailsData `json:"data,omitempty"`
 	// ID for the Radar Session associated with the payment evaluation. A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	RadarSession string `json:"radar_session"`
 }
