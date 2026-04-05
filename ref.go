@@ -27,7 +27,7 @@ type Ref[T any] struct {
 // Fetch retrieves the full object that this Ref points to.
 //
 // It returns an error if the Ref was not constructed with a client (e.g. it
-// was deserialized directly from JSON without going through ParseEventNotification).
+// was deserialized directly from JSON without going through the SDK client).
 func (r *Ref[T]) Fetch(ctx context.Context) (*T, error) {
 	if r.client == nil {
 		return nil, errors.New("stripe: Ref.Fetch called on a Ref without an attached client; use stripe.Client to obtain Ref values")
