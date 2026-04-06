@@ -746,6 +746,9 @@ func (s *BackendImplementation) CallRaw(method, path, key string, body []byte, p
 	if err := s.Do(req, buf, &responseSetter); err != nil {
 		return err
 	}
+	if bs, ok := v.(BackendSetter); ok {
+		bs.SetBackend(s, key)
+	}
 	return nil
 }
 
@@ -1395,6 +1398,23 @@ func (s *BackendImplementation) sleepTime(numRetries int) time.Duration {
 type Backends struct {
 	API, Connect, Uploads, MeterEvents Backend
 	mu                                 sync.RWMutex
+}
+
+// BackendSetter defines a type that can receive a Backend and API key after
+// deserialization. The core request path (CallRaw) checks for this interface
+// after unmarshaling a response and calls SetBackend so that nested types
+// like Ref[T] can make follow-up API requests.
+//
+// Generated resource structs implement this interface when they contain Ref
+// fields, propagating the backend and key to each nested Ref.
+//
+// Note: the backend passed is the one used to fetch the parent response.
+// All v2 Ref URLs currently resolve against the API backend, which is the
+// same backend used for v2 resource requests. If a Ref ever needed a
+// different backend (e.g. Connect or Uploads), this assumption would need
+// to be revisited.
+type BackendSetter interface {
+	SetBackend(backend Backend, key string)
 }
 
 // LastResponseSetter defines a type that contains an HTTP response from a Stripe
