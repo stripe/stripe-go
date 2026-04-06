@@ -310,6 +310,12 @@ func (s *metricsResponseSetter) UnmarshalJSON(b []byte) error {
 	return json.Unmarshal(b, s.LastResponseSetter)
 }
 
+func (s *metricsResponseSetter) SetBackend(backend Backend, key string) {
+	if bs, ok := s.LastResponseSetter.(BackendSetter); ok {
+		bs.SetBackend(backend, key)
+	}
+}
+
 type streamingLastResponseSetterWrapper struct {
 	StreamingLastResponseSetter
 	f func(*StreamingAPIResponse)
@@ -746,9 +752,7 @@ func (s *BackendImplementation) CallRaw(method, path, key string, body []byte, p
 	if err := s.Do(req, buf, &responseSetter); err != nil {
 		return err
 	}
-	if bs, ok := v.(BackendSetter); ok {
-		bs.SetBackend(s, key)
-	}
+	responseSetter.SetBackend(s, key)
 	return nil
 }
 
