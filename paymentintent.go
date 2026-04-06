@@ -3750,8 +3750,79 @@ type PaymentIntentPaymentMethodOptionsCardThreeDSecureParams struct {
 	Version *string `form:"version" json:"version"`
 }
 
+// Details for a cryptocurrency liquid asset funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
+	// The cryptocurrency currency code (e.g. BTC, ETH).
+	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
+}
+
+// Details for a security liquid asset funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
+	// The security's ticker symbol (e.g. AAPL).
+	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
+}
+
+// Details for a liquid asset (crypto or security) funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
+	// Details for a cryptocurrency liquid asset funding transaction.
+	Crypto *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Details for a security liquid asset funding transaction.
+	Security *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+}
+
+// The merchant where the staged wallet purchase is made.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
+	// The merchant category code of the merchant.
+	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// The merchant's name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Details for a staged purchase.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
+	// The merchant where the staged wallet purchase is made.
+	Merchant *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
+}
+
+// Details for a wallet funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
+	// Details for a staged purchase.
+	StagedPurchase *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
+	UnsetFields    []PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
-type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// Details for a liquid asset (crypto or security) funding transaction.
+	LiquidAsset *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
+	// Details for a wallet funding transaction.
+	Wallet      *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
+	UnsetFields []PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for payment method specific funding fields.
 type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesParams struct {
@@ -3851,8 +3922,79 @@ type PaymentIntentPaymentMethodOptionsCardPresentRoutingParams struct {
 	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
+// Details for a cryptocurrency liquid asset funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
+	// The cryptocurrency currency code (e.g. BTC, ETH).
+	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
+}
+
+// Details for a security liquid asset funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
+	// The security's ticker symbol (e.g. AAPL).
+	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
+}
+
+// Details for a liquid asset (crypto or security) funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
+	// Details for a cryptocurrency liquid asset funding transaction.
+	Crypto *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Details for a security liquid asset funding transaction.
+	Security *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+}
+
+// The merchant where the staged wallet purchase is made.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
+	// The merchant category code of the merchant.
+	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// The merchant's name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Details for a staged purchase.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
+	// The merchant where the staged wallet purchase is made.
+	Merchant *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
+}
+
+// Details for a wallet funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
+	// Details for a staged purchase.
+	StagedPurchase *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
+	UnsetFields    []PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
-type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// Details for a liquid asset (crypto or security) funding transaction.
+	LiquidAsset *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
+	// Details for a wallet funding transaction.
+	Wallet      *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
+	UnsetFields []PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for payment method specific funding fields.
 type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams struct {
@@ -11162,8 +11304,79 @@ type PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureParams struct {
 	Version *string `form:"version" json:"version"`
 }
 
+// Details for a cryptocurrency liquid asset funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
+	// The cryptocurrency currency code (e.g. BTC, ETH).
+	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
+}
+
+// Details for a security liquid asset funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
+	// The security's ticker symbol (e.g. AAPL).
+	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
+}
+
+// Details for a liquid asset (crypto or security) funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
+	// Details for a cryptocurrency liquid asset funding transaction.
+	Crypto *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Details for a security liquid asset funding transaction.
+	Security *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+}
+
+// The merchant where the staged wallet purchase is made.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
+	// The merchant category code of the merchant.
+	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// The merchant's name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Details for a staged purchase.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
+	// The merchant where the staged wallet purchase is made.
+	Merchant *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
+}
+
+// Details for a wallet funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
+	// Details for a staged purchase.
+	StagedPurchase *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
+	UnsetFields    []PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
-type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// Details for a liquid asset (crypto or security) funding transaction.
+	LiquidAsset *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
+	// Details for a wallet funding transaction.
+	Wallet      *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
+	UnsetFields []PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for payment method specific funding fields.
 type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesParams struct {
@@ -11263,8 +11476,79 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams struct {
 	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
+// Details for a cryptocurrency liquid asset funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
+	// The cryptocurrency currency code (e.g. BTC, ETH).
+	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
+}
+
+// Details for a security liquid asset funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
+	// The security's ticker symbol (e.g. AAPL).
+	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
+}
+
+// Details for a liquid asset (crypto or security) funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
+	// Details for a cryptocurrency liquid asset funding transaction.
+	Crypto *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Details for a security liquid asset funding transaction.
+	Security *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+}
+
+// The merchant where the staged wallet purchase is made.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
+	// The merchant category code of the merchant.
+	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// The merchant's name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Details for a staged purchase.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
+	// The merchant where the staged wallet purchase is made.
+	Merchant *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
+}
+
+// Details for a wallet funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
+	// Details for a staged purchase.
+	StagedPurchase *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
+	UnsetFields    []PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
-type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// Details for a liquid asset (crypto or security) funding transaction.
+	LiquidAsset *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
+	// Details for a wallet funding transaction.
+	Wallet      *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
+	UnsetFields []PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for payment method specific funding fields.
 type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams struct {
@@ -15357,8 +15641,79 @@ type PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureParams struct {
 	Version *string `form:"version" json:"version"`
 }
 
+// Details for a cryptocurrency liquid asset funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
+	// The cryptocurrency currency code (e.g. BTC, ETH).
+	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
+}
+
+// Details for a security liquid asset funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
+	// The security's ticker symbol (e.g. AAPL).
+	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
+}
+
+// Details for a liquid asset (crypto or security) funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
+	// Details for a cryptocurrency liquid asset funding transaction.
+	Crypto *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Details for a security liquid asset funding transaction.
+	Security *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+}
+
+// The merchant where the staged wallet purchase is made.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
+	// The merchant category code of the merchant.
+	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// The merchant's name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Details for a staged purchase.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
+	// The merchant where the staged wallet purchase is made.
+	Merchant *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
+}
+
+// Details for a wallet funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
+	// Details for a staged purchase.
+	StagedPurchase *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
+	UnsetFields    []PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
-type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// Details for a liquid asset (crypto or security) funding transaction.
+	LiquidAsset *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
+	// Details for a wallet funding transaction.
+	Wallet      *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
+	UnsetFields []PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for payment method specific funding fields.
 type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesParams struct {
@@ -15458,8 +15813,79 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams struct {
 	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
+// Details for a cryptocurrency liquid asset funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
+	// The cryptocurrency currency code (e.g. BTC, ETH).
+	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
+}
+
+// Details for a security liquid asset funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
+	// The security's ticker symbol (e.g. AAPL).
+	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
+}
+
+// Details for a liquid asset (crypto or security) funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
+	// Details for a cryptocurrency liquid asset funding transaction.
+	Crypto *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Details for a security liquid asset funding transaction.
+	Security *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+}
+
+// The merchant where the staged wallet purchase is made.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
+	// The merchant category code of the merchant.
+	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// The merchant's name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Details for a staged purchase.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
+	// The merchant where the staged wallet purchase is made.
+	Merchant *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
+}
+
+// Details for a wallet funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
+	// Details for a staged purchase.
+	StagedPurchase *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
+	UnsetFields    []PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
-type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// Details for a liquid asset (crypto or security) funding transaction.
+	LiquidAsset *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
+	// Details for a wallet funding transaction.
+	Wallet      *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
+	UnsetFields []PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for payment method specific funding fields.
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams struct {
