@@ -1946,6 +1946,8 @@ type PaymentIntentAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -2973,8 +2975,79 @@ type PaymentIntentPaymentDetailsFleetDatumParams struct {
 	VAT *PaymentIntentPaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
 }
 
+// Date of birth.
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this account funding transaction.
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the sender of this account funding transaction.
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
-type PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this account funding transaction.
+	BeneficiaryDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
+	// Inline identity details for the sender of this account funding transaction.
+	SenderDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
+	UnsetFields   []PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
+	PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for this PaymentIntent.
 type PaymentIntentPaymentDetailsMoneyServicesParams struct {
@@ -2989,7 +3062,8 @@ type PaymentIntentPaymentDetailsMoneyServicesParams struct {
 type PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentPaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -6343,6 +6417,8 @@ type PaymentIntentCaptureAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentCaptureAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -7306,8 +7382,79 @@ type PaymentIntentCapturePaymentDetailsFleetDatumParams struct {
 	VAT *PaymentIntentCapturePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
 }
 
+// Date of birth.
+type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this account funding transaction.
+type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the sender of this account funding transaction.
+type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
-type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this account funding transaction.
+	BeneficiaryDetails *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
+	// Inline identity details for the sender of this account funding transaction.
+	SenderDetails *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
+	UnsetFields   []PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
+}
+
+// PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
+	PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for this PaymentIntent.
 type PaymentIntentCapturePaymentDetailsMoneyServicesParams struct {
@@ -7322,7 +7469,8 @@ type PaymentIntentCapturePaymentDetailsMoneyServicesParams struct {
 type PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -7529,6 +7677,8 @@ type PaymentIntentConfirmAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentConfirmAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -8517,8 +8667,79 @@ type PaymentIntentConfirmPaymentDetailsFleetDatumParams struct {
 	VAT *PaymentIntentConfirmPaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
 }
 
+// Date of birth.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this account funding transaction.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the sender of this account funding transaction.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
-type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this account funding transaction.
+	BeneficiaryDetails *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
+	// Inline identity details for the sender of this account funding transaction.
+	SenderDetails *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
+	UnsetFields   []PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
+}
+
+// PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
+	PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for this PaymentIntent.
 type PaymentIntentConfirmPaymentDetailsMoneyServicesParams struct {
@@ -8533,7 +8754,8 @@ type PaymentIntentConfirmPaymentDetailsMoneyServicesParams struct {
 type PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -8802,6 +9024,8 @@ type PaymentIntentDecrementAuthorizationAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentDecrementAuthorizationAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -9101,6 +9325,8 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentIncrementAuthorizationAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -9500,6 +9726,8 @@ type PaymentIntentCreateAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentCreateAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -10527,8 +10755,79 @@ type PaymentIntentCreatePaymentDetailsFleetDatumParams struct {
 	VAT *PaymentIntentCreatePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
 }
 
+// Date of birth.
+type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this account funding transaction.
+type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the sender of this account funding transaction.
+type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
-type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this account funding transaction.
+	BeneficiaryDetails *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
+	// Inline identity details for the sender of this account funding transaction.
+	SenderDetails *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
+	UnsetFields   []PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
+	PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for this PaymentIntent.
 type PaymentIntentCreatePaymentDetailsMoneyServicesParams struct {
@@ -10543,7 +10842,8 @@ type PaymentIntentCreatePaymentDetailsMoneyServicesParams struct {
 type PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -13854,6 +14154,8 @@ type PaymentIntentUpdateAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentUpdateAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -14864,8 +15166,79 @@ type PaymentIntentUpdatePaymentDetailsFleetDatumParams struct {
 	VAT *PaymentIntentUpdatePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
 }
 
+// Date of birth.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this account funding transaction.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the sender of this account funding transaction.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
-type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this account funding transaction.
+	BeneficiaryDetails *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
+	// Inline identity details for the sender of this account funding transaction.
+	SenderDetails *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
+	UnsetFields   []PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
+	PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for this PaymentIntent.
 type PaymentIntentUpdatePaymentDetailsMoneyServicesParams struct {
@@ -14880,7 +15253,8 @@ type PaymentIntentUpdatePaymentDetailsMoneyServicesParams struct {
 type PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.

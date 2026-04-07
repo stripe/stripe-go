@@ -1450,8 +1450,79 @@ type ChargePaymentDetailsFleetDatumParams struct {
 	VAT *ChargePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
 }
 
+// Date of birth.
+type ChargePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this account funding transaction.
+type ChargePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *ChargePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Date of birth.
+type ChargePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the sender of this account funding transaction.
+type ChargePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *ChargePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
-type ChargePaymentDetailsMoneyServicesAccountFundingParams struct{}
+type ChargePaymentDetailsMoneyServicesAccountFundingParams struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this account funding transaction.
+	BeneficiaryDetails *ChargePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
+	// Inline identity details for the sender of this account funding transaction.
+	SenderDetails *ChargePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
+	UnsetFields   []ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
+}
+
+// ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on ChargePaymentDetailsMoneyServicesAccountFundingParams.
+type ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
+	ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargePaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for this PaymentIntent.
 type ChargePaymentDetailsMoneyServicesParams struct {
@@ -1466,7 +1537,8 @@ type ChargePaymentDetailsMoneyServicesParams struct {
 type ChargePaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	ChargePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding ChargePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	ChargePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  ChargePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	ChargePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType ChargePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -2372,8 +2444,79 @@ type ChargeCapturePaymentDetailsFleetDatumParams struct {
 	VAT *ChargeCapturePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
 }
 
+// Date of birth.
+type ChargeCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this account funding transaction.
+type ChargeCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *ChargeCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Date of birth.
+type ChargeCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the sender of this account funding transaction.
+type ChargeCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *ChargeCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
-type ChargeCapturePaymentDetailsMoneyServicesAccountFundingParams struct{}
+type ChargeCapturePaymentDetailsMoneyServicesAccountFundingParams struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this account funding transaction.
+	BeneficiaryDetails *ChargeCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
+	// Inline identity details for the sender of this account funding transaction.
+	SenderDetails *ChargeCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
+	UnsetFields   []ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
+}
+
+// ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on ChargeCapturePaymentDetailsMoneyServicesAccountFundingParams.
+type ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
+	ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargeCapturePaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for this PaymentIntent.
 type ChargeCapturePaymentDetailsMoneyServicesParams struct {
@@ -2388,7 +2531,8 @@ type ChargeCapturePaymentDetailsMoneyServicesParams struct {
 type ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	ChargeCapturePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	ChargeCapturePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	ChargeCapturePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3469,8 +3613,79 @@ type ChargeUpdatePaymentDetailsFleetDatumParams struct {
 	VAT *ChargeUpdatePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
 }
 
+// Date of birth.
+type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this account funding transaction.
+type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *ChargeUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Date of birth.
+type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the sender of this account funding transaction.
+type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *ChargeUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
-type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParams struct{}
+type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParams struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this account funding transaction.
+	BeneficiaryDetails *ChargeUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
+	// Inline identity details for the sender of this account funding transaction.
+	SenderDetails *ChargeUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
+	UnsetFields   []ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
+}
+
+// ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParams.
+type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
+	ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for this PaymentIntent.
 type ChargeUpdatePaymentDetailsMoneyServicesParams struct {
@@ -3485,7 +3700,8 @@ type ChargeUpdatePaymentDetailsMoneyServicesParams struct {
 type ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
