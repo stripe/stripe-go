@@ -102,11 +102,12 @@ type SetupIntentNextActionType string
 
 // List of values that SetupIntentNextActionType can take
 const (
-	SetupIntentNextActionTypeRedirectToURL           SetupIntentNextActionType = "redirect_to_url"
-	SetupIntentNextActionTypeUseStripeSDK            SetupIntentNextActionType = "use_stripe_sdk"
-	SetupIntentNextActionTypeAlipayHandleRedirect    SetupIntentNextActionType = "alipay_handle_redirect"
-	SetupIntentNextActionTypeOXXODisplayDetails      SetupIntentNextActionType = "oxxo_display_details"
-	SetupIntentNextActionTypeVerifyWithMicrodeposits SetupIntentNextActionType = "verify_with_microdeposits"
+	SetupIntentNextActionTypeRedirectToURL                    SetupIntentNextActionType = "redirect_to_url"
+	SetupIntentNextActionTypeUseStripeSDK                     SetupIntentNextActionType = "use_stripe_sdk"
+	SetupIntentNextActionTypeAlipayHandleRedirect             SetupIntentNextActionType = "alipay_handle_redirect"
+	SetupIntentNextActionTypeOXXODisplayDetails               SetupIntentNextActionType = "oxxo_display_details"
+	SetupIntentNextActionTypeVerifyWithMicrodeposits          SetupIntentNextActionType = "verify_with_microdeposits"
+	SetupIntentNextActionTypeUpiHandleRedirectOrDisplayQRCode SetupIntentNextActionType = "upi_handle_redirect_or_display_qr_code"
 )
 
 // The type of the microdeposit sent to the customer. Used to distinguish between different verification methods.
