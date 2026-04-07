@@ -250,6 +250,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeAUBECSDebit        InvoicePaymentSettingsPaymentMethodType = "au_becs_debit"
 	InvoicePaymentSettingsPaymentMethodTypeBACSDebit          InvoicePaymentSettingsPaymentMethodType = "bacs_debit"
 	InvoicePaymentSettingsPaymentMethodTypeBancontact         InvoicePaymentSettingsPaymentMethodType = "bancontact"
+	InvoicePaymentSettingsPaymentMethodTypeBizum              InvoicePaymentSettingsPaymentMethodType = "bizum"
 	InvoicePaymentSettingsPaymentMethodTypeBoleto             InvoicePaymentSettingsPaymentMethodType = "boleto"
 	InvoicePaymentSettingsPaymentMethodTypeCard               InvoicePaymentSettingsPaymentMethodType = "card"
 	InvoicePaymentSettingsPaymentMethodTypeCashApp            InvoicePaymentSettingsPaymentMethodType = "cashapp"
@@ -736,6 +737,9 @@ type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountParams struct {
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBizumParams struct{}
+
 // If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
 	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
@@ -747,6 +751,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *InvoicePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+	Bizum *InvoicePaymentSettingsPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoicePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
@@ -785,6 +791,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 )
 
@@ -3671,6 +3678,9 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams struct 
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBizumParams struct{}
+
 // If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
 	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
@@ -3682,6 +3692,8 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *InvoiceUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+	Bizum *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
@@ -3720,6 +3732,7 @@ const (
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 )
 
@@ -4246,6 +4259,9 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams struct 
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBizumParams struct{}
+
 // If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
 	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
@@ -4257,6 +4273,8 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *InvoiceCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoiceCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+	Bizum *InvoiceCreatePaymentSettingsPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoiceCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
@@ -4295,6 +4313,7 @@ const (
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 )
 
@@ -4817,6 +4836,9 @@ type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccount struct {
 	VerificationMethod InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
 
+// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBizum struct{}
+
 // If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsCheckScan struct {
 	CheckDepositAddress *Address `json:"check_deposit_address,omitempty"`
@@ -4828,6 +4850,8 @@ type InvoicePaymentSettingsPaymentMethodOptions struct {
 	ACSSDebit *InvoicePaymentSettingsPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
+	// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+	Bizum *InvoicePaymentSettingsPaymentMethodOptionsBizum `json:"bizum,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoicePaymentSettingsPaymentMethodOptionsCard `json:"card"`
 	// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.

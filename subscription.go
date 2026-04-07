@@ -302,6 +302,14 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
 )
 
+// Indicates the mandate amount type.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBizumMandateOptionsAmountType string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsBizumMandateOptionsAmountType can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsBizumMandateOptionsAmountTypeFixed SubscriptionPaymentSettingsPaymentMethodOptionsBizumMandateOptionsAmountType = "fixed"
+)
+
 // The list of payment method types to provide to every invoice created by the subscription. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 type SubscriptionPaymentSettingsPaymentMethodType string
 
@@ -315,6 +323,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeAUBECSDebit        SubscriptionPaymentSettingsPaymentMethodType = "au_becs_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeBACSDebit          SubscriptionPaymentSettingsPaymentMethodType = "bacs_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeBancontact         SubscriptionPaymentSettingsPaymentMethodType = "bancontact"
+	SubscriptionPaymentSettingsPaymentMethodTypeBizum              SubscriptionPaymentSettingsPaymentMethodType = "bizum"
 	SubscriptionPaymentSettingsPaymentMethodTypeBoleto             SubscriptionPaymentSettingsPaymentMethodType = "boleto"
 	SubscriptionPaymentSettingsPaymentMethodTypeCard               SubscriptionPaymentSettingsPaymentMethodType = "card"
 	SubscriptionPaymentSettingsPaymentMethodTypeCashApp            SubscriptionPaymentSettingsPaymentMethodType = "cashapp"
@@ -1113,6 +1122,20 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams struct {
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// Configuration options for setting up a mandate
+type SubscriptionPaymentSettingsPaymentMethodOptionsBizumMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Indicates the mandate amount type.
+	AmountType *string `form:"amount_type" json:"amount_type"`
+}
+
+// This sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBizumParams struct {
+	// Configuration options for setting up a mandate
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsBizumMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCheckScanParams struct {
 	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
@@ -1124,6 +1147,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// This sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+	Bizum *SubscriptionPaymentSettingsPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
@@ -1162,6 +1187,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 )
 
@@ -2016,6 +2042,20 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams st
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// Configuration options for setting up a mandate
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBizumMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Indicates the mandate amount type.
+	AmountType *string `form:"amount_type" json:"amount_type"`
+}
+
+// This sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBizumParams struct {
+	// Configuration options for setting up a mandate
+	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBizumMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
 	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
@@ -2027,6 +2067,8 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// This sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+	Bizum *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
@@ -2065,6 +2107,7 @@ const (
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 )
 
@@ -2872,6 +2915,20 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams st
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// Configuration options for setting up a mandate
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBizumMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`.
+	Amount *int64 `form:"amount" json:"amount"`
+	// Indicates the mandate amount type.
+	AmountType *string `form:"amount_type" json:"amount_type"`
+}
+
+// This sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBizumParams struct {
+	// Configuration options for setting up a mandate
+	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBizumMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
 	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
@@ -2883,6 +2940,8 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *SubscriptionCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// This sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+	Bizum *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
@@ -2921,6 +2980,7 @@ const (
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 )
 
@@ -3412,6 +3472,17 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount struct {
 	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
+type SubscriptionPaymentSettingsPaymentMethodOptionsBizumMandateOptions struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`.
+	Amount int64 `json:"amount,omitempty"`
+	// Indicates the mandate amount type.
+	AmountType SubscriptionPaymentSettingsPaymentMethodOptionsBizumMandateOptionsAmountType `json:"amount_type,omitempty"`
+}
+
+// This sub-hash contains details about the Bizum payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBizum struct {
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsBizumMandateOptions `json:"mandate_options,omitempty"`
+}
 
 // This sub-hash contains details about the Check Scan payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCheckScan struct {
@@ -3424,6 +3495,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	ACSSDebit *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to invoices created by the subscription.
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
+	// This sub-hash contains details about the Bizum payment method options to pass to invoices created by the subscription.
+	Bizum *SubscriptionPaymentSettingsPaymentMethodOptionsBizum `json:"bizum,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to invoices created by the subscription.
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCard `json:"card"`
 	// This sub-hash contains details about the Check Scan payment method options to pass to invoices created by the subscription.

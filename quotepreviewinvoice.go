@@ -408,6 +408,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeAUBECSDebit        QuotePreviewInvoicePaymentSettingsPaymentMethodType = "au_becs_debit"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBACSDebit          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "bacs_debit"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBancontact         QuotePreviewInvoicePaymentSettingsPaymentMethodType = "bancontact"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBizum              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "bizum"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBoleto             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "boleto"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCard               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "card"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCashApp            QuotePreviewInvoicePaymentSettingsPaymentMethodType = "cashapp"
@@ -806,6 +807,9 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccount struct 
 	VerificationMethod QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
 
+// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBizum struct{}
+
 // If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCheckScan struct {
 	CheckDepositAddress *Address `json:"check_deposit_address,omitempty"`
@@ -817,6 +821,8 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	ACSSDebit *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
+	// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+	Bizum *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBizum `json:"bizum,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCard `json:"card"`
 	// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
