@@ -53,6 +53,12 @@ This release changes the pinned API version to `2026-03-25.preview`. It is built
 * [#2304](https://github.com/stripe/stripe-go/pull/2304) Merge to beta
 * [#2292](https://github.com/stripe/stripe-go/pull/2292) Mbroshi/merge go beta
 
+## 85.0.1 - 2026-04-07
+* [#2342](https://github.com/stripe/stripe-go/pull/2342) Add SetupIntent next action type constant for UPI
+  
+  - Added `SetupIntentNextActionTypeUpiHandleRedirectOrDisplayQRCode` constant for the `upi_handle_redirect_or_display_qr_code` next action type.
+* [#2338](https://github.com/stripe/stripe-go/pull/2338) Add test coverage for 2D slice form encoding
+
 ## 85.0.0 - 2026-03-25
 
 This release changes the pinned API version to `2026-03-25.dahlia` and contains breaking changes (prefixed with ⚠️ below). There's also a [detailed migration guide](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v85) to simplify your upgrade process.
