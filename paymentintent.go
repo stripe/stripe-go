@@ -1866,10 +1866,20 @@ type PaymentIntentAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// Fleet data for this line item.
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -1936,6 +1946,8 @@ type PaymentIntentAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -2925,8 +2937,117 @@ type PaymentIntentPaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentPaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentPaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentPaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentPaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentPaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this account funding transaction.
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the sender of this account funding transaction.
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
-type PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this account funding transaction.
+	BeneficiaryDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
+	// Inline identity details for the sender of this account funding transaction.
+	SenderDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
+	UnsetFields   []PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
+	PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for this PaymentIntent.
 type PaymentIntentPaymentDetailsMoneyServicesParams struct {
@@ -2941,7 +3062,8 @@ type PaymentIntentPaymentDetailsMoneyServicesParams struct {
 type PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentPaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -2963,6 +3085,8 @@ type PaymentIntentPaymentDetailsParams struct {
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentPaymentDetailsEventDetailsParams `form:"event_details" json:"event_details,omitempty"`
+	// Fleet data for this PaymentIntent.
+	FleetData []*PaymentIntentPaymentDetailsFleetDatumParams `form:"fleet_data" json:"fleet_data,omitempty"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentPaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
@@ -2991,6 +3115,7 @@ const (
 	PaymentIntentPaymentDetailsParamsUnsetFieldFlightData        PaymentIntentPaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentPaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentPaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentPaymentDetailsParamsUnsetFieldFleetData         PaymentIntentPaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentPaymentDetailsParamsUnsetField = "money_services"
 )
 
@@ -3699,8 +3824,79 @@ type PaymentIntentPaymentMethodOptionsCardThreeDSecureParams struct {
 	Version *string `form:"version" json:"version"`
 }
 
+// Details for a cryptocurrency liquid asset funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
+	// The cryptocurrency currency code (e.g. BTC, ETH).
+	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
+}
+
+// Details for a security liquid asset funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
+	// The security's ticker symbol (e.g. AAPL).
+	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
+}
+
+// Details for a liquid asset (crypto or security) funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
+	// Details for a cryptocurrency liquid asset funding transaction.
+	Crypto *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Details for a security liquid asset funding transaction.
+	Security *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+}
+
+// The merchant where the staged wallet purchase is made.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
+	// The merchant category code of the merchant.
+	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// The merchant's name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Details for a staged purchase.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
+	// The merchant where the staged wallet purchase is made.
+	Merchant *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
+}
+
+// Details for a wallet funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
+	// Details for a staged purchase.
+	StagedPurchase *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
+	UnsetFields    []PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
-type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// Details for a liquid asset (crypto or security) funding transaction.
+	LiquidAsset *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
+	// Details for a wallet funding transaction.
+	Wallet      *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
+	UnsetFields []PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for payment method specific funding fields.
 type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesParams struct {
@@ -3800,8 +3996,79 @@ type PaymentIntentPaymentMethodOptionsCardPresentRoutingParams struct {
 	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
+// Details for a cryptocurrency liquid asset funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
+	// The cryptocurrency currency code (e.g. BTC, ETH).
+	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
+}
+
+// Details for a security liquid asset funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
+	// The security's ticker symbol (e.g. AAPL).
+	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
+}
+
+// Details for a liquid asset (crypto or security) funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
+	// Details for a cryptocurrency liquid asset funding transaction.
+	Crypto *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Details for a security liquid asset funding transaction.
+	Security *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+}
+
+// The merchant where the staged wallet purchase is made.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
+	// The merchant category code of the merchant.
+	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// The merchant's name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Details for a staged purchase.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
+	// The merchant where the staged wallet purchase is made.
+	Merchant *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
+}
+
+// Details for a wallet funding transaction.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
+	// Details for a staged purchase.
+	StagedPurchase *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
+	UnsetFields    []PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
-type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// Details for a liquid asset (crypto or security) funding transaction.
+	LiquidAsset *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
+	// Details for a wallet funding transaction.
+	Wallet      *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
+	UnsetFields []PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for payment method specific funding fields.
 type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams struct {
@@ -6070,10 +6337,20 @@ func (p *PaymentIntentCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Fleet data for this line item.
+type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -6140,6 +6417,8 @@ type PaymentIntentCaptureAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentCaptureAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -7065,8 +7344,117 @@ type PaymentIntentCapturePaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentCapturePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentCapturePaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentCapturePaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentCapturePaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentCapturePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentCapturePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentCapturePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this account funding transaction.
+type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the sender of this account funding transaction.
+type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
-type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this account funding transaction.
+	BeneficiaryDetails *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
+	// Inline identity details for the sender of this account funding transaction.
+	SenderDetails *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
+	UnsetFields   []PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
+}
+
+// PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
+	PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for this PaymentIntent.
 type PaymentIntentCapturePaymentDetailsMoneyServicesParams struct {
@@ -7081,7 +7469,8 @@ type PaymentIntentCapturePaymentDetailsMoneyServicesParams struct {
 type PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -7101,6 +7490,8 @@ type PaymentIntentCapturePaymentDetailsParams struct {
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentCapturePaymentDetailsEventDetailsParams `form:"event_details" json:"event_details,omitempty"`
+	// Fleet data for this PaymentIntent.
+	FleetData []*PaymentIntentCapturePaymentDetailsFleetDatumParams `form:"fleet_data" json:"fleet_data,omitempty"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentCapturePaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
@@ -7129,6 +7520,7 @@ const (
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentCapturePaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentCapturePaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCapturePaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentCapturePaymentDetailsParamsUnsetFieldFleetData         PaymentIntentCapturePaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentCapturePaymentDetailsParamsUnsetField = "money_services"
 )
 
@@ -7205,10 +7597,20 @@ type PaymentIntentConfirmAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// Fleet data for this line item.
+type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -7275,6 +7677,8 @@ type PaymentIntentConfirmAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentConfirmAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -8225,8 +8629,117 @@ type PaymentIntentConfirmPaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentConfirmPaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentConfirmPaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentConfirmPaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentConfirmPaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentConfirmPaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentConfirmPaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentConfirmPaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this account funding transaction.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the sender of this account funding transaction.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
-type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this account funding transaction.
+	BeneficiaryDetails *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
+	// Inline identity details for the sender of this account funding transaction.
+	SenderDetails *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
+	UnsetFields   []PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
+}
+
+// PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
+	PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for this PaymentIntent.
 type PaymentIntentConfirmPaymentDetailsMoneyServicesParams struct {
@@ -8241,7 +8754,8 @@ type PaymentIntentConfirmPaymentDetailsMoneyServicesParams struct {
 type PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -8263,6 +8777,8 @@ type PaymentIntentConfirmPaymentDetailsParams struct {
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentConfirmPaymentDetailsEventDetailsParams `form:"event_details" json:"event_details,omitempty"`
+	// Fleet data for this PaymentIntent.
+	FleetData []*PaymentIntentConfirmPaymentDetailsFleetDatumParams `form:"fleet_data" json:"fleet_data,omitempty"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentConfirmPaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
@@ -8291,6 +8807,7 @@ const (
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldFlightData        PaymentIntentConfirmPaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentConfirmPaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentConfirmPaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldFleetData         PaymentIntentConfirmPaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentConfirmPaymentDetailsParamsUnsetField = "money_services"
 )
 
@@ -8427,10 +8944,20 @@ func (p *PaymentIntentConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Fleet data for this line item.
+type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -8497,6 +9024,8 @@ type PaymentIntentDecrementAuthorizationAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentDecrementAuthorizationAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -8716,10 +9245,20 @@ func (p *PaymentIntentDecrementAuthorizationParams) AddMetadata(key string, valu
 	p.Metadata[key] = value
 }
 
+// Fleet data for this line item.
+type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -8786,6 +9325,8 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentIncrementAuthorizationAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -9105,10 +9646,20 @@ type PaymentIntentCreateAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// Fleet data for this line item.
+type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -9175,6 +9726,8 @@ type PaymentIntentCreateAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentCreateAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -10164,8 +10717,117 @@ type PaymentIntentCreatePaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentCreatePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentCreatePaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentCreatePaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentCreatePaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentCreatePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentCreatePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentCreatePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this account funding transaction.
+type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the sender of this account funding transaction.
+type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
-type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this account funding transaction.
+	BeneficiaryDetails *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
+	// Inline identity details for the sender of this account funding transaction.
+	SenderDetails *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
+	UnsetFields   []PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
+	PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for this PaymentIntent.
 type PaymentIntentCreatePaymentDetailsMoneyServicesParams struct {
@@ -10180,7 +10842,8 @@ type PaymentIntentCreatePaymentDetailsMoneyServicesParams struct {
 type PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -10202,6 +10865,8 @@ type PaymentIntentCreatePaymentDetailsParams struct {
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentCreatePaymentDetailsEventDetailsParams `form:"event_details" json:"event_details,omitempty"`
+	// Fleet data for this PaymentIntent.
+	FleetData []*PaymentIntentCreatePaymentDetailsFleetDatumParams `form:"fleet_data" json:"fleet_data,omitempty"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentCreatePaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
@@ -10230,6 +10895,7 @@ const (
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentCreatePaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentCreatePaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCreatePaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentCreatePaymentDetailsParamsUnsetFieldFleetData         PaymentIntentCreatePaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentCreatePaymentDetailsParamsUnsetField = "money_services"
 )
 
@@ -10938,8 +11604,79 @@ type PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureParams struct {
 	Version *string `form:"version" json:"version"`
 }
 
+// Details for a cryptocurrency liquid asset funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
+	// The cryptocurrency currency code (e.g. BTC, ETH).
+	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
+}
+
+// Details for a security liquid asset funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
+	// The security's ticker symbol (e.g. AAPL).
+	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
+}
+
+// Details for a liquid asset (crypto or security) funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
+	// Details for a cryptocurrency liquid asset funding transaction.
+	Crypto *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Details for a security liquid asset funding transaction.
+	Security *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+}
+
+// The merchant where the staged wallet purchase is made.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
+	// The merchant category code of the merchant.
+	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// The merchant's name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Details for a staged purchase.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
+	// The merchant where the staged wallet purchase is made.
+	Merchant *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
+}
+
+// Details for a wallet funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
+	// Details for a staged purchase.
+	StagedPurchase *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
+	UnsetFields    []PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
-type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// Details for a liquid asset (crypto or security) funding transaction.
+	LiquidAsset *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
+	// Details for a wallet funding transaction.
+	Wallet      *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
+	UnsetFields []PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for payment method specific funding fields.
 type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesParams struct {
@@ -11039,8 +11776,79 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams struct {
 	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
+// Details for a cryptocurrency liquid asset funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
+	// The cryptocurrency currency code (e.g. BTC, ETH).
+	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
+}
+
+// Details for a security liquid asset funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
+	// The security's ticker symbol (e.g. AAPL).
+	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
+}
+
+// Details for a liquid asset (crypto or security) funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
+	// Details for a cryptocurrency liquid asset funding transaction.
+	Crypto *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Details for a security liquid asset funding transaction.
+	Security *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+}
+
+// The merchant where the staged wallet purchase is made.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
+	// The merchant category code of the merchant.
+	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// The merchant's name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Details for a staged purchase.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
+	// The merchant where the staged wallet purchase is made.
+	Merchant *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
+}
+
+// Details for a wallet funding transaction.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
+	// Details for a staged purchase.
+	StagedPurchase *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
+	UnsetFields    []PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
-type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// Details for a liquid asset (crypto or security) funding transaction.
+	LiquidAsset *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
+	// Details for a wallet funding transaction.
+	Wallet      *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
+	UnsetFields []PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for payment method specific funding fields.
 type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams struct {
@@ -13266,10 +14074,20 @@ type PaymentIntentUpdateAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// Fleet data for this line item.
+type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
+	// The type of product being purchased at this line item.
+	ProductType *string `form:"product_type" json:"product_type"`
+	// The type of service received at the acceptor location.
+	ServiceType *string `form:"service_type" json:"service_type,omitempty"`
+}
+
 // This sub-hash contains line item details that are specific to the `card` payment method.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// Fleet data for this line item.
+	FleetData *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
 
 // This sub-hash contains line item details that are specific to the `card_present` payment method.
@@ -13336,6 +14154,8 @@ type PaymentIntentUpdateAmountDetailsLineItemParams struct {
 	ProductName *string `form:"product_name" json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity *int64 `form:"quantity" json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision *int64 `form:"quantity_precision" json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentUpdateAmountDetailsLineItemTaxParams `form:"tax" json:"tax,omitempty"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.
@@ -14308,8 +15128,117 @@ type PaymentIntentUpdatePaymentDetailsSubscriptionParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentUpdatePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentUpdatePaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentUpdatePaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentUpdatePaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentUpdatePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentUpdatePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentUpdatePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this account funding transaction.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Date of birth.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the sender of this account funding transaction.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Account funding transaction details including sender and beneficiary information.
-type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this account funding transaction.
+	BeneficiaryDetails *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
+	// Inline identity details for the sender of this account funding transaction.
+	SenderDetails *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
+	UnsetFields   []PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
+	PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for this PaymentIntent.
 type PaymentIntentUpdatePaymentDetailsMoneyServicesParams struct {
@@ -14324,7 +15253,8 @@ type PaymentIntentUpdatePaymentDetailsMoneyServicesParams struct {
 type PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -14346,6 +15276,8 @@ type PaymentIntentUpdatePaymentDetailsParams struct {
 	CustomerReference *string `form:"customer_reference" json:"customer_reference,omitempty"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentUpdatePaymentDetailsEventDetailsParams `form:"event_details" json:"event_details,omitempty"`
+	// Fleet data for this PaymentIntent.
+	FleetData []*PaymentIntentUpdatePaymentDetailsFleetDatumParams `form:"fleet_data" json:"fleet_data,omitempty"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentUpdatePaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
@@ -14374,6 +15306,7 @@ const (
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentUpdatePaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentUpdatePaymentDetailsParamsUnsetField = "lodging_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentUpdatePaymentDetailsParamsUnsetField = "order_reference"
+	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldFleetData         PaymentIntentUpdatePaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentUpdatePaymentDetailsParamsUnsetField = "money_services"
 )
 
@@ -15082,8 +16015,79 @@ type PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureParams struct {
 	Version *string `form:"version" json:"version"`
 }
 
+// Details for a cryptocurrency liquid asset funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
+	// The cryptocurrency currency code (e.g. BTC, ETH).
+	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
+}
+
+// Details for a security liquid asset funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
+	// The security's ticker symbol (e.g. AAPL).
+	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
+}
+
+// Details for a liquid asset (crypto or security) funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
+	// Details for a cryptocurrency liquid asset funding transaction.
+	Crypto *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Details for a security liquid asset funding transaction.
+	Security *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+}
+
+// The merchant where the staged wallet purchase is made.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
+	// The merchant category code of the merchant.
+	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// The merchant's name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Details for a staged purchase.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
+	// The merchant where the staged wallet purchase is made.
+	Merchant *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
+}
+
+// Details for a wallet funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
+	// Details for a staged purchase.
+	StagedPurchase *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
+	UnsetFields    []PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
-type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// Details for a liquid asset (crypto or security) funding transaction.
+	LiquidAsset *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
+	// Details for a wallet funding transaction.
+	Wallet      *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
+	UnsetFields []PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for payment method specific funding fields.
 type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesParams struct {
@@ -15183,8 +16187,79 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams struct {
 	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
+// Details for a cryptocurrency liquid asset funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
+	// The cryptocurrency currency code (e.g. BTC, ETH).
+	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
+}
+
+// Details for a security liquid asset funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
+	// The security's ticker symbol (e.g. AAPL).
+	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
+}
+
+// Details for a liquid asset (crypto or security) funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
+	// Details for a cryptocurrency liquid asset funding transaction.
+	Crypto *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
+	// Details for a security liquid asset funding transaction.
+	Security *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+}
+
+// The merchant where the staged wallet purchase is made.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
+	// The merchant category code of the merchant.
+	MCC *string `form:"mcc" json:"mcc,omitempty"`
+	// The merchant's name.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Details for a staged purchase.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
+	// The merchant where the staged wallet purchase is made.
+	Merchant *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
+}
+
+// Details for a wallet funding transaction.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
+	// Details for a staged purchase.
+	StagedPurchase *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
+	UnsetFields    []PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Payment method specific account funding transaction details.
-type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct{}
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// Details for a liquid asset (crypto or security) funding transaction.
+	LiquidAsset *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
+	// Details for a wallet funding transaction.
+	Wallet      *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
+	UnsetFields []PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
 
 // Money services details for payment method specific funding fields.
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams struct {
@@ -18385,6 +19460,34 @@ type PaymentIntentPaymentDetailsSubscription struct {
 	// Subscription start time. Measured in seconds since the Unix epoch.
 	StartsAt int64 `json:"starts_at,omitempty"`
 }
+type PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFields struct {
+	// The fuel brand.
+	Brand string `json:"brand,omitempty"`
+}
+type PaymentIntentPaymentDetailsFleetDatumStation struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo string `json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber string `json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode string `json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber     string   `json:"phone_number,omitempty"`
+	ServiceLocation *Address `json:"service_location,omitempty"`
+	// The URL of the station.
+	URL string `json:"url,omitempty"`
+}
+type PaymentIntentPaymentDetailsFleetDatumVAT struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator string `json:"iob_indicator,omitempty"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentPaymentDetailsFleetDatum struct {
+	PrimaryFuelFields *PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFields `json:"primary_fuel_fields,omitempty"`
+	Station           *PaymentIntentPaymentDetailsFleetDatumStation           `json:"station,omitempty"`
+	VAT               *PaymentIntentPaymentDetailsFleetDatumVAT               `json:"vat,omitempty"`
+}
 type PaymentIntentPaymentDetails struct {
 	Benefit       *PaymentIntentPaymentDetailsBenefit          `json:"benefit,omitempty"`
 	CarRental     *PaymentIntentPaymentDetailsCarRental        `json:"car_rental,omitempty"`
@@ -18392,10 +19495,12 @@ type PaymentIntentPaymentDetails struct {
 	// A unique value to identify the customer. This field is available only for card payments.
 	//
 	// This field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
-	CustomerReference string                                     `json:"customer_reference"`
-	EventDetails      *PaymentIntentPaymentDetailsEventDetails   `json:"event_details,omitempty"`
-	FlightData        []*PaymentIntentPaymentDetailsFlightDatum  `json:"flight_data,omitempty"`
-	LodgingData       []*PaymentIntentPaymentDetailsLodgingDatum `json:"lodging_data,omitempty"`
+	CustomerReference string                                   `json:"customer_reference"`
+	EventDetails      *PaymentIntentPaymentDetailsEventDetails `json:"event_details,omitempty"`
+	// Fleet data for this PaymentIntent.
+	FleetData   []*PaymentIntentPaymentDetailsFleetDatum   `json:"fleet_data,omitempty"`
+	FlightData  []*PaymentIntentPaymentDetailsFlightDatum  `json:"flight_data,omitempty"`
+	LodgingData []*PaymentIntentPaymentDetailsLodgingDatum `json:"lodging_data,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.

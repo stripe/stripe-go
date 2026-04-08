@@ -29,8 +29,15 @@ func (p *PaymentIntentAmountDetailsLineItemListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetData struct {
+	// The type of product being purchased at this line item.
+	ProductType string `json:"product_type,omitempty"`
+	// The type of service received at the acceptor location.
+	ServiceType string `json:"service_type,omitempty"`
+}
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCard struct {
-	CommodityCode string `json:"commodity_code"`
+	CommodityCode string                                                               `json:"commodity_code"`
+	FleetData     *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetData `json:"fleet_data,omitempty"`
 }
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresent struct {
 	CommodityCode string `json:"commodity_code"`
@@ -84,6 +91,8 @@ type PaymentIntentAmountDetailsLineItem struct {
 	ProductName string `json:"product_name"`
 	// The quantity of items. Required for L3 rates. An integer greater than 0.
 	Quantity int64 `json:"quantity"`
+	// The number of decimal places implied in the quantity. For example, if quantity is 10000 and quantity_precision is 2, the actual quantity is 100.00. Defaults to 0 if not provided.
+	QuantityPrecision int64 `json:"quantity_precision,omitempty"`
 	// Contains information about the tax on the item.
 	Tax *PaymentIntentAmountDetailsLineItemTax `json:"tax"`
 	// The unit cost of the line item represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Required for L3 rates. An integer greater than or equal to 0.

@@ -6,6 +6,41 @@
 
 package stripe
 
+// The type of evaluation event.
+type RadarCustomerEvaluationEventType string
+
+// List of values that RadarCustomerEvaluationEventType can take
+const (
+	RadarCustomerEvaluationEventTypeLogin        RadarCustomerEvaluationEventType = "login"
+	RadarCustomerEvaluationEventTypeRegistration RadarCustomerEvaluationEventType = "registration"
+)
+
+// The risk level for this signal.
+type RadarCustomerEvaluationSignalsAccountSharingRiskLevel string
+
+// List of values that RadarCustomerEvaluationSignalsAccountSharingRiskLevel can take
+const (
+	RadarCustomerEvaluationSignalsAccountSharingRiskLevelElevated    RadarCustomerEvaluationSignalsAccountSharingRiskLevel = "elevated"
+	RadarCustomerEvaluationSignalsAccountSharingRiskLevelHighest     RadarCustomerEvaluationSignalsAccountSharingRiskLevel = "highest"
+	RadarCustomerEvaluationSignalsAccountSharingRiskLevelLow         RadarCustomerEvaluationSignalsAccountSharingRiskLevel = "low"
+	RadarCustomerEvaluationSignalsAccountSharingRiskLevelNormal      RadarCustomerEvaluationSignalsAccountSharingRiskLevel = "normal"
+	RadarCustomerEvaluationSignalsAccountSharingRiskLevelNotAssessed RadarCustomerEvaluationSignalsAccountSharingRiskLevel = "not_assessed"
+	RadarCustomerEvaluationSignalsAccountSharingRiskLevelUnknown     RadarCustomerEvaluationSignalsAccountSharingRiskLevel = "unknown"
+)
+
+// The risk level for this signal.
+type RadarCustomerEvaluationSignalsMultiAccountingRiskLevel string
+
+// List of values that RadarCustomerEvaluationSignalsMultiAccountingRiskLevel can take
+const (
+	RadarCustomerEvaluationSignalsMultiAccountingRiskLevelElevated    RadarCustomerEvaluationSignalsMultiAccountingRiskLevel = "elevated"
+	RadarCustomerEvaluationSignalsMultiAccountingRiskLevelHighest     RadarCustomerEvaluationSignalsMultiAccountingRiskLevel = "highest"
+	RadarCustomerEvaluationSignalsMultiAccountingRiskLevelLow         RadarCustomerEvaluationSignalsMultiAccountingRiskLevel = "low"
+	RadarCustomerEvaluationSignalsMultiAccountingRiskLevelNormal      RadarCustomerEvaluationSignalsMultiAccountingRiskLevel = "normal"
+	RadarCustomerEvaluationSignalsMultiAccountingRiskLevelNotAssessed RadarCustomerEvaluationSignalsMultiAccountingRiskLevel = "not_assessed"
+	RadarCustomerEvaluationSignalsMultiAccountingRiskLevelUnknown     RadarCustomerEvaluationSignalsMultiAccountingRiskLevel = "unknown"
+)
+
 // Client details context.
 type RadarCustomerEvaluationEvaluationContextClientDetailsParams struct {
 	// ID for the Radar Session associated with the customer evaluation.
@@ -24,7 +59,7 @@ type RadarCustomerEvaluationEvaluationContextCustomerDetailsCustomerDataParams s
 
 // Customer details context.
 type RadarCustomerEvaluationEvaluationContextCustomerDetailsParams struct {
-	// Stripe customer ID
+	// The ID of an existing Customer.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Customer data
 	CustomerData *RadarCustomerEvaluationEvaluationContextCustomerDetailsCustomerDataParams `form:"customer_data" json:"customer_data,omitempty"`
@@ -78,7 +113,7 @@ type RadarCustomerEvaluationRegistrationFailedParams struct {
 
 // Event payload for registration_success.
 type RadarCustomerEvaluationRegistrationSuccessParams struct {
-	// Stripe customer ID to attach to an entity-less registration evaluation.
+	// The ID of a Customer to attach to an entity-less registration evaluation.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 }
 
@@ -100,7 +135,7 @@ type RadarCustomerEvaluationCreateEvaluationContextCustomerDetailsCustomerDataPa
 
 // Customer details context.
 type RadarCustomerEvaluationCreateEvaluationContextCustomerDetailsParams struct {
-	// Stripe customer ID
+	// The ID of an existing Customer.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Customer data
 	CustomerData *RadarCustomerEvaluationCreateEvaluationContextCustomerDetailsCustomerDataParams `form:"customer_data" json:"customer_data,omitempty"`
@@ -146,7 +181,7 @@ type RadarCustomerEvaluationUpdateRegistrationFailedParams struct {
 
 // Event payload for registration_success.
 type RadarCustomerEvaluationUpdateRegistrationSuccessParams struct {
-	// Stripe customer ID to attach to an entity-less registration evaluation.
+	// The ID of a Customer to attach to an entity-less registration evaluation.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 }
 
@@ -197,20 +232,20 @@ type RadarCustomerEvaluationSignalsAccountSharing struct {
 	// Time at which the signal was evaluated. Measured in seconds since the Unix epoch.
 	EvaluatedAt int64 `json:"evaluated_at"`
 	// The risk level for this signal.
-	RiskLevel string `json:"risk_level,omitempty"`
-	// Score for this signal (float between 0.0-100.0).
+	RiskLevel RadarCustomerEvaluationSignalsAccountSharingRiskLevel `json:"risk_level,omitempty"`
+	// Score for this signal (between 0.0 and 100.0).
 	Score float64 `json:"score"`
 }
 type RadarCustomerEvaluationSignalsMultiAccounting struct {
 	// Time at which the signal was evaluated. Measured in seconds since the Unix epoch.
 	EvaluatedAt int64 `json:"evaluated_at"`
 	// The risk level for this signal.
-	RiskLevel string `json:"risk_level,omitempty"`
-	// Score for this signal (float between 0.0-100.0).
+	RiskLevel RadarCustomerEvaluationSignalsMultiAccountingRiskLevel `json:"risk_level,omitempty"`
+	// Score for this signal (between 0.0 and 100.0).
 	Score float64 `json:"score"`
 }
 
-// A hash of signal objects providing Radar's evaluation for the lifecycle event.
+// A hash of signal objects providing Radar's evaluation of the customer.
 type RadarCustomerEvaluationSignals struct {
 	AccountSharing  *RadarCustomerEvaluationSignalsAccountSharing  `json:"account_sharing,omitempty"`
 	MultiAccounting *RadarCustomerEvaluationSignalsMultiAccounting `json:"multi_accounting,omitempty"`
@@ -221,18 +256,18 @@ type RadarCustomerEvaluation struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	CreatedAt int64 `json:"created_at"`
-	// The ID of the Stripe customer the customer evaluation is associated with.
+	// The ID of the Customer to associate with this CustomerEvaluation.
 	Customer string `json:"customer,omitempty"`
 	// A list of events that have been reported on this customer evaluation.
 	Events []*RadarCustomerEvaluationEvent `json:"events"`
 	// The type of evaluation event.
-	EventType string `json:"event_type"`
+	EventType RadarCustomerEvaluationEventType `json:"event_type"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// A hash of signal objects providing Radar's evaluation for the lifecycle event.
+	// A hash of signal objects providing Radar's evaluation of the customer.
 	Signals *RadarCustomerEvaluationSignals `json:"signals"`
 }

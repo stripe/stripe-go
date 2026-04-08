@@ -20214,6 +20214,33 @@ func TestBlockedByStripeErrorClient(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestCannotProceedErrorService(t *testing.T) {
+	params := &stripe.V2MoneyManagementPayoutMethodArchiveParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/payout_methods/id_123/archive", params, "{\"error\":{\"type\":\"cannot_proceed\",\"code\":\"default_payout_method_cannot_be_archived\"}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2MoneyManagementPayoutMethods.Archive("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestCannotProceedErrorClient(t *testing.T) {
+	params := &stripe.V2MoneyManagementPayoutMethodArchiveParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/payout_methods/id_123/archive", params, "{\"error\":{\"type\":\"cannot_proceed\",\"code\":\"default_payout_method_cannot_be_archived\"}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2MoneyManagementPayoutMethods.Archive(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
 func TestControlledByAlternateResourceErrorService(t *testing.T) {
 	params := &stripe.V2MoneyManagementOutboundSetupIntentParams{}
 	testServer := MockServer(

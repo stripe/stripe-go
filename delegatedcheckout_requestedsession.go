@@ -75,9 +75,10 @@ type DelegatedCheckoutRequestedSessionStatus string
 
 // List of values that DelegatedCheckoutRequestedSessionStatus can take
 const (
-	DelegatedCheckoutRequestedSessionStatusCompleted DelegatedCheckoutRequestedSessionStatus = "completed"
-	DelegatedCheckoutRequestedSessionStatusExpired   DelegatedCheckoutRequestedSessionStatus = "expired"
-	DelegatedCheckoutRequestedSessionStatusOpen      DelegatedCheckoutRequestedSessionStatus = "open"
+	DelegatedCheckoutRequestedSessionStatusCompleted      DelegatedCheckoutRequestedSessionStatus = "completed"
+	DelegatedCheckoutRequestedSessionStatusExpired        DelegatedCheckoutRequestedSessionStatus = "expired"
+	DelegatedCheckoutRequestedSessionStatusOpen           DelegatedCheckoutRequestedSessionStatus = "open"
+	DelegatedCheckoutRequestedSessionStatusRequiresAction DelegatedCheckoutRequestedSessionStatus = "requires_action"
 )
 
 // The card brands blocked by the agent.

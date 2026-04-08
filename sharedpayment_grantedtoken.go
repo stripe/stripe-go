@@ -354,6 +354,7 @@ const (
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeShopeepay        SharedPaymentGrantedTokenPaymentMethodDetailsType = "shopeepay"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeSofort           SharedPaymentGrantedTokenPaymentMethodDetailsType = "sofort"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeStripeBalance    SharedPaymentGrantedTokenPaymentMethodDetailsType = "stripe_balance"
+	SharedPaymentGrantedTokenPaymentMethodDetailsTypeSunbit           SharedPaymentGrantedTokenPaymentMethodDetailsType = "sunbit"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeSwish            SharedPaymentGrantedTokenPaymentMethodDetailsType = "swish"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeTWINT            SharedPaymentGrantedTokenPaymentMethodDetailsType = "twint"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeUpi              SharedPaymentGrantedTokenPaymentMethodDetailsType = "upi"
@@ -884,6 +885,7 @@ type SharedPaymentGrantedTokenPaymentMethodDetailsStripeBalance struct {
 	// The connected account ID whose Stripe balance to use as the source of payment
 	Account string `json:"account,omitempty"`
 }
+type SharedPaymentGrantedTokenPaymentMethodDetailsSunbit struct{}
 type SharedPaymentGrantedTokenPaymentMethodDetailsSwish struct{}
 type SharedPaymentGrantedTokenPaymentMethodDetailsTWINT struct{}
 type SharedPaymentGrantedTokenPaymentMethodDetailsUpi struct {
@@ -992,6 +994,7 @@ type SharedPaymentGrantedTokenPaymentMethodDetails struct {
 	Shopeepay       *SharedPaymentGrantedTokenPaymentMethodDetailsShopeepay       `json:"shopeepay,omitempty"`
 	Sofort          *SharedPaymentGrantedTokenPaymentMethodDetailsSofort          `json:"sofort,omitempty"`
 	StripeBalance   *SharedPaymentGrantedTokenPaymentMethodDetailsStripeBalance   `json:"stripe_balance,omitempty"`
+	Sunbit          *SharedPaymentGrantedTokenPaymentMethodDetailsSunbit          `json:"sunbit,omitempty"`
 	Swish           *SharedPaymentGrantedTokenPaymentMethodDetailsSwish           `json:"swish,omitempty"`
 	TWINT           *SharedPaymentGrantedTokenPaymentMethodDetailsTWINT           `json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
