@@ -149,6 +149,7 @@ type IdentityVerificationReportType string
 // List of values that IdentityVerificationReportType can take
 const (
 	IdentityVerificationReportTypeDocument         IdentityVerificationReportType = "document"
+	IdentityVerificationReportTypeEmail            IdentityVerificationReportType = "email"
 	IdentityVerificationReportTypeIDNumber         IdentityVerificationReportType = "id_number"
 	IdentityVerificationReportTypeVerificationFlow IdentityVerificationReportType = "verification_flow"
 )
