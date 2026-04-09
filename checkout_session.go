@@ -1645,7 +1645,7 @@ const (
 	CheckoutSessionWalletOptionsLinkDisplayNever CheckoutSessionWalletOptionsLinkDisplay = "never"
 )
 
-// Determines which amount is used as the basis for calculating the surcharge.
+// Determines which amount serves as the basis for calculating the surcharge.
 type CheckoutSessionAutomaticSurchargeCalculationBasis string
 
 // List of values that CheckoutSessionAutomaticSurchargeCalculationBasis can take
@@ -3641,7 +3641,7 @@ type CheckoutSessionWalletOptionsParams struct {
 
 // Settings for automatic surcharge calculation for this session.
 type CheckoutSessionAutomaticSurchargeParams struct {
-	// Determines which amount is used as the basis for calculating the surcharge.
+	// Determines which amount serves as the basis for calculating the surcharge.
 	CalculationBasis *string `form:"calculation_basis" json:"calculation_basis,omitempty"`
 	// Set to `true` to calculate surcharge automatically using the customer's card details and location.
 	Enabled *bool `form:"enabled" json:"enabled"`
@@ -5863,7 +5863,7 @@ type CheckoutSessionCreateWalletOptionsParams struct {
 
 // Settings for automatic surcharge calculation for this session.
 type CheckoutSessionCreateAutomaticSurchargeParams struct {
-	// Determines which amount is used as the basis for calculating the surcharge.
+	// Determines which amount serves as the basis for calculating the surcharge.
 	CalculationBasis *string `form:"calculation_basis" json:"calculation_basis,omitempty"`
 	// Set to `true` to calculate surcharge automatically using the customer's card details and location.
 	Enabled *bool `form:"enabled" json:"enabled"`
@@ -7807,7 +7807,7 @@ type CheckoutSessionWalletOptions struct {
 	Link *CheckoutSessionWalletOptionsLink `json:"link,omitempty"`
 }
 type CheckoutSessionAutomaticSurcharge struct {
-	// Determines which amount is used as the basis for calculating the surcharge.
+	// Determines which amount serves as the basis for calculating the surcharge.
 	CalculationBasis CheckoutSessionAutomaticSurchargeCalculationBasis `json:"calculation_basis"`
 	// Indicates whether automatic surcharge is enabled for the session.
 	Enabled bool `json:"enabled"`
