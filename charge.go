@@ -227,6 +227,15 @@ const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonRejected            ChargePaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
 )
 
+// The transaction type of the card transaction. One of `account_funding` or `purchase`.
+type ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType string
+
+// List of values that ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType can take
+const (
+	ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionTypeAccountFunding ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType = "account_funding"
+	ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionTypePurchase       ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType = "purchase"
+)
+
 // Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 type ChargePaymentMethodDetailsCardPresentNetwork string
 
@@ -4176,7 +4185,12 @@ type ChargePaymentMethodDetailsCardWallet struct {
 	Type         PaymentMethodCardWalletType                       `json:"type"`
 	VisaCheckout *ChargePaymentMethodDetailsCardWalletVisaCheckout `json:"visa_checkout,omitempty"`
 }
+type ChargePaymentMethodDetailsCardAccountFunding struct {
+	// The transaction type of the card transaction. One of `account_funding` or `purchase`.
+	ProcessedTransactionType ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType `json:"processed_transaction_type,omitempty"`
+}
 type ChargePaymentMethodDetailsCard struct {
+	AccountFunding *ChargePaymentMethodDetailsCardAccountFunding `json:"account_funding,omitempty"`
 	// The authorized amount.
 	AmountAuthorized int64 `json:"amount_authorized"`
 	// The latest amount intended to be authorized by this charge.

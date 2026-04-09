@@ -1645,6 +1645,44 @@ const (
 	CheckoutSessionWalletOptionsLinkDisplayNever CheckoutSessionWalletOptionsLinkDisplay = "never"
 )
 
+// Determines which amount is used as the basis for calculating the surcharge.
+type CheckoutSessionAutomaticSurchargeCalculationBasis string
+
+// List of values that CheckoutSessionAutomaticSurchargeCalculationBasis can take
+const (
+	CheckoutSessionAutomaticSurchargeCalculationBasisTotalAfterTax  CheckoutSessionAutomaticSurchargeCalculationBasis = "total_after_tax"
+	CheckoutSessionAutomaticSurchargeCalculationBasisTotalBeforeTax CheckoutSessionAutomaticSurchargeCalculationBasis = "total_before_tax"
+)
+
+// The surcharge provider used for this session.
+type CheckoutSessionAutomaticSurchargeProvider string
+
+// List of values that CheckoutSessionAutomaticSurchargeProvider can take
+const (
+	CheckoutSessionAutomaticSurchargeProviderInterpayments CheckoutSessionAutomaticSurchargeProvider = "interpayments"
+	CheckoutSessionAutomaticSurchargeProviderYeeld         CheckoutSessionAutomaticSurchargeProvider = "yeeld"
+)
+
+// The status of the most recent surcharge calculation for this session.
+type CheckoutSessionAutomaticSurchargeStatus string
+
+// List of values that CheckoutSessionAutomaticSurchargeStatus can take
+const (
+	CheckoutSessionAutomaticSurchargeStatusComplete      CheckoutSessionAutomaticSurchargeStatus = "complete"
+	CheckoutSessionAutomaticSurchargeStatusFailed        CheckoutSessionAutomaticSurchargeStatus = "failed"
+	CheckoutSessionAutomaticSurchargeStatusRequiresInput CheckoutSessionAutomaticSurchargeStatus = "requires_input"
+)
+
+// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+type CheckoutSessionAutomaticSurchargeTaxBehavior string
+
+// List of values that CheckoutSessionAutomaticSurchargeTaxBehavior can take
+const (
+	CheckoutSessionAutomaticSurchargeTaxBehaviorExclusive   CheckoutSessionAutomaticSurchargeTaxBehavior = "exclusive"
+	CheckoutSessionAutomaticSurchargeTaxBehaviorInclusive   CheckoutSessionAutomaticSurchargeTaxBehavior = "inclusive"
+	CheckoutSessionAutomaticSurchargeTaxBehaviorUnspecified CheckoutSessionAutomaticSurchargeTaxBehavior = "unspecified"
+)
+
 type CheckoutSessionCheckoutItemType string
 
 // List of values that CheckoutSessionCheckoutItemType can take
@@ -3600,6 +3638,16 @@ type CheckoutSessionWalletOptionsParams struct {
 	// contains details about the Link wallet options.
 	Link *CheckoutSessionWalletOptionsLinkParams `form:"link" json:"link,omitempty"`
 }
+
+// Settings for automatic surcharge calculation for this session.
+type CheckoutSessionAutomaticSurchargeParams struct {
+	// Determines which amount is used as the basis for calculating the surcharge.
+	CalculationBasis *string `form:"calculation_basis" json:"calculation_basis,omitempty"`
+	// Set to `true` to calculate surcharge automatically using the customer's card details and location.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
+}
 type CheckoutSessionCheckoutItemRateCardSubscriptionItemParams struct {
 	Metadata        map[string]string `form:"metadata" json:"metadata,omitempty"`
 	RateCard        *string           `form:"rate_card" json:"rate_card"`
@@ -3659,6 +3707,8 @@ type CheckoutSessionParams struct {
 	//
 	// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](api/checkout/sessions/approve) from your server.
 	ApprovalMethod *string `form:"approval_method" json:"approval_method,omitempty"`
+	// Settings for automatic surcharge calculation for this session.
+	AutomaticSurcharge *CheckoutSessionAutomaticSurchargeParams `form:"automatic_surcharge" json:"automatic_surcharge,omitempty"`
 	// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 	AutomaticTax *CheckoutSessionAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
@@ -5810,6 +5860,16 @@ type CheckoutSessionCreateWalletOptionsParams struct {
 	// contains details about the Link wallet options.
 	Link *CheckoutSessionCreateWalletOptionsLinkParams `form:"link" json:"link,omitempty"`
 }
+
+// Settings for automatic surcharge calculation for this session.
+type CheckoutSessionCreateAutomaticSurchargeParams struct {
+	// Determines which amount is used as the basis for calculating the surcharge.
+	CalculationBasis *string `form:"calculation_basis" json:"calculation_basis,omitempty"`
+	// Set to `true` to calculate surcharge automatically using the customer's card details and location.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
+}
 type CheckoutSessionCreateCheckoutItemRateCardSubscriptionItemParams struct {
 	Metadata        map[string]string `form:"metadata" json:"metadata,omitempty"`
 	RateCard        *string           `form:"rate_card" json:"rate_card"`
@@ -5869,6 +5929,8 @@ type CheckoutSessionCreateParams struct {
 	//
 	// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](api/checkout/sessions/approve) from your server.
 	ApprovalMethod *string `form:"approval_method" json:"approval_method,omitempty"`
+	// Settings for automatic surcharge calculation for this session.
+	AutomaticSurcharge *CheckoutSessionCreateAutomaticSurchargeParams `form:"automatic_surcharge" json:"automatic_surcharge,omitempty"`
 	// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 	AutomaticTax *CheckoutSessionCreateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
@@ -7729,6 +7791,8 @@ type CheckoutSessionTotalDetails struct {
 	AmountDiscount int64 `json:"amount_discount"`
 	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
+	// The surcharge amount that was applied to the Checkout Session.
+	AmountSurcharge int64 `json:"amount_surcharge,omitempty"`
 	// This is the sum of all the tax amounts.
 	AmountTax int64                                 `json:"amount_tax"`
 	Breakdown *CheckoutSessionTotalDetailsBreakdown `json:"breakdown,omitempty"`
@@ -7741,6 +7805,26 @@ type CheckoutSessionWalletOptionsLink struct {
 // Wallet-specific configuration for this Checkout Session.
 type CheckoutSessionWalletOptions struct {
 	Link *CheckoutSessionWalletOptionsLink `json:"link,omitempty"`
+}
+type CheckoutSessionAutomaticSurcharge struct {
+	// Determines which amount is used as the basis for calculating the surcharge.
+	CalculationBasis CheckoutSessionAutomaticSurchargeCalculationBasis `json:"calculation_basis"`
+	// Indicates whether automatic surcharge is enabled for the session.
+	Enabled bool `json:"enabled"`
+	// The surcharge provider used for this session.
+	Provider CheckoutSessionAutomaticSurchargeProvider `json:"provider,omitempty"`
+	// The status of the most recent surcharge calculation for this session.
+	Status CheckoutSessionAutomaticSurchargeStatus `json:"status,omitempty"`
+	// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+	TaxBehavior CheckoutSessionAutomaticSurchargeTaxBehavior `json:"tax_behavior"`
+}
+type CheckoutSessionSurchargeCost struct {
+	// Total surcharge cost before taxes are applied.
+	AmountSubtotal int64 `json:"amount_subtotal"`
+	// Total tax amount applied due to surcharging. If no tax was applied, defaults to 0.
+	AmountTax int64 `json:"amount_tax"`
+	// Total surcharge cost after taxes are applied.
+	AmountTotal int64 `json:"amount_total"`
 }
 type CheckoutSessionCheckoutItemRateCardSubscriptionItem struct {
 	BillingCadence       string            `json:"billing_cadence,omitempty"`
@@ -7801,8 +7885,9 @@ type CheckoutSession struct {
 	// Default is `auto`, when the customer's attempt to pay is approved automatically with no action required on your server.
 	//
 	// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](api/checkout/sessions/approve) from your server.
-	ApprovalMethod CheckoutSessionApprovalMethod `json:"approval_method,omitempty"`
-	AutomaticTax   *CheckoutSessionAutomaticTax  `json:"automatic_tax"`
+	ApprovalMethod     CheckoutSessionApprovalMethod      `json:"approval_method,omitempty"`
+	AutomaticSurcharge *CheckoutSessionAutomaticSurcharge `json:"automatic_surcharge,omitempty"`
+	AutomaticTax       *CheckoutSessionAutomaticTax       `json:"automatic_tax"`
 	// Describes whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection CheckoutSessionBillingAddressCollection `json:"billing_address_collection"`
 	BrandingSettings         *CheckoutSessionBrandingSettings        `json:"branding_settings,omitempty"`
@@ -7933,6 +8018,7 @@ type CheckoutSession struct {
 	// The URL the customer will be directed to after the payment or
 	// subscription creation is successful.
 	SuccessURL      string                          `json:"success_url"`
+	SurchargeCost   *CheckoutSessionSurchargeCost   `json:"surcharge_cost,omitempty"`
 	TaxIDCollection *CheckoutSessionTaxIDCollection `json:"tax_id_collection,omitempty"`
 	// Tax and discount details for the computed total amount.
 	TotalDetails *CheckoutSessionTotalDetails `json:"total_details"`

@@ -482,6 +482,14 @@ const (
 	PaymentIntentPaymentDetailsSubscriptionBillingIntervalIntervalYear  PaymentIntentPaymentDetailsSubscriptionBillingIntervalInterval = "year"
 )
 
+// The type of money services transaction.
+type PaymentIntentPaymentDetailsMoneyServicesTransactionType string
+
+// List of values that PaymentIntentPaymentDetailsMoneyServicesTransactionType can take
+const (
+	PaymentIntentPaymentDetailsMoneyServicesTransactionTypeAccountFunding PaymentIntentPaymentDetailsMoneyServicesTransactionType = "account_funding"
+)
+
 // Payment schedule for the mandate.
 type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
 
@@ -19488,6 +19496,55 @@ type PaymentIntentPaymentDetailsFleetDatum struct {
 	Station           *PaymentIntentPaymentDetailsFleetDatumStation           `json:"station,omitempty"`
 	VAT               *PaymentIntentPaymentDetailsFleetDatumVAT               `json:"vat,omitempty"`
 }
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirth struct {
+	// Day of birth, between 1 and 31.
+	Day int64 `json:"day"`
+	// Month of birth, between 1 and 12.
+	Month int64 `json:"month"`
+	// Four-digit year of birth.
+	Year int64 `json:"year"`
+}
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetails struct {
+	Address     *Address                                                                             `json:"address,omitempty"`
+	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirth `json:"date_of_birth,omitempty"`
+	// Email address.
+	Email string `json:"email,omitempty"`
+	// Full name.
+	Name string `json:"name,omitempty"`
+	// Phone number.
+	Phone string `json:"phone,omitempty"`
+}
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirth struct {
+	// Day of birth, between 1 and 31.
+	Day int64 `json:"day"`
+	// Month of birth, between 1 and 12.
+	Month int64 `json:"month"`
+	// Four-digit year of birth.
+	Year int64 `json:"year"`
+}
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetails struct {
+	Address     *Address                                                                        `json:"address,omitempty"`
+	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirth `json:"date_of_birth,omitempty"`
+	// Email address.
+	Email string `json:"email,omitempty"`
+	// Full name.
+	Name string `json:"name,omitempty"`
+	// Phone number.
+	Phone string `json:"phone,omitempty"`
+}
+type PaymentIntentPaymentDetailsMoneyServicesAccountFunding struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount string                                                                    `json:"beneficiary_account,omitempty"`
+	BeneficiaryDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetails `json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount string                                                               `json:"sender_account,omitempty"`
+	SenderDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetails `json:"sender_details,omitempty"`
+}
+type PaymentIntentPaymentDetailsMoneyServices struct {
+	AccountFunding *PaymentIntentPaymentDetailsMoneyServicesAccountFunding `json:"account_funding,omitempty"`
+	// The type of money services transaction.
+	TransactionType PaymentIntentPaymentDetailsMoneyServicesTransactionType `json:"transaction_type,omitempty"`
+}
 type PaymentIntentPaymentDetails struct {
 	Benefit       *PaymentIntentPaymentDetailsBenefit          `json:"benefit,omitempty"`
 	CarRental     *PaymentIntentPaymentDetailsCarRental        `json:"car_rental,omitempty"`
@@ -19498,9 +19555,10 @@ type PaymentIntentPaymentDetails struct {
 	CustomerReference string                                   `json:"customer_reference"`
 	EventDetails      *PaymentIntentPaymentDetailsEventDetails `json:"event_details,omitempty"`
 	// Fleet data for this PaymentIntent.
-	FleetData   []*PaymentIntentPaymentDetailsFleetDatum   `json:"fleet_data,omitempty"`
-	FlightData  []*PaymentIntentPaymentDetailsFlightDatum  `json:"flight_data,omitempty"`
-	LodgingData []*PaymentIntentPaymentDetailsLodgingDatum `json:"lodging_data,omitempty"`
+	FleetData     []*PaymentIntentPaymentDetailsFleetDatum   `json:"fleet_data,omitempty"`
+	FlightData    []*PaymentIntentPaymentDetailsFlightDatum  `json:"flight_data,omitempty"`
+	LodgingData   []*PaymentIntentPaymentDetailsLodgingDatum `json:"lodging_data,omitempty"`
+	MoneyServices *PaymentIntentPaymentDetailsMoneyServices  `json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.

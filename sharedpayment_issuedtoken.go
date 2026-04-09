@@ -19,12 +19,30 @@ const (
 	SharedPaymentIssuedTokenDeactivatedReasonRevoked  SharedPaymentIssuedTokenDeactivatedReason = "revoked"
 )
 
+// Specifies the type of next action required. Determines which child attribute contains action details.
+type SharedPaymentIssuedTokenNextActionType string
+
+// List of values that SharedPaymentIssuedTokenNextActionType can take
+const (
+	SharedPaymentIssuedTokenNextActionTypeUseStripeSDK SharedPaymentIssuedTokenNextActionType = "use_stripe_sdk"
+)
+
 // Indicates that you intend to save the PaymentMethod of this SharedPaymentToken to a customer later.
 type SharedPaymentIssuedTokenSetupFutureUsage string
 
 // List of values that SharedPaymentIssuedTokenSetupFutureUsage can take
 const (
 	SharedPaymentIssuedTokenSetupFutureUsageOnSession SharedPaymentIssuedTokenSetupFutureUsage = "on_session"
+)
+
+// Status of this SharedPaymentIssuedToken, one of `active`, `requires_action`, or `deactivated`.
+type SharedPaymentIssuedTokenStatus string
+
+// List of values that SharedPaymentIssuedTokenStatus can take
+const (
+	SharedPaymentIssuedTokenStatusActive         SharedPaymentIssuedTokenStatus = "active"
+	SharedPaymentIssuedTokenStatusDeactivated    SharedPaymentIssuedTokenStatus = "deactivated"
+	SharedPaymentIssuedTokenStatusRequiresAction SharedPaymentIssuedTokenStatus = "requires_action"
 )
 
 // The recurring interval at which the shared payment token's amount usage restrictions reset.
@@ -36,6 +54,20 @@ const (
 	SharedPaymentIssuedTokenUsageLimitsRecurringIntervalWeek  SharedPaymentIssuedTokenUsageLimitsRecurringInterval = "week"
 	SharedPaymentIssuedTokenUsageLimitsRecurringIntervalYear  SharedPaymentIssuedTokenUsageLimitsRecurringInterval = "year"
 )
+
+// Contains details for handling the next action using Stripe.js, iOS, or Android SDKs. Present when `next_action.type` is `use_stripe_sdk`.
+type SharedPaymentIssuedTokenNextActionUseStripeSDK struct {
+	// A base64-encoded string used by Stripe.js and the iOS and Android client SDKs to handle the next action. Its content is subject to change.
+	Value string `json:"value"`
+}
+
+// If present, describes the action required to make this `SharedPaymentIssuedToken` usable for payments. Present when the token is in `requires_action` state.
+type SharedPaymentIssuedTokenNextAction struct {
+	// Specifies the type of next action required. Determines which child attribute contains action details.
+	Type SharedPaymentIssuedTokenNextActionType `json:"type"`
+	// Contains details for handling the next action using Stripe.js, iOS, or Android SDKs. Present when `next_action.type` is `use_stripe_sdk`.
+	UseStripeSDK *SharedPaymentIssuedTokenNextActionUseStripeSDK `json:"use_stripe_sdk"`
+}
 
 // Bot risk insight (score: Float, recommended_action).
 type SharedPaymentIssuedTokenRiskDetailsInsightsBot struct {
@@ -147,6 +179,8 @@ type SharedPaymentIssuedToken struct {
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
+	// If present, describes the action required to make this `SharedPaymentIssuedToken` usable for payments. Present when the token is in `requires_action` state.
+	NextAction *SharedPaymentIssuedTokenNextAction `json:"next_action"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// ID of an existing PaymentMethod.
@@ -161,6 +195,8 @@ type SharedPaymentIssuedToken struct {
 	SetupFutureUsage SharedPaymentIssuedTokenSetupFutureUsage `json:"setup_future_usage"`
 	// Metadata about the SharedPaymentIssuedToken.
 	SharedMetadata map[string]string `json:"shared_metadata"`
+	// Status of this SharedPaymentIssuedToken, one of `active`, `requires_action`, or `deactivated`.
+	Status SharedPaymentIssuedTokenStatus `json:"status"`
 	// Usage details of the SharedPaymentIssuedToken
 	UsageDetails *SharedPaymentIssuedTokenUsageDetails `json:"usage_details"`
 	// Usage limits of the SharedPaymentIssuedToken.

@@ -669,6 +669,60 @@ func (p *PaymentAttemptRecordReportAuthenticatedParams) AddMetadata(key string, 
 	p.Metadata[key] = value
 }
 
+// Information about the custom processor used to make this payment.
+type PaymentAttemptRecordReportAuthorizedProcessorDetailsCustomParams struct {
+	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
+	PaymentReference *string `form:"payment_reference" json:"payment_reference"`
+}
+
+// Processor information for this payment.
+type PaymentAttemptRecordReportAuthorizedProcessorDetailsParams struct {
+	// Information about the custom processor used to make this payment.
+	Custom *PaymentAttemptRecordReportAuthorizedProcessorDetailsCustomParams `form:"custom" json:"custom,omitempty"`
+	// The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor.
+	Type *string `form:"type" json:"type"`
+}
+
+// Report that the specified Payment Attempt Record was authorized.
+type PaymentAttemptRecordReportAuthorizedParams struct {
+	Params `form:"*"`
+	// When the reported payment was authorized. Measured in seconds since the Unix epoch.
+	AuthorizedAt *int64 `form:"authorized_at" json:"authorized_at,omitempty"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Processor information for this payment.
+	ProcessorDetails *PaymentAttemptRecordReportAuthorizedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
+	UnsetFields      []PaymentAttemptRecordReportAuthorizedParamsUnsetField      `form:"-" json:"-"`
+}
+
+// PaymentAttemptRecordReportAuthorizedParamsUnsetField is the list of fields that can be cleared/unset on PaymentAttemptRecordReportAuthorizedParams.
+type PaymentAttemptRecordReportAuthorizedParamsUnsetField string
+
+const (
+	PaymentAttemptRecordReportAuthorizedParamsUnsetFieldMetadata PaymentAttemptRecordReportAuthorizedParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentAttemptRecordReportAuthorizedParams) AddUnsetField(field PaymentAttemptRecordReportAuthorizedParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentAttemptRecordReportAuthorizedParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentAttemptRecordReportAuthorizedParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Report that the specified Payment Attempt Record was canceled.
 type PaymentAttemptRecordReportCanceledParams struct {
 	Params `form:"*"`

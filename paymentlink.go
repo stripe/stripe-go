@@ -820,6 +820,16 @@ type PaymentLinkTransferDataParams struct {
 	Destination *string `form:"destination" json:"destination"`
 }
 
+// Configuration for automatic surcharge calculation.
+type PaymentLinkAutomaticSurchargeParams struct {
+	// Determines which amount is used as the basis for calculating the surcharge.
+	CalculationBasis *string `form:"calculation_basis" json:"calculation_basis,omitempty"`
+	// Set to `true` to calculate surcharge automatically using the customer's card details and location.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
+}
+
 // Creates a payment link.
 type PaymentLinkParams struct {
 	Params `form:"*"`
@@ -833,6 +843,8 @@ type PaymentLinkParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
 	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
+	// Configuration for automatic surcharge calculation.
+	AutomaticSurcharge *PaymentLinkAutomaticSurchargeParams `form:"automatic_surcharge" json:"automatic_surcharge,omitempty"`
 	// Configuration for automatic tax collection.
 	AutomaticTax *PaymentLinkAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Configuration for collecting the customer's billing address. Defaults to `auto`.
@@ -1493,6 +1505,16 @@ type PaymentLinkCreateTransferDataParams struct {
 	Destination *string `form:"destination" json:"destination"`
 }
 
+// Configuration for automatic surcharge calculation.
+type PaymentLinkCreateAutomaticSurchargeParams struct {
+	// Determines which amount is used as the basis for calculating the surcharge.
+	CalculationBasis *string `form:"calculation_basis" json:"calculation_basis,omitempty"`
+	// Set to `true` to calculate surcharge automatically using the customer's card details and location.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
+}
+
 // Creates a payment link.
 type PaymentLinkCreateParams struct {
 	Params `form:"*"`
@@ -1504,6 +1526,8 @@ type PaymentLinkCreateParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
 	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
+	// Configuration for automatic surcharge calculation.
+	AutomaticSurcharge *PaymentLinkCreateAutomaticSurchargeParams `form:"automatic_surcharge" json:"automatic_surcharge,omitempty"`
 	// Configuration for automatic tax collection.
 	AutomaticTax *PaymentLinkCreateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Configuration for collecting the customer's billing address. Defaults to `auto`.

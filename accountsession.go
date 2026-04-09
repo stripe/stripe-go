@@ -1542,12 +1542,22 @@ type AccountSessionComponentsTerminalHardwareShop struct {
 	Enabled  bool                                                  `json:"enabled"`
 	Features *AccountSessionComponentsTerminalHardwareShopFeatures `json:"features"`
 }
+type AccountSessionComponentsBillsFeatures struct{}
+
+// Configuration for the [Bills](https://docs.stripe.com/connect/supported-embedded-components/bills/) embedded component.
+type AccountSessionComponentsBills struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                   `json:"enabled"`
+	Features *AccountSessionComponentsBillsFeatures `json:"features"`
+}
 type AccountSessionComponents struct {
 	AccountManagement *AccountSessionComponentsAccountManagement `json:"account_management"`
 	AccountOnboarding *AccountSessionComponentsAccountOnboarding `json:"account_onboarding"`
 	// Configuration for the [agentic commerce settings](https://docs.stripe.com/connect/supported-embedded-components/agentic-commerce-settings/) embedded component.
-	AgenticCommerceSettings     *AccountSessionComponentsAgenticCommerceSettings     `json:"agentic_commerce_settings,omitempty"`
-	Balances                    *AccountSessionComponentsBalances                    `json:"balances"`
+	AgenticCommerceSettings *AccountSessionComponentsAgenticCommerceSettings `json:"agentic_commerce_settings,omitempty"`
+	Balances                *AccountSessionComponentsBalances                `json:"balances"`
+	// Configuration for the [Bills](https://docs.stripe.com/connect/supported-embedded-components/bills/) embedded component.
+	Bills                       *AccountSessionComponentsBills                       `json:"bills,omitempty"`
 	CapitalFinancing            *AccountSessionComponentsCapitalFinancing            `json:"capital_financing,omitempty"`
 	CapitalFinancingApplication *AccountSessionComponentsCapitalFinancingApplication `json:"capital_financing_application,omitempty"`
 	CapitalFinancingPromotion   *AccountSessionComponentsCapitalFinancingPromotion   `json:"capital_financing_promotion,omitempty"`
