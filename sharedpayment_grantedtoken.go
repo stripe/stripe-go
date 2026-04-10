@@ -949,7 +949,7 @@ type SharedPaymentGrantedTokenPaymentMethodDetails struct {
 	Bancontact       *SharedPaymentGrantedTokenPaymentMethodDetailsBancontact       `json:"bancontact,omitempty"`
 	Billie           *SharedPaymentGrantedTokenPaymentMethodDetailsBillie           `json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
-	BillingDetails  *SharedPaymentGrantedTokenPaymentMethodDetailsBillingDetails  `json:"billing_details,omitempty"`
+	BillingDetails  *SharedPaymentGrantedTokenPaymentMethodDetailsBillingDetails  `json:"billing_details"`
 	BLIK            *SharedPaymentGrantedTokenPaymentMethodDetailsBLIK            `json:"blik,omitempty"`
 	Boleto          *SharedPaymentGrantedTokenPaymentMethodDetailsBoleto          `json:"boleto,omitempty"`
 	Card            *SharedPaymentGrantedTokenPaymentMethodDetailsCard            `json:"card,omitempty"`
