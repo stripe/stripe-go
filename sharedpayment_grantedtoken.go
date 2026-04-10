@@ -1005,57 +1005,57 @@ type SharedPaymentGrantedTokenPaymentMethodDetails struct {
 	Zip           *SharedPaymentGrantedTokenPaymentMethodDetailsZip           `json:"zip,omitempty"`
 }
 
-// Bot risk insight (score: Float, recommended_action).
+// Bot risk insight.
 type SharedPaymentGrantedTokenRiskDetailsInsightsBot struct {
 	// Recommended action for this insight.
 	RecommendedAction string `json:"recommended_action"`
-	// Risk score for this insight (float).
+	// Risk score for this insight.
 	Score float64 `json:"score"`
 }
 
-// Card issuer decline risk insight (score: Float, recommended_action).
+// Card issuer decline risk insight.
 type SharedPaymentGrantedTokenRiskDetailsInsightsCardIssuerDecline struct {
 	// Recommended action for this insight.
 	RecommendedAction string `json:"recommended_action"`
-	// Risk score for this insight (float).
+	// Risk score for this insight.
 	Score float64 `json:"score"`
 }
 
-// Card testing risk insight (score: Float, recommended_action).
+// Card testing risk insight.
 type SharedPaymentGrantedTokenRiskDetailsInsightsCardTesting struct {
 	// Recommended action for this insight.
 	RecommendedAction string `json:"recommended_action"`
-	// Risk score for this insight (float).
+	// Risk score for this insight.
 	Score float64 `json:"score"`
 }
 
-// Fraudulent dispute risk insight (score: Integer, recommended_action).
+// Fraudulent dispute risk insight.
 type SharedPaymentGrantedTokenRiskDetailsInsightsFraudulentDispute struct {
 	// Recommended action for this insight.
 	RecommendedAction string `json:"recommended_action"`
-	// Risk score for this insight (integer).
+	// Risk score for this insight.
 	Score int64 `json:"score"`
 }
 
-// Stolen card risk insight (score: Integer, recommended_action).
+// Stolen card risk insight.
 type SharedPaymentGrantedTokenRiskDetailsInsightsStolenCard struct {
 	// Recommended action for this insight.
 	RecommendedAction string `json:"recommended_action"`
-	// Risk score for this insight (integer).
+	// Risk score for this insight.
 	Score int64 `json:"score"`
 }
 
 // Risk insights for this token, including scores and recommended actions for each risk type.
 type SharedPaymentGrantedTokenRiskDetailsInsights struct {
-	// Bot risk insight (score: Float, recommended_action).
+	// Bot risk insight.
 	Bot *SharedPaymentGrantedTokenRiskDetailsInsightsBot `json:"bot,omitempty"`
-	// Card issuer decline risk insight (score: Float, recommended_action).
+	// Card issuer decline risk insight.
 	CardIssuerDecline *SharedPaymentGrantedTokenRiskDetailsInsightsCardIssuerDecline `json:"card_issuer_decline,omitempty"`
-	// Card testing risk insight (score: Float, recommended_action).
+	// Card testing risk insight.
 	CardTesting *SharedPaymentGrantedTokenRiskDetailsInsightsCardTesting `json:"card_testing,omitempty"`
-	// Fraudulent dispute risk insight (score: Integer, recommended_action).
+	// Fraudulent dispute risk insight.
 	FraudulentDispute *SharedPaymentGrantedTokenRiskDetailsInsightsFraudulentDispute `json:"fraudulent_dispute"`
-	// Stolen card risk insight (score: Integer, recommended_action).
+	// Stolen card risk insight.
 	StolenCard *SharedPaymentGrantedTokenRiskDetailsInsightsStolenCard `json:"stolen_card,omitempty"`
 }
 
