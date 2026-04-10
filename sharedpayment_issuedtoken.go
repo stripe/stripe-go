@@ -135,8 +135,6 @@ type SharedPaymentIssuedTokenSellerDetails struct {
 	ExternalID string `json:"external_id"`
 	// The unique and logical string that identifies the seller platform that this SharedToken is being created for.
 	NetworkBusinessProfile string `json:"network_business_profile"`
-	// The unique and logical string that identifies the seller platform that this SharedToken is being created for.
-	NetworkID string `json:"network_id,omitempty"`
 }
 
 // The total amount captured using this SharedPaymentToken.

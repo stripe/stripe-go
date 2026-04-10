@@ -3278,6 +3278,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -11058,6 +11060,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -15469,6 +15473,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
