@@ -196,6 +196,8 @@ type IdentityVerificationSessionParams struct {
 	Params `form:"*"`
 	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
 	ClientReferenceID *string `form:"client_reference_id" json:"client_reference_id,omitempty"`
+	// Confirm and submit the provided details for verification.
+	Confirm *bool `form:"confirm" json:"confirm,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -334,6 +336,8 @@ type IdentityVerificationSessionCreateParams struct {
 	Params `form:"*"`
 	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
 	ClientReferenceID *string `form:"client_reference_id" json:"client_reference_id,omitempty"`
+	// Confirm and submit the provided details for verification.
+	Confirm *bool `form:"confirm" json:"confirm,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -430,6 +434,8 @@ type IdentityVerificationSessionUpdateProvidedDetailsParams struct {
 // verification check and options.
 type IdentityVerificationSessionUpdateParams struct {
 	Params `form:"*"`
+	// Confirm and submit the provided details for verification.
+	Confirm *bool `form:"confirm" json:"confirm,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.

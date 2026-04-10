@@ -122,6 +122,8 @@ type BalanceSettingsPaymentsParams struct {
 	DebitNegativeBalances *bool `form:"debit_negative_balances" json:"debit_negative_balances,omitempty"`
 	// Settings specific to the account's payouts.
 	Payouts *BalanceSettingsPaymentsPayoutsParams `form:"payouts" json:"payouts,omitempty"`
+	// A hash of settlement currencies to update. Each key is an ISO 4217 currency code, and the value is either `enabled` or `disabled`.
+	SettlementCurrencies map[string]string `form:"settlement_currencies" json:"settlement_currencies,omitempty"`
 	// Settings related to the account's balance settlement timing.
 	SettlementTiming *BalanceSettingsPaymentsSettlementTimingParams `form:"settlement_timing" json:"settlement_timing,omitempty"`
 }
@@ -198,6 +200,8 @@ type BalanceSettingsUpdatePaymentsParams struct {
 	DebitNegativeBalances *bool `form:"debit_negative_balances" json:"debit_negative_balances,omitempty"`
 	// Settings specific to the account's payouts.
 	Payouts *BalanceSettingsUpdatePaymentsPayoutsParams `form:"payouts" json:"payouts,omitempty"`
+	// A hash of settlement currencies to update. Each key is an ISO 4217 currency code, and the value is either `enabled` or `disabled`.
+	SettlementCurrencies map[string]string `form:"settlement_currencies" json:"settlement_currencies,omitempty"`
 	// Settings related to the account's balance settlement timing.
 	SettlementTiming *BalanceSettingsUpdatePaymentsSettlementTimingParams `form:"settlement_timing" json:"settlement_timing,omitempty"`
 }
