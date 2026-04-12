@@ -495,8 +495,6 @@ type Plan struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	Deleted  bool     `json:"deleted,omitempty"`
-	// A custom identifier for this price, such as a SKU number or product code, that can be used to reference records from external systems.
-	ExternalReference string `json:"external_reference,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`.
