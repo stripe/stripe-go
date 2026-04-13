@@ -136,15 +136,6 @@ const (
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersFinancialAccounts V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.financial_accounts"
 )
 
-// Open Enum. The use case type of the account link that has been completed.
-type V2CoreAccountLinkReturnedEventDataUseCase string
-
-// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
-const (
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
-)
-
 // Configurations on the Account that was onboarded via the account link.
 type V2CoreAccountLinkReturnedEventDataConfiguration string
 
@@ -154,6 +145,15 @@ const (
 	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
 	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
 	V2CoreAccountLinkReturnedEventDataConfigurationStorer    V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
+)
+
+// Open Enum. The use case type of the account link that has been completed.
+type V2CoreAccountLinkReturnedEventDataUseCase string
+
+// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
+const (
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
 )
 
 // V2CoreEvent is the interface implemented by V2 Events. To get the underlying Event,
