@@ -17,16 +17,6 @@ const (
 	SharedPaymentGrantedTokenDeactivatedReasonRevoked  SharedPaymentGrantedTokenDeactivatedReason = "revoked"
 )
 
-// The recurring interval at which the shared payment token's amount usage restrictions reset.
-type SharedPaymentGrantedTokenUsageLimitsRecurringInterval string
-
-// List of values that SharedPaymentGrantedTokenUsageLimitsRecurringInterval can take
-const (
-	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalMonth SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "month"
-	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalWeek  SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "week"
-	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalYear  SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "year"
-)
-
 // The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 type SharedPaymentGrantedTokenPaymentMethodDetailsCardWalletType string
 
@@ -423,6 +413,16 @@ const (
 	SharedPaymentGrantedTokenPaymentMethodDetailsUSBankAccountStatusDetailsBlockedReasonTokenizedAccountNumberDeactivated SharedPaymentGrantedTokenPaymentMethodDetailsUSBankAccountStatusDetailsBlockedReason = "tokenized_account_number_deactivated"
 )
 
+// The recurring interval at which the shared payment token's amount usage restrictions reset.
+type SharedPaymentGrantedTokenUsageLimitsRecurringInterval string
+
+// List of values that SharedPaymentGrantedTokenUsageLimitsRecurringInterval can take
+const (
+	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalMonth SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "month"
+	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalWeek  SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "week"
+	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalYear  SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "year"
+)
+
 // Retrieves an existing SharedPaymentGrantedToken object
 type SharedPaymentGrantedTokenParams struct {
 	Params `form:"*"`
@@ -445,32 +445,6 @@ type SharedPaymentGrantedTokenRetrieveParams struct {
 // AddExpand appends a new field to expand.
 func (p *SharedPaymentGrantedTokenRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
-}
-
-// The total amount captured using this SharedPaymentToken.
-type SharedPaymentGrantedTokenUsageDetailsAmountCaptured struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// Integer value of the amount in the smallest currency unit.
-	Value int64 `json:"value"`
-}
-
-// Some details about how the SharedPaymentGrantedToken has been used already.
-type SharedPaymentGrantedTokenUsageDetails struct {
-	// The total amount captured using this SharedPaymentToken.
-	AmountCaptured *SharedPaymentGrantedTokenUsageDetailsAmountCaptured `json:"amount_captured"`
-}
-
-// Limits on how this SharedPaymentGrantedToken can be used.
-type SharedPaymentGrantedTokenUsageLimits struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// Time at which this SharedPaymentToken expires and can no longer be used to confirm a PaymentIntent.
-	ExpiresAt int64 `json:"expires_at"`
-	// Max amount that can be captured using this SharedPaymentToken.
-	MaxAmount int64 `json:"max_amount"`
-	// The recurring interval at which the shared payment token's amount usage restrictions reset.
-	RecurringInterval SharedPaymentGrantedTokenUsageLimitsRecurringInterval `json:"recurring_interval,omitempty"`
 }
 
 // Details about the agent that issued this SharedPaymentGrantedToken.
@@ -1063,6 +1037,32 @@ type SharedPaymentGrantedTokenRiskDetailsInsights struct {
 type SharedPaymentGrantedTokenRiskDetails struct {
 	// Risk insights for this token, including scores and recommended actions for each risk type.
 	Insights *SharedPaymentGrantedTokenRiskDetailsInsights `json:"insights"`
+}
+
+// The total amount captured using this SharedPaymentToken.
+type SharedPaymentGrantedTokenUsageDetailsAmountCaptured struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// Integer value of the amount in the smallest currency unit.
+	Value int64 `json:"value"`
+}
+
+// Some details about how the SharedPaymentGrantedToken has been used already.
+type SharedPaymentGrantedTokenUsageDetails struct {
+	// The total amount captured using this SharedPaymentToken.
+	AmountCaptured *SharedPaymentGrantedTokenUsageDetailsAmountCaptured `json:"amount_captured"`
+}
+
+// Limits on how this SharedPaymentGrantedToken can be used.
+type SharedPaymentGrantedTokenUsageLimits struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// Time at which this SharedPaymentToken expires and can no longer be used to confirm a PaymentIntent.
+	ExpiresAt int64 `json:"expires_at"`
+	// Max amount that can be captured using this SharedPaymentToken.
+	MaxAmount int64 `json:"max_amount"`
+	// The recurring interval at which the shared payment token's amount usage restrictions reset.
+	RecurringInterval SharedPaymentGrantedTokenUsageLimitsRecurringInterval `json:"recurring_interval,omitempty"`
 }
 
 // SharedPaymentGrantedToken is the view-only resource of a SharedPaymentIssuedToken, which is a limited-use reference to a PaymentMethod.

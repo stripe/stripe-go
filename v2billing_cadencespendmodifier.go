@@ -8,20 +8,20 @@ package stripe
 
 import "time"
 
-// The type of the spend modifier.
-type V2BillingCadenceSpendModifierType string
-
-// List of values that V2BillingCadenceSpendModifierType can take
-const (
-	V2BillingCadenceSpendModifierTypeMaxBillingPeriodSpend V2BillingCadenceSpendModifierType = "max_billing_period_spend"
-)
-
 // The type of the spend modifier amount.
 type V2BillingCadenceSpendModifierMaxBillingPeriodSpendAmountType string
 
 // List of values that V2BillingCadenceSpendModifierMaxBillingPeriodSpendAmountType can take
 const (
 	V2BillingCadenceSpendModifierMaxBillingPeriodSpendAmountTypeCustomPricingUnit V2BillingCadenceSpendModifierMaxBillingPeriodSpendAmountType = "custom_pricing_unit"
+)
+
+// The type of the spend modifier.
+type V2BillingCadenceSpendModifierType string
+
+// List of values that V2BillingCadenceSpendModifierType can take
+const (
+	V2BillingCadenceSpendModifierTypeMaxBillingPeriodSpend V2BillingCadenceSpendModifierType = "max_billing_period_spend"
 )
 
 // The custom pricing unit amount. Present if type is `custom_pricing_unit`.

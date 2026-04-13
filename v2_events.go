@@ -10,19 +10,6 @@ import (
 	"time"
 )
 
-// Categorical assessment of the delinquency risk based on probability.
-type V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel string
-
-// List of values that V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel can take
-const (
-	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelElevated    V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "elevated"
-	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelHighest     V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "highest"
-	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelLow         V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "low"
-	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelNormal      V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "normal"
-	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelNotAssessed V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "not_assessed"
-	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelUnknown     V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "unknown"
-)
-
 // The effect this indicator had on the overall risk level.
 type V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorImpact string
 
@@ -54,6 +41,19 @@ const (
 	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorRefunds             V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "refunds"
 	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorTenure              V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "tenure"
 	V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicatorTransfers           V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicatorIndicator = "transfers"
+)
+
+// Categorical assessment of the delinquency risk based on probability.
+type V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel string
+
+// List of values that V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel can take
+const (
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelElevated    V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "elevated"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelHighest     V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "highest"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelLow         V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "low"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelNormal      V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "normal"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelNotAssessed V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "not_assessed"
+	V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevelUnknown     V1AccountSignalsIncludingDelinquencyCreatedEventDataRiskLevel = "unknown"
 )
 
 // Open Enum.
@@ -206,15 +206,6 @@ const (
 	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersFinancialAccounts V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.financial_accounts"
 )
 
-// Open Enum. The use case type of the account link that has been completed.
-type V2CoreAccountLinkReturnedEventDataUseCase string
-
-// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
-const (
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
-)
-
 // Configurations on the Account that was onboarded via the account link.
 type V2CoreAccountLinkReturnedEventDataConfiguration string
 
@@ -224,6 +215,15 @@ const (
 	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
 	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
 	V2CoreAccountLinkReturnedEventDataConfigurationStorer    V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
+)
+
+// Open Enum. The use case type of the account link that has been completed.
+type V2CoreAccountLinkReturnedEventDataUseCase string
+
+// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
+const (
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
 )
 
 // Risk level for the fraudulent website signal. If evaluation could not run (like invalid website), we return unknown.

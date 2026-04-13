@@ -276,14 +276,6 @@ type IdentityVerificationReportDocument struct {
 	UnparsedSex string `json:"unparsed_sex,omitempty"`
 }
 
-// Details on the verification error. Present when status is `unverified`.
-type IdentityVerificationReportEmailError struct {
-	// A short machine-readable string giving the reason for the verification failure.
-	Code IdentityVerificationReportEmailErrorCode `json:"code"`
-	// A human-readable message giving the reason for the failure. These messages can be shown to your users.
-	Reason string `json:"reason"`
-}
-
 // Additional email verification details
 type IdentityVerificationReportEmailDetails struct {
 	// Number of days from the time when the email domain was first observed to the time of verification.
@@ -292,6 +284,14 @@ type IdentityVerificationReportEmailDetails struct {
 	DaysSinceOwnershipStarted float64 `json:"days_since_ownership_started,omitempty"`
 	// Two-letter ISO 3166-1 alpha-2 country code of the email domain's country.
 	DomainCountry string `json:"domain_country,omitempty"`
+}
+
+// Details on the verification error. Present when status is `unverified`.
+type IdentityVerificationReportEmailError struct {
+	// A short machine-readable string giving the reason for the verification failure.
+	Code IdentityVerificationReportEmailErrorCode `json:"code"`
+	// A human-readable message giving the reason for the failure. These messages can be shown to your users.
+	Reason string `json:"reason"`
 }
 
 // Result from a email check

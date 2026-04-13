@@ -8,16 +8,13 @@ package stripe
 
 import "time"
 
-// Type of the Billing Intent Action.
-type V2BillingIntentActionType string
+// Type of the discount.
+type V2BillingIntentActionApplyDiscountType string
 
-// List of values that V2BillingIntentActionType can take
+// List of values that V2BillingIntentActionApplyDiscountType can take
 const (
-	V2BillingIntentActionTypeApply      V2BillingIntentActionType = "apply"
-	V2BillingIntentActionTypeDeactivate V2BillingIntentActionType = "deactivate"
-	V2BillingIntentActionTypeModify     V2BillingIntentActionType = "modify"
-	V2BillingIntentActionTypeRemove     V2BillingIntentActionType = "remove"
-	V2BillingIntentActionTypeSubscribe  V2BillingIntentActionType = "subscribe"
+	V2BillingIntentActionApplyDiscountTypeCoupon        V2BillingIntentActionApplyDiscountType = "coupon"
+	V2BillingIntentActionApplyDiscountTypePromotionCode V2BillingIntentActionApplyDiscountType = "promotion_code"
 )
 
 // When the apply action will take effect.
@@ -32,39 +29,12 @@ const (
 	V2BillingIntentActionApplyEffectiveAtTypeTimestamp                 V2BillingIntentActionApplyEffectiveAtType = "timestamp"
 )
 
-// Type of the apply action details.
-type V2BillingIntentActionApplyType string
-
-// List of values that V2BillingIntentActionApplyType can take
-const (
-	V2BillingIntentActionApplyTypeDiscount            V2BillingIntentActionApplyType = "discount"
-	V2BillingIntentActionApplyTypeInvoiceDiscountRule V2BillingIntentActionApplyType = "invoice_discount_rule"
-	V2BillingIntentActionApplyTypeSpendModifierRule   V2BillingIntentActionApplyType = "spend_modifier_rule"
-)
-
-// Type of the discount.
-type V2BillingIntentActionApplyDiscountType string
-
-// List of values that V2BillingIntentActionApplyDiscountType can take
-const (
-	V2BillingIntentActionApplyDiscountTypeCoupon        V2BillingIntentActionApplyDiscountType = "coupon"
-	V2BillingIntentActionApplyDiscountTypePromotionCode V2BillingIntentActionApplyDiscountType = "promotion_code"
-)
-
 // The entity that the discount rule applies to, for example, the Billing Cadence.
 type V2BillingIntentActionApplyInvoiceDiscountRuleAppliesTo string
 
 // List of values that V2BillingIntentActionApplyInvoiceDiscountRuleAppliesTo can take
 const (
 	V2BillingIntentActionApplyInvoiceDiscountRuleAppliesToCadence V2BillingIntentActionApplyInvoiceDiscountRuleAppliesTo = "cadence"
-)
-
-// Type of the discount rule.
-type V2BillingIntentActionApplyInvoiceDiscountRuleType string
-
-// List of values that V2BillingIntentActionApplyInvoiceDiscountRuleType can take
-const (
-	V2BillingIntentActionApplyInvoiceDiscountRuleTypePercentOff V2BillingIntentActionApplyInvoiceDiscountRuleType = "percent_off"
 )
 
 // The type of maximum applications configuration.
@@ -75,12 +45,28 @@ const (
 	V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsTypeIndefinite V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsType = "indefinite"
 )
 
+// Type of the discount rule.
+type V2BillingIntentActionApplyInvoiceDiscountRuleType string
+
+// List of values that V2BillingIntentActionApplyInvoiceDiscountRuleType can take
+const (
+	V2BillingIntentActionApplyInvoiceDiscountRuleTypePercentOff V2BillingIntentActionApplyInvoiceDiscountRuleType = "percent_off"
+)
+
 // What the spend modifier applies to.
 type V2BillingIntentActionApplySpendModifierRuleAppliesTo string
 
 // List of values that V2BillingIntentActionApplySpendModifierRuleAppliesTo can take
 const (
 	V2BillingIntentActionApplySpendModifierRuleAppliesToCadence V2BillingIntentActionApplySpendModifierRuleAppliesTo = "cadence"
+)
+
+// The type of the amount.
+type V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmountType string
+
+// List of values that V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmountType can take
+const (
+	V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmountTypeCustomPricingUnit V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmountType = "custom_pricing_unit"
 )
 
 // Type of the spend modifier.
@@ -91,12 +77,14 @@ const (
 	V2BillingIntentActionApplySpendModifierRuleTypeMaxBillingPeriodSpend V2BillingIntentActionApplySpendModifierRuleType = "max_billing_period_spend"
 )
 
-// The type of the amount.
-type V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmountType string
+// Type of the apply action details.
+type V2BillingIntentActionApplyType string
 
-// List of values that V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmountType can take
+// List of values that V2BillingIntentActionApplyType can take
 const (
-	V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmountTypeCustomPricingUnit V2BillingIntentActionApplySpendModifierRuleMaxBillingPeriodSpendAmountType = "custom_pricing_unit"
+	V2BillingIntentActionApplyTypeDiscount            V2BillingIntentActionApplyType = "discount"
+	V2BillingIntentActionApplyTypeInvoiceDiscountRule V2BillingIntentActionApplyType = "invoice_discount_rule"
+	V2BillingIntentActionApplyTypeSpendModifierRule   V2BillingIntentActionApplyType = "spend_modifier_rule"
 )
 
 // The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
@@ -134,13 +122,13 @@ const (
 	V2BillingIntentActionDeactivateEffectiveAtTypeTimestamp                 V2BillingIntentActionDeactivateEffectiveAtType = "timestamp"
 )
 
-// Type of the action details.
-type V2BillingIntentActionDeactivateType string
+// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is deactivating. If not specified, defaults to none.
+type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior string
 
-// List of values that V2BillingIntentActionDeactivateType can take
+// List of values that V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior can take
 const (
-	V2BillingIntentActionDeactivateTypePricingPlanSubscriptionDetails V2BillingIntentActionDeactivateType = "pricing_plan_subscription_details"
-	V2BillingIntentActionDeactivateTypeV1SubscriptionDetails          V2BillingIntentActionDeactivateType = "v1_subscription_details"
+	V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehaviorNone     V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior = "none"
+	V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehaviorProrated V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior = "prorated"
 )
 
 // The type of behavior to override.
@@ -152,13 +140,13 @@ const (
 	V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeRecurringCreditGrant V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "recurring_credit_grant"
 )
 
-// The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is deactivating. If not specified, defaults to none.
-type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior string
+// Type of the action details.
+type V2BillingIntentActionDeactivateType string
 
-// List of values that V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior can take
+// List of values that V2BillingIntentActionDeactivateType can take
 const (
-	V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehaviorNone     V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior = "none"
-	V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehaviorProrated V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeCreditProrationBehavior = "prorated"
+	V2BillingIntentActionDeactivateTypePricingPlanSubscriptionDetails V2BillingIntentActionDeactivateType = "pricing_plan_subscription_details"
+	V2BillingIntentActionDeactivateTypeV1SubscriptionDetails          V2BillingIntentActionDeactivateType = "v1_subscription_details"
 )
 
 // Allows users to override the collect at behavior.
@@ -178,24 +166,6 @@ const (
 	V2BillingIntentActionModifyEffectiveAtTypeCurrentBillingPeriodStart V2BillingIntentActionModifyEffectiveAtType = "current_billing_period_start"
 	V2BillingIntentActionModifyEffectiveAtTypeOnReserve                 V2BillingIntentActionModifyEffectiveAtType = "on_reserve"
 	V2BillingIntentActionModifyEffectiveAtTypeTimestamp                 V2BillingIntentActionModifyEffectiveAtType = "timestamp"
-)
-
-// Type of the action details.
-type V2BillingIntentActionModifyType string
-
-// List of values that V2BillingIntentActionModifyType can take
-const (
-	V2BillingIntentActionModifyTypePricingPlanSubscriptionDetails V2BillingIntentActionModifyType = "pricing_plan_subscription_details"
-	V2BillingIntentActionModifyTypeV1SubscriptionDetails          V2BillingIntentActionModifyType = "v1_subscription_details"
-)
-
-// The type of behavior to override.
-type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType string
-
-// List of values that V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType can take
-const (
-	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeLicenseFee           V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "license_fee"
-	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeRecurringCreditGrant V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "recurring_credit_grant"
 )
 
 // The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user modifies the subscription. If not specified, defaults to prorated.
@@ -223,6 +193,24 @@ type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPe
 const (
 	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehaviorFullCredits V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehavior = "full_credits"
 	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehaviorNone        V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehavior = "none"
+)
+
+// The type of behavior to override.
+type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType string
+
+// List of values that V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType can take
+const (
+	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeLicenseFee           V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "license_fee"
+	V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeRecurringCreditGrant V2BillingIntentActionModifyPricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "recurring_credit_grant"
+)
+
+// Type of the action details.
+type V2BillingIntentActionModifyType string
+
+// List of values that V2BillingIntentActionModifyType can take
+const (
+	V2BillingIntentActionModifyTypePricingPlanSubscriptionDetails V2BillingIntentActionModifyType = "pricing_plan_subscription_details"
+	V2BillingIntentActionModifyTypeV1SubscriptionDetails          V2BillingIntentActionModifyType = "v1_subscription_details"
 )
 
 // When the remove action will take effect.
@@ -262,24 +250,6 @@ const (
 	V2BillingIntentActionSubscribeEffectiveAtTypeTimestamp                 V2BillingIntentActionSubscribeEffectiveAtType = "timestamp"
 )
 
-// Type of the action details.
-type V2BillingIntentActionSubscribeType string
-
-// List of values that V2BillingIntentActionSubscribeType can take
-const (
-	V2BillingIntentActionSubscribeTypePricingPlanSubscriptionDetails V2BillingIntentActionSubscribeType = "pricing_plan_subscription_details"
-	V2BillingIntentActionSubscribeTypeV1SubscriptionDetails          V2BillingIntentActionSubscribeType = "v1_subscription_details"
-)
-
-// The type of behavior to override.
-type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType string
-
-// List of values that V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType can take
-const (
-	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeLicenseFee           V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "license_fee"
-	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeRecurringCreditGrant V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "recurring_credit_grant"
-)
-
 // The proration behavior for the partial servicing period. Defines how we prorate the license fee when the user is subscribing. If not specified, defaults to prorated.
 type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorLicenseFeeDebitProrationBehavior string
 
@@ -298,13 +268,35 @@ const (
 	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehaviorNone        V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorRecurringCreditGrantCreateBehavior = "none"
 )
 
-// When the apply action will take effect. If not specified, defaults to on_reserve.
-type V2BillingIntentActionApplyEffectiveAt struct {
-	// The timestamp at which the apply action will take effect. Only present if type is timestamp. Only allowed for discount actions.
-	Timestamp time.Time `json:"timestamp,omitempty"`
-	// When the apply action will take effect.
-	Type V2BillingIntentActionApplyEffectiveAtType `json:"type"`
-}
+// The type of behavior to override.
+type V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType string
+
+// List of values that V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType can take
+const (
+	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeLicenseFee           V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "license_fee"
+	V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorTypeRecurringCreditGrant V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsOverridesPartialPeriodBehaviorType = "recurring_credit_grant"
+)
+
+// Type of the action details.
+type V2BillingIntentActionSubscribeType string
+
+// List of values that V2BillingIntentActionSubscribeType can take
+const (
+	V2BillingIntentActionSubscribeTypePricingPlanSubscriptionDetails V2BillingIntentActionSubscribeType = "pricing_plan_subscription_details"
+	V2BillingIntentActionSubscribeTypeV1SubscriptionDetails          V2BillingIntentActionSubscribeType = "v1_subscription_details"
+)
+
+// Type of the Billing Intent Action.
+type V2BillingIntentActionType string
+
+// List of values that V2BillingIntentActionType can take
+const (
+	V2BillingIntentActionTypeApply      V2BillingIntentActionType = "apply"
+	V2BillingIntentActionTypeDeactivate V2BillingIntentActionType = "deactivate"
+	V2BillingIntentActionTypeModify     V2BillingIntentActionType = "modify"
+	V2BillingIntentActionTypeRemove     V2BillingIntentActionType = "remove"
+	V2BillingIntentActionTypeSubscribe  V2BillingIntentActionType = "subscribe"
+)
 
 // Details for applying a discount.
 type V2BillingIntentActionApplyDiscount struct {
@@ -316,6 +308,14 @@ type V2BillingIntentActionApplyDiscount struct {
 	PromotionCode string `json:"promotion_code,omitempty"`
 	// Type of the discount.
 	Type V2BillingIntentActionApplyDiscountType `json:"type"`
+}
+
+// When the apply action will take effect. If not specified, defaults to on_reserve.
+type V2BillingIntentActionApplyEffectiveAt struct {
+	// The timestamp at which the apply action will take effect. Only present if type is timestamp. Only allowed for discount actions.
+	Timestamp time.Time `json:"timestamp,omitempty"`
+	// When the apply action will take effect.
+	Type V2BillingIntentActionApplyEffectiveAtType `json:"type"`
 }
 
 // The maximum number of times this discount can be applied for this Billing Cadence.

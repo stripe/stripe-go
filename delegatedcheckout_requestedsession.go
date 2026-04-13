@@ -42,45 +42,6 @@ const (
 	DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureTypeDisclaimer DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureType = "disclaimer"
 )
 
-// The card brands supported by the seller.
-type DelegatedCheckoutRequestedSessionSellerDetailsCardBrand string
-
-// List of values that DelegatedCheckoutRequestedSessionSellerDetailsCardBrand can take
-const (
-	DelegatedCheckoutRequestedSessionSellerDetailsCardBrandAmericanExpress DelegatedCheckoutRequestedSessionSellerDetailsCardBrand = "american_express"
-	DelegatedCheckoutRequestedSessionSellerDetailsCardBrandMastercard      DelegatedCheckoutRequestedSessionSellerDetailsCardBrand = "mastercard"
-	DelegatedCheckoutRequestedSessionSellerDetailsCardBrandVisa            DelegatedCheckoutRequestedSessionSellerDetailsCardBrand = "visa"
-)
-
-// The payment method types supported by the seller.
-type DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodType string
-
-// List of values that DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodType can take
-const (
-	DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodTypeAffirm DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodType = "affirm"
-	DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodTypeCard   DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodType = "card"
-	DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodTypeKlarna DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodType = "klarna"
-)
-
-// Whether or not the payment method should be saved for future use.
-type DelegatedCheckoutRequestedSessionSetupFutureUsage string
-
-// List of values that DelegatedCheckoutRequestedSessionSetupFutureUsage can take
-const (
-	DelegatedCheckoutRequestedSessionSetupFutureUsageOnSession DelegatedCheckoutRequestedSessionSetupFutureUsage = "on_session"
-)
-
-// The status of the requested session.
-type DelegatedCheckoutRequestedSessionStatus string
-
-// List of values that DelegatedCheckoutRequestedSessionStatus can take
-const (
-	DelegatedCheckoutRequestedSessionStatusCompleted      DelegatedCheckoutRequestedSessionStatus = "completed"
-	DelegatedCheckoutRequestedSessionStatusExpired        DelegatedCheckoutRequestedSessionStatus = "expired"
-	DelegatedCheckoutRequestedSessionStatusOpen           DelegatedCheckoutRequestedSessionStatus = "open"
-	DelegatedCheckoutRequestedSessionStatusRequiresAction DelegatedCheckoutRequestedSessionStatus = "requires_action"
-)
-
 // The card brands blocked by the agent.
 type DelegatedCheckoutRequestedSessionPaymentMethodOptionsCardBrandsBlocked string
 
@@ -119,6 +80,45 @@ const (
 	DelegatedCheckoutRequestedSessionPaymentMethodOptionsExcludedPaymentMethodTypeAffirm DelegatedCheckoutRequestedSessionPaymentMethodOptionsExcludedPaymentMethodType = "affirm"
 	DelegatedCheckoutRequestedSessionPaymentMethodOptionsExcludedPaymentMethodTypeCard   DelegatedCheckoutRequestedSessionPaymentMethodOptionsExcludedPaymentMethodType = "card"
 	DelegatedCheckoutRequestedSessionPaymentMethodOptionsExcludedPaymentMethodTypeKlarna DelegatedCheckoutRequestedSessionPaymentMethodOptionsExcludedPaymentMethodType = "klarna"
+)
+
+// The card brands supported by the seller.
+type DelegatedCheckoutRequestedSessionSellerDetailsCardBrand string
+
+// List of values that DelegatedCheckoutRequestedSessionSellerDetailsCardBrand can take
+const (
+	DelegatedCheckoutRequestedSessionSellerDetailsCardBrandAmericanExpress DelegatedCheckoutRequestedSessionSellerDetailsCardBrand = "american_express"
+	DelegatedCheckoutRequestedSessionSellerDetailsCardBrandMastercard      DelegatedCheckoutRequestedSessionSellerDetailsCardBrand = "mastercard"
+	DelegatedCheckoutRequestedSessionSellerDetailsCardBrandVisa            DelegatedCheckoutRequestedSessionSellerDetailsCardBrand = "visa"
+)
+
+// The payment method types supported by the seller.
+type DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodType string
+
+// List of values that DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodType can take
+const (
+	DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodTypeAffirm DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodType = "affirm"
+	DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodTypeCard   DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodType = "card"
+	DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodTypeKlarna DelegatedCheckoutRequestedSessionSellerDetailsPaymentMethodType = "klarna"
+)
+
+// Whether or not the payment method should be saved for future use.
+type DelegatedCheckoutRequestedSessionSetupFutureUsage string
+
+// List of values that DelegatedCheckoutRequestedSessionSetupFutureUsage can take
+const (
+	DelegatedCheckoutRequestedSessionSetupFutureUsageOnSession DelegatedCheckoutRequestedSessionSetupFutureUsage = "on_session"
+)
+
+// The status of the requested session.
+type DelegatedCheckoutRequestedSessionStatus string
+
+// List of values that DelegatedCheckoutRequestedSessionStatus can take
+const (
+	DelegatedCheckoutRequestedSessionStatusCompleted      DelegatedCheckoutRequestedSessionStatus = "completed"
+	DelegatedCheckoutRequestedSessionStatusExpired        DelegatedCheckoutRequestedSessionStatus = "expired"
+	DelegatedCheckoutRequestedSessionStatusOpen           DelegatedCheckoutRequestedSessionStatus = "open"
+	DelegatedCheckoutRequestedSessionStatusRequiresAction DelegatedCheckoutRequestedSessionStatus = "requires_action"
 )
 
 // Retrieves a requested session
@@ -591,12 +591,6 @@ type DelegatedCheckoutRequestedSessionCreateLineItemDetailParams struct {
 	SKUID *string `form:"sku_id" json:"sku_id"`
 }
 
-// The details of the seller.
-type DelegatedCheckoutRequestedSessionCreateSellerDetailsParams struct {
-	// The network profile for the seller.
-	NetworkProfile *string `form:"network_profile" json:"network_profile"`
-}
-
 // Card-specific payment method options.
 type DelegatedCheckoutRequestedSessionCreatePaymentMethodOptionsCardParams struct {
 	// The card brands to exclude from the session.
@@ -609,6 +603,12 @@ type DelegatedCheckoutRequestedSessionCreatePaymentMethodOptionsParams struct {
 	Card *DelegatedCheckoutRequestedSessionCreatePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// The payment method types to exclude from the session.
 	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types" json:"excluded_payment_method_types,omitempty"`
+}
+
+// The details of the seller.
+type DelegatedCheckoutRequestedSessionCreateSellerDetailsParams struct {
+	// The network profile for the seller.
+	NetworkProfile *string `form:"network_profile" json:"network_profile"`
 }
 
 // Creates a requested session
@@ -865,6 +865,24 @@ type DelegatedCheckoutRequestedSessionOrderDetails struct {
 	OrderStatusURL string `json:"order_status_url"`
 }
 
+// Card-specific payment method options.
+type DelegatedCheckoutRequestedSessionPaymentMethodOptionsCard struct {
+	// The card brands blocked by the agent.
+	BrandsBlocked []DelegatedCheckoutRequestedSessionPaymentMethodOptionsCardBrandsBlocked `json:"brands_blocked"`
+}
+
+// The payment method options for this requested session.
+type DelegatedCheckoutRequestedSessionPaymentMethodOptions struct {
+	// Card-specific payment method options.
+	Card *DelegatedCheckoutRequestedSessionPaymentMethodOptionsCard `json:"card"`
+	// The computed displayable card brands.
+	DisplayableCardBrands []DelegatedCheckoutRequestedSessionPaymentMethodOptionsDisplayableCardBrand `json:"displayable_card_brands"`
+	// The computed displayable payment method types.
+	DisplayablePaymentMethodTypes []DelegatedCheckoutRequestedSessionPaymentMethodOptionsDisplayablePaymentMethodType `json:"displayable_payment_method_types"`
+	// The payment method types excluded by the agent.
+	ExcludedPaymentMethodTypes []DelegatedCheckoutRequestedSessionPaymentMethodOptionsExcludedPaymentMethodType `json:"excluded_payment_method_types"`
+}
+
 // The billing details of the payment method.
 type DelegatedCheckoutRequestedSessionPaymentMethodPreviewBillingDetails struct {
 	// The billing address.
@@ -958,24 +976,6 @@ type DelegatedCheckoutRequestedSessionTotalDetails struct {
 	AmountTax int64 `json:"amount_tax"`
 	// The applicable fees of the total details.
 	ApplicableFees []*DelegatedCheckoutRequestedSessionTotalDetailsApplicableFee `json:"applicable_fees"`
-}
-
-// Card-specific payment method options.
-type DelegatedCheckoutRequestedSessionPaymentMethodOptionsCard struct {
-	// The card brands blocked by the agent.
-	BrandsBlocked []DelegatedCheckoutRequestedSessionPaymentMethodOptionsCardBrandsBlocked `json:"brands_blocked"`
-}
-
-// The payment method options for this requested session.
-type DelegatedCheckoutRequestedSessionPaymentMethodOptions struct {
-	// Card-specific payment method options.
-	Card *DelegatedCheckoutRequestedSessionPaymentMethodOptionsCard `json:"card"`
-	// The computed displayable card brands.
-	DisplayableCardBrands []DelegatedCheckoutRequestedSessionPaymentMethodOptionsDisplayableCardBrand `json:"displayable_card_brands"`
-	// The computed displayable payment method types.
-	DisplayablePaymentMethodTypes []DelegatedCheckoutRequestedSessionPaymentMethodOptionsDisplayablePaymentMethodType `json:"displayable_payment_method_types"`
-	// The payment method types excluded by the agent.
-	ExcludedPaymentMethodTypes []DelegatedCheckoutRequestedSessionPaymentMethodOptionsExcludedPaymentMethodType `json:"excluded_payment_method_types"`
 }
 
 // A requested session is a session that has been requested by a customer.

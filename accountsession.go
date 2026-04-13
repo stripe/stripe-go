@@ -1291,6 +1291,14 @@ type AccountSessionComponentsBalances struct {
 	Enabled  bool                                      `json:"enabled"`
 	Features *AccountSessionComponentsBalancesFeatures `json:"features"`
 }
+type AccountSessionComponentsBillsFeatures struct{}
+
+// Configuration for the [Bills](https://docs.stripe.com/connect/supported-embedded-components/bills/) embedded component.
+type AccountSessionComponentsBills struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                   `json:"enabled"`
+	Features *AccountSessionComponentsBillsFeatures `json:"features"`
+}
 type AccountSessionComponentsCapitalFinancingFeatures struct{}
 type AccountSessionComponentsCapitalFinancing struct {
 	// Whether the embedded component is enabled.
@@ -1541,14 +1549,6 @@ type AccountSessionComponentsTerminalHardwareShop struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                                  `json:"enabled"`
 	Features *AccountSessionComponentsTerminalHardwareShopFeatures `json:"features"`
-}
-type AccountSessionComponentsBillsFeatures struct{}
-
-// Configuration for the [Bills](https://docs.stripe.com/connect/supported-embedded-components/bills/) embedded component.
-type AccountSessionComponentsBills struct {
-	// Whether the embedded component is enabled.
-	Enabled  bool                                   `json:"enabled"`
-	Features *AccountSessionComponentsBillsFeatures `json:"features"`
 }
 type AccountSessionComponents struct {
 	AccountManagement *AccountSessionComponentsAccountManagement `json:"account_management"`

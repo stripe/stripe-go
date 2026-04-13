@@ -8,14 +8,6 @@ package stripe
 
 import "time"
 
-// Event reason type.
-type V2CoreEventReasonType string
-
-// List of values that V2CoreEventReasonType can take
-const (
-	V2CoreEventReasonTypeRequest V2CoreEventReasonType = "request"
-)
-
 // The type of the client.
 type V2CoreEventReasonRequestClientType string
 
@@ -24,6 +16,14 @@ const (
 	V2CoreEventReasonRequestClientTypeAPIKey        V2CoreEventReasonRequestClientType = "api_key"
 	V2CoreEventReasonRequestClientTypeDashboardUser V2CoreEventReasonRequestClientType = "dashboard_user"
 	V2CoreEventReasonRequestClientTypeStripeAction  V2CoreEventReasonRequestClientType = "stripe_action"
+)
+
+// Event reason type.
+type V2CoreEventReasonType string
+
+// List of values that V2CoreEventReasonType can take
+const (
+	V2CoreEventReasonTypeRequest V2CoreEventReasonType = "request"
 )
 
 // API key that triggered the event.
