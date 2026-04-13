@@ -3242,6 +3242,15 @@ type CheckoutSessionPaymentMethodOptionsWeChatPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// Additional fields for mandate creation.
+type CheckoutSessionPaymentMethodOptionsBizumMandateOptionsParams struct{}
+
+// contains details about the Bizum payment method options.
+type CheckoutSessionPaymentMethodOptionsBizumParams struct {
+	// Additional fields for mandate creation.
+	MandateOptions *CheckoutSessionPaymentMethodOptionsBizumMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // Payment-method-specific configuration.
 type CheckoutSessionPaymentMethodOptionsParams struct {
 	// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `custom`.
@@ -3264,6 +3273,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Bancontact *CheckoutSessionPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// contains details about the Billie payment method options.
 	Billie *CheckoutSessionPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
+	// contains details about the Bizum payment method options.
+	Bizum *CheckoutSessionPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// contains details about the Boleto payment method options.
 	Boleto *CheckoutSessionPaymentMethodOptionsBoletoParams `form:"boleto" json:"boleto,omitempty"`
 	// contains details about the Card payment method options.
@@ -5478,6 +5489,15 @@ type CheckoutSessionCreatePaymentMethodOptionsWeChatPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// Additional fields for mandate creation.
+type CheckoutSessionCreatePaymentMethodOptionsBizumMandateOptionsParams struct{}
+
+// contains details about the Bizum payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsBizumParams struct {
+	// Additional fields for mandate creation.
+	MandateOptions *CheckoutSessionCreatePaymentMethodOptionsBizumMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // Payment-method-specific configuration.
 type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `custom`.
@@ -5500,6 +5520,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	Bancontact *CheckoutSessionCreatePaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// contains details about the Billie payment method options.
 	Billie *CheckoutSessionCreatePaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
+	// contains details about the Bizum payment method options.
+	Bizum *CheckoutSessionCreatePaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// contains details about the Boleto payment method options.
 	Boleto *CheckoutSessionCreatePaymentMethodOptionsBoletoParams `form:"boleto" json:"boleto,omitempty"`
 	// contains details about the Card payment method options.
@@ -7601,6 +7623,10 @@ type CheckoutSessionPaymentMethodOptionsUSBankAccount struct {
 	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
+type CheckoutSessionPaymentMethodOptionsBizumMandateOptions struct{}
+type CheckoutSessionPaymentMethodOptionsBizum struct {
+	MandateOptions *CheckoutSessionPaymentMethodOptionsBizumMandateOptions `json:"mandate_options,omitempty"`
+}
 
 // Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession.
 type CheckoutSessionPaymentMethodOptions struct {
@@ -7614,6 +7640,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	BACSDebit        *CheckoutSessionPaymentMethodOptionsBACSDebit        `json:"bacs_debit,omitempty"`
 	Bancontact       *CheckoutSessionPaymentMethodOptionsBancontact       `json:"bancontact,omitempty"`
 	Billie           *CheckoutSessionPaymentMethodOptionsBillie           `json:"billie,omitempty"`
+	Bizum            *CheckoutSessionPaymentMethodOptionsBizum            `json:"bizum,omitempty"`
 	Boleto           *CheckoutSessionPaymentMethodOptionsBoleto           `json:"boleto,omitempty"`
 	Card             *CheckoutSessionPaymentMethodOptionsCard             `json:"card,omitempty"`
 	CashApp          *CheckoutSessionPaymentMethodOptionsCashApp          `json:"cashapp,omitempty"`
