@@ -8,6 +8,17 @@ package stripe
 
 import "time"
 
+// The state of the AWS event source.
+type V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus string
+
+// List of values that V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus can take
+const (
+	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusActive  V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "active"
+	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusDeleted V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "deleted"
+	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusPending V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "pending"
+	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusUnknown V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "unknown"
+)
+
 // Payload type of events being subscribed to.
 type V2CoreEventDestinationEventPayload string
 
@@ -44,16 +55,15 @@ const (
 	V2CoreEventDestinationTypeWebhookEndpoint   V2CoreEventDestinationType = "webhook_endpoint"
 )
 
-// The state of the AWS event source.
-type V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus string
-
-// List of values that V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus can take
-const (
-	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusActive  V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "active"
-	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusDeleted V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "deleted"
-	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusPending V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "pending"
-	V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatusUnknown V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus = "unknown"
-)
+// Amazon EventBridge configuration.
+type V2CoreEventDestinationAmazonEventbridge struct {
+	// The AWS account ID.
+	AwsAccountID string `json:"aws_account_id"`
+	// The ARN of the AWS event source.
+	AwsEventSourceArn string `json:"aws_event_source_arn"`
+	// The state of the AWS event source.
+	AwsEventSourceStatus V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus `json:"aws_event_source_status"`
+}
 
 // Details about why the event destination has been disabled.
 type V2CoreEventDestinationStatusDetailsDisabled struct {
@@ -65,16 +75,6 @@ type V2CoreEventDestinationStatusDetailsDisabled struct {
 type V2CoreEventDestinationStatusDetails struct {
 	// Details about why the event destination has been disabled.
 	Disabled *V2CoreEventDestinationStatusDetailsDisabled `json:"disabled,omitempty"`
-}
-
-// Amazon EventBridge configuration.
-type V2CoreEventDestinationAmazonEventbridge struct {
-	// The AWS account ID.
-	AwsAccountID string `json:"aws_account_id"`
-	// The ARN of the AWS event source.
-	AwsEventSourceArn string `json:"aws_event_source_arn"`
-	// The state of the AWS event source.
-	AwsEventSourceStatus V2CoreEventDestinationAmazonEventbridgeAwsEventSourceStatus `json:"aws_event_source_status"`
 }
 
 // Webhook endpoint configuration.

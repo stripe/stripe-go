@@ -13061,7 +13061,7 @@ func TestWebhookEndpointsPost2Client(t *testing.T) {
 func TestCoreEventsGetService(t *testing.T) {
 	params := &stripe.V2CoreEventParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"reason\":{\"type\":\"request\",\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"}},\"type\":\"type\"}")
+		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"object\":\"v2.core.event\",\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"reason\":{\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"},\"type\":\"request\"},\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13074,7 +13074,7 @@ func TestCoreEventsGetService(t *testing.T) {
 func TestCoreEventsGetClient(t *testing.T) {
 	params := &stripe.V2CoreEventRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"reason\":{\"type\":\"request\",\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"}},\"type\":\"type\"}")
+		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"object\":\"v2.core.event\",\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"reason\":{\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"},\"type\":\"request\"},\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13090,7 +13090,7 @@ func TestV2BillingMeterEventPostService(t *testing.T) {
 		Payload:   map[string]string{"key": "payload"},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/meter_events", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"identifier\":\"identifier\",\"object\":\"v2.billing.meter_event\",\"payload\":{\"key\":\"payload\"},\"timestamp\":\"1970-01-01T15:18:46.294Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/billing/meter_events", params, "{\"object\":\"v2.billing.meter_event\",\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"identifier\":\"identifier\",\"livemode\":true,\"payload\":{\"key\":\"payload\"},\"timestamp\":\"1970-01-01T15:18:46.294Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13106,7 +13106,7 @@ func TestV2BillingMeterEventPostClient(t *testing.T) {
 		Payload:   map[string]string{"key": "payload"},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/meter_events", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"identifier\":\"identifier\",\"object\":\"v2.billing.meter_event\",\"payload\":{\"key\":\"payload\"},\"timestamp\":\"1970-01-01T15:18:46.294Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/billing/meter_events", params, "{\"object\":\"v2.billing.meter_event\",\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"identifier\":\"identifier\",\"livemode\":true,\"payload\":{\"key\":\"payload\"},\"timestamp\":\"1970-01-01T15:18:46.294Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13125,7 +13125,7 @@ func TestV2BillingMeterEventAdjustmentPostService(t *testing.T) {
 		Type:      stripe.String("cancel"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/meter_event_adjustments", params, "{\"cancel\":{\"identifier\":\"identifier\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"id\":\"obj_123\",\"object\":\"v2.billing.meter_event_adjustment\",\"status\":\"complete\",\"type\":\"cancel\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/billing/meter_event_adjustments", params, "{\"object\":\"v2.billing.meter_event_adjustment\",\"cancel\":{\"identifier\":\"identifier\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"complete\",\"type\":\"cancel\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13144,7 +13144,7 @@ func TestV2BillingMeterEventAdjustmentPostClient(t *testing.T) {
 		Type:      stripe.String("cancel"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/meter_event_adjustments", params, "{\"cancel\":{\"identifier\":\"identifier\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"id\":\"obj_123\",\"object\":\"v2.billing.meter_event_adjustment\",\"status\":\"complete\",\"type\":\"cancel\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/billing/meter_event_adjustments", params, "{\"object\":\"v2.billing.meter_event_adjustment\",\"cancel\":{\"identifier\":\"identifier\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"complete\",\"type\":\"cancel\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13158,7 +13158,7 @@ func TestV2BillingMeterEventAdjustmentPostClient(t *testing.T) {
 func TestV2BillingMeterEventSessionPostService(t *testing.T) {
 	params := &stripe.V2BillingMeterEventSessionParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/meter_event_session", params, "{\"authentication_token\":\"authentication_token\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"object\":\"v2.billing.meter_event_session\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/billing/meter_event_session", params, "{\"object\":\"v2.billing.meter_event_session\",\"authentication_token\":\"authentication_token\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13171,7 +13171,7 @@ func TestV2BillingMeterEventSessionPostService(t *testing.T) {
 func TestV2BillingMeterEventSessionPostClient(t *testing.T) {
 	params := &stripe.V2BillingMeterEventSessionCreateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/meter_event_session", params, "{\"authentication_token\":\"authentication_token\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"object\":\"v2.billing.meter_event_session\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/billing/meter_event_session", params, "{\"object\":\"v2.billing.meter_event_session\",\"authentication_token\":\"authentication_token\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13224,7 +13224,7 @@ func TestV2BillingMeterEventStreamPostClient(t *testing.T) {
 func TestV2CoreAccountGetService(t *testing.T) {
 	params := &stripe.V2CoreAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"object\":\"v2.core.account\",\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13236,7 +13236,7 @@ func TestV2CoreAccountGetService(t *testing.T) {
 func TestV2CoreAccountGetClient(t *testing.T) {
 	params := &stripe.V2CoreAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"object\":\"v2.core.account\",\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13248,7 +13248,7 @@ func TestV2CoreAccountGetClient(t *testing.T) {
 func TestV2CoreAccountPostService(t *testing.T) {
 	params := &stripe.V2CoreAccountParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13261,7 +13261,7 @@ func TestV2CoreAccountPostService(t *testing.T) {
 func TestV2CoreAccountPostClient(t *testing.T) {
 	params := &stripe.V2CoreAccountCreateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13274,7 +13274,7 @@ func TestV2CoreAccountPostClient(t *testing.T) {
 func TestV2CoreAccountGet2Service(t *testing.T) {
 	params := &stripe.V2CoreAccountParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13287,7 +13287,7 @@ func TestV2CoreAccountGet2Service(t *testing.T) {
 func TestV2CoreAccountGet2Client(t *testing.T) {
 	params := &stripe.V2CoreAccountRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13300,7 +13300,7 @@ func TestV2CoreAccountGet2Client(t *testing.T) {
 func TestV2CoreAccountPost2Service(t *testing.T) {
 	params := &stripe.V2CoreAccountParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13313,7 +13313,7 @@ func TestV2CoreAccountPost2Service(t *testing.T) {
 func TestV2CoreAccountPost2Client(t *testing.T) {
 	params := &stripe.V2CoreAccountUpdateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13326,7 +13326,7 @@ func TestV2CoreAccountPost2Client(t *testing.T) {
 func TestV2CoreAccountPost3Service(t *testing.T) {
 	params := &stripe.V2CoreAccountCloseParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13339,7 +13339,7 @@ func TestV2CoreAccountPost3Service(t *testing.T) {
 func TestV2CoreAccountPost3Client(t *testing.T) {
 	params := &stripe.V2CoreAccountCloseParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"recipient\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13354,7 +13354,7 @@ func TestV2CoreAccountsPersonGetService(t *testing.T) {
 		AccountID: stripe.String("account_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/account_id_123/persons", params, "{\"data\":[{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/accounts/account_id_123/persons", params, "{\"data\":[{\"object\":\"v2.core.account_person\",\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"updated\":\"1970-01-03T17:07:10.277Z\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13368,7 +13368,7 @@ func TestV2CoreAccountsPersonGetClient(t *testing.T) {
 		AccountID: stripe.String("account_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/account_id_123/persons", params, "{\"data\":[{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/accounts/account_id_123/persons", params, "{\"data\":[{\"object\":\"v2.core.account_person\",\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"updated\":\"1970-01-03T17:07:10.277Z\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13382,7 +13382,7 @@ func TestV2CoreAccountsPersonPostService(t *testing.T) {
 		AccountID: stripe.String("account_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/account_id_123/persons", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/account_id_123/persons", params, "{\"object\":\"v2.core.account_person\",\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13397,7 +13397,7 @@ func TestV2CoreAccountsPersonPostClient(t *testing.T) {
 		AccountID: stripe.String("account_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/account_id_123/persons", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/account_id_123/persons", params, "{\"object\":\"v2.core.account_person\",\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13443,7 +13443,7 @@ func TestV2CoreAccountsPersonGet2Service(t *testing.T) {
 		AccountID: stripe.String("account_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"object\":\"v2.core.account_person\",\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13458,7 +13458,7 @@ func TestV2CoreAccountsPersonGet2Client(t *testing.T) {
 		AccountID: stripe.String("account_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"object\":\"v2.core.account_person\",\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13474,7 +13474,7 @@ func TestV2CoreAccountsPersonPost2Service(t *testing.T) {
 		AccountID: stripe.String("account_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"object\":\"v2.core.account_person\",\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13489,7 +13489,7 @@ func TestV2CoreAccountsPersonPost2Client(t *testing.T) {
 		AccountID: stripe.String("account_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.account_person\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/account_id_123/persons/id_123", params, "{\"object\":\"v2.core.account_person\",\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13505,7 +13505,7 @@ func TestV2CoreAccountsPersonTokenPostService(t *testing.T) {
 		AccountID: stripe.String("account_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/account_id_123/person_tokens", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_person_token\",\"used\":true}")
+		t, http.MethodPost, "/v2/core/accounts/account_id_123/person_tokens", params, "{\"object\":\"v2.core.account_person_token\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"used\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13520,7 +13520,7 @@ func TestV2CoreAccountsPersonTokenPostClient(t *testing.T) {
 		AccountID: stripe.String("account_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/account_id_123/person_tokens", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_person_token\",\"used\":true}")
+		t, http.MethodPost, "/v2/core/accounts/account_id_123/person_tokens", params, "{\"object\":\"v2.core.account_person_token\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"used\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13535,7 +13535,7 @@ func TestV2CoreAccountsPersonTokenGetService(t *testing.T) {
 		AccountID: stripe.String("account_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/account_id_123/person_tokens/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_person_token\",\"used\":true}")
+		t, http.MethodGet, "/v2/core/accounts/account_id_123/person_tokens/id_123", params, "{\"object\":\"v2.core.account_person_token\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"used\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13550,7 +13550,7 @@ func TestV2CoreAccountsPersonTokenGetClient(t *testing.T) {
 		AccountID: stripe.String("account_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/account_id_123/person_tokens/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_person_token\",\"used\":true}")
+		t, http.MethodGet, "/v2/core/accounts/account_id_123/person_tokens/id_123", params, "{\"object\":\"v2.core.account_person_token\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"used\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13565,7 +13565,6 @@ func TestV2CoreAccountLinkPostService(t *testing.T) {
 	params := &stripe.V2CoreAccountLinkParams{
 		Account: stripe.String("account"),
 		UseCase: &stripe.V2CoreAccountLinkUseCaseParams{
-			Type: stripe.String("account_onboarding"),
 			AccountOnboarding: &stripe.V2CoreAccountLinkUseCaseAccountOnboardingParams{
 				CollectionOptions: &stripe.V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsParams{
 					Fields:             stripe.String("eventually_due"),
@@ -13584,10 +13583,11 @@ func TestV2CoreAccountLinkPostService(t *testing.T) {
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
+			Type: stripe.String("account_onboarding"),
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/account_links", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"object\":\"v2.core.account_link\",\"url\":\"url\",\"use_case\":{\"type\":\"account_onboarding\"},\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/account_links", params, "{\"object\":\"v2.core.account_link\",\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"livemode\":true,\"url\":\"url\",\"use_case\":{\"type\":\"account_onboarding\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13601,7 +13601,6 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 	params := &stripe.V2CoreAccountLinkCreateParams{
 		Account: stripe.String("account"),
 		UseCase: &stripe.V2CoreAccountLinkCreateUseCaseParams{
-			Type: stripe.String("account_onboarding"),
 			AccountOnboarding: &stripe.V2CoreAccountLinkCreateUseCaseAccountOnboardingParams{
 				CollectionOptions: &stripe.V2CoreAccountLinkCreateUseCaseAccountOnboardingCollectionOptionsParams{
 					Fields:             stripe.String("eventually_due"),
@@ -13620,10 +13619,11 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
+			Type: stripe.String("account_onboarding"),
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/account_links", params, "{\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"object\":\"v2.core.account_link\",\"url\":\"url\",\"use_case\":{\"type\":\"account_onboarding\"},\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/account_links", params, "{\"object\":\"v2.core.account_link\",\"account\":\"account\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"livemode\":true,\"url\":\"url\",\"use_case\":{\"type\":\"account_onboarding\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13636,7 +13636,7 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 func TestV2CoreAccountTokenPostService(t *testing.T) {
 	params := &stripe.V2CoreAccountTokenParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/account_tokens", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_token\",\"used\":true}")
+		t, http.MethodPost, "/v2/core/account_tokens", params, "{\"object\":\"v2.core.account_token\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"used\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13649,7 +13649,7 @@ func TestV2CoreAccountTokenPostService(t *testing.T) {
 func TestV2CoreAccountTokenPostClient(t *testing.T) {
 	params := &stripe.V2CoreAccountTokenCreateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/account_tokens", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_token\",\"used\":true}")
+		t, http.MethodPost, "/v2/core/account_tokens", params, "{\"object\":\"v2.core.account_token\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"used\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13662,7 +13662,7 @@ func TestV2CoreAccountTokenPostClient(t *testing.T) {
 func TestV2CoreAccountTokenGetService(t *testing.T) {
 	params := &stripe.V2CoreAccountTokenParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/account_tokens/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_token\",\"used\":true}")
+		t, http.MethodGet, "/v2/core/account_tokens/id_123", params, "{\"object\":\"v2.core.account_token\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"used\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13675,7 +13675,7 @@ func TestV2CoreAccountTokenGetService(t *testing.T) {
 func TestV2CoreAccountTokenGetClient(t *testing.T) {
 	params := &stripe.V2CoreAccountTokenRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/account_tokens/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.account_token\",\"used\":true}")
+		t, http.MethodGet, "/v2/core/account_tokens/id_123", params, "{\"object\":\"v2.core.account_token\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"used\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13689,7 +13689,7 @@ func TestV2CoreAccountTokenGetClient(t *testing.T) {
 func TestV2CoreEventGetService(t *testing.T) {
 	params := &stripe.V2CoreEventListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"object\":\"v2.core.event\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"type\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13701,7 +13701,7 @@ func TestV2CoreEventGetService(t *testing.T) {
 func TestV2CoreEventGetClient(t *testing.T) {
 	params := &stripe.V2CoreEventListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"object\":\"v2.core.event\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"type\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13713,7 +13713,7 @@ func TestV2CoreEventGetClient(t *testing.T) {
 func TestV2CoreEventGet2Service(t *testing.T) {
 	params := &stripe.V2CoreEventParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}")
+		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"object\":\"v2.core.event\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13726,7 +13726,7 @@ func TestV2CoreEventGet2Service(t *testing.T) {
 func TestV2CoreEventGet2Client(t *testing.T) {
 	params := &stripe.V2CoreEventRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}")
+		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"object\":\"v2.core.event\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13739,7 +13739,7 @@ func TestV2CoreEventGet2Client(t *testing.T) {
 func TestV2CoreEventDestinationGetService(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/event_destinations", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/event_destinations", params, "{\"data\":[{\"object\":\"v2.core.event_destination\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13751,7 +13751,7 @@ func TestV2CoreEventDestinationGetService(t *testing.T) {
 func TestV2CoreEventDestinationGetClient(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/event_destinations", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/event_destinations", params, "{\"data\":[{\"object\":\"v2.core.event_destination\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13768,7 +13768,7 @@ func TestV2CoreEventDestinationPostService(t *testing.T) {
 		Type:          stripe.String("amazon_eventbridge"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/event_destinations", params, "{\"object\":\"v2.core.event_destination\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13786,7 +13786,7 @@ func TestV2CoreEventDestinationPostClient(t *testing.T) {
 		Type:          stripe.String("amazon_eventbridge"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/event_destinations", params, "{\"object\":\"v2.core.event_destination\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13826,7 +13826,7 @@ func TestV2CoreEventDestinationDeleteClient(t *testing.T) {
 func TestV2CoreEventDestinationGet2Service(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/event_destinations/id_123", params, "{\"object\":\"v2.core.event_destination\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13839,7 +13839,7 @@ func TestV2CoreEventDestinationGet2Service(t *testing.T) {
 func TestV2CoreEventDestinationGet2Client(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/event_destinations/id_123", params, "{\"object\":\"v2.core.event_destination\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13853,7 +13853,7 @@ func TestV2CoreEventDestinationGet2Client(t *testing.T) {
 func TestV2CoreEventDestinationPost2Service(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123", params, "{\"object\":\"v2.core.event_destination\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13866,7 +13866,7 @@ func TestV2CoreEventDestinationPost2Service(t *testing.T) {
 func TestV2CoreEventDestinationPost2Client(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationUpdateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123", params, "{\"object\":\"v2.core.event_destination\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13880,7 +13880,7 @@ func TestV2CoreEventDestinationPost2Client(t *testing.T) {
 func TestV2CoreEventDestinationPost3Service(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationDisableParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/disable", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/disable", params, "{\"object\":\"v2.core.event_destination\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13893,7 +13893,7 @@ func TestV2CoreEventDestinationPost3Service(t *testing.T) {
 func TestV2CoreEventDestinationPost3Client(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationDisableParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/disable", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/disable", params, "{\"object\":\"v2.core.event_destination\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13907,7 +13907,7 @@ func TestV2CoreEventDestinationPost3Client(t *testing.T) {
 func TestV2CoreEventDestinationPost4Service(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationEnableParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/enable", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/enable", params, "{\"object\":\"v2.core.event_destination\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13920,7 +13920,7 @@ func TestV2CoreEventDestinationPost4Service(t *testing.T) {
 func TestV2CoreEventDestinationPost4Client(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationEnableParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/enable", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"name\":\"name\",\"object\":\"v2.core.event_destination\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/enable", params, "{\"object\":\"v2.core.event_destination\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"enabled_events\":[\"enabled_events\"],\"event_payload\":\"thin\",\"id\":\"obj_123\",\"livemode\":true,\"name\":\"name\",\"status\":\"disabled\",\"type\":\"amazon_eventbridge\",\"updated\":\"1970-01-03T17:07:10.277Z\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13934,7 +13934,7 @@ func TestV2CoreEventDestinationPost4Client(t *testing.T) {
 func TestV2CoreEventDestinationPost5Service(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationPingParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/ping", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/ping", params, "{\"object\":\"v2.core.event\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13947,7 +13947,7 @@ func TestV2CoreEventDestinationPost5Service(t *testing.T) {
 func TestV2CoreEventDestinationPost5Client(t *testing.T) {
 	params := &stripe.V2CoreEventDestinationPingParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/event_destinations/id_123/ping", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"type\":\"type\"}")
+		t, http.MethodPost, "/v2/core/event_destinations/id_123/ping", params, "{\"object\":\"v2.core.event\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
