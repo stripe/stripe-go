@@ -17667,6 +17667,167 @@ func TestV2CoreVaultUsBankAccountPost5Client(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestV2CoreWorkflowGetService(t *testing.T) {
+	params := &stripe.V2CoreWorkflowListParams{
+		Status: []*string{stripe.String("draft")},
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/workflows", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.workflow\",\"status\":\"draft\",\"triggers\":[{\"type\":\"event_trigger\"}]}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2CoreWorkflows.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreWorkflowGetClient(t *testing.T) {
+	params := &stripe.V2CoreWorkflowListParams{
+		Status: []*string{stripe.String("draft")},
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/workflows", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.workflow\",\"status\":\"draft\",\"triggers\":[{\"type\":\"event_trigger\"}]}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2CoreWorkflows.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreWorkflowGet2Service(t *testing.T) {
+	params := &stripe.V2CoreWorkflowParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/workflows/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.workflow\",\"status\":\"draft\",\"triggers\":[{\"type\":\"event_trigger\"}]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreWorkflows.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreWorkflowGet2Client(t *testing.T) {
+	params := &stripe.V2CoreWorkflowRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/workflows/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.workflow\",\"status\":\"draft\",\"triggers\":[{\"type\":\"event_trigger\"}]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreWorkflows.Retrieve(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreWorkflowPostService(t *testing.T) {
+	params := &stripe.V2CoreWorkflowInvokeParams{
+		InputParameters: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/workflows/id_123/invoke", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.workflow_run\",\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreWorkflows.Invoke("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreWorkflowPostClient(t *testing.T) {
+	params := &stripe.V2CoreWorkflowInvokeParams{
+		InputParameters: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/workflows/id_123/invoke", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.workflow_run\",\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreWorkflows.Invoke(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreWorkflowRunGetService(t *testing.T) {
+	params := &stripe.V2CoreWorkflowRunListParams{
+		Status:   []*string{stripe.String("failed")},
+		Workflow: []*string{stripe.String("workflow")},
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/workflow_runs", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.workflow_run\",\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2CoreWorkflowRuns.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreWorkflowRunGetClient(t *testing.T) {
+	params := &stripe.V2CoreWorkflowRunListParams{
+		Status:   []*string{stripe.String("failed")},
+		Workflow: []*string{stripe.String("workflow")},
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/workflow_runs", params, "{\"data\":[{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.workflow_run\",\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2CoreWorkflowRuns.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreWorkflowRunGet2Service(t *testing.T) {
+	params := &stripe.V2CoreWorkflowRunParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/workflow_runs/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.workflow_run\",\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreWorkflowRuns.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreWorkflowRunGet2Client(t *testing.T) {
+	params := &stripe.V2CoreWorkflowRunRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/workflow_runs/id_123", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.workflow_run\",\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreWorkflowRuns.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
 func TestV2DataReportingQueryRunPostService(t *testing.T) {
 	params := &stripe.V2DataReportingQueryRunParams{SQL: stripe.String("sql")}
 	testServer := MockServer(
