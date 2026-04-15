@@ -714,6 +714,9 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage `json:"preferred_language"`
 }
+
+// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBizum struct{}
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardInstallments struct {
 	// Whether Installments are enabled for this Invoice.
 	Enabled bool `json:"enabled"`
@@ -724,6 +727,11 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCard struct {
 	Installments *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardInstallments `json:"installments,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
+}
+
+// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCheckScan struct {
+	CheckDepositAddress *Address `json:"check_deposit_address,omitempty"`
 }
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
@@ -805,14 +813,6 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccount struct 
 	FinancialConnections *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections,omitempty"`
 	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
-}
-
-// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
-type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBizum struct{}
-
-// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
-type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCheckScan struct {
-	CheckDepositAddress *Address `json:"check_deposit_address,omitempty"`
 }
 
 // Payment-method-specific configuration to provide to the invoice's PaymentIntent.

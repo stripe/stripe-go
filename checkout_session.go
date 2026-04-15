@@ -21,6 +21,44 @@ const (
 	CheckoutSessionApprovalMethodManual CheckoutSessionApprovalMethod = "manual"
 )
 
+// Determines which amount serves as the basis for calculating the surcharge.
+type CheckoutSessionAutomaticSurchargeCalculationBasis string
+
+// List of values that CheckoutSessionAutomaticSurchargeCalculationBasis can take
+const (
+	CheckoutSessionAutomaticSurchargeCalculationBasisTotalAfterTax  CheckoutSessionAutomaticSurchargeCalculationBasis = "total_after_tax"
+	CheckoutSessionAutomaticSurchargeCalculationBasisTotalBeforeTax CheckoutSessionAutomaticSurchargeCalculationBasis = "total_before_tax"
+)
+
+// The surcharge provider used for this session.
+type CheckoutSessionAutomaticSurchargeProvider string
+
+// List of values that CheckoutSessionAutomaticSurchargeProvider can take
+const (
+	CheckoutSessionAutomaticSurchargeProviderInterpayments CheckoutSessionAutomaticSurchargeProvider = "interpayments"
+	CheckoutSessionAutomaticSurchargeProviderYeeld         CheckoutSessionAutomaticSurchargeProvider = "yeeld"
+)
+
+// The status of the most recent surcharge calculation for this session.
+type CheckoutSessionAutomaticSurchargeStatus string
+
+// List of values that CheckoutSessionAutomaticSurchargeStatus can take
+const (
+	CheckoutSessionAutomaticSurchargeStatusComplete      CheckoutSessionAutomaticSurchargeStatus = "complete"
+	CheckoutSessionAutomaticSurchargeStatusFailed        CheckoutSessionAutomaticSurchargeStatus = "failed"
+	CheckoutSessionAutomaticSurchargeStatusRequiresInput CheckoutSessionAutomaticSurchargeStatus = "requires_input"
+)
+
+// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+type CheckoutSessionAutomaticSurchargeTaxBehavior string
+
+// List of values that CheckoutSessionAutomaticSurchargeTaxBehavior can take
+const (
+	CheckoutSessionAutomaticSurchargeTaxBehaviorExclusive   CheckoutSessionAutomaticSurchargeTaxBehavior = "exclusive"
+	CheckoutSessionAutomaticSurchargeTaxBehaviorInclusive   CheckoutSessionAutomaticSurchargeTaxBehavior = "inclusive"
+	CheckoutSessionAutomaticSurchargeTaxBehaviorUnspecified CheckoutSessionAutomaticSurchargeTaxBehavior = "unspecified"
+)
+
 // Type of the account referenced.
 type CheckoutSessionAutomaticTaxLiabilityType string
 
@@ -1718,6 +1756,16 @@ type CheckoutSessionAfterExpirationParams struct {
 	Recovery *CheckoutSessionAfterExpirationRecoveryParams `form:"recovery" json:"recovery,omitempty"`
 }
 
+// Settings for automatic surcharge calculation for this session.
+type CheckoutSessionAutomaticSurchargeParams struct {
+	// Determines which amount serves as the basis for calculating the surcharge.
+	CalculationBasis *string `form:"calculation_basis" json:"calculation_basis,omitempty"`
+	// Set to `true` to calculate surcharge automatically using the customer's card details and location.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
+}
+
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type CheckoutSessionAutomaticTaxLiabilityParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -2521,6 +2569,15 @@ type CheckoutSessionPaymentMethodOptionsBillieParams struct {
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 }
 
+// Additional fields for mandate creation.
+type CheckoutSessionPaymentMethodOptionsBizumMandateOptionsParams struct{}
+
+// contains details about the Bizum payment method options.
+type CheckoutSessionPaymentMethodOptionsBizumParams struct {
+	// Additional fields for mandate creation.
+	MandateOptions *CheckoutSessionPaymentMethodOptionsBizumMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // contains details about the Boleto payment method options.
 type CheckoutSessionPaymentMethodOptionsBoletoParams struct {
 	// The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto invoice will expire on Wednesday at 23:59 America/Sao_Paulo time.
@@ -3226,6 +3283,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Bancontact *CheckoutSessionPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// contains details about the Billie payment method options.
 	Billie *CheckoutSessionPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
+	// contains details about the Bizum payment method options.
+	Bizum *CheckoutSessionPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// contains details about the Boleto payment method options.
 	Boleto *CheckoutSessionPaymentMethodOptionsBoletoParams `form:"boleto" json:"boleto,omitempty"`
 	// contains details about the Card payment method options.
@@ -3659,6 +3718,8 @@ type CheckoutSessionParams struct {
 	//
 	// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](api/checkout/sessions/approve) from your server.
 	ApprovalMethod *string `form:"approval_method" json:"approval_method,omitempty"`
+	// Settings for automatic surcharge calculation for this session.
+	AutomaticSurcharge *CheckoutSessionAutomaticSurchargeParams `form:"automatic_surcharge" json:"automatic_surcharge,omitempty"`
 	// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 	AutomaticTax *CheckoutSessionAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
@@ -3956,6 +4017,16 @@ type CheckoutSessionCreateAfterExpirationRecoveryParams struct {
 type CheckoutSessionCreateAfterExpirationParams struct {
 	// Configure a Checkout Session that can be used to recover an expired session.
 	Recovery *CheckoutSessionCreateAfterExpirationRecoveryParams `form:"recovery" json:"recovery,omitempty"`
+}
+
+// Settings for automatic surcharge calculation for this session.
+type CheckoutSessionCreateAutomaticSurchargeParams struct {
+	// Determines which amount serves as the basis for calculating the surcharge.
+	CalculationBasis *string `form:"calculation_basis" json:"calculation_basis,omitempty"`
+	// Set to `true` to calculate surcharge automatically using the customer's card details and location.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -4745,6 +4816,15 @@ type CheckoutSessionCreatePaymentMethodOptionsBillieParams struct {
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 }
 
+// Additional fields for mandate creation.
+type CheckoutSessionCreatePaymentMethodOptionsBizumMandateOptionsParams struct{}
+
+// contains details about the Bizum payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsBizumParams struct {
+	// Additional fields for mandate creation.
+	MandateOptions *CheckoutSessionCreatePaymentMethodOptionsBizumMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // contains details about the Boleto payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsBoletoParams struct {
 	// The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto invoice will expire on Wednesday at 23:59 America/Sao_Paulo time.
@@ -5450,6 +5530,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	Bancontact *CheckoutSessionCreatePaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// contains details about the Billie payment method options.
 	Billie *CheckoutSessionCreatePaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
+	// contains details about the Bizum payment method options.
+	Bizum *CheckoutSessionCreatePaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// contains details about the Boleto payment method options.
 	Boleto *CheckoutSessionCreatePaymentMethodOptionsBoletoParams `form:"boleto" json:"boleto,omitempty"`
 	// contains details about the Card payment method options.
@@ -5869,6 +5951,8 @@ type CheckoutSessionCreateParams struct {
 	//
 	// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](api/checkout/sessions/approve) from your server.
 	ApprovalMethod *string `form:"approval_method" json:"approval_method,omitempty"`
+	// Settings for automatic surcharge calculation for this session.
+	AutomaticSurcharge *CheckoutSessionCreateAutomaticSurchargeParams `form:"automatic_surcharge" json:"automatic_surcharge,omitempty"`
 	// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 	AutomaticTax *CheckoutSessionCreateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
@@ -6513,6 +6597,18 @@ type CheckoutSessionAfterExpiration struct {
 	// When set, configuration used to recover the Checkout Session on expiry.
 	Recovery *CheckoutSessionAfterExpirationRecovery `json:"recovery"`
 }
+type CheckoutSessionAutomaticSurcharge struct {
+	// Determines which amount serves as the basis for calculating the surcharge.
+	CalculationBasis CheckoutSessionAutomaticSurchargeCalculationBasis `json:"calculation_basis"`
+	// Indicates whether automatic surcharge is enabled for the session.
+	Enabled bool `json:"enabled"`
+	// The surcharge provider used for this session.
+	Provider CheckoutSessionAutomaticSurchargeProvider `json:"provider,omitempty"`
+	// The status of the most recent surcharge calculation for this session.
+	Status CheckoutSessionAutomaticSurchargeStatus `json:"status,omitempty"`
+	// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+	TaxBehavior CheckoutSessionAutomaticSurchargeTaxBehavior `json:"tax_behavior"`
+}
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type CheckoutSessionAutomaticTaxLiability struct {
@@ -7076,6 +7172,10 @@ type CheckoutSessionPaymentMethodOptionsBillie struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod CheckoutSessionPaymentMethodOptionsBillieCaptureMethod `json:"capture_method,omitempty"`
 }
+type CheckoutSessionPaymentMethodOptionsBizumMandateOptions struct{}
+type CheckoutSessionPaymentMethodOptionsBizum struct {
+	MandateOptions *CheckoutSessionPaymentMethodOptionsBizumMandateOptions `json:"mandate_options,omitempty"`
+}
 type CheckoutSessionPaymentMethodOptionsBoleto struct {
 	// The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto voucher will expire on Wednesday at 23:59 America/Sao_Paulo time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
@@ -7552,6 +7652,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	BACSDebit        *CheckoutSessionPaymentMethodOptionsBACSDebit        `json:"bacs_debit,omitempty"`
 	Bancontact       *CheckoutSessionPaymentMethodOptionsBancontact       `json:"bancontact,omitempty"`
 	Billie           *CheckoutSessionPaymentMethodOptionsBillie           `json:"billie,omitempty"`
+	Bizum            *CheckoutSessionPaymentMethodOptionsBizum            `json:"bizum,omitempty"`
 	Boleto           *CheckoutSessionPaymentMethodOptionsBoleto           `json:"boleto,omitempty"`
 	Card             *CheckoutSessionPaymentMethodOptionsCard             `json:"card,omitempty"`
 	CashApp          *CheckoutSessionPaymentMethodOptionsCashApp          `json:"cashapp,omitempty"`
@@ -7685,6 +7786,14 @@ type CheckoutSessionShippingOption struct {
 	// The shipping rate.
 	ShippingRate *ShippingRate `json:"shipping_rate"`
 }
+type CheckoutSessionSurchargeCost struct {
+	// Total surcharge cost before taxes are applied.
+	AmountSubtotal int64 `json:"amount_subtotal"`
+	// Total tax amount applied due to surcharging. If no tax was applied, defaults to 0.
+	AmountTax int64 `json:"amount_tax"`
+	// Total surcharge cost after taxes are applied.
+	AmountTotal int64 `json:"amount_total"`
+}
 type CheckoutSessionTaxIDCollection struct {
 	// Indicates whether tax ID collection is enabled for the session
 	Enabled bool `json:"enabled"`
@@ -7729,6 +7838,8 @@ type CheckoutSessionTotalDetails struct {
 	AmountDiscount int64 `json:"amount_discount"`
 	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
+	// The surcharge amount that was applied to the Checkout Session.
+	AmountSurcharge int64 `json:"amount_surcharge,omitempty"`
 	// This is the sum of all the tax amounts.
 	AmountTax int64                                 `json:"amount_tax"`
 	Breakdown *CheckoutSessionTotalDetailsBreakdown `json:"breakdown,omitempty"`
@@ -7801,8 +7912,9 @@ type CheckoutSession struct {
 	// Default is `auto`, when the customer's attempt to pay is approved automatically with no action required on your server.
 	//
 	// When set to `manual`, you must approve the customer's attempt to pay by calling [approve](api/checkout/sessions/approve) from your server.
-	ApprovalMethod CheckoutSessionApprovalMethod `json:"approval_method,omitempty"`
-	AutomaticTax   *CheckoutSessionAutomaticTax  `json:"automatic_tax"`
+	ApprovalMethod     CheckoutSessionApprovalMethod      `json:"approval_method,omitempty"`
+	AutomaticSurcharge *CheckoutSessionAutomaticSurcharge `json:"automatic_surcharge,omitempty"`
+	AutomaticTax       *CheckoutSessionAutomaticTax       `json:"automatic_tax"`
 	// Describes whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection CheckoutSessionBillingAddressCollection `json:"billing_address_collection"`
 	BrandingSettings         *CheckoutSessionBrandingSettings        `json:"branding_settings,omitempty"`
@@ -7933,6 +8045,7 @@ type CheckoutSession struct {
 	// The URL the customer will be directed to after the payment or
 	// subscription creation is successful.
 	SuccessURL      string                          `json:"success_url"`
+	SurchargeCost   *CheckoutSessionSurchargeCost   `json:"surcharge_cost,omitempty"`
 	TaxIDCollection *CheckoutSessionTaxIDCollection `json:"tax_id_collection,omitempty"`
 	// Tax and discount details for the computed total amount.
 	TotalDetails *CheckoutSessionTotalDetails `json:"total_details"`

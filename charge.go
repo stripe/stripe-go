@@ -43,6 +43,15 @@ const (
 	ChargePaymentMethodDetailsAmazonPayFundingTypeCard ChargePaymentMethodDetailsAmazonPayFundingType = "card"
 )
 
+// The transaction type of the card transaction. One of `account_funding` or `purchase`.
+type ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType string
+
+// List of values that ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType can take
+const (
+	ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionTypeAccountFunding ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType = "account_funding"
+	ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionTypePurchase       ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType = "purchase"
+)
+
 // If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type ChargePaymentMethodDetailsCardChecksAddressLine1Check string
 
@@ -932,6 +941,44 @@ type ChargePaymentDetailsEventDetailsParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type ChargePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type ChargePaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type ChargePaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type ChargePaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *ChargePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *ChargePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *ChargePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
 // Affiliate details for this purchase.
 type ChargePaymentDetailsFlightAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -1382,74 +1429,6 @@ type ChargePaymentDetailsLodgingDatumParams struct {
 	Total *ChargePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
-// Affiliate details for this purchase.
-type ChargePaymentDetailsSubscriptionAffiliateParams struct {
-	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name" json:"name"`
-}
-
-// Subscription billing details for this purchase.
-type ChargePaymentDetailsSubscriptionBillingIntervalParams struct {
-	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	Count *int64 `form:"count" json:"count"`
-	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval" json:"interval"`
-}
-
-// Subscription details for this PaymentIntent
-type ChargePaymentDetailsSubscriptionParams struct {
-	// Affiliate details for this purchase.
-	Affiliate *ChargePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
-	// Info whether the subscription will be auto renewed upon expiry.
-	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
-	// Subscription billing details for this purchase.
-	BillingInterval *ChargePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
-	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
-	// Name of the product on subscription. e.g. Apple Music Subscription
-	Name *string `form:"name" json:"name"`
-	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
-}
-
-// Primary fuel fields for the transaction.
-type ChargePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
-	// The fuel brand.
-	Brand *string `form:"brand" json:"brand,omitempty"`
-}
-
-// Station and acceptor location details.
-type ChargePaymentDetailsFleetDatumStationParams struct {
-	// Additional contact information for the station.
-	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
-	// The customer service phone number of the station.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
-	// The partner ID code of the station.
-	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
-	// The phone number of the station.
-	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
-	// The physical location of the station.
-	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
-	// The URL of the station.
-	URL *string `form:"url" json:"url,omitempty"`
-}
-
-// VAT and Invoice on Behalf (IOB) details.
-type ChargePaymentDetailsFleetDatumVATParams struct {
-	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
-	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
-}
-
-// Fleet data for this PaymentIntent.
-type ChargePaymentDetailsFleetDatumParams struct {
-	// Primary fuel fields for the transaction.
-	PrimaryFuelFields *ChargePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
-	// Station and acceptor location details.
-	Station *ChargePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
-	// VAT and Invoice on Behalf (IOB) details.
-	VAT *ChargePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
-}
-
 // Date of birth.
 type ChargePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
 	// Day of birth, between 1 and 31.
@@ -1546,6 +1525,36 @@ func (p *ChargePaymentDetailsMoneyServicesParams) AddUnsetField(field ChargePaym
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Affiliate details for this purchase.
+type ChargePaymentDetailsSubscriptionAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name" json:"name"`
+}
+
+// Subscription billing details for this purchase.
+type ChargePaymentDetailsSubscriptionBillingIntervalParams struct {
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	Count *int64 `form:"count" json:"count"`
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+}
+
+// Subscription details for this PaymentIntent
+type ChargePaymentDetailsSubscriptionParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *ChargePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Info whether the subscription will be auto renewed upon expiry.
+	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
+	// Subscription billing details for this purchase.
+	BillingInterval *ChargePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
+	// Subscription end time. Measured in seconds since the Unix epoch.
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
+	// Name of the product on subscription. e.g. Apple Music Subscription
+	Name *string `form:"name" json:"name"`
+	// Subscription start time. Measured in seconds since the Unix epoch.
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
+}
+
 // Provides industry-specific information about the charge.
 type ChargePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
@@ -1585,11 +1594,11 @@ type ChargePaymentDetailsParamsUnsetField string
 const (
 	ChargePaymentDetailsParamsUnsetFieldCarRentalData     ChargePaymentDetailsParamsUnsetField = "car_rental_data"
 	ChargePaymentDetailsParamsUnsetFieldCustomerReference ChargePaymentDetailsParamsUnsetField = "customer_reference"
+	ChargePaymentDetailsParamsUnsetFieldFleetData         ChargePaymentDetailsParamsUnsetField = "fleet_data"
 	ChargePaymentDetailsParamsUnsetFieldFlightData        ChargePaymentDetailsParamsUnsetField = "flight_data"
 	ChargePaymentDetailsParamsUnsetFieldLodgingData       ChargePaymentDetailsParamsUnsetField = "lodging_data"
-	ChargePaymentDetailsParamsUnsetFieldOrderReference    ChargePaymentDetailsParamsUnsetField = "order_reference"
-	ChargePaymentDetailsParamsUnsetFieldFleetData         ChargePaymentDetailsParamsUnsetField = "fleet_data"
 	ChargePaymentDetailsParamsUnsetFieldMoneyServices     ChargePaymentDetailsParamsUnsetField = "money_services"
+	ChargePaymentDetailsParamsUnsetFieldOrderReference    ChargePaymentDetailsParamsUnsetField = "order_reference"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -1924,6 +1933,44 @@ type ChargeCapturePaymentDetailsEventDetailsParams struct {
 	Name *string `form:"name" json:"name"`
 	// Event start time. Measured in seconds since the Unix epoch.
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
+}
+
+// Primary fuel fields for the transaction.
+type ChargeCapturePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type ChargeCapturePaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type ChargeCapturePaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type ChargeCapturePaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *ChargeCapturePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *ChargeCapturePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *ChargeCapturePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
 }
 
 // Affiliate details for this purchase.
@@ -2376,74 +2423,6 @@ type ChargeCapturePaymentDetailsLodgingDatumParams struct {
 	Total *ChargeCapturePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
-// Affiliate details for this purchase.
-type ChargeCapturePaymentDetailsSubscriptionAffiliateParams struct {
-	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name" json:"name"`
-}
-
-// Subscription billing details for this purchase.
-type ChargeCapturePaymentDetailsSubscriptionBillingIntervalParams struct {
-	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	Count *int64 `form:"count" json:"count"`
-	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval" json:"interval"`
-}
-
-// Subscription details for this PaymentIntent
-type ChargeCapturePaymentDetailsSubscriptionParams struct {
-	// Affiliate details for this purchase.
-	Affiliate *ChargeCapturePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
-	// Info whether the subscription will be auto renewed upon expiry.
-	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
-	// Subscription billing details for this purchase.
-	BillingInterval *ChargeCapturePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
-	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
-	// Name of the product on subscription. e.g. Apple Music Subscription
-	Name *string `form:"name" json:"name"`
-	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
-}
-
-// Primary fuel fields for the transaction.
-type ChargeCapturePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
-	// The fuel brand.
-	Brand *string `form:"brand" json:"brand,omitempty"`
-}
-
-// Station and acceptor location details.
-type ChargeCapturePaymentDetailsFleetDatumStationParams struct {
-	// Additional contact information for the station.
-	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
-	// The customer service phone number of the station.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
-	// The partner ID code of the station.
-	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
-	// The phone number of the station.
-	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
-	// The physical location of the station.
-	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
-	// The URL of the station.
-	URL *string `form:"url" json:"url,omitempty"`
-}
-
-// VAT and Invoice on Behalf (IOB) details.
-type ChargeCapturePaymentDetailsFleetDatumVATParams struct {
-	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
-	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
-}
-
-// Fleet data for this PaymentIntent.
-type ChargeCapturePaymentDetailsFleetDatumParams struct {
-	// Primary fuel fields for the transaction.
-	PrimaryFuelFields *ChargeCapturePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
-	// Station and acceptor location details.
-	Station *ChargeCapturePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
-	// VAT and Invoice on Behalf (IOB) details.
-	VAT *ChargeCapturePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
-}
-
 // Date of birth.
 type ChargeCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
 	// Day of birth, between 1 and 31.
@@ -2540,6 +2519,36 @@ func (p *ChargeCapturePaymentDetailsMoneyServicesParams) AddUnsetField(field Cha
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Affiliate details for this purchase.
+type ChargeCapturePaymentDetailsSubscriptionAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name" json:"name"`
+}
+
+// Subscription billing details for this purchase.
+type ChargeCapturePaymentDetailsSubscriptionBillingIntervalParams struct {
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	Count *int64 `form:"count" json:"count"`
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+}
+
+// Subscription details for this PaymentIntent
+type ChargeCapturePaymentDetailsSubscriptionParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *ChargeCapturePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Info whether the subscription will be auto renewed upon expiry.
+	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
+	// Subscription billing details for this purchase.
+	BillingInterval *ChargeCapturePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
+	// Subscription end time. Measured in seconds since the Unix epoch.
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
+	// Name of the product on subscription. e.g. Apple Music Subscription
+	Name *string `form:"name" json:"name"`
+	// Subscription start time. Measured in seconds since the Unix epoch.
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
+}
+
 // Provides industry-specific information about the charge.
 type ChargeCapturePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
@@ -2579,11 +2588,11 @@ type ChargeCapturePaymentDetailsParamsUnsetField string
 const (
 	ChargeCapturePaymentDetailsParamsUnsetFieldCarRentalData     ChargeCapturePaymentDetailsParamsUnsetField = "car_rental_data"
 	ChargeCapturePaymentDetailsParamsUnsetFieldCustomerReference ChargeCapturePaymentDetailsParamsUnsetField = "customer_reference"
+	ChargeCapturePaymentDetailsParamsUnsetFieldFleetData         ChargeCapturePaymentDetailsParamsUnsetField = "fleet_data"
 	ChargeCapturePaymentDetailsParamsUnsetFieldFlightData        ChargeCapturePaymentDetailsParamsUnsetField = "flight_data"
 	ChargeCapturePaymentDetailsParamsUnsetFieldLodgingData       ChargeCapturePaymentDetailsParamsUnsetField = "lodging_data"
-	ChargeCapturePaymentDetailsParamsUnsetFieldOrderReference    ChargeCapturePaymentDetailsParamsUnsetField = "order_reference"
-	ChargeCapturePaymentDetailsParamsUnsetFieldFleetData         ChargeCapturePaymentDetailsParamsUnsetField = "fleet_data"
 	ChargeCapturePaymentDetailsParamsUnsetFieldMoneyServices     ChargeCapturePaymentDetailsParamsUnsetField = "money_services"
+	ChargeCapturePaymentDetailsParamsUnsetFieldOrderReference    ChargeCapturePaymentDetailsParamsUnsetField = "order_reference"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3095,6 +3104,44 @@ type ChargeUpdatePaymentDetailsEventDetailsParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type ChargeUpdatePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type ChargeUpdatePaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type ChargeUpdatePaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type ChargeUpdatePaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *ChargeUpdatePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *ChargeUpdatePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *ChargeUpdatePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
 // Affiliate details for this purchase.
 type ChargeUpdatePaymentDetailsFlightAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -3545,74 +3592,6 @@ type ChargeUpdatePaymentDetailsLodgingDatumParams struct {
 	Total *ChargeUpdatePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
-// Affiliate details for this purchase.
-type ChargeUpdatePaymentDetailsSubscriptionAffiliateParams struct {
-	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name" json:"name"`
-}
-
-// Subscription billing details for this purchase.
-type ChargeUpdatePaymentDetailsSubscriptionBillingIntervalParams struct {
-	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	Count *int64 `form:"count" json:"count"`
-	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval" json:"interval"`
-}
-
-// Subscription details for this PaymentIntent
-type ChargeUpdatePaymentDetailsSubscriptionParams struct {
-	// Affiliate details for this purchase.
-	Affiliate *ChargeUpdatePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
-	// Info whether the subscription will be auto renewed upon expiry.
-	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
-	// Subscription billing details for this purchase.
-	BillingInterval *ChargeUpdatePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
-	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
-	// Name of the product on subscription. e.g. Apple Music Subscription
-	Name *string `form:"name" json:"name"`
-	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
-}
-
-// Primary fuel fields for the transaction.
-type ChargeUpdatePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
-	// The fuel brand.
-	Brand *string `form:"brand" json:"brand,omitempty"`
-}
-
-// Station and acceptor location details.
-type ChargeUpdatePaymentDetailsFleetDatumStationParams struct {
-	// Additional contact information for the station.
-	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
-	// The customer service phone number of the station.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
-	// The partner ID code of the station.
-	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
-	// The phone number of the station.
-	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
-	// The physical location of the station.
-	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
-	// The URL of the station.
-	URL *string `form:"url" json:"url,omitempty"`
-}
-
-// VAT and Invoice on Behalf (IOB) details.
-type ChargeUpdatePaymentDetailsFleetDatumVATParams struct {
-	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
-	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
-}
-
-// Fleet data for this PaymentIntent.
-type ChargeUpdatePaymentDetailsFleetDatumParams struct {
-	// Primary fuel fields for the transaction.
-	PrimaryFuelFields *ChargeUpdatePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
-	// Station and acceptor location details.
-	Station *ChargeUpdatePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
-	// VAT and Invoice on Behalf (IOB) details.
-	VAT *ChargeUpdatePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
-}
-
 // Date of birth.
 type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
 	// Day of birth, between 1 and 31.
@@ -3709,6 +3688,36 @@ func (p *ChargeUpdatePaymentDetailsMoneyServicesParams) AddUnsetField(field Char
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Affiliate details for this purchase.
+type ChargeUpdatePaymentDetailsSubscriptionAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name" json:"name"`
+}
+
+// Subscription billing details for this purchase.
+type ChargeUpdatePaymentDetailsSubscriptionBillingIntervalParams struct {
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	Count *int64 `form:"count" json:"count"`
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+}
+
+// Subscription details for this PaymentIntent
+type ChargeUpdatePaymentDetailsSubscriptionParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *ChargeUpdatePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Info whether the subscription will be auto renewed upon expiry.
+	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
+	// Subscription billing details for this purchase.
+	BillingInterval *ChargeUpdatePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
+	// Subscription end time. Measured in seconds since the Unix epoch.
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
+	// Name of the product on subscription. e.g. Apple Music Subscription
+	Name *string `form:"name" json:"name"`
+	// Subscription start time. Measured in seconds since the Unix epoch.
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
+}
+
 // Provides industry-specific information about the charge.
 type ChargeUpdatePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
@@ -3748,11 +3757,11 @@ type ChargeUpdatePaymentDetailsParamsUnsetField string
 const (
 	ChargeUpdatePaymentDetailsParamsUnsetFieldCarRentalData     ChargeUpdatePaymentDetailsParamsUnsetField = "car_rental_data"
 	ChargeUpdatePaymentDetailsParamsUnsetFieldCustomerReference ChargeUpdatePaymentDetailsParamsUnsetField = "customer_reference"
+	ChargeUpdatePaymentDetailsParamsUnsetFieldFleetData         ChargeUpdatePaymentDetailsParamsUnsetField = "fleet_data"
 	ChargeUpdatePaymentDetailsParamsUnsetFieldFlightData        ChargeUpdatePaymentDetailsParamsUnsetField = "flight_data"
 	ChargeUpdatePaymentDetailsParamsUnsetFieldLodgingData       ChargeUpdatePaymentDetailsParamsUnsetField = "lodging_data"
-	ChargeUpdatePaymentDetailsParamsUnsetFieldOrderReference    ChargeUpdatePaymentDetailsParamsUnsetField = "order_reference"
-	ChargeUpdatePaymentDetailsParamsUnsetFieldFleetData         ChargeUpdatePaymentDetailsParamsUnsetField = "fleet_data"
 	ChargeUpdatePaymentDetailsParamsUnsetFieldMoneyServices     ChargeUpdatePaymentDetailsParamsUnsetField = "money_services"
+	ChargeUpdatePaymentDetailsParamsUnsetFieldOrderReference    ChargeUpdatePaymentDetailsParamsUnsetField = "order_reference"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -4051,6 +4060,10 @@ type ChargePaymentMethodDetailsBoleto struct {
 	// The tax ID of the customer (CPF for individuals consumers or CNPJ for businesses consumers)
 	TaxID string `json:"tax_id"`
 }
+type ChargePaymentMethodDetailsCardAccountFunding struct {
+	// The transaction type of the card transaction. One of `account_funding` or `purchase`.
+	ProcessedTransactionType ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType `json:"processed_transaction_type,omitempty"`
+}
 type ChargePaymentMethodDetailsCardBenefits struct {
 	// Issuer of the benefit card utilized on this payment
 	Issuer string `json:"issuer"`
@@ -4177,6 +4190,7 @@ type ChargePaymentMethodDetailsCardWallet struct {
 	VisaCheckout *ChargePaymentMethodDetailsCardWalletVisaCheckout `json:"visa_checkout,omitempty"`
 }
 type ChargePaymentMethodDetailsCard struct {
+	AccountFunding *ChargePaymentMethodDetailsCardAccountFunding `json:"account_funding,omitempty"`
 	// The authorized amount.
 	AmountAuthorized int64 `json:"amount_authorized"`
 	// The latest amount intended to be authorized by this charge.

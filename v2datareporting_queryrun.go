@@ -8,13 +8,13 @@ package stripe
 
 import "time"
 
-// Error code categorizing the reason the `QueryRun` failed.
-type V2DataReportingQueryRunStatusDetailsErrorCode string
+// The content type of the file.
+type V2DataReportingQueryRunResultFileContentType string
 
-// List of values that V2DataReportingQueryRunStatusDetailsErrorCode can take
+// List of values that V2DataReportingQueryRunResultFileContentType can take
 const (
-	V2DataReportingQueryRunStatusDetailsErrorCodeFileSizeAboveLimit V2DataReportingQueryRunStatusDetailsErrorCode = "file_size_above_limit"
-	V2DataReportingQueryRunStatusDetailsErrorCodeInternalError      V2DataReportingQueryRunStatusDetailsErrorCode = "internal_error"
+	V2DataReportingQueryRunResultFileContentTypeCsv V2DataReportingQueryRunResultFileContentType = "csv"
+	V2DataReportingQueryRunResultFileContentTypeZip V2DataReportingQueryRunResultFileContentType = "zip"
 )
 
 // The type of the `ReportRun` or `QueryRun` result.
@@ -23,15 +23,6 @@ type V2DataReportingQueryRunResultType string
 // List of values that V2DataReportingQueryRunResultType can take
 const (
 	V2DataReportingQueryRunResultTypeFile V2DataReportingQueryRunResultType = "file"
-)
-
-// The content type of the file.
-type V2DataReportingQueryRunResultFileContentType string
-
-// List of values that V2DataReportingQueryRunResultFileContentType can take
-const (
-	V2DataReportingQueryRunResultFileContentTypeCsv V2DataReportingQueryRunResultFileContentType = "csv"
-	V2DataReportingQueryRunResultFileContentTypeZip V2DataReportingQueryRunResultFileContentType = "zip"
 )
 
 // The current status of the `QueryRun`.
@@ -44,14 +35,14 @@ const (
 	V2DataReportingQueryRunStatusSucceeded V2DataReportingQueryRunStatus = "succeeded"
 )
 
-// Additional details about the current state of the `QueryRun`. Populated when the `QueryRun`
-// is in the `failed` state, providing more information about why the query failed.
-type V2DataReportingQueryRunStatusDetails struct {
-	// Error code categorizing the reason the `QueryRun` failed.
-	ErrorCode V2DataReportingQueryRunStatusDetailsErrorCode `json:"error_code,omitempty"`
-	// Error message with additional details about the failure.
-	ErrorMessage string `json:"error_message,omitempty"`
-}
+// Error code categorizing the reason the `QueryRun` failed.
+type V2DataReportingQueryRunStatusDetailsErrorCode string
+
+// List of values that V2DataReportingQueryRunStatusDetailsErrorCode can take
+const (
+	V2DataReportingQueryRunStatusDetailsErrorCodeFileSizeAboveLimit V2DataReportingQueryRunStatusDetailsErrorCode = "file_size_above_limit"
+	V2DataReportingQueryRunStatusDetailsErrorCodeInternalError      V2DataReportingQueryRunStatusDetailsErrorCode = "internal_error"
+)
 
 // A pre-signed URL that allows secure, time-limited access to download the file.
 type V2DataReportingQueryRunResultFileDownloadURL struct {
@@ -86,6 +77,15 @@ type V2DataReportingQueryRunResultOptions struct {
 	// If set, the generated results file will be compressed into a ZIP folder.
 	// This is useful for reducing file size and download time for large results.
 	CompressFile bool `json:"compress_file,omitempty"`
+}
+
+// Additional details about the current state of the `QueryRun`. Populated when the `QueryRun`
+// is in the `failed` state, providing more information about why the query failed.
+type V2DataReportingQueryRunStatusDetails struct {
+	// Error code categorizing the reason the `QueryRun` failed.
+	ErrorCode V2DataReportingQueryRunStatusDetailsErrorCode `json:"error_code,omitempty"`
+	// Error message with additional details about the failure.
+	ErrorMessage string `json:"error_message,omitempty"`
 }
 
 // The `QueryRun` object represents an ad-hoc SQL execution. Once created, Stripe processes the query. When

@@ -44,6 +44,18 @@ func (c v1PaymentAttemptRecordService) ReportAuthenticated(ctx context.Context, 
 	return paymentattemptrecord, err
 }
 
+// Report that the specified Payment Attempt Record was authorized.
+func (c v1PaymentAttemptRecordService) ReportAuthorized(ctx context.Context, id string, params *PaymentAttemptRecordReportAuthorizedParams) (*PaymentAttemptRecord, error) {
+	if params == nil {
+		params = &PaymentAttemptRecordReportAuthorizedParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/payment_attempt_records/%s/report_authorized", id)
+	paymentattemptrecord := &PaymentAttemptRecord{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentattemptrecord)
+	return paymentattemptrecord, err
+}
+
 // Report that the specified Payment Attempt Record was canceled.
 func (c v1PaymentAttemptRecordService) ReportCanceled(ctx context.Context, id string, params *PaymentAttemptRecordReportCanceledParams) (*PaymentAttemptRecord, error) {
 	if params == nil {

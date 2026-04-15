@@ -17,6 +17,34 @@ const (
 	PaymentLinkAfterCompletionTypeRedirect           PaymentLinkAfterCompletionType = "redirect"
 )
 
+// Determines which amount serves as the basis for calculating the surcharge.
+type PaymentLinkAutomaticSurchargeCalculationBasis string
+
+// List of values that PaymentLinkAutomaticSurchargeCalculationBasis can take
+const (
+	PaymentLinkAutomaticSurchargeCalculationBasisTotalAfterTax  PaymentLinkAutomaticSurchargeCalculationBasis = "total_after_tax"
+	PaymentLinkAutomaticSurchargeCalculationBasisTotalBeforeTax PaymentLinkAutomaticSurchargeCalculationBasis = "total_before_tax"
+)
+
+// The surcharge provider used for this payment link.
+type PaymentLinkAutomaticSurchargeProvider string
+
+// List of values that PaymentLinkAutomaticSurchargeProvider can take
+const (
+	PaymentLinkAutomaticSurchargeProviderInterpayments PaymentLinkAutomaticSurchargeProvider = "interpayments"
+	PaymentLinkAutomaticSurchargeProviderYeeld         PaymentLinkAutomaticSurchargeProvider = "yeeld"
+)
+
+// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+type PaymentLinkAutomaticSurchargeTaxBehavior string
+
+// List of values that PaymentLinkAutomaticSurchargeTaxBehavior can take
+const (
+	PaymentLinkAutomaticSurchargeTaxBehaviorExclusive   PaymentLinkAutomaticSurchargeTaxBehavior = "exclusive"
+	PaymentLinkAutomaticSurchargeTaxBehaviorInclusive   PaymentLinkAutomaticSurchargeTaxBehavior = "inclusive"
+	PaymentLinkAutomaticSurchargeTaxBehaviorUnspecified PaymentLinkAutomaticSurchargeTaxBehavior = "unspecified"
+)
+
 // Type of the account referenced.
 type PaymentLinkAutomaticTaxLiabilityType string
 
@@ -256,6 +284,16 @@ type PaymentLinkAfterCompletionParams struct {
 	Redirect *PaymentLinkAfterCompletionRedirectParams `form:"redirect" json:"redirect,omitempty"`
 	// The specified behavior after the purchase is complete. Either `redirect` or `hosted_confirmation`.
 	Type *string `form:"type" json:"type"`
+}
+
+// Configuration for automatic surcharge calculation.
+type PaymentLinkAutomaticSurchargeParams struct {
+	// Determines which amount serves as the basis for calculating the surcharge.
+	CalculationBasis *string `form:"calculation_basis" json:"calculation_basis,omitempty"`
+	// Set to `true` to calculate surcharge automatically using the customer's card details and location.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -833,6 +871,8 @@ type PaymentLinkParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
 	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
+	// Configuration for automatic surcharge calculation.
+	AutomaticSurcharge *PaymentLinkAutomaticSurchargeParams `form:"automatic_surcharge" json:"automatic_surcharge,omitempty"`
 	// Configuration for automatic tax collection.
 	AutomaticTax *PaymentLinkAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Configuration for collecting the customer's billing address. Defaults to `auto`.
@@ -963,6 +1003,16 @@ type PaymentLinkCreateAfterCompletionParams struct {
 	Redirect *PaymentLinkCreateAfterCompletionRedirectParams `form:"redirect" json:"redirect,omitempty"`
 	// The specified behavior after the purchase is complete. Either `redirect` or `hosted_confirmation`.
 	Type *string `form:"type" json:"type"`
+}
+
+// Configuration for automatic surcharge calculation.
+type PaymentLinkCreateAutomaticSurchargeParams struct {
+	// Determines which amount serves as the basis for calculating the surcharge.
+	CalculationBasis *string `form:"calculation_basis" json:"calculation_basis,omitempty"`
+	// Set to `true` to calculate surcharge automatically using the customer's card details and location.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -1504,6 +1554,8 @@ type PaymentLinkCreateParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. There must be at least 1 line item with a recurring price to use this field.
 	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
+	// Configuration for automatic surcharge calculation.
+	AutomaticSurcharge *PaymentLinkCreateAutomaticSurchargeParams `form:"automatic_surcharge" json:"automatic_surcharge,omitempty"`
 	// Configuration for automatic tax collection.
 	AutomaticTax *PaymentLinkCreateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Configuration for collecting the customer's billing address. Defaults to `auto`.
@@ -2149,6 +2201,16 @@ type PaymentLinkAfterCompletion struct {
 	// The specified behavior after the purchase is complete.
 	Type PaymentLinkAfterCompletionType `json:"type"`
 }
+type PaymentLinkAutomaticSurcharge struct {
+	// Determines which amount serves as the basis for calculating the surcharge.
+	CalculationBasis PaymentLinkAutomaticSurchargeCalculationBasis `json:"calculation_basis"`
+	// Indicates whether automatic surcharge is enabled for the payment link.
+	Enabled bool `json:"enabled"`
+	// The surcharge provider used for this payment link.
+	Provider PaymentLinkAutomaticSurchargeProvider `json:"provider,omitempty"`
+	// Specifies whether the surcharge is considered inclusive or exclusive of taxes.
+	TaxBehavior PaymentLinkAutomaticSurchargeTaxBehavior `json:"tax_behavior"`
+}
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type PaymentLinkAutomaticTaxLiability struct {
@@ -2464,8 +2526,9 @@ type PaymentLink struct {
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account.
 	ApplicationFeeAmount int64 `json:"application_fee_amount"`
 	// This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account.
-	ApplicationFeePercent float64                  `json:"application_fee_percent"`
-	AutomaticTax          *PaymentLinkAutomaticTax `json:"automatic_tax"`
+	ApplicationFeePercent float64                        `json:"application_fee_percent"`
+	AutomaticSurcharge    *PaymentLinkAutomaticSurcharge `json:"automatic_surcharge,omitempty"`
+	AutomaticTax          *PaymentLinkAutomaticTax       `json:"automatic_tax"`
 	// Configuration for collecting the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection PaymentLinkBillingAddressCollection `json:"billing_address_collection"`
 	// When set, provides configuration to gather active consent from customers.

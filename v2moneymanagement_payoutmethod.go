@@ -26,6 +26,30 @@ const (
 	V2MoneyManagementPayoutMethodAvailablePayoutSpeedStandard V2MoneyManagementPayoutMethodAvailablePayoutSpeed = "standard"
 )
 
+// The type of bank account (checking or savings).
+type V2MoneyManagementPayoutMethodBankAccountBankAccountType string
+
+// List of values that V2MoneyManagementPayoutMethodBankAccountBankAccountType can take
+const (
+	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeChecking V2MoneyManagementPayoutMethodBankAccountBankAccountType = "checking"
+	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeSavings  V2MoneyManagementPayoutMethodBankAccountBankAccountType = "savings"
+)
+
+// Which rail is being used to make an outbound money movement to this wallet.
+type V2MoneyManagementPayoutMethodCryptoWalletNetwork string
+
+// List of values that V2MoneyManagementPayoutMethodCryptoWalletNetwork can take
+const (
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkArbitrum        V2MoneyManagementPayoutMethodCryptoWalletNetwork = "arbitrum"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkAvalancheCChain V2MoneyManagementPayoutMethodCryptoWalletNetwork = "avalanche_c_chain"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkBase            V2MoneyManagementPayoutMethodCryptoWalletNetwork = "base"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkEthereum        V2MoneyManagementPayoutMethodCryptoWalletNetwork = "ethereum"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkOptimism        V2MoneyManagementPayoutMethodCryptoWalletNetwork = "optimism"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkPolygon         V2MoneyManagementPayoutMethodCryptoWalletNetwork = "polygon"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkSolana          V2MoneyManagementPayoutMethodCryptoWalletNetwork = "solana"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkStellar         V2MoneyManagementPayoutMethodCryptoWalletNetwork = "stellar"
+)
+
 // Closed Enum. The type of payout method.
 type V2MoneyManagementPayoutMethodType string
 
@@ -56,44 +80,12 @@ const (
 	V2MoneyManagementPayoutMethodUsageStatusTransfersRequiresAction V2MoneyManagementPayoutMethodUsageStatusTransfers = "requires_action"
 )
 
-// The type of bank account (checking or savings).
-type V2MoneyManagementPayoutMethodBankAccountBankAccountType string
-
-// List of values that V2MoneyManagementPayoutMethodBankAccountBankAccountType can take
-const (
-	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeChecking V2MoneyManagementPayoutMethodBankAccountBankAccountType = "checking"
-	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeSavings  V2MoneyManagementPayoutMethodBankAccountBankAccountType = "savings"
-)
-
-// Which rail is being used to make an outbound money movement to this wallet.
-type V2MoneyManagementPayoutMethodCryptoWalletNetwork string
-
-// List of values that V2MoneyManagementPayoutMethodCryptoWalletNetwork can take
-const (
-	V2MoneyManagementPayoutMethodCryptoWalletNetworkArbitrum        V2MoneyManagementPayoutMethodCryptoWalletNetwork = "arbitrum"
-	V2MoneyManagementPayoutMethodCryptoWalletNetworkAvalancheCChain V2MoneyManagementPayoutMethodCryptoWalletNetwork = "avalanche_c_chain"
-	V2MoneyManagementPayoutMethodCryptoWalletNetworkBase            V2MoneyManagementPayoutMethodCryptoWalletNetwork = "base"
-	V2MoneyManagementPayoutMethodCryptoWalletNetworkEthereum        V2MoneyManagementPayoutMethodCryptoWalletNetwork = "ethereum"
-	V2MoneyManagementPayoutMethodCryptoWalletNetworkOptimism        V2MoneyManagementPayoutMethodCryptoWalletNetwork = "optimism"
-	V2MoneyManagementPayoutMethodCryptoWalletNetworkPolygon         V2MoneyManagementPayoutMethodCryptoWalletNetwork = "polygon"
-	V2MoneyManagementPayoutMethodCryptoWalletNetworkSolana          V2MoneyManagementPayoutMethodCryptoWalletNetwork = "solana"
-	V2MoneyManagementPayoutMethodCryptoWalletNetworkStellar         V2MoneyManagementPayoutMethodCryptoWalletNetwork = "stellar"
-)
-
 // The alternative reference for this payout method, if it's a projected payout method.
 type V2MoneyManagementPayoutMethodAlternativeReference struct {
 	// The ID of the alternative resource being referenced.
 	ID string `json:"id"`
 	// The type of the alternative reference (e.g., external_account for V1 external accounts).
 	Type V2MoneyManagementPayoutMethodAlternativeReferenceType `json:"type"`
-}
-
-// Indicates whether the payout method has met the necessary requirements for outbound money movement.
-type V2MoneyManagementPayoutMethodUsageStatus struct {
-	// Payments status - used when sending OutboundPayments (sending funds to recipients).
-	Payments V2MoneyManagementPayoutMethodUsageStatusPayments `json:"payments"`
-	// Transfers status - used when making an OutboundTransfer (sending funds to yourself).
-	Transfers V2MoneyManagementPayoutMethodUsageStatusTransfers `json:"transfers"`
 }
 
 // The PayoutMethodBankAccount object details.
@@ -155,6 +147,14 @@ type V2MoneyManagementPayoutMethodCryptoWallet struct {
 	Memo string `json:"memo,omitempty"`
 	// Which rail is being used to make an outbound money movement to this wallet.
 	Network V2MoneyManagementPayoutMethodCryptoWalletNetwork `json:"network"`
+}
+
+// Indicates whether the payout method has met the necessary requirements for outbound money movement.
+type V2MoneyManagementPayoutMethodUsageStatus struct {
+	// Payments status - used when sending OutboundPayments (sending funds to recipients).
+	Payments V2MoneyManagementPayoutMethodUsageStatusPayments `json:"payments"`
+	// Transfers status - used when making an OutboundTransfer (sending funds to yourself).
+	Transfers V2MoneyManagementPayoutMethodUsageStatusTransfers `json:"transfers"`
 }
 
 // Use the PayoutMethods API to list and interact with PayoutMethod objects.

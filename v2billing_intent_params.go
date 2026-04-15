@@ -15,14 +15,6 @@ type V2BillingIntentListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
-// When the apply action will take effect. If not specified, defaults to on_reserve.
-type V2BillingIntentActionApplyEffectiveAtParams struct {
-	// The timestamp at which the apply action will take effect. Only present if type is timestamp. Only allowed for discount actions.
-	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
-	// When the apply action will take effect.
-	Type *string `form:"type" json:"type"`
-}
-
 // Details for applying a discount.
 type V2BillingIntentActionApplyDiscountParams struct {
 	// The ID of the Coupon to apply.
@@ -30,6 +22,14 @@ type V2BillingIntentActionApplyDiscountParams struct {
 	// The ID of the PromotionCode to apply.
 	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Type of the discount.
+	Type *string `form:"type" json:"type"`
+}
+
+// When the apply action will take effect. If not specified, defaults to on_reserve.
+type V2BillingIntentActionApplyEffectiveAtParams struct {
+	// The timestamp at which the apply action will take effect. Only present if type is timestamp. Only allowed for discount actions.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// When the apply action will take effect.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -633,14 +633,6 @@ type V2BillingIntentReserveParams struct {
 	Params `form:"*"`
 }
 
-// When the apply action will take effect. If not specified, defaults to on_reserve.
-type V2BillingIntentCreateActionApplyEffectiveAtParams struct {
-	// The timestamp at which the apply action will take effect. Only present if type is timestamp. Only allowed for discount actions.
-	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
-	// When the apply action will take effect.
-	Type *string `form:"type" json:"type"`
-}
-
 // Details for applying a discount.
 type V2BillingIntentCreateActionApplyDiscountParams struct {
 	// The ID of the Coupon to apply.
@@ -648,6 +640,14 @@ type V2BillingIntentCreateActionApplyDiscountParams struct {
 	// The ID of the PromotionCode to apply.
 	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 	// Type of the discount.
+	Type *string `form:"type" json:"type"`
+}
+
+// When the apply action will take effect. If not specified, defaults to on_reserve.
+type V2BillingIntentCreateActionApplyEffectiveAtParams struct {
+	// The timestamp at which the apply action will take effect. Only present if type is timestamp. Only allowed for discount actions.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// When the apply action will take effect.
 	Type *string `form:"type" json:"type"`
 }
 

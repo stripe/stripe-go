@@ -8,17 +8,6 @@ package stripe
 
 import "time"
 
-// Current status of the Billing Intent.
-type V2BillingIntentStatus string
-
-// List of values that V2BillingIntentStatus can take
-const (
-	V2BillingIntentStatusCanceled  V2BillingIntentStatus = "canceled"
-	V2BillingIntentStatusCommitted V2BillingIntentStatus = "committed"
-	V2BillingIntentStatusDraft     V2BillingIntentStatus = "draft"
-	V2BillingIntentStatusReserved  V2BillingIntentStatus = "reserved"
-)
-
 // The frequency at which a cadence bills.
 type V2BillingIntentCadenceDataBillingCycleType string
 
@@ -28,6 +17,17 @@ const (
 	V2BillingIntentCadenceDataBillingCycleTypeMonth V2BillingIntentCadenceDataBillingCycleType = "month"
 	V2BillingIntentCadenceDataBillingCycleTypeWeek  V2BillingIntentCadenceDataBillingCycleType = "week"
 	V2BillingIntentCadenceDataBillingCycleTypeYear  V2BillingIntentCadenceDataBillingCycleType = "year"
+)
+
+// Current status of the Billing Intent.
+type V2BillingIntentStatus string
+
+// List of values that V2BillingIntentStatus can take
+const (
+	V2BillingIntentStatusCanceled  V2BillingIntentStatus = "canceled"
+	V2BillingIntentStatusCommitted V2BillingIntentStatus = "committed"
+	V2BillingIntentStatusDraft     V2BillingIntentStatus = "draft"
+	V2BillingIntentStatusReserved  V2BillingIntentStatus = "reserved"
 )
 
 // Breakdown of the amount for this Billing Intent.
@@ -44,20 +44,6 @@ type V2BillingIntentAmountDetails struct {
 	Tax string `json:"tax"`
 	// Total amount for the Billing Intent.
 	Total string `json:"total"`
-}
-
-// Timestamps for status transitions of the Billing Intent.
-type V2BillingIntentStatusTransitions struct {
-	// Time at which the Billing Intent was canceled.
-	CanceledAt time.Time `json:"canceled_at,omitempty"`
-	// Time at which the Billing Intent was committed.
-	CommittedAt time.Time `json:"committed_at,omitempty"`
-	// Time at which the Billing Intent was drafted.
-	DraftedAt time.Time `json:"drafted_at,omitempty"`
-	// Time at which the Billing Intent will expire.
-	ExpiresAt time.Time `json:"expires_at"`
-	// Time at which the Billing Intent was reserved.
-	ReservedAt time.Time `json:"reserved_at,omitempty"`
 }
 
 // The time at which the billing cycle ends.
@@ -221,6 +207,20 @@ type V2BillingIntentCadenceData struct {
 	Payer *V2BillingIntentCadenceDataPayer `json:"payer"`
 	// Settings for creating the Cadence.
 	Settings *V2BillingIntentCadenceDataSettings `json:"settings,omitempty"`
+}
+
+// Timestamps for status transitions of the Billing Intent.
+type V2BillingIntentStatusTransitions struct {
+	// Time at which the Billing Intent was canceled.
+	CanceledAt time.Time `json:"canceled_at,omitempty"`
+	// Time at which the Billing Intent was committed.
+	CommittedAt time.Time `json:"committed_at,omitempty"`
+	// Time at which the Billing Intent was drafted.
+	DraftedAt time.Time `json:"drafted_at,omitempty"`
+	// Time at which the Billing Intent will expire.
+	ExpiresAt time.Time `json:"expires_at"`
+	// Time at which the Billing Intent was reserved.
+	ReservedAt time.Time `json:"reserved_at,omitempty"`
 }
 
 // A Billing Intent represents a proposed change to a customer's billing configuration, such as subscribing to a new service,

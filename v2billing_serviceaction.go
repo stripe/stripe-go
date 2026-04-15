@@ -8,26 +8,6 @@ package stripe
 
 import "time"
 
-// The interval for assessing service.
-type V2BillingServiceActionServiceInterval string
-
-// List of values that V2BillingServiceActionServiceInterval can take
-const (
-	V2BillingServiceActionServiceIntervalDay   V2BillingServiceActionServiceInterval = "day"
-	V2BillingServiceActionServiceIntervalMonth V2BillingServiceActionServiceInterval = "month"
-	V2BillingServiceActionServiceIntervalWeek  V2BillingServiceActionServiceInterval = "week"
-	V2BillingServiceActionServiceIntervalYear  V2BillingServiceActionServiceInterval = "year"
-)
-
-// The type of the service action.
-type V2BillingServiceActionType string
-
-// List of values that V2BillingServiceActionType can take
-const (
-	V2BillingServiceActionTypeCreditGrant          V2BillingServiceActionType = "credit_grant"
-	V2BillingServiceActionTypeCreditGrantPerTenant V2BillingServiceActionType = "credit_grant_per_tenant"
-)
-
 // The type of the credit grant amount. We currently support `monetary` and `custom_pricing_unit` billing credits.
 type V2BillingServiceActionCreditGrantAmountType string
 
@@ -94,6 +74,26 @@ type V2BillingServiceActionCreditGrantPerTenantExpiryConfigType string
 // List of values that V2BillingServiceActionCreditGrantPerTenantExpiryConfigType can take
 const (
 	V2BillingServiceActionCreditGrantPerTenantExpiryConfigTypeEndOfServicePeriod V2BillingServiceActionCreditGrantPerTenantExpiryConfigType = "end_of_service_period"
+)
+
+// The interval for assessing service.
+type V2BillingServiceActionServiceInterval string
+
+// List of values that V2BillingServiceActionServiceInterval can take
+const (
+	V2BillingServiceActionServiceIntervalDay   V2BillingServiceActionServiceInterval = "day"
+	V2BillingServiceActionServiceIntervalMonth V2BillingServiceActionServiceInterval = "month"
+	V2BillingServiceActionServiceIntervalWeek  V2BillingServiceActionServiceInterval = "week"
+	V2BillingServiceActionServiceIntervalYear  V2BillingServiceActionServiceInterval = "year"
+)
+
+// The type of the service action.
+type V2BillingServiceActionType string
+
+// List of values that V2BillingServiceActionType can take
+const (
+	V2BillingServiceActionTypeCreditGrant          V2BillingServiceActionType = "credit_grant"
+	V2BillingServiceActionTypeCreditGrantPerTenant V2BillingServiceActionType = "credit_grant_per_tenant"
 )
 
 // The custom pricing unit amount of the credit grant. Required if `type` is `custom_pricing_unit`.

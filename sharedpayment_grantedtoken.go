@@ -17,16 +17,6 @@ const (
 	SharedPaymentGrantedTokenDeactivatedReasonRevoked  SharedPaymentGrantedTokenDeactivatedReason = "revoked"
 )
 
-// The recurring interval at which the shared payment token's amount usage restrictions reset.
-type SharedPaymentGrantedTokenUsageLimitsRecurringInterval string
-
-// List of values that SharedPaymentGrantedTokenUsageLimitsRecurringInterval can take
-const (
-	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalMonth SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "month"
-	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalWeek  SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "week"
-	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalYear  SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "year"
-)
-
 // The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 type SharedPaymentGrantedTokenPaymentMethodDetailsCardWalletType string
 
@@ -423,6 +413,16 @@ const (
 	SharedPaymentGrantedTokenPaymentMethodDetailsUSBankAccountStatusDetailsBlockedReasonTokenizedAccountNumberDeactivated SharedPaymentGrantedTokenPaymentMethodDetailsUSBankAccountStatusDetailsBlockedReason = "tokenized_account_number_deactivated"
 )
 
+// The recurring interval at which the shared payment token's amount usage restrictions reset.
+type SharedPaymentGrantedTokenUsageLimitsRecurringInterval string
+
+// List of values that SharedPaymentGrantedTokenUsageLimitsRecurringInterval can take
+const (
+	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalMonth SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "month"
+	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalWeek  SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "week"
+	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalYear  SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "year"
+)
+
 // Retrieves an existing SharedPaymentGrantedToken object
 type SharedPaymentGrantedTokenParams struct {
 	Params `form:"*"`
@@ -445,32 +445,6 @@ type SharedPaymentGrantedTokenRetrieveParams struct {
 // AddExpand appends a new field to expand.
 func (p *SharedPaymentGrantedTokenRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
-}
-
-// The total amount captured using this SharedPaymentToken.
-type SharedPaymentGrantedTokenUsageDetailsAmountCaptured struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// Integer value of the amount in the smallest currency unit.
-	Value int64 `json:"value"`
-}
-
-// Some details about how the SharedPaymentGrantedToken has been used already.
-type SharedPaymentGrantedTokenUsageDetails struct {
-	// The total amount captured using this SharedPaymentToken.
-	AmountCaptured *SharedPaymentGrantedTokenUsageDetailsAmountCaptured `json:"amount_captured"`
-}
-
-// Limits on how this SharedPaymentGrantedToken can be used.
-type SharedPaymentGrantedTokenUsageLimits struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// Time at which this SharedPaymentToken expires and can no longer be used to confirm a PaymentIntent.
-	ExpiresAt int64 `json:"expires_at"`
-	// Max amount that can be captured using this SharedPaymentToken.
-	MaxAmount int64 `json:"max_amount"`
-	// The recurring interval at which the shared payment token's amount usage restrictions reset.
-	RecurringInterval SharedPaymentGrantedTokenUsageLimitsRecurringInterval `json:"recurring_interval,omitempty"`
 }
 
 // Details about the agent that issued this SharedPaymentGrantedToken.
@@ -949,7 +923,7 @@ type SharedPaymentGrantedTokenPaymentMethodDetails struct {
 	Bancontact       *SharedPaymentGrantedTokenPaymentMethodDetailsBancontact       `json:"bancontact,omitempty"`
 	Billie           *SharedPaymentGrantedTokenPaymentMethodDetailsBillie           `json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
-	BillingDetails  *SharedPaymentGrantedTokenPaymentMethodDetailsBillingDetails  `json:"billing_details,omitempty"`
+	BillingDetails  *SharedPaymentGrantedTokenPaymentMethodDetailsBillingDetails  `json:"billing_details"`
 	BLIK            *SharedPaymentGrantedTokenPaymentMethodDetailsBLIK            `json:"blik,omitempty"`
 	Boleto          *SharedPaymentGrantedTokenPaymentMethodDetailsBoleto          `json:"boleto,omitempty"`
 	Card            *SharedPaymentGrantedTokenPaymentMethodDetailsCard            `json:"card,omitempty"`
@@ -1005,57 +979,57 @@ type SharedPaymentGrantedTokenPaymentMethodDetails struct {
 	Zip           *SharedPaymentGrantedTokenPaymentMethodDetailsZip           `json:"zip,omitempty"`
 }
 
-// Bot risk insight (score: Float, recommended_action).
+// Bot risk insight.
 type SharedPaymentGrantedTokenRiskDetailsInsightsBot struct {
 	// Recommended action for this insight.
 	RecommendedAction string `json:"recommended_action"`
-	// Risk score for this insight (float).
+	// Risk score for this insight.
 	Score float64 `json:"score"`
 }
 
-// Card issuer decline risk insight (score: Float, recommended_action).
+// Card issuer decline risk insight.
 type SharedPaymentGrantedTokenRiskDetailsInsightsCardIssuerDecline struct {
 	// Recommended action for this insight.
 	RecommendedAction string `json:"recommended_action"`
-	// Risk score for this insight (float).
+	// Risk score for this insight.
 	Score float64 `json:"score"`
 }
 
-// Card testing risk insight (score: Float, recommended_action).
+// Card testing risk insight.
 type SharedPaymentGrantedTokenRiskDetailsInsightsCardTesting struct {
 	// Recommended action for this insight.
 	RecommendedAction string `json:"recommended_action"`
-	// Risk score for this insight (float).
+	// Risk score for this insight.
 	Score float64 `json:"score"`
 }
 
-// Fraudulent dispute risk insight (score: Integer, recommended_action).
+// Fraudulent dispute risk insight.
 type SharedPaymentGrantedTokenRiskDetailsInsightsFraudulentDispute struct {
 	// Recommended action for this insight.
 	RecommendedAction string `json:"recommended_action"`
-	// Risk score for this insight (integer).
+	// Risk score for this insight.
 	Score int64 `json:"score"`
 }
 
-// Stolen card risk insight (score: Integer, recommended_action).
+// Stolen card risk insight.
 type SharedPaymentGrantedTokenRiskDetailsInsightsStolenCard struct {
 	// Recommended action for this insight.
 	RecommendedAction string `json:"recommended_action"`
-	// Risk score for this insight (integer).
+	// Risk score for this insight.
 	Score int64 `json:"score"`
 }
 
 // Risk insights for this token, including scores and recommended actions for each risk type.
 type SharedPaymentGrantedTokenRiskDetailsInsights struct {
-	// Bot risk insight (score: Float, recommended_action).
+	// Bot risk insight.
 	Bot *SharedPaymentGrantedTokenRiskDetailsInsightsBot `json:"bot,omitempty"`
-	// Card issuer decline risk insight (score: Float, recommended_action).
+	// Card issuer decline risk insight.
 	CardIssuerDecline *SharedPaymentGrantedTokenRiskDetailsInsightsCardIssuerDecline `json:"card_issuer_decline,omitempty"`
-	// Card testing risk insight (score: Float, recommended_action).
+	// Card testing risk insight.
 	CardTesting *SharedPaymentGrantedTokenRiskDetailsInsightsCardTesting `json:"card_testing,omitempty"`
-	// Fraudulent dispute risk insight (score: Integer, recommended_action).
+	// Fraudulent dispute risk insight.
 	FraudulentDispute *SharedPaymentGrantedTokenRiskDetailsInsightsFraudulentDispute `json:"fraudulent_dispute"`
-	// Stolen card risk insight (score: Integer, recommended_action).
+	// Stolen card risk insight.
 	StolenCard *SharedPaymentGrantedTokenRiskDetailsInsightsStolenCard `json:"stolen_card,omitempty"`
 }
 
@@ -1063,6 +1037,32 @@ type SharedPaymentGrantedTokenRiskDetailsInsights struct {
 type SharedPaymentGrantedTokenRiskDetails struct {
 	// Risk insights for this token, including scores and recommended actions for each risk type.
 	Insights *SharedPaymentGrantedTokenRiskDetailsInsights `json:"insights"`
+}
+
+// The total amount captured using this SharedPaymentToken.
+type SharedPaymentGrantedTokenUsageDetailsAmountCaptured struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// Integer value of the amount in the smallest currency unit.
+	Value int64 `json:"value"`
+}
+
+// Some details about how the SharedPaymentGrantedToken has been used already.
+type SharedPaymentGrantedTokenUsageDetails struct {
+	// The total amount captured using this SharedPaymentToken.
+	AmountCaptured *SharedPaymentGrantedTokenUsageDetailsAmountCaptured `json:"amount_captured"`
+}
+
+// Limits on how this SharedPaymentGrantedToken can be used.
+type SharedPaymentGrantedTokenUsageLimits struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// Time at which this SharedPaymentToken expires and can no longer be used to confirm a PaymentIntent.
+	ExpiresAt int64 `json:"expires_at"`
+	// Max amount that can be captured using this SharedPaymentToken.
+	MaxAmount int64 `json:"max_amount"`
+	// The recurring interval at which the shared payment token's amount usage restrictions reset.
+	RecurringInterval SharedPaymentGrantedTokenUsageLimitsRecurringInterval `json:"recurring_interval,omitempty"`
 }
 
 // SharedPaymentGrantedToken is the view-only resource of a SharedPaymentIssuedToken, which is a limited-use reference to a PaymentMethod.

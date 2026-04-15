@@ -8,27 +8,6 @@ package stripe
 
 import "time"
 
-// Open Enum. The Level of the HistoryEntry.
-type V2MoneyManagementInboundTransferTransferHistoryLevel string
-
-// List of values that V2MoneyManagementInboundTransferTransferHistoryLevel can take
-const (
-	V2MoneyManagementInboundTransferTransferHistoryLevelCanonical V2MoneyManagementInboundTransferTransferHistoryLevel = "canonical"
-	V2MoneyManagementInboundTransferTransferHistoryLevelDebug     V2MoneyManagementInboundTransferTransferHistoryLevel = "debug"
-)
-
-// Open Enum. The type of the HistoryEntry.
-type V2MoneyManagementInboundTransferTransferHistoryType string
-
-// List of values that V2MoneyManagementInboundTransferTransferHistoryType can take
-const (
-	V2MoneyManagementInboundTransferTransferHistoryTypeBankDebitFailed     V2MoneyManagementInboundTransferTransferHistoryType = "bank_debit_failed"
-	V2MoneyManagementInboundTransferTransferHistoryTypeBankDebitProcessing V2MoneyManagementInboundTransferTransferHistoryType = "bank_debit_processing"
-	V2MoneyManagementInboundTransferTransferHistoryTypeBankDebitQueued     V2MoneyManagementInboundTransferTransferHistoryType = "bank_debit_queued"
-	V2MoneyManagementInboundTransferTransferHistoryTypeBankDebitReturned   V2MoneyManagementInboundTransferTransferHistoryType = "bank_debit_returned"
-	V2MoneyManagementInboundTransferTransferHistoryTypeBankDebitSucceeded  V2MoneyManagementInboundTransferTransferHistoryType = "bank_debit_succeeded"
-)
-
 // Open Enum. The return reason for the failed InboundTransfer.
 type V2MoneyManagementInboundTransferTransferHistoryBankDebitFailedFailureReason string
 
@@ -51,6 +30,27 @@ const (
 	V2MoneyManagementInboundTransferTransferHistoryBankDebitReturnedReturnReasonBankDebitCouldNotBeProcessed V2MoneyManagementInboundTransferTransferHistoryBankDebitReturnedReturnReason = "bank_debit_could_not_be_processed"
 	V2MoneyManagementInboundTransferTransferHistoryBankDebitReturnedReturnReasonBankDebitNotAuthorized       V2MoneyManagementInboundTransferTransferHistoryBankDebitReturnedReturnReason = "bank_debit_not_authorized"
 	V2MoneyManagementInboundTransferTransferHistoryBankDebitReturnedReturnReasonInsufficientFunds            V2MoneyManagementInboundTransferTransferHistoryBankDebitReturnedReturnReason = "insufficient_funds"
+)
+
+// Open Enum. The Level of the HistoryEntry.
+type V2MoneyManagementInboundTransferTransferHistoryLevel string
+
+// List of values that V2MoneyManagementInboundTransferTransferHistoryLevel can take
+const (
+	V2MoneyManagementInboundTransferTransferHistoryLevelCanonical V2MoneyManagementInboundTransferTransferHistoryLevel = "canonical"
+	V2MoneyManagementInboundTransferTransferHistoryLevelDebug     V2MoneyManagementInboundTransferTransferHistoryLevel = "debug"
+)
+
+// Open Enum. The type of the HistoryEntry.
+type V2MoneyManagementInboundTransferTransferHistoryType string
+
+// List of values that V2MoneyManagementInboundTransferTransferHistoryType can take
+const (
+	V2MoneyManagementInboundTransferTransferHistoryTypeBankDebitFailed     V2MoneyManagementInboundTransferTransferHistoryType = "bank_debit_failed"
+	V2MoneyManagementInboundTransferTransferHistoryTypeBankDebitProcessing V2MoneyManagementInboundTransferTransferHistoryType = "bank_debit_processing"
+	V2MoneyManagementInboundTransferTransferHistoryTypeBankDebitQueued     V2MoneyManagementInboundTransferTransferHistoryType = "bank_debit_queued"
+	V2MoneyManagementInboundTransferTransferHistoryTypeBankDebitReturned   V2MoneyManagementInboundTransferTransferHistoryType = "bank_debit_returned"
+	V2MoneyManagementInboundTransferTransferHistoryTypeBankDebitSucceeded  V2MoneyManagementInboundTransferTransferHistoryType = "bank_debit_succeeded"
 )
 
 // The Payment Method object used to create the InboundTransfer.

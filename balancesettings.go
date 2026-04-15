@@ -38,6 +38,16 @@ const (
 	BalanceSettingsPaymentsPayoutsStatusEnabled  BalanceSettingsPaymentsPayoutsStatus = "enabled"
 )
 
+// A hash of settlement currencies and their states. Each key is an ISO 4217 currency code, and the value is one of `enabled`, `disabled`, or `restricted_by_application`.
+type BalanceSettingsPaymentsSettlementCurrencies string
+
+// List of values that BalanceSettingsPaymentsSettlementCurrencies can take
+const (
+	BalanceSettingsPaymentsSettlementCurrenciesDisabled                BalanceSettingsPaymentsSettlementCurrencies = "disabled"
+	BalanceSettingsPaymentsSettlementCurrenciesEnabled                 BalanceSettingsPaymentsSettlementCurrencies = "enabled"
+	BalanceSettingsPaymentsSettlementCurrenciesRestrictedByApplication BalanceSettingsPaymentsSettlementCurrencies = "restricted_by_application"
+)
+
 // Retrieves balance settings for a given connected account.
 //
 //	Related guide: [Making API calls for connected accounts](https://docs.stripe.com/connect/authentication)
@@ -112,6 +122,8 @@ type BalanceSettingsPaymentsParams struct {
 	DebitNegativeBalances *bool `form:"debit_negative_balances" json:"debit_negative_balances,omitempty"`
 	// Settings specific to the account's payouts.
 	Payouts *BalanceSettingsPaymentsPayoutsParams `form:"payouts" json:"payouts,omitempty"`
+	// A hash of settlement currencies to update. Each key is an ISO 4217 currency code, and the value is either `enabled` or `disabled`.
+	SettlementCurrencies map[string]string `form:"settlement_currencies" json:"settlement_currencies,omitempty"`
 	// Settings related to the account's balance settlement timing.
 	SettlementTiming *BalanceSettingsPaymentsSettlementTimingParams `form:"settlement_timing" json:"settlement_timing,omitempty"`
 }
@@ -188,6 +200,8 @@ type BalanceSettingsUpdatePaymentsParams struct {
 	DebitNegativeBalances *bool `form:"debit_negative_balances" json:"debit_negative_balances,omitempty"`
 	// Settings specific to the account's payouts.
 	Payouts *BalanceSettingsUpdatePaymentsPayoutsParams `form:"payouts" json:"payouts,omitempty"`
+	// A hash of settlement currencies to update. Each key is an ISO 4217 currency code, and the value is either `enabled` or `disabled`.
+	SettlementCurrencies map[string]string `form:"settlement_currencies" json:"settlement_currencies,omitempty"`
 	// Settings related to the account's balance settlement timing.
 	SettlementTiming *BalanceSettingsUpdatePaymentsSettlementTimingParams `form:"settlement_timing" json:"settlement_timing,omitempty"`
 }
@@ -238,9 +252,13 @@ type BalanceSettingsPaymentsSettlementTiming struct {
 type BalanceSettingsPayments struct {
 	// A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See [Understanding Connect account balances](https://docs.stripe.com/connect/account-balances) for details. The default value is `false` when [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, otherwise `true`.
 	DebitNegativeBalances bool `json:"debit_negative_balances"`
+	// The default settlement currency for the account.
+	DefaultSettlementCurrency Currency `json:"default_settlement_currency,omitempty"`
 	// Settings specific to the account's payouts.
-	Payouts          *BalanceSettingsPaymentsPayouts          `json:"payouts"`
-	SettlementTiming *BalanceSettingsPaymentsSettlementTiming `json:"settlement_timing"`
+	Payouts *BalanceSettingsPaymentsPayouts `json:"payouts"`
+	// A hash of settlement currencies and their states. Each key is an ISO 4217 currency code, and the value is one of `enabled`, `disabled`, or `restricted_by_application`.
+	SettlementCurrencies map[Currency]BalanceSettingsPaymentsSettlementCurrencies `json:"settlement_currencies,omitempty"`
+	SettlementTiming     *BalanceSettingsPaymentsSettlementTiming                 `json:"settlement_timing"`
 }
 
 // Options for customizing account balances and payout settings for a Stripe platform's connected accounts.

@@ -19,20 +19,20 @@ const (
 	V2BillingCadenceBillingCycleTypeYear  V2BillingCadenceBillingCycleType = "year"
 )
 
-// The type of the discount.
-type V2BillingCadenceInvoiceDiscountRuleType string
-
-// List of values that V2BillingCadenceInvoiceDiscountRuleType can take
-const (
-	V2BillingCadenceInvoiceDiscountRuleTypePercentOff V2BillingCadenceInvoiceDiscountRuleType = "percent_off"
-)
-
 // Max applications type of this discount, ex: indefinite.
 type V2BillingCadenceInvoiceDiscountRulePercentOffMaximumApplicationsType string
 
 // List of values that V2BillingCadenceInvoiceDiscountRulePercentOffMaximumApplicationsType can take
 const (
 	V2BillingCadenceInvoiceDiscountRulePercentOffMaximumApplicationsTypeIndefinite V2BillingCadenceInvoiceDiscountRulePercentOffMaximumApplicationsType = "indefinite"
+)
+
+// The type of the discount.
+type V2BillingCadenceInvoiceDiscountRuleType string
+
+// List of values that V2BillingCadenceInvoiceDiscountRuleType can take
+const (
+	V2BillingCadenceInvoiceDiscountRuleTypePercentOff V2BillingCadenceInvoiceDiscountRuleType = "percent_off"
 )
 
 // A string identifying the type of the payer. Currently the only supported value is `customer`.

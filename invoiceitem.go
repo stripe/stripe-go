@@ -495,6 +495,8 @@ type InvoiceItemParentRateCardSubscriptionDetails struct {
 type InvoiceItemParentScheduleDetails struct {
 	// The subscription schedule that generated this invoice item
 	Schedule string `json:"schedule"`
+	// The subscription associated with this schedule
+	Subscription string `json:"subscription"`
 }
 
 // Details about the subscription that generated this invoice item

@@ -595,6 +595,9 @@ type InvoicePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBizumParams struct{}
+
 // The selected installment plan to use for this invoice.
 type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
@@ -638,6 +641,11 @@ type InvoicePaymentSettingsPaymentMethodOptionsCardParams struct {
 	Installments *InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsParams `form:"installments" json:"installments,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
+}
+
+// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
+	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
 }
 
 // Configuration for eu_bank_transfer funding type.
@@ -737,14 +745,6 @@ type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountParams struct {
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
-// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsBizumParams struct{}
-
-// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
-	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
-}
-
 // Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -782,7 +782,9 @@ type InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField string
 const (
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
+	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDBankTransfer  InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
@@ -791,8 +793,6 @@ const (
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
-	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
-	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3536,6 +3536,9 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBizumParams struct{}
+
 // The selected installment plan to use for this invoice.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
@@ -3579,6 +3582,11 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardParams struct {
 	Installments *InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams `form:"installments" json:"installments,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
+}
+
+// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
+	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
 }
 
 // Configuration for eu_bank_transfer funding type.
@@ -3678,14 +3686,6 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams struct 
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
-// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
-type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBizumParams struct{}
-
-// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
-type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
-	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
-}
-
 // Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -3723,7 +3723,9 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField string
 const (
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDBankTransfer  InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
@@ -3732,8 +3734,6 @@ const (
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
-	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
-	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -4117,6 +4117,9 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBizumParams struct{}
+
 // The selected installment plan to use for this invoice.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
@@ -4160,6 +4163,11 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardParams struct {
 	Installments *InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams `form:"installments" json:"installments,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure" json:"request_three_d_secure,omitempty"`
+}
+
+// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
+	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
 }
 
 // Configuration for eu_bank_transfer funding type.
@@ -4259,14 +4267,6 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams struct 
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
-// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
-type InvoiceCreatePaymentSettingsPaymentMethodOptionsBizumParams struct{}
-
-// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
-type InvoiceCreatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
-	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
-}
-
 // Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -4304,7 +4304,9 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField string
 const (
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDBankTransfer  InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
@@ -4313,8 +4315,6 @@ const (
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
-	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
-	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -4743,6 +4743,9 @@ type InvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage string `json:"preferred_language"`
 }
+
+// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBizum struct{}
 type InvoicePaymentSettingsPaymentMethodOptionsCardInstallments struct {
 	// Whether Installments are enabled for this Invoice.
 	Enabled bool `json:"enabled"`
@@ -4753,6 +4756,11 @@ type InvoicePaymentSettingsPaymentMethodOptionsCard struct {
 	Installments *InvoicePaymentSettingsPaymentMethodOptionsCardInstallments `json:"installments,omitempty"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
+}
+
+// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsCheckScan struct {
+	CheckDepositAddress *Address `json:"check_deposit_address,omitempty"`
 }
 type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
@@ -4834,14 +4842,6 @@ type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccount struct {
 	FinancialConnections *InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections `json:"financial_connections,omitempty"`
 	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
-}
-
-// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsBizum struct{}
-
-// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsCheckScan struct {
-	CheckDepositAddress *Address `json:"check_deposit_address,omitempty"`
 }
 
 // Payment-method-specific configuration to provide to the invoice's PaymentIntent.

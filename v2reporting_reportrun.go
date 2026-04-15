@@ -8,14 +8,6 @@ package stripe
 
 import "time"
 
-// The type of the `ReportRun` or `QueryRun` result.
-type V2ReportingReportRunResultType string
-
-// List of values that V2ReportingReportRunResultType can take
-const (
-	V2ReportingReportRunResultTypeFile V2ReportingReportRunResultType = "file"
-)
-
 // The content type of the file.
 type V2ReportingReportRunResultFileContentType string
 
@@ -23,6 +15,14 @@ type V2ReportingReportRunResultFileContentType string
 const (
 	V2ReportingReportRunResultFileContentTypeCsv V2ReportingReportRunResultFileContentType = "csv"
 	V2ReportingReportRunResultFileContentTypeZip V2ReportingReportRunResultFileContentType = "zip"
+)
+
+// The type of the `ReportRun` or `QueryRun` result.
+type V2ReportingReportRunResultType string
+
+// List of values that V2ReportingReportRunResultType can take
+const (
+	V2ReportingReportRunResultTypeFile V2ReportingReportRunResultType = "file"
 )
 
 // The current status of the `ReportRun`.

@@ -58,6 +58,24 @@ func (c Client) ReportAuthenticated(id string, params *stripe.PaymentAttemptReco
 	return paymentattemptrecord, err
 }
 
+// Report that the specified Payment Attempt Record was authorized.
+func ReportAuthorized(id string, params *stripe.PaymentAttemptRecordReportAuthorizedParams) (*stripe.PaymentAttemptRecord, error) {
+	return getC().ReportAuthorized(id, params)
+}
+
+// Report that the specified Payment Attempt Record was authorized.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) ReportAuthorized(id string, params *stripe.PaymentAttemptRecordReportAuthorizedParams) (*stripe.PaymentAttemptRecord, error) {
+	path := stripe.FormatURLPath(
+		"/v1/payment_attempt_records/%s/report_authorized", id)
+	paymentattemptrecord := &stripe.PaymentAttemptRecord{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentattemptrecord)
+	return paymentattemptrecord, err
+}
+
 // Report that the specified Payment Attempt Record was canceled.
 func ReportCanceled(id string, params *stripe.PaymentAttemptRecordReportCanceledParams) (*stripe.PaymentAttemptRecord, error) {
 	return getC().ReportCanceled(id, params)

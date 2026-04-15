@@ -8,6 +8,38 @@ package stripe
 
 import "time"
 
+// Open Enum. The type of balance transfer that originated the ReceivedDebit.
+type V2MoneyManagementReceivedDebitBalanceTransferType string
+
+// List of values that V2MoneyManagementReceivedDebitBalanceTransferType can take
+const (
+	V2MoneyManagementReceivedDebitBalanceTransferTypeTopup V2MoneyManagementReceivedDebitBalanceTransferType = "topup"
+)
+
+// Open Enum. Indicates the origin type through which this debit was initiated.
+type V2MoneyManagementReceivedDebitBankTransferOriginType string
+
+// List of values that V2MoneyManagementReceivedDebitBankTransferOriginType can take
+const (
+	V2MoneyManagementReceivedDebitBankTransferOriginTypeUSBankAccount V2MoneyManagementReceivedDebitBankTransferOriginType = "us_bank_account"
+)
+
+// Open Enum. The type of the payment method used to originate the debit.
+type V2MoneyManagementReceivedDebitBankTransferPaymentMethodType string
+
+// List of values that V2MoneyManagementReceivedDebitBankTransferPaymentMethodType can take
+const (
+	V2MoneyManagementReceivedDebitBankTransferPaymentMethodTypeUSBankAccount V2MoneyManagementReceivedDebitBankTransferPaymentMethodType = "us_bank_account"
+)
+
+// Open Enum. The bank network the debit was originated on.
+type V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork string
+
+// List of values that V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork can take
+const (
+	V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetworkACH V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork = "ach"
+)
+
 // Open Enum. The status of the ReceivedDebit.
 type V2MoneyManagementReceivedDebitStatus string
 
@@ -41,65 +73,6 @@ const (
 	V2MoneyManagementReceivedDebitTypeExternalDebit        V2MoneyManagementReceivedDebitType = "external_debit"
 	V2MoneyManagementReceivedDebitTypeStripeBalancePayment V2MoneyManagementReceivedDebitType = "stripe_balance_payment"
 )
-
-// Open Enum. The type of balance transfer that originated the ReceivedDebit.
-type V2MoneyManagementReceivedDebitBalanceTransferType string
-
-// List of values that V2MoneyManagementReceivedDebitBalanceTransferType can take
-const (
-	V2MoneyManagementReceivedDebitBalanceTransferTypeTopup V2MoneyManagementReceivedDebitBalanceTransferType = "topup"
-)
-
-// Open Enum. Indicates the origin type through which this debit was initiated.
-type V2MoneyManagementReceivedDebitBankTransferOriginType string
-
-// List of values that V2MoneyManagementReceivedDebitBankTransferOriginType can take
-const (
-	V2MoneyManagementReceivedDebitBankTransferOriginTypeUSBankAccount V2MoneyManagementReceivedDebitBankTransferOriginType = "us_bank_account"
-)
-
-// Open Enum. The type of the payment method used to originate the debit.
-type V2MoneyManagementReceivedDebitBankTransferPaymentMethodType string
-
-// List of values that V2MoneyManagementReceivedDebitBankTransferPaymentMethodType can take
-const (
-	V2MoneyManagementReceivedDebitBankTransferPaymentMethodTypeUSBankAccount V2MoneyManagementReceivedDebitBankTransferPaymentMethodType = "us_bank_account"
-)
-
-// Open Enum. The bank network the debit was originated on.
-type V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork string
-
-// List of values that V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork can take
-const (
-	V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetworkACH V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork = "ach"
-)
-
-// Information that elaborates on the `failed` status of a ReceivedDebit.
-// It is only present when the ReceivedDebit status is `failed`.
-type V2MoneyManagementReceivedDebitStatusDetailsFailed struct {
-	// Open Enum. The reason for the failure of the ReceivedDebit.
-	Reason V2MoneyManagementReceivedDebitStatusDetailsFailedReason `json:"reason"`
-}
-
-// Detailed information about the status of the ReceivedDebit.
-type V2MoneyManagementReceivedDebitStatusDetails struct {
-	// Information that elaborates on the `failed` status of a ReceivedDebit.
-	// It is only present when the ReceivedDebit status is `failed`.
-	Failed *V2MoneyManagementReceivedDebitStatusDetailsFailed `json:"failed"`
-}
-
-// The time at which the ReceivedDebit transitioned to a particular status.
-type V2MoneyManagementReceivedDebitStatusTransitions struct {
-	// The time when the ReceivedDebit was marked as `canceled`.
-	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
-	CanceledAt time.Time `json:"canceled_at,omitempty"`
-	// The time when the ReceivedDebit was marked as `failed`.
-	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
-	FailedAt time.Time `json:"failed_at,omitempty"`
-	// The time when the ReceivedDebit was marked as `succeeded`.
-	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
-	SucceededAt time.Time `json:"succeeded_at,omitempty"`
-}
 
 // This object stores details about the balance transfer object that resulted in the ReceivedDebit.
 type V2MoneyManagementReceivedDebitBalanceTransfer struct {
@@ -157,6 +130,33 @@ type V2MoneyManagementReceivedDebitCardSpend struct {
 	CardTransactions []*V2MoneyManagementReceivedDebitCardSpendCardTransaction `json:"card_transactions"`
 	// The reference to the card object that resulted in the debit.
 	CardV1ID string `json:"card_v1_id"`
+}
+
+// Information that elaborates on the `failed` status of a ReceivedDebit.
+// It is only present when the ReceivedDebit status is `failed`.
+type V2MoneyManagementReceivedDebitStatusDetailsFailed struct {
+	// Open Enum. The reason for the failure of the ReceivedDebit.
+	Reason V2MoneyManagementReceivedDebitStatusDetailsFailedReason `json:"reason"`
+}
+
+// Detailed information about the status of the ReceivedDebit.
+type V2MoneyManagementReceivedDebitStatusDetails struct {
+	// Information that elaborates on the `failed` status of a ReceivedDebit.
+	// It is only present when the ReceivedDebit status is `failed`.
+	Failed *V2MoneyManagementReceivedDebitStatusDetailsFailed `json:"failed"`
+}
+
+// The time at which the ReceivedDebit transitioned to a particular status.
+type V2MoneyManagementReceivedDebitStatusTransitions struct {
+	// The time when the ReceivedDebit was marked as `canceled`.
+	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
+	CanceledAt time.Time `json:"canceled_at,omitempty"`
+	// The time when the ReceivedDebit was marked as `failed`.
+	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
+	FailedAt time.Time `json:"failed_at,omitempty"`
+	// The time when the ReceivedDebit was marked as `succeeded`.
+	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
+	SucceededAt time.Time `json:"succeeded_at,omitempty"`
 }
 
 // This object stores details about the Stripe Balance Payment that resulted in the ReceivedDebit.

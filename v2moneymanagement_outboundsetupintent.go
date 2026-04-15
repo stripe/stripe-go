@@ -8,14 +8,6 @@ package stripe
 
 import "time"
 
-// The type of next action.
-type V2MoneyManagementOutboundSetupIntentNextActionType string
-
-// List of values that V2MoneyManagementOutboundSetupIntentNextActionType can take
-const (
-	V2MoneyManagementOutboundSetupIntentNextActionTypeConfirmationOfPayee V2MoneyManagementOutboundSetupIntentNextActionType = "confirmation_of_payee"
-)
-
 // The Confirmation of Payee status.
 type V2MoneyManagementOutboundSetupIntentNextActionConfirmationOfPayeeStatus string
 
@@ -24,6 +16,14 @@ const (
 	V2MoneyManagementOutboundSetupIntentNextActionConfirmationOfPayeeStatusAwaitingAcknowledgement V2MoneyManagementOutboundSetupIntentNextActionConfirmationOfPayeeStatus = "awaiting_acknowledgement"
 	V2MoneyManagementOutboundSetupIntentNextActionConfirmationOfPayeeStatusConfirmed               V2MoneyManagementOutboundSetupIntentNextActionConfirmationOfPayeeStatus = "confirmed"
 	V2MoneyManagementOutboundSetupIntentNextActionConfirmationOfPayeeStatusUninitiated             V2MoneyManagementOutboundSetupIntentNextActionConfirmationOfPayeeStatus = "uninitiated"
+)
+
+// The type of next action.
+type V2MoneyManagementOutboundSetupIntentNextActionType string
+
+// List of values that V2MoneyManagementOutboundSetupIntentNextActionType can take
+const (
+	V2MoneyManagementOutboundSetupIntentNextActionTypeConfirmationOfPayee V2MoneyManagementOutboundSetupIntentNextActionType = "confirmation_of_payee"
 )
 
 // Closed Enum. Status of the outbound setup intent.

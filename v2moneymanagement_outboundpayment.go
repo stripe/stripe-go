@@ -8,16 +8,6 @@ package stripe
 
 import "time"
 
-// Open Enum. Speed of the payout.
-type V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed string
-
-// List of values that V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed can take
-const (
-	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedInstant         V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "instant"
-	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedNextBusinessDay V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "next_business_day"
-	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedStandard        V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "standard"
-)
-
 // Open Enum. Method for bank account.
 type V2MoneyManagementOutboundPaymentDeliveryOptionsBankAccount string
 
@@ -35,6 +25,16 @@ type V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeed stri
 const (
 	V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeedPriority V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeed = "priority"
 	V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeedStandard V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckShippingSpeed = "standard"
+)
+
+// Open Enum. Speed of the payout.
+type V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed string
+
+// List of values that V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed can take
+const (
+	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedInstant         V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "instant"
+	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedNextBusinessDay V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "next_business_day"
+	V2MoneyManagementOutboundPaymentDeliveryOptionsSpeedStandard        V2MoneyManagementOutboundPaymentDeliveryOptionsSpeed = "standard"
 )
 
 // The purpose of the OutboundPayment.

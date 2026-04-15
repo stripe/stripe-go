@@ -471,6 +471,14 @@ const (
 	PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeTypeRestaurant PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeType = "restaurant"
 )
 
+// The type of money services transaction.
+type PaymentIntentPaymentDetailsMoneyServicesTransactionType string
+
+// List of values that PaymentIntentPaymentDetailsMoneyServicesTransactionType can take
+const (
+	PaymentIntentPaymentDetailsMoneyServicesTransactionTypeAccountFunding PaymentIntentPaymentDetailsMoneyServicesTransactionType = "account_funding"
+)
+
 // Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
 type PaymentIntentPaymentDetailsSubscriptionBillingIntervalInterval string
 
@@ -2457,6 +2465,44 @@ type PaymentIntentPaymentDetailsEventDetailsParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentPaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentPaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentPaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentPaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentPaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentPaymentDetailsFlightAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -2907,74 +2953,6 @@ type PaymentIntentPaymentDetailsLodgingDatumParams struct {
 	Total *PaymentIntentPaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
-// Affiliate details for this purchase.
-type PaymentIntentPaymentDetailsSubscriptionAffiliateParams struct {
-	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name" json:"name"`
-}
-
-// Subscription billing details for this purchase.
-type PaymentIntentPaymentDetailsSubscriptionBillingIntervalParams struct {
-	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	Count *int64 `form:"count" json:"count"`
-	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval" json:"interval"`
-}
-
-// Subscription details for this PaymentIntent
-type PaymentIntentPaymentDetailsSubscriptionParams struct {
-	// Affiliate details for this purchase.
-	Affiliate *PaymentIntentPaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
-	// Info whether the subscription will be auto renewed upon expiry.
-	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
-	// Subscription billing details for this purchase.
-	BillingInterval *PaymentIntentPaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
-	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
-	// Name of the product on subscription. e.g. Apple Music Subscription
-	Name *string `form:"name" json:"name"`
-	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
-}
-
-// Primary fuel fields for the transaction.
-type PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
-	// The fuel brand.
-	Brand *string `form:"brand" json:"brand,omitempty"`
-}
-
-// Station and acceptor location details.
-type PaymentIntentPaymentDetailsFleetDatumStationParams struct {
-	// Additional contact information for the station.
-	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
-	// The customer service phone number of the station.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
-	// The partner ID code of the station.
-	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
-	// The phone number of the station.
-	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
-	// The physical location of the station.
-	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
-	// The URL of the station.
-	URL *string `form:"url" json:"url,omitempty"`
-}
-
-// VAT and Invoice on Behalf (IOB) details.
-type PaymentIntentPaymentDetailsFleetDatumVATParams struct {
-	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
-	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
-}
-
-// Fleet data for this PaymentIntent.
-type PaymentIntentPaymentDetailsFleetDatumParams struct {
-	// Primary fuel fields for the transaction.
-	PrimaryFuelFields *PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
-	// Station and acceptor location details.
-	Station *PaymentIntentPaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
-	// VAT and Invoice on Behalf (IOB) details.
-	VAT *PaymentIntentPaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
-}
-
 // Date of birth.
 type PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
 	// Day of birth, between 1 and 31.
@@ -3071,6 +3049,36 @@ func (p *PaymentIntentPaymentDetailsMoneyServicesParams) AddUnsetField(field Pay
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Affiliate details for this purchase.
+type PaymentIntentPaymentDetailsSubscriptionAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name" json:"name"`
+}
+
+// Subscription billing details for this purchase.
+type PaymentIntentPaymentDetailsSubscriptionBillingIntervalParams struct {
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	Count *int64 `form:"count" json:"count"`
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+}
+
+// Subscription details for this PaymentIntent
+type PaymentIntentPaymentDetailsSubscriptionParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *PaymentIntentPaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Info whether the subscription will be auto renewed upon expiry.
+	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
+	// Subscription billing details for this purchase.
+	BillingInterval *PaymentIntentPaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
+	// Subscription end time. Measured in seconds since the Unix epoch.
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
+	// Name of the product on subscription. e.g. Apple Music Subscription
+	Name *string `form:"name" json:"name"`
+	// Subscription start time. Measured in seconds since the Unix epoch.
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentPaymentDetailsParams struct {
 	// Benefit details for this PaymentIntent
@@ -3112,11 +3120,11 @@ type PaymentIntentPaymentDetailsParamsUnsetField string
 const (
 	PaymentIntentPaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentPaymentDetailsParamsUnsetField = "car_rental_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentPaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentPaymentDetailsParamsUnsetFieldFleetData         PaymentIntentPaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldFlightData        PaymentIntentPaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentPaymentDetailsParamsUnsetField = "lodging_data"
-	PaymentIntentPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentPaymentDetailsParamsUnsetField = "order_reference"
-	PaymentIntentPaymentDetailsParamsUnsetFieldFleetData         PaymentIntentPaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentPaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentPaymentDetailsParamsUnsetField = "money_services"
+	PaymentIntentPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentPaymentDetailsParamsUnsetField = "order_reference"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3270,6 +3278,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -3763,67 +3773,6 @@ type PaymentIntentPaymentMethodOptionsCardMandateOptionsParams struct {
 	SupportedTypes []*string `form:"supported_types" json:"supported_types,omitempty"`
 }
 
-// Statement details for this payment intent. You can use this to override the merchant details shown on your customers' statements.
-type PaymentIntentPaymentMethodOptionsCardStatementDetailsParams struct {
-	// Please pass in an address that is within your Stripe user account country
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Phone number (e.g., a toll-free number that customers can call)
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Cartes Bancaires-specific 3DS fields.
-type PaymentIntentPaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams struct {
-	// The cryptogram calculation algorithm used by the card Issuer's ACS
-	// to calculate the Authentication cryptogram. Also known as `cavvAlgorithm`.
-	// messageExtension: CB-AVALGO
-	CbAvalgo *string `form:"cb_avalgo" json:"cb_avalgo"`
-	// The exemption indicator returned from Cartes Bancaires in the ARes.
-	// message extension: CB-EXEMPTION; string (4 characters)
-	// This is a 3 byte bitmap (low significant byte first and most significant
-	// bit first) that has been Base64 encoded
-	CbExemption *string `form:"cb_exemption" json:"cb_exemption,omitempty"`
-	// The risk score returned from Cartes Bancaires in the ARes.
-	// message extension: CB-SCORE; numeric value 0-99
-	CbScore *int64 `form:"cb_score" json:"cb_score,omitempty"`
-}
-
-// Network specific 3DS fields. Network specific arguments require an
-// explicit card brand choice. The parameter `payment_method_options.card.network“
-// must be populated accordingly
-type PaymentIntentPaymentMethodOptionsCardThreeDSecureNetworkOptionsParams struct {
-	// Cartes Bancaires-specific 3DS fields.
-	CartesBancaires *PaymentIntentPaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams `form:"cartes_bancaires" json:"cartes_bancaires,omitempty"`
-}
-
-// If 3D Secure authentication was performed with a third-party provider,
-// the authentication details to use for this payment.
-type PaymentIntentPaymentMethodOptionsCardThreeDSecureParams struct {
-	// The `transStatus` returned from the card Issuer's ACS in the ARes.
-	AresTransStatus *string `form:"ares_trans_status" json:"ares_trans_status,omitempty"`
-	// The cryptogram, also known as the "authentication value" (AAV, CAVV or
-	// AEVV). This value is 20 bytes, base64-encoded into a 28-character string.
-	// (Most 3D Secure providers will return the base64-encoded version, which
-	// is what you should specify here.)
-	Cryptogram *string `form:"cryptogram" json:"cryptogram"`
-	// The Electronic Commerce Indicator (ECI) is returned by your 3D Secure
-	// provider and indicates what degree of authentication was performed.
-	ElectronicCommerceIndicator *string `form:"electronic_commerce_indicator" json:"electronic_commerce_indicator,omitempty"`
-	// The exemption requested via 3DS and accepted by the issuer at authentication time.
-	ExemptionIndicator *string `form:"exemption_indicator" json:"exemption_indicator,omitempty"`
-	// Network specific 3DS fields. Network specific arguments require an
-	// explicit card brand choice. The parameter `payment_method_options.card.network``
-	// must be populated accordingly
-	NetworkOptions *PaymentIntentPaymentMethodOptionsCardThreeDSecureNetworkOptionsParams `form:"network_options" json:"network_options,omitempty"`
-	// The challenge indicator (`threeDSRequestorChallengeInd`) which was requested in the
-	// AReq sent to the card Issuer's ACS. A string containing 2 digits from 01-99.
-	RequestorChallengeIndicator *string `form:"requestor_challenge_indicator" json:"requestor_challenge_indicator,omitempty"`
-	// For 3D Secure 1, the XID. For 3D Secure 2, the Directory Server
-	// Transaction ID (dsTransID).
-	TransactionID *string `form:"transaction_id" json:"transaction_id"`
-	// The version of 3D Secure that was performed.
-	Version *string `form:"version" json:"version"`
-}
-
 // Details for a cryptocurrency liquid asset funding transaction.
 type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
 	// The cryptocurrency currency code (e.g. BTC, ETH).
@@ -3910,6 +3859,67 @@ type PaymentIntentPaymentMethodOptionsCardPaymentDetailsParams struct {
 	MoneyServices *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 }
 
+// Statement details for this payment intent. You can use this to override the merchant details shown on your customers' statements.
+type PaymentIntentPaymentMethodOptionsCardStatementDetailsParams struct {
+	// Please pass in an address that is within your Stripe user account country
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Phone number (e.g., a toll-free number that customers can call)
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Cartes Bancaires-specific 3DS fields.
+type PaymentIntentPaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams struct {
+	// The cryptogram calculation algorithm used by the card Issuer's ACS
+	// to calculate the Authentication cryptogram. Also known as `cavvAlgorithm`.
+	// messageExtension: CB-AVALGO
+	CbAvalgo *string `form:"cb_avalgo" json:"cb_avalgo"`
+	// The exemption indicator returned from Cartes Bancaires in the ARes.
+	// message extension: CB-EXEMPTION; string (4 characters)
+	// This is a 3 byte bitmap (low significant byte first and most significant
+	// bit first) that has been Base64 encoded
+	CbExemption *string `form:"cb_exemption" json:"cb_exemption,omitempty"`
+	// The risk score returned from Cartes Bancaires in the ARes.
+	// message extension: CB-SCORE; numeric value 0-99
+	CbScore *int64 `form:"cb_score" json:"cb_score,omitempty"`
+}
+
+// Network specific 3DS fields. Network specific arguments require an
+// explicit card brand choice. The parameter `payment_method_options.card.network“
+// must be populated accordingly
+type PaymentIntentPaymentMethodOptionsCardThreeDSecureNetworkOptionsParams struct {
+	// Cartes Bancaires-specific 3DS fields.
+	CartesBancaires *PaymentIntentPaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams `form:"cartes_bancaires" json:"cartes_bancaires,omitempty"`
+}
+
+// If 3D Secure authentication was performed with a third-party provider,
+// the authentication details to use for this payment.
+type PaymentIntentPaymentMethodOptionsCardThreeDSecureParams struct {
+	// The `transStatus` returned from the card Issuer's ACS in the ARes.
+	AresTransStatus *string `form:"ares_trans_status" json:"ares_trans_status,omitempty"`
+	// The cryptogram, also known as the "authentication value" (AAV, CAVV or
+	// AEVV). This value is 20 bytes, base64-encoded into a 28-character string.
+	// (Most 3D Secure providers will return the base64-encoded version, which
+	// is what you should specify here.)
+	Cryptogram *string `form:"cryptogram" json:"cryptogram"`
+	// The Electronic Commerce Indicator (ECI) is returned by your 3D Secure
+	// provider and indicates what degree of authentication was performed.
+	ElectronicCommerceIndicator *string `form:"electronic_commerce_indicator" json:"electronic_commerce_indicator,omitempty"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator *string `form:"exemption_indicator" json:"exemption_indicator,omitempty"`
+	// Network specific 3DS fields. Network specific arguments require an
+	// explicit card brand choice. The parameter `payment_method_options.card.network``
+	// must be populated accordingly
+	NetworkOptions *PaymentIntentPaymentMethodOptionsCardThreeDSecureNetworkOptionsParams `form:"network_options" json:"network_options,omitempty"`
+	// The challenge indicator (`threeDSRequestorChallengeInd`) which was requested in the
+	// AReq sent to the card Issuer's ACS. A string containing 2 digits from 01-99.
+	RequestorChallengeIndicator *string `form:"requestor_challenge_indicator" json:"requestor_challenge_indicator,omitempty"`
+	// For 3D Secure 1, the XID. For 3D Secure 2, the Directory Server
+	// Transaction ID (dsTransID).
+	TransactionID *string `form:"transaction_id" json:"transaction_id"`
+	// The version of 3D Secure that was performed.
+	Version *string `form:"version" json:"version"`
+}
+
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -3988,12 +3998,6 @@ const (
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentPaymentMethodOptionsCardParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
-}
-
-// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
-type PaymentIntentPaymentMethodOptionsCardPresentRoutingParams struct {
-	// Routing requested priority
-	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
 // Details for a cryptocurrency liquid asset funding transaction.
@@ -4080,6 +4084,12 @@ type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesPara
 type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsParams struct {
 	// Money services details for payment method specific funding fields.
 	MoneyServices *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
+}
+
+// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
+type PaymentIntentPaymentMethodOptionsCardPresentRoutingParams struct {
+	// Routing requested priority
+	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
@@ -6224,8 +6234,6 @@ type PaymentIntentParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
-	// ID of the SharedPaymentToken used to confirm this PaymentIntent.
-	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// Shipping information for this PaymentIntent.
 	Shipping *ShippingDetailsParams `form:"shipping" json:"shipping,omitempty"`
 	// Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
@@ -6864,6 +6872,44 @@ type PaymentIntentCapturePaymentDetailsEventDetailsParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentCapturePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentCapturePaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentCapturePaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentCapturePaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentCapturePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentCapturePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentCapturePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentCapturePaymentDetailsFlightAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -7314,74 +7360,6 @@ type PaymentIntentCapturePaymentDetailsLodgingDatumParams struct {
 	Total *PaymentIntentCapturePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
-// Affiliate details for this purchase.
-type PaymentIntentCapturePaymentDetailsSubscriptionAffiliateParams struct {
-	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name" json:"name"`
-}
-
-// Subscription billing details for this purchase.
-type PaymentIntentCapturePaymentDetailsSubscriptionBillingIntervalParams struct {
-	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	Count *int64 `form:"count" json:"count"`
-	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval" json:"interval"`
-}
-
-// Subscription details for this PaymentIntent
-type PaymentIntentCapturePaymentDetailsSubscriptionParams struct {
-	// Affiliate details for this purchase.
-	Affiliate *PaymentIntentCapturePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
-	// Info whether the subscription will be auto renewed upon expiry.
-	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
-	// Subscription billing details for this purchase.
-	BillingInterval *PaymentIntentCapturePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
-	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
-	// Name of the product on subscription. e.g. Apple Music Subscription
-	Name *string `form:"name" json:"name"`
-	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
-}
-
-// Primary fuel fields for the transaction.
-type PaymentIntentCapturePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
-	// The fuel brand.
-	Brand *string `form:"brand" json:"brand,omitempty"`
-}
-
-// Station and acceptor location details.
-type PaymentIntentCapturePaymentDetailsFleetDatumStationParams struct {
-	// Additional contact information for the station.
-	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
-	// The customer service phone number of the station.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
-	// The partner ID code of the station.
-	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
-	// The phone number of the station.
-	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
-	// The physical location of the station.
-	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
-	// The URL of the station.
-	URL *string `form:"url" json:"url,omitempty"`
-}
-
-// VAT and Invoice on Behalf (IOB) details.
-type PaymentIntentCapturePaymentDetailsFleetDatumVATParams struct {
-	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
-	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
-}
-
-// Fleet data for this PaymentIntent.
-type PaymentIntentCapturePaymentDetailsFleetDatumParams struct {
-	// Primary fuel fields for the transaction.
-	PrimaryFuelFields *PaymentIntentCapturePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
-	// Station and acceptor location details.
-	Station *PaymentIntentCapturePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
-	// VAT and Invoice on Behalf (IOB) details.
-	VAT *PaymentIntentCapturePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
-}
-
 // Date of birth.
 type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
 	// Day of birth, between 1 and 31.
@@ -7478,6 +7456,36 @@ func (p *PaymentIntentCapturePaymentDetailsMoneyServicesParams) AddUnsetField(fi
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Affiliate details for this purchase.
+type PaymentIntentCapturePaymentDetailsSubscriptionAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name" json:"name"`
+}
+
+// Subscription billing details for this purchase.
+type PaymentIntentCapturePaymentDetailsSubscriptionBillingIntervalParams struct {
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	Count *int64 `form:"count" json:"count"`
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+}
+
+// Subscription details for this PaymentIntent
+type PaymentIntentCapturePaymentDetailsSubscriptionParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *PaymentIntentCapturePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Info whether the subscription will be auto renewed upon expiry.
+	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
+	// Subscription billing details for this purchase.
+	BillingInterval *PaymentIntentCapturePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
+	// Subscription end time. Measured in seconds since the Unix epoch.
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
+	// Name of the product on subscription. e.g. Apple Music Subscription
+	Name *string `form:"name" json:"name"`
+	// Subscription start time. Measured in seconds since the Unix epoch.
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentCapturePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
@@ -7517,11 +7525,11 @@ type PaymentIntentCapturePaymentDetailsParamsUnsetField string
 const (
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentCapturePaymentDetailsParamsUnsetField = "car_rental_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentCapturePaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentCapturePaymentDetailsParamsUnsetFieldFleetData         PaymentIntentCapturePaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentCapturePaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentCapturePaymentDetailsParamsUnsetField = "lodging_data"
-	PaymentIntentCapturePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCapturePaymentDetailsParamsUnsetField = "order_reference"
-	PaymentIntentCapturePaymentDetailsParamsUnsetFieldFleetData         PaymentIntentCapturePaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentCapturePaymentDetailsParamsUnsetField = "money_services"
+	PaymentIntentCapturePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCapturePaymentDetailsParamsUnsetField = "order_reference"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -8149,6 +8157,44 @@ type PaymentIntentConfirmPaymentDetailsEventDetailsParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentConfirmPaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentConfirmPaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentConfirmPaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentConfirmPaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentConfirmPaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentConfirmPaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentConfirmPaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentConfirmPaymentDetailsFlightAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -8599,74 +8645,6 @@ type PaymentIntentConfirmPaymentDetailsLodgingDatumParams struct {
 	Total *PaymentIntentConfirmPaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
-// Affiliate details for this purchase.
-type PaymentIntentConfirmPaymentDetailsSubscriptionAffiliateParams struct {
-	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name" json:"name"`
-}
-
-// Subscription billing details for this purchase.
-type PaymentIntentConfirmPaymentDetailsSubscriptionBillingIntervalParams struct {
-	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	Count *int64 `form:"count" json:"count"`
-	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval" json:"interval"`
-}
-
-// Subscription details for this PaymentIntent
-type PaymentIntentConfirmPaymentDetailsSubscriptionParams struct {
-	// Affiliate details for this purchase.
-	Affiliate *PaymentIntentConfirmPaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
-	// Info whether the subscription will be auto renewed upon expiry.
-	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
-	// Subscription billing details for this purchase.
-	BillingInterval *PaymentIntentConfirmPaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
-	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
-	// Name of the product on subscription. e.g. Apple Music Subscription
-	Name *string `form:"name" json:"name"`
-	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
-}
-
-// Primary fuel fields for the transaction.
-type PaymentIntentConfirmPaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
-	// The fuel brand.
-	Brand *string `form:"brand" json:"brand,omitempty"`
-}
-
-// Station and acceptor location details.
-type PaymentIntentConfirmPaymentDetailsFleetDatumStationParams struct {
-	// Additional contact information for the station.
-	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
-	// The customer service phone number of the station.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
-	// The partner ID code of the station.
-	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
-	// The phone number of the station.
-	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
-	// The physical location of the station.
-	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
-	// The URL of the station.
-	URL *string `form:"url" json:"url,omitempty"`
-}
-
-// VAT and Invoice on Behalf (IOB) details.
-type PaymentIntentConfirmPaymentDetailsFleetDatumVATParams struct {
-	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
-	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
-}
-
-// Fleet data for this PaymentIntent.
-type PaymentIntentConfirmPaymentDetailsFleetDatumParams struct {
-	// Primary fuel fields for the transaction.
-	PrimaryFuelFields *PaymentIntentConfirmPaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
-	// Station and acceptor location details.
-	Station *PaymentIntentConfirmPaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
-	// VAT and Invoice on Behalf (IOB) details.
-	VAT *PaymentIntentConfirmPaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
-}
-
 // Date of birth.
 type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
 	// Day of birth, between 1 and 31.
@@ -8763,6 +8741,36 @@ func (p *PaymentIntentConfirmPaymentDetailsMoneyServicesParams) AddUnsetField(fi
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Affiliate details for this purchase.
+type PaymentIntentConfirmPaymentDetailsSubscriptionAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name" json:"name"`
+}
+
+// Subscription billing details for this purchase.
+type PaymentIntentConfirmPaymentDetailsSubscriptionBillingIntervalParams struct {
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	Count *int64 `form:"count" json:"count"`
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+}
+
+// Subscription details for this PaymentIntent
+type PaymentIntentConfirmPaymentDetailsSubscriptionParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *PaymentIntentConfirmPaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Info whether the subscription will be auto renewed upon expiry.
+	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
+	// Subscription billing details for this purchase.
+	BillingInterval *PaymentIntentConfirmPaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
+	// Subscription end time. Measured in seconds since the Unix epoch.
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
+	// Name of the product on subscription. e.g. Apple Music Subscription
+	Name *string `form:"name" json:"name"`
+	// Subscription start time. Measured in seconds since the Unix epoch.
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentConfirmPaymentDetailsParams struct {
 	// Benefit details for this PaymentIntent
@@ -8804,11 +8812,11 @@ type PaymentIntentConfirmPaymentDetailsParamsUnsetField string
 const (
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentConfirmPaymentDetailsParamsUnsetField = "car_rental_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentConfirmPaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldFleetData         PaymentIntentConfirmPaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldFlightData        PaymentIntentConfirmPaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentConfirmPaymentDetailsParamsUnsetField = "lodging_data"
-	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentConfirmPaymentDetailsParamsUnsetField = "order_reference"
-	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldFleetData         PaymentIntentConfirmPaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentConfirmPaymentDetailsParamsUnsetField = "money_services"
+	PaymentIntentConfirmPaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentConfirmPaymentDetailsParamsUnsetField = "order_reference"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -8912,8 +8920,6 @@ type PaymentIntentConfirmParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
-	// ID of the SharedPaymentToken used to confirm this PaymentIntent.
-	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// Shipping information for this PaymentIntent.
 	Shipping *ShippingDetailsParams `form:"shipping" json:"shipping,omitempty"`
 	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
@@ -10237,6 +10243,44 @@ type PaymentIntentCreatePaymentDetailsEventDetailsParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentCreatePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentCreatePaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentCreatePaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentCreatePaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentCreatePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentCreatePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentCreatePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentCreatePaymentDetailsFlightAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -10687,74 +10731,6 @@ type PaymentIntentCreatePaymentDetailsLodgingDatumParams struct {
 	Total *PaymentIntentCreatePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
-// Affiliate details for this purchase.
-type PaymentIntentCreatePaymentDetailsSubscriptionAffiliateParams struct {
-	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name" json:"name"`
-}
-
-// Subscription billing details for this purchase.
-type PaymentIntentCreatePaymentDetailsSubscriptionBillingIntervalParams struct {
-	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	Count *int64 `form:"count" json:"count"`
-	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval" json:"interval"`
-}
-
-// Subscription details for this PaymentIntent
-type PaymentIntentCreatePaymentDetailsSubscriptionParams struct {
-	// Affiliate details for this purchase.
-	Affiliate *PaymentIntentCreatePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
-	// Info whether the subscription will be auto renewed upon expiry.
-	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
-	// Subscription billing details for this purchase.
-	BillingInterval *PaymentIntentCreatePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
-	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
-	// Name of the product on subscription. e.g. Apple Music Subscription
-	Name *string `form:"name" json:"name"`
-	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
-}
-
-// Primary fuel fields for the transaction.
-type PaymentIntentCreatePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
-	// The fuel brand.
-	Brand *string `form:"brand" json:"brand,omitempty"`
-}
-
-// Station and acceptor location details.
-type PaymentIntentCreatePaymentDetailsFleetDatumStationParams struct {
-	// Additional contact information for the station.
-	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
-	// The customer service phone number of the station.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
-	// The partner ID code of the station.
-	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
-	// The phone number of the station.
-	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
-	// The physical location of the station.
-	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
-	// The URL of the station.
-	URL *string `form:"url" json:"url,omitempty"`
-}
-
-// VAT and Invoice on Behalf (IOB) details.
-type PaymentIntentCreatePaymentDetailsFleetDatumVATParams struct {
-	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
-	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
-}
-
-// Fleet data for this PaymentIntent.
-type PaymentIntentCreatePaymentDetailsFleetDatumParams struct {
-	// Primary fuel fields for the transaction.
-	PrimaryFuelFields *PaymentIntentCreatePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
-	// Station and acceptor location details.
-	Station *PaymentIntentCreatePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
-	// VAT and Invoice on Behalf (IOB) details.
-	VAT *PaymentIntentCreatePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
-}
-
 // Date of birth.
 type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
 	// Day of birth, between 1 and 31.
@@ -10851,6 +10827,36 @@ func (p *PaymentIntentCreatePaymentDetailsMoneyServicesParams) AddUnsetField(fie
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Affiliate details for this purchase.
+type PaymentIntentCreatePaymentDetailsSubscriptionAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name" json:"name"`
+}
+
+// Subscription billing details for this purchase.
+type PaymentIntentCreatePaymentDetailsSubscriptionBillingIntervalParams struct {
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	Count *int64 `form:"count" json:"count"`
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+}
+
+// Subscription details for this PaymentIntent
+type PaymentIntentCreatePaymentDetailsSubscriptionParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *PaymentIntentCreatePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Info whether the subscription will be auto renewed upon expiry.
+	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
+	// Subscription billing details for this purchase.
+	BillingInterval *PaymentIntentCreatePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
+	// Subscription end time. Measured in seconds since the Unix epoch.
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
+	// Name of the product on subscription. e.g. Apple Music Subscription
+	Name *string `form:"name" json:"name"`
+	// Subscription start time. Measured in seconds since the Unix epoch.
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentCreatePaymentDetailsParams struct {
 	// Benefit details for this PaymentIntent
@@ -10892,11 +10898,11 @@ type PaymentIntentCreatePaymentDetailsParamsUnsetField string
 const (
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentCreatePaymentDetailsParamsUnsetField = "car_rental_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentCreatePaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentCreatePaymentDetailsParamsUnsetFieldFleetData         PaymentIntentCreatePaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentCreatePaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentCreatePaymentDetailsParamsUnsetField = "lodging_data"
-	PaymentIntentCreatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCreatePaymentDetailsParamsUnsetField = "order_reference"
-	PaymentIntentCreatePaymentDetailsParamsUnsetFieldFleetData         PaymentIntentCreatePaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentCreatePaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentCreatePaymentDetailsParamsUnsetField = "money_services"
+	PaymentIntentCreatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCreatePaymentDetailsParamsUnsetField = "order_reference"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -11050,6 +11056,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -11543,67 +11551,6 @@ type PaymentIntentCreatePaymentMethodOptionsCardMandateOptionsParams struct {
 	SupportedTypes []*string `form:"supported_types" json:"supported_types,omitempty"`
 }
 
-// Statement details for this payment intent. You can use this to override the merchant details shown on your customers' statements.
-type PaymentIntentCreatePaymentMethodOptionsCardStatementDetailsParams struct {
-	// Please pass in an address that is within your Stripe user account country
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Phone number (e.g., a toll-free number that customers can call)
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Cartes Bancaires-specific 3DS fields.
-type PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams struct {
-	// The cryptogram calculation algorithm used by the card Issuer's ACS
-	// to calculate the Authentication cryptogram. Also known as `cavvAlgorithm`.
-	// messageExtension: CB-AVALGO
-	CbAvalgo *string `form:"cb_avalgo" json:"cb_avalgo"`
-	// The exemption indicator returned from Cartes Bancaires in the ARes.
-	// message extension: CB-EXEMPTION; string (4 characters)
-	// This is a 3 byte bitmap (low significant byte first and most significant
-	// bit first) that has been Base64 encoded
-	CbExemption *string `form:"cb_exemption" json:"cb_exemption,omitempty"`
-	// The risk score returned from Cartes Bancaires in the ARes.
-	// message extension: CB-SCORE; numeric value 0-99
-	CbScore *int64 `form:"cb_score" json:"cb_score,omitempty"`
-}
-
-// Network specific 3DS fields. Network specific arguments require an
-// explicit card brand choice. The parameter `payment_method_options.card.network“
-// must be populated accordingly
-type PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureNetworkOptionsParams struct {
-	// Cartes Bancaires-specific 3DS fields.
-	CartesBancaires *PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams `form:"cartes_bancaires" json:"cartes_bancaires,omitempty"`
-}
-
-// If 3D Secure authentication was performed with a third-party provider,
-// the authentication details to use for this payment.
-type PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureParams struct {
-	// The `transStatus` returned from the card Issuer's ACS in the ARes.
-	AresTransStatus *string `form:"ares_trans_status" json:"ares_trans_status,omitempty"`
-	// The cryptogram, also known as the "authentication value" (AAV, CAVV or
-	// AEVV). This value is 20 bytes, base64-encoded into a 28-character string.
-	// (Most 3D Secure providers will return the base64-encoded version, which
-	// is what you should specify here.)
-	Cryptogram *string `form:"cryptogram" json:"cryptogram"`
-	// The Electronic Commerce Indicator (ECI) is returned by your 3D Secure
-	// provider and indicates what degree of authentication was performed.
-	ElectronicCommerceIndicator *string `form:"electronic_commerce_indicator" json:"electronic_commerce_indicator,omitempty"`
-	// The exemption requested via 3DS and accepted by the issuer at authentication time.
-	ExemptionIndicator *string `form:"exemption_indicator" json:"exemption_indicator,omitempty"`
-	// Network specific 3DS fields. Network specific arguments require an
-	// explicit card brand choice. The parameter `payment_method_options.card.network``
-	// must be populated accordingly
-	NetworkOptions *PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureNetworkOptionsParams `form:"network_options" json:"network_options,omitempty"`
-	// The challenge indicator (`threeDSRequestorChallengeInd`) which was requested in the
-	// AReq sent to the card Issuer's ACS. A string containing 2 digits from 01-99.
-	RequestorChallengeIndicator *string `form:"requestor_challenge_indicator" json:"requestor_challenge_indicator,omitempty"`
-	// For 3D Secure 1, the XID. For 3D Secure 2, the Directory Server
-	// Transaction ID (dsTransID).
-	TransactionID *string `form:"transaction_id" json:"transaction_id"`
-	// The version of 3D Secure that was performed.
-	Version *string `form:"version" json:"version"`
-}
-
 // Details for a cryptocurrency liquid asset funding transaction.
 type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
 	// The cryptocurrency currency code (e.g. BTC, ETH).
@@ -11690,6 +11637,67 @@ type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsParams struct {
 	MoneyServices *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 }
 
+// Statement details for this payment intent. You can use this to override the merchant details shown on your customers' statements.
+type PaymentIntentCreatePaymentMethodOptionsCardStatementDetailsParams struct {
+	// Please pass in an address that is within your Stripe user account country
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Phone number (e.g., a toll-free number that customers can call)
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Cartes Bancaires-specific 3DS fields.
+type PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams struct {
+	// The cryptogram calculation algorithm used by the card Issuer's ACS
+	// to calculate the Authentication cryptogram. Also known as `cavvAlgorithm`.
+	// messageExtension: CB-AVALGO
+	CbAvalgo *string `form:"cb_avalgo" json:"cb_avalgo"`
+	// The exemption indicator returned from Cartes Bancaires in the ARes.
+	// message extension: CB-EXEMPTION; string (4 characters)
+	// This is a 3 byte bitmap (low significant byte first and most significant
+	// bit first) that has been Base64 encoded
+	CbExemption *string `form:"cb_exemption" json:"cb_exemption,omitempty"`
+	// The risk score returned from Cartes Bancaires in the ARes.
+	// message extension: CB-SCORE; numeric value 0-99
+	CbScore *int64 `form:"cb_score" json:"cb_score,omitempty"`
+}
+
+// Network specific 3DS fields. Network specific arguments require an
+// explicit card brand choice. The parameter `payment_method_options.card.network“
+// must be populated accordingly
+type PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureNetworkOptionsParams struct {
+	// Cartes Bancaires-specific 3DS fields.
+	CartesBancaires *PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams `form:"cartes_bancaires" json:"cartes_bancaires,omitempty"`
+}
+
+// If 3D Secure authentication was performed with a third-party provider,
+// the authentication details to use for this payment.
+type PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureParams struct {
+	// The `transStatus` returned from the card Issuer's ACS in the ARes.
+	AresTransStatus *string `form:"ares_trans_status" json:"ares_trans_status,omitempty"`
+	// The cryptogram, also known as the "authentication value" (AAV, CAVV or
+	// AEVV). This value is 20 bytes, base64-encoded into a 28-character string.
+	// (Most 3D Secure providers will return the base64-encoded version, which
+	// is what you should specify here.)
+	Cryptogram *string `form:"cryptogram" json:"cryptogram"`
+	// The Electronic Commerce Indicator (ECI) is returned by your 3D Secure
+	// provider and indicates what degree of authentication was performed.
+	ElectronicCommerceIndicator *string `form:"electronic_commerce_indicator" json:"electronic_commerce_indicator,omitempty"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator *string `form:"exemption_indicator" json:"exemption_indicator,omitempty"`
+	// Network specific 3DS fields. Network specific arguments require an
+	// explicit card brand choice. The parameter `payment_method_options.card.network``
+	// must be populated accordingly
+	NetworkOptions *PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureNetworkOptionsParams `form:"network_options" json:"network_options,omitempty"`
+	// The challenge indicator (`threeDSRequestorChallengeInd`) which was requested in the
+	// AReq sent to the card Issuer's ACS. A string containing 2 digits from 01-99.
+	RequestorChallengeIndicator *string `form:"requestor_challenge_indicator" json:"requestor_challenge_indicator,omitempty"`
+	// For 3D Secure 1, the XID. For 3D Secure 2, the Directory Server
+	// Transaction ID (dsTransID).
+	TransactionID *string `form:"transaction_id" json:"transaction_id"`
+	// The version of 3D Secure that was performed.
+	Version *string `form:"version" json:"version"`
+}
+
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentCreatePaymentMethodOptionsCardParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -11768,12 +11776,6 @@ const (
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentCreatePaymentMethodOptionsCardParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
-}
-
-// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
-type PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams struct {
-	// Routing requested priority
-	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
 // Details for a cryptocurrency liquid asset funding transaction.
@@ -11860,6 +11862,12 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServic
 type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsParams struct {
 	// Money services details for payment method specific funding fields.
 	MoneyServices *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
+}
+
+// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams struct {
+	// Routing requested priority
+	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
@@ -14004,8 +14012,6 @@ type PaymentIntentCreateParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
-	// ID of the SharedPaymentToken used to confirm this PaymentIntent.
-	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// Shipping information for this PaymentIntent.
 	Shipping *ShippingDetailsParams `form:"shipping" json:"shipping,omitempty"`
 	// Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
@@ -14648,6 +14654,44 @@ type PaymentIntentUpdatePaymentDetailsEventDetailsParams struct {
 	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
 }
 
+// Primary fuel fields for the transaction.
+type PaymentIntentUpdatePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
+	// The fuel brand.
+	Brand *string `form:"brand" json:"brand,omitempty"`
+}
+
+// Station and acceptor location details.
+type PaymentIntentUpdatePaymentDetailsFleetDatumStationParams struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
+	// The physical location of the station.
+	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
+	// The URL of the station.
+	URL *string `form:"url" json:"url,omitempty"`
+}
+
+// VAT and Invoice on Behalf (IOB) details.
+type PaymentIntentUpdatePaymentDetailsFleetDatumVATParams struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentUpdatePaymentDetailsFleetDatumParams struct {
+	// Primary fuel fields for the transaction.
+	PrimaryFuelFields *PaymentIntentUpdatePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
+	// Station and acceptor location details.
+	Station *PaymentIntentUpdatePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
+	// VAT and Invoice on Behalf (IOB) details.
+	VAT *PaymentIntentUpdatePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
+}
+
 // Affiliate details for this purchase.
 type PaymentIntentUpdatePaymentDetailsFlightAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -15098,74 +15142,6 @@ type PaymentIntentUpdatePaymentDetailsLodgingDatumParams struct {
 	Total *PaymentIntentUpdatePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
-// Affiliate details for this purchase.
-type PaymentIntentUpdatePaymentDetailsSubscriptionAffiliateParams struct {
-	// The name of the affiliate that originated the purchase.
-	Name *string `form:"name" json:"name"`
-}
-
-// Subscription billing details for this purchase.
-type PaymentIntentUpdatePaymentDetailsSubscriptionBillingIntervalParams struct {
-	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
-	Count *int64 `form:"count" json:"count"`
-	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
-	Interval *string `form:"interval" json:"interval"`
-}
-
-// Subscription details for this PaymentIntent
-type PaymentIntentUpdatePaymentDetailsSubscriptionParams struct {
-	// Affiliate details for this purchase.
-	Affiliate *PaymentIntentUpdatePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
-	// Info whether the subscription will be auto renewed upon expiry.
-	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
-	// Subscription billing details for this purchase.
-	BillingInterval *PaymentIntentUpdatePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
-	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
-	// Name of the product on subscription. e.g. Apple Music Subscription
-	Name *string `form:"name" json:"name"`
-	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
-}
-
-// Primary fuel fields for the transaction.
-type PaymentIntentUpdatePaymentDetailsFleetDatumPrimaryFuelFieldsParams struct {
-	// The fuel brand.
-	Brand *string `form:"brand" json:"brand,omitempty"`
-}
-
-// Station and acceptor location details.
-type PaymentIntentUpdatePaymentDetailsFleetDatumStationParams struct {
-	// Additional contact information for the station.
-	AdditionalContactInfo *string `form:"additional_contact_info" json:"additional_contact_info,omitempty"`
-	// The customer service phone number of the station.
-	CustomerServicePhoneNumber *string `form:"customer_service_phone_number" json:"customer_service_phone_number,omitempty"`
-	// The partner ID code of the station.
-	PartnerIDCode *string `form:"partner_id_code" json:"partner_id_code,omitempty"`
-	// The phone number of the station.
-	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
-	// The physical location of the station.
-	ServiceLocation *AddressParams `form:"service_location" json:"service_location,omitempty"`
-	// The URL of the station.
-	URL *string `form:"url" json:"url,omitempty"`
-}
-
-// VAT and Invoice on Behalf (IOB) details.
-type PaymentIntentUpdatePaymentDetailsFleetDatumVATParams struct {
-	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
-	IobIndicator *string `form:"iob_indicator" json:"iob_indicator"`
-}
-
-// Fleet data for this PaymentIntent.
-type PaymentIntentUpdatePaymentDetailsFleetDatumParams struct {
-	// Primary fuel fields for the transaction.
-	PrimaryFuelFields *PaymentIntentUpdatePaymentDetailsFleetDatumPrimaryFuelFieldsParams `form:"primary_fuel_fields" json:"primary_fuel_fields,omitempty"`
-	// Station and acceptor location details.
-	Station *PaymentIntentUpdatePaymentDetailsFleetDatumStationParams `form:"station" json:"station,omitempty"`
-	// VAT and Invoice on Behalf (IOB) details.
-	VAT *PaymentIntentUpdatePaymentDetailsFleetDatumVATParams `form:"vat" json:"vat,omitempty"`
-}
-
 // Date of birth.
 type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
 	// Day of birth, between 1 and 31.
@@ -15262,6 +15238,36 @@ func (p *PaymentIntentUpdatePaymentDetailsMoneyServicesParams) AddUnsetField(fie
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Affiliate details for this purchase.
+type PaymentIntentUpdatePaymentDetailsSubscriptionAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name" json:"name"`
+}
+
+// Subscription billing details for this purchase.
+type PaymentIntentUpdatePaymentDetailsSubscriptionBillingIntervalParams struct {
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	Count *int64 `form:"count" json:"count"`
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+}
+
+// Subscription details for this PaymentIntent
+type PaymentIntentUpdatePaymentDetailsSubscriptionParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *PaymentIntentUpdatePaymentDetailsSubscriptionAffiliateParams `form:"affiliate" json:"affiliate,omitempty"`
+	// Info whether the subscription will be auto renewed upon expiry.
+	AutoRenewal *bool `form:"auto_renewal" json:"auto_renewal,omitempty"`
+	// Subscription billing details for this purchase.
+	BillingInterval *PaymentIntentUpdatePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval" json:"billing_interval,omitempty"`
+	// Subscription end time. Measured in seconds since the Unix epoch.
+	EndsAt *int64 `form:"ends_at" json:"ends_at,omitempty"`
+	// Name of the product on subscription. e.g. Apple Music Subscription
+	Name *string `form:"name" json:"name"`
+	// Subscription start time. Measured in seconds since the Unix epoch.
+	StartsAt *int64 `form:"starts_at" json:"starts_at,omitempty"`
+}
+
 // Provides industry-specific information about the charge.
 type PaymentIntentUpdatePaymentDetailsParams struct {
 	// Benefit details for this PaymentIntent
@@ -15303,11 +15309,11 @@ type PaymentIntentUpdatePaymentDetailsParamsUnsetField string
 const (
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldCarRentalData     PaymentIntentUpdatePaymentDetailsParamsUnsetField = "car_rental_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldCustomerReference PaymentIntentUpdatePaymentDetailsParamsUnsetField = "customer_reference"
+	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldFleetData         PaymentIntentUpdatePaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentUpdatePaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentUpdatePaymentDetailsParamsUnsetField = "lodging_data"
-	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentUpdatePaymentDetailsParamsUnsetField = "order_reference"
-	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldFleetData         PaymentIntentUpdatePaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentUpdatePaymentDetailsParamsUnsetField = "money_services"
+	PaymentIntentUpdatePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentUpdatePaymentDetailsParamsUnsetField = "order_reference"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -15461,6 +15467,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -15954,67 +15962,6 @@ type PaymentIntentUpdatePaymentMethodOptionsCardMandateOptionsParams struct {
 	SupportedTypes []*string `form:"supported_types" json:"supported_types,omitempty"`
 }
 
-// Statement details for this payment intent. You can use this to override the merchant details shown on your customers' statements.
-type PaymentIntentUpdatePaymentMethodOptionsCardStatementDetailsParams struct {
-	// Please pass in an address that is within your Stripe user account country
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Phone number (e.g., a toll-free number that customers can call)
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Cartes Bancaires-specific 3DS fields.
-type PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams struct {
-	// The cryptogram calculation algorithm used by the card Issuer's ACS
-	// to calculate the Authentication cryptogram. Also known as `cavvAlgorithm`.
-	// messageExtension: CB-AVALGO
-	CbAvalgo *string `form:"cb_avalgo" json:"cb_avalgo"`
-	// The exemption indicator returned from Cartes Bancaires in the ARes.
-	// message extension: CB-EXEMPTION; string (4 characters)
-	// This is a 3 byte bitmap (low significant byte first and most significant
-	// bit first) that has been Base64 encoded
-	CbExemption *string `form:"cb_exemption" json:"cb_exemption,omitempty"`
-	// The risk score returned from Cartes Bancaires in the ARes.
-	// message extension: CB-SCORE; numeric value 0-99
-	CbScore *int64 `form:"cb_score" json:"cb_score,omitempty"`
-}
-
-// Network specific 3DS fields. Network specific arguments require an
-// explicit card brand choice. The parameter `payment_method_options.card.network“
-// must be populated accordingly
-type PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureNetworkOptionsParams struct {
-	// Cartes Bancaires-specific 3DS fields.
-	CartesBancaires *PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams `form:"cartes_bancaires" json:"cartes_bancaires,omitempty"`
-}
-
-// If 3D Secure authentication was performed with a third-party provider,
-// the authentication details to use for this payment.
-type PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureParams struct {
-	// The `transStatus` returned from the card Issuer's ACS in the ARes.
-	AresTransStatus *string `form:"ares_trans_status" json:"ares_trans_status,omitempty"`
-	// The cryptogram, also known as the "authentication value" (AAV, CAVV or
-	// AEVV). This value is 20 bytes, base64-encoded into a 28-character string.
-	// (Most 3D Secure providers will return the base64-encoded version, which
-	// is what you should specify here.)
-	Cryptogram *string `form:"cryptogram" json:"cryptogram"`
-	// The Electronic Commerce Indicator (ECI) is returned by your 3D Secure
-	// provider and indicates what degree of authentication was performed.
-	ElectronicCommerceIndicator *string `form:"electronic_commerce_indicator" json:"electronic_commerce_indicator,omitempty"`
-	// The exemption requested via 3DS and accepted by the issuer at authentication time.
-	ExemptionIndicator *string `form:"exemption_indicator" json:"exemption_indicator,omitempty"`
-	// Network specific 3DS fields. Network specific arguments require an
-	// explicit card brand choice. The parameter `payment_method_options.card.network``
-	// must be populated accordingly
-	NetworkOptions *PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureNetworkOptionsParams `form:"network_options" json:"network_options,omitempty"`
-	// The challenge indicator (`threeDSRequestorChallengeInd`) which was requested in the
-	// AReq sent to the card Issuer's ACS. A string containing 2 digits from 01-99.
-	RequestorChallengeIndicator *string `form:"requestor_challenge_indicator" json:"requestor_challenge_indicator,omitempty"`
-	// For 3D Secure 1, the XID. For 3D Secure 2, the Directory Server
-	// Transaction ID (dsTransID).
-	TransactionID *string `form:"transaction_id" json:"transaction_id"`
-	// The version of 3D Secure that was performed.
-	Version *string `form:"version" json:"version"`
-}
-
 // Details for a cryptocurrency liquid asset funding transaction.
 type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
 	// The cryptocurrency currency code (e.g. BTC, ETH).
@@ -16101,6 +16048,67 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsParams struct {
 	MoneyServices *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 }
 
+// Statement details for this payment intent. You can use this to override the merchant details shown on your customers' statements.
+type PaymentIntentUpdatePaymentMethodOptionsCardStatementDetailsParams struct {
+	// Please pass in an address that is within your Stripe user account country
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Phone number (e.g., a toll-free number that customers can call)
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
+// Cartes Bancaires-specific 3DS fields.
+type PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams struct {
+	// The cryptogram calculation algorithm used by the card Issuer's ACS
+	// to calculate the Authentication cryptogram. Also known as `cavvAlgorithm`.
+	// messageExtension: CB-AVALGO
+	CbAvalgo *string `form:"cb_avalgo" json:"cb_avalgo"`
+	// The exemption indicator returned from Cartes Bancaires in the ARes.
+	// message extension: CB-EXEMPTION; string (4 characters)
+	// This is a 3 byte bitmap (low significant byte first and most significant
+	// bit first) that has been Base64 encoded
+	CbExemption *string `form:"cb_exemption" json:"cb_exemption,omitempty"`
+	// The risk score returned from Cartes Bancaires in the ARes.
+	// message extension: CB-SCORE; numeric value 0-99
+	CbScore *int64 `form:"cb_score" json:"cb_score,omitempty"`
+}
+
+// Network specific 3DS fields. Network specific arguments require an
+// explicit card brand choice. The parameter `payment_method_options.card.network“
+// must be populated accordingly
+type PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureNetworkOptionsParams struct {
+	// Cartes Bancaires-specific 3DS fields.
+	CartesBancaires *PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureNetworkOptionsCartesBancairesParams `form:"cartes_bancaires" json:"cartes_bancaires,omitempty"`
+}
+
+// If 3D Secure authentication was performed with a third-party provider,
+// the authentication details to use for this payment.
+type PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureParams struct {
+	// The `transStatus` returned from the card Issuer's ACS in the ARes.
+	AresTransStatus *string `form:"ares_trans_status" json:"ares_trans_status,omitempty"`
+	// The cryptogram, also known as the "authentication value" (AAV, CAVV or
+	// AEVV). This value is 20 bytes, base64-encoded into a 28-character string.
+	// (Most 3D Secure providers will return the base64-encoded version, which
+	// is what you should specify here.)
+	Cryptogram *string `form:"cryptogram" json:"cryptogram"`
+	// The Electronic Commerce Indicator (ECI) is returned by your 3D Secure
+	// provider and indicates what degree of authentication was performed.
+	ElectronicCommerceIndicator *string `form:"electronic_commerce_indicator" json:"electronic_commerce_indicator,omitempty"`
+	// The exemption requested via 3DS and accepted by the issuer at authentication time.
+	ExemptionIndicator *string `form:"exemption_indicator" json:"exemption_indicator,omitempty"`
+	// Network specific 3DS fields. Network specific arguments require an
+	// explicit card brand choice. The parameter `payment_method_options.card.network``
+	// must be populated accordingly
+	NetworkOptions *PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureNetworkOptionsParams `form:"network_options" json:"network_options,omitempty"`
+	// The challenge indicator (`threeDSRequestorChallengeInd`) which was requested in the
+	// AReq sent to the card Issuer's ACS. A string containing 2 digits from 01-99.
+	RequestorChallengeIndicator *string `form:"requestor_challenge_indicator" json:"requestor_challenge_indicator,omitempty"`
+	// For 3D Secure 1, the XID. For 3D Secure 2, the Directory Server
+	// Transaction ID (dsTransID).
+	TransactionID *string `form:"transaction_id" json:"transaction_id"`
+	// The version of 3D Secure that was performed.
+	Version *string `form:"version" json:"version"`
+}
+
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentUpdatePaymentMethodOptionsCardParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -16179,12 +16187,6 @@ const (
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentUpdatePaymentMethodOptionsCardParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
-}
-
-// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
-type PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams struct {
-	// Routing requested priority
-	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
 // Details for a cryptocurrency liquid asset funding transaction.
@@ -16271,6 +16273,12 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServic
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsParams struct {
 	// Money services details for payment method specific funding fields.
 	MoneyServices *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
+}
+
+// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams struct {
+	// Routing requested priority
+	RequestedPriority *string `form:"requested_priority" json:"requested_priority,omitempty"`
 }
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
@@ -19175,6 +19183,34 @@ type PaymentIntentPaymentDetailsEventDetails struct {
 	// Event start time. Measured in seconds since the Unix epoch.
 	StartsAt int64 `json:"starts_at,omitempty"`
 }
+type PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFields struct {
+	// The fuel brand.
+	Brand string `json:"brand,omitempty"`
+}
+type PaymentIntentPaymentDetailsFleetDatumStation struct {
+	// Additional contact information for the station.
+	AdditionalContactInfo string `json:"additional_contact_info,omitempty"`
+	// The customer service phone number of the station.
+	CustomerServicePhoneNumber string `json:"customer_service_phone_number,omitempty"`
+	// The partner ID code of the station.
+	PartnerIDCode string `json:"partner_id_code,omitempty"`
+	// The phone number of the station.
+	PhoneNumber     string   `json:"phone_number,omitempty"`
+	ServiceLocation *Address `json:"service_location,omitempty"`
+	// The URL of the station.
+	URL string `json:"url,omitempty"`
+}
+type PaymentIntentPaymentDetailsFleetDatumVAT struct {
+	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
+	IobIndicator string `json:"iob_indicator,omitempty"`
+}
+
+// Fleet data for this PaymentIntent.
+type PaymentIntentPaymentDetailsFleetDatum struct {
+	PrimaryFuelFields *PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFields `json:"primary_fuel_fields,omitempty"`
+	Station           *PaymentIntentPaymentDetailsFleetDatumStation           `json:"station,omitempty"`
+	VAT               *PaymentIntentPaymentDetailsFleetDatumVAT               `json:"vat,omitempty"`
+}
 type PaymentIntentPaymentDetailsFlightDatumAffiliate struct {
 	// Affiliate code.
 	Code string `json:"code,omitempty"`
@@ -19438,6 +19474,55 @@ type PaymentIntentPaymentDetailsLodgingDatum struct {
 	RenterName string                                        `json:"renter_name,omitempty"`
 	Total      *PaymentIntentPaymentDetailsLodgingDatumTotal `json:"total,omitempty"`
 }
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirth struct {
+	// Day of birth, between 1 and 31.
+	Day int64 `json:"day"`
+	// Month of birth, between 1 and 12.
+	Month int64 `json:"month"`
+	// Four-digit year of birth.
+	Year int64 `json:"year"`
+}
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetails struct {
+	Address     *Address                                                                             `json:"address,omitempty"`
+	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirth `json:"date_of_birth,omitempty"`
+	// Email address.
+	Email string `json:"email,omitempty"`
+	// Full name.
+	Name string `json:"name,omitempty"`
+	// Phone number.
+	Phone string `json:"phone,omitempty"`
+}
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirth struct {
+	// Day of birth, between 1 and 31.
+	Day int64 `json:"day"`
+	// Month of birth, between 1 and 12.
+	Month int64 `json:"month"`
+	// Four-digit year of birth.
+	Year int64 `json:"year"`
+}
+type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetails struct {
+	Address     *Address                                                                        `json:"address,omitempty"`
+	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirth `json:"date_of_birth,omitempty"`
+	// Email address.
+	Email string `json:"email,omitempty"`
+	// Full name.
+	Name string `json:"name,omitempty"`
+	// Phone number.
+	Phone string `json:"phone,omitempty"`
+}
+type PaymentIntentPaymentDetailsMoneyServicesAccountFunding struct {
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount string                                                                    `json:"beneficiary_account,omitempty"`
+	BeneficiaryDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetails `json:"beneficiary_details,omitempty"`
+	// ID of the Account representing the sender in this account funding transaction.
+	SenderAccount string                                                               `json:"sender_account,omitempty"`
+	SenderDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetails `json:"sender_details,omitempty"`
+}
+type PaymentIntentPaymentDetailsMoneyServices struct {
+	AccountFunding *PaymentIntentPaymentDetailsMoneyServicesAccountFunding `json:"account_funding,omitempty"`
+	// The type of money services transaction.
+	TransactionType PaymentIntentPaymentDetailsMoneyServicesTransactionType `json:"transaction_type,omitempty"`
+}
 type PaymentIntentPaymentDetailsSubscriptionAffiliate struct {
 	// The name of the affiliate that originated the purchase.
 	Name string `json:"name,omitempty"`
@@ -19460,34 +19545,6 @@ type PaymentIntentPaymentDetailsSubscription struct {
 	// Subscription start time. Measured in seconds since the Unix epoch.
 	StartsAt int64 `json:"starts_at,omitempty"`
 }
-type PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFields struct {
-	// The fuel brand.
-	Brand string `json:"brand,omitempty"`
-}
-type PaymentIntentPaymentDetailsFleetDatumStation struct {
-	// Additional contact information for the station.
-	AdditionalContactInfo string `json:"additional_contact_info,omitempty"`
-	// The customer service phone number of the station.
-	CustomerServicePhoneNumber string `json:"customer_service_phone_number,omitempty"`
-	// The partner ID code of the station.
-	PartnerIDCode string `json:"partner_id_code,omitempty"`
-	// The phone number of the station.
-	PhoneNumber     string   `json:"phone_number,omitempty"`
-	ServiceLocation *Address `json:"service_location,omitempty"`
-	// The URL of the station.
-	URL string `json:"url,omitempty"`
-}
-type PaymentIntentPaymentDetailsFleetDatumVAT struct {
-	// Indicates the merchant's agreement for Invoice on Behalf (IOB) VAT processing.
-	IobIndicator string `json:"iob_indicator,omitempty"`
-}
-
-// Fleet data for this PaymentIntent.
-type PaymentIntentPaymentDetailsFleetDatum struct {
-	PrimaryFuelFields *PaymentIntentPaymentDetailsFleetDatumPrimaryFuelFields `json:"primary_fuel_fields,omitempty"`
-	Station           *PaymentIntentPaymentDetailsFleetDatumStation           `json:"station,omitempty"`
-	VAT               *PaymentIntentPaymentDetailsFleetDatumVAT               `json:"vat,omitempty"`
-}
 type PaymentIntentPaymentDetails struct {
 	Benefit       *PaymentIntentPaymentDetailsBenefit          `json:"benefit,omitempty"`
 	CarRental     *PaymentIntentPaymentDetailsCarRental        `json:"car_rental,omitempty"`
@@ -19498,9 +19555,10 @@ type PaymentIntentPaymentDetails struct {
 	CustomerReference string                                   `json:"customer_reference"`
 	EventDetails      *PaymentIntentPaymentDetailsEventDetails `json:"event_details,omitempty"`
 	// Fleet data for this PaymentIntent.
-	FleetData   []*PaymentIntentPaymentDetailsFleetDatum   `json:"fleet_data,omitempty"`
-	FlightData  []*PaymentIntentPaymentDetailsFlightDatum  `json:"flight_data,omitempty"`
-	LodgingData []*PaymentIntentPaymentDetailsLodgingDatum `json:"lodging_data,omitempty"`
+	FleetData     []*PaymentIntentPaymentDetailsFleetDatum   `json:"fleet_data,omitempty"`
+	FlightData    []*PaymentIntentPaymentDetailsFlightDatum  `json:"flight_data,omitempty"`
+	LodgingData   []*PaymentIntentPaymentDetailsLodgingDatum `json:"lodging_data,omitempty"`
+	MoneyServices *PaymentIntentPaymentDetailsMoneyServices  `json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
