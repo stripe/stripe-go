@@ -35,6 +35,8 @@ type V2BillingPricingPlan struct {
 	DisplayName string `json:"display_name"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// The ID of the latest version of the PricingPlan.
+	LatestVersion string `json:"latest_version"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// The ID of the live version of the PricingPlan.
