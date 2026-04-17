@@ -15,10 +15,14 @@ type RadarAccountEvaluationParams struct {
 	LoginFailed *RadarAccountEvaluationLoginFailedParams `form:"login_failed" json:"login_failed,omitempty"`
 	// Event payload for login_initiated.
 	LoginInitiated *RadarAccountEvaluationLoginInitiatedParams `form:"login_initiated" json:"login_initiated,omitempty"`
+	// Event payload for login_succeeded.
+	LoginSucceeded *RadarAccountEvaluationLoginSucceededParams `form:"login_succeeded" json:"login_succeeded,omitempty"`
 	// Event payload for registration_failed.
 	RegistrationFailed *RadarAccountEvaluationRegistrationFailedParams `form:"registration_failed" json:"registration_failed,omitempty"`
 	// Event payload for registration_initiated.
 	RegistrationInitiated *RadarAccountEvaluationRegistrationInitiatedParams `form:"registration_initiated" json:"registration_initiated,omitempty"`
+	// Event payload for registration_succeeded.
+	RegistrationSucceeded *RadarAccountEvaluationRegistrationSucceededParams `form:"registration_succeeded" json:"registration_succeeded,omitempty"`
 	// The type of evaluation requested.
 	Type *string `form:"type" json:"type,omitempty"`
 }
@@ -74,10 +78,22 @@ type RadarAccountEvaluationLoginFailedParams struct {
 	Reason *string `form:"reason" json:"reason"`
 }
 
+// Event payload for login_succeeded.
+type RadarAccountEvaluationLoginSucceededParams struct {
+	// An optional qualification for a login success.
+	Qualification *string `form:"qualification" json:"qualification,omitempty"`
+}
+
 // Event payload for registration_failed.
 type RadarAccountEvaluationRegistrationFailedParams struct {
 	// The reason why this registration failed.
 	Reason *string `form:"reason" json:"reason"`
+}
+
+// Event payload for registration_succeeded.
+type RadarAccountEvaluationRegistrationSucceededParams struct {
+	// An optional qualification for a registration success.
+	Qualification *string `form:"qualification" json:"qualification,omitempty"`
 }
 
 // Retrieves an AccountEvaluation object.
@@ -156,10 +172,22 @@ type RadarAccountEvaluationUpdateLoginFailedParams struct {
 	Reason *string `form:"reason" json:"reason"`
 }
 
+// Event payload for login_succeeded.
+type RadarAccountEvaluationUpdateLoginSucceededParams struct {
+	// An optional qualification for a login success.
+	Qualification *string `form:"qualification" json:"qualification,omitempty"`
+}
+
 // Event payload for registration_failed.
 type RadarAccountEvaluationUpdateRegistrationFailedParams struct {
 	// The reason why this registration failed.
 	Reason *string `form:"reason" json:"reason"`
+}
+
+// Event payload for registration_succeeded.
+type RadarAccountEvaluationUpdateRegistrationSucceededParams struct {
+	// An optional qualification for a registration success.
+	Qualification *string `form:"qualification" json:"qualification,omitempty"`
 }
 
 // Reports an event on an AccountEvaluation object.
@@ -169,8 +197,12 @@ type RadarAccountEvaluationUpdateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Event payload for login_failed.
 	LoginFailed *RadarAccountEvaluationUpdateLoginFailedParams `form:"login_failed" json:"login_failed,omitempty"`
+	// Event payload for login_succeeded.
+	LoginSucceeded *RadarAccountEvaluationUpdateLoginSucceededParams `form:"login_succeeded" json:"login_succeeded,omitempty"`
 	// Event payload for registration_failed.
 	RegistrationFailed *RadarAccountEvaluationUpdateRegistrationFailedParams `form:"registration_failed" json:"registration_failed,omitempty"`
+	// Event payload for registration_succeeded.
+	RegistrationSucceeded *RadarAccountEvaluationUpdateRegistrationSucceededParams `form:"registration_succeeded" json:"registration_succeeded,omitempty"`
 	// The type of event to report.
 	Type *string `form:"type" json:"type"`
 }
@@ -186,20 +218,36 @@ type RadarAccountEvaluationEventLoginFailed struct {
 	Reason string `json:"reason"`
 }
 
+// Data about a succeeded login event.
+type RadarAccountEvaluationEventLoginSucceeded struct {
+	// The qualification for a login success.
+	Qualification string `json:"qualification"`
+}
+
 // Data about a failed registration event.
 type RadarAccountEvaluationEventRegistrationFailed struct {
 	// The reason why this registration failed.
 	Reason string `json:"reason"`
 }
 
+// Data about a succeeded registration event.
+type RadarAccountEvaluationEventRegistrationSucceeded struct {
+	// The qualification for a registration success.
+	Qualification string `json:"qualification"`
+}
+
 // The list of events that were reported for this Account Evaluation object via the report API.
 type RadarAccountEvaluationEvent struct {
 	// Data about a failed login event.
 	LoginFailed *RadarAccountEvaluationEventLoginFailed `json:"login_failed,omitempty"`
+	// Data about a succeeded login event.
+	LoginSucceeded *RadarAccountEvaluationEventLoginSucceeded `json:"login_succeeded,omitempty"`
 	// Time at which the event occurred. Measured in seconds since the Unix epoch.
 	OccurredAt int64 `json:"occurred_at"`
 	// Data about a failed registration event.
 	RegistrationFailed *RadarAccountEvaluationEventRegistrationFailed `json:"registration_failed,omitempty"`
+	// Data about a succeeded registration event.
+	RegistrationSucceeded *RadarAccountEvaluationEventRegistrationSucceeded `json:"registration_succeeded,omitempty"`
 	// The type of event that occurred.
 	Type string `json:"type"`
 }
