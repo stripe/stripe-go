@@ -428,6 +428,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeKonbini            QuotePreviewInvoicePaymentSettingsPaymentMethodType = "konbini"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeKrCard             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "kr_card"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeLink               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "link"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeMomo               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "momo"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeMultibanco         QuotePreviewInvoicePaymentSettingsPaymentMethodType = "multibanco"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeNaverPay           QuotePreviewInvoicePaymentSettingsPaymentMethodType = "naver_pay"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeNzBankAccount      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "nz_bank_account"

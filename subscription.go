@@ -343,6 +343,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeKonbini            SubscriptionPaymentSettingsPaymentMethodType = "konbini"
 	SubscriptionPaymentSettingsPaymentMethodTypeKrCard             SubscriptionPaymentSettingsPaymentMethodType = "kr_card"
 	SubscriptionPaymentSettingsPaymentMethodTypeLink               SubscriptionPaymentSettingsPaymentMethodType = "link"
+	SubscriptionPaymentSettingsPaymentMethodTypeMomo               SubscriptionPaymentSettingsPaymentMethodType = "momo"
 	SubscriptionPaymentSettingsPaymentMethodTypeMultibanco         SubscriptionPaymentSettingsPaymentMethodType = "multibanco"
 	SubscriptionPaymentSettingsPaymentMethodTypeNaverPay           SubscriptionPaymentSettingsPaymentMethodType = "naver_pay"
 	SubscriptionPaymentSettingsPaymentMethodTypeNzBankAccount      SubscriptionPaymentSettingsPaymentMethodType = "nz_bank_account"
