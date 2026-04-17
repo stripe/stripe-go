@@ -304,6 +304,8 @@ type PriceParams struct {
 	CustomUnitAmount *PriceCustomUnitAmountParams `form:"custom_unit_amount" json:"custom_unit_amount,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// A custom identifier for this price, such as a SKU number or product code, that can be used to reference records from external systems.
+	ExternalReference *string `form:"external_reference" json:"external_reference,omitempty"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -339,9 +341,10 @@ type PriceParams struct {
 type PriceParamsUnsetField string
 
 const (
-	PriceParamsUnsetFieldCurrencyOptions PriceParamsUnsetField = "currency_options"
-	PriceParamsUnsetFieldMetadata        PriceParamsUnsetField = "metadata"
-	PriceParamsUnsetFieldMigrateTo       PriceParamsUnsetField = "migrate_to"
+	PriceParamsUnsetFieldCurrencyOptions   PriceParamsUnsetField = "currency_options"
+	PriceParamsUnsetFieldExternalReference PriceParamsUnsetField = "external_reference"
+	PriceParamsUnsetFieldMetadata          PriceParamsUnsetField = "metadata"
+	PriceParamsUnsetFieldMigrateTo         PriceParamsUnsetField = "migrate_to"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -561,6 +564,8 @@ type PriceCreateParams struct {
 	CustomUnitAmount *PriceCreateCustomUnitAmountParams `form:"custom_unit_amount" json:"custom_unit_amount,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// A custom identifier for this price, such as a SKU number or product code, that can be used to reference records from external systems.
+	ExternalReference *string `form:"external_reference" json:"external_reference,omitempty"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -682,6 +687,8 @@ type PriceUpdateParams struct {
 	CurrencyOptions map[string]*PriceUpdateCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// A custom identifier for this price, such as a SKU number or product code, that can be used to reference records from external systems.
+	ExternalReference *string `form:"external_reference" json:"external_reference,omitempty"`
 	// A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -701,9 +708,10 @@ type PriceUpdateParams struct {
 type PriceUpdateParamsUnsetField string
 
 const (
-	PriceUpdateParamsUnsetFieldCurrencyOptions PriceUpdateParamsUnsetField = "currency_options"
-	PriceUpdateParamsUnsetFieldMetadata        PriceUpdateParamsUnsetField = "metadata"
-	PriceUpdateParamsUnsetFieldMigrateTo       PriceUpdateParamsUnsetField = "migrate_to"
+	PriceUpdateParamsUnsetFieldCurrencyOptions   PriceUpdateParamsUnsetField = "currency_options"
+	PriceUpdateParamsUnsetFieldExternalReference PriceUpdateParamsUnsetField = "external_reference"
+	PriceUpdateParamsUnsetFieldMetadata          PriceUpdateParamsUnsetField = "metadata"
+	PriceUpdateParamsUnsetFieldMigrateTo         PriceUpdateParamsUnsetField = "migrate_to"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.

@@ -371,6 +371,8 @@ type DelegatedCheckoutRequestedSessionConfirmParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The PaymentMethod to use with the requested session.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
+	// The URL to redirect your customer back to after they authenticate or complete a payment action. Required for redirect-based payment methods such as Affirm or Klarna.
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// Risk details/signals associated with the requested session
 	RiskDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams `form:"risk_details" json:"risk_details,omitempty"`
 }

@@ -2233,6 +2233,8 @@ type PaymentMethodSatispay struct{}
 type PaymentMethodSEPADebitGeneratedFrom struct {
 	// The ID of the Charge that generated this PaymentMethod, if any.
 	Charge *Charge `json:"charge"`
+	// The ID of the PaymentMethod that generated this PaymentMethod, if any.
+	PaymentMethod *PaymentMethod `json:"payment_method,omitempty"`
 	// The ID of the SetupAttempt that generated this PaymentMethod, if any.
 	SetupAttempt *SetupAttempt `json:"setup_attempt"`
 }
@@ -2382,19 +2384,17 @@ type PaymentMethod struct {
 	PromptPay *PaymentMethodPromptPay `json:"promptpay,omitempty"`
 	Qris      *PaymentMethodQris      `json:"qris,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
-	RadarOptions *PaymentMethodRadarOptions `json:"radar_options,omitempty"`
-	Rechnung     *PaymentMethodRechnung     `json:"rechnung,omitempty"`
-	RevolutPay   *PaymentMethodRevolutPay   `json:"revolut_pay,omitempty"`
-	SamsungPay   *PaymentMethodSamsungPay   `json:"samsung_pay,omitempty"`
-	Satispay     *PaymentMethodSatispay     `json:"satispay,omitempty"`
-	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit,omitempty"`
-	// ID of the shared payment granted token used in the creation of this PaymentMethod.
-	SharedPaymentGrantedToken string                      `json:"shared_payment_granted_token,omitempty"`
-	Shopeepay                 *PaymentMethodShopeepay     `json:"shopeepay,omitempty"`
-	Sofort                    *PaymentMethodSofort        `json:"sofort,omitempty"`
-	StripeBalance             *PaymentMethodStripeBalance `json:"stripe_balance,omitempty"`
-	Swish                     *PaymentMethodSwish         `json:"swish,omitempty"`
-	TWINT                     *PaymentMethodTWINT         `json:"twint,omitempty"`
+	RadarOptions  *PaymentMethodRadarOptions  `json:"radar_options,omitempty"`
+	Rechnung      *PaymentMethodRechnung      `json:"rechnung,omitempty"`
+	RevolutPay    *PaymentMethodRevolutPay    `json:"revolut_pay,omitempty"`
+	SamsungPay    *PaymentMethodSamsungPay    `json:"samsung_pay,omitempty"`
+	Satispay      *PaymentMethodSatispay      `json:"satispay,omitempty"`
+	SEPADebit     *PaymentMethodSEPADebit     `json:"sepa_debit,omitempty"`
+	Shopeepay     *PaymentMethodShopeepay     `json:"shopeepay,omitempty"`
+	Sofort        *PaymentMethodSofort        `json:"sofort,omitempty"`
+	StripeBalance *PaymentMethodStripeBalance `json:"stripe_balance,omitempty"`
+	Swish         *PaymentMethodSwish         `json:"swish,omitempty"`
+	TWINT         *PaymentMethodTWINT         `json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          PaymentMethodType           `json:"type"`
 	Upi           *PaymentMethodUpi           `json:"upi,omitempty"`
