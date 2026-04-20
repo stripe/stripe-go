@@ -78,6 +78,7 @@ const (
 	SetupIntentExcludedPaymentMethodTypeSatispay         SetupIntentExcludedPaymentMethodType = "satispay"
 	SetupIntentExcludedPaymentMethodTypeSEPADebit        SetupIntentExcludedPaymentMethodType = "sepa_debit"
 	SetupIntentExcludedPaymentMethodTypeSofort           SetupIntentExcludedPaymentMethodType = "sofort"
+	SetupIntentExcludedPaymentMethodTypeSunbit           SetupIntentExcludedPaymentMethodType = "sunbit"
 	SetupIntentExcludedPaymentMethodTypeSwish            SetupIntentExcludedPaymentMethodType = "swish"
 	SetupIntentExcludedPaymentMethodTypeTWINT            SetupIntentExcludedPaymentMethodType = "twint"
 	SetupIntentExcludedPaymentMethodTypeUpi              SetupIntentExcludedPaymentMethodType = "upi"
@@ -265,6 +266,36 @@ const (
 	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeSalary           SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "salary"
 	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeTax              SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "tax"
 	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeUtility          SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "utility"
+)
+
+// Determines if the amount includes the IOF tax.
+type SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof string
+
+// List of values that SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof can take
+const (
+	SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIofAlways SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "always"
+	SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIofNever  SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "never"
+)
+
+// Type of amount.
+type SetupIntentPaymentMethodOptionsPixMandateOptionsAmountType string
+
+// List of values that SetupIntentPaymentMethodOptionsPixMandateOptionsAmountType can take
+const (
+	SetupIntentPaymentMethodOptionsPixMandateOptionsAmountTypeFixed   SetupIntentPaymentMethodOptionsPixMandateOptionsAmountType = "fixed"
+	SetupIntentPaymentMethodOptionsPixMandateOptionsAmountTypeMaximum SetupIntentPaymentMethodOptionsPixMandateOptionsAmountType = "maximum"
+)
+
+// Schedule at which the future payments will be charged.
+type SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule string
+
+// List of values that SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule can take
+const (
+	SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleHalfyearly SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "halfyearly"
+	SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleMonthly    SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "monthly"
+	SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleQuarterly  SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "quarterly"
+	SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleWeekly     SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "weekly"
+	SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleYearly     SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "yearly"
 )
 
 // One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
@@ -659,6 +690,9 @@ type SetupIntentPaymentMethodDataSofortParams struct {
 	Country *string `form:"country" json:"country"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type SetupIntentPaymentMethodDataSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type SetupIntentPaymentMethodDataSwishParams struct{}
 
@@ -804,6 +838,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentPaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *SetupIntentPaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -1108,6 +1144,32 @@ type SetupIntentPaymentMethodOptionsPaytoParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// Additional fields for mandate creation.
+type SetupIntentPaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date" json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference" json:"reference,omitempty"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
+}
+
+// If this is a `pix` SetupIntent, this sub-hash contains details about the Pix payment method options.
+type SetupIntentPaymentMethodOptionsPixParams struct {
+	// Additional fields for mandate creation.
+	MandateOptions *SetupIntentPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -1240,6 +1302,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	Paypal *SetupIntentPaymentMethodOptionsPaypalParams `form:"paypal" json:"paypal,omitempty"`
 	// If this is a `payto` SetupIntent, this sub-hash contains details about the PayTo payment method options.
 	Payto *SetupIntentPaymentMethodOptionsPaytoParams `form:"payto" json:"payto,omitempty"`
+	// If this is a `pix` SetupIntent, this sub-hash contains details about the Pix payment method options.
+	Pix *SetupIntentPaymentMethodOptionsPixParams `form:"pix" json:"pix,omitempty"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `upi` SetupIntent, this sub-hash contains details about the UPI payment method options.
@@ -1616,6 +1680,9 @@ type SetupIntentConfirmPaymentMethodDataSofortParams struct {
 	Country *string `form:"country" json:"country"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type SetupIntentConfirmPaymentMethodDataSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type SetupIntentConfirmPaymentMethodDataSwishParams struct{}
 
@@ -1761,6 +1828,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentConfirmPaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *SetupIntentConfirmPaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentConfirmPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -2143,6 +2212,9 @@ type SetupIntentCreatePaymentMethodDataSofortParams struct {
 	Country *string `form:"country" json:"country"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type SetupIntentCreatePaymentMethodDataSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type SetupIntentCreatePaymentMethodDataSwishParams struct{}
 
@@ -2288,6 +2360,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	SEPADebit *SetupIntentCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentCreatePaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *SetupIntentCreatePaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentCreatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -2592,6 +2666,32 @@ type SetupIntentCreatePaymentMethodOptionsPaytoParams struct {
 	MandateOptions *SetupIntentCreatePaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// Additional fields for mandate creation.
+type SetupIntentCreatePaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date" json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference" json:"reference,omitempty"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
+}
+
+// If this is a `pix` SetupIntent, this sub-hash contains details about the Pix payment method options.
+type SetupIntentCreatePaymentMethodOptionsPixParams struct {
+	// Additional fields for mandate creation.
+	MandateOptions *SetupIntentCreatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentCreatePaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -2724,6 +2824,8 @@ type SetupIntentCreatePaymentMethodOptionsParams struct {
 	Paypal *SetupIntentCreatePaymentMethodOptionsPaypalParams `form:"paypal" json:"paypal,omitempty"`
 	// If this is a `payto` SetupIntent, this sub-hash contains details about the PayTo payment method options.
 	Payto *SetupIntentCreatePaymentMethodOptionsPaytoParams `form:"payto" json:"payto,omitempty"`
+	// If this is a `pix` SetupIntent, this sub-hash contains details about the Pix payment method options.
+	Pix *SetupIntentCreatePaymentMethodOptionsPixParams `form:"pix" json:"pix,omitempty"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `upi` SetupIntent, this sub-hash contains details about the UPI payment method options.
@@ -3098,6 +3200,9 @@ type SetupIntentUpdatePaymentMethodDataSofortParams struct {
 	Country *string `form:"country" json:"country"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type SetupIntentUpdatePaymentMethodDataSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type SetupIntentUpdatePaymentMethodDataSwishParams struct{}
 
@@ -3243,6 +3348,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	SEPADebit *SetupIntentUpdatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentUpdatePaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *SetupIntentUpdatePaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentUpdatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -3547,6 +3654,32 @@ type SetupIntentUpdatePaymentMethodOptionsPaytoParams struct {
 	MandateOptions *SetupIntentUpdatePaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// Additional fields for mandate creation.
+type SetupIntentUpdatePaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date" json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference" json:"reference,omitempty"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
+}
+
+// If this is a `pix` SetupIntent, this sub-hash contains details about the Pix payment method options.
+type SetupIntentUpdatePaymentMethodOptionsPixParams struct {
+	// Additional fields for mandate creation.
+	MandateOptions *SetupIntentUpdatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentUpdatePaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -3679,6 +3812,8 @@ type SetupIntentUpdatePaymentMethodOptionsParams struct {
 	Paypal *SetupIntentUpdatePaymentMethodOptionsPaypalParams `form:"paypal" json:"paypal,omitempty"`
 	// If this is a `payto` SetupIntent, this sub-hash contains details about the PayTo payment method options.
 	Payto *SetupIntentUpdatePaymentMethodOptionsPaytoParams `form:"payto" json:"payto,omitempty"`
+	// If this is a `pix` SetupIntent, this sub-hash contains details about the Pix payment method options.
+	Pix *SetupIntentUpdatePaymentMethodOptionsPixParams `form:"pix" json:"pix,omitempty"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentUpdatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `upi` SetupIntent, this sub-hash contains details about the UPI payment method options.
@@ -3764,6 +3899,10 @@ type SetupIntentAutomaticPaymentMethods struct {
 	// Automatically calculates compatible payment methods
 	Enabled bool `json:"enabled"`
 }
+type SetupIntentManagedPayments struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled bool `json:"enabled"`
+}
 type SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode struct {
 	// The date (unix timestamp) when the QR code expires.
 	ExpiresAt int64 `json:"expires_at"`
@@ -3778,6 +3917,18 @@ type SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCode struct {
 	// The url for mobile redirect based auth
 	MobileAuthURL string                                                           `json:"mobile_auth_url"`
 	QRCode        *SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
+}
+type SetupIntentNextActionPixDisplayQRCode struct {
+	// The raw data string used to generate QR code, it should be used together with QR code library.
+	Data string `json:"data"`
+	// The date (unix timestamp) when the PIX expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// The URL to the hosted pix instructions page, which allows customers to view the pix QR code.
+	HostedInstructionsURL string `json:"hosted_instructions_url"`
+	// The image_url_png string used to render png QR code
+	ImageURLPNG string `json:"image_url_png"`
+	// The image_url_svg string used to render svg QR code
+	ImageURLSVG string `json:"image_url_svg"`
 }
 type SetupIntentNextActionRedirectToURL struct {
 	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
@@ -3813,6 +3964,7 @@ type SetupIntentNextActionVerifyWithMicrodeposits struct {
 // If present, this property tells you what actions you need to take in order for your customer to continue payment setup.
 type SetupIntentNextAction struct {
 	CashAppHandleRedirectOrDisplayQRCode *SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code,omitempty"`
+	PixDisplayQRCode                     *SetupIntentNextActionPixDisplayQRCode                     `json:"pix_display_qr_code,omitempty"`
 	RedirectToURL                        *SetupIntentNextActionRedirectToURL                        `json:"redirect_to_url,omitempty"`
 	// Type of the next action to perform. Refer to the other child attributes under `next_action` for available values. Examples include: `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 	Type                             SetupIntentNextActionType                              `json:"type"`
@@ -3923,6 +4075,27 @@ type SetupIntentPaymentMethodOptionsPaytoMandateOptions struct {
 type SetupIntentPaymentMethodOptionsPayto struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsPaytoMandateOptions `json:"mandate_options,omitempty"`
 }
+type SetupIntentPaymentMethodOptionsPixMandateOptions struct {
+	// Amount to be charged for future payments.
+	Amount int64 `json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof SetupIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof `json:"amount_includes_iof,omitempty"`
+	// Type of amount.
+	AmountType SetupIntentPaymentMethodOptionsPixMandateOptionsAmountType `json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
+	Currency Currency `json:"currency,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`.
+	EndDate string `json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged.
+	PaymentSchedule SetupIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule `json:"payment_schedule,omitempty"`
+	// Subscription name displayed to buyers in their bank app.
+	Reference string `json:"reference,omitempty"`
+	// Start date of the mandate, in `YYYY-MM-DD`.
+	StartDate string `json:"start_date,omitempty"`
+}
+type SetupIntentPaymentMethodOptionsPix struct {
+	MandateOptions *SetupIntentPaymentMethodOptionsPixMandateOptions `json:"mandate_options,omitempty"`
+}
 type SetupIntentPaymentMethodOptionsSEPADebitMandateOptions struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
 	ReferencePrefix string `json:"reference_prefix,omitempty"`
@@ -3978,6 +4151,7 @@ type SetupIntentPaymentMethodOptions struct {
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link,omitempty"`
 	Paypal        *SetupIntentPaymentMethodOptionsPaypal        `json:"paypal,omitempty"`
 	Payto         *SetupIntentPaymentMethodOptionsPayto         `json:"payto,omitempty"`
+	Pix           *SetupIntentPaymentMethodOptionsPix           `json:"pix,omitempty"`
 	SEPADebit     *SetupIntentPaymentMethodOptionsSEPADebit     `json:"sepa_debit,omitempty"`
 	Upi           *SetupIntentPaymentMethodOptionsUpi           `json:"upi,omitempty"`
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccount `json:"us_bank_account,omitempty"`
@@ -4045,7 +4219,8 @@ type SetupIntent struct {
 	// The most recent SetupAttempt for this SetupIntent.
 	LatestAttempt *SetupAttempt `json:"latest_attempt"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
-	Livemode bool `json:"livemode"`
+	Livemode        bool                        `json:"livemode"`
+	ManagedPayments *SetupIntentManagedPayments `json:"managed_payments,omitempty"`
 	// ID of the multi use Mandate generated by the SetupIntent.
 	Mandate *Mandate `json:"mandate"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

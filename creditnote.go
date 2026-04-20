@@ -813,7 +813,7 @@ type CreditNoteShippingCost struct {
 // Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
 type CreditNoteTotalTaxTaxRateDetails struct {
 	// ID of the tax rate
-	TaxRate string `json:"tax_rate"`
+	TaxRate *TaxRate `json:"tax_rate"`
 }
 
 // The aggregate tax information for all line items.

@@ -167,6 +167,7 @@ const (
 	PaymentLinkPaymentMethodTypeSatispay         PaymentLinkPaymentMethodType = "satispay"
 	PaymentLinkPaymentMethodTypeSEPADebit        PaymentLinkPaymentMethodType = "sepa_debit"
 	PaymentLinkPaymentMethodTypeSofort           PaymentLinkPaymentMethodType = "sofort"
+	PaymentLinkPaymentMethodTypeSunbit           PaymentLinkPaymentMethodType = "sunbit"
 	PaymentLinkPaymentMethodTypeSwish            PaymentLinkPaymentMethodType = "swish"
 	PaymentLinkPaymentMethodTypeTWINT            PaymentLinkPaymentMethodType = "twint"
 	PaymentLinkPaymentMethodTypeUpi              PaymentLinkPaymentMethodType = "upi"
@@ -565,6 +566,12 @@ type PaymentLinkLineItemParams struct {
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 }
 
+// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+type PaymentLinkManagedPaymentsParams struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
+}
+
 // Controls settings applied for collecting the customer's business name.
 type PaymentLinkNameCollectionBusinessParams struct {
 	// Enable business name collection on the payment link. Defaults to `false`.
@@ -818,6 +825,8 @@ type PaymentLinkParams struct {
 	InvoiceCreation *PaymentLinkInvoiceCreationParams `form:"invoice_creation" json:"invoice_creation,omitempty"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkLineItemParams `form:"line_items" json:"line_items,omitempty"`
+	// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+	ManagedPayments *PaymentLinkManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Controls settings applied for collecting the customer's name.
@@ -1239,6 +1248,12 @@ type PaymentLinkCreateLineItemParams struct {
 	Quantity *int64 `form:"quantity" json:"quantity"`
 }
 
+// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+type PaymentLinkCreateManagedPaymentsParams struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
+}
+
 // Controls settings applied for collecting the customer's business name.
 type PaymentLinkCreateNameCollectionBusinessParams struct {
 	// Enable business name collection on the payment link. Defaults to `false`.
@@ -1458,6 +1473,8 @@ type PaymentLinkCreateParams struct {
 	InvoiceCreation *PaymentLinkCreateInvoiceCreationParams `form:"invoice_creation" json:"invoice_creation,omitempty"`
 	// The line items representing what is being sold. Each line item represents an item being sold. Up to 20 line items are supported.
 	LineItems []*PaymentLinkCreateLineItemParams `form:"line_items" json:"line_items"`
+	// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+	ManagedPayments *PaymentLinkCreateManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. Metadata associated with this Payment Link will automatically be copied to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Controls settings applied for collecting the customer's name.
@@ -2245,6 +2262,12 @@ type PaymentLinkInvoiceCreation struct {
 	// Configuration for the invoice. Default invoice values will be used if unspecified.
 	InvoiceData *PaymentLinkInvoiceCreationInvoiceData `json:"invoice_data"`
 }
+
+// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+type PaymentLinkManagedPayments struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled bool `json:"enabled"`
+}
 type PaymentLinkNameCollectionBusiness struct {
 	// Indicates whether business name collection is enabled for the payment link.
 	Enabled bool `json:"enabled"`
@@ -2411,6 +2434,8 @@ type PaymentLink struct {
 	LineItems *LineItemList `json:"line_items,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
+	// Settings for Managed Payments for this Payment Link and resulting [CheckoutSessions](https://docs.stripe.com/api/checkout/sessions/object), [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+	ManagedPayments *PaymentLinkManagedPayments `json:"managed_payments"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata       map[string]string          `json:"metadata"`
 	NameCollection *PaymentLinkNameCollection `json:"name_collection,omitempty"`

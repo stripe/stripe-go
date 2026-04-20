@@ -193,6 +193,36 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurposeUtility          SubscriptionPaymentSettingsPaymentMethodOptionsPaytoMandateOptionsPurpose = "utility"
 )
 
+// Determines if the amount includes the IOF tax.
+type SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsAmountIncludesIof string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsAmountIncludesIof can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsAmountIncludesIofAlways SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "always"
+	SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsAmountIncludesIofNever  SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "never"
+)
+
+// Schedule at which the future payments will be charged.
+type SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsPaymentSchedule string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsPaymentSchedule can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsPaymentScheduleHalfyearly SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "halfyearly"
+	SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsPaymentScheduleMonthly    SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "monthly"
+	SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsPaymentScheduleQuarterly  SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "quarterly"
+	SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsPaymentScheduleWeekly     SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "weekly"
+	SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsPaymentScheduleYearly     SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "yearly"
+)
+
+// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+type SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountTypeFixed   SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType = "fixed"
+	SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountTypeMaximum SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType = "maximum"
+)
+
 // The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
 
@@ -272,12 +302,14 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypePayNow             SubscriptionPaymentSettingsPaymentMethodType = "paynow"
 	SubscriptionPaymentSettingsPaymentMethodTypePaypal             SubscriptionPaymentSettingsPaymentMethodType = "paypal"
 	SubscriptionPaymentSettingsPaymentMethodTypePayto              SubscriptionPaymentSettingsPaymentMethodType = "payto"
+	SubscriptionPaymentSettingsPaymentMethodTypePix                SubscriptionPaymentSettingsPaymentMethodType = "pix"
 	SubscriptionPaymentSettingsPaymentMethodTypePromptPay          SubscriptionPaymentSettingsPaymentMethodType = "promptpay"
 	SubscriptionPaymentSettingsPaymentMethodTypeRevolutPay         SubscriptionPaymentSettingsPaymentMethodType = "revolut_pay"
 	SubscriptionPaymentSettingsPaymentMethodTypeSEPACreditTransfer SubscriptionPaymentSettingsPaymentMethodType = "sepa_credit_transfer"
 	SubscriptionPaymentSettingsPaymentMethodTypeSEPADebit          SubscriptionPaymentSettingsPaymentMethodType = "sepa_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeSofort             SubscriptionPaymentSettingsPaymentMethodType = "sofort"
 	SubscriptionPaymentSettingsPaymentMethodTypeSwish              SubscriptionPaymentSettingsPaymentMethodType = "swish"
+	SubscriptionPaymentSettingsPaymentMethodTypeUpi                SubscriptionPaymentSettingsPaymentMethodType = "upi"
 	SubscriptionPaymentSettingsPaymentMethodTypeUSBankAccount      SubscriptionPaymentSettingsPaymentMethodType = "us_bank_account"
 	SubscriptionPaymentSettingsPaymentMethodTypeWeChatPay          SubscriptionPaymentSettingsPaymentMethodType = "wechat_pay"
 )
@@ -832,8 +864,46 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsPaytoParams struct {
 	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// Configuration options for setting up a mandate
+type SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. If not provided, defaults to 40000.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled.
+	EndDate *string `form:"end_date" json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged. Defaults to the subscription servicing interval.
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
+}
+
+// This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsPixParams struct {
+	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
+	// Configuration options for setting up a mandate
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
+
+// Configuration options for setting up an eMandate
+type SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+}
+
+// This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
 
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
@@ -873,8 +943,12 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
 	Payto *SubscriptionPaymentSettingsPaymentMethodOptionsPaytoParams `form:"payto" json:"payto,omitempty"`
+	// This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+	Pix *SubscriptionPaymentSettingsPaymentMethodOptionsPixParams `form:"pix" json:"pix,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+	Upi *SubscriptionPaymentSettingsPaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	UnsetFields   []SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
@@ -890,7 +964,9 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldPayto           SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "payto"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldPix             SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "pix"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
 )
 
@@ -1074,7 +1150,7 @@ func (p *SubscriptionMigrateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If no resumption invoice is generated, the subscription becomes active immediately. If a resumption invoice is generated, the subscription remains paused until the invoice is paid or marked uncollectible. If the invoice is not paid by the expiration date, it is voided and the subscription remains paused.
+// Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If no resumption invoice is generated, the subscription becomes active immediately. If a resumption invoice is generated, the subscription remains paused until the invoice is paid or marked uncollectible. If the invoice isn't paid by the expiration date, it is voided and the subscription remains paused. You can only resume subscriptions with collection_method set to charge_automatically. send_invoice subscriptions are not supported.
 type SubscriptionResumeParams struct {
 	Params `form:"*"`
 	// The billing cycle anchor that applies when the subscription is resumed. Either `now` or `unchanged`. The default is `now`. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
@@ -1441,8 +1517,46 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPaytoParams struct {
 	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// Configuration options for setting up a mandate
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. If not provided, defaults to 40000.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled.
+	EndDate *string `form:"end_date" json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged. Defaults to the subscription servicing interval.
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
+}
+
+// This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixParams struct {
+	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
+	// Configuration options for setting up a mandate
+	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
+
+// Configuration options for setting up an eMandate
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+}
+
+// This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
 
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
@@ -1482,8 +1596,12 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	Konbini *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
 	Payto *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPaytoParams `form:"payto" json:"payto,omitempty"`
+	// This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+	Pix *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixParams `form:"pix" json:"pix,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+	Upi *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	UnsetFields   []SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
@@ -1499,7 +1617,9 @@ const (
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPayto           SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "payto"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPix             SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "pix"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
 )
 
@@ -2040,8 +2160,46 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsPaytoParams struct {
 	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
 
+// Configuration options for setting up a mandate
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. If not provided, defaults to 40000.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled.
+	EndDate *string `form:"end_date" json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged. Defaults to the subscription servicing interval.
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
+}
+
+// This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixParams struct {
+	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
+	// Configuration options for setting up a mandate
+	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
+
+// Configuration options for setting up an eMandate
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// End date of the mandate or subscription.
+	EndDate *int64 `form:"end_date" json:"end_date,omitempty"`
+}
+
+// This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
 
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
@@ -2081,8 +2239,12 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	Konbini *SubscriptionCreatePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
 	Payto *SubscriptionCreatePaymentSettingsPaymentMethodOptionsPaytoParams `form:"payto" json:"payto,omitempty"`
+	// This sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
+	Pix *SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixParams `form:"pix" json:"pix,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *SubscriptionCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+	Upi *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 	UnsetFields   []SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
@@ -2098,7 +2260,9 @@ const (
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPayto           SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "payto"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldPix             SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "pix"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
 )
 
@@ -2381,6 +2545,12 @@ type SubscriptionInvoiceSettings struct {
 	Issuer        *SubscriptionInvoiceSettingsIssuer `json:"issuer"`
 }
 
+// Settings for Managed Payments for this Subscription and resulting [Invoices](https://docs.stripe.com/api/invoices/object) and [PaymentIntents](https://docs.stripe.com/api/payment_intents/object).
+type SubscriptionManagedPayments struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled bool `json:"enabled"`
+}
+
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionPauseCollection struct {
 	// The payment collection behavior for this subscription while paused.
@@ -2454,9 +2624,41 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsPaytoMandateOptions struct {
 type SubscriptionPaymentSettingsPaymentMethodOptionsPayto struct {
 	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsPaytoMandateOptions `json:"mandate_options,omitempty"`
 }
+type SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptions struct {
+	// Amount to be charged for future payments.
+	Amount int64 `json:"amount"`
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsAmountIncludesIof `json:"amount_includes_iof"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`.
+	EndDate string `json:"end_date"`
+	// Schedule at which the future payments will be charged.
+	PaymentSchedule SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsPaymentSchedule `json:"payment_schedule"`
+}
+
+// This sub-hash contains details about the Pix payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsPix struct {
+	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
+	ExpiresAfterSeconds int64                                                             `json:"expires_after_seconds,omitempty"`
+	MandateOptions      *SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptions `json:"mandate_options,omitempty"`
+}
 
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebit struct{}
+type SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptions struct {
+	// Amount to be charged for future payments.
+	Amount int64 `json:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType `json:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description string `json:"description"`
+	// End date of the mandate or subscription.
+	EndDate int64 `json:"end_date"`
+}
+
+// This sub-hash contains details about the UPI payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsUpi struct {
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptions `json:"mandate_options,omitempty"`
+}
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories,omitempty"`
@@ -2490,8 +2692,12 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
 	// This sub-hash contains details about the PayTo payment method options to pass to invoices created by the subscription.
 	Payto *SubscriptionPaymentSettingsPaymentMethodOptionsPayto `json:"payto"`
+	// This sub-hash contains details about the Pix payment method options to pass to invoices created by the subscription.
+	Pix *SubscriptionPaymentSettingsPaymentMethodOptionsPix `json:"pix"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to invoices created by the subscription.
 	SEPADebit *SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebit `json:"sepa_debit"`
+	// This sub-hash contains details about the UPI payment method options to pass to invoices created by the subscription.
+	Upi *SubscriptionPaymentSettingsPaymentMethodOptionsUpi `json:"upi"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription.
 	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
@@ -2611,6 +2817,8 @@ type Subscription struct {
 	LatestInvoice *Invoice `json:"latest_invoice"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
+	// Settings for Managed Payments for this Subscription and resulting [Invoices](https://docs.stripe.com/api/invoices/object) and [PaymentIntents](https://docs.stripe.com/api/payment_intents/object).
+	ManagedPayments *SubscriptionManagedPayments `json:"managed_payments"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Specifies the approximate timestamp on which any pending invoice items will be billed according to the schedule provided at `pending_invoice_item_interval`.
