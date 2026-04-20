@@ -68,7 +68,7 @@ type BillingMeterCustomerMappingParams struct {
 
 // The default settings to aggregate a meter's events with.
 type BillingMeterDefaultAggregationParams struct {
-	// Specifies how events are aggregated. Allowed values are `count` to count the number of events, `sum` to sum each event's value and `last` to take the last event's value in the window.
+	// Specifies how events are aggregated.
 	Formula *string `form:"formula" json:"formula"`
 }
 
@@ -136,7 +136,7 @@ type BillingMeterCreateCustomerMappingParams struct {
 
 // The default settings to aggregate a meter's events with.
 type BillingMeterCreateDefaultAggregationParams struct {
-	// Specifies how events are aggregated. Allowed values are `count` to count the number of events, `sum` to sum each event's value and `last` to take the last event's value in the window.
+	// Specifies how events are aggregated.
 	Formula *string `form:"formula" json:"formula"`
 }
 

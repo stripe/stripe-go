@@ -166,7 +166,7 @@ func (p *IdentityVerificationSessionOptionsParams) AddUnsetField(field IdentityV
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// Details provided about the user being verified. These details may be shown to the user.
+// Details provided about the user being verified. These details might be shown to the user.
 type IdentityVerificationSessionProvidedDetailsParams struct {
 	// Email of user being verified
 	Email *string `form:"email" json:"email,omitempty"`
@@ -174,7 +174,7 @@ type IdentityVerificationSessionProvidedDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// Tokens referencing a Person resource and it's associated account.
+// Tokens referencing a Person resource and its associated account.
 type IdentityVerificationSessionRelatedPersonParams struct {
 	// A token representing a connected account. If provided, the person parameter is also required and must be associated with the account.
 	Account *string `form:"account" json:"account"`
@@ -199,13 +199,13 @@ type IdentityVerificationSessionParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A set of options for the session's verification checks.
 	Options *IdentityVerificationSessionOptionsParams `form:"options" json:"options,omitempty"`
-	// Details provided about the user being verified. These details may be shown to the user.
+	// Details provided about the user being verified. These details might be shown to the user.
 	ProvidedDetails *IdentityVerificationSessionProvidedDetailsParams `form:"provided_details" json:"provided_details,omitempty"`
 	// Customer ID
 	RelatedCustomer *string `form:"related_customer" json:"related_customer,omitempty"`
 	// The ID of the Account representing a customer.
 	RelatedCustomerAccount *string `form:"related_customer_account" json:"related_customer_account,omitempty"`
-	// Tokens referencing a Person resource and it's associated account.
+	// Tokens referencing a Person resource and its associated account.
 	RelatedPerson *IdentityVerificationSessionRelatedPersonParams `form:"related_person" json:"related_person,omitempty"`
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
@@ -304,7 +304,7 @@ func (p *IdentityVerificationSessionCreateOptionsParams) AddUnsetField(field Ide
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// Details provided about the user being verified. These details may be shown to the user.
+// Details provided about the user being verified. These details might be shown to the user.
 type IdentityVerificationSessionCreateProvidedDetailsParams struct {
 	// Email of user being verified
 	Email *string `form:"email" json:"email,omitempty"`
@@ -312,7 +312,7 @@ type IdentityVerificationSessionCreateProvidedDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// Tokens referencing a Person resource and it's associated account.
+// Tokens referencing a Person resource and its associated account.
 type IdentityVerificationSessionCreateRelatedPersonParams struct {
 	// A token representing a connected account. If provided, the person parameter is also required and must be associated with the account.
 	Account *string `form:"account" json:"account"`
@@ -337,13 +337,13 @@ type IdentityVerificationSessionCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A set of options for the session's verification checks.
 	Options *IdentityVerificationSessionCreateOptionsParams `form:"options" json:"options,omitempty"`
-	// Details provided about the user being verified. These details may be shown to the user.
+	// Details provided about the user being verified. These details might be shown to the user.
 	ProvidedDetails *IdentityVerificationSessionCreateProvidedDetailsParams `form:"provided_details" json:"provided_details,omitempty"`
 	// Customer ID
 	RelatedCustomer *string `form:"related_customer" json:"related_customer,omitempty"`
 	// The ID of the Account representing a customer.
 	RelatedCustomerAccount *string `form:"related_customer_account" json:"related_customer_account,omitempty"`
-	// Tokens referencing a Person resource and it's associated account.
+	// Tokens referencing a Person resource and its associated account.
 	RelatedPerson *IdentityVerificationSessionCreateRelatedPersonParams `form:"related_person" json:"related_person,omitempty"`
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`

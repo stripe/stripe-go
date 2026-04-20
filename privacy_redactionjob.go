@@ -220,6 +220,8 @@ type PrivacyRedactionJob struct {
 	Status PrivacyRedactionJobStatus `json:"status"`
 	// Validation behavior determines how a job validates objects for redaction eligibility. Default is `error`.
 	ValidationBehavior PrivacyRedactionJobValidationBehavior `json:"validation_behavior"`
+	// The first 10 validation errors for the current validation attempt. Use the validation errors list endpoint to paginate through the full list.
+	ValidationErrors *PrivacyRedactionJobValidationErrorList `json:"validation_errors,omitempty"`
 }
 
 // PrivacyRedactionJobList is a list of RedactionJobs as retrieved from a list endpoint.

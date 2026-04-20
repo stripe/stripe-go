@@ -2291,15 +2291,57 @@ type TaxRegistrationCountryOptionsUgParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Options for the admission tax registration.
+type TaxRegistrationCountryOptionsUSAdmissionsTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=admissions_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the attendance tax registration.
+type TaxRegistrationCountryOptionsUSAttendanceTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=attendance_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the entertainment tax registration.
+type TaxRegistrationCountryOptionsUSEntertainmentTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=entertainment_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the gross receipts tax registration.
+type TaxRegistrationCountryOptionsUSGrossReceiptsTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=gross_receipts_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the hospitality tax registration.
+type TaxRegistrationCountryOptionsUSHospitalityTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=hospitality_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
 // Options for the local amusement tax registration.
 type TaxRegistrationCountryOptionsUSLocalAmusementTaxParams struct {
-	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `02154` (Arlington Heights), `05248` (Bensenville), `06613` (Bloomington), `10906` (Campton Hills), `14000` (Chicago), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), `64421` (Riverside), `65806` (Roselle), and `68081` (Schiller Park).
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=amusement_tax#registration-types).
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
 // Options for the local lease tax registration.
 type TaxRegistrationCountryOptionsUSLocalLeaseTaxParams struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the luxury tax registration.
+type TaxRegistrationCountryOptionsUSLuxuryTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=luxury_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the resort tax registration.
+type TaxRegistrationCountryOptionsUSResortTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=resort_tax#registration-types).
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
@@ -2317,16 +2359,38 @@ type TaxRegistrationCountryOptionsUSStateSalesTaxParams struct {
 	Elections []*TaxRegistrationCountryOptionsUSStateSalesTaxElectionParams `form:"elections" json:"elections"`
 }
 
+// Options for the tourism tax registration.
+type TaxRegistrationCountryOptionsUSTourismTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=tourism_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
 // Options for the registration in US.
 type TaxRegistrationCountryOptionsUSParams struct {
+	// Options for the admission tax registration.
+	AdmissionsTax *TaxRegistrationCountryOptionsUSAdmissionsTaxParams `form:"admissions_tax" json:"admissions_tax,omitempty"`
+	// Options for the attendance tax registration.
+	AttendanceTax *TaxRegistrationCountryOptionsUSAttendanceTaxParams `form:"attendance_tax" json:"attendance_tax,omitempty"`
+	// Options for the entertainment tax registration.
+	EntertainmentTax *TaxRegistrationCountryOptionsUSEntertainmentTaxParams `form:"entertainment_tax" json:"entertainment_tax,omitempty"`
+	// Options for the gross receipts tax registration.
+	GrossReceiptsTax *TaxRegistrationCountryOptionsUSGrossReceiptsTaxParams `form:"gross_receipts_tax" json:"gross_receipts_tax,omitempty"`
+	// Options for the hospitality tax registration.
+	HospitalityTax *TaxRegistrationCountryOptionsUSHospitalityTaxParams `form:"hospitality_tax" json:"hospitality_tax,omitempty"`
 	// Options for the local amusement tax registration.
 	LocalAmusementTax *TaxRegistrationCountryOptionsUSLocalAmusementTaxParams `form:"local_amusement_tax" json:"local_amusement_tax,omitempty"`
 	// Options for the local lease tax registration.
 	LocalLeaseTax *TaxRegistrationCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax" json:"local_lease_tax,omitempty"`
+	// Options for the luxury tax registration.
+	LuxuryTax *TaxRegistrationCountryOptionsUSLuxuryTaxParams `form:"luxury_tax" json:"luxury_tax,omitempty"`
+	// Options for the resort tax registration.
+	ResortTax *TaxRegistrationCountryOptionsUSResortTaxParams `form:"resort_tax" json:"resort_tax,omitempty"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
 	State *string `form:"state" json:"state"`
 	// Options for the state sales tax registration.
 	StateSalesTax *TaxRegistrationCountryOptionsUSStateSalesTaxParams `form:"state_sales_tax" json:"state_sales_tax,omitempty"`
+	// Options for the tourism tax registration.
+	TourismTax *TaxRegistrationCountryOptionsUSTourismTaxParams `form:"tourism_tax" json:"tourism_tax,omitempty"`
 	// Type of registration to be created in the US.
 	Type *string `form:"type" json:"type"`
 }
@@ -3646,15 +3710,57 @@ type TaxRegistrationCreateCountryOptionsUgParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Options for the admission tax registration.
+type TaxRegistrationCreateCountryOptionsUSAdmissionsTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=admissions_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the attendance tax registration.
+type TaxRegistrationCreateCountryOptionsUSAttendanceTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=attendance_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the entertainment tax registration.
+type TaxRegistrationCreateCountryOptionsUSEntertainmentTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=entertainment_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the gross receipts tax registration.
+type TaxRegistrationCreateCountryOptionsUSGrossReceiptsTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=gross_receipts_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the hospitality tax registration.
+type TaxRegistrationCreateCountryOptionsUSHospitalityTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=hospitality_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
 // Options for the local amusement tax registration.
 type TaxRegistrationCreateCountryOptionsUSLocalAmusementTaxParams struct {
-	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `02154` (Arlington Heights), `05248` (Bensenville), `06613` (Bloomington), `10906` (Campton Hills), `14000` (Chicago), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `48892` (Midlothian), `64343` (River Grove), `64421` (Riverside), `65806` (Roselle), and `68081` (Schiller Park).
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=amusement_tax#registration-types).
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
 // Options for the local lease tax registration.
 type TaxRegistrationCreateCountryOptionsUSLocalLeaseTaxParams struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the luxury tax registration.
+type TaxRegistrationCreateCountryOptionsUSLuxuryTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=luxury_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the resort tax registration.
+type TaxRegistrationCreateCountryOptionsUSResortTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=resort_tax#registration-types).
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
@@ -3672,16 +3778,38 @@ type TaxRegistrationCreateCountryOptionsUSStateSalesTaxParams struct {
 	Elections []*TaxRegistrationCreateCountryOptionsUSStateSalesTaxElectionParams `form:"elections" json:"elections"`
 }
 
+// Options for the tourism tax registration.
+type TaxRegistrationCreateCountryOptionsUSTourismTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=tourism_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
 // Options for the registration in US.
 type TaxRegistrationCreateCountryOptionsUSParams struct {
+	// Options for the admission tax registration.
+	AdmissionsTax *TaxRegistrationCreateCountryOptionsUSAdmissionsTaxParams `form:"admissions_tax" json:"admissions_tax,omitempty"`
+	// Options for the attendance tax registration.
+	AttendanceTax *TaxRegistrationCreateCountryOptionsUSAttendanceTaxParams `form:"attendance_tax" json:"attendance_tax,omitempty"`
+	// Options for the entertainment tax registration.
+	EntertainmentTax *TaxRegistrationCreateCountryOptionsUSEntertainmentTaxParams `form:"entertainment_tax" json:"entertainment_tax,omitempty"`
+	// Options for the gross receipts tax registration.
+	GrossReceiptsTax *TaxRegistrationCreateCountryOptionsUSGrossReceiptsTaxParams `form:"gross_receipts_tax" json:"gross_receipts_tax,omitempty"`
+	// Options for the hospitality tax registration.
+	HospitalityTax *TaxRegistrationCreateCountryOptionsUSHospitalityTaxParams `form:"hospitality_tax" json:"hospitality_tax,omitempty"`
 	// Options for the local amusement tax registration.
 	LocalAmusementTax *TaxRegistrationCreateCountryOptionsUSLocalAmusementTaxParams `form:"local_amusement_tax" json:"local_amusement_tax,omitempty"`
 	// Options for the local lease tax registration.
 	LocalLeaseTax *TaxRegistrationCreateCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax" json:"local_lease_tax,omitempty"`
+	// Options for the luxury tax registration.
+	LuxuryTax *TaxRegistrationCreateCountryOptionsUSLuxuryTaxParams `form:"luxury_tax" json:"luxury_tax,omitempty"`
+	// Options for the resort tax registration.
+	ResortTax *TaxRegistrationCreateCountryOptionsUSResortTaxParams `form:"resort_tax" json:"resort_tax,omitempty"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
 	State *string `form:"state" json:"state"`
 	// Options for the state sales tax registration.
 	StateSalesTax *TaxRegistrationCreateCountryOptionsUSStateSalesTaxParams `form:"state_sales_tax" json:"state_sales_tax,omitempty"`
+	// Options for the tourism tax registration.
+	TourismTax *TaxRegistrationCreateCountryOptionsUSTourismTaxParams `form:"tourism_tax" json:"tourism_tax,omitempty"`
 	// Type of registration to be created in the US.
 	Type *string `form:"type" json:"type"`
 }
