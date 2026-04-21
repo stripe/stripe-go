@@ -24,6 +24,33 @@ const (
 	DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpointLast  DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint = "last"
 )
 
+// The type of the fulfillment option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionType string
+
+// List of values that DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionType can take
+const (
+	DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionTypeDigital  DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionType = "digital"
+	DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionTypeShipping DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionType = "shipping"
+)
+
+// The type of the selected fulfillment option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionType string
+
+// List of values that DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionType can take
+const (
+	DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionTypeDigital  DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionType = "digital"
+	DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionTypeShipping DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionType = "shipping"
+)
+
+// The type of the selected fulfillment option.
+type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideType string
+
+// List of values that DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideType can take
+const (
+	DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideTypeDigital  DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideType = "digital"
+	DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideTypeShipping DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideType = "shipping"
+)
+
 // The content type of the disclosure.
 type DelegatedCheckoutRequestedSessionLineItemDetailProductDetailsDisclosureContentType string
 
@@ -743,7 +770,7 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOption struct
 	// The shipping option.
 	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionShipping `json:"shipping"`
 	// The type of the fulfillment option.
-	Type string `json:"type"`
+	Type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionType `json:"type"`
 }
 
 // The digital fulfillment option.
@@ -765,7 +792,7 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptio
 	// The shipping option.
 	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionShipping `json:"shipping"`
 	// The type of the selected fulfillment option.
-	Type string `json:"type"`
+	Type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionType `json:"type"`
 }
 
 // The digital fulfillment option.
@@ -789,7 +816,7 @@ type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptio
 	// The shipping option.
 	Shipping *DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideShipping `json:"shipping"`
 	// The type of the selected fulfillment option.
-	Type string `json:"type"`
+	Type DelegatedCheckoutRequestedSessionFulfillmentDetailsSelectedFulfillmentOptionOverrideType `json:"type"`
 }
 
 // The details of the fulfillment.
