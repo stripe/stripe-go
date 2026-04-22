@@ -3631,7 +3631,7 @@ type InvoiceTotalPretaxCreditAmount struct {
 // Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
 type InvoiceTotalTaxTaxRateDetails struct {
 	// ID of the tax rate
-	TaxRate *TaxRate `json:"tax_rate"`
+	TaxRate string `json:"tax_rate"`
 }
 
 // The aggregate tax information of all line items.

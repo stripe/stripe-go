@@ -512,7 +512,7 @@ type InvoiceLineItemPricing struct {
 // Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
 type InvoiceLineItemTaxTaxRateDetails struct {
 	// ID of the tax rate
-	TaxRate *TaxRate `json:"tax_rate"`
+	TaxRate string `json:"tax_rate"`
 }
 
 // The tax information of the line item.
