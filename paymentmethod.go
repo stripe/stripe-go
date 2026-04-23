@@ -308,6 +308,7 @@ const (
 	PaymentMethodTypeSatispay         PaymentMethodType = "satispay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
+	PaymentMethodTypeSunbit           PaymentMethodType = "sunbit"
 	PaymentMethodTypeSwish            PaymentMethodType = "swish"
 	PaymentMethodTypeTWINT            PaymentMethodType = "twint"
 	PaymentMethodTypeUpi              PaymentMethodType = "upi"
@@ -683,6 +684,9 @@ type PaymentMethodSofortParams struct {
 	Country *string `form:"country" json:"country"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type PaymentMethodSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type PaymentMethodSwishParams struct{}
 
@@ -836,6 +840,8 @@ type PaymentMethodParams struct {
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *PaymentMethodSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -1198,6 +1204,9 @@ type PaymentMethodCreateSofortParams struct {
 	Country *string `form:"country" json:"country"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type PaymentMethodCreateSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type PaymentMethodCreateSwishParams struct{}
 
@@ -1355,6 +1364,8 @@ type PaymentMethodCreateParams struct {
 	SEPADebit *PaymentMethodCreateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodCreateSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *PaymentMethodCreateSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodCreateSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -2037,6 +2048,7 @@ type PaymentMethodSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
 }
+type PaymentMethodSunbit struct{}
 type PaymentMethodSwish struct{}
 type PaymentMethodTWINT struct{}
 type PaymentMethodUpi struct {
@@ -2158,6 +2170,7 @@ type PaymentMethod struct {
 	Satispay     *PaymentMethodSatispay     `json:"satispay,omitempty"`
 	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit,omitempty"`
 	Sofort       *PaymentMethodSofort       `json:"sofort,omitempty"`
+	Sunbit       *PaymentMethodSunbit       `json:"sunbit,omitempty"`
 	Swish        *PaymentMethodSwish        `json:"swish,omitempty"`
 	TWINT        *PaymentMethodTWINT        `json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.

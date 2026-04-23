@@ -231,6 +231,8 @@ type SetupAttemptPaymentMethodDetailsCard struct {
 	Issuer string `json:"issuer,omitempty"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
+	// True if this payment was marked as MOTO and out of scope for SCA.
+	MOTO bool `json:"moto,omitempty"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// Populated if this authorization used 3D Secure authentication.
@@ -279,6 +281,7 @@ type SetupAttemptPaymentMethodDetailsNaverPay struct {
 type SetupAttemptPaymentMethodDetailsNzBankAccount struct{}
 type SetupAttemptPaymentMethodDetailsPaypal struct{}
 type SetupAttemptPaymentMethodDetailsPayto struct{}
+type SetupAttemptPaymentMethodDetailsPix struct{}
 type SetupAttemptPaymentMethodDetailsRevolutPay struct{}
 type SetupAttemptPaymentMethodDetailsSEPADebit struct{}
 type SetupAttemptPaymentMethodDetailsSofort struct {
@@ -322,6 +325,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	NzBankAccount *SetupAttemptPaymentMethodDetailsNzBankAccount `json:"nz_bank_account,omitempty"`
 	Paypal        *SetupAttemptPaymentMethodDetailsPaypal        `json:"paypal,omitempty"`
 	Payto         *SetupAttemptPaymentMethodDetailsPayto         `json:"payto,omitempty"`
+	Pix           *SetupAttemptPaymentMethodDetailsPix           `json:"pix,omitempty"`
 	RevolutPay    *SetupAttemptPaymentMethodDetailsRevolutPay    `json:"revolut_pay,omitempty"`
 	SEPADebit     *SetupAttemptPaymentMethodDetailsSEPADebit     `json:"sepa_debit,omitempty"`
 	Sofort        *SetupAttemptPaymentMethodDetailsSofort        `json:"sofort,omitempty"`

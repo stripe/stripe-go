@@ -150,7 +150,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxExemptReverse CheckoutSessionCustomerDetailsTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 type CheckoutSessionCustomerDetailsTaxIDType string
 
 // List of values that CheckoutSessionCustomerDetailsTaxIDType can take
@@ -200,8 +200,10 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeETTin    CheckoutSessionCustomerDetailsTaxIDType = "et_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeEUOSSVAT CheckoutSessionCustomerDetailsTaxIDType = "eu_oss_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeEUVAT    CheckoutSessionCustomerDetailsTaxIDType = "eu_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeFoVAT    CheckoutSessionCustomerDetailsTaxIDType = "fo_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeGBVAT    CheckoutSessionCustomerDetailsTaxIDType = "gb_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeGEVAT    CheckoutSessionCustomerDetailsTaxIDType = "ge_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeGiTin    CheckoutSessionCustomerDetailsTaxIDType = "gi_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeGnNif    CheckoutSessionCustomerDetailsTaxIDType = "gn_nif"
 	CheckoutSessionCustomerDetailsTaxIDTypeHKBR     CheckoutSessionCustomerDetailsTaxIDType = "hk_br"
 	CheckoutSessionCustomerDetailsTaxIDTypeHROIB    CheckoutSessionCustomerDetailsTaxIDType = "hr_oib"
@@ -210,6 +212,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeILVAT    CheckoutSessionCustomerDetailsTaxIDType = "il_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeINGST    CheckoutSessionCustomerDetailsTaxIDType = "in_gst"
 	CheckoutSessionCustomerDetailsTaxIDTypeISVAT    CheckoutSessionCustomerDetailsTaxIDType = "is_vat"
+	CheckoutSessionCustomerDetailsTaxIDTypeITCf     CheckoutSessionCustomerDetailsTaxIDType = "it_cf"
 	CheckoutSessionCustomerDetailsTaxIDTypeJPCN     CheckoutSessionCustomerDetailsTaxIDType = "jp_cn"
 	CheckoutSessionCustomerDetailsTaxIDTypeJPRN     CheckoutSessionCustomerDetailsTaxIDType = "jp_rn"
 	CheckoutSessionCustomerDetailsTaxIDTypeJPTRN    CheckoutSessionCustomerDetailsTaxIDType = "jp_trn"
@@ -240,6 +243,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypePERUC    CheckoutSessionCustomerDetailsTaxIDType = "pe_ruc"
 	CheckoutSessionCustomerDetailsTaxIDTypePHTIN    CheckoutSessionCustomerDetailsTaxIDType = "ph_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypePLNip    CheckoutSessionCustomerDetailsTaxIDType = "pl_nip"
+	CheckoutSessionCustomerDetailsTaxIDTypePyRuc    CheckoutSessionCustomerDetailsTaxIDType = "py_ruc"
 	CheckoutSessionCustomerDetailsTaxIDTypeROTIN    CheckoutSessionCustomerDetailsTaxIDType = "ro_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeRSPIB    CheckoutSessionCustomerDetailsTaxIDType = "rs_pib"
 	CheckoutSessionCustomerDetailsTaxIDTypeRUINN    CheckoutSessionCustomerDetailsTaxIDType = "ru_inn"
@@ -1046,6 +1050,36 @@ const (
 	CheckoutSessionPaymentMethodOptionsPixAmountIncludesIofNever  CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof = "never"
 )
 
+// Determines if the amount includes the IOF tax.
+type CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof can take
+const (
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIofAlways CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "always"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIofNever  CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "never"
+)
+
+// Type of amount.
+type CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType can take
+const (
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountTypeFixed   CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType = "fixed"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountTypeMaximum CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType = "maximum"
+)
+
+// Schedule at which the future payments will be charged.
+type CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule can take
+const (
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleHalfyearly CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "halfyearly"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleMonthly    CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "monthly"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleQuarterly  CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "quarterly"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleWeekly     CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "weekly"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleYearly     CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "yearly"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1057,7 +1091,8 @@ type CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage string
 
 // List of values that CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage can take
 const (
-	CheckoutSessionPaymentMethodOptionsPixSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsPixSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsPixSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage = "off_session"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -1861,6 +1896,12 @@ func (p *CheckoutSessionLineItemParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+type CheckoutSessionManagedPaymentsParams struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
+}
+
 // Controls settings applied for collecting the customer's business name on the session.
 type CheckoutSessionNameCollectionBusinessParams struct {
 	// Enable business name collection on the Checkout Session. Defaults to `false`.
@@ -2648,12 +2689,34 @@ type CheckoutSessionPaymentMethodOptionsPaytoParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// Additional fields for mandate creation.
+type CheckoutSessionPaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date" json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference" json:"reference,omitempty"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
+}
+
 // contains details about the Pix payment method options.
 type CheckoutSessionPaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
+	// Additional fields for mandate creation.
+	MandateOptions *CheckoutSessionPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3267,6 +3330,8 @@ type CheckoutSessionParams struct {
 	LineItems []*CheckoutSessionLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale *string `form:"locale" json:"locale,omitempty"`
+	// Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+	ManagedPayments *CheckoutSessionManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
@@ -3857,6 +3922,12 @@ func (p *CheckoutSessionCreateLineItemParams) AddMetadata(key string, value stri
 	}
 
 	p.Metadata[key] = value
+}
+
+// Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+type CheckoutSessionCreateManagedPaymentsParams struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
 // Controls settings applied for collecting the customer's business name on the session.
@@ -4646,12 +4717,34 @@ type CheckoutSessionCreatePaymentMethodOptionsPaytoParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// Additional fields for mandate creation.
+type CheckoutSessionCreatePaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date" json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference" json:"reference,omitempty"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
+}
+
 // contains details about the Pix payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
+	// Additional fields for mandate creation.
+	MandateOptions *CheckoutSessionCreatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5263,6 +5356,8 @@ type CheckoutSessionCreateParams struct {
 	LineItems []*CheckoutSessionCreateLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale *string `form:"locale" json:"locale,omitempty"`
+	// Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+	ManagedPayments *CheckoutSessionCreateManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The mode of the Checkout Session. Pass `subscription` if the Checkout Session includes at least one recurring item.
@@ -5877,7 +5972,7 @@ type CheckoutSessionCustomText struct {
 
 // The customer's tax IDs after a completed Checkout Session.
 type CheckoutSessionCustomerDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 	Type CheckoutSessionCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -5957,6 +6052,12 @@ type CheckoutSessionInvoiceCreation struct {
 	// Indicates whether invoice creation is enabled for the Checkout Session.
 	Enabled     bool                                       `json:"enabled"`
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceData `json:"invoice_data"`
+}
+
+// Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+type CheckoutSessionManagedPayments struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled bool `json:"enabled"`
 }
 type CheckoutSessionNameCollectionBusiness struct {
 	// Indicates whether business name collection is enabled for the session
@@ -6427,11 +6528,30 @@ type CheckoutSessionPaymentMethodOptionsPayto struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsPaytoSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
+type CheckoutSessionPaymentMethodOptionsPixMandateOptions struct {
+	// Amount to be charged for future payments.
+	Amount int64 `json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof `json:"amount_includes_iof,omitempty"`
+	// Type of amount.
+	AmountType CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType `json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
+	Currency Currency `json:"currency,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`.
+	EndDate string `json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged.
+	PaymentSchedule CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule `json:"payment_schedule,omitempty"`
+	// Subscription name displayed to buyers in their bank app.
+	Reference string `json:"reference,omitempty"`
+	// Start date of the mandate, in `YYYY-MM-DD`.
+	StartDate string `json:"start_date,omitempty"`
+}
 type CheckoutSessionPaymentMethodOptionsPix struct {
 	// Determines if the amount includes the IOF tax.
 	AmountIncludesIof CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof `json:"amount_includes_iof,omitempty"`
 	// The number of seconds after which Pix payment will expire.
-	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
+	ExpiresAfterSeconds int64                                                 `json:"expires_after_seconds"`
+	MandateOptions      *CheckoutSessionPaymentMethodOptionsPixMandateOptions `json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -6823,6 +6943,8 @@ type CheckoutSession struct {
 	Livemode bool `json:"livemode"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale string `json:"locale"`
+	// Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
+	ManagedPayments *CheckoutSessionManagedPayments `json:"managed_payments"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The mode of the Checkout Session.

@@ -938,6 +938,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationSunbitDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationSunbitDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationSunbitDisplayPreferencePreferenceNone PaymentMethodConfigurationSunbitDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationSunbitDisplayPreferencePreferenceOff  PaymentMethodConfigurationSunbitDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationSunbitDisplayPreferencePreferenceOn   PaymentMethodConfigurationSunbitDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationSunbitDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationSunbitDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationSunbitDisplayPreferenceValueOff PaymentMethodConfigurationSunbitDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationSunbitDisplayPreferenceValueOn  PaymentMethodConfigurationSunbitDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationSwishDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationSwishDisplayPreferencePreference can take
@@ -1678,6 +1697,18 @@ type PaymentMethodConfigurationSofortParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationSunbitDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Sunbit is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers choose to pay in 3, 6, or 12 installments. Customers are redirected from your website or app, authorize the payment with Sunbit, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationSunbitParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationSunbitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationSwishDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -1862,6 +1893,8 @@ type PaymentMethodConfigurationParams struct {
 	SEPADebit *PaymentMethodConfigurationSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
 	Sofort *PaymentMethodConfigurationSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// Sunbit is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers choose to pay in 3, 6, or 12 installments. Customers are redirected from your website or app, authorize the payment with Sunbit, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Sunbit *PaymentMethodConfigurationSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
 	Swish *PaymentMethodConfigurationSwishParams `form:"swish" json:"swish,omitempty"`
 	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
@@ -2494,6 +2527,18 @@ type PaymentMethodConfigurationCreateSofortParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateSunbitDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Sunbit is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers choose to pay in 3, 6, or 12 installments. Customers are redirected from your website or app, authorize the payment with Sunbit, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationCreateSunbitParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateSunbitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateSwishDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -2676,6 +2721,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	SEPADebit *PaymentMethodConfigurationCreateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
 	Sofort *PaymentMethodConfigurationCreateSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// Sunbit is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers choose to pay in 3, 6, or 12 installments. Customers are redirected from your website or app, authorize the payment with Sunbit, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Sunbit *PaymentMethodConfigurationCreateSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
 	Swish *PaymentMethodConfigurationCreateSwishParams `form:"swish" json:"swish,omitempty"`
 	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
@@ -3320,6 +3367,18 @@ type PaymentMethodConfigurationUpdateSofortParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateSunbitDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Sunbit is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers choose to pay in 3, 6, or 12 installments. Customers are redirected from your website or app, authorize the payment with Sunbit, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationUpdateSunbitParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateSunbitDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateSwishDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -3502,6 +3561,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	SEPADebit *PaymentMethodConfigurationUpdateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://docs.stripe.com/payments/sofort) for more details.
 	Sofort *PaymentMethodConfigurationUpdateSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// Sunbit is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers choose to pay in 3, 6, or 12 installments. Customers are redirected from your website or app, authorize the payment with Sunbit, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Sunbit *PaymentMethodConfigurationUpdateSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// Swish is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://docs.stripe.com/payments/swish) for more details.
 	Swish *PaymentMethodConfigurationUpdateSwishParams `form:"swish" json:"swish,omitempty"`
 	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
@@ -4158,6 +4219,19 @@ type PaymentMethodConfigurationSofort struct {
 	Available         bool                                               `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationSofortDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationSunbitDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationSunbitDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationSunbitDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationSunbit struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                               `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationSunbitDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationSwishDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -4318,6 +4392,7 @@ type PaymentMethodConfiguration struct {
 	Satispay      *PaymentMethodConfigurationSatispay      `json:"satispay,omitempty"`
 	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit,omitempty"`
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort,omitempty"`
+	Sunbit        *PaymentMethodConfigurationSunbit        `json:"sunbit,omitempty"`
 	Swish         *PaymentMethodConfigurationSwish         `json:"swish,omitempty"`
 	TWINT         *PaymentMethodConfigurationTWINT         `json:"twint,omitempty"`
 	Upi           *PaymentMethodConfigurationUpi           `json:"upi,omitempty"`

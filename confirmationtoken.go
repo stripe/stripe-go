@@ -395,6 +395,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeSatispay         ConfirmationTokenPaymentMethodPreviewType = "satispay"
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
+	ConfirmationTokenPaymentMethodPreviewTypeSunbit           ConfirmationTokenPaymentMethodPreviewType = "sunbit"
 	ConfirmationTokenPaymentMethodPreviewTypeSwish            ConfirmationTokenPaymentMethodPreviewType = "swish"
 	ConfirmationTokenPaymentMethodPreviewTypeTWINT            ConfirmationTokenPaymentMethodPreviewType = "twint"
 	ConfirmationTokenPaymentMethodPreviewTypeUpi              ConfirmationTokenPaymentMethodPreviewType = "upi"
@@ -1040,6 +1041,7 @@ type ConfirmationTokenPaymentMethodPreviewSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
 }
+type ConfirmationTokenPaymentMethodPreviewSunbit struct{}
 type ConfirmationTokenPaymentMethodPreviewSwish struct{}
 type ConfirmationTokenPaymentMethodPreviewTWINT struct{}
 type ConfirmationTokenPaymentMethodPreviewUpi struct {
@@ -1143,6 +1145,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Satispay        *ConfirmationTokenPaymentMethodPreviewSatispay        `json:"satispay,omitempty"`
 	SEPADebit       *ConfirmationTokenPaymentMethodPreviewSEPADebit       `json:"sepa_debit,omitempty"`
 	Sofort          *ConfirmationTokenPaymentMethodPreviewSofort          `json:"sofort,omitempty"`
+	Sunbit          *ConfirmationTokenPaymentMethodPreviewSunbit          `json:"sunbit,omitempty"`
 	Swish           *ConfirmationTokenPaymentMethodPreviewSwish           `json:"swish,omitempty"`
 	TWINT           *ConfirmationTokenPaymentMethodPreviewTWINT           `json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.

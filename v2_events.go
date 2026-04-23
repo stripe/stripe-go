@@ -115,15 +115,6 @@ const (
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeTransfers              V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe.transfers"
 )
 
-// Open Enum. The use case type of the account link that has been completed.
-type V2CoreAccountLinkReturnedEventDataUseCase string
-
-// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
-const (
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
-	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
-)
-
 // Configurations on the Account that was onboarded via the account link.
 type V2CoreAccountLinkReturnedEventDataConfiguration string
 
@@ -132,6 +123,15 @@ const (
 	V2CoreAccountLinkReturnedEventDataConfigurationCustomer  V2CoreAccountLinkReturnedEventDataConfiguration = "customer"
 	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
 	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
+)
+
+// Open Enum. The use case type of the account link that has been completed.
+type V2CoreAccountLinkReturnedEventDataUseCase string
+
+// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
+const (
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
 )
 
 // V2CoreEvent is the interface implemented by V2 Events. To get the underlying Event,

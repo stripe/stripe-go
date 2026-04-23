@@ -6,11 +6,12 @@
 
 package stripe
 
-// The type of items in the value list. One of `card_fingerprint`, `card_bin`, `crypto_fingerprint`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`.
+// The type of items in the value list. One of `card_fingerprint`, `card_bin`, `crypto_fingerprint`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `account`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`.
 type RadarValueListItemType string
 
 // List of values that RadarValueListItemType can take
 const (
+	RadarValueListItemTypeAccount                  RadarValueListItemType = "account"
 	RadarValueListItemTypeCardBin                  RadarValueListItemType = "card_bin"
 	RadarValueListItemTypeCardFingerprint          RadarValueListItemType = "card_fingerprint"
 	RadarValueListItemTypeCaseSensitiveString      RadarValueListItemType = "case_sensitive_string"
@@ -31,7 +32,7 @@ type RadarValueListParams struct {
 	Alias *string `form:"alias" json:"alias,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Type of the items in the value list. One of `card_fingerprint`, `card_bin`, `crypto_fingerprint`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. Use `string` if the item type is unknown or mixed.
+	// Type of the items in the value list. One of `card_fingerprint`, `card_bin`, `crypto_fingerprint`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `account`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. Use `string` if the item type is unknown or mixed.
 	ItemType *string `form:"item_type" json:"item_type,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
@@ -124,7 +125,7 @@ type RadarValueListCreateParams struct {
 	Alias *string `form:"alias" json:"alias"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Type of the items in the value list. One of `card_fingerprint`, `card_bin`, `crypto_fingerprint`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. Use `string` if the item type is unknown or mixed.
+	// Type of the items in the value list. One of `card_fingerprint`, `card_bin`, `crypto_fingerprint`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `account`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`. Use `string` if the item type is unknown or mixed.
 	ItemType *string `form:"item_type" json:"item_type,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
@@ -160,7 +161,7 @@ type RadarValueList struct {
 	Deleted   bool   `json:"deleted,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// The type of items in the value list. One of `card_fingerprint`, `card_bin`, `crypto_fingerprint`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`.
+	// The type of items in the value list. One of `card_fingerprint`, `card_bin`, `crypto_fingerprint`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, `customer_id`, `account`, `sepa_debit_fingerprint`, or `us_bank_account_fingerprint`.
 	ItemType RadarValueListItemType `json:"item_type"`
 	// List of items contained within this value list.
 	ListItems *RadarValueListItemList `json:"list_items"`

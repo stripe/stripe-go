@@ -280,12 +280,14 @@ type PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency can take
 const (
-	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdc PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdc"
-	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdg PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdg"
-	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdp PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdp"
+	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyPhantomCash PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "phantom_cash"
+	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdc        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdc"
+	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdg        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdg"
+	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdp        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdp"
+	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdt        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdt"
 )
 
-// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.
+// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`
 type PaymentAttemptRecordPaymentMethodDetailsEPSBank string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsEPSBank can take
@@ -1090,11 +1092,9 @@ type PaymentAttemptRecordPaymentMethodDetailsCustom struct {
 }
 type PaymentAttemptRecordPaymentMethodDetailsCustomerBalance struct{}
 type PaymentAttemptRecordPaymentMethodDetailsEPS struct {
-	// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.
+	// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`
 	Bank PaymentAttemptRecordPaymentMethodDetailsEPSBank `json:"bank"`
-	// Owner's verified full name. Values are verified or provided by EPS directly
-	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
-	// EPS rarely provides this information so the attribute is usually empty.
+	// Owner's verified full name. Values are verified or provided by EPS directly (if supported) at the time of authorization or settlement. They cannot be set or mutated. EPS rarely provides this information so the attribute is usually empty.
 	VerifiedName string `json:"verified_name"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsFPX struct {
@@ -1220,6 +1220,8 @@ type PaymentAttemptRecordPaymentMethodDetailsKlarnaPayerDetails struct {
 	Address *PaymentAttemptRecordPaymentMethodDetailsKlarnaPayerDetailsAddress `json:"address"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsKlarna struct {
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location,omitempty"`
 	// The payer details for this transaction.
 	PayerDetails *PaymentAttemptRecordPaymentMethodDetailsKlarnaPayerDetails `json:"payer_details"`
 	// The Klarna payment method used for this transaction.
@@ -1228,6 +1230,8 @@ type PaymentAttemptRecordPaymentMethodDetailsKlarna struct {
 	// Preferred language of the Klarna authorization page that the customer is redirected to.
 	// Can be one of `de-AT`, `en-AT`, `nl-BE`, `fr-BE`, `en-BE`, `de-DE`, `en-DE`, `da-DK`, `en-DK`, `es-ES`, `en-ES`, `fi-FI`, `sv-FI`, `en-FI`, `en-GB`, `en-IE`, `it-IT`, `en-IT`, `nl-NL`, `en-NL`, `nb-NO`, `en-NO`, `sv-SE`, `en-SE`, `en-US`, `es-US`, `fr-FR`, `en-FR`, `cs-CZ`, `en-CZ`, `ro-RO`, `en-RO`, `el-GR`, `en-GR`, `en-AU`, `en-NZ`, `en-CA`, `fr-CA`, `pl-PL`, `en-PL`, `pt-PT`, `en-PT`, `de-CH`, `fr-CH`, `it-CH`, or `en-CH`
 	PreferredLocale string `json:"preferred_locale"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader,omitempty"`
 }
 
 // If the payment succeeded, this contains the details of the convenience store where the payment was completed.
@@ -1367,6 +1371,8 @@ type PaymentAttemptRecordPaymentMethodDetailsPayto struct {
 type PaymentAttemptRecordPaymentMethodDetailsPix struct {
 	// Unique transaction id generated by BCB
 	BankTransactionID string `json:"bank_transaction_id,omitempty"`
+	// ID of the multi use Mandate generated by the PaymentIntent
+	Mandate string `json:"mandate,omitempty"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsPromptPay struct {
 	// Bill reference generated by PromptPay
@@ -1451,6 +1457,10 @@ type PaymentAttemptRecordPaymentMethodDetailsSofort struct {
 	VerifiedName string `json:"verified_name"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsStripeAccount struct{}
+type PaymentAttemptRecordPaymentMethodDetailsSunbit struct {
+	// The Sunbit transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsSwish struct {
 	// Uniquely identifies the payer's Swish account. You can use this attribute to check whether two Swish transactions were paid for by the same payer
 	Fingerprint string `json:"fingerprint"`
@@ -1559,6 +1569,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	SEPADebit          *PaymentAttemptRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
 	Sofort             *PaymentAttemptRecordPaymentMethodDetailsSofort             `json:"sofort,omitempty"`
 	StripeAccount      *PaymentAttemptRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`
+	Sunbit             *PaymentAttemptRecordPaymentMethodDetailsSunbit             `json:"sunbit,omitempty"`
 	Swish              *PaymentAttemptRecordPaymentMethodDetailsSwish              `json:"swish,omitempty"`
 	TWINT              *PaymentAttemptRecordPaymentMethodDetailsTWINT              `json:"twint,omitempty"`
 	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type) for the full list of possible types.

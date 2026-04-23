@@ -111,6 +111,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeSatispay         PaymentIntentExcludedPaymentMethodType = "satispay"
 	PaymentIntentExcludedPaymentMethodTypeSEPADebit        PaymentIntentExcludedPaymentMethodType = "sepa_debit"
 	PaymentIntentExcludedPaymentMethodTypeSofort           PaymentIntentExcludedPaymentMethodType = "sofort"
+	PaymentIntentExcludedPaymentMethodTypeSunbit           PaymentIntentExcludedPaymentMethodType = "sunbit"
 	PaymentIntentExcludedPaymentMethodTypeSwish            PaymentIntentExcludedPaymentMethodType = "swish"
 	PaymentIntentExcludedPaymentMethodTypeTWINT            PaymentIntentExcludedPaymentMethodType = "twint"
 	PaymentIntentExcludedPaymentMethodTypeUpi              PaymentIntentExcludedPaymentMethodType = "upi"
@@ -1050,6 +1051,36 @@ const (
 	PaymentIntentPaymentMethodOptionsPixAmountIncludesIofNever  PaymentIntentPaymentMethodOptionsPixAmountIncludesIof = "never"
 )
 
+// Determines if the amount includes the IOF tax.
+type PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof string
+
+// List of values that PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof can take
+const (
+	PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIofAlways PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "always"
+	PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIofNever  PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "never"
+)
+
+// Type of amount.
+type PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountType string
+
+// List of values that PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountType can take
+const (
+	PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountTypeFixed   PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountType = "fixed"
+	PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountTypeMaximum PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountType = "maximum"
+)
+
+// Schedule at which the future payments will be charged.
+type PaymentIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule string
+
+// List of values that PaymentIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule can take
+const (
+	PaymentIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleHalfyearly PaymentIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "halfyearly"
+	PaymentIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleMonthly    PaymentIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "monthly"
+	PaymentIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleQuarterly  PaymentIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "quarterly"
+	PaymentIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleWeekly     PaymentIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "weekly"
+	PaymentIntentPaymentMethodOptionsPixMandateOptionsPaymentScheduleYearly     PaymentIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "yearly"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1061,7 +1092,8 @@ type PaymentIntentPaymentMethodOptionsPixSetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsPixSetupFutureUsage can take
 const (
-	PaymentIntentPaymentMethodOptionsPixSetupFutureUsageNone PaymentIntentPaymentMethodOptionsPixSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsPixSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsPixSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsPixSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPixSetupFutureUsage = "off_session"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1742,6 +1774,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *PaymentMethodSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -3051,6 +3085,26 @@ func (p *PaymentIntentPaymentMethodOptionsPaytoParams) AddUnsetField(field Payme
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
+type PaymentIntentPaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date" json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference" json:"reference,omitempty"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
+}
+
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentPaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
@@ -3059,6 +3113,8 @@ type PaymentIntentPaymentMethodOptionsPixParams struct {
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
 	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+	// Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
+	MandateOptions *PaymentIntentPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3066,8 +3122,6 @@ type PaymentIntentPaymentMethodOptionsPixParams struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	//
-	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
@@ -4349,6 +4403,8 @@ type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *PaymentIntentConfirmAmountDetailsParams `form:"amount_details" json:"amount_details,omitempty"`
+	// Amount to confirm on the PaymentIntent. Defaults to `amount` if not provided.
+	AmountToConfirm *int64 `form:"amount_to_confirm" json:"amount_to_confirm,omitempty"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 	// ID of the ConfirmationToken used to confirm this PaymentIntent.
@@ -5099,6 +5155,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *PaymentMethodSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -6408,6 +6466,26 @@ func (p *PaymentIntentCreatePaymentMethodOptionsPaytoParams) AddUnsetField(field
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
+type PaymentIntentCreatePaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date" json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference" json:"reference,omitempty"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
+}
+
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentCreatePaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
@@ -6416,6 +6494,8 @@ type PaymentIntentCreatePaymentMethodOptionsPixParams struct {
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
 	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+	// Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
+	MandateOptions *PaymentIntentCreatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -6423,8 +6503,6 @@ type PaymentIntentCreatePaymentMethodOptionsPixParams struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	//
-	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
@@ -7489,6 +7567,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *PaymentMethodSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -8798,6 +8878,26 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsPaytoParams) AddUnsetField(field
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
+type PaymentIntentUpdatePaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type" json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date" json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged. Defaults to `monthly`.
+	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference" json:"reference,omitempty"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date" json:"start_date,omitempty"`
+}
+
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
@@ -8806,6 +8906,8 @@ type PaymentIntentUpdatePaymentMethodOptionsPixParams struct {
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds" json:"expires_after_seconds,omitempty"`
 	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
 	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+	// Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
+	MandateOptions *PaymentIntentUpdatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -8813,8 +8915,6 @@ type PaymentIntentUpdatePaymentMethodOptionsPixParams struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	//
-	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
@@ -9532,6 +9632,12 @@ type PaymentIntentHooksInputs struct {
 type PaymentIntentHooks struct {
 	Inputs *PaymentIntentHooksInputs `json:"inputs,omitempty"`
 }
+
+// Settings for Managed Payments.
+type PaymentIntentManagedPayments struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled bool `json:"enabled"`
+}
 type PaymentIntentNextActionAlipayHandleRedirect struct {
 	// The native data to be used with Alipay SDK you must redirect your customer to in order to authenticate the payment in an Android App.
 	NativeData string `json:"native_data"`
@@ -9698,6 +9804,16 @@ type PaymentIntentNextActionDisplayBankTransferInstructions struct {
 	Reference string `json:"reference"`
 	// Type of bank transfer
 	Type PaymentIntentNextActionDisplayBankTransferInstructionsType `json:"type"`
+}
+type PaymentIntentNextActionKlarnaDisplayQRCode struct {
+	// The data being used to generate QR code
+	Data string `json:"data"`
+	// The timestamp at which the QR code expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// The image_url_png string used to render QR code
+	ImageURLPNG string `json:"image_url_png"`
+	// The image_url_svg string used to render QR code
+	ImageURLSVG string `json:"image_url_svg"`
 }
 
 // FamilyMart instruction details.
@@ -9883,6 +9999,7 @@ type PaymentIntentNextAction struct {
 	CardAwaitNotification                *PaymentIntentNextActionCardAwaitNotification                `json:"card_await_notification,omitempty"`
 	CashAppHandleRedirectOrDisplayQRCode *PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code,omitempty"`
 	DisplayBankTransferInstructions      *PaymentIntentNextActionDisplayBankTransferInstructions      `json:"display_bank_transfer_instructions,omitempty"`
+	KlarnaDisplayQRCode                  *PaymentIntentNextActionKlarnaDisplayQRCode                  `json:"klarna_display_qr_code,omitempty"`
 	KonbiniDisplayDetails                *PaymentIntentNextActionKonbiniDisplayDetails                `json:"konbini_display_details,omitempty"`
 	MultibancoDisplayDetails             *PaymentIntentNextActionMultibancoDisplayDetails             `json:"multibanco_display_details,omitempty"`
 	OXXODisplayDetails                   *PaymentIntentNextActionOXXODisplayDetails                   `json:"oxxo_display_details,omitempty"`
@@ -10464,13 +10581,32 @@ type PaymentIntentPaymentMethodOptionsPayto struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsPixMandateOptions struct {
+	// Amount to be charged for future payments.
+	Amount int64 `json:"amount,omitempty"`
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountIncludesIof `json:"amount_includes_iof,omitempty"`
+	// Type of amount.
+	AmountType PaymentIntentPaymentMethodOptionsPixMandateOptionsAmountType `json:"amount_type,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
+	Currency Currency `json:"currency,omitempty"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`.
+	EndDate string `json:"end_date,omitempty"`
+	// Schedule at which the future payments will be charged.
+	PaymentSchedule PaymentIntentPaymentMethodOptionsPixMandateOptionsPaymentSchedule `json:"payment_schedule,omitempty"`
+	// Subscription name displayed to buyers in their bank app.
+	Reference string `json:"reference,omitempty"`
+	// Start date of the mandate, in `YYYY-MM-DD`.
+	StartDate string `json:"start_date,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsPix struct {
 	// Determines if the amount includes the IOF tax.
 	AmountIncludesIof PaymentIntentPaymentMethodOptionsPixAmountIncludesIof `json:"amount_includes_iof,omitempty"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
 	// The timestamp at which the Pix expires.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt      int64                                               `json:"expires_at"`
+	MandateOptions *PaymentIntentPaymentMethodOptionsPixMandateOptions `json:"mandate_options,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -10789,6 +10925,8 @@ type PaymentIntent struct {
 	LatestCharge *Charge `json:"latest_charge"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
+	// Settings for Managed Payments.
+	ManagedPayments *PaymentIntentManagedPayments `json:"managed_payments"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Learn more about [storing information in metadata](https://docs.stripe.com/payments/payment-intents/creating-payment-intents#storing-information-in-metadata).
 	Metadata map[string]string `json:"metadata"`
 	// If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source.

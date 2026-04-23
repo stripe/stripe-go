@@ -8,15 +8,6 @@ package stripe
 
 import "time"
 
-// Open Enum. The type of Account Link the user is requesting.
-type V2CoreAccountLinkUseCaseType string
-
-// List of values that V2CoreAccountLinkUseCaseType can take
-const (
-	V2CoreAccountLinkUseCaseTypeAccountOnboarding V2CoreAccountLinkUseCaseType = "account_onboarding"
-	V2CoreAccountLinkUseCaseTypeAccountUpdate     V2CoreAccountLinkUseCaseType = "account_update"
-)
-
 // Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify collection_options, the default value is currently_due.
 type V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsFields string
 
@@ -71,6 +62,15 @@ const (
 	V2CoreAccountLinkUseCaseAccountUpdateConfigurationCustomer  V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "customer"
 	V2CoreAccountLinkUseCaseAccountUpdateConfigurationMerchant  V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "merchant"
 	V2CoreAccountLinkUseCaseAccountUpdateConfigurationRecipient V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "recipient"
+)
+
+// Open Enum. The type of Account Link the user is requesting.
+type V2CoreAccountLinkUseCaseType string
+
+// List of values that V2CoreAccountLinkUseCaseType can take
+const (
+	V2CoreAccountLinkUseCaseTypeAccountOnboarding V2CoreAccountLinkUseCaseType = "account_onboarding"
+	V2CoreAccountLinkUseCaseTypeAccountUpdate     V2CoreAccountLinkUseCaseType = "account_update"
 )
 
 // Specifies the requirements that Stripe collects from v2/core/accounts in the Onboarding flow.
