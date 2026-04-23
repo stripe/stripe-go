@@ -85,6 +85,7 @@ const (
 	SetupIntentExcludedPaymentMethodTypeShopeepay        SetupIntentExcludedPaymentMethodType = "shopeepay"
 	SetupIntentExcludedPaymentMethodTypeSofort           SetupIntentExcludedPaymentMethodType = "sofort"
 	SetupIntentExcludedPaymentMethodTypeStripeBalance    SetupIntentExcludedPaymentMethodType = "stripe_balance"
+	SetupIntentExcludedPaymentMethodTypeSunbit           SetupIntentExcludedPaymentMethodType = "sunbit"
 	SetupIntentExcludedPaymentMethodTypeSwish            SetupIntentExcludedPaymentMethodType = "swish"
 	SetupIntentExcludedPaymentMethodTypeTWINT            SetupIntentExcludedPaymentMethodType = "twint"
 	SetupIntentExcludedPaymentMethodTypeUpi              SetupIntentExcludedPaymentMethodType = "upi"
@@ -109,11 +110,12 @@ type SetupIntentNextActionType string
 
 // List of values that SetupIntentNextActionType can take
 const (
-	SetupIntentNextActionTypeRedirectToURL           SetupIntentNextActionType = "redirect_to_url"
-	SetupIntentNextActionTypeUseStripeSDK            SetupIntentNextActionType = "use_stripe_sdk"
-	SetupIntentNextActionTypeAlipayHandleRedirect    SetupIntentNextActionType = "alipay_handle_redirect"
-	SetupIntentNextActionTypeOXXODisplayDetails      SetupIntentNextActionType = "oxxo_display_details"
-	SetupIntentNextActionTypeVerifyWithMicrodeposits SetupIntentNextActionType = "verify_with_microdeposits"
+	SetupIntentNextActionTypeRedirectToURL                    SetupIntentNextActionType = "redirect_to_url"
+	SetupIntentNextActionTypeUseStripeSDK                     SetupIntentNextActionType = "use_stripe_sdk"
+	SetupIntentNextActionTypeAlipayHandleRedirect             SetupIntentNextActionType = "alipay_handle_redirect"
+	SetupIntentNextActionTypeOXXODisplayDetails               SetupIntentNextActionType = "oxxo_display_details"
+	SetupIntentNextActionTypeVerifyWithMicrodeposits          SetupIntentNextActionType = "verify_with_microdeposits"
+	SetupIntentNextActionTypeUpiHandleRedirectOrDisplayQRCode SetupIntentNextActionType = "upi_handle_redirect_or_display_qr_code"
 )
 
 // The type of the microdeposit sent to the customer. Used to distinguish between different verification methods.
@@ -745,6 +747,9 @@ type SetupIntentPaymentMethodDataStripeBalanceParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type SetupIntentPaymentMethodDataSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type SetupIntentPaymentMethodDataSwishParams struct{}
 
@@ -898,12 +903,16 @@ type SetupIntentPaymentMethodDataParams struct {
 	Satispay *SetupIntentPaymentMethodDataSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *SetupIntentPaymentMethodDataShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentPaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *SetupIntentPaymentMethodDataStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *SetupIntentPaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -1797,6 +1806,9 @@ type SetupIntentConfirmPaymentMethodDataStripeBalanceParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type SetupIntentConfirmPaymentMethodDataSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type SetupIntentConfirmPaymentMethodDataSwishParams struct{}
 
@@ -1950,12 +1962,16 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Satispay *SetupIntentConfirmPaymentMethodDataSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *SetupIntentConfirmPaymentMethodDataShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentConfirmPaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *SetupIntentConfirmPaymentMethodDataStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *SetupIntentConfirmPaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentConfirmPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -2378,6 +2394,9 @@ type SetupIntentCreatePaymentMethodDataStripeBalanceParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type SetupIntentCreatePaymentMethodDataSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type SetupIntentCreatePaymentMethodDataSwishParams struct{}
 
@@ -2531,12 +2550,16 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	Satispay *SetupIntentCreatePaymentMethodDataSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *SetupIntentCreatePaymentMethodDataShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentCreatePaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *SetupIntentCreatePaymentMethodDataStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *SetupIntentCreatePaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentCreatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -3428,6 +3451,9 @@ type SetupIntentUpdatePaymentMethodDataStripeBalanceParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type SetupIntentUpdatePaymentMethodDataSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type SetupIntentUpdatePaymentMethodDataSwishParams struct{}
 
@@ -3581,12 +3607,16 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	Satispay *SetupIntentUpdatePaymentMethodDataSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentUpdatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *SetupIntentUpdatePaymentMethodDataShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentUpdatePaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *SetupIntentUpdatePaymentMethodDataStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *SetupIntentUpdatePaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentUpdatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -4170,15 +4200,15 @@ type SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCode struct {
 }
 type SetupIntentNextActionPixDisplayQRCode struct {
 	// The raw data string used to generate QR code, it should be used together with QR code library.
-	Data string `json:"data,omitempty"`
+	Data string `json:"data"`
 	// The date (unix timestamp) when the PIX expires.
-	ExpiresAt int64 `json:"expires_at,omitempty"`
+	ExpiresAt int64 `json:"expires_at"`
 	// The URL to the hosted pix instructions page, which allows customers to view the pix QR code.
-	HostedInstructionsURL string `json:"hosted_instructions_url,omitempty"`
+	HostedInstructionsURL string `json:"hosted_instructions_url"`
 	// The image_url_png string used to render png QR code
-	ImageURLPNG string `json:"image_url_png,omitempty"`
+	ImageURLPNG string `json:"image_url_png"`
 	// The image_url_svg string used to render svg QR code
-	ImageURLSVG string `json:"image_url_svg,omitempty"`
+	ImageURLSVG string `json:"image_url_svg"`
 }
 type SetupIntentNextActionRedirectToURL struct {
 	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.

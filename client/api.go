@@ -129,6 +129,8 @@ import (
 	"github.com/stripe/stripe-go/v85/review"
 	"github.com/stripe/stripe-go/v85/setupattempt"
 	"github.com/stripe/stripe-go/v85/setupintent"
+	sharedpaymentgrantedtoken "github.com/stripe/stripe-go/v85/sharedpayment/grantedtoken"
+	sharedpaymentissuedtoken "github.com/stripe/stripe-go/v85/sharedpayment/issuedtoken"
 	"github.com/stripe/stripe-go/v85/shippingrate"
 	sigmascheduledqueryrun "github.com/stripe/stripe-go/v85/sigma/scheduledqueryrun"
 	"github.com/stripe/stripe-go/v85/source"
@@ -159,6 +161,7 @@ import (
 	testhelpersissuingpersonalizationdesign "github.com/stripe/stripe-go/v85/testhelpers/issuing/personalizationdesign"
 	testhelpersissuingtransaction "github.com/stripe/stripe-go/v85/testhelpers/issuing/transaction"
 	testhelpersrefund "github.com/stripe/stripe-go/v85/testhelpers/refund"
+	testhelperssharedpaymentgrantedtoken "github.com/stripe/stripe-go/v85/testhelpers/sharedpayment/grantedtoken"
 	testhelpersterminalreader "github.com/stripe/stripe-go/v85/testhelpers/terminal/reader"
 	testhelperstestclock "github.com/stripe/stripe-go/v85/testhelpers/testclock"
 	testhelperstreasuryinboundtransfer "github.com/stripe/stripe-go/v85/testhelpers/treasury/inboundtransfer"
@@ -456,6 +459,10 @@ type API struct {
 	SetupAttempts *setupattempt.Client
 	// SetupIntents is the client used to invoke /v1/setup_intents APIs.
 	SetupIntents *setupintent.Client
+	// SharedPaymentGrantedTokens is the client used to invoke /v1/shared_payment/granted_tokens APIs.
+	SharedPaymentGrantedTokens *sharedpaymentgrantedtoken.Client
+	// SharedPaymentIssuedTokens is the client used to invoke /v1/shared_payment/issued_tokens APIs.
+	SharedPaymentIssuedTokens *sharedpaymentissuedtoken.Client
 	// ShippingRates is the client used to invoke /v1/shipping_rates APIs.
 	ShippingRates *shippingrate.Client
 	// SigmaScheduledQueryRuns is the client used to invoke /v1/sigma/scheduled_query_runs APIs.
@@ -516,6 +523,8 @@ type API struct {
 	TestHelpersIssuingTransactions *testhelpersissuingtransaction.Client
 	// TestHelpersRefunds is the client used to invoke /v1/refunds APIs.
 	TestHelpersRefunds *testhelpersrefund.Client
+	// TestHelpersSharedPaymentGrantedTokens is the client used to invoke /v1/shared_payment/granted_tokens APIs.
+	TestHelpersSharedPaymentGrantedTokens *testhelperssharedpaymentgrantedtoken.Client
 	// TestHelpersTerminalReaders is the client used to invoke /v1/terminal/readers APIs.
 	TestHelpersTerminalReaders *testhelpersterminalreader.Client
 	// TestHelpersTestClocks is the client used to invoke /v1/test_helpers/test_clocks APIs.
@@ -762,6 +771,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Reviews = &review.Client{B: backends.API, Key: key}
 	a.SetupAttempts = &setupattempt.Client{B: backends.API, Key: key}
 	a.SetupIntents = &setupintent.Client{B: backends.API, Key: key}
+	a.SharedPaymentGrantedTokens = &sharedpaymentgrantedtoken.Client{B: backends.API, Key: key}
+	a.SharedPaymentIssuedTokens = &sharedpaymentissuedtoken.Client{B: backends.API, Key: key}
 	a.ShippingRates = &shippingrate.Client{B: backends.API, Key: key}
 	a.SigmaScheduledQueryRuns = &sigmascheduledqueryrun.Client{B: backends.API, Key: key}
 	a.Sources = &source.Client{B: backends.API, Key: key}
@@ -792,6 +803,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TestHelpersIssuingPersonalizationDesigns = &testhelpersissuingpersonalizationdesign.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingTransactions = &testhelpersissuingtransaction.Client{B: backends.API, Key: key}
 	a.TestHelpersRefunds = &testhelpersrefund.Client{B: backends.API, Key: key}
+	a.TestHelpersSharedPaymentGrantedTokens = &testhelperssharedpaymentgrantedtoken.Client{B: backends.API, Key: key}
 	a.TestHelpersTerminalReaders = &testhelpersterminalreader.Client{B: backends.API, Key: key}
 	a.TestHelpersTestClocks = &testhelperstestclock.Client{B: backends.API, Key: key}
 	a.TestHelpersTreasuryInboundTransfers = &testhelperstreasuryinboundtransfer.Client{B: backends.API, Key: key}

@@ -292,6 +292,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataStripeBalanceParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataSwishParams struct{}
 
@@ -444,12 +447,16 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Satispay *TestHelpersConfirmationTokenPaymentMethodDataSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *TestHelpersConfirmationTokenPaymentMethodDataShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *TestHelpersConfirmationTokenPaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *TestHelpersConfirmationTokenPaymentMethodDataStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *TestHelpersConfirmationTokenPaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *TestHelpersConfirmationTokenPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -841,6 +848,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataStripeBalanceParams stru
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataSwishParams struct{}
 
@@ -993,12 +1003,16 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Satispay *TestHelpersConfirmationTokenCreatePaymentMethodDataSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *TestHelpersConfirmationTokenCreatePaymentMethodDataShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *TestHelpersConfirmationTokenCreatePaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *TestHelpersConfirmationTokenCreatePaymentMethodDataStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *TestHelpersConfirmationTokenCreatePaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *TestHelpersConfirmationTokenCreatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.

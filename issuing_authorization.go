@@ -20,6 +20,15 @@ const (
 	IssuingAuthorizationAuthorizationMethodSwipe       IssuingAuthorizationAuthorizationMethod = "swipe"
 )
 
+// Whether the card was present at the point of sale for the authorization.
+type IssuingAuthorizationCardPresence string
+
+// List of values that IssuingAuthorizationCardPresence can take
+const (
+	IssuingAuthorizationCardPresenceNotPresent IssuingAuthorizationCardPresence = "not_present"
+	IssuingAuthorizationCardPresencePresent    IssuingAuthorizationCardPresence = "present"
+)
+
 // The type of purchase.
 type IssuingAuthorizationFleetPurchaseType string
 
@@ -598,6 +607,8 @@ type IssuingAuthorization struct {
 	Card *IssuingCard `json:"card"`
 	// The cardholder to whom this authorization belongs.
 	Cardholder *IssuingCardholder `json:"cardholder"`
+	// Whether the card was present at the point of sale for the authorization.
+	CardPresence IssuingAuthorizationCardPresence `json:"card_presence"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// The currency of the cardholder. This currency can be different from the currency presented at authorization and the `merchant_currency` field on this authorization. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).

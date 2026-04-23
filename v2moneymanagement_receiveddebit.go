@@ -8,6 +8,22 @@ package stripe
 
 import "time"
 
+// Open Enum. The type of the payment method used to originate the debit.
+type V2MoneyManagementReceivedDebitBankTransferPaymentMethodType string
+
+// List of values that V2MoneyManagementReceivedDebitBankTransferPaymentMethodType can take
+const (
+	V2MoneyManagementReceivedDebitBankTransferPaymentMethodTypeUSBankAccount V2MoneyManagementReceivedDebitBankTransferPaymentMethodType = "us_bank_account"
+)
+
+// Open Enum. The bank network the debit was originated on.
+type V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork string
+
+// List of values that V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork can take
+const (
+	V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetworkACH V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork = "ach"
+)
+
 // Open Enum. The status of the ReceivedDebit.
 type V2MoneyManagementReceivedDebitStatus string
 
@@ -39,21 +55,27 @@ const (
 	V2MoneyManagementReceivedDebitTypeExternalDebit V2MoneyManagementReceivedDebitType = "external_debit"
 )
 
-// Open Enum. The type of the payment method used to originate the debit.
-type V2MoneyManagementReceivedDebitBankTransferPaymentMethodType string
+// The payment method used to originate the debit.
+type V2MoneyManagementReceivedDebitBankTransferUSBankAccount struct {
+	// The name of the bank the debit originated from.
+	BankName string `json:"bank_name,omitempty"`
+	// Open Enum. The bank network the debit was originated on.
+	Network V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork `json:"network"`
+	// The routing number of the bank that originated the debit.
+	RoutingNumber string `json:"routing_number,omitempty"`
+}
 
-// List of values that V2MoneyManagementReceivedDebitBankTransferPaymentMethodType can take
-const (
-	V2MoneyManagementReceivedDebitBankTransferPaymentMethodTypeUSBankAccount V2MoneyManagementReceivedDebitBankTransferPaymentMethodType = "us_bank_account"
-)
-
-// Open Enum. The bank network the debit was originated on.
-type V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork string
-
-// List of values that V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork can take
-const (
-	V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetworkACH V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork = "ach"
-)
+// This object stores details about the originating banking transaction that resulted in the ReceivedDebit. Present if `type` field value is `bank_transfer`.
+type V2MoneyManagementReceivedDebitBankTransfer struct {
+	// The Financial Address that was debited.
+	FinancialAddress string `json:"financial_address"`
+	// Open Enum. The type of the payment method used to originate the debit.
+	PaymentMethodType V2MoneyManagementReceivedDebitBankTransferPaymentMethodType `json:"payment_method_type"`
+	// The statement descriptor set by the originator of the debit.
+	StatementDescriptor string `json:"statement_descriptor,omitempty"`
+	// The payment method used to originate the debit.
+	USBankAccount *V2MoneyManagementReceivedDebitBankTransferUSBankAccount `json:"us_bank_account"`
+}
 
 // Information that elaborates on the `failed` status of a ReceivedDebit.
 // It is only present when the ReceivedDebit status is `failed`.
@@ -80,28 +102,6 @@ type V2MoneyManagementReceivedDebitStatusTransitions struct {
 	// The time when the ReceivedDebit was marked as `succeeded`.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
 	SucceededAt time.Time `json:"succeeded_at,omitempty"`
-}
-
-// The payment method used to originate the debit.
-type V2MoneyManagementReceivedDebitBankTransferUSBankAccount struct {
-	// The name of the bank the debit originated from.
-	BankName string `json:"bank_name,omitempty"`
-	// Open Enum. The bank network the debit was originated on.
-	Network V2MoneyManagementReceivedDebitBankTransferUSBankAccountNetwork `json:"network"`
-	// The routing number of the bank that originated the debit.
-	RoutingNumber string `json:"routing_number,omitempty"`
-}
-
-// This object stores details about the originating banking transaction that resulted in the ReceivedDebit. Present if `type` field value is `bank_transfer`.
-type V2MoneyManagementReceivedDebitBankTransfer struct {
-	// The Financial Address that was debited.
-	FinancialAddress string `json:"financial_address"`
-	// Open Enum. The type of the payment method used to originate the debit.
-	PaymentMethodType V2MoneyManagementReceivedDebitBankTransferPaymentMethodType `json:"payment_method_type"`
-	// The statement descriptor set by the originator of the debit.
-	StatementDescriptor string `json:"statement_descriptor,omitempty"`
-	// The payment method used to originate the debit.
-	USBankAccount *V2MoneyManagementReceivedDebitBankTransferUSBankAccount `json:"us_bank_account"`
 }
 
 // ReceivedDebit resource

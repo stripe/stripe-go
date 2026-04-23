@@ -313,6 +313,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeAUBECSDebit        SubscriptionPaymentSettingsPaymentMethodType = "au_becs_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeBACSDebit          SubscriptionPaymentSettingsPaymentMethodType = "bacs_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeBancontact         SubscriptionPaymentSettingsPaymentMethodType = "bancontact"
+	SubscriptionPaymentSettingsPaymentMethodTypeBLIK               SubscriptionPaymentSettingsPaymentMethodType = "blik"
 	SubscriptionPaymentSettingsPaymentMethodTypeBoleto             SubscriptionPaymentSettingsPaymentMethodType = "boleto"
 	SubscriptionPaymentSettingsPaymentMethodTypeCard               SubscriptionPaymentSettingsPaymentMethodType = "card"
 	SubscriptionPaymentSettingsPaymentMethodTypeCashApp            SubscriptionPaymentSettingsPaymentMethodType = "cashapp"
@@ -947,6 +948,18 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// Configuration options for setting up a mandate
+type SubscriptionPaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams struct {
+	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
+	ExpiresAfter *int64 `form:"expires_after" json:"expires_after,omitempty"`
+}
+
+// This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBLIKParams struct {
+	// Configuration options for setting up a mandate
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
@@ -1017,7 +1030,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsPixMandateOptionsParams stru
 	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
 	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled.
 	EndDate *string `form:"end_date" json:"end_date,omitempty"`
-	// Schedule at which the future payments will be charged. Defaults to `monthly`.
+	// Schedule at which the future payments will be charged. Defaults to the subscription servicing interval.
 	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
 }
 
@@ -1082,6 +1095,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+	BLIK *SubscriptionPaymentSettingsPaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -1109,6 +1124,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField string
 const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldBLIK            SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "blik"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDBankTransfer  SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
@@ -1310,7 +1326,7 @@ func (p *SubscriptionMigrateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If no resumption invoice is generated, the subscription becomes active immediately. If a resumption invoice is generated, the subscription remains paused until the invoice is paid or marked uncollectible. If the invoice is not paid by the expiration date, it is voided and the subscription remains paused.
+// Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If no resumption invoice is generated, the subscription becomes active immediately. If a resumption invoice is generated, the subscription remains paused until the invoice is paid or marked uncollectible. If the invoice isn't paid by the expiration date, it is voided and the subscription remains paused. You can only resume subscriptions with collection_method set to charge_automatically. send_invoice subscriptions are not supported.
 type SubscriptionResumeParams struct {
 	Params `form:"*"`
 	// The billing cycle anchor that applies when the subscription is resumed. Either `now` or `unchanged`. The default is `now`. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
@@ -1724,6 +1740,18 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struc
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// Configuration options for setting up a mandate
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams struct {
+	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
+	ExpiresAfter *int64 `form:"expires_after" json:"expires_after,omitempty"`
+}
+
+// This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBLIKParams struct {
+	// Configuration options for setting up a mandate
+	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
@@ -1794,7 +1822,7 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParam
 	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
 	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled.
 	EndDate *string `form:"end_date" json:"end_date,omitempty"`
-	// Schedule at which the future payments will be charged. Defaults to `monthly`.
+	// Schedule at which the future payments will be charged. Defaults to the subscription servicing interval.
 	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
 }
 
@@ -1859,6 +1887,8 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+	BLIK *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -1886,6 +1916,7 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField strin
 const (
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBLIK            SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "blik"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDBankTransfer  SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
@@ -2506,6 +2537,18 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams struc
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// Configuration options for setting up a mandate
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams struct {
+	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
+	ExpiresAfter *int64 `form:"expires_after" json:"expires_after,omitempty"`
+}
+
+// This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBLIKParams struct {
+	// Configuration options for setting up a mandate
+	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBLIKMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+}
+
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
@@ -2576,7 +2619,7 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsPixMandateOptionsParam
 	AmountIncludesIof *string `form:"amount_includes_iof" json:"amount_includes_iof,omitempty"`
 	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled.
 	EndDate *string `form:"end_date" json:"end_date,omitempty"`
-	// Schedule at which the future payments will be charged. Defaults to `monthly`.
+	// Schedule at which the future payments will be charged. Defaults to the subscription servicing interval.
 	PaymentSchedule *string `form:"payment_schedule" json:"payment_schedule,omitempty"`
 }
 
@@ -2641,6 +2684,8 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *SubscriptionCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// This sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+	BLIK *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -2668,6 +2713,7 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField strin
 const (
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBLIK            SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "blik"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldIDBankTransfer  SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "id_bank_transfer"
@@ -3058,6 +3104,15 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage string `json:"preferred_language"`
 }
+type SubscriptionPaymentSettingsPaymentMethodOptionsBLIKMandateOptions struct {
+	// Date when the mandate expires and no further payments will be charged. If not provided, the mandate will be set to be indefinite.
+	ExpiresAfter int64 `json:"expires_after"`
+}
+
+// This sub-hash contains details about the Blik payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBLIK struct {
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsBLIKMandateOptions `json:"mandate_options,omitempty"`
+}
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptions struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount int64 `json:"amount"`
@@ -3172,6 +3227,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	ACSSDebit *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to invoices created by the subscription.
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
+	// This sub-hash contains details about the Blik payment method options to pass to invoices created by the subscription.
+	BLIK *SubscriptionPaymentSettingsPaymentMethodOptionsBLIK `json:"blik,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to invoices created by the subscription.
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCard `json:"card"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to invoices created by the subscription.
@@ -3183,11 +3240,11 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	// This sub-hash contains details about the PayTo payment method options to pass to invoices created by the subscription.
 	Payto *SubscriptionPaymentSettingsPaymentMethodOptionsPayto `json:"payto"`
 	// This sub-hash contains details about the Pix payment method options to pass to invoices created by the subscription.
-	Pix *SubscriptionPaymentSettingsPaymentMethodOptionsPix `json:"pix,omitempty"`
+	Pix *SubscriptionPaymentSettingsPaymentMethodOptionsPix `json:"pix"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to invoices created by the subscription.
 	SEPADebit *SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebit `json:"sepa_debit"`
 	// This sub-hash contains details about the UPI payment method options to pass to invoices created by the subscription.
-	Upi *SubscriptionPaymentSettingsPaymentMethodOptionsUpi `json:"upi,omitempty"`
+	Upi *SubscriptionPaymentSettingsPaymentMethodOptionsUpi `json:"upi"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription.
 	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
@@ -3328,7 +3385,7 @@ type Subscription struct {
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Settings for Managed Payments for this Subscription and resulting [Invoices](https://docs.stripe.com/api/invoices/object) and [PaymentIntents](https://docs.stripe.com/api/payment_intents/object).
-	ManagedPayments *SubscriptionManagedPayments `json:"managed_payments,omitempty"`
+	ManagedPayments *SubscriptionManagedPayments `json:"managed_payments"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Specifies the approximate timestamp on which any pending invoice items will be billed according to the schedule provided at `pending_invoice_item_interval`.

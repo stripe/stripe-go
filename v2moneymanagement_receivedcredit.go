@@ -8,6 +8,53 @@ package stripe
 
 import "time"
 
+// Open Enum. The type of Stripe Money Movement that originated the ReceivedCredit.
+type V2MoneyManagementReceivedCreditBalanceTransferType string
+
+// List of values that V2MoneyManagementReceivedCreditBalanceTransferType can take
+const (
+	V2MoneyManagementReceivedCreditBalanceTransferTypeOutboundPayment  V2MoneyManagementReceivedCreditBalanceTransferType = "outbound_payment"
+	V2MoneyManagementReceivedCreditBalanceTransferTypeOutboundTransfer V2MoneyManagementReceivedCreditBalanceTransferType = "outbound_transfer"
+	V2MoneyManagementReceivedCreditBalanceTransferTypeTransfer         V2MoneyManagementReceivedCreditBalanceTransferType = "transfer"
+	V2MoneyManagementReceivedCreditBalanceTransferTypePayoutV1         V2MoneyManagementReceivedCreditBalanceTransferType = "payout_v1"
+)
+
+// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
+type V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork string
+
+// List of values that V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork can take
+const (
+	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkFPS V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "fps"
+)
+
+// Open Enum. Indicates the origin of source from which external funds originated from.
+type V2MoneyManagementReceivedCreditBankTransferOriginType string
+
+// List of values that V2MoneyManagementReceivedCreditBankTransferOriginType can take
+const (
+	V2MoneyManagementReceivedCreditBankTransferOriginTypeGBBankAccount   V2MoneyManagementReceivedCreditBankTransferOriginType = "gb_bank_account"
+	V2MoneyManagementReceivedCreditBankTransferOriginTypeSEPABankAccount V2MoneyManagementReceivedCreditBankTransferOriginType = "sepa_bank_account"
+	V2MoneyManagementReceivedCreditBankTransferOriginTypeUSBankAccount   V2MoneyManagementReceivedCreditBankTransferOriginType = "us_bank_account"
+)
+
+// The money transmission network used to send funds for this ReceivedCredit.
+type V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork string
+
+// List of values that V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork can take
+const (
+	V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetworkSEPACreditTransfer V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork = "sepa_credit_transfer"
+)
+
+// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
+type V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork string
+
+// List of values that V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork can take
+const (
+	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkACH            V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "ach"
+	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkRTP            V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "rtp"
+	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkUSDomesticWire V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "us_domestic_wire"
+)
+
 // Open Enum. The status of the ReceivedCredit.
 type V2MoneyManagementReceivedCreditStatus string
 
@@ -47,86 +94,6 @@ const (
 	V2MoneyManagementReceivedCreditTypeBankTransfer    V2MoneyManagementReceivedCreditType = "bank_transfer"
 	V2MoneyManagementReceivedCreditTypeExternalCredit  V2MoneyManagementReceivedCreditType = "external_credit"
 )
-
-// Open Enum. The type of Stripe Money Movement that originated the ReceivedCredit.
-type V2MoneyManagementReceivedCreditBalanceTransferType string
-
-// List of values that V2MoneyManagementReceivedCreditBalanceTransferType can take
-const (
-	V2MoneyManagementReceivedCreditBalanceTransferTypeOutboundPayment  V2MoneyManagementReceivedCreditBalanceTransferType = "outbound_payment"
-	V2MoneyManagementReceivedCreditBalanceTransferTypeOutboundTransfer V2MoneyManagementReceivedCreditBalanceTransferType = "outbound_transfer"
-	V2MoneyManagementReceivedCreditBalanceTransferTypeTransfer         V2MoneyManagementReceivedCreditBalanceTransferType = "transfer"
-	V2MoneyManagementReceivedCreditBalanceTransferTypePayoutV1         V2MoneyManagementReceivedCreditBalanceTransferType = "payout_v1"
-)
-
-// Open Enum. Indicates the origin of source from which external funds originated from.
-type V2MoneyManagementReceivedCreditBankTransferOriginType string
-
-// List of values that V2MoneyManagementReceivedCreditBankTransferOriginType can take
-const (
-	V2MoneyManagementReceivedCreditBankTransferOriginTypeGBBankAccount   V2MoneyManagementReceivedCreditBankTransferOriginType = "gb_bank_account"
-	V2MoneyManagementReceivedCreditBankTransferOriginTypeSEPABankAccount V2MoneyManagementReceivedCreditBankTransferOriginType = "sepa_bank_account"
-	V2MoneyManagementReceivedCreditBankTransferOriginTypeUSBankAccount   V2MoneyManagementReceivedCreditBankTransferOriginType = "us_bank_account"
-)
-
-// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
-type V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork string
-
-// List of values that V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork can take
-const (
-	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkFPS V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "fps"
-)
-
-// The money transmission network used to send funds for this ReceivedCredit.
-type V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork string
-
-// List of values that V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork can take
-const (
-	V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetworkSEPACreditTransfer V2MoneyManagementReceivedCreditBankTransferSEPABankAccountNetwork = "sepa_credit_transfer"
-)
-
-// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
-type V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork string
-
-// List of values that V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork can take
-const (
-	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkACH            V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "ach"
-	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkRTP            V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "rtp"
-	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkUSDomesticWire V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "us_domestic_wire"
-)
-
-// Hash that provides additional information regarding the reason behind a `failed` ReceivedCredit status. It is only present when the ReceivedCredit status is `failed`.
-type V2MoneyManagementReceivedCreditStatusDetailsFailed struct {
-	// Open Enum. The `failed` status reason.
-	Reason V2MoneyManagementReceivedCreditStatusDetailsFailedReason `json:"reason"`
-}
-
-// Hash that provides additional information regarding the reason behind a `returned` ReceivedCredit status. It is only present when the ReceivedCredit status is `returned`.
-type V2MoneyManagementReceivedCreditStatusDetailsReturned struct {
-	// Open Enum. The `returned` status reason.
-	Reason V2MoneyManagementReceivedCreditStatusDetailsReturnedReason `json:"reason"`
-}
-
-// This hash contains detailed information that elaborates on the specific status of the ReceivedCredit. e.g the reason behind a failure if the status is marked as `failed`.
-type V2MoneyManagementReceivedCreditStatusDetails struct {
-	// Hash that provides additional information regarding the reason behind a `failed` ReceivedCredit status. It is only present when the ReceivedCredit status is `failed`.
-	Failed *V2MoneyManagementReceivedCreditStatusDetailsFailed `json:"failed,omitempty"`
-	// Hash that provides additional information regarding the reason behind a `returned` ReceivedCredit status. It is only present when the ReceivedCredit status is `returned`.
-	Returned *V2MoneyManagementReceivedCreditStatusDetailsReturned `json:"returned,omitempty"`
-}
-
-// Hash containing timestamps of when the object transitioned to a particular status.
-type V2MoneyManagementReceivedCreditStatusTransitions struct {
-	// Timestamp describing when the ReceivedCredit was marked as `failed`.
-	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
-	FailedAt time.Time `json:"failed_at,omitempty"`
-	// Timestamp describing when the ReceivedCredit changed status to `returned`.
-	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
-	ReturnedAt time.Time `json:"returned_at,omitempty"`
-	// Timestamp describing when the ReceivedCredit was marked as `succeeded`.
-	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
-	SucceededAt time.Time `json:"succeeded_at,omitempty"`
-}
 
 // This object stores details about the originating Stripe transaction that resulted in the ReceivedCredit. Present if `type` field value is `balance_transfer`.
 type V2MoneyManagementReceivedCreditBalanceTransfer struct {
@@ -200,6 +167,39 @@ type V2MoneyManagementReceivedCreditBankTransfer struct {
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
 	// Hash containing the transaction bank details. Present if `origin_type` field value is `us_bank_account`.
 	USBankAccount *V2MoneyManagementReceivedCreditBankTransferUSBankAccount `json:"us_bank_account,omitempty"`
+}
+
+// Hash that provides additional information regarding the reason behind a `failed` ReceivedCredit status. It is only present when the ReceivedCredit status is `failed`.
+type V2MoneyManagementReceivedCreditStatusDetailsFailed struct {
+	// Open Enum. The `failed` status reason.
+	Reason V2MoneyManagementReceivedCreditStatusDetailsFailedReason `json:"reason"`
+}
+
+// Hash that provides additional information regarding the reason behind a `returned` ReceivedCredit status. It is only present when the ReceivedCredit status is `returned`.
+type V2MoneyManagementReceivedCreditStatusDetailsReturned struct {
+	// Open Enum. The `returned` status reason.
+	Reason V2MoneyManagementReceivedCreditStatusDetailsReturnedReason `json:"reason"`
+}
+
+// This hash contains detailed information that elaborates on the specific status of the ReceivedCredit. e.g the reason behind a failure if the status is marked as `failed`.
+type V2MoneyManagementReceivedCreditStatusDetails struct {
+	// Hash that provides additional information regarding the reason behind a `failed` ReceivedCredit status. It is only present when the ReceivedCredit status is `failed`.
+	Failed *V2MoneyManagementReceivedCreditStatusDetailsFailed `json:"failed,omitempty"`
+	// Hash that provides additional information regarding the reason behind a `returned` ReceivedCredit status. It is only present when the ReceivedCredit status is `returned`.
+	Returned *V2MoneyManagementReceivedCreditStatusDetailsReturned `json:"returned,omitempty"`
+}
+
+// Hash containing timestamps of when the object transitioned to a particular status.
+type V2MoneyManagementReceivedCreditStatusTransitions struct {
+	// Timestamp describing when the ReceivedCredit was marked as `failed`.
+	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	FailedAt time.Time `json:"failed_at,omitempty"`
+	// Timestamp describing when the ReceivedCredit changed status to `returned`.
+	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	ReturnedAt time.Time `json:"returned_at,omitempty"`
+	// Timestamp describing when the ReceivedCredit was marked as `succeeded`.
+	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	SucceededAt time.Time `json:"succeeded_at,omitempty"`
 }
 
 // Use ReceivedCredits API to retrieve information on when, where, and how funds are sent into your FinancialAccount.

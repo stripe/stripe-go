@@ -282,9 +282,11 @@ type ChargePaymentMethodDetailsCryptoTokenCurrency string
 
 // List of values that ChargePaymentMethodDetailsCryptoTokenCurrency can take
 const (
-	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdc ChargePaymentMethodDetailsCryptoTokenCurrency = "usdc"
-	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdg ChargePaymentMethodDetailsCryptoTokenCurrency = "usdg"
-	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdp ChargePaymentMethodDetailsCryptoTokenCurrency = "usdp"
+	ChargePaymentMethodDetailsCryptoTokenCurrencyPhantomCash ChargePaymentMethodDetailsCryptoTokenCurrency = "phantom_cash"
+	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdc        ChargePaymentMethodDetailsCryptoTokenCurrency = "usdc"
+	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdg        ChargePaymentMethodDetailsCryptoTokenCurrency = "usdg"
+	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdp        ChargePaymentMethodDetailsCryptoTokenCurrency = "usdp"
+	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdt        ChargePaymentMethodDetailsCryptoTokenCurrency = "usdt"
 )
 
 // Bank where the account is located.
@@ -3501,9 +3503,9 @@ type ChargePaymentMethodDetailsACSSDebit struct {
 	TransitNumber string `json:"transit_number"`
 }
 type ChargePaymentMethodDetailsAffirm struct {
-	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	// ID of the location that this reader is assigned to.
 	Location string `json:"location,omitempty"`
-	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	// ID of the reader this transaction was made on.
 	Reader string `json:"reader,omitempty"`
 	// The Affirm transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
@@ -4051,6 +4053,8 @@ type ChargePaymentMethodDetailsKlarnaPayerDetails struct {
 	Address *ChargePaymentMethodDetailsKlarnaPayerDetailsAddress `json:"address"`
 }
 type ChargePaymentMethodDetailsKlarna struct {
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location,omitempty"`
 	// The payer details for this transaction.
 	PayerDetails *ChargePaymentMethodDetailsKlarnaPayerDetails `json:"payer_details"`
 	// The Klarna payment method used for this transaction.
@@ -4059,6 +4063,8 @@ type ChargePaymentMethodDetailsKlarna struct {
 	// Preferred language of the Klarna authorization page that the customer is redirected to.
 	// Can be one of `de-AT`, `en-AT`, `nl-BE`, `fr-BE`, `en-BE`, `de-DE`, `en-DE`, `da-DK`, `en-DK`, `es-ES`, `en-ES`, `fi-FI`, `sv-FI`, `en-FI`, `en-GB`, `en-IE`, `it-IT`, `en-IT`, `nl-NL`, `en-NL`, `nb-NO`, `en-NO`, `sv-SE`, `en-SE`, `en-US`, `es-US`, `fr-FR`, `en-FR`, `cs-CZ`, `en-CZ`, `ro-RO`, `en-RO`, `el-GR`, `en-GR`, `en-AU`, `en-NZ`, `en-CA`, `fr-CA`, `pl-PL`, `en-PL`, `pt-PT`, `en-PT`, `de-CH`, `fr-CH`, `it-CH`, or `en-CH`
 	PreferredLocale string `json:"preferred_locale"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader,omitempty"`
 }
 
 // If the payment succeeded, this contains the details of the convenience store where the payment was completed.
@@ -4313,6 +4319,10 @@ type ChargePaymentMethodDetailsStripeBalance struct {
 	// The connected account ID whose Stripe balance to use as the source of payment
 	Account string `json:"account,omitempty"`
 }
+type ChargePaymentMethodDetailsSunbit struct {
+	// The Sunbit transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type ChargePaymentMethodDetailsSwish struct {
 	// Uniquely identifies the payer's Swish account. You can use this attribute to check whether two Swish transactions were paid for by the same payer
 	Fingerprint string `json:"fingerprint"`
@@ -4419,6 +4429,7 @@ type ChargePaymentMethodDetails struct {
 	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort,omitempty"`
 	StripeAccount      *ChargePaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`
 	StripeBalance      *ChargePaymentMethodDetailsStripeBalance      `json:"stripe_balance,omitempty"`
+	Sunbit             *ChargePaymentMethodDetailsSunbit             `json:"sunbit,omitempty"`
 	Swish              *ChargePaymentMethodDetailsSwish              `json:"swish,omitempty"`
 	TWINT              *ChargePaymentMethodDetailsTWINT              `json:"twint,omitempty"`
 	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
