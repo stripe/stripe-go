@@ -203,6 +203,10 @@ import (
 	v2coreeventdestination "github.com/stripe/stripe-go/v85/v2/core/eventdestination"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v85/v2/core/vault/gbbankaccount"
 	v2corevaultusbankaccount "github.com/stripe/stripe-go/v85/v2/core/vault/usbankaccount"
+	v2datareportingqueryrun "github.com/stripe/stripe-go/v85/v2/data/reporting/queryrun"
+	v2extendworkflow "github.com/stripe/stripe-go/v85/v2/extend/workflow"
+	v2extendworkflowrun "github.com/stripe/stripe-go/v85/v2/extend/workflowrun"
+	v2iamactivitylog "github.com/stripe/stripe-go/v85/v2/iam/activitylog"
 	v2moneymanagementadjustment "github.com/stripe/stripe-go/v85/v2/moneymanagement/adjustment"
 	v2moneymanagementfinancialaccount "github.com/stripe/stripe-go/v85/v2/moneymanagement/financialaccount"
 	v2moneymanagementfinancialaddress "github.com/stripe/stripe-go/v85/v2/moneymanagement/financialaddress"
@@ -217,6 +221,8 @@ import (
 	v2moneymanagementreceiveddebit "github.com/stripe/stripe-go/v85/v2/moneymanagement/receiveddebit"
 	v2moneymanagementtransaction "github.com/stripe/stripe-go/v85/v2/moneymanagement/transaction"
 	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v85/v2/moneymanagement/transactionentry"
+	v2networkbusinessprofile "github.com/stripe/stripe-go/v85/v2/network/businessprofile"
+	v2orchestratedcommerceagreement "github.com/stripe/stripe-go/v85/v2/orchestratedcommerce/agreement"
 	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v85/v2/testhelpers/financialaddress"
 	"github.com/stripe/stripe-go/v85/webhookendpoint"
 )
@@ -607,6 +613,14 @@ type API struct {
 	V2CoreVaultGBBankAccounts *v2corevaultgbbankaccount.Client
 	// V2CoreVaultUSBankAccounts is the client used to invoke /v2/core/vault/us_bank_accounts APIs.
 	V2CoreVaultUSBankAccounts *v2corevaultusbankaccount.Client
+	// V2DataReportingQueryRuns is the client used to invoke /v2/data/reporting/query_runs APIs.
+	V2DataReportingQueryRuns *v2datareportingqueryrun.Client
+	// V2ExtendWorkflowRuns is the client used to invoke /v2/extend/workflow_runs APIs.
+	V2ExtendWorkflowRuns *v2extendworkflowrun.Client
+	// V2ExtendWorkflows is the client used to invoke /v2/extend/workflows APIs.
+	V2ExtendWorkflows *v2extendworkflow.Client
+	// V2IamActivityLogs is the client used to invoke /v2/iam/activity_logs APIs.
+	V2IamActivityLogs *v2iamactivitylog.Client
 	// V2MoneyManagementAdjustments is the client used to invoke /v2/money_management/adjustments APIs.
 	V2MoneyManagementAdjustments *v2moneymanagementadjustment.Client
 	// V2MoneyManagementFinancialAccounts is the client used to invoke /v2/money_management/financial_accounts APIs.
@@ -635,6 +649,10 @@ type API struct {
 	V2MoneyManagementTransactionEntries *v2moneymanagementtransactionentry.Client
 	// V2MoneyManagementTransactions is the client used to invoke /v2/money_management/transactions APIs.
 	V2MoneyManagementTransactions *v2moneymanagementtransaction.Client
+	// V2NetworkBusinessProfiles is the client used to invoke businessprofile related APIs.
+	V2NetworkBusinessProfiles *v2networkbusinessprofile.Client
+	// V2OrchestratedCommerceAgreements is the client used to invoke /v2/orchestrated_commerce/agreements APIs.
+	V2OrchestratedCommerceAgreements *v2orchestratedcommerceagreement.Client
 	// V2TestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2testhelpersfinancialaddress.Client
 	// WebhookEndpoints is the client used to invoke /v1/webhook_endpoints APIs.
@@ -845,6 +863,10 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}
 	a.V2CoreVaultUSBankAccounts = &v2corevaultusbankaccount.Client{B: backends.API, Key: key}
+	a.V2DataReportingQueryRuns = &v2datareportingqueryrun.Client{B: backends.API, Key: key}
+	a.V2ExtendWorkflowRuns = &v2extendworkflowrun.Client{B: backends.API, Key: key}
+	a.V2ExtendWorkflows = &v2extendworkflow.Client{B: backends.API, Key: key}
+	a.V2IamActivityLogs = &v2iamactivitylog.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementAdjustments = &v2moneymanagementadjustment.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAccounts = &v2moneymanagementfinancialaccount.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAddresses = &v2moneymanagementfinancialaddress.Client{B: backends.API, Key: key}
@@ -859,6 +881,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementReceivedDebits = &v2moneymanagementreceiveddebit.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
+	a.V2NetworkBusinessProfiles = &v2networkbusinessprofile.Client{B: backends.API, Key: key}
+	a.V2OrchestratedCommerceAgreements = &v2orchestratedcommerceagreement.Client{B: backends.API, Key: key}
 	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }

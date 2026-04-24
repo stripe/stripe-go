@@ -13,15 +13,20 @@ type V2MoneyManagementTransactionCategory string
 
 // List of values that V2MoneyManagementTransactionCategory can take
 const (
-	V2MoneyManagementTransactionCategoryAdjustment         V2MoneyManagementTransactionCategory = "adjustment"
-	V2MoneyManagementTransactionCategoryCurrencyConversion V2MoneyManagementTransactionCategory = "currency_conversion"
-	V2MoneyManagementTransactionCategoryInboundTransfer    V2MoneyManagementTransactionCategory = "inbound_transfer"
-	V2MoneyManagementTransactionCategoryOutboundPayment    V2MoneyManagementTransactionCategory = "outbound_payment"
-	V2MoneyManagementTransactionCategoryOutboundTransfer   V2MoneyManagementTransactionCategory = "outbound_transfer"
-	V2MoneyManagementTransactionCategoryReceivedCredit     V2MoneyManagementTransactionCategory = "received_credit"
-	V2MoneyManagementTransactionCategoryReceivedDebit      V2MoneyManagementTransactionCategory = "received_debit"
-	V2MoneyManagementTransactionCategoryReturn             V2MoneyManagementTransactionCategory = "return"
-	V2MoneyManagementTransactionCategoryStripeFee          V2MoneyManagementTransactionCategory = "stripe_fee"
+	V2MoneyManagementTransactionCategoryAdjustment               V2MoneyManagementTransactionCategory = "adjustment"
+	V2MoneyManagementTransactionCategoryCurrencyConversion       V2MoneyManagementTransactionCategory = "currency_conversion"
+	V2MoneyManagementTransactionCategoryInboundTransfer          V2MoneyManagementTransactionCategory = "inbound_transfer"
+	V2MoneyManagementTransactionCategoryInboundTransferReversal  V2MoneyManagementTransactionCategory = "inbound_transfer_reversal"
+	V2MoneyManagementTransactionCategoryOutboundPayment          V2MoneyManagementTransactionCategory = "outbound_payment"
+	V2MoneyManagementTransactionCategoryOutboundPaymentReversal  V2MoneyManagementTransactionCategory = "outbound_payment_reversal"
+	V2MoneyManagementTransactionCategoryOutboundTransfer         V2MoneyManagementTransactionCategory = "outbound_transfer"
+	V2MoneyManagementTransactionCategoryOutboundTransferReversal V2MoneyManagementTransactionCategory = "outbound_transfer_reversal"
+	V2MoneyManagementTransactionCategoryReceivedCredit           V2MoneyManagementTransactionCategory = "received_credit"
+	V2MoneyManagementTransactionCategoryReceivedCreditReversal   V2MoneyManagementTransactionCategory = "received_credit_reversal"
+	V2MoneyManagementTransactionCategoryReceivedDebit            V2MoneyManagementTransactionCategory = "received_debit"
+	V2MoneyManagementTransactionCategoryReceivedDebitReversal    V2MoneyManagementTransactionCategory = "received_debit_reversal"
+	V2MoneyManagementTransactionCategoryStripeFee                V2MoneyManagementTransactionCategory = "stripe_fee"
+	V2MoneyManagementTransactionCategoryStripeFeeTax             V2MoneyManagementTransactionCategory = "stripe_fee_tax"
 )
 
 // Open Enum. Type of the flow that created the Transaction. The field matching this value will contain the ID of the flow.

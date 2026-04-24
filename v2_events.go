@@ -20,6 +20,7 @@ const (
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventDimensionCountTooHigh V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_dimension_count_too_high"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventInvalidValue          V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_invalid_value"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventValueTooManyDigits    V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_value_too_many_digits"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "no_meter"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_in_future"
@@ -36,6 +37,7 @@ const (
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventDimensionCountTooHigh V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_dimension_count_too_high"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventInvalidValue          V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_invalid_value"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventValueTooManyDigits    V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_value_too_many_digits"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "no_meter"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_in_future"
@@ -156,6 +158,24 @@ const (
 	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
 )
 
+// The party that initiated the agreement.
+type V2OrchestratedCommerceAgreementCreatedEventDataInitiatedBy string
+
+// List of values that V2OrchestratedCommerceAgreementCreatedEventDataInitiatedBy can take
+const (
+	V2OrchestratedCommerceAgreementCreatedEventDataInitiatedByOrchestrator V2OrchestratedCommerceAgreementCreatedEventDataInitiatedBy = "orchestrator"
+	V2OrchestratedCommerceAgreementCreatedEventDataInitiatedBySeller       V2OrchestratedCommerceAgreementCreatedEventDataInitiatedBy = "seller"
+)
+
+// The party that terminated the agreement.
+type V2OrchestratedCommerceAgreementTerminatedEventDataTerminatedBy string
+
+// List of values that V2OrchestratedCommerceAgreementTerminatedEventDataTerminatedBy can take
+const (
+	V2OrchestratedCommerceAgreementTerminatedEventDataTerminatedByOrchestrator V2OrchestratedCommerceAgreementTerminatedEventDataTerminatedBy = "orchestrator"
+	V2OrchestratedCommerceAgreementTerminatedEventDataTerminatedBySeller       V2OrchestratedCommerceAgreementTerminatedEventDataTerminatedBy = "seller"
+)
+
 // V2CoreEvent is the interface implemented by V2 Events. To get the underlying Event,
 // use a type switch or type assertion to one of the concrete event types.
 type V2CoreEvent interface {
@@ -238,6 +258,170 @@ func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Con
 		return nil, err
 	}
 	return evt.(*V1BillingMeterNoMeterFoundEvent), nil
+}
+
+// V2CommerceProductCatalogImportsFailedEvent is the Go struct for the "v2.commerce.product_catalog.imports.failed" event.
+// Occurs when a product catalog import cannot be processed or if processing fails unexpectedly.
+type V2CommerceProductCatalogImportsFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CommerceProductCatalogImport, error)
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (e *V2CommerceProductCatalogImportsFailedEvent) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CommerceProductCatalogImportsFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.commerce.product_catalog.imports.failed"
+// Occurs when a product catalog import cannot be processed or if processing fails unexpectedly.
+type V2CommerceProductCatalogImportsFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CommerceProductCatalogImportsFailedEvent that created this Notification
+func (n *V2CommerceProductCatalogImportsFailedEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsFailedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CommerceProductCatalogImportsFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (n *V2CommerceProductCatalogImportsFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CommerceProductCatalogImport{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CommerceProductCatalogImportsProcessingEvent is the Go struct for the "v2.commerce.product_catalog.imports.processing" event.
+// Occurs when a product catalog import file has been uploaded and has started processing.
+type V2CommerceProductCatalogImportsProcessingEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CommerceProductCatalogImport, error)
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (e *V2CommerceProductCatalogImportsProcessingEvent) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CommerceProductCatalogImportsProcessingEventNotification is the webhook payload you'll get when handling an event with type "v2.commerce.product_catalog.imports.processing"
+// Occurs when a product catalog import file has been uploaded and has started processing.
+type V2CommerceProductCatalogImportsProcessingEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CommerceProductCatalogImportsProcessingEvent that created this Notification
+func (n *V2CommerceProductCatalogImportsProcessingEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsProcessingEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CommerceProductCatalogImportsProcessingEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (n *V2CommerceProductCatalogImportsProcessingEventNotification) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CommerceProductCatalogImport{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CommerceProductCatalogImportsSucceededEvent is the Go struct for the "v2.commerce.product_catalog.imports.succeeded" event.
+// Occurs when a product catalog file has been uploaded successfully and passed validation.
+type V2CommerceProductCatalogImportsSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CommerceProductCatalogImport, error)
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (e *V2CommerceProductCatalogImportsSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CommerceProductCatalogImportsSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.commerce.product_catalog.imports.succeeded"
+// Occurs when a product catalog file has been uploaded successfully and passed validation.
+type V2CommerceProductCatalogImportsSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CommerceProductCatalogImportsSucceededEvent that created this Notification
+func (n *V2CommerceProductCatalogImportsSucceededEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsSucceededEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CommerceProductCatalogImportsSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (n *V2CommerceProductCatalogImportsSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CommerceProductCatalogImport{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CommerceProductCatalogImportsSucceededWithErrorsEvent is the Go struct for the "v2.commerce.product_catalog.imports.succeeded_with_errors" event.
+// Occurs when a product catalog file has been successfully processed but some rows failed validation.
+type V2CommerceProductCatalogImportsSucceededWithErrorsEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CommerceProductCatalogImport, error)
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (e *V2CommerceProductCatalogImportsSucceededWithErrorsEvent) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification is the webhook payload you'll get when handling an event with type "v2.commerce.product_catalog.imports.succeeded_with_errors"
+// Occurs when a product catalog file has been successfully processed but some rows failed validation.
+type V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CommerceProductCatalogImportsSucceededWithErrorsEvent that created this Notification
+func (n *V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsSucceededWithErrorsEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CommerceProductCatalogImportsSucceededWithErrorsEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (n *V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CommerceProductCatalogImport{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
@@ -1478,6 +1662,294 @@ func (n *V2CoreHealthEventGenerationFailureResolvedEventNotification) FetchEvent
 		return nil, err
 	}
 	return evt.(*V2CoreHealthEventGenerationFailureResolvedEvent), nil
+}
+
+// V2DataReportingQueryRunCreatedEvent is the Go struct for the "v2.data.reporting.query_run.created" event.
+// Occurs when a QueryRun is created.
+type V2DataReportingQueryRunCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataReportingQueryRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (e *V2DataReportingQueryRunCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataReportingQueryRunCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.data.reporting.query_run.created"
+// Occurs when a QueryRun is created.
+type V2DataReportingQueryRunCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataReportingQueryRunCreatedEvent that created this Notification
+func (n *V2DataReportingQueryRunCreatedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataReportingQueryRunCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (n *V2DataReportingQueryRunCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataReportingQueryRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2DataReportingQueryRunFailedEvent is the Go struct for the "v2.data.reporting.query_run.failed" event.
+// Occurs when a QueryRun has failed to complete.
+type V2DataReportingQueryRunFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataReportingQueryRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (e *V2DataReportingQueryRunFailedEvent) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataReportingQueryRunFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.data.reporting.query_run.failed"
+// Occurs when a QueryRun has failed to complete.
+type V2DataReportingQueryRunFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataReportingQueryRunFailedEvent that created this Notification
+func (n *V2DataReportingQueryRunFailedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunFailedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataReportingQueryRunFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (n *V2DataReportingQueryRunFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataReportingQueryRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2DataReportingQueryRunSucceededEvent is the Go struct for the "v2.data.reporting.query_run.succeeded" event.
+// Occurs when a QueryRun has successfully completed.
+type V2DataReportingQueryRunSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataReportingQueryRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (e *V2DataReportingQueryRunSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataReportingQueryRunSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.data.reporting.query_run.succeeded"
+// Occurs when a QueryRun has successfully completed.
+type V2DataReportingQueryRunSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataReportingQueryRunSucceededEvent that created this Notification
+func (n *V2DataReportingQueryRunSucceededEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunSucceededEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataReportingQueryRunSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (n *V2DataReportingQueryRunSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataReportingQueryRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2DataReportingQueryRunUpdatedEvent is the Go struct for the "v2.data.reporting.query_run.updated" event.
+// Occurs when a QueryRun is updated.
+type V2DataReportingQueryRunUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2DataReportingQueryRun, error)
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (e *V2DataReportingQueryRunUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2DataReportingQueryRunUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.data.reporting.query_run.updated"
+// Occurs when a QueryRun is updated.
+type V2DataReportingQueryRunUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2DataReportingQueryRunUpdatedEvent that created this Notification
+func (n *V2DataReportingQueryRunUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunUpdatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2DataReportingQueryRunUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2DataReportingQueryRun related to the event.
+func (n *V2DataReportingQueryRunUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2DataReportingQueryRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2DataReportingQueryRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2ExtendWorkflowRunFailedEvent is the Go struct for the "v2.extend.workflow_run.failed" event.
+// Occurs when a Workflow Run fails.
+type V2ExtendWorkflowRunFailedEvent struct {
+	V2BaseEvent
+	Data               V2ExtendWorkflowRunFailedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject           `json:"related_object"`
+	fetchRelatedObject func() (*V2ExtendWorkflowRun, error)
+}
+
+// FetchRelatedObject fetches the V2ExtendWorkflowRun related to the event.
+func (e *V2ExtendWorkflowRunFailedEvent) FetchRelatedObject(ctx context.Context) (*V2ExtendWorkflowRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2ExtendWorkflowRunFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.extend.workflow_run.failed"
+// Occurs when a Workflow Run fails.
+type V2ExtendWorkflowRunFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2ExtendWorkflowRunFailedEvent that created this Notification
+func (n *V2ExtendWorkflowRunFailedEventNotification) FetchEvent(ctx context.Context) (*V2ExtendWorkflowRunFailedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2ExtendWorkflowRunFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2ExtendWorkflowRun related to the event.
+func (n *V2ExtendWorkflowRunFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2ExtendWorkflowRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2ExtendWorkflowRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2ExtendWorkflowRunStartedEvent is the Go struct for the "v2.extend.workflow_run.started" event.
+// Occurs when a Workflow Run starts.
+type V2ExtendWorkflowRunStartedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2ExtendWorkflowRun, error)
+}
+
+// FetchRelatedObject fetches the V2ExtendWorkflowRun related to the event.
+func (e *V2ExtendWorkflowRunStartedEvent) FetchRelatedObject(ctx context.Context) (*V2ExtendWorkflowRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2ExtendWorkflowRunStartedEventNotification is the webhook payload you'll get when handling an event with type "v2.extend.workflow_run.started"
+// Occurs when a Workflow Run starts.
+type V2ExtendWorkflowRunStartedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2ExtendWorkflowRunStartedEvent that created this Notification
+func (n *V2ExtendWorkflowRunStartedEventNotification) FetchEvent(ctx context.Context) (*V2ExtendWorkflowRunStartedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2ExtendWorkflowRunStartedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2ExtendWorkflowRun related to the event.
+func (n *V2ExtendWorkflowRunStartedEventNotification) FetchRelatedObject(ctx context.Context) (*V2ExtendWorkflowRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2ExtendWorkflowRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2ExtendWorkflowRunSucceededEvent is the Go struct for the "v2.extend.workflow_run.succeeded" event.
+// Occurs when a Workflow Run succeeds.
+type V2ExtendWorkflowRunSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2ExtendWorkflowRun, error)
+}
+
+// FetchRelatedObject fetches the V2ExtendWorkflowRun related to the event.
+func (e *V2ExtendWorkflowRunSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2ExtendWorkflowRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2ExtendWorkflowRunSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.extend.workflow_run.succeeded"
+// Occurs when a Workflow Run succeeds.
+type V2ExtendWorkflowRunSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2ExtendWorkflowRunSucceededEvent that created this Notification
+func (n *V2ExtendWorkflowRunSucceededEventNotification) FetchEvent(ctx context.Context) (*V2ExtendWorkflowRunSucceededEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2ExtendWorkflowRunSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2ExtendWorkflowRun related to the event.
+func (n *V2ExtendWorkflowRunSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2ExtendWorkflowRun, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2ExtendWorkflowRun{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
 }
 
 // V2MoneyManagementAdjustmentCreatedEvent is the Go struct for the "v2.money_management.adjustment.created" event.
@@ -2959,6 +3431,174 @@ func (n *V2MoneyManagementTransactionUpdatedEventNotification) FetchRelatedObjec
 	return relatedObj, err
 }
 
+// V2OrchestratedCommerceAgreementConfirmedEvent is the Go struct for the "v2.orchestrated_commerce.agreement.confirmed" event.
+// Occurs when an Agreement is confirmed by one party.
+type V2OrchestratedCommerceAgreementConfirmedEvent struct {
+	V2BaseEvent
+	Data               V2OrchestratedCommerceAgreementConfirmedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                          `json:"related_object"`
+	fetchRelatedObject func() (*V2OrchestratedCommerceAgreement, error)
+}
+
+// FetchRelatedObject fetches the V2OrchestratedCommerceAgreement related to the event.
+func (e *V2OrchestratedCommerceAgreementConfirmedEvent) FetchRelatedObject(ctx context.Context) (*V2OrchestratedCommerceAgreement, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2OrchestratedCommerceAgreementConfirmedEventNotification is the webhook payload you'll get when handling an event with type "v2.orchestrated_commerce.agreement.confirmed"
+// Occurs when an Agreement is confirmed by one party.
+type V2OrchestratedCommerceAgreementConfirmedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2OrchestratedCommerceAgreementConfirmedEvent that created this Notification
+func (n *V2OrchestratedCommerceAgreementConfirmedEventNotification) FetchEvent(ctx context.Context) (*V2OrchestratedCommerceAgreementConfirmedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2OrchestratedCommerceAgreementConfirmedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2OrchestratedCommerceAgreement related to the event.
+func (n *V2OrchestratedCommerceAgreementConfirmedEventNotification) FetchRelatedObject(ctx context.Context) (*V2OrchestratedCommerceAgreement, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2OrchestratedCommerceAgreement{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2OrchestratedCommerceAgreementCreatedEvent is the Go struct for the "v2.orchestrated_commerce.agreement.created" event.
+// Occurs when an Agreement is created.
+type V2OrchestratedCommerceAgreementCreatedEvent struct {
+	V2BaseEvent
+	Data               V2OrchestratedCommerceAgreementCreatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                        `json:"related_object"`
+	fetchRelatedObject func() (*V2OrchestratedCommerceAgreement, error)
+}
+
+// FetchRelatedObject fetches the V2OrchestratedCommerceAgreement related to the event.
+func (e *V2OrchestratedCommerceAgreementCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2OrchestratedCommerceAgreement, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2OrchestratedCommerceAgreementCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.orchestrated_commerce.agreement.created"
+// Occurs when an Agreement is created.
+type V2OrchestratedCommerceAgreementCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2OrchestratedCommerceAgreementCreatedEvent that created this Notification
+func (n *V2OrchestratedCommerceAgreementCreatedEventNotification) FetchEvent(ctx context.Context) (*V2OrchestratedCommerceAgreementCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2OrchestratedCommerceAgreementCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2OrchestratedCommerceAgreement related to the event.
+func (n *V2OrchestratedCommerceAgreementCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2OrchestratedCommerceAgreement, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2OrchestratedCommerceAgreement{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2OrchestratedCommerceAgreementPartiallyConfirmedEvent is the Go struct for the "v2.orchestrated_commerce.agreement.partially_confirmed" event.
+// Occurs when an Agreement is partially confirmed (confirmed by one party but not both).
+type V2OrchestratedCommerceAgreementPartiallyConfirmedEvent struct {
+	V2BaseEvent
+	Data               V2OrchestratedCommerceAgreementPartiallyConfirmedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                                   `json:"related_object"`
+	fetchRelatedObject func() (*V2OrchestratedCommerceAgreement, error)
+}
+
+// FetchRelatedObject fetches the V2OrchestratedCommerceAgreement related to the event.
+func (e *V2OrchestratedCommerceAgreementPartiallyConfirmedEvent) FetchRelatedObject(ctx context.Context) (*V2OrchestratedCommerceAgreement, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2OrchestratedCommerceAgreementPartiallyConfirmedEventNotification is the webhook payload you'll get when handling an event with type "v2.orchestrated_commerce.agreement.partially_confirmed"
+// Occurs when an Agreement is partially confirmed (confirmed by one party but not both).
+type V2OrchestratedCommerceAgreementPartiallyConfirmedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2OrchestratedCommerceAgreementPartiallyConfirmedEvent that created this Notification
+func (n *V2OrchestratedCommerceAgreementPartiallyConfirmedEventNotification) FetchEvent(ctx context.Context) (*V2OrchestratedCommerceAgreementPartiallyConfirmedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2OrchestratedCommerceAgreementPartiallyConfirmedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2OrchestratedCommerceAgreement related to the event.
+func (n *V2OrchestratedCommerceAgreementPartiallyConfirmedEventNotification) FetchRelatedObject(ctx context.Context) (*V2OrchestratedCommerceAgreement, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2OrchestratedCommerceAgreement{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2OrchestratedCommerceAgreementTerminatedEvent is the Go struct for the "v2.orchestrated_commerce.agreement.terminated" event.
+// Occurs when an Agreement is terminated.
+type V2OrchestratedCommerceAgreementTerminatedEvent struct {
+	V2BaseEvent
+	Data               V2OrchestratedCommerceAgreementTerminatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                           `json:"related_object"`
+	fetchRelatedObject func() (*V2OrchestratedCommerceAgreement, error)
+}
+
+// FetchRelatedObject fetches the V2OrchestratedCommerceAgreement related to the event.
+func (e *V2OrchestratedCommerceAgreementTerminatedEvent) FetchRelatedObject(ctx context.Context) (*V2OrchestratedCommerceAgreement, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2OrchestratedCommerceAgreementTerminatedEventNotification is the webhook payload you'll get when handling an event with type "v2.orchestrated_commerce.agreement.terminated"
+// Occurs when an Agreement is terminated.
+type V2OrchestratedCommerceAgreementTerminatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2OrchestratedCommerceAgreementTerminatedEvent that created this Notification
+func (n *V2OrchestratedCommerceAgreementTerminatedEventNotification) FetchEvent(ctx context.Context) (*V2OrchestratedCommerceAgreementTerminatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2OrchestratedCommerceAgreementTerminatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2OrchestratedCommerceAgreement related to the event.
+func (n *V2OrchestratedCommerceAgreementTerminatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2OrchestratedCommerceAgreement, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2OrchestratedCommerceAgreement{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // The request causes the error.
 type V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeSampleErrorRequest struct {
 	// The request idempotency key.
@@ -3133,6 +3773,20 @@ type V2CoreHealthEventGenerationFailureResolvedEventData struct {
 	Summary string `json:"summary"`
 }
 
+// Details about the Workflow Run's transition into the FAILED state.
+type V2ExtendWorkflowRunFailedEventDataFailureDetails struct {
+	// Optional details about the failure result.
+	ErrorMessage string `json:"error_message,omitempty"`
+}
+
+// Occurs when a Workflow Run fails.
+type V2ExtendWorkflowRunFailedEventData struct {
+	// A Stripe dashboard URL with more information about the Workflow Run failure.
+	DashboardURL string `json:"dashboard_url"`
+	// Details about the Workflow Run's transition into the FAILED state.
+	FailureDetails *V2ExtendWorkflowRunFailedEventDataFailureDetails `json:"failure_details"`
+}
+
 // Occurs when an InboundTransfer's funds are made available.
 type V2MoneyManagementInboundTransferAvailableEventData struct {
 	// The transaction ID of the received credit.
@@ -3147,8 +3801,114 @@ type V2MoneyManagementReceivedCreditAvailableEventData struct {
 
 // Occurs when a Transaction is created.
 type V2MoneyManagementTransactionCreatedEventData struct {
+	// Id of the v1 Treasury Transaction corresponding to this Transaction.
+	TreasuryTransaction string `json:"treasury_transaction,omitempty"`
 	// Id of the v1 Transaction corresponding to this Transaction.
 	V1ID string `json:"v1_id,omitempty"`
+}
+
+// Details about the orchestrator.
+type V2OrchestratedCommerceAgreementConfirmedEventDataOrchestratorDetails struct {
+	// The name of the orchestrator. This can be the name of the agent or the name of the business.
+	Name string `json:"name"`
+	// The Network ID of the orchestrator.
+	NetworkBusinessProfile string `json:"network_business_profile"`
+}
+
+// Details about the seller.
+type V2OrchestratedCommerceAgreementConfirmedEventDataSellerDetails struct {
+	// The Network ID of the seller.
+	NetworkBusinessProfile string `json:"network_business_profile"`
+}
+
+// Occurs when an Agreement is confirmed by one party.
+type V2OrchestratedCommerceAgreementConfirmedEventData struct {
+	// The time at which the orchestrator confirmed the agreement.
+	OrchestratorConfirmedAt time.Time `json:"orchestrator_confirmed_at"`
+	// Details about the orchestrator.
+	OrchestratorDetails *V2OrchestratedCommerceAgreementConfirmedEventDataOrchestratorDetails `json:"orchestrator_details"`
+	// The time at which the seller confirmed the agreement.
+	SellerConfirmedAt time.Time `json:"seller_confirmed_at"`
+	// Details about the seller.
+	SellerDetails *V2OrchestratedCommerceAgreementConfirmedEventDataSellerDetails `json:"seller_details"`
+}
+
+// Details about the orchestrator.
+type V2OrchestratedCommerceAgreementCreatedEventDataOrchestratorDetails struct {
+	// The name of the orchestrator. This can be the name of the agent or the name of the business.
+	Name string `json:"name"`
+	// The Network ID of the orchestrator.
+	NetworkBusinessProfile string `json:"network_business_profile"`
+}
+
+// Details about the seller.
+type V2OrchestratedCommerceAgreementCreatedEventDataSellerDetails struct {
+	// The Network ID of the seller.
+	NetworkBusinessProfile string `json:"network_business_profile"`
+}
+
+// Occurs when an Agreement is created.
+type V2OrchestratedCommerceAgreementCreatedEventData struct {
+	// The time at which the agreement was created.
+	Created time.Time `json:"created"`
+	// The party that initiated the agreement.
+	InitiatedBy V2OrchestratedCommerceAgreementCreatedEventDataInitiatedBy `json:"initiated_by"`
+	// Details about the orchestrator.
+	OrchestratorDetails *V2OrchestratedCommerceAgreementCreatedEventDataOrchestratorDetails `json:"orchestrator_details"`
+	// Details about the seller.
+	SellerDetails *V2OrchestratedCommerceAgreementCreatedEventDataSellerDetails `json:"seller_details"`
+}
+
+// Details about the orchestrator.
+type V2OrchestratedCommerceAgreementPartiallyConfirmedEventDataOrchestratorDetails struct {
+	// The name of the orchestrator. This can be the name of the agent or the name of the business.
+	Name string `json:"name"`
+	// The Network ID of the orchestrator.
+	NetworkBusinessProfile string `json:"network_business_profile"`
+}
+
+// Details about the seller.
+type V2OrchestratedCommerceAgreementPartiallyConfirmedEventDataSellerDetails struct {
+	// The Network ID of the seller.
+	NetworkBusinessProfile string `json:"network_business_profile"`
+}
+
+// Occurs when an Agreement is partially confirmed (confirmed by one party but not both).
+type V2OrchestratedCommerceAgreementPartiallyConfirmedEventData struct {
+	// The time at which the orchestrator confirmed the agreement.
+	OrchestratorConfirmedAt time.Time `json:"orchestrator_confirmed_at"`
+	// Details about the orchestrator.
+	OrchestratorDetails *V2OrchestratedCommerceAgreementPartiallyConfirmedEventDataOrchestratorDetails `json:"orchestrator_details"`
+	// The time at which the seller confirmed the agreement.
+	SellerConfirmedAt time.Time `json:"seller_confirmed_at"`
+	// Details about the seller.
+	SellerDetails *V2OrchestratedCommerceAgreementPartiallyConfirmedEventDataSellerDetails `json:"seller_details"`
+}
+
+// Details about the orchestrator.
+type V2OrchestratedCommerceAgreementTerminatedEventDataOrchestratorDetails struct {
+	// The name of the orchestrator. This can be the name of the agent or the name of the business.
+	Name string `json:"name"`
+	// The Network ID of the orchestrator.
+	NetworkBusinessProfile string `json:"network_business_profile"`
+}
+
+// Details about the seller.
+type V2OrchestratedCommerceAgreementTerminatedEventDataSellerDetails struct {
+	// The Network ID of the seller.
+	NetworkBusinessProfile string `json:"network_business_profile"`
+}
+
+// Occurs when an Agreement is terminated.
+type V2OrchestratedCommerceAgreementTerminatedEventData struct {
+	// Details about the orchestrator.
+	OrchestratorDetails *V2OrchestratedCommerceAgreementTerminatedEventDataOrchestratorDetails `json:"orchestrator_details"`
+	// Details about the seller.
+	SellerDetails *V2OrchestratedCommerceAgreementTerminatedEventDataSellerDetails `json:"seller_details"`
+	// The time at which the agreement was terminated.
+	TerminatedAt time.Time `json:"terminated_at"`
+	// The party that terminated the agreement.
+	TerminatedBy V2OrchestratedCommerceAgreementTerminatedEventDataTerminatedBy `json:"terminated_by"`
 }
 
 // ConvertRawEvent converts a raw event to a concrete event type.
@@ -3178,6 +3938,66 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.V2BaseEvent = event.V2BaseEvent
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
+		}
+		return result, nil
+	case "v2.commerce.product_catalog.imports.failed":
+		result := &V2CommerceProductCatalogImportsFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
+			v := &V2CommerceProductCatalogImport{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.commerce.product_catalog.imports.processing":
+		result := &V2CommerceProductCatalogImportsProcessingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
+			v := &V2CommerceProductCatalogImport{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.commerce.product_catalog.imports.succeeded":
+		result := &V2CommerceProductCatalogImportsSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
+			v := &V2CommerceProductCatalogImport{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.commerce.product_catalog.imports.succeeded_with_errors":
+		result := &V2CommerceProductCatalogImportsSucceededWithErrorsEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
+			v := &V2CommerceProductCatalogImport{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
 		}
 		return result, nil
 	case "v2.core.account.closed":
@@ -3648,6 +4468,114 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.V2BaseEvent = event.V2BaseEvent
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
+		}
+		return result, nil
+	case "v2.data.reporting.query_run.created":
+		result := &V2DataReportingQueryRunCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataReportingQueryRun, error) {
+			v := &V2DataReportingQueryRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.data.reporting.query_run.failed":
+		result := &V2DataReportingQueryRunFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataReportingQueryRun, error) {
+			v := &V2DataReportingQueryRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.data.reporting.query_run.succeeded":
+		result := &V2DataReportingQueryRunSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataReportingQueryRun, error) {
+			v := &V2DataReportingQueryRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.data.reporting.query_run.updated":
+		result := &V2DataReportingQueryRunUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2DataReportingQueryRun, error) {
+			v := &V2DataReportingQueryRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.extend.workflow_run.failed":
+		result := &V2ExtendWorkflowRunFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2ExtendWorkflowRun, error) {
+			v := &V2ExtendWorkflowRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.extend.workflow_run.started":
+		result := &V2ExtendWorkflowRunStartedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2ExtendWorkflowRun, error) {
+			v := &V2ExtendWorkflowRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.extend.workflow_run.succeeded":
+		result := &V2ExtendWorkflowRunSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2ExtendWorkflowRun, error) {
+			v := &V2ExtendWorkflowRun{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
 		}
 		return result, nil
 	case "v2.money_management.adjustment.created":
@@ -4199,6 +5127,78 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.orchestrated_commerce.agreement.confirmed":
+		result := &V2OrchestratedCommerceAgreementConfirmedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2OrchestratedCommerceAgreement, error) {
+			v := &V2OrchestratedCommerceAgreement{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.orchestrated_commerce.agreement.created":
+		result := &V2OrchestratedCommerceAgreementCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2OrchestratedCommerceAgreement, error) {
+			v := &V2OrchestratedCommerceAgreement{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.orchestrated_commerce.agreement.partially_confirmed":
+		result := &V2OrchestratedCommerceAgreementPartiallyConfirmedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2OrchestratedCommerceAgreement, error) {
+			v := &V2OrchestratedCommerceAgreement{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.orchestrated_commerce.agreement.terminated":
+		result := &V2OrchestratedCommerceAgreementTerminatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2OrchestratedCommerceAgreement, error) {
+			v := &V2OrchestratedCommerceAgreement{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
 	default:
 		return event, nil
 	}
@@ -4233,6 +5233,34 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.billing.meter.no_meter_found":
 		evt := V1BillingMeterNoMeterFoundEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.commerce.product_catalog.imports.failed":
+		evt := V2CommerceProductCatalogImportsFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.commerce.product_catalog.imports.processing":
+		evt := V2CommerceProductCatalogImportsProcessingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.commerce.product_catalog.imports.succeeded":
+		evt := V2CommerceProductCatalogImportsSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.commerce.product_catalog.imports.succeeded_with_errors":
+		evt := V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -4450,6 +5478,55 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.core.health.event_generation_failure.resolved":
 		evt := V2CoreHealthEventGenerationFailureResolvedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.reporting.query_run.created":
+		evt := V2DataReportingQueryRunCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.reporting.query_run.failed":
+		evt := V2DataReportingQueryRunFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.reporting.query_run.succeeded":
+		evt := V2DataReportingQueryRunSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.data.reporting.query_run.updated":
+		evt := V2DataReportingQueryRunUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.extend.workflow_run.failed":
+		evt := V2ExtendWorkflowRunFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.extend.workflow_run.started":
+		evt := V2ExtendWorkflowRunStartedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.extend.workflow_run.succeeded":
+		evt := V2ExtendWorkflowRunSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -4702,6 +5779,34 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.money_management.transaction.updated":
 		evt := V2MoneyManagementTransactionUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.orchestrated_commerce.agreement.confirmed":
+		evt := V2OrchestratedCommerceAgreementConfirmedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.orchestrated_commerce.agreement.created":
+		evt := V2OrchestratedCommerceAgreementCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.orchestrated_commerce.agreement.partially_confirmed":
+		evt := V2OrchestratedCommerceAgreementPartiallyConfirmedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.orchestrated_commerce.agreement.terminated":
+		evt := V2OrchestratedCommerceAgreementTerminatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

@@ -8,7 +8,7 @@ package stripe
 
 import "time"
 
-// Determines if tax will be calculated automatically based on a PTC or manually based on rules defined by the merchant. Defaults to "manual".
+// Determines if tax is calculated automatically based on a PTC or manually based on rules defined by the business. Defaults to "manual".
 type V2BillingBillSettingCalculationTaxType string
 
 // List of values that V2BillingBillSettingCalculationTaxType can take
@@ -30,7 +30,7 @@ const (
 
 // Settings for calculating tax.
 type V2BillingBillSettingCalculationTax struct {
-	// Determines if tax will be calculated automatically based on a PTC or manually based on rules defined by the merchant. Defaults to "manual".
+	// Determines if tax is calculated automatically based on a PTC or manually based on rules defined by the business. Defaults to "manual".
 	Type V2BillingBillSettingCalculationTaxType `json:"type"`
 }
 
@@ -40,18 +40,18 @@ type V2BillingBillSettingCalculation struct {
 	Tax *V2BillingBillSettingCalculationTax `json:"tax,omitempty"`
 }
 
-// The amount of time until the invoice will be overdue for payment.
+// The amount of time until the invoice is overdue for payment.
 type V2BillingBillSettingInvoiceTimeUntilDue struct {
 	// The interval unit for the time until due.
 	Interval V2BillingBillSettingInvoiceTimeUntilDueInterval `json:"interval"`
 	// The number of interval units. For example, if interval=day and interval_count=30,
-	// the invoice will be due in 30 days.
+	// the invoice is due in 30 days.
 	IntervalCount int64 `json:"interval_count"`
 }
 
 // Settings related to invoice behavior.
 type V2BillingBillSettingInvoice struct {
-	// The amount of time until the invoice will be overdue for payment.
+	// The amount of time until the invoice is overdue for payment.
 	TimeUntilDue *V2BillingBillSettingInvoiceTimeUntilDue `json:"time_until_due,omitempty"`
 }
 
@@ -70,8 +70,8 @@ type V2BillingBillSetting struct {
 	Invoice *V2BillingBillSettingInvoice `json:"invoice,omitempty"`
 	// The ID of the invoice rendering template to be used when generating invoices.
 	InvoiceRenderingTemplate string `json:"invoice_rendering_template,omitempty"`
-	// The latest version of the current settings object. This will be
-	// Updated every time an attribute of the settings is updated.
+	// The latest version of the current settings object. This is
+	// updated every time an attribute of the settings is updated.
 	LatestVersion string `json:"latest_version"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`

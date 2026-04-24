@@ -13,15 +13,20 @@ type V2MoneyManagementTransactionEntryTransactionDetailsCategory string
 
 // List of values that V2MoneyManagementTransactionEntryTransactionDetailsCategory can take
 const (
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryAdjustment         V2MoneyManagementTransactionEntryTransactionDetailsCategory = "adjustment"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryCurrencyConversion V2MoneyManagementTransactionEntryTransactionDetailsCategory = "currency_conversion"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryInboundTransfer    V2MoneyManagementTransactionEntryTransactionDetailsCategory = "inbound_transfer"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryOutboundPayment    V2MoneyManagementTransactionEntryTransactionDetailsCategory = "outbound_payment"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryOutboundTransfer   V2MoneyManagementTransactionEntryTransactionDetailsCategory = "outbound_transfer"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReceivedCredit     V2MoneyManagementTransactionEntryTransactionDetailsCategory = "received_credit"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReceivedDebit      V2MoneyManagementTransactionEntryTransactionDetailsCategory = "received_debit"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReturn             V2MoneyManagementTransactionEntryTransactionDetailsCategory = "return"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryStripeFee          V2MoneyManagementTransactionEntryTransactionDetailsCategory = "stripe_fee"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryAdjustment               V2MoneyManagementTransactionEntryTransactionDetailsCategory = "adjustment"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryCurrencyConversion       V2MoneyManagementTransactionEntryTransactionDetailsCategory = "currency_conversion"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryInboundTransfer          V2MoneyManagementTransactionEntryTransactionDetailsCategory = "inbound_transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryInboundTransferReversal  V2MoneyManagementTransactionEntryTransactionDetailsCategory = "inbound_transfer_reversal"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryOutboundPayment          V2MoneyManagementTransactionEntryTransactionDetailsCategory = "outbound_payment"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryOutboundPaymentReversal  V2MoneyManagementTransactionEntryTransactionDetailsCategory = "outbound_payment_reversal"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryOutboundTransfer         V2MoneyManagementTransactionEntryTransactionDetailsCategory = "outbound_transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryOutboundTransferReversal V2MoneyManagementTransactionEntryTransactionDetailsCategory = "outbound_transfer_reversal"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReceivedCredit           V2MoneyManagementTransactionEntryTransactionDetailsCategory = "received_credit"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReceivedCreditReversal   V2MoneyManagementTransactionEntryTransactionDetailsCategory = "received_credit_reversal"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReceivedDebit            V2MoneyManagementTransactionEntryTransactionDetailsCategory = "received_debit"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReceivedDebitReversal    V2MoneyManagementTransactionEntryTransactionDetailsCategory = "received_debit_reversal"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryStripeFee                V2MoneyManagementTransactionEntryTransactionDetailsCategory = "stripe_fee"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryStripeFeeTax             V2MoneyManagementTransactionEntryTransactionDetailsCategory = "stripe_fee_tax"
 )
 
 // Open Enum. Type of the flow that created the Transaction. The field matching this value will contain the ID of the flow.

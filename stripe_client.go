@@ -366,6 +366,8 @@ type Client struct {
 	V2BillingMeterEventStreams *v2BillingMeterEventStreamService
 	// V2BillingProfiles is the service used to invoke /v2/billing/profiles APIs.
 	V2BillingProfiles *v2BillingProfileService
+	// V2CommerceProductCatalogImports is the service used to invoke /v2/commerce/product_catalog/imports APIs.
+	V2CommerceProductCatalogImports *v2CommerceProductCatalogImportService
 	// V2CoreAccountLinks is the service used to invoke /v2/core/account_links APIs.
 	V2CoreAccountLinks *v2CoreAccountLinkService
 	// V2CoreAccounts is the service used to invoke /v2/core/accounts APIs.
@@ -386,6 +388,14 @@ type Client struct {
 	V2CoreVaultGBBankAccounts *v2CoreVaultGBBankAccountService
 	// V2CoreVaultUSBankAccounts is the service used to invoke /v2/core/vault/us_bank_accounts APIs.
 	V2CoreVaultUSBankAccounts *v2CoreVaultUSBankAccountService
+	// V2DataReportingQueryRuns is the service used to invoke /v2/data/reporting/query_runs APIs.
+	V2DataReportingQueryRuns *v2DataReportingQueryRunService
+	// V2ExtendWorkflowRuns is the service used to invoke /v2/extend/workflow_runs APIs.
+	V2ExtendWorkflowRuns *v2ExtendWorkflowRunService
+	// V2ExtendWorkflows is the service used to invoke /v2/extend/workflows APIs.
+	V2ExtendWorkflows *v2ExtendWorkflowService
+	// V2IamActivityLogs is the service used to invoke /v2/iam/activity_logs APIs.
+	V2IamActivityLogs *v2IamActivityLogService
 	// V2MoneyManagementAdjustments is the service used to invoke /v2/money_management/adjustments APIs.
 	V2MoneyManagementAdjustments *v2MoneyManagementAdjustmentService
 	// V2MoneyManagementFinancialAccounts is the service used to invoke /v2/money_management/financial_accounts APIs.
@@ -414,6 +424,10 @@ type Client struct {
 	V2MoneyManagementTransactionEntries *v2MoneyManagementTransactionEntryService
 	// V2MoneyManagementTransactions is the service used to invoke /v2/money_management/transactions APIs.
 	V2MoneyManagementTransactions *v2MoneyManagementTransactionService
+	// V2NetworkBusinessProfiles is the service used to invoke businessprofile related APIs.
+	V2NetworkBusinessProfiles *v2NetworkBusinessProfileService
+	// V2OrchestratedCommerceAgreements is the service used to invoke /v2/orchestrated_commerce/agreements APIs.
+	V2OrchestratedCommerceAgreements *v2OrchestratedCommerceAgreementService
 	// V2TestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2TestHelpersFinancialAddressService
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
@@ -634,6 +648,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2BillingMeterEventSessions = &v2BillingMeterEventSessionService{B: backends.API, Key: key}
 	client.V2BillingMeterEventStreams = &v2BillingMeterEventStreamService{BMeterEvents: backends.MeterEvents, Key: key}
 	client.V2BillingProfiles = &v2BillingProfileService{B: backends.API, Key: key}
+	client.V2CommerceProductCatalogImports = &v2CommerceProductCatalogImportService{B: backends.API, Key: key}
 	client.V2CoreAccountLinks = &v2CoreAccountLinkService{B: backends.API, Key: key}
 	client.V2CoreAccounts = &v2CoreAccountService{B: backends.API, Key: key}
 	client.V2CoreAccountsPersons = &v2CoreAccountsPersonService{B: backends.API, Key: key}
@@ -644,6 +659,10 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}
 	client.V2CoreVaultUSBankAccounts = &v2CoreVaultUSBankAccountService{B: backends.API, Key: key}
+	client.V2DataReportingQueryRuns = &v2DataReportingQueryRunService{B: backends.API, Key: key}
+	client.V2ExtendWorkflowRuns = &v2ExtendWorkflowRunService{B: backends.API, Key: key}
+	client.V2ExtendWorkflows = &v2ExtendWorkflowService{B: backends.API, Key: key}
+	client.V2IamActivityLogs = &v2IamActivityLogService{B: backends.API, Key: key}
 	client.V2MoneyManagementAdjustments = &v2MoneyManagementAdjustmentService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAccounts = &v2MoneyManagementFinancialAccountService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAddresses = &v2MoneyManagementFinancialAddressService{B: backends.API, Key: key}
@@ -658,6 +677,8 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementReceivedDebits = &v2MoneyManagementReceivedDebitService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactionEntries = &v2MoneyManagementTransactionEntryService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
+	client.V2NetworkBusinessProfiles = &v2NetworkBusinessProfileService{B: backends.API, Key: key}
+	client.V2OrchestratedCommerceAgreements = &v2OrchestratedCommerceAgreementService{B: backends.API, Key: key}
 	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
 }

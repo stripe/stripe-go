@@ -91,6 +91,30 @@ func (h *EventNotificationHandler) OnV1BillingMeterNoMeterFound(callback func(ct
 	return registerTypedHandler(h, "v1.billing.meter.no_meter_found", callback)
 }
 
+// OnV2CommerceProductCatalogImportsFailed registers a callback to handle notifications about the "v2.commerce.product_catalog.imports.failed" event.
+func (h *EventNotificationHandler) OnV2CommerceProductCatalogImportsFailed(callback func(ctx context.Context, notif *V2CommerceProductCatalogImportsFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.commerce.product_catalog.imports.failed", callback)
+}
+
+// OnV2CommerceProductCatalogImportsProcessing registers a callback to handle notifications about the "v2.commerce.product_catalog.imports.processing" event.
+func (h *EventNotificationHandler) OnV2CommerceProductCatalogImportsProcessing(callback func(ctx context.Context, notif *V2CommerceProductCatalogImportsProcessingEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.commerce.product_catalog.imports.processing", callback)
+}
+
+// OnV2CommerceProductCatalogImportsSucceeded registers a callback to handle notifications about the "v2.commerce.product_catalog.imports.succeeded" event.
+func (h *EventNotificationHandler) OnV2CommerceProductCatalogImportsSucceeded(callback func(ctx context.Context, notif *V2CommerceProductCatalogImportsSucceededEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.commerce.product_catalog.imports.succeeded", callback)
+}
+
+// OnV2CommerceProductCatalogImportsSucceededWithErrors registers a callback to handle notifications about the "v2.commerce.product_catalog.imports.succeeded_with_errors" event.
+func (h *EventNotificationHandler) OnV2CommerceProductCatalogImportsSucceededWithErrors(callback func(ctx context.Context, notif *V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.commerce.product_catalog.imports.succeeded_with_errors", callback)
+}
+
 // OnV2CoreAccountClosed registers a callback to handle notifications about the "v2.core.account.closed" event.
 func (h *EventNotificationHandler) OnV2CoreAccountClosed(callback func(ctx context.Context, notif *V2CoreAccountClosedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.core.account.closed", callback)
@@ -256,6 +280,44 @@ func (h *EventNotificationHandler) OnV2CoreEventDestinationPing(callback func(ct
 func (h *EventNotificationHandler) OnV2CoreHealthEventGenerationFailureResolved(callback func(ctx context.Context, notif *V2CoreHealthEventGenerationFailureResolvedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.core.health.event_generation_failure.resolved", callback)
+}
+
+// OnV2DataReportingQueryRunCreated registers a callback to handle notifications about the "v2.data.reporting.query_run.created" event.
+func (h *EventNotificationHandler) OnV2DataReportingQueryRunCreated(callback func(ctx context.Context, notif *V2DataReportingQueryRunCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.data.reporting.query_run.created", callback)
+}
+
+// OnV2DataReportingQueryRunFailed registers a callback to handle notifications about the "v2.data.reporting.query_run.failed" event.
+func (h *EventNotificationHandler) OnV2DataReportingQueryRunFailed(callback func(ctx context.Context, notif *V2DataReportingQueryRunFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.data.reporting.query_run.failed", callback)
+}
+
+// OnV2DataReportingQueryRunSucceeded registers a callback to handle notifications about the "v2.data.reporting.query_run.succeeded" event.
+func (h *EventNotificationHandler) OnV2DataReportingQueryRunSucceeded(callback func(ctx context.Context, notif *V2DataReportingQueryRunSucceededEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.data.reporting.query_run.succeeded", callback)
+}
+
+// OnV2DataReportingQueryRunUpdated registers a callback to handle notifications about the "v2.data.reporting.query_run.updated" event.
+func (h *EventNotificationHandler) OnV2DataReportingQueryRunUpdated(callback func(ctx context.Context, notif *V2DataReportingQueryRunUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.data.reporting.query_run.updated", callback)
+}
+
+// OnV2ExtendWorkflowRunFailed registers a callback to handle notifications about the "v2.extend.workflow_run.failed" event.
+func (h *EventNotificationHandler) OnV2ExtendWorkflowRunFailed(callback func(ctx context.Context, notif *V2ExtendWorkflowRunFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.extend.workflow_run.failed", callback)
+}
+
+// OnV2ExtendWorkflowRunStarted registers a callback to handle notifications about the "v2.extend.workflow_run.started" event.
+func (h *EventNotificationHandler) OnV2ExtendWorkflowRunStarted(callback func(ctx context.Context, notif *V2ExtendWorkflowRunStartedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.extend.workflow_run.started", callback)
+}
+
+// OnV2ExtendWorkflowRunSucceeded registers a callback to handle notifications about the "v2.extend.workflow_run.succeeded" event.
+func (h *EventNotificationHandler) OnV2ExtendWorkflowRunSucceeded(callback func(ctx context.Context, notif *V2ExtendWorkflowRunSucceededEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.extend.workflow_run.succeeded", callback)
 }
 
 // OnV2MoneyManagementAdjustmentCreated registers a callback to handle notifications about the "v2.money_management.adjustment.created" event.
@@ -472,6 +534,30 @@ func (h *EventNotificationHandler) OnV2MoneyManagementTransactionCreated(callbac
 func (h *EventNotificationHandler) OnV2MoneyManagementTransactionUpdated(callback func(ctx context.Context, notif *V2MoneyManagementTransactionUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.money_management.transaction.updated", callback)
+}
+
+// OnV2OrchestratedCommerceAgreementConfirmed registers a callback to handle notifications about the "v2.orchestrated_commerce.agreement.confirmed" event.
+func (h *EventNotificationHandler) OnV2OrchestratedCommerceAgreementConfirmed(callback func(ctx context.Context, notif *V2OrchestratedCommerceAgreementConfirmedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.orchestrated_commerce.agreement.confirmed", callback)
+}
+
+// OnV2OrchestratedCommerceAgreementCreated registers a callback to handle notifications about the "v2.orchestrated_commerce.agreement.created" event.
+func (h *EventNotificationHandler) OnV2OrchestratedCommerceAgreementCreated(callback func(ctx context.Context, notif *V2OrchestratedCommerceAgreementCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.orchestrated_commerce.agreement.created", callback)
+}
+
+// OnV2OrchestratedCommerceAgreementPartiallyConfirmed registers a callback to handle notifications about the "v2.orchestrated_commerce.agreement.partially_confirmed" event.
+func (h *EventNotificationHandler) OnV2OrchestratedCommerceAgreementPartiallyConfirmed(callback func(ctx context.Context, notif *V2OrchestratedCommerceAgreementPartiallyConfirmedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.orchestrated_commerce.agreement.partially_confirmed", callback)
+}
+
+// OnV2OrchestratedCommerceAgreementTerminated registers a callback to handle notifications about the "v2.orchestrated_commerce.agreement.terminated" event.
+func (h *EventNotificationHandler) OnV2OrchestratedCommerceAgreementTerminated(callback func(ctx context.Context, notif *V2OrchestratedCommerceAgreementTerminatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.orchestrated_commerce.agreement.terminated", callback)
 }
 
 // event-handler-methods: The end of the section generated from our OpenAPI spec
