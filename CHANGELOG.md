@@ -1,5 +1,24 @@
 # Changelog
 
+## 85.2.0-beta.1 - 2026-04-23
+This release changes the pinned API version to 2026-04-22.private.
+
+* [#2336](https://github.com/stripe/stripe-go/pull/2336) Update generated code for beta
+  * Add support for new resources `SharedPaymentGrantedToken` and `SharedPaymentIssuedToken`
+  * Add support for `Get` method on resource `SharedPaymentGrantedToken`
+  * Add support for `New` and `Revoke` test helper methods on resource `SharedPaymentGrantedToken`
+  * Add support for `Get`, `New`, and `Revoke` methods on resource `SharedPaymentIssuedToken`
+  * Add support for `BLIK` on `CheckoutSessionPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptions`, `QuotePreviewInvoicePaymentSettingsPaymentMethodOptions`, `SubscriptionPaymentSettingsPaymentMethodOptionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptions`
+  * Add support for new values `fo_vat`, `gi_tin`, `it_cf`, and `py_ruc` on enums `CheckoutSessionCollectedInformationTaxIds.Type`, `OrderTaxDetailsTaxId.Type`, and `QuotePreviewInvoiceCustomerTaxIds.Type`
+  * Add support for `SharedPaymentGrantedToken` on `ConfirmationTokenPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `ValidationErrors` on `PrivacyRedactionJob`
+  * Add support for `TaxDetails` on `Product`
+  * Add support for new value `blik` on enum `QuotePreviewInvoicePaymentSettings.PaymentMethodTypes`
+  * ⚠️ Change type of `QuotePreviewInvoiceTotalTaxesTaxRateDetails.TaxRate` from `string` to `expandable($TaxRate)`
+  * Add support for `AdmissionsTax`, `AttendanceTax`, `EntertainmentTax`, `GrossReceiptsTax`, `HospitalityTax`, `LuxuryTax`, `ResortTax`, and `TourismTax` on `TaxRegistrationCountryOptionsUsParams`
+  * Add support for `Purpose` on `TreasuryOutboundPaymentParams` and `TreasuryOutboundPayment`
+  * Add support for error codes `action_blocked` and `approval_required` on `QuotePreviewInvoiceLastFinalizationError`
+
 ## 85.1.0-beta.1 - 2026-03-25
 
 This release changes the pinned API version to `2026-03-25.preview`. It is built on top of SDK version 85.0.0 which contains breaking changes. Please review the [changelog for 85.0.0](https://github.com/stripe/stripe-go/blob/master/CHANGELOG.md#8500---2026-03-25) if upgrading from older SDK versions.
