@@ -25,7 +25,7 @@ type V2BillingLicenseFeeTierParams struct {
 	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units with at
 	// most 12 decimal places.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
+	// Up to and including this quantity is contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
 	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
@@ -51,24 +51,24 @@ type V2BillingLicenseFeeParams struct {
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// The Licensed Item that this License Fee binds to.
 	LicensedItem *string `form:"licensed_item" json:"licensed_item,omitempty"`
-	// Changes the version that new license fee will use. Providing `live_version = "latest"` will set the
+	// Changes the version that new license fee activations use. Providing `live_version = "latest"` sets the
 	// license fee's `live_version` to its latest version.
 	LiveVersion *string `form:"live_version" json:"live_version,omitempty"`
 	// An internal key you can use to search for a particular license fee. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
-	// The interval for assessing service. For example, a monthly license fee with a rate of $1 for the first 10 "workloads"
-	// and $2 thereafter means "$1 per workload up to 10 workloads during a month of service." This is similar to but
+	// The interval for assessing service. For example, a monthly license fee with a rate of 1 USD for the first 10 "workloads"
+	// and 2 USD thereafter means "1 USD per workload up to 10 workloads during a month of service." This is similar to but
 	// distinct from billing interval; the service interval deals with the rate at which the customer accumulates fees,
 	// while the billing interval in Cadence deals with the rate the customer is billed.
 	ServiceInterval *string `form:"service_interval" json:"service_interval,omitempty"`
-	// The length of the interval for assessing service. For example, set this to 3 and `service_interval` to `"month"` in
-	// order to specify quarterly service.
+	// The length of the interval for assessing service. For example, set this to 3 and `service_interval` to `"month"`
+	// to specify quarterly service.
 	ServiceIntervalCount *int64 `form:"service_interval_count" json:"service_interval_count,omitempty"`
-	// The Stripe Tax tax behavior - whether the license fee is inclusive or exclusive of tax.
+	// The tax behavior for Stripe Tax — whether the license fee price includes or excludes tax.
 	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
-	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
+	// Defines whether the tiered price is graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
 	// grows into new tiers. Can only be set if `tiers` is set.
 	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
@@ -97,7 +97,7 @@ type V2BillingLicenseFeeCreateTierParams struct {
 	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units with at
 	// most 12 decimal places.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
+	// Up to and including this quantity is contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
 	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
@@ -127,17 +127,17 @@ type V2BillingLicenseFeeCreateParams struct {
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// The interval for assessing service. For example, a monthly license fee with a rate of $1 for the first 10 "workloads"
-	// and $2 thereafter means "$1 per workload up to 10 workloads during a month of service." This is similar to but
+	// The interval for assessing service. For example, a monthly license fee with a rate of 1 USD for the first 10 "workloads"
+	// and 2 USD thereafter means "1 USD per workload up to 10 workloads during a month of service." This is similar to but
 	// distinct from billing interval; the service interval deals with the rate at which the customer accumulates fees,
 	// while the billing interval in Cadence deals with the rate the customer is billed.
 	ServiceInterval *string `form:"service_interval" json:"service_interval"`
-	// The length of the interval for assessing service. For example, set this to 3 and `service_interval` to `"month"` in
-	// order to specify quarterly service.
+	// The length of the interval for assessing service. For example, set this to 3 and `service_interval` to `"month"`
+	// to specify quarterly service.
 	ServiceIntervalCount *int64 `form:"service_interval_count" json:"service_interval_count"`
-	// The Stripe Tax tax behavior - whether the license fee is inclusive or exclusive of tax.
+	// The tax behavior for Stripe Tax — whether the license fee price includes or excludes tax.
 	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior"`
-	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
+	// Defines whether the tiered price is graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
 	// grows into new tiers. Can only be set if `tiers` is set.
 	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
@@ -171,7 +171,7 @@ type V2BillingLicenseFeeUpdateTierParams struct {
 	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units with at
 	// most 12 decimal places.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
+	// Up to and including this quantity is contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
 	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
@@ -193,14 +193,14 @@ type V2BillingLicenseFeeUpdateParams struct {
 	// This name is used in Stripe-hosted products like the Customer Portal and Checkout. It does not show up on Invoices.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
-	// Changes the version that new license fee will use. Providing `live_version = "latest"` will set the
+	// Changes the version that new license fee activations use. Providing `live_version = "latest"` sets the
 	// license fee's `live_version` to its latest version.
 	LiveVersion *string `form:"live_version" json:"live_version,omitempty"`
 	// An internal key you can use to search for a particular license fee. Maximum length of 200 characters.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
-	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
+	// Defines whether the tiered price is graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
 	// grows into new tiers. Can only be set if `tiers` is set.
 	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`

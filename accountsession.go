@@ -1291,7 +1291,12 @@ type AccountSessionComponentsBalances struct {
 	Enabled  bool                                      `json:"enabled"`
 	Features *AccountSessionComponentsBalancesFeatures `json:"features"`
 }
-type AccountSessionComponentsBillsFeatures struct{}
+type AccountSessionComponentsBillsFeatures struct {
+	// Whether to enable the bill management feature that grants access to bill creation and payment.
+	BillManagement bool `json:"bill_management"`
+	// Whether to enable the send money feature that grants access to bill creation and payment.
+	SendMoney bool `json:"send_money"`
+}
 
 // Configuration for the [Bills](https://docs.stripe.com/connect/supported-embedded-components/bills/) embedded component.
 type AccountSessionComponentsBills struct {

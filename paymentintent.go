@@ -3278,8 +3278,6 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
-	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
-	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -11056,8 +11054,6 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
-	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
-	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -15467,8 +15463,6 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
-	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
-	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -18415,6 +18409,14 @@ func (p *PaymentIntentUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Details about the agent that initiated the creation of this PaymentIntent.
+type PaymentIntentAgentDetails struct {
+	// The name of the agent that initiated the payment.
+	Name string `json:"name"`
+	// The Stripe profile associated with the agent that initiated the payment.
+	NetworkBusinessProfile *Profile `json:"network_business_profile"`
+}
+
 // Allocated Funds configuration for this PaymentIntent.
 type PaymentIntentAllocatedFunds struct {
 	// Allocated Funds configuration for this PaymentIntent.
@@ -20539,6 +20541,8 @@ type PaymentIntentTransferData struct {
 // Related guide: [Payment Intents API](https://docs.stripe.com/payments/payment-intents)
 type PaymentIntent struct {
 	APIResource
+	// Details about the agent that initiated the creation of this PaymentIntent.
+	AgentDetails *PaymentIntentAgentDetails `json:"agent_details,omitempty"`
 	// Allocated Funds configuration for this PaymentIntent.
 	AllocatedFunds *PaymentIntentAllocatedFunds `json:"allocated_funds,omitempty"`
 	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
@@ -20639,8 +20643,6 @@ type PaymentIntent struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentSetupFutureUsage `json:"setup_future_usage"`
-	// ID of the shared payment token granted to be used in this PaymentIntent
-	SharedPaymentGrantedToken string `json:"shared_payment_granted_token,omitempty"`
 	// Shipping information for this PaymentIntent.
 	Shipping *ShippingDetails `json:"shipping"`
 	// This is a legacy field that will be removed in the future. It is the ID of the Source object that is associated with this PaymentIntent, if one was supplied.

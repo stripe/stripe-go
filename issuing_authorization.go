@@ -629,6 +629,86 @@ type IssuingAuthorizationAmountDetails struct {
 	CashbackAmount int64 `json:"cashback_amount"`
 }
 
+// Fees associated with the transaction.
+type IssuingAuthorizationCryptoTransactionCryptoTransactionConfirmedFee struct {
+	// The fee amount.
+	Amount string `json:"amount"`
+	// The fee currency.
+	Currency Currency `json:"currency"`
+	// The fee type.
+	Type string `json:"type"`
+}
+
+// The confirmed crypto transaction details when `type` is `crypto_transaction_confirmed`; otherwise null.
+type IssuingAuthorizationCryptoTransactionCryptoTransactionConfirmed struct {
+	// The crypto amount for the confirmed transaction.
+	Amount string `json:"amount"`
+	// The upcharged MCC amount, if one was applied.
+	AmountMCCUpcharged string `json:"amount_mcc_upcharged"`
+	// The blockchain network for the confirmed transaction.
+	Chain string `json:"chain"`
+	// When the transaction was confirmed onchain.
+	ConfirmedAt int64 `json:"confirmed_at"`
+	// The currency of the crypto transaction amount.
+	Currency Currency `json:"currency"`
+	// Fees associated with the transaction.
+	Fees []*IssuingAuthorizationCryptoTransactionCryptoTransactionConfirmedFee `json:"fees"`
+	// The source wallet address for the transaction.
+	FromAddress string `json:"from_address"`
+	// Memo metadata attached to the transaction, if present.
+	Memo string `json:"memo"`
+	// The destination wallet address for the transaction.
+	ToAddress string `json:"to_address"`
+	// The blockchain transaction hash.
+	TransactionHash string `json:"transaction_hash"`
+}
+
+// Fees associated with the transaction.
+type IssuingAuthorizationCryptoTransactionCryptoTransactionFailedFee struct {
+	// The fee amount.
+	Amount string `json:"amount"`
+	// The fee currency.
+	Currency Currency `json:"currency"`
+	// The fee type.
+	Type string `json:"type"`
+}
+
+// The failed crypto transaction details when `type` is `crypto_transaction_failed`; otherwise null.
+type IssuingAuthorizationCryptoTransactionCryptoTransactionFailed struct {
+	// The crypto amount for the failed transaction.
+	Amount string `json:"amount"`
+	// The upcharged MCC amount, if one was applied.
+	AmountMCCUpcharged string `json:"amount_mcc_upcharged"`
+	// The blockchain network for the failed transaction.
+	Chain string `json:"chain"`
+	// The currency of the crypto transaction amount.
+	Currency Currency `json:"currency"`
+	// When the transaction failed.
+	FailedAt int64 `json:"failed_at"`
+	// The reason the transaction failed.
+	FailureReason string `json:"failure_reason"`
+	// Fees associated with the transaction.
+	Fees []*IssuingAuthorizationCryptoTransactionCryptoTransactionFailedFee `json:"fees"`
+	// The source wallet address for the attempted transaction.
+	FromAddress string `json:"from_address"`
+	// Memo metadata attached to the transaction, if present.
+	Memo string `json:"memo"`
+	// The destination wallet address for the attempted transaction when one exists.
+	ToAddress string `json:"to_address"`
+	// The blockchain transaction hash when one exists.
+	TransactionHash string `json:"transaction_hash"`
+}
+
+// Array of onchain crypto transactions linked to this resource.
+type IssuingAuthorizationCryptoTransaction struct {
+	// The confirmed crypto transaction details when `type` is `crypto_transaction_confirmed`; otherwise null.
+	CryptoTransactionConfirmed *IssuingAuthorizationCryptoTransactionCryptoTransactionConfirmed `json:"crypto_transaction_confirmed"`
+	// The failed crypto transaction details when `type` is `crypto_transaction_failed`; otherwise null.
+	CryptoTransactionFailed *IssuingAuthorizationCryptoTransactionCryptoTransactionFailed `json:"crypto_transaction_failed"`
+	// The crypto transaction variant for this array entry.
+	Type string `json:"type"`
+}
+
 // Answers to prompts presented to the cardholder at the point of sale. Prompted fields vary depending on the configuration of your physical fleet cards. Typical points of sale support only numeric entry.
 type IssuingAuthorizationFleetCardholderPromptData struct {
 	// [Deprecated] An alphanumeric ID, though typical point of sales only support numeric entry. The card program can be configured to prompt for a vehicle ID, driver ID, or generic ID.
@@ -724,10 +804,14 @@ type IssuingAuthorizationMerchantData struct {
 	Name string `json:"name"`
 	// Identifier assigned to the seller by the card network. Different card networks may assign different network_id fields to the same merchant.
 	NetworkID string `json:"network_id"`
+	// The identifier of the payment facilitator (PayFac) that processed this authorization, as assigned by the card network. Null when the transaction was not processed through a PayFac.
+	PaymentFacilitatorID string `json:"payment_facilitator_id,omitempty"`
 	// Postal code where the seller is located
 	PostalCode string `json:"postal_code"`
 	// State where the seller is located
 	State string `json:"state"`
+	// The identifier of the sub-merchant involved in this authorization, as assigned by the payment facilitator. Null when the transaction was not processed through a PayFac or when no sub-merchant ID was provided.
+	SubMerchantID string `json:"sub_merchant_id,omitempty"`
 	// The seller's tax identification number. Currently populated for French merchants only.
 	TaxID string `json:"tax_id"`
 	// An ID assigned by the seller to the location of the sale.
@@ -910,6 +994,8 @@ type IssuingAuthorization struct {
 	Cardholder *IssuingCardholder `json:"cardholder"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
+	// Array of onchain crypto transactions linked to this resource.
+	CryptoTransactions []*IssuingAuthorizationCryptoTransaction `json:"crypto_transactions,omitempty"`
 	// The currency of the cardholder. This currency can be different from the currency presented at authorization and the `merchant_currency` field on this authorization. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// Fleet-specific information for authorizations using Fleet cards.

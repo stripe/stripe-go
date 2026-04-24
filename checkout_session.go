@@ -3773,6 +3773,12 @@ type CheckoutSessionParams struct {
 	CustomerUpdate *CheckoutSessionCustomerUpdateParams `form:"customer_update" json:"customer_update,omitempty"`
 	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
 	CustomFields []*CheckoutSessionCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
+	// A list of custom payment methods (e.g., `cpmt_123`) this Checkout Session can accept.
+	//
+	// You can add custom payment methods to your account through the dashboard under Settings > Custom Payment Methods.
+	//
+	// Read more about custom payment methods in checkout in our [custom payment method types guide](https://docs.stripe.com/payments/payment-methods/custom-payment-methods).
+	CustomPaymentMethodTypes []*string `form:"custom_payment_method_types" json:"custom_payment_method_types,omitempty"`
 	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
 	CustomText *CheckoutSessionCustomTextParams `form:"custom_text" json:"custom_text,omitempty"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
@@ -6004,6 +6010,12 @@ type CheckoutSessionCreateParams struct {
 	CustomerUpdate *CheckoutSessionCreateCustomerUpdateParams `form:"customer_update" json:"customer_update,omitempty"`
 	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
 	CustomFields []*CheckoutSessionCreateCustomFieldParams `form:"custom_fields" json:"custom_fields,omitempty"`
+	// A list of custom payment methods (e.g., `cpmt_123`) this Checkout Session can accept.
+	//
+	// You can add custom payment methods to your account through the dashboard under Settings > Custom Payment Methods.
+	//
+	// Read more about custom payment methods in checkout in our [custom payment method types guide](https://docs.stripe.com/payments/payment-methods/custom-payment-methods).
+	CustomPaymentMethodTypes []*string `form:"custom_payment_method_types" json:"custom_payment_method_types,omitempty"`
 	// Display additional text for your customers using custom text. You can't set this parameter if `ui_mode` is `custom`.
 	CustomText *CheckoutSessionCreateCustomTextParams `form:"custom_text" json:"custom_text,omitempty"`
 	// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
@@ -7962,7 +7974,10 @@ type CheckoutSession struct {
 	CustomerEmail string `json:"customer_email"`
 	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
 	CustomFields []*CheckoutSessionCustomField `json:"custom_fields"`
-	CustomText   *CheckoutSessionCustomText    `json:"custom_text"`
+	// A list of the types of [custom payment methods](https://docs.stripe.com/payments/payment-methods/custom-payment-methods) (e.g. cpmt_123) this Checkout
+	// Session is allowed to accept.
+	CustomPaymentMethodTypes []string                   `json:"custom_payment_method_types,omitempty"`
+	CustomText               *CheckoutSessionCustomText `json:"custom_text"`
 	// List of coupons and promotion codes attached to the Checkout Session.
 	Discounts []*CheckoutSessionDiscount `json:"discounts"`
 	// A list of the types of payment methods (e.g., `card`) that should be excluded from this Checkout Session. This should only be used when payment methods for this Checkout Session are managed through the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
@@ -8009,6 +8024,8 @@ type CheckoutSession struct {
 	// A list of the types of payment methods (e.g. card) this Checkout
 	// Session is allowed to accept.
 	PaymentMethodTypes []string `json:"payment_method_types"`
+	// The [Payment Record](https://docs.stripe.com/api/payment-record) for this Checkout Session.
+	PaymentRecord *PaymentRecord `json:"payment_record,omitempty"`
 	// The payment status of the Checkout Session, one of `paid`, `unpaid`, or `no_payment_required`.
 	// You can use this value to decide when to fulfill your customer's order.
 	PaymentStatus CheckoutSessionPaymentStatus `json:"payment_status"`

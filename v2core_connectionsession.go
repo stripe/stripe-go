@@ -48,7 +48,8 @@ type V2CoreConnectionSessionConnection struct {
 	Type V2CoreConnectionSessionConnectionType `json:"type"`
 }
 
-// The ConnectionSession resource.
+// A short-lived, single-use session used to launch client-side Link onboarding
+// that connects an Account to a Link consumer account.
 type V2CoreConnectionSession struct {
 	APIResource
 	// The Account this Connection Session was created for.

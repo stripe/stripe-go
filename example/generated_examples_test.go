@@ -13061,7 +13061,7 @@ func TestWebhookEndpointsPost2Client(t *testing.T) {
 func TestCoreEventsGetService(t *testing.T) {
 	params := &stripe.V2CoreEventParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"object\":\"v2.core.event\",\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"reason\":{\"request\":{\"client\":{\"api_key\":{\"id\":\"obj_123\"},\"dashboard_user\":{\"email\":\"email\",\"ip_address\":\"ip_address\",\"machine_identifier\":\"machine_identifier\"},\"stripe_action\":{},\"type\":\"api_key\"},\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"},\"type\":\"request\"},\"type\":\"type\"}")
+		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"object\":\"v2.core.event\",\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"reason\":{\"request\":{\"client\":{\"api_key\":{\"id\":\"obj_123\"},\"dashboard_user\":{\"email\":\"email\",\"ip_address\":\"ip_address\",\"machine_identifier\":\"machine_identifier\"},\"stripe_action\":{},\"type\":\"api_key\"},\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"},\"type\":\"request\"},\"snapshot_event\":\"snapshot_event\",\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13074,7 +13074,7 @@ func TestCoreEventsGetService(t *testing.T) {
 func TestCoreEventsGetClient(t *testing.T) {
 	params := &stripe.V2CoreEventRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"object\":\"v2.core.event\",\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"reason\":{\"request\":{\"client\":{\"api_key\":{\"id\":\"obj_123\"},\"dashboard_user\":{\"email\":\"email\",\"ip_address\":\"ip_address\",\"machine_identifier\":\"machine_identifier\"},\"stripe_action\":{},\"type\":\"api_key\"},\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"},\"type\":\"request\"},\"type\":\"type\"}")
+		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"object\":\"v2.core.event\",\"changes\":{\"int_key\":123,\"string_key\":\"value\",\"boolean_key\":true,\"object_key\":{\"object_int_key\":123,\"object_string_key\":\"value\",\"object_boolean_key\":true},\"array_key\":[1,2,3]},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"reason\":{\"request\":{\"client\":{\"api_key\":{\"id\":\"obj_123\"},\"dashboard_user\":{\"email\":\"email\",\"ip_address\":\"ip_address\",\"machine_identifier\":\"machine_identifier\"},\"stripe_action\":{},\"type\":\"api_key\"},\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"},\"type\":\"request\"},\"snapshot_event\":\"snapshot_event\",\"type\":\"type\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16822,10 +16822,142 @@ func TestV2CoreAccountTokenGetClient(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestV2CoreApprovalRequestGetService(t *testing.T) {
+	params := &stripe.V2CoreApprovalRequestListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/approval_requests", params, "{\"data\":[{\"object\":\"v2.core.approval_request\",\"action\":\"refund.create\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"requested_by\":{\"id\":\"obj_123\"},\"status\":\"failed\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2CoreApprovalRequests.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreApprovalRequestGetClient(t *testing.T) {
+	params := &stripe.V2CoreApprovalRequestListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/approval_requests", params, "{\"data\":[{\"object\":\"v2.core.approval_request\",\"action\":\"refund.create\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"requested_by\":{\"id\":\"obj_123\"},\"status\":\"failed\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2CoreApprovalRequests.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreApprovalRequestGet2Service(t *testing.T) {
+	params := &stripe.V2CoreApprovalRequestParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/approval_requests/id_123", params, "{\"object\":\"v2.core.approval_request\",\"action\":\"refund.create\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"requested_by\":{\"id\":\"obj_123\"},\"status\":\"failed\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreApprovalRequests.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreApprovalRequestGet2Client(t *testing.T) {
+	params := &stripe.V2CoreApprovalRequestRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/approval_requests/id_123", params, "{\"object\":\"v2.core.approval_request\",\"action\":\"refund.create\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"requested_by\":{\"id\":\"obj_123\"},\"status\":\"failed\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreApprovalRequests.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreApprovalRequestPostService(t *testing.T) {
+	params := &stripe.V2CoreApprovalRequestCancelParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/approval_requests/id_123/cancel", params, "{\"object\":\"v2.core.approval_request\",\"action\":\"refund.create\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"requested_by\":{\"id\":\"obj_123\"},\"status\":\"failed\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreApprovalRequests.Cancel("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreApprovalRequestPostClient(t *testing.T) {
+	params := &stripe.V2CoreApprovalRequestCancelParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/approval_requests/id_123/cancel", params, "{\"object\":\"v2.core.approval_request\",\"action\":\"refund.create\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"requested_by\":{\"id\":\"obj_123\"},\"status\":\"failed\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreApprovalRequests.Cancel(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreApprovalRequestPost2Service(t *testing.T) {
+	params := &stripe.V2CoreApprovalRequestExecuteParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/approval_requests/id_123/execute", params, "{\"object\":\"v2.core.approval_request\",\"action\":\"refund.create\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"requested_by\":{\"id\":\"obj_123\"},\"status\":\"failed\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreApprovalRequests.Execute("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreApprovalRequestPost2Client(t *testing.T) {
+	params := &stripe.V2CoreApprovalRequestExecuteParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/approval_requests/id_123/execute", params, "{\"object\":\"v2.core.approval_request\",\"action\":\"refund.create\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"requested_by\":{\"id\":\"obj_123\"},\"status\":\"failed\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreApprovalRequests.Execute(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreApprovalRequestPost3Service(t *testing.T) {
+	params := &stripe.V2CoreApprovalRequestSubmitParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/approval_requests/id_123/submit", params, "{\"object\":\"v2.core.approval_request\",\"action\":\"refund.create\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"requested_by\":{\"id\":\"obj_123\"},\"status\":\"failed\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreApprovalRequests.Submit("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreApprovalRequestPost3Client(t *testing.T) {
+	params := &stripe.V2CoreApprovalRequestSubmitParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/approval_requests/id_123/submit", params, "{\"object\":\"v2.core.approval_request\",\"action\":\"refund.create\",\"created\":\"1970-01-12T21:42:34.472Z\",\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"id\":\"obj_123\",\"livemode\":true,\"requested_by\":{\"id\":\"obj_123\"},\"status\":\"failed\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreApprovalRequests.Submit(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
 func TestV2CoreBatchJobPostService(t *testing.T) {
 	params := &stripe.V2CoreBatchJobParams{
 		Endpoint: &stripe.V2CoreBatchJobEndpointParams{
-			HTTPMethod: stripe.String("post"),
+			HTTPMethod: stripe.String("delete"),
 			Path:       stripe.Pointer(stripe.V2CoreBatchJobsPath("/v1/subscription_schedules")),
 		},
 		SkipValidation: stripe.Bool(true),
@@ -16845,7 +16977,7 @@ func TestV2CoreBatchJobPostService(t *testing.T) {
 func TestV2CoreBatchJobPostClient(t *testing.T) {
 	params := &stripe.V2CoreBatchJobCreateParams{
 		Endpoint: &stripe.V2CoreBatchJobCreateEndpointParams{
-			HTTPMethod: stripe.String("post"),
+			HTTPMethod: stripe.String("delete"),
 			Path:       stripe.Pointer(stripe.V2CoreBatchJobsPath("/v1/subscription_schedules")),
 		},
 		SkipValidation: stripe.Bool(true),
@@ -16917,6 +17049,9 @@ func TestV2CoreBatchJobPost2Client(t *testing.T) {
 func TestV2CoreClaimableSandboxPostService(t *testing.T) {
 	params := &stripe.V2CoreClaimableSandboxParams{
 		EnableMcpAccess: stripe.Bool(true),
+		OnboardingLinkDetails: &stripe.V2CoreClaimableSandboxOnboardingLinkDetailsParams{
+			RefreshURL: stripe.String("refresh_url"),
+		},
 		Prefill: &stripe.V2CoreClaimableSandboxPrefillParams{
 			Country: stripe.String("country"),
 			Email:   stripe.String("email"),
@@ -16924,7 +17059,7 @@ func TestV2CoreClaimableSandboxPostService(t *testing.T) {
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/claimable_sandboxes", params, "{\"object\":\"v2.core.claimable_sandbox\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"prefill\":{\"country\":\"country\",\"email\":\"email\",\"name\":\"name\"},\"sandbox_details\":{\"account\":\"account\"},\"status\":\"claimed\"}")
+		t, http.MethodPost, "/v2/core/claimable_sandboxes", params, "{\"object\":\"v2.core.claimable_sandbox\",\"app_channel\":\"testing\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"onboarding_link_details\":{\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"refresh_url\":\"refresh_url\",\"url\":\"url\"},\"prefill\":{\"country\":\"country\",\"email\":\"email\",\"name\":\"name\"},\"sandbox_details\":{\"account\":\"account\"},\"status\":\"live\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16937,6 +17072,9 @@ func TestV2CoreClaimableSandboxPostService(t *testing.T) {
 func TestV2CoreClaimableSandboxPostClient(t *testing.T) {
 	params := &stripe.V2CoreClaimableSandboxCreateParams{
 		EnableMcpAccess: stripe.Bool(true),
+		OnboardingLinkDetails: &stripe.V2CoreClaimableSandboxCreateOnboardingLinkDetailsParams{
+			RefreshURL: stripe.String("refresh_url"),
+		},
 		Prefill: &stripe.V2CoreClaimableSandboxCreatePrefillParams{
 			Country: stripe.String("country"),
 			Email:   stripe.String("email"),
@@ -16944,7 +17082,7 @@ func TestV2CoreClaimableSandboxPostClient(t *testing.T) {
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/claimable_sandboxes", params, "{\"object\":\"v2.core.claimable_sandbox\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"prefill\":{\"country\":\"country\",\"email\":\"email\",\"name\":\"name\"},\"sandbox_details\":{\"account\":\"account\"},\"status\":\"claimed\"}")
+		t, http.MethodPost, "/v2/core/claimable_sandboxes", params, "{\"object\":\"v2.core.claimable_sandbox\",\"app_channel\":\"testing\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"onboarding_link_details\":{\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"refresh_url\":\"refresh_url\",\"url\":\"url\"},\"prefill\":{\"country\":\"country\",\"email\":\"email\",\"name\":\"name\"},\"sandbox_details\":{\"account\":\"account\"},\"status\":\"live\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16957,7 +17095,7 @@ func TestV2CoreClaimableSandboxPostClient(t *testing.T) {
 func TestV2CoreClaimableSandboxGetService(t *testing.T) {
 	params := &stripe.V2CoreClaimableSandboxParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/claimable_sandboxes/id_123", params, "{\"object\":\"v2.core.claimable_sandbox\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"prefill\":{\"country\":\"country\",\"email\":\"email\",\"name\":\"name\"},\"sandbox_details\":{\"account\":\"account\"},\"status\":\"claimed\"}")
+		t, http.MethodGet, "/v2/core/claimable_sandboxes/id_123", params, "{\"object\":\"v2.core.claimable_sandbox\",\"app_channel\":\"testing\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"onboarding_link_details\":{\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"refresh_url\":\"refresh_url\",\"url\":\"url\"},\"prefill\":{\"country\":\"country\",\"email\":\"email\",\"name\":\"name\"},\"sandbox_details\":{\"account\":\"account\"},\"status\":\"live\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16970,12 +17108,40 @@ func TestV2CoreClaimableSandboxGetService(t *testing.T) {
 func TestV2CoreClaimableSandboxGetClient(t *testing.T) {
 	params := &stripe.V2CoreClaimableSandboxRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/claimable_sandboxes/id_123", params, "{\"object\":\"v2.core.claimable_sandbox\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"prefill\":{\"country\":\"country\",\"email\":\"email\",\"name\":\"name\"},\"sandbox_details\":{\"account\":\"account\"},\"status\":\"claimed\"}")
+		t, http.MethodGet, "/v2/core/claimable_sandboxes/id_123", params, "{\"object\":\"v2.core.claimable_sandbox\",\"app_channel\":\"testing\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"onboarding_link_details\":{\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"refresh_url\":\"refresh_url\",\"url\":\"url\"},\"prefill\":{\"country\":\"country\",\"email\":\"email\",\"name\":\"name\"},\"sandbox_details\":{\"account\":\"account\"},\"status\":\"live\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreClaimableSandboxes.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreClaimableSandboxPost2Service(t *testing.T) {
+	params := &stripe.V2CoreClaimableSandboxRenewOnboardingLinkParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/claimable_sandboxes/id_123/renew_onboarding_link", params, "{\"object\":\"v2.core.claimable_sandbox\",\"app_channel\":\"testing\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"onboarding_link_details\":{\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"refresh_url\":\"refresh_url\",\"url\":\"url\"},\"prefill\":{\"country\":\"country\",\"email\":\"email\",\"name\":\"name\"},\"sandbox_details\":{\"account\":\"account\"},\"status\":\"live\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreClaimableSandboxes.RenewOnboardingLink(
+		"id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreClaimableSandboxPost2Client(t *testing.T) {
+	params := &stripe.V2CoreClaimableSandboxRenewOnboardingLinkParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/core/claimable_sandboxes/id_123/renew_onboarding_link", params, "{\"object\":\"v2.core.claimable_sandbox\",\"app_channel\":\"testing\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"onboarding_link_details\":{\"expires_at\":\"1970-01-10T15:36:51.170Z\",\"refresh_url\":\"refresh_url\",\"url\":\"url\"},\"prefill\":{\"country\":\"country\",\"email\":\"email\",\"name\":\"name\"},\"sandbox_details\":{\"account\":\"account\"},\"status\":\"live\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreClaimableSandboxes.RenewOnboardingLink(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -17313,7 +17479,7 @@ func TestV2CoreEventDestinationPost5Client(t *testing.T) {
 func TestV2CoreVaultGbBankAccountGetService(t *testing.T) {
 	params := &stripe.V2CoreVaultGBBankAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/vault/gb_bank_accounts", params, "{\"data\":[{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"savings\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/vault/gb_bank_accounts", params, "{\"data\":[{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17325,7 +17491,7 @@ func TestV2CoreVaultGbBankAccountGetService(t *testing.T) {
 func TestV2CoreVaultGbBankAccountGetClient(t *testing.T) {
 	params := &stripe.V2CoreVaultGBBankAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/vault/gb_bank_accounts", params, "{\"data\":[{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"savings\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/vault/gb_bank_accounts", params, "{\"data\":[{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17339,7 +17505,7 @@ func TestV2CoreVaultGbBankAccountPostService(t *testing.T) {
 		Currency: stripe.String(stripe.CurrencyUSD),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"savings\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
+		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17354,7 +17520,7 @@ func TestV2CoreVaultGbBankAccountPostClient(t *testing.T) {
 		Currency: stripe.String(stripe.CurrencyUSD),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"savings\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
+		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17367,7 +17533,7 @@ func TestV2CoreVaultGbBankAccountPostClient(t *testing.T) {
 func TestV2CoreVaultGbBankAccountGet2Service(t *testing.T) {
 	params := &stripe.V2CoreVaultGBBankAccountParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/vault/gb_bank_accounts/id_123", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"savings\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
+		t, http.MethodGet, "/v2/core/vault/gb_bank_accounts/id_123", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17380,7 +17546,7 @@ func TestV2CoreVaultGbBankAccountGet2Service(t *testing.T) {
 func TestV2CoreVaultGbBankAccountGet2Client(t *testing.T) {
 	params := &stripe.V2CoreVaultGBBankAccountRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/vault/gb_bank_accounts/id_123", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"savings\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
+		t, http.MethodGet, "/v2/core/vault/gb_bank_accounts/id_123", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17394,7 +17560,7 @@ func TestV2CoreVaultGbBankAccountGet2Client(t *testing.T) {
 func TestV2CoreVaultGbBankAccountPost2Service(t *testing.T) {
 	params := &stripe.V2CoreVaultGBBankAccountAcknowledgeConfirmationOfPayeeParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/acknowledge_confirmation_of_payee", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"savings\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
+		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/acknowledge_confirmation_of_payee", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17408,7 +17574,7 @@ func TestV2CoreVaultGbBankAccountPost2Service(t *testing.T) {
 func TestV2CoreVaultGbBankAccountPost2Client(t *testing.T) {
 	params := &stripe.V2CoreVaultGBBankAccountAcknowledgeConfirmationOfPayeeParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/acknowledge_confirmation_of_payee", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"savings\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
+		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/acknowledge_confirmation_of_payee", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17422,7 +17588,7 @@ func TestV2CoreVaultGbBankAccountPost2Client(t *testing.T) {
 func TestV2CoreVaultGbBankAccountPost3Service(t *testing.T) {
 	params := &stripe.V2CoreVaultGBBankAccountArchiveParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/archive", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"savings\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
+		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/archive", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17435,7 +17601,7 @@ func TestV2CoreVaultGbBankAccountPost3Service(t *testing.T) {
 func TestV2CoreVaultGbBankAccountPost3Client(t *testing.T) {
 	params := &stripe.V2CoreVaultGBBankAccountArchiveParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/archive", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"savings\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
+		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/archive", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17449,7 +17615,7 @@ func TestV2CoreVaultGbBankAccountPost3Client(t *testing.T) {
 func TestV2CoreVaultGbBankAccountPost4Service(t *testing.T) {
 	params := &stripe.V2CoreVaultGBBankAccountInitiateConfirmationOfPayeeParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/initiate_confirmation_of_payee", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"savings\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
+		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/initiate_confirmation_of_payee", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17463,7 +17629,7 @@ func TestV2CoreVaultGbBankAccountPost4Service(t *testing.T) {
 func TestV2CoreVaultGbBankAccountPost4Client(t *testing.T) {
 	params := &stripe.V2CoreVaultGBBankAccountInitiateConfirmationOfPayeeParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/initiate_confirmation_of_payee", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"savings\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
+		t, http.MethodPost, "/v2/core/vault/gb_bank_accounts/id_123/initiate_confirmation_of_payee", params, "{\"object\":\"v2.core.vault.gb_bank_account\",\"archived\":true,\"bank_account_type\":\"toza\",\"bank_name\":\"bank_name\",\"confirmation_of_payee\":{\"result\":{\"created\":\"1970-01-12T21:42:34.472Z\",\"match_result\":\"unavailable\",\"matched\":{},\"message\":\"message\",\"provided\":{\"business_type\":\"personal\",\"name\":\"name\"}},\"status\":\"awaiting_acknowledgement\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"last4\":\"last4\",\"livemode\":true,\"supported_currencies\":[\"supported_currencies\"]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17667,167 +17833,6 @@ func TestV2CoreVaultUsBankAccountPost5Client(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestV2CoreWorkflowGetService(t *testing.T) {
-	params := &stripe.V2CoreWorkflowListParams{
-		Status: []*string{stripe.String("draft")},
-	}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/workflows", params, "{\"data\":[{\"object\":\"v2.core.workflow\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"triggers\":[{\"type\":\"event_trigger\"}]}],\"next_page_url\":null,\"previous_page_url\":null}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result := sc.V2CoreWorkflows.All(params)
-	assert.NotNil(t, result)
-}
-
-func TestV2CoreWorkflowGetClient(t *testing.T) {
-	params := &stripe.V2CoreWorkflowListParams{
-		Status: []*string{stripe.String("draft")},
-	}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/workflows", params, "{\"data\":[{\"object\":\"v2.core.workflow\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"triggers\":[{\"type\":\"event_trigger\"}]}],\"next_page_url\":null,\"previous_page_url\":null}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result := sc.V2CoreWorkflows.List(context.TODO(), params)
-	assert.NotNil(t, result)
-}
-
-func TestV2CoreWorkflowGet2Service(t *testing.T) {
-	params := &stripe.V2CoreWorkflowParams{}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/workflows/id_123", params, "{\"object\":\"v2.core.workflow\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"triggers\":[{\"type\":\"event_trigger\"}]}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2CoreWorkflows.Get("id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2CoreWorkflowGet2Client(t *testing.T) {
-	params := &stripe.V2CoreWorkflowRetrieveParams{}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/workflows/id_123", params, "{\"object\":\"v2.core.workflow\",\"created\":\"1970-01-12T21:42:34.472Z\",\"description\":\"description\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"triggers\":[{\"type\":\"event_trigger\"}]}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2CoreWorkflows.Retrieve(context.TODO(), "id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2CoreWorkflowPostService(t *testing.T) {
-	params := &stripe.V2CoreWorkflowInvokeParams{
-		InputParameters: map[string]any{
-			"int_key":     123,
-			"string_key":  "value",
-			"boolean_key": true,
-			"object_key": map[string]any{
-				"object_int_key":     123,
-				"object_string_key":  "value",
-				"object_boolean_key": true,
-			},
-			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
-		},
-	}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/workflows/id_123/invoke", params, "{\"object\":\"v2.core.workflow_run\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\"}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2CoreWorkflows.Invoke("id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2CoreWorkflowPostClient(t *testing.T) {
-	params := &stripe.V2CoreWorkflowInvokeParams{
-		InputParameters: map[string]any{
-			"int_key":     123,
-			"string_key":  "value",
-			"boolean_key": true,
-			"object_key": map[string]any{
-				"object_int_key":     123,
-				"object_string_key":  "value",
-				"object_boolean_key": true,
-			},
-			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
-		},
-	}
-	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/workflows/id_123/invoke", params, "{\"object\":\"v2.core.workflow_run\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\"}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2CoreWorkflows.Invoke(context.TODO(), "id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2CoreWorkflowRunGetService(t *testing.T) {
-	params := &stripe.V2CoreWorkflowRunListParams{
-		Status:   []*string{stripe.String("failed")},
-		Workflow: []*string{stripe.String("workflow")},
-	}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/workflow_runs", params, "{\"data\":[{\"object\":\"v2.core.workflow_run\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\"}],\"next_page_url\":null,\"previous_page_url\":null}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result := sc.V2CoreWorkflowRuns.All(params)
-	assert.NotNil(t, result)
-}
-
-func TestV2CoreWorkflowRunGetClient(t *testing.T) {
-	params := &stripe.V2CoreWorkflowRunListParams{
-		Status:   []*string{stripe.String("failed")},
-		Workflow: []*string{stripe.String("workflow")},
-	}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/workflow_runs", params, "{\"data\":[{\"object\":\"v2.core.workflow_run\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\"}],\"next_page_url\":null,\"previous_page_url\":null}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result := sc.V2CoreWorkflowRuns.List(context.TODO(), params)
-	assert.NotNil(t, result)
-}
-
-func TestV2CoreWorkflowRunGet2Service(t *testing.T) {
-	params := &stripe.V2CoreWorkflowRunParams{}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/workflow_runs/id_123", params, "{\"object\":\"v2.core.workflow_run\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\"}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2CoreWorkflowRuns.Get("id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2CoreWorkflowRunGet2Client(t *testing.T) {
-	params := &stripe.V2CoreWorkflowRunRetrieveParams{}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/workflow_runs/id_123", params, "{\"object\":\"v2.core.workflow_run\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\"}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2CoreWorkflowRuns.Retrieve(
-		context.TODO(), "id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
 func TestV2DataReportingQueryRunPostService(t *testing.T) {
 	params := &stripe.V2DataReportingQueryRunParams{SQL: stripe.String("sql")}
 	testServer := MockServer(
@@ -17881,6 +17886,181 @@ func TestV2DataReportingQueryRunGetClient(t *testing.T) {
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
+}
+
+func TestV2ExtendWorkflowGetService(t *testing.T) {
+	params := &stripe.V2ExtendWorkflowListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/workflows", params, "{\"data\":[{\"object\":\"v2.extend.workflow\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"title\":\"title\",\"triggers\":[{\"type\":\"event_trigger\"}]}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2ExtendWorkflows.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ExtendWorkflowGetClient(t *testing.T) {
+	params := &stripe.V2ExtendWorkflowListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/workflows", params, "{\"data\":[{\"object\":\"v2.extend.workflow\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"title\":\"title\",\"triggers\":[{\"type\":\"event_trigger\"}]}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2ExtendWorkflows.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ExtendWorkflowGet2Service(t *testing.T) {
+	params := &stripe.V2ExtendWorkflowParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/workflows/id_123", params, "{\"object\":\"v2.extend.workflow\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"title\":\"title\",\"triggers\":[{\"type\":\"event_trigger\"}]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ExtendWorkflows.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2ExtendWorkflowGet2Client(t *testing.T) {
+	params := &stripe.V2ExtendWorkflowRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/workflows/id_123", params, "{\"object\":\"v2.extend.workflow\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"title\":\"title\",\"triggers\":[{\"type\":\"event_trigger\"}]}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ExtendWorkflows.Retrieve(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2ExtendWorkflowPostService(t *testing.T) {
+	params := &stripe.V2ExtendWorkflowInvokeParams{
+		InputParameters: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/extend/workflows/id_123/invoke", params, "{\"object\":\"v2.extend.workflow_run\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ExtendWorkflows.Invoke("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2ExtendWorkflowPostClient(t *testing.T) {
+	params := &stripe.V2ExtendWorkflowInvokeParams{
+		InputParameters: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/extend/workflows/id_123/invoke", params, "{\"object\":\"v2.extend.workflow_run\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ExtendWorkflows.Invoke(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2ExtendWorkflowRunGetService(t *testing.T) {
+	params := &stripe.V2ExtendWorkflowRunListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/workflow_runs", params, "{\"data\":[{\"object\":\"v2.extend.workflow_run\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2ExtendWorkflowRuns.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ExtendWorkflowRunGetClient(t *testing.T) {
+	params := &stripe.V2ExtendWorkflowRunListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/workflow_runs", params, "{\"data\":[{\"object\":\"v2.extend.workflow_run\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2ExtendWorkflowRuns.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2ExtendWorkflowRunGet2Service(t *testing.T) {
+	params := &stripe.V2ExtendWorkflowRunParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/workflow_runs/id_123", params, "{\"object\":\"v2.extend.workflow_run\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2ExtendWorkflowRuns.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2ExtendWorkflowRunGet2Client(t *testing.T) {
+	params := &stripe.V2ExtendWorkflowRunRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/extend/workflow_runs/id_123", params, "{\"object\":\"v2.extend.workflow_run\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\",\"status_transitions\":{},\"trigger\":{\"type\":\"event_trigger\"},\"workflow\":\"workflow\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2ExtendWorkflowRuns.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2IamActivityLogGetService(t *testing.T) {
+	params := &stripe.V2IamActivityLogListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/iam/activity_logs", params, "{\"data\":[{\"object\":\"v2.iam.activity_log\",\"actor\":{\"type\":\"api_key\"},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"details\":{\"type\":\"api_key\"},\"id\":\"obj_123\",\"livemode\":true,\"type\":\"api_key_created\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2IamActivityLogs.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2IamActivityLogGetClient(t *testing.T) {
+	params := &stripe.V2IamActivityLogListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/iam/activity_logs", params, "{\"data\":[{\"object\":\"v2.iam.activity_log\",\"actor\":{\"type\":\"api_key\"},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"details\":{\"type\":\"api_key\"},\"id\":\"obj_123\",\"livemode\":true,\"type\":\"api_key_created\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2IamActivityLogs.List(context.TODO(), params)
+	assert.NotNil(t, result)
 }
 
 func TestV2IamApiKeyGetService(t *testing.T) {
@@ -18093,7 +18273,7 @@ func TestV2MoneyManagementAdjustmentGet2Client(t *testing.T) {
 func TestV2MoneyManagementCurrencyConversionGetService(t *testing.T) {
 	params := &stripe.V2MoneyManagementCurrencyConversionListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/currency_conversions", params, "{\"data\":[{\"object\":\"v2.money_management.currency_conversion\",\"created\":\"1970-01-12T21:42:34.472Z\",\"exchange_rate\":\"exchange_rate\",\"financial_account\":\"financial_account\",\"from\":{\"amount\":{\"currency\":\"USD\",\"value\":96}},\"id\":\"obj_123\",\"livemode\":true,\"to\":{\"amount\":{\"currency\":\"USD\",\"value\":96}}}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/currency_conversions", params, "{\"data\":[{\"object\":\"v2.money_management.currency_conversion\",\"created\":\"1970-01-12T21:42:34.472Z\",\"exchange_rate\":\"exchange_rate\",\"from\":{\"amount\":{\"currency\":\"USD\",\"value\":96}},\"id\":\"obj_123\",\"livemode\":true,\"to\":{\"amount\":{\"currency\":\"USD\",\"value\":96}}}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18105,7 +18285,7 @@ func TestV2MoneyManagementCurrencyConversionGetService(t *testing.T) {
 func TestV2MoneyManagementCurrencyConversionGetClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementCurrencyConversionListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/currency_conversions", params, "{\"data\":[{\"object\":\"v2.money_management.currency_conversion\",\"created\":\"1970-01-12T21:42:34.472Z\",\"exchange_rate\":\"exchange_rate\",\"financial_account\":\"financial_account\",\"from\":{\"amount\":{\"currency\":\"USD\",\"value\":96}},\"id\":\"obj_123\",\"livemode\":true,\"to\":{\"amount\":{\"currency\":\"USD\",\"value\":96}}}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/currency_conversions", params, "{\"data\":[{\"object\":\"v2.money_management.currency_conversion\",\"created\":\"1970-01-12T21:42:34.472Z\",\"exchange_rate\":\"exchange_rate\",\"from\":{\"amount\":{\"currency\":\"USD\",\"value\":96}},\"id\":\"obj_123\",\"livemode\":true,\"to\":{\"amount\":{\"currency\":\"USD\",\"value\":96}}}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18116,7 +18296,6 @@ func TestV2MoneyManagementCurrencyConversionGetClient(t *testing.T) {
 
 func TestV2MoneyManagementCurrencyConversionPostService(t *testing.T) {
 	params := &stripe.V2MoneyManagementCurrencyConversionParams{
-		FinancialAccount: stripe.String("financial_account"),
 		From: &stripe.V2MoneyManagementCurrencyConversionFromParams{
 			Amount:   &stripe.Amount{Value: 96, Currency: stripe.CurrencyUSD},
 			Currency: stripe.String(stripe.CurrencyUSD),
@@ -18127,7 +18306,7 @@ func TestV2MoneyManagementCurrencyConversionPostService(t *testing.T) {
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/currency_conversions", params, "{\"object\":\"v2.money_management.currency_conversion\",\"created\":\"1970-01-12T21:42:34.472Z\",\"exchange_rate\":\"exchange_rate\",\"financial_account\":\"financial_account\",\"from\":{\"amount\":{\"currency\":\"USD\",\"value\":96}},\"id\":\"obj_123\",\"livemode\":true,\"to\":{\"amount\":{\"currency\":\"USD\",\"value\":96}}}")
+		t, http.MethodPost, "/v2/money_management/currency_conversions", params, "{\"object\":\"v2.money_management.currency_conversion\",\"created\":\"1970-01-12T21:42:34.472Z\",\"exchange_rate\":\"exchange_rate\",\"from\":{\"amount\":{\"currency\":\"USD\",\"value\":96}},\"id\":\"obj_123\",\"livemode\":true,\"to\":{\"amount\":{\"currency\":\"USD\",\"value\":96}}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18139,7 +18318,6 @@ func TestV2MoneyManagementCurrencyConversionPostService(t *testing.T) {
 
 func TestV2MoneyManagementCurrencyConversionPostClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementCurrencyConversionCreateParams{
-		FinancialAccount: stripe.String("financial_account"),
 		From: &stripe.V2MoneyManagementCurrencyConversionCreateFromParams{
 			Amount:   &stripe.Amount{Value: 96, Currency: stripe.CurrencyUSD},
 			Currency: stripe.String(stripe.CurrencyUSD),
@@ -18150,7 +18328,7 @@ func TestV2MoneyManagementCurrencyConversionPostClient(t *testing.T) {
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/currency_conversions", params, "{\"object\":\"v2.money_management.currency_conversion\",\"created\":\"1970-01-12T21:42:34.472Z\",\"exchange_rate\":\"exchange_rate\",\"financial_account\":\"financial_account\",\"from\":{\"amount\":{\"currency\":\"USD\",\"value\":96}},\"id\":\"obj_123\",\"livemode\":true,\"to\":{\"amount\":{\"currency\":\"USD\",\"value\":96}}}")
+		t, http.MethodPost, "/v2/money_management/currency_conversions", params, "{\"object\":\"v2.money_management.currency_conversion\",\"created\":\"1970-01-12T21:42:34.472Z\",\"exchange_rate\":\"exchange_rate\",\"from\":{\"amount\":{\"currency\":\"USD\",\"value\":96}},\"id\":\"obj_123\",\"livemode\":true,\"to\":{\"amount\":{\"currency\":\"USD\",\"value\":96}}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18164,7 +18342,7 @@ func TestV2MoneyManagementCurrencyConversionPostClient(t *testing.T) {
 func TestV2MoneyManagementCurrencyConversionGet2Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementCurrencyConversionParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/currency_conversions/id_123", params, "{\"object\":\"v2.money_management.currency_conversion\",\"created\":\"1970-01-12T21:42:34.472Z\",\"exchange_rate\":\"exchange_rate\",\"financial_account\":\"financial_account\",\"from\":{\"amount\":{\"currency\":\"USD\",\"value\":96}},\"id\":\"obj_123\",\"livemode\":true,\"to\":{\"amount\":{\"currency\":\"USD\",\"value\":96}}}")
+		t, http.MethodGet, "/v2/money_management/currency_conversions/id_123", params, "{\"object\":\"v2.money_management.currency_conversion\",\"created\":\"1970-01-12T21:42:34.472Z\",\"exchange_rate\":\"exchange_rate\",\"from\":{\"amount\":{\"currency\":\"USD\",\"value\":96}},\"id\":\"obj_123\",\"livemode\":true,\"to\":{\"amount\":{\"currency\":\"USD\",\"value\":96}}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18177,7 +18355,7 @@ func TestV2MoneyManagementCurrencyConversionGet2Service(t *testing.T) {
 func TestV2MoneyManagementCurrencyConversionGet2Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementCurrencyConversionRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/currency_conversions/id_123", params, "{\"object\":\"v2.money_management.currency_conversion\",\"created\":\"1970-01-12T21:42:34.472Z\",\"exchange_rate\":\"exchange_rate\",\"financial_account\":\"financial_account\",\"from\":{\"amount\":{\"currency\":\"USD\",\"value\":96}},\"id\":\"obj_123\",\"livemode\":true,\"to\":{\"amount\":{\"currency\":\"USD\",\"value\":96}}}")
+		t, http.MethodGet, "/v2/money_management/currency_conversions/id_123", params, "{\"object\":\"v2.money_management.currency_conversion\",\"created\":\"1970-01-12T21:42:34.472Z\",\"exchange_rate\":\"exchange_rate\",\"from\":{\"amount\":{\"currency\":\"USD\",\"value\":96}},\"id\":\"obj_123\",\"livemode\":true,\"to\":{\"amount\":{\"currency\":\"USD\",\"value\":96}}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18191,7 +18369,7 @@ func TestV2MoneyManagementCurrencyConversionGet2Client(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountGetService(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/financial_accounts", params, "{\"data\":[{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"payments\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/financial_accounts", params, "{\"data\":[{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"accrued_fees\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18203,7 +18381,7 @@ func TestV2MoneyManagementFinancialAccountGetService(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountGetClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/financial_accounts", params, "{\"data\":[{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"payments\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/financial_accounts", params, "{\"data\":[{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"accrued_fees\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18217,7 +18395,7 @@ func TestV2MoneyManagementFinancialAccountPostService(t *testing.T) {
 		Type: stripe.String("storage"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"payments\"}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"accrued_fees\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18232,7 +18410,7 @@ func TestV2MoneyManagementFinancialAccountPostClient(t *testing.T) {
 		Type: stripe.String("storage"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"payments\"}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"accrued_fees\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18246,7 +18424,7 @@ func TestV2MoneyManagementFinancialAccountPostClient(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountGet2Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/financial_accounts/id_123", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"payments\"}")
+		t, http.MethodGet, "/v2/money_management/financial_accounts/id_123", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"accrued_fees\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18259,7 +18437,7 @@ func TestV2MoneyManagementFinancialAccountGet2Service(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountGet2Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/financial_accounts/id_123", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"payments\"}")
+		t, http.MethodGet, "/v2/money_management/financial_accounts/id_123", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"accrued_fees\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18273,7 +18451,7 @@ func TestV2MoneyManagementFinancialAccountGet2Client(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountPost2Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"payments\"}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"accrued_fees\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18286,7 +18464,7 @@ func TestV2MoneyManagementFinancialAccountPost2Service(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountPost2Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountUpdateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"payments\"}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"accrued_fees\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18300,7 +18478,7 @@ func TestV2MoneyManagementFinancialAccountPost2Client(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountPost3Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountCloseParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123/close", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"payments\"}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123/close", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"accrued_fees\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18313,7 +18491,7 @@ func TestV2MoneyManagementFinancialAccountPost3Service(t *testing.T) {
 func TestV2MoneyManagementFinancialAccountPost3Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAccountCloseParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123/close", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"payments\"}")
+		t, http.MethodPost, "/v2/money_management/financial_accounts/id_123/close", params, "{\"object\":\"v2.money_management.financial_account\",\"balance\":{\"available\":{\"key\":{\"currency\":\"USD\",\"value\":35}},\"inbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":11}},\"outbound_pending\":{\"key\":{\"currency\":\"USD\",\"value\":60}}},\"country\":\"country\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"closed\",\"type\":\"accrued_fees\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18351,7 +18529,7 @@ func TestV2MoneyManagementFinancialAddressGetClient(t *testing.T) {
 func TestV2MoneyManagementFinancialAddressPostService(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAddressParams{
 		FinancialAccount: stripe.String("financial_account"),
-		Type:             stripe.String("gb_bank_account"),
+		Type:             stripe.String("sepa_bank_account"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_addresses", params, "{\"object\":\"v2.money_management.financial_address\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\"}")
@@ -18367,7 +18545,7 @@ func TestV2MoneyManagementFinancialAddressPostService(t *testing.T) {
 func TestV2MoneyManagementFinancialAddressPostClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAddressCreateParams{
 		FinancialAccount: stripe.String("financial_account"),
-		Type:             stripe.String("gb_bank_account"),
+		Type:             stripe.String("sepa_bank_account"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_addresses", params, "{\"object\":\"v2.money_management.financial_address\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\"}")
@@ -19293,7 +19471,7 @@ func TestV2MoneyManagementRecipientVerificationPost2Client(t *testing.T) {
 func TestV2MoneyManagementTransactionGetService(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transactions", params, "{\"data\":[{\"object\":\"v2.money_management.transaction\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"category\":\"received_debit_reversal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"pending\",\"status_transitions\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/transactions", params, "{\"data\":[{\"object\":\"v2.money_management.transaction\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"category\":\"anticipation_repayment\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"pending\",\"status_transitions\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19305,7 +19483,7 @@ func TestV2MoneyManagementTransactionGetService(t *testing.T) {
 func TestV2MoneyManagementTransactionGetClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transactions", params, "{\"data\":[{\"object\":\"v2.money_management.transaction\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"category\":\"received_debit_reversal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"pending\",\"status_transitions\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/transactions", params, "{\"data\":[{\"object\":\"v2.money_management.transaction\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"category\":\"anticipation_repayment\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"pending\",\"status_transitions\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19317,7 +19495,7 @@ func TestV2MoneyManagementTransactionGetClient(t *testing.T) {
 func TestV2MoneyManagementTransactionGet2Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transactions/id_123", params, "{\"object\":\"v2.money_management.transaction\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"category\":\"received_debit_reversal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"pending\",\"status_transitions\":{}}")
+		t, http.MethodGet, "/v2/money_management/transactions/id_123", params, "{\"object\":\"v2.money_management.transaction\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"category\":\"anticipation_repayment\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"pending\",\"status_transitions\":{}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19330,7 +19508,7 @@ func TestV2MoneyManagementTransactionGet2Service(t *testing.T) {
 func TestV2MoneyManagementTransactionGet2Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transactions/id_123", params, "{\"object\":\"v2.money_management.transaction\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"category\":\"received_debit_reversal\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"pending\",\"status_transitions\":{}}")
+		t, http.MethodGet, "/v2/money_management/transactions/id_123", params, "{\"object\":\"v2.money_management.transaction\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"category\":\"anticipation_repayment\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"pending\",\"status_transitions\":{}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19344,7 +19522,7 @@ func TestV2MoneyManagementTransactionGet2Client(t *testing.T) {
 func TestV2MoneyManagementTransactionEntryGetService(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionEntryListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transaction_entries", params, "{\"data\":[{\"object\":\"v2.money_management.transaction_entry\",\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"livemode\":true,\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"received_debit_reversal\",\"financial_account\":\"financial_account\"}}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/transaction_entries", params, "{\"data\":[{\"object\":\"v2.money_management.transaction_entry\",\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"livemode\":true,\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"anticipation_repayment\",\"financial_account\":\"financial_account\"}}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19356,7 +19534,7 @@ func TestV2MoneyManagementTransactionEntryGetService(t *testing.T) {
 func TestV2MoneyManagementTransactionEntryGetClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionEntryListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transaction_entries", params, "{\"data\":[{\"object\":\"v2.money_management.transaction_entry\",\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"livemode\":true,\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"received_debit_reversal\",\"financial_account\":\"financial_account\"}}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/money_management/transaction_entries", params, "{\"data\":[{\"object\":\"v2.money_management.transaction_entry\",\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"livemode\":true,\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"anticipation_repayment\",\"financial_account\":\"financial_account\"}}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19368,7 +19546,7 @@ func TestV2MoneyManagementTransactionEntryGetClient(t *testing.T) {
 func TestV2MoneyManagementTransactionEntryGet2Service(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionEntryParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transaction_entries/id_123", params, "{\"object\":\"v2.money_management.transaction_entry\",\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"livemode\":true,\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"received_debit_reversal\",\"financial_account\":\"financial_account\"}}")
+		t, http.MethodGet, "/v2/money_management/transaction_entries/id_123", params, "{\"object\":\"v2.money_management.transaction_entry\",\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"livemode\":true,\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"anticipation_repayment\",\"financial_account\":\"financial_account\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -19381,12 +19559,201 @@ func TestV2MoneyManagementTransactionEntryGet2Service(t *testing.T) {
 func TestV2MoneyManagementTransactionEntryGet2Client(t *testing.T) {
 	params := &stripe.V2MoneyManagementTransactionEntryRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/money_management/transaction_entries/id_123", params, "{\"object\":\"v2.money_management.transaction_entry\",\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"livemode\":true,\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"received_debit_reversal\",\"financial_account\":\"financial_account\"}}")
+		t, http.MethodGet, "/v2/money_management/transaction_entries/id_123", params, "{\"object\":\"v2.money_management.transaction_entry\",\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"livemode\":true,\"transaction\":\"transaction\",\"transaction_details\":{\"category\":\"anticipation_repayment\",\"financial_account\":\"financial_account\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2MoneyManagementTransactionEntries.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2NetworkBusinessProfileGetService(t *testing.T) {
+	params := &stripe.V2NetworkBusinessProfileMeParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/network/business_profiles/me", params, "{\"object\":\"v2.network.business_profile\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true,\"username\":\"username\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2NetworkBusinessProfiles.Me(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2NetworkBusinessProfileGetClient(t *testing.T) {
+	params := &stripe.V2NetworkBusinessProfileMeParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/network/business_profiles/me", params, "{\"object\":\"v2.network.business_profile\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true,\"username\":\"username\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2NetworkBusinessProfiles.Me(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2NetworkBusinessProfileGet2Service(t *testing.T) {
+	params := &stripe.V2NetworkBusinessProfileParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/network/business_profiles/id_123", params, "{\"object\":\"v2.network.business_profile\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true,\"username\":\"username\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2NetworkBusinessProfiles.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2NetworkBusinessProfileGet2Client(t *testing.T) {
+	params := &stripe.V2NetworkBusinessProfileRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/network/business_profiles/id_123", params, "{\"object\":\"v2.network.business_profile\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true,\"username\":\"username\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2NetworkBusinessProfiles.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2OrchestratedCommerceAgreementGetService(t *testing.T) {
+	params := &stripe.V2OrchestratedCommerceAgreementListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/orchestrated_commerce/agreements", params, "{\"data\":[{\"object\":\"v2.orchestrated_commerce.agreement\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"initiated_by\":\"seller\",\"livemode\":true,\"orchestrator_details\":{\"name\":\"name\",\"network_business_profile\":\"network_business_profile\"},\"seller_details\":{\"network_business_profile\":\"network_business_profile\"},\"status\":\"partially_confirmed\",\"status_transitions\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2OrchestratedCommerceAgreements.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2OrchestratedCommerceAgreementGetClient(t *testing.T) {
+	params := &stripe.V2OrchestratedCommerceAgreementListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/orchestrated_commerce/agreements", params, "{\"data\":[{\"object\":\"v2.orchestrated_commerce.agreement\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"initiated_by\":\"seller\",\"livemode\":true,\"orchestrator_details\":{\"name\":\"name\",\"network_business_profile\":\"network_business_profile\"},\"seller_details\":{\"network_business_profile\":\"network_business_profile\"},\"status\":\"partially_confirmed\",\"status_transitions\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2OrchestratedCommerceAgreements.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2OrchestratedCommerceAgreementPostService(t *testing.T) {
+	params := &stripe.V2OrchestratedCommerceAgreementParams{
+		Orchestrator: stripe.String("orchestrator"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/orchestrated_commerce/agreements", params, "{\"object\":\"v2.orchestrated_commerce.agreement\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"initiated_by\":\"seller\",\"livemode\":true,\"orchestrator_details\":{\"name\":\"name\",\"network_business_profile\":\"network_business_profile\"},\"seller_details\":{\"network_business_profile\":\"network_business_profile\"},\"status\":\"partially_confirmed\",\"status_transitions\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2OrchestratedCommerceAgreements.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2OrchestratedCommerceAgreementPostClient(t *testing.T) {
+	params := &stripe.V2OrchestratedCommerceAgreementCreateParams{
+		Orchestrator: stripe.String("orchestrator"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/orchestrated_commerce/agreements", params, "{\"object\":\"v2.orchestrated_commerce.agreement\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"initiated_by\":\"seller\",\"livemode\":true,\"orchestrator_details\":{\"name\":\"name\",\"network_business_profile\":\"network_business_profile\"},\"seller_details\":{\"network_business_profile\":\"network_business_profile\"},\"status\":\"partially_confirmed\",\"status_transitions\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2OrchestratedCommerceAgreements.Create(
+		context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2OrchestratedCommerceAgreementGet2Service(t *testing.T) {
+	params := &stripe.V2OrchestratedCommerceAgreementParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/orchestrated_commerce/agreements/id_123", params, "{\"object\":\"v2.orchestrated_commerce.agreement\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"initiated_by\":\"seller\",\"livemode\":true,\"orchestrator_details\":{\"name\":\"name\",\"network_business_profile\":\"network_business_profile\"},\"seller_details\":{\"network_business_profile\":\"network_business_profile\"},\"status\":\"partially_confirmed\",\"status_transitions\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2OrchestratedCommerceAgreements.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2OrchestratedCommerceAgreementGet2Client(t *testing.T) {
+	params := &stripe.V2OrchestratedCommerceAgreementRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/orchestrated_commerce/agreements/id_123", params, "{\"object\":\"v2.orchestrated_commerce.agreement\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"initiated_by\":\"seller\",\"livemode\":true,\"orchestrator_details\":{\"name\":\"name\",\"network_business_profile\":\"network_business_profile\"},\"seller_details\":{\"network_business_profile\":\"network_business_profile\"},\"status\":\"partially_confirmed\",\"status_transitions\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2OrchestratedCommerceAgreements.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2OrchestratedCommerceAgreementPost2Service(t *testing.T) {
+	params := &stripe.V2OrchestratedCommerceAgreementConfirmParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/orchestrated_commerce/agreements/id_123/confirm", params, "{\"object\":\"v2.orchestrated_commerce.agreement\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"initiated_by\":\"seller\",\"livemode\":true,\"orchestrator_details\":{\"name\":\"name\",\"network_business_profile\":\"network_business_profile\"},\"seller_details\":{\"network_business_profile\":\"network_business_profile\"},\"status\":\"partially_confirmed\",\"status_transitions\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2OrchestratedCommerceAgreements.Confirm("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2OrchestratedCommerceAgreementPost2Client(t *testing.T) {
+	params := &stripe.V2OrchestratedCommerceAgreementConfirmParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/orchestrated_commerce/agreements/id_123/confirm", params, "{\"object\":\"v2.orchestrated_commerce.agreement\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"initiated_by\":\"seller\",\"livemode\":true,\"orchestrator_details\":{\"name\":\"name\",\"network_business_profile\":\"network_business_profile\"},\"seller_details\":{\"network_business_profile\":\"network_business_profile\"},\"status\":\"partially_confirmed\",\"status_transitions\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2OrchestratedCommerceAgreements.Confirm(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2OrchestratedCommerceAgreementPost3Service(t *testing.T) {
+	params := &stripe.V2OrchestratedCommerceAgreementTerminateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/orchestrated_commerce/agreements/id_123/terminate", params, "{\"object\":\"v2.orchestrated_commerce.agreement\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"initiated_by\":\"seller\",\"livemode\":true,\"orchestrator_details\":{\"name\":\"name\",\"network_business_profile\":\"network_business_profile\"},\"seller_details\":{\"network_business_profile\":\"network_business_profile\"},\"status\":\"partially_confirmed\",\"status_transitions\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2OrchestratedCommerceAgreements.Terminate("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2OrchestratedCommerceAgreementPost3Client(t *testing.T) {
+	params := &stripe.V2OrchestratedCommerceAgreementTerminateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/orchestrated_commerce/agreements/id_123/terminate", params, "{\"object\":\"v2.orchestrated_commerce.agreement\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"initiated_by\":\"seller\",\"livemode\":true,\"orchestrator_details\":{\"name\":\"name\",\"network_business_profile\":\"network_business_profile\"},\"seller_details\":{\"network_business_profile\":\"network_business_profile\"},\"status\":\"partially_confirmed\",\"status_transitions\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2OrchestratedCommerceAgreements.Terminate(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -20194,7 +20561,7 @@ func TestV2TaxManualRulePost3Client(t *testing.T) {
 func TestV2TestHelpersFinancialAddressPostService(t *testing.T) {
 	params := &stripe.V2TestHelpersFinancialAddressCreditParams{
 		Amount:  &stripe.Amount{Value: 96, Currency: stripe.CurrencyUSD},
-		Network: stripe.String("ach"),
+		Network: stripe.String("fps"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/test_helpers/financial_addresses/id_123/credit", params, "{\"object\":\"financial_address_credit_simulation\",\"livemode\":true,\"status\":\"status\"}")
@@ -20210,7 +20577,7 @@ func TestV2TestHelpersFinancialAddressPostService(t *testing.T) {
 func TestV2TestHelpersFinancialAddressPostClient(t *testing.T) {
 	params := &stripe.V2TestHelpersFinancialAddressCreditParams{
 		Amount:  &stripe.Amount{Value: 96, Currency: stripe.CurrencyUSD},
-		Network: stripe.String("ach"),
+		Network: stripe.String("fps"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/test_helpers/financial_addresses/id_123/credit", params, "{\"object\":\"financial_address_credit_simulation\",\"livemode\":true,\"status\":\"status\"}")
@@ -20376,28 +20743,51 @@ func TestBlockedByStripeErrorClient(t *testing.T) {
 }
 
 func TestCannotProceedErrorService(t *testing.T) {
-	params := &stripe.V2MoneyManagementPayoutMethodArchiveParams{}
+	params := &stripe.V2ExtendWorkflowInvokeParams{
+		InputParameters: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/payout_methods/id_123/archive", params, "{\"error\":{\"type\":\"cannot_proceed\",\"code\":\"default_payout_method_cannot_be_archived\"}}")
+		t, http.MethodPost, "/v2/extend/workflows/id_123/invoke", params, "{\"error\":{\"type\":\"cannot_proceed\",\"code\":\"default_payout_method_cannot_be_archived\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2MoneyManagementPayoutMethods.Archive("id_123", params)
+	result, err := sc.V2ExtendWorkflows.Invoke("id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCannotProceedErrorClient(t *testing.T) {
-	params := &stripe.V2MoneyManagementPayoutMethodArchiveParams{}
+	params := &stripe.V2ExtendWorkflowInvokeParams{
+		InputParameters: map[string]any{
+			"int_key":     123,
+			"string_key":  "value",
+			"boolean_key": true,
+			"object_key": map[string]any{
+				"object_int_key":     123,
+				"object_string_key":  "value",
+				"object_boolean_key": true,
+			},
+			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
+		},
+	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/payout_methods/id_123/archive", params, "{\"error\":{\"type\":\"cannot_proceed\",\"code\":\"default_payout_method_cannot_be_archived\"}}")
+		t, http.MethodPost, "/v2/extend/workflows/id_123/invoke", params, "{\"error\":{\"type\":\"cannot_proceed\",\"code\":\"default_payout_method_cannot_be_archived\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2MoneyManagementPayoutMethods.Archive(
-		context.TODO(), "id_123", params)
+	result, err := sc.V2ExtendWorkflows.Invoke(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -20458,9 +20848,8 @@ func TestControlledByDashboardErrorClient(t *testing.T) {
 
 func TestFeatureNotEnabledErrorService(t *testing.T) {
 	params := &stripe.V2MoneyManagementCurrencyConversionParams{
-		FinancialAccount: stripe.String("financial_account"),
-		From:             &stripe.V2MoneyManagementCurrencyConversionFromParams{},
-		To:               &stripe.V2MoneyManagementCurrencyConversionToParams{},
+		From: &stripe.V2MoneyManagementCurrencyConversionFromParams{},
+		To:   &stripe.V2MoneyManagementCurrencyConversionToParams{},
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/currency_conversions", params, "{\"error\":{\"type\":\"feature_not_enabled\",\"code\":\"outbound_flow_from_closed_financial_account_unsupported\"}}")
@@ -20475,9 +20864,8 @@ func TestFeatureNotEnabledErrorService(t *testing.T) {
 
 func TestFeatureNotEnabledErrorClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementCurrencyConversionCreateParams{
-		FinancialAccount: stripe.String("financial_account"),
-		From:             &stripe.V2MoneyManagementCurrencyConversionCreateFromParams{},
-		To:               &stripe.V2MoneyManagementCurrencyConversionCreateToParams{},
+		From: &stripe.V2MoneyManagementCurrencyConversionCreateFromParams{},
+		To:   &stripe.V2MoneyManagementCurrencyConversionCreateToParams{},
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/currency_conversions", params, "{\"error\":{\"type\":\"feature_not_enabled\",\"code\":\"outbound_flow_from_closed_financial_account_unsupported\"}}")
@@ -20494,7 +20882,7 @@ func TestFeatureNotEnabledErrorClient(t *testing.T) {
 func TestFinancialAccountNotOpenErrorService(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAddressParams{
 		FinancialAccount: stripe.String("financial_account"),
-		Type:             stripe.String("gb_bank_account"),
+		Type:             stripe.String("sepa_bank_account"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_addresses", params, "{\"error\":{\"type\":\"financial_account_not_open\",\"code\":\"financial_account_not_in_open_status\"}}")
@@ -20510,7 +20898,7 @@ func TestFinancialAccountNotOpenErrorService(t *testing.T) {
 func TestFinancialAccountNotOpenErrorClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAddressCreateParams{
 		FinancialAccount: stripe.String("financial_account"),
-		Type:             stripe.String("gb_bank_account"),
+		Type:             stripe.String("sepa_bank_account"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_addresses", params, "{\"error\":{\"type\":\"financial_account_not_open\",\"code\":\"financial_account_not_in_open_status\"}}")
@@ -20519,6 +20907,39 @@ func TestFinancialAccountNotOpenErrorClient(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2MoneyManagementFinancialAddresses.Create(
+		context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestFxQuoteExpiredErrorService(t *testing.T) {
+	params := &stripe.V2MoneyManagementCurrencyConversionParams{
+		From: &stripe.V2MoneyManagementCurrencyConversionFromParams{},
+		To:   &stripe.V2MoneyManagementCurrencyConversionToParams{},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/currency_conversions", params, "{\"error\":{\"type\":\"fx_quote_expired\",\"code\":\"currency_conversion_fx_quote_expired\"}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2MoneyManagementCurrencyConversions.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestFxQuoteExpiredErrorClient(t *testing.T) {
+	params := &stripe.V2MoneyManagementCurrencyConversionCreateParams{
+		From: &stripe.V2MoneyManagementCurrencyConversionCreateFromParams{},
+		To:   &stripe.V2MoneyManagementCurrencyConversionCreateToParams{},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/currency_conversions", params, "{\"error\":{\"type\":\"fx_quote_expired\",\"code\":\"currency_conversion_fx_quote_expired\"}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2MoneyManagementCurrencyConversions.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)

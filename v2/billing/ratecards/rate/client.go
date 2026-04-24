@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Set the Rate for a Metered Item on the latest version of a Rate Card object. This will create a new Rate Card version
+// Set the Rate for a Metered Item on the latest version of a Rate Card object. This creates a new Rate Card version
 // if the Metered Item already has a rate on the Rate Card.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
@@ -50,7 +50,7 @@ func (c Client) Get(id string, params *stripe.V2BillingRateCardsRateParams) (*st
 	return ratecardrate, err
 }
 
-// Remove an existing Rate from a Rate Card. This will create a new Rate Card Version without that Rate.
+// Remove an existing Rate from a Rate Card. This creates a new Rate Card Version without that Rate.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

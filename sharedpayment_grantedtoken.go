@@ -833,6 +833,8 @@ type SharedPaymentGrantedTokenPaymentMethodDetailsSatispay struct{}
 type SharedPaymentGrantedTokenPaymentMethodDetailsSEPADebitGeneratedFrom struct {
 	// The ID of the Charge that generated this PaymentMethod, if any.
 	Charge *Charge `json:"charge"`
+	// The ID of the PaymentMethod that generated this PaymentMethod, if any.
+	PaymentMethod *PaymentMethod `json:"payment_method,omitempty"`
 	// The ID of the SetupAttempt that generated this PaymentMethod, if any.
 	SetupAttempt *SetupAttempt `json:"setup_attempt"`
 }

@@ -8,7 +8,7 @@ package stripe
 
 import "time"
 
-// The Stripe Tax tax behavior - whether the PricingPlan is inclusive or exclusive of tax.
+// The tax behavior for Stripe Tax — whether the pricing plan price includes or excludes tax.
 type V2BillingPricingPlanTaxBehavior string
 
 // List of values that V2BillingPricingPlanTaxBehavior can take
@@ -28,8 +28,7 @@ type V2BillingPricingPlan struct {
 	Created time.Time `json:"created"`
 	// The currency of the PricingPlan.
 	Currency Currency `json:"currency"`
-	// A description for pricing plan subscription.
-	// Maximum length of 500 characters.
+	// A description of the pricing plan. Maximum length of 500 characters.
 	Description string `json:"description,omitempty"`
 	// Display name of the PricingPlan.
 	DisplayName string `json:"display_name"`
@@ -47,6 +46,6 @@ type V2BillingPricingPlan struct {
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// The Stripe Tax tax behavior - whether the PricingPlan is inclusive or exclusive of tax.
+	// The tax behavior for Stripe Tax — whether the pricing plan price includes or excludes tax.
 	TaxBehavior V2BillingPricingPlanTaxBehavior `json:"tax_behavior"`
 }

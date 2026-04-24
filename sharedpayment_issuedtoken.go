@@ -167,8 +167,6 @@ type SharedPaymentIssuedTokenUsageLimits struct {
 type SharedPaymentIssuedToken struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// ID of an existing Customer.
-	Customer string `json:"customer"`
 	// Time at which this SharedPaymentIssuedToken was deactivated.
 	DeactivatedAt int64 `json:"deactivated_at"`
 	// The reason why the SharedPaymentIssuedToken has been deactivated.

@@ -38,6 +38,7 @@ const (
 	ErrorTypeControlledByDashboard         ErrorType = "controlled_by_dashboard"
 	ErrorTypeFeatureNotEnabled             ErrorType = "feature_not_enabled"
 	ErrorTypeFinancialAccountNotOpen       ErrorType = "financial_account_not_open"
+	ErrorTypeFxQuoteExpired                ErrorType = "fx_quote_expired"
 	ErrorTypeInsufficientFunds             ErrorType = "insufficient_funds"
 	ErrorTypeInvalidPaymentMethod          ErrorType = "invalid_payment_method"
 	ErrorTypeInvalidPayoutMethod           ErrorType = "invalid_payout_method"
@@ -666,6 +667,33 @@ func (e *FinancialAccountNotOpenError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *FinancialAccountNotOpenError) canRetry() bool {
+	return false
+}
+
+// FxQuoteExpiredError is the Go struct corresponding to the error type "fx_quote_expired".
+// Returned when the provided FX quote has already expired.
+type FxQuoteExpiredError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *FxQuoteExpiredError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *FxQuoteExpiredError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *FxQuoteExpiredError) canRetry() bool {
 	return false
 }
 

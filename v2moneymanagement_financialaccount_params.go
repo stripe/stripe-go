@@ -23,8 +23,10 @@ type V2MoneyManagementFinancialAccountListParams struct {
 type V2MoneyManagementFinancialAccountStorageParams struct {
 	// The usage type for funds in this FinancialAccount. Can be used to specify that the funds are for Consumer activity.
 	FundsUsageType *string `form:"funds_usage_type" json:"funds_usage_type,omitempty"`
-	// The currencies that this FinancialAccount can hold.
-	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies"`
+	// The currencies that this storage FinancialAccount can hold a balance in. Three-letter ISO currency code, in lowercase.
+	// Adding currencies requires the corresponding holds_currencies storer capabilities to be enabled.
+	// Removing currencies is not supported as of March 2026.
+	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies,omitempty"`
 }
 
 // Creates a new FinancialAccount.
@@ -36,7 +38,7 @@ type V2MoneyManagementFinancialAccountParams struct {
 	Include []*string `form:"include" json:"include,omitempty"`
 	// Metadata associated with the FinancialAccount.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
-	// Parameters specific to creating `storage` type FinancialAccounts.
+	// Parameters for updating storage-specific fields on the FinancialAccount.
 	Storage *V2MoneyManagementFinancialAccountStorageParams `form:"storage" json:"storage,omitempty"`
 	// The type of FinancialAccount to create.
 	Type *string `form:"type" json:"type,omitempty"`
@@ -103,6 +105,14 @@ type V2MoneyManagementFinancialAccountRetrieveParams struct {
 	Include []*string `form:"include" json:"include,omitempty"`
 }
 
+// Parameters for updating storage-specific fields on the FinancialAccount.
+type V2MoneyManagementFinancialAccountUpdateStorageParams struct {
+	// The currencies that this storage FinancialAccount can hold a balance in. Three-letter ISO currency code, in lowercase.
+	// Adding currencies requires the corresponding holds_currencies storer capabilities to be enabled.
+	// Removing currencies is not supported as of March 2026.
+	HoldsCurrencies []*string `form:"holds_currencies" json:"holds_currencies,omitempty"`
+}
+
 // Updates an existing FinancialAccount.
 type V2MoneyManagementFinancialAccountUpdateParams struct {
 	Params `form:"*"`
@@ -110,6 +120,8 @@ type V2MoneyManagementFinancialAccountUpdateParams struct {
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Metadata associated with the FinancialAccount.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
+	// Parameters for updating storage-specific fields on the FinancialAccount.
+	Storage *V2MoneyManagementFinancialAccountUpdateStorageParams `form:"storage" json:"storage,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.

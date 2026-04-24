@@ -33,7 +33,7 @@ type V2BillingMeteredItemTaxDetailsParams struct {
 // Create a Metered Item object.
 type V2BillingMeteredItemParams struct {
 	Params `form:"*"`
-	// Description that customers will see in the invoice line item.
+	// Description that customers see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Optional array of Meter dimensions to group event dimension keys for invoice line items.
@@ -84,7 +84,7 @@ type V2BillingMeteredItemCreateTaxDetailsParams struct {
 // Create a Metered Item object.
 type V2BillingMeteredItemCreateParams struct {
 	Params `form:"*"`
-	// Description that customers will see in the invoice line item.
+	// Description that customers see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name"`
 	// Optional array of Meter dimensions to group event dimension keys for invoice line items.
@@ -131,7 +131,7 @@ type V2BillingMeteredItemUpdateTaxDetailsParams struct {
 // Update a Metered Item object. At least one of the fields is required.
 type V2BillingMeteredItemUpdateParams struct {
 	Params `form:"*"`
-	// Description that customers will see in the invoice line item.
+	// Description that customers see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// An internal key you can use to search for a particular metered item.

@@ -17,7 +17,7 @@ const (
 	V2BillingIntentActionApplyDiscountTypePromotionCode V2BillingIntentActionApplyDiscountType = "promotion_code"
 )
 
-// When the apply action will take effect.
+// When the apply action takes effect.
 type V2BillingIntentActionApplyEffectiveAtType string
 
 // List of values that V2BillingIntentActionApplyEffectiveAtType can take
@@ -111,7 +111,7 @@ const (
 	V2BillingIntentActionDeactivateCollectAtOnEffectiveAt   V2BillingIntentActionDeactivateCollectAt = "on_effective_at"
 )
 
-// When the deactivate action will take effect.
+// When the deactivate action takes effect.
 type V2BillingIntentActionDeactivateEffectiveAtType string
 
 // List of values that V2BillingIntentActionDeactivateEffectiveAtType can take
@@ -158,7 +158,7 @@ const (
 	V2BillingIntentActionModifyCollectAtOnEffectiveAt   V2BillingIntentActionModifyCollectAt = "on_effective_at"
 )
 
-// When the modify action will take effect.
+// When the modify action takes effect.
 type V2BillingIntentActionModifyEffectiveAtType string
 
 // List of values that V2BillingIntentActionModifyEffectiveAtType can take
@@ -213,7 +213,7 @@ const (
 	V2BillingIntentActionModifyTypeV1SubscriptionDetails          V2BillingIntentActionModifyType = "v1_subscription_details"
 )
 
-// When the remove action will take effect.
+// When the remove action takes effect.
 type V2BillingIntentActionRemoveEffectiveAtType string
 
 // List of values that V2BillingIntentActionRemoveEffectiveAtType can take
@@ -240,7 +240,7 @@ const (
 	V2BillingIntentActionSubscribeCollectAtOnEffectiveAt   V2BillingIntentActionSubscribeCollectAt = "on_effective_at"
 )
 
-// When the subscribe action will take effect.
+// When the subscribe action takes effect.
 type V2BillingIntentActionSubscribeEffectiveAtType string
 
 // List of values that V2BillingIntentActionSubscribeEffectiveAtType can take
@@ -310,11 +310,11 @@ type V2BillingIntentActionApplyDiscount struct {
 	Type V2BillingIntentActionApplyDiscountType `json:"type"`
 }
 
-// When the apply action will take effect. If not specified, defaults to on_reserve.
+// When the apply action takes effect. If not specified, defaults to on_reserve.
 type V2BillingIntentActionApplyEffectiveAt struct {
-	// The timestamp at which the apply action will take effect. Only present if type is timestamp. Only allowed for discount actions.
+	// The timestamp at which the apply action takes effect. Only present if type is timestamp. Only allowed for discount actions.
 	Timestamp time.Time `json:"timestamp,omitempty"`
-	// When the apply action will take effect.
+	// When the apply action takes effect.
 	Type V2BillingIntentActionApplyEffectiveAtType `json:"type"`
 }
 
@@ -328,7 +328,7 @@ type V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplications 
 type V2BillingIntentActionApplyInvoiceDiscountRulePercentOff struct {
 	// The maximum number of times this discount can be applied for this Billing Cadence.
 	MaximumApplications *V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplications `json:"maximum_applications"`
-	// Percent that will be taken off of the amount. For example, percent_off of 50.0 will make $100 amount $50 instead.
+	// Percent that is taken off the amount. For example, a percent_off of 50.0 reduces a 100 USD amount to 50 USD.
 	PercentOff float64 `json:"percent_off,string"`
 }
 
@@ -390,7 +390,7 @@ type V2BillingIntentActionApplySpendModifierRule struct {
 type V2BillingIntentActionApply struct {
 	// Details for applying a discount.
 	Discount *V2BillingIntentActionApplyDiscount `json:"discount,omitempty"`
-	// When the apply action will take effect. If not specified, defaults to on_reserve.
+	// When the apply action takes effect. If not specified, defaults to on_reserve.
 	EffectiveAt *V2BillingIntentActionApplyEffectiveAt `json:"effective_at,omitempty"`
 	// Details for applying a discount rule to future invoices.
 	InvoiceDiscountRule *V2BillingIntentActionApplyInvoiceDiscountRule `json:"invoice_discount_rule,omitempty"`
@@ -408,11 +408,11 @@ type V2BillingIntentActionDeactivateCancellationDetails struct {
 	Feedback V2BillingIntentActionDeactivateCancellationDetailsFeedback `json:"feedback,omitempty"`
 }
 
-// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
+// When the deactivate action takes effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentActionDeactivateEffectiveAt struct {
-	// The timestamp at which the deactivate action will take effect. Only present if type is timestamp.
+	// The timestamp at which the deactivate action takes effect. Only present if type is timestamp.
 	Timestamp time.Time `json:"timestamp,omitempty"`
-	// When the deactivate action will take effect.
+	// When the deactivate action takes effect.
 	Type V2BillingIntentActionDeactivateEffectiveAtType `json:"type"`
 }
 
@@ -450,7 +450,7 @@ type V2BillingIntentActionDeactivate struct {
 	CancellationDetails *V2BillingIntentActionDeactivateCancellationDetails `json:"cancellation_details,omitempty"`
 	// Allows users to override the collect at behavior.
 	CollectAt V2BillingIntentActionDeactivateCollectAt `json:"collect_at"`
-	// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
+	// When the deactivate action takes effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentActionDeactivateEffectiveAt `json:"effective_at"`
 	// Details for deactivating a Pricing Plan Subscription.
 	PricingPlanSubscriptionDetails *V2BillingIntentActionDeactivatePricingPlanSubscriptionDetails `json:"pricing_plan_subscription_details,omitempty"`
@@ -458,11 +458,11 @@ type V2BillingIntentActionDeactivate struct {
 	Type V2BillingIntentActionDeactivateType `json:"type"`
 }
 
-// When the modify action will take effect. If not specified, the default behavior is on_reserve.
+// When the modify action takes effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentActionModifyEffectiveAt struct {
-	// The timestamp at which the modify action will take effect. Only present if type is timestamp.
+	// The timestamp at which the modify action takes effect. Only present if type is timestamp.
 	Timestamp time.Time `json:"timestamp,omitempty"`
-	// When the modify action will take effect.
+	// When the modify action takes effect.
 	Type V2BillingIntentActionModifyEffectiveAtType `json:"type"`
 }
 
@@ -524,7 +524,7 @@ type V2BillingIntentActionModifyPricingPlanSubscriptionDetails struct {
 type V2BillingIntentActionModify struct {
 	// Allows users to override the collect at behavior.
 	CollectAt V2BillingIntentActionModifyCollectAt `json:"collect_at"`
-	// When the modify action will take effect. If not specified, the default behavior is on_reserve.
+	// When the modify action takes effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentActionModifyEffectiveAt `json:"effective_at"`
 	// Details for modifying a Pricing Plan Subscription.
 	PricingPlanSubscriptionDetails *V2BillingIntentActionModifyPricingPlanSubscriptionDetails `json:"pricing_plan_subscription_details,omitempty"`
@@ -532,15 +532,15 @@ type V2BillingIntentActionModify struct {
 	Type V2BillingIntentActionModifyType `json:"type"`
 }
 
-// When the remove action will take effect. If not specified, defaults to on_reserve.
+// When the remove action takes effect. If not specified, defaults to on_reserve.
 type V2BillingIntentActionRemoveEffectiveAt struct {
-	// When the remove action will take effect.
+	// When the remove action takes effect.
 	Type V2BillingIntentActionRemoveEffectiveAtType `json:"type"`
 }
 
 // Details for a remove action.
 type V2BillingIntentActionRemove struct {
-	// When the remove action will take effect. If not specified, defaults to on_reserve.
+	// When the remove action takes effect. If not specified, defaults to on_reserve.
 	EffectiveAt *V2BillingIntentActionRemoveEffectiveAt `json:"effective_at,omitempty"`
 	// The ID of the discount rule to remove for future invoices.
 	InvoiceDiscountRule string `json:"invoice_discount_rule,omitempty"`
@@ -550,11 +550,11 @@ type V2BillingIntentActionRemove struct {
 	Type V2BillingIntentActionRemoveType `json:"type"`
 }
 
-// When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
+// When the subscribe action takes effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentActionSubscribeEffectiveAt struct {
-	// The timestamp at which the subscribe action will take effect. Only present if type is timestamp.
+	// The timestamp at which the subscribe action takes effect. Only present if type is timestamp.
 	Timestamp time.Time `json:"timestamp,omitempty"`
-	// When the subscribe action will take effect.
+	// When the subscribe action takes effect.
 	Type V2BillingIntentActionSubscribeEffectiveAtType `json:"type"`
 }
 
@@ -637,7 +637,7 @@ type V2BillingIntentActionSubscribeV1SubscriptionDetails struct {
 type V2BillingIntentActionSubscribe struct {
 	// Allows users to override the collect at behavior.
 	CollectAt V2BillingIntentActionSubscribeCollectAt `json:"collect_at"`
-	// When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
+	// When the subscribe action takes effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentActionSubscribeEffectiveAt `json:"effective_at"`
 	// Details for subscribing to a Pricing Plan.
 	PricingPlanSubscriptionDetails *V2BillingIntentActionSubscribePricingPlanSubscriptionDetails `json:"pricing_plan_subscription_details,omitempty"`

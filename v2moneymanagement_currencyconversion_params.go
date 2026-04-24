@@ -38,6 +38,8 @@ type V2MoneyManagementCurrencyConversionParams struct {
 	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
 	// From amount object indicating the from currency or optional amount.
 	From *V2MoneyManagementCurrencyConversionFromParams `form:"from" json:"from,omitempty"`
+	// The FX quote to use for the conversion.
+	FxQuote *string `form:"fx_quote" json:"fx_quote,omitempty"`
 	// To amount object indicating the to currency or optional amount.
 	To *V2MoneyManagementCurrencyConversionToParams `form:"to" json:"to,omitempty"`
 }
@@ -62,9 +64,11 @@ type V2MoneyManagementCurrencyConversionCreateToParams struct {
 type V2MoneyManagementCurrencyConversionCreateParams struct {
 	Params `form:"*"`
 	// The FinancialAccount id to create the CurrencyConversion on.
-	FinancialAccount *string `form:"financial_account" json:"financial_account"`
+	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
 	// From amount object indicating the from currency or optional amount.
 	From *V2MoneyManagementCurrencyConversionCreateFromParams `form:"from" json:"from"`
+	// The FX quote to use for the conversion.
+	FxQuote *string `form:"fx_quote" json:"fx_quote,omitempty"`
 	// To amount object indicating the to currency or optional amount.
 	To *V2MoneyManagementCurrencyConversionCreateToParams `form:"to" json:"to"`
 }

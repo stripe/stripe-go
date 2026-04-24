@@ -1169,6 +1169,85 @@ func (p *IssuingDisputeUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Fees associated with the transaction.
+type IssuingDisputeCryptoTransactionCryptoTransactionConfirmedFee struct {
+	// The fee amount.
+	Amount string `json:"amount"`
+	// The fee currency.
+	Currency Currency `json:"currency"`
+	// The fee type.
+	Type string `json:"type"`
+}
+
+// The confirmed crypto transaction details when `type` is `crypto_transaction_confirmed`; otherwise null.
+type IssuingDisputeCryptoTransactionCryptoTransactionConfirmed struct {
+	// The crypto amount for the confirmed transaction.
+	Amount string `json:"amount"`
+	// The upcharged MCC amount, if one was applied.
+	AmountMCCUpcharged string `json:"amount_mcc_upcharged"`
+	// The blockchain network for the confirmed transaction.
+	Chain string `json:"chain"`
+	// When the transaction was confirmed onchain.
+	ConfirmedAt int64 `json:"confirmed_at"`
+	// The currency of the crypto transaction amount.
+	Currency Currency `json:"currency"`
+	// Fees associated with the transaction.
+	Fees []*IssuingDisputeCryptoTransactionCryptoTransactionConfirmedFee `json:"fees"`
+	// The source wallet address for the transaction.
+	FromAddress string `json:"from_address"`
+	// Memo metadata attached to the transaction, if present.
+	Memo string `json:"memo"`
+	// The destination wallet address for the transaction.
+	ToAddress string `json:"to_address"`
+	// The blockchain transaction hash.
+	TransactionHash string `json:"transaction_hash"`
+}
+
+// Fees associated with the transaction.
+type IssuingDisputeCryptoTransactionCryptoTransactionFailedFee struct {
+	// The fee amount.
+	Amount string `json:"amount"`
+	// The fee currency.
+	Currency Currency `json:"currency"`
+	// The fee type.
+	Type string `json:"type"`
+}
+
+// The failed crypto transaction details when `type` is `crypto_transaction_failed`; otherwise null.
+type IssuingDisputeCryptoTransactionCryptoTransactionFailed struct {
+	// The crypto amount for the failed transaction.
+	Amount string `json:"amount"`
+	// The upcharged MCC amount, if one was applied.
+	AmountMCCUpcharged string `json:"amount_mcc_upcharged"`
+	// The blockchain network for the failed transaction.
+	Chain string `json:"chain"`
+	// The currency of the crypto transaction amount.
+	Currency Currency `json:"currency"`
+	// When the transaction failed.
+	FailedAt int64 `json:"failed_at"`
+	// The reason the transaction failed.
+	FailureReason string `json:"failure_reason"`
+	// Fees associated with the transaction.
+	Fees []*IssuingDisputeCryptoTransactionCryptoTransactionFailedFee `json:"fees"`
+	// The source wallet address for the attempted transaction.
+	FromAddress string `json:"from_address"`
+	// Memo metadata attached to the transaction, if present.
+	Memo string `json:"memo"`
+	// The destination wallet address for the attempted transaction when one exists.
+	ToAddress string `json:"to_address"`
+	// The blockchain transaction hash when one exists.
+	TransactionHash string `json:"transaction_hash"`
+}
+
+// Array of onchain crypto transactions linked to this resource.
+type IssuingDisputeCryptoTransaction struct {
+	// The confirmed crypto transaction details when `type` is `crypto_transaction_confirmed`; otherwise null.
+	CryptoTransactionConfirmed *IssuingDisputeCryptoTransactionCryptoTransactionConfirmed `json:"crypto_transaction_confirmed"`
+	// The failed crypto transaction details when `type` is `crypto_transaction_failed`; otherwise null.
+	CryptoTransactionFailed *IssuingDisputeCryptoTransactionCryptoTransactionFailed `json:"crypto_transaction_failed"`
+	// The crypto transaction variant for this array entry.
+	Type string `json:"type"`
+}
 type IssuingDisputeEvidenceCanceled struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *File `json:"additional_documentation"`
@@ -1297,6 +1376,8 @@ type IssuingDispute struct {
 	BalanceTransactions []*BalanceTransaction `json:"balance_transactions,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
+	// Array of onchain crypto transactions linked to this resource.
+	CryptoTransactions []*IssuingDisputeCryptoTransaction `json:"crypto_transactions,omitempty"`
 	// The currency the `transaction` was made in.
 	Currency Currency                `json:"currency"`
 	Evidence *IssuingDisputeEvidence `json:"evidence"`

@@ -8,9 +8,9 @@ package stripe
 
 import "time"
 
-// Either automatic, or send_invoice. When charging automatically, Stripe will attempt to pay this
-// bill at the end of the period using the payment method attached to the payer profile. When sending an invoice,
-// Stripe will email your payer profile an invoice with payment instructions.
+// Either automatic, or send_invoice. When charging automatically, Stripe attempts to pay this
+// bill at the end of the period using the payment method attached to the billing profile. When sending an invoice,
+// Stripe emails your billing profile an invoice with payment instructions.
 // Defaults to automatic.
 type V2BillingCollectionSettingCollectionMethod string
 
@@ -275,9 +275,9 @@ type V2BillingCollectionSettingPaymentMethodOptions struct {
 // Settings that configure and manage the behavior of collecting payments.
 type V2BillingCollectionSetting struct {
 	APIResource
-	// Either automatic, or send_invoice. When charging automatically, Stripe will attempt to pay this
-	// bill at the end of the period using the payment method attached to the payer profile. When sending an invoice,
-	// Stripe will email your payer profile an invoice with payment instructions.
+	// Either automatic, or send_invoice. When charging automatically, Stripe attempts to pay this
+	// bill at the end of the period using the payment method attached to the billing profile. When sending an invoice,
+	// Stripe emails your billing profile an invoice with payment instructions.
 	// Defaults to automatic.
 	CollectionMethod V2BillingCollectionSettingCollectionMethod `json:"collection_method,omitempty"`
 	// Timestamp of when the object was created.
@@ -288,8 +288,8 @@ type V2BillingCollectionSetting struct {
 	EmailDelivery *V2BillingCollectionSettingEmailDelivery `json:"email_delivery,omitempty"`
 	// The ID of the CollectionSetting.
 	ID string `json:"id"`
-	// The latest version of the current settings object. This will be
-	// Updated every time an attribute of the settings is updated.
+	// The latest version of the current settings object. This is
+	// updated every time an attribute of the settings is updated.
 	LatestVersion string `json:"latest_version"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`

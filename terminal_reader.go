@@ -46,6 +46,14 @@ const (
 	TerminalReaderActionCollectInputsInputTypeText      TerminalReaderActionCollectInputsInputType = "text"
 )
 
+// The type of content to print. Currently supports `image`.
+type TerminalReaderActionPrintContentType string
+
+// List of values that TerminalReaderActionPrintContentType can take
+const (
+	TerminalReaderActionPrintContentTypeImage TerminalReaderActionPrintContentType = "image"
+)
+
 // The reason for the refund.
 type TerminalReaderActionRefundPaymentReason string
 
@@ -82,6 +90,7 @@ const (
 	TerminalReaderActionTypeCollectInputs        TerminalReaderActionType = "collect_inputs"
 	TerminalReaderActionTypeCollectPaymentMethod TerminalReaderActionType = "collect_payment_method"
 	TerminalReaderActionTypeConfirmPaymentIntent TerminalReaderActionType = "confirm_payment_intent"
+	TerminalReaderActionTypePrintContent         TerminalReaderActionType = "print_content"
 	TerminalReaderActionTypeProcessPaymentIntent TerminalReaderActionType = "process_payment_intent"
 	TerminalReaderActionTypeProcessSetupIntent   TerminalReaderActionType = "process_setup_intent"
 	TerminalReaderActionTypeRefundPayment        TerminalReaderActionType = "refund_payment"
@@ -716,6 +725,26 @@ type TerminalReaderActionConfirmPaymentIntent struct {
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 }
 
+// Metadata of an uploaded file
+type TerminalReaderActionPrintContentImage struct {
+	// Creation time of the object (in seconds since the Unix epoch).
+	CreatedAt int64 `json:"created_at"`
+	// The original name of the uploaded file (e.g. `receipt.png`).
+	Filename string `json:"filename"`
+	// The size (in bytes) of the uploaded file.
+	Size int64 `json:"size"`
+	// The format of the uploaded file.
+	Type string `json:"type"`
+}
+
+// Represents a reader action to print content
+type TerminalReaderActionPrintContent struct {
+	// Metadata of an uploaded file
+	Image *TerminalReaderActionPrintContentImage `json:"image,omitempty"`
+	// The type of content to print. Currently supports `image`.
+	Type TerminalReaderActionPrintContentType `json:"type"`
+}
+
 // Represents a per-transaction tipping configuration
 type TerminalReaderActionProcessPaymentIntentProcessConfigTipping struct {
 	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
@@ -832,6 +861,8 @@ type TerminalReaderAction struct {
 	FailureCode string `json:"failure_code"`
 	// Detailed failure message, only set if status is `failed`.
 	FailureMessage string `json:"failure_message"`
+	// Represents a reader action to print content
+	PrintContent *TerminalReaderActionPrintContent `json:"print_content,omitempty"`
 	// Represents a reader action to process a payment intent
 	ProcessPaymentIntent *TerminalReaderActionProcessPaymentIntent `json:"process_payment_intent,omitempty"`
 	// Represents a reader action to process a setup intent

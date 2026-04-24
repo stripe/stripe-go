@@ -34,7 +34,7 @@ type V2BillingRateCardsRateTierParams struct {
 	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units with at
 	// most 12 decimal places.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
+	// Up to and including this quantity is contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
 	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
@@ -49,7 +49,7 @@ type V2BillingRateCardsRateTransformQuantityParams struct {
 	Round *string `form:"round" json:"round"`
 }
 
-// Set the Rate for a Metered Item on the latest version of a Rate Card object. This will create a new Rate Card version
+// Set the Rate for a Metered Item on the latest version of a Rate Card object. This creates a new Rate Card version
 // if the Metered Item already has a rate on the Rate Card.
 type V2BillingRateCardsRateParams struct {
 	Params `form:"*"`
@@ -61,9 +61,9 @@ type V2BillingRateCardsRateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Metered Item that this rate binds to.
 	MeteredItem *string `form:"metered_item" json:"metered_item,omitempty"`
-	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
+	// Defines whether the tiered price is graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
-	// grows into new tiers. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
+	// grows into new tiers. Can only be set if `tiers` is set.
 	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
 	// Each element represents a pricing tier. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 	Tiers []*V2BillingRateCardsRateTierParams `form:"tiers" json:"tiers,omitempty"`
@@ -98,7 +98,7 @@ type V2BillingRateCardsRateCreateTierParams struct {
 	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units with at
 	// most 12 decimal places.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
+	// Up to and including this quantity is contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
 	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
@@ -113,7 +113,7 @@ type V2BillingRateCardsRateCreateTransformQuantityParams struct {
 	Round *string `form:"round" json:"round"`
 }
 
-// Set the Rate for a Metered Item on the latest version of a Rate Card object. This will create a new Rate Card version
+// Set the Rate for a Metered Item on the latest version of a Rate Card object. This creates a new Rate Card version
 // if the Metered Item already has a rate on the Rate Card.
 type V2BillingRateCardsRateCreateParams struct {
 	Params `form:"*"`
@@ -125,9 +125,9 @@ type V2BillingRateCardsRateCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The Metered Item that this rate binds to.
 	MeteredItem *string `form:"metered_item" json:"metered_item"`
-	// Defines whether the tiered price should be graduated or volume-based. In volume-based tiering, the maximum
+	// Defines whether the tiered price is graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
-	// grows into new tiers. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
+	// grows into new tiers. Can only be set if `tiers` is set.
 	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
 	// Each element represents a pricing tier. One of `unit_amount`, `tiers`, or `custom_pricing_unit_amount` is required.
 	Tiers []*V2BillingRateCardsRateCreateTierParams `form:"tiers" json:"tiers,omitempty"`
@@ -147,7 +147,7 @@ func (p *V2BillingRateCardsRateCreateParams) AddMetadata(key string, value strin
 	p.Metadata[key] = value
 }
 
-// Remove an existing Rate from a Rate Card. This will create a new Rate Card Version without that Rate.
+// Remove an existing Rate from a Rate Card. This creates a new Rate Card Version without that Rate.
 type V2BillingRateCardsRateDeleteParams struct {
 	Params `form:"*"`
 	// The ID of the Rate Card.

@@ -30,7 +30,7 @@ const (
 	V2BillingLicenseFeeServiceIntervalYear  V2BillingLicenseFeeServiceInterval = "year"
 )
 
-// The Stripe Tax tax behavior - whether the license fee is inclusive or exclusive of tax.
+// The tax behavior for Stripe Tax — whether the license fee price includes or excludes tax.
 type V2BillingLicenseFeeTaxBehavior string
 
 // List of values that V2BillingLicenseFeeTaxBehavior can take
@@ -39,7 +39,7 @@ const (
 	V2BillingLicenseFeeTaxBehaviorInclusive V2BillingLicenseFeeTaxBehavior = "inclusive"
 )
 
-// Defines whether the tiering price should be graduated or volume-based. In volume-based tiering, the maximum
+// Defines whether the tiering price is graduated or volume-based. In volume-based tiering, the maximum
 // quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
 // grows into new tiers. Can only be set if `tiers` is set.
 type V2BillingLicenseFeeTieringMode string
@@ -71,8 +71,8 @@ const (
 type V2BillingLicenseFeeServiceCycle struct {
 	// The interval for assessing service.
 	Interval V2BillingLicenseFeeServiceCycleInterval `json:"interval"`
-	// The length of the interval for assessing service. For example, set this to 3 and `interval` to `"month"` in
-	// order to specify quarterly service.
+	// The length of the interval for assessing service. For example, set this to 3 and `interval` to `"month"`
+	// to specify quarterly service.
 	IntervalCount int64 `json:"interval_count"`
 }
 
@@ -83,7 +83,7 @@ type V2BillingLicenseFeeTier struct {
 	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units with at
 	// most 12 decimal places.
 	UnitAmount string `json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
+	// Up to and including this quantity is contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
 	UpToDecimal float64 `json:"up_to_decimal,string,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
@@ -122,7 +122,7 @@ type V2BillingLicenseFee struct {
 	LicensedItem *V2BillingLicensedItem `json:"licensed_item"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// The ID of the License Fee Version that will be used by all subscriptions when no specific version is specified.
+	// The ID of the License Fee Version used by all subscriptions when no specific version is specified.
 	LiveVersion string `json:"live_version"`
 	// An internal key you can use to search for a particular License Fee. Maximum length of 200 characters.
 	LookupKey string `json:"lookup_key,omitempty"`
@@ -134,12 +134,12 @@ type V2BillingLicenseFee struct {
 	ServiceCycle *V2BillingLicenseFeeServiceCycle `json:"service_cycle"`
 	// The interval for assessing service.
 	ServiceInterval V2BillingLicenseFeeServiceInterval `json:"service_interval"`
-	// The length of the interval for assessing service. For example, set this to 3 and `service_interval` to `"month"` in
-	// order to specify quarterly service.
+	// The length of the interval for assessing service. For example, set this to 3 and `service_interval` to `"month"`
+	// to specify quarterly service.
 	ServiceIntervalCount int64 `json:"service_interval_count"`
-	// The Stripe Tax tax behavior - whether the license fee is inclusive or exclusive of tax.
+	// The tax behavior for Stripe Tax — whether the license fee price includes or excludes tax.
 	TaxBehavior V2BillingLicenseFeeTaxBehavior `json:"tax_behavior"`
-	// Defines whether the tiering price should be graduated or volume-based. In volume-based tiering, the maximum
+	// Defines whether the tiering price is graduated or volume-based. In volume-based tiering, the maximum
 	// quantity within a period determines the per-unit price. In graduated tiering, the pricing changes as the quantity
 	// grows into new tiers. Can only be set if `tiers` is set.
 	TieringMode V2BillingLicenseFeeTieringMode `json:"tiering_mode,omitempty"`

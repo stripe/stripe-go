@@ -8,6 +8,15 @@ package stripe
 
 import "time"
 
+// The code of the error that occurred when validating the current amount details.
+type V2PaymentsOffSessionPaymentAmountDetailsErrorCode string
+
+// List of values that V2PaymentsOffSessionPaymentAmountDetailsErrorCode can take
+const (
+	V2PaymentsOffSessionPaymentAmountDetailsErrorCodeAmountDetailsAmountMismatch                       V2PaymentsOffSessionPaymentAmountDetailsErrorCode = "amount_details_amount_mismatch"
+	V2PaymentsOffSessionPaymentAmountDetailsErrorCodeAmountDetailsAmountGreaterThanTaxShippingDiscount V2PaymentsOffSessionPaymentAmountDetailsErrorCode = "amount_details_amount_greater_than_tax_shipping_discount"
+)
+
 // The frequency of the underlying payment.
 type V2PaymentsOffSessionPaymentCadence string
 
@@ -65,12 +74,85 @@ const (
 	V2PaymentsOffSessionPaymentStatusSucceeded       V2PaymentsOffSessionPaymentStatus = "succeeded"
 )
 
+// Contains information about the error that occurred when validating the current amount details.
+// This field populates when the amount details has a validation error that wasn't enforced because the [enforce_arithmetic_validation](https://docs.corp.stripe.com/api/payment_intents/create#create_payment_intent-amount_details-enforce_arithmetic_validation) parameter was set to `false`.
+type V2PaymentsOffSessionPaymentAmountDetailsError struct {
+	// The code of the error that occurred when validating the current amount details.
+	Code V2PaymentsOffSessionPaymentAmountDetailsErrorCode `json:"code,omitempty"`
+	// A message providing more details about the error.
+	Message string `json:"message,omitempty"`
+}
+
+// Contains information about the tax on the item.
+type V2PaymentsOffSessionPaymentAmountDetailsLineItemTax struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount int64 `json:"total_tax_amount,omitempty"`
+}
+
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+type V2PaymentsOffSessionPaymentAmountDetailsLineItem struct {
+	// The amount an item was discounted for. Positive integer.
+	DiscountAmount int64 `json:"discount_amount,omitempty"`
+	// Unique identifier of the product. At most 12 characters long.
+	ProductCode string `json:"product_code,omitempty"`
+	// Name of the product. At most 100 characters long.
+	ProductName string `json:"product_name"`
+	// Number of items of the product. Positive integer.
+	Quantity int64 `json:"quantity"`
+	// Contains information about the tax on the item.
+	Tax *V2PaymentsOffSessionPaymentAmountDetailsLineItemTax `json:"tax,omitempty"`
+	// Cost of the product. Non-negative integer.
+	UnitCost int64 `json:"unit_cost"`
+	// Unit of measure for the product. At most 12 characters long.
+	UnitOfMeasure string `json:"unit_of_measure,omitempty"`
+}
+
+// Contains information about the shipping portion of the amount.
+type V2PaymentsOffSessionPaymentAmountDetailsShipping struct {
+	// Portion of the amount that is for shipping.
+	Amount int64 `json:"amount,omitempty"`
+	// The postal code that represents the shipping source.
+	FromPostalCode string `json:"from_postal_code,omitempty"`
+	// The postal code that represents the shipping destination.
+	ToPostalCode string `json:"to_postal_code,omitempty"`
+}
+
+// Contains information about the tax portion of the amount.
+type V2PaymentsOffSessionPaymentAmountDetailsTax struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount int64 `json:"total_tax_amount,omitempty"`
+}
+
+// Provides industry-specific information about the amount.
+type V2PaymentsOffSessionPaymentAmountDetails struct {
+	// The amount the total transaction was discounted for.
+	DiscountAmount int64 `json:"discount_amount,omitempty"`
+	// Contains information about the error that occurred when validating the current amount details.
+	// This field populates when the amount details has a validation error that wasn't enforced because the [enforce_arithmetic_validation](https://docs.corp.stripe.com/api/payment_intents/create#create_payment_intent-amount_details-enforce_arithmetic_validation) parameter was set to `false`.
+	Error *V2PaymentsOffSessionPaymentAmountDetailsError `json:"error,omitempty"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	LineItems []*V2PaymentsOffSessionPaymentAmountDetailsLineItem `json:"line_items"`
+	// Contains information about the shipping portion of the amount.
+	Shipping *V2PaymentsOffSessionPaymentAmountDetailsShipping `json:"shipping,omitempty"`
+	// Contains information about the tax portion of the amount.
+	Tax *V2PaymentsOffSessionPaymentAmountDetailsTax `json:"tax,omitempty"`
+}
+
 // Details about the capture configuration for the OffSessionPayment.
 type V2PaymentsOffSessionPaymentCapture struct {
 	// The timestamp when this payment is no longer eligible to be captured.
 	CaptureBefore time.Time `json:"capture_before,omitempty"`
 	// The method to use to capture the payment.
 	CaptureMethod V2PaymentsOffSessionPaymentCaptureCaptureMethod `json:"capture_method"`
+}
+
+// Provides industry-specific information about the payment.
+type V2PaymentsOffSessionPaymentPaymentDetails struct {
+	// A unique value to identify the customer. This field is applicable only for card payments. For card payments, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
+	CustomerReference string `json:"customer_reference,omitempty"`
+	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
+	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks.
+	OrderReference string `json:"order_reference,omitempty"`
 }
 
 // Details about the payments orchestration configuration.
@@ -116,6 +198,8 @@ type V2PaymentsOffSessionPayment struct {
 	APIResource
 	// The amount available to be captured.
 	AmountCapturable Amount `json:"amount_capturable,omitempty"`
+	// Provides industry-specific information about the amount.
+	AmountDetails *V2PaymentsOffSessionPaymentAmountDetails `json:"amount_details,omitempty"`
 	// The “presentment amount” to be collected from the customer.
 	AmountRequested Amount `json:"amount_requested"`
 	// The amount of the application fee requested to be applied to the payment.
@@ -129,6 +213,8 @@ type V2PaymentsOffSessionPayment struct {
 	Created time.Time `json:"created"`
 	// ID of the Customer to which this OffSessionPayment belongs.
 	Customer string `json:"customer"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description string `json:"description,omitempty"`
 	// The reason why the OffSessionPayment failed.
 	FailureReason V2PaymentsOffSessionPaymentFailureReason `json:"failure_reason,omitempty"`
 	// Unique identifier for the object.
@@ -148,6 +234,8 @@ type V2PaymentsOffSessionPayment struct {
 	Object string `json:"object"`
 	// The account (if any) for which the funds of the OffSessionPayment are intended.
 	OnBehalfOf string `json:"on_behalf_of,omitempty"`
+	// Provides industry-specific information about the payment.
+	PaymentDetails *V2PaymentsOffSessionPaymentPaymentDetails `json:"payment_details,omitempty"`
 	// ID of the payment method used in this OffSessionPayment.
 	PaymentMethod string `json:"payment_method"`
 	// Payment record associated with the OffSessionPayment.

@@ -32,7 +32,9 @@ type V2MoneyManagementPayoutMethodBankAccountBankAccountType string
 // List of values that V2MoneyManagementPayoutMethodBankAccountBankAccountType can take
 const (
 	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeChecking V2MoneyManagementPayoutMethodBankAccountBankAccountType = "checking"
+	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeFutsu    V2MoneyManagementPayoutMethodBankAccountBankAccountType = "futsu"
 	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeSavings  V2MoneyManagementPayoutMethodBankAccountBankAccountType = "savings"
+	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeToza     V2MoneyManagementPayoutMethodBankAccountBankAccountType = "toza"
 )
 
 // Which rail is being used to make an outbound money movement to this wallet.
@@ -48,6 +50,7 @@ const (
 	V2MoneyManagementPayoutMethodCryptoWalletNetworkPolygon         V2MoneyManagementPayoutMethodCryptoWalletNetwork = "polygon"
 	V2MoneyManagementPayoutMethodCryptoWalletNetworkSolana          V2MoneyManagementPayoutMethodCryptoWalletNetwork = "solana"
 	V2MoneyManagementPayoutMethodCryptoWalletNetworkStellar         V2MoneyManagementPayoutMethodCryptoWalletNetwork = "stellar"
+	V2MoneyManagementPayoutMethodCryptoWalletNetworkTempo           V2MoneyManagementPayoutMethodCryptoWalletNetwork = "tempo"
 )
 
 // Closed Enum. The type of payout method.

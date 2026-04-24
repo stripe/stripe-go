@@ -170,6 +170,86 @@ type IssuingTransactionAmountDetails struct {
 	CashbackAmount int64 `json:"cashback_amount"`
 }
 
+// Fees associated with the transaction.
+type IssuingTransactionCryptoTransactionCryptoTransactionConfirmedFee struct {
+	// The fee amount.
+	Amount string `json:"amount"`
+	// The fee currency.
+	Currency Currency `json:"currency"`
+	// The fee type.
+	Type string `json:"type"`
+}
+
+// The confirmed crypto transaction details when `type` is `crypto_transaction_confirmed`; otherwise null.
+type IssuingTransactionCryptoTransactionCryptoTransactionConfirmed struct {
+	// The crypto amount for the confirmed transaction.
+	Amount string `json:"amount"`
+	// The upcharged MCC amount, if one was applied.
+	AmountMCCUpcharged string `json:"amount_mcc_upcharged"`
+	// The blockchain network for the confirmed transaction.
+	Chain string `json:"chain"`
+	// When the transaction was confirmed onchain.
+	ConfirmedAt int64 `json:"confirmed_at"`
+	// The currency of the crypto transaction amount.
+	Currency Currency `json:"currency"`
+	// Fees associated with the transaction.
+	Fees []*IssuingTransactionCryptoTransactionCryptoTransactionConfirmedFee `json:"fees"`
+	// The source wallet address for the transaction.
+	FromAddress string `json:"from_address"`
+	// Memo metadata attached to the transaction, if present.
+	Memo string `json:"memo"`
+	// The destination wallet address for the transaction.
+	ToAddress string `json:"to_address"`
+	// The blockchain transaction hash.
+	TransactionHash string `json:"transaction_hash"`
+}
+
+// Fees associated with the transaction.
+type IssuingTransactionCryptoTransactionCryptoTransactionFailedFee struct {
+	// The fee amount.
+	Amount string `json:"amount"`
+	// The fee currency.
+	Currency Currency `json:"currency"`
+	// The fee type.
+	Type string `json:"type"`
+}
+
+// The failed crypto transaction details when `type` is `crypto_transaction_failed`; otherwise null.
+type IssuingTransactionCryptoTransactionCryptoTransactionFailed struct {
+	// The crypto amount for the failed transaction.
+	Amount string `json:"amount"`
+	// The upcharged MCC amount, if one was applied.
+	AmountMCCUpcharged string `json:"amount_mcc_upcharged"`
+	// The blockchain network for the failed transaction.
+	Chain string `json:"chain"`
+	// The currency of the crypto transaction amount.
+	Currency Currency `json:"currency"`
+	// When the transaction failed.
+	FailedAt int64 `json:"failed_at"`
+	// The reason the transaction failed.
+	FailureReason string `json:"failure_reason"`
+	// Fees associated with the transaction.
+	Fees []*IssuingTransactionCryptoTransactionCryptoTransactionFailedFee `json:"fees"`
+	// The source wallet address for the attempted transaction.
+	FromAddress string `json:"from_address"`
+	// Memo metadata attached to the transaction, if present.
+	Memo string `json:"memo"`
+	// The destination wallet address for the attempted transaction when one exists.
+	ToAddress string `json:"to_address"`
+	// The blockchain transaction hash when one exists.
+	TransactionHash string `json:"transaction_hash"`
+}
+
+// Array of onchain crypto transactions linked to this resource.
+type IssuingTransactionCryptoTransaction struct {
+	// The confirmed crypto transaction details when `type` is `crypto_transaction_confirmed`; otherwise null.
+	CryptoTransactionConfirmed *IssuingTransactionCryptoTransactionCryptoTransactionConfirmed `json:"crypto_transaction_confirmed"`
+	// The failed crypto transaction details when `type` is `crypto_transaction_failed`; otherwise null.
+	CryptoTransactionFailed *IssuingTransactionCryptoTransactionCryptoTransactionFailed `json:"crypto_transaction_failed"`
+	// The crypto transaction variant for this array entry.
+	Type string `json:"type"`
+}
+
 // Details about the transaction, such as processing dates, set by the card network.
 type IssuingTransactionNetworkData struct {
 	// A code created by Stripe which is shared with the merchant to validate the authorization. This field will be populated if the authorization message was approved. The code typically starts with the letter "S", followed by a six-digit number. For example, "S498162". Please note that the code is not guaranteed to be unique across authorizations.
@@ -345,6 +425,8 @@ type IssuingTransaction struct {
 	Cardholder *IssuingCardholder `json:"cardholder"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
+	// Array of onchain crypto transactions linked to this resource.
+	CryptoTransactions []*IssuingTransactionCryptoTransaction `json:"crypto_transactions,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// If you've disputed the transaction, the ID of the dispute.

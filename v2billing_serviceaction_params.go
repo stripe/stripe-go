@@ -28,7 +28,7 @@ type V2BillingServiceActionCreditGrantAmountParams struct {
 type V2BillingServiceActionCreditGrantApplicabilityConfigScopeParams struct {
 	// The billable items to apply the credit grant to.
 	BillableItems []*string `form:"billable_items" json:"billable_items,omitempty"`
-	// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
+	// The price type that credit grants can apply to. Stripe supports the `metered` price type, which applies to metered prices and rate cards. Cannot be used in combination with `billable_items`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
 
@@ -82,7 +82,7 @@ type V2BillingServiceActionCreditGrantPerTenantAmountParams struct {
 type V2BillingServiceActionCreditGrantPerTenantApplicabilityConfigScopeParams struct {
 	// The billable items to apply the credit grant to.
 	BillableItems []*string `form:"billable_items" json:"billable_items,omitempty"`
-	// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
+	// The price type that credit grants can apply to. Stripe supports the `metered` price type, which applies to metered prices and rate cards. Cannot be used in combination with `billable_items`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
 
@@ -185,7 +185,7 @@ type V2BillingServiceActionCreateCreditGrantAmountParams struct {
 type V2BillingServiceActionCreateCreditGrantApplicabilityConfigScopeParams struct {
 	// The billable items to apply the credit grant to.
 	BillableItems []*string `form:"billable_items" json:"billable_items,omitempty"`
-	// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
+	// The price type that credit grants can apply to. Stripe supports the `metered` price type, which applies to metered prices and rate cards. Cannot be used in combination with `billable_items`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
 
@@ -239,7 +239,7 @@ type V2BillingServiceActionCreateCreditGrantPerTenantAmountParams struct {
 type V2BillingServiceActionCreateCreditGrantPerTenantApplicabilityConfigScopeParams struct {
 	// The billable items to apply the credit grant to.
 	BillableItems []*string `form:"billable_items" json:"billable_items,omitempty"`
-	// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
+	// The price type that credit grants can apply to. Stripe supports the `metered` price type, which applies to metered prices and rate cards. Cannot be used in combination with `billable_items`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
 }
 

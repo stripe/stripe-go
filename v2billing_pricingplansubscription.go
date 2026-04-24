@@ -62,7 +62,7 @@ const (
 	V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetailsServiceCycleIntervalYear  V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetailsServiceCycleInterval = "year"
 )
 
-// Defines whether the tiering price should be graduated or volume-based.
+// Defines whether the tiering price is graduated or volume-based.
 type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetailsTieringMode string
 
 // List of values that V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetailsTieringMode can take
@@ -117,7 +117,7 @@ const (
 	V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsCreditGrantDetailsAmountTypeMonetary          V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsCreditGrantDetailsAmountType = "monetary"
 )
 
-// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
+// The price type that credit grants can apply to. Stripe supports the `metered` price type, which applies to metered prices and rate cards. Cannot be used in combination with `billable_items`.
 type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsCreditGrantDetailsApplicabilityConfigScopePriceType string
 
 // List of values that V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsCreditGrantDetailsApplicabilityConfigScopePriceType can take
@@ -142,7 +142,7 @@ const (
 	V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsCreditGrantPerTenantDetailsAmountTypeMonetary          V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsCreditGrantPerTenantDetailsAmountType = "monetary"
 )
 
-// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
+// The price type that credit grants can apply to. Stripe supports the `metered` price type, which applies to metered prices and rate cards. Cannot be used in combination with `billable_items`.
 type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsCreditGrantPerTenantDetailsApplicabilityConfigScopePriceType string
 
 // List of values that V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsCreditGrantPerTenantDetailsApplicabilityConfigScopePriceType can take
@@ -249,8 +249,8 @@ type V2BillingPricingPlanSubscriptionDiscountDetail struct {
 type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetailsServiceCycle struct {
 	// The interval for assessing service.
 	Interval V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetailsServiceCycleInterval `json:"interval"`
-	// The length of the interval for assessing service. For example, set this to 3 and `interval` to `"month"` in
-	// order to specify quarterly service.
+	// The length of the interval for assessing service. For example, set this to 3 and `interval` to `"month"`
+	// to specify quarterly service.
 	IntervalCount int64 `json:"interval_count"`
 }
 
@@ -261,7 +261,7 @@ type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetails
 	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units with at
 	// most 12 decimal places.
 	UnitAmount string `json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
+	// Up to and including this quantity is contained in the tier. Only one of `up_to_decimal` and `up_to_inf` may
 	// be set.
 	UpToDecimal float64 `json:"up_to_decimal,string,omitempty"`
 	// No upper bound to this tier. Only one of `up_to_decimal` and `up_to_inf` may be set.
@@ -290,7 +290,7 @@ type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetails
 	Quantity int64 `json:"quantity"`
 	// The service cycle configuration.
 	ServiceCycle *V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetailsServiceCycle `json:"service_cycle"`
-	// Defines whether the tiering price should be graduated or volume-based.
+	// Defines whether the tiering price is graduated or volume-based.
 	TieringMode V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetailsTieringMode `json:"tiering_mode,omitempty"`
 	// Each element represents a pricing tier.
 	Tiers []*V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetailsTier `json:"tiers"`
@@ -298,7 +298,7 @@ type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetails
 	TransformQuantity *V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetailsTransformQuantity `json:"transform_quantity,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units with at most 12 decimal places.
 	UnitAmount string `json:"unit_amount,omitempty"`
-	// The unit label from the licensed item, used for display purposes (e.g. "seat", "environment").
+	// The unit label from the licensed item, used for display purposes (for example, "seat", "environment").
 	UnitLabel string `json:"unit_label,omitempty"`
 }
 
@@ -306,8 +306,8 @@ type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailLicenseFeeDetails
 type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRateCardDetailsServiceCycle struct {
 	// The interval for assessing service.
 	Interval V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRateCardDetailsServiceCycleInterval `json:"interval"`
-	// The length of the interval for assessing service. For example, set this to 3 and `interval` to `"month"` in
-	// order to specify quarterly service.
+	// The length of the interval for assessing service. For example, set this to 3 and `interval` to `"month"`
+	// to specify quarterly service.
 	IntervalCount int64 `json:"interval_count"`
 }
 
@@ -351,7 +351,7 @@ type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGr
 type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsCreditGrantDetailsApplicabilityConfigScope struct {
 	// The billable items to apply the credit grant to.
 	BillableItems []string `json:"billable_items,omitempty"`
-	// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
+	// The price type that credit grants can apply to. Stripe supports the `metered` price type, which applies to metered prices and rate cards. Cannot be used in combination with `billable_items`.
 	PriceType V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsCreditGrantDetailsApplicabilityConfigScopePriceType `json:"price_type,omitempty"`
 }
 
@@ -401,7 +401,7 @@ type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGr
 type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsCreditGrantPerTenantDetailsApplicabilityConfigScope struct {
 	// The billable items to apply the credit grant to.
 	BillableItems []string `json:"billable_items,omitempty"`
-	// The price type that credit grants can apply to. We currently only support the `metered` price type. This will apply to metered prices and rate cards. Cannot be used in combination with `billable_items`.
+	// The price type that credit grants can apply to. Stripe supports the `metered` price type, which applies to metered prices and rate cards. Cannot be used in combination with `billable_items`.
 	PriceType V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsCreditGrantPerTenantDetailsApplicabilityConfigScopePriceType `json:"price_type,omitempty"`
 }
 
@@ -431,8 +431,8 @@ type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGr
 type V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsServiceCycle struct {
 	// The interval for assessing service.
 	Interval V2BillingPricingPlanSubscriptionPricingPlanComponentDetailRecurringCreditGrantDetailsServiceCycleInterval `json:"interval"`
-	// The length of the interval for assessing service. For example, set this to 3 and `interval` to `"month"` in
-	// order to specify quarterly service.
+	// The length of the interval for assessing service. For example, set this to 3 and `interval` to `"month"`
+	// to specify quarterly service.
 	IntervalCount int64 `json:"interval_count"`
 }
 

@@ -229,6 +229,7 @@ import (
 	v2coreaccountsperson "github.com/stripe/stripe-go/v85/v2/core/accounts/person"
 	v2coreaccountspersontoken "github.com/stripe/stripe-go/v85/v2/core/accounts/persontoken"
 	v2coreaccounttoken "github.com/stripe/stripe-go/v85/v2/core/accounttoken"
+	v2coreapprovalrequest "github.com/stripe/stripe-go/v85/v2/core/approvalrequest"
 	v2corebatchjob "github.com/stripe/stripe-go/v85/v2/core/batchjob"
 	v2coreclaimablesandbox "github.com/stripe/stripe-go/v85/v2/core/claimablesandbox"
 	v2coreconnectionsession "github.com/stripe/stripe-go/v85/v2/core/connectionsession"
@@ -236,9 +237,10 @@ import (
 	v2coreeventdestination "github.com/stripe/stripe-go/v85/v2/core/eventdestination"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v85/v2/core/vault/gbbankaccount"
 	v2corevaultusbankaccount "github.com/stripe/stripe-go/v85/v2/core/vault/usbankaccount"
-	v2coreworkflow "github.com/stripe/stripe-go/v85/v2/core/workflow"
-	v2coreworkflowrun "github.com/stripe/stripe-go/v85/v2/core/workflowrun"
 	v2datareportingqueryrun "github.com/stripe/stripe-go/v85/v2/data/reporting/queryrun"
+	v2extendworkflow "github.com/stripe/stripe-go/v85/v2/extend/workflow"
+	v2extendworkflowrun "github.com/stripe/stripe-go/v85/v2/extend/workflowrun"
+	v2iamactivitylog "github.com/stripe/stripe-go/v85/v2/iam/activitylog"
 	v2iamapikey "github.com/stripe/stripe-go/v85/v2/iam/apikey"
 	v2moneymanagementadjustment "github.com/stripe/stripe-go/v85/v2/moneymanagement/adjustment"
 	v2moneymanagementcurrencyconversion "github.com/stripe/stripe-go/v85/v2/moneymanagement/currencyconversion"
@@ -256,6 +258,8 @@ import (
 	v2moneymanagementrecipientverification "github.com/stripe/stripe-go/v85/v2/moneymanagement/recipientverification"
 	v2moneymanagementtransaction "github.com/stripe/stripe-go/v85/v2/moneymanagement/transaction"
 	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v85/v2/moneymanagement/transactionentry"
+	v2networkbusinessprofile "github.com/stripe/stripe-go/v85/v2/network/businessprofile"
+	v2orchestratedcommerceagreement "github.com/stripe/stripe-go/v85/v2/orchestratedcommerce/agreement"
 	v2paymentsoffsessionpayment "github.com/stripe/stripe-go/v85/v2/payments/offsessionpayment"
 	v2paymentssettlementallocationintent "github.com/stripe/stripe-go/v85/v2/payments/settlementallocationintent"
 	v2paymentssettlementallocationintentssplit "github.com/stripe/stripe-go/v85/v2/payments/settlementallocationintents/split"
@@ -705,6 +709,8 @@ type API struct {
 	V2CoreAccountsPersonTokens *v2coreaccountspersontoken.Client
 	// V2CoreAccountTokens is the client used to invoke /v2/core/account_tokens APIs.
 	V2CoreAccountTokens *v2coreaccounttoken.Client
+	// V2CoreApprovalRequests is the client used to invoke /v2/core/approval_requests APIs.
+	V2CoreApprovalRequests *v2coreapprovalrequest.Client
 	// V2CoreBatchJobs is the client used to invoke /v2/core/batch_jobs APIs.
 	V2CoreBatchJobs *v2corebatchjob.Client
 	// V2CoreClaimableSandboxes is the client used to invoke /v2/core/claimable_sandboxes APIs.
@@ -719,12 +725,14 @@ type API struct {
 	V2CoreVaultGBBankAccounts *v2corevaultgbbankaccount.Client
 	// V2CoreVaultUSBankAccounts is the client used to invoke /v2/core/vault/us_bank_accounts APIs.
 	V2CoreVaultUSBankAccounts *v2corevaultusbankaccount.Client
-	// V2CoreWorkflowRuns is the client used to invoke /v2/core/workflow_runs APIs.
-	V2CoreWorkflowRuns *v2coreworkflowrun.Client
-	// V2CoreWorkflows is the client used to invoke /v2/core/workflows APIs.
-	V2CoreWorkflows *v2coreworkflow.Client
 	// V2DataReportingQueryRuns is the client used to invoke /v2/data/reporting/query_runs APIs.
 	V2DataReportingQueryRuns *v2datareportingqueryrun.Client
+	// V2ExtendWorkflowRuns is the client used to invoke /v2/extend/workflow_runs APIs.
+	V2ExtendWorkflowRuns *v2extendworkflowrun.Client
+	// V2ExtendWorkflows is the client used to invoke /v2/extend/workflows APIs.
+	V2ExtendWorkflows *v2extendworkflow.Client
+	// V2IamActivityLogs is the client used to invoke /v2/iam/activity_logs APIs.
+	V2IamActivityLogs *v2iamactivitylog.Client
 	// V2IamAPIKeys is the client used to invoke /v2/iam/api_keys APIs.
 	V2IamAPIKeys *v2iamapikey.Client
 	// V2MoneyManagementAdjustments is the client used to invoke /v2/money_management/adjustments APIs.
@@ -759,6 +767,10 @@ type API struct {
 	V2MoneyManagementTransactionEntries *v2moneymanagementtransactionentry.Client
 	// V2MoneyManagementTransactions is the client used to invoke /v2/money_management/transactions APIs.
 	V2MoneyManagementTransactions *v2moneymanagementtransaction.Client
+	// V2NetworkBusinessProfiles is the client used to invoke businessprofile related APIs.
+	V2NetworkBusinessProfiles *v2networkbusinessprofile.Client
+	// V2OrchestratedCommerceAgreements is the client used to invoke /v2/orchestrated_commerce/agreements APIs.
+	V2OrchestratedCommerceAgreements *v2orchestratedcommerceagreement.Client
 	// V2PaymentsOffSessionPayments is the client used to invoke /v2/payments/off_session_payments APIs.
 	V2PaymentsOffSessionPayments *v2paymentsoffsessionpayment.Client
 	// V2PaymentsSettlementAllocationIntents is the client used to invoke /v2/payments/settlement_allocation_intents APIs.
@@ -1009,6 +1021,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreAccountsPersons = &v2coreaccountsperson.Client{B: backends.API, Key: key}
 	a.V2CoreAccountsPersonTokens = &v2coreaccountspersontoken.Client{B: backends.API, Key: key}
 	a.V2CoreAccountTokens = &v2coreaccounttoken.Client{B: backends.API, Key: key}
+	a.V2CoreApprovalRequests = &v2coreapprovalrequest.Client{B: backends.API, Key: key}
 	a.V2CoreBatchJobs = &v2corebatchjob.Client{B: backends.API, Key: key}
 	a.V2CoreClaimableSandboxes = &v2coreclaimablesandbox.Client{B: backends.API, Key: key}
 	a.V2CoreConnectionSessions = &v2coreconnectionsession.Client{B: backends.API, Key: key}
@@ -1016,9 +1029,10 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}
 	a.V2CoreVaultUSBankAccounts = &v2corevaultusbankaccount.Client{B: backends.API, Key: key}
-	a.V2CoreWorkflowRuns = &v2coreworkflowrun.Client{B: backends.API, Key: key}
-	a.V2CoreWorkflows = &v2coreworkflow.Client{B: backends.API, Key: key}
 	a.V2DataReportingQueryRuns = &v2datareportingqueryrun.Client{B: backends.API, Key: key}
+	a.V2ExtendWorkflowRuns = &v2extendworkflowrun.Client{B: backends.API, Key: key}
+	a.V2ExtendWorkflows = &v2extendworkflow.Client{B: backends.API, Key: key}
+	a.V2IamActivityLogs = &v2iamactivitylog.Client{B: backends.API, Key: key}
 	a.V2IamAPIKeys = &v2iamapikey.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementAdjustments = &v2moneymanagementadjustment.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementCurrencyConversions = &v2moneymanagementcurrencyconversion.Client{B: backends.API, Key: key}
@@ -1036,6 +1050,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementRecipientVerifications = &v2moneymanagementrecipientverification.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
+	a.V2NetworkBusinessProfiles = &v2networkbusinessprofile.Client{B: backends.API, Key: key}
+	a.V2OrchestratedCommerceAgreements = &v2orchestratedcommerceagreement.Client{B: backends.API, Key: key}
 	a.V2PaymentsOffSessionPayments = &v2paymentsoffsessionpayment.Client{B: backends.API, Key: key}
 	a.V2PaymentsSettlementAllocationIntents = &v2paymentssettlementallocationintent.Client{B: backends.API, Key: key}
 	a.V2PaymentsSettlementAllocationIntentsSplits = &v2paymentssettlementallocationintentssplit.Client{B: backends.API, Key: key}

@@ -25,11 +25,11 @@ type V2BillingIntentActionApplyDiscountParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// When the apply action will take effect. If not specified, defaults to on_reserve.
+// When the apply action takes effect. If not specified, defaults to on_reserve.
 type V2BillingIntentActionApplyEffectiveAtParams struct {
-	// The timestamp at which the apply action will take effect. Only present if type is timestamp. Only allowed for discount actions.
+	// The timestamp at which the apply action takes effect. Only present if type is timestamp. Only allowed for discount actions.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
-	// When the apply action will take effect.
+	// When the apply action takes effect.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -43,7 +43,7 @@ type V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsP
 type V2BillingIntentActionApplyInvoiceDiscountRulePercentOffParams struct {
 	// The maximum number of times this discount can be applied for this cadence.
 	MaximumApplications *V2BillingIntentActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams `form:"maximum_applications" json:"maximum_applications"`
-	// Percent that will be taken off of the amount. For example, percent_off of 50.0 will make $100 amount $50 instead.
+	// Percent that is taken off the amount. For example, a percent_off of 50.0 reduces a 100 USD amount to 50 USD.
 	PercentOff *float64 `form:"percent_off,high_precision" json:"percent_off,string"`
 }
 
@@ -101,7 +101,7 @@ type V2BillingIntentActionApplySpendModifierRuleParams struct {
 type V2BillingIntentActionApplyParams struct {
 	// Details for applying a discount.
 	Discount *V2BillingIntentActionApplyDiscountParams `form:"discount" json:"discount,omitempty"`
-	// When the apply action will take effect. If not specified, defaults to on_reserve.
+	// When the apply action takes effect. If not specified, defaults to on_reserve.
 	EffectiveAt *V2BillingIntentActionApplyEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for applying a discount rule to future invoices.
 	InvoiceDiscountRule *V2BillingIntentActionApplyInvoiceDiscountRuleParams `form:"invoice_discount_rule" json:"invoice_discount_rule,omitempty"`
@@ -119,11 +119,11 @@ type V2BillingIntentActionDeactivateCancellationDetailsParams struct {
 	Feedback *string `form:"feedback" json:"feedback,omitempty"`
 }
 
-// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
+// When the deactivate action takes effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentActionDeactivateEffectiveAtParams struct {
-	// The timestamp at which the deactivate action will take effect. Only present if type is timestamp.
+	// The timestamp at which the deactivate action takes effect. Only present if type is timestamp.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
-	// When the deactivate action will take effect.
+	// When the deactivate action takes effect.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -159,9 +159,9 @@ type V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsParams struct 
 type V2BillingIntentActionDeactivateParams struct {
 	// Details about why the cancellation is being requested.
 	CancellationDetails *V2BillingIntentActionDeactivateCancellationDetailsParams `form:"cancellation_details" json:"cancellation_details,omitempty"`
-	// When the invoice will be collected. If not specified, the default behavior is on_effective_at.
+	// When the invoice is collected. If not specified, the default behavior is on_effective_at.
 	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
-	// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
+	// When the deactivate action takes effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentActionDeactivateEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for deactivating a pricing plan subscription.
 	PricingPlanSubscriptionDetails *V2BillingIntentActionDeactivatePricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details"`
@@ -169,11 +169,11 @@ type V2BillingIntentActionDeactivateParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// When the modify action will take effect. If not specified, the default behavior is on_reserve.
+// When the modify action takes effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentActionModifyEffectiveAtParams struct {
-	// The timestamp at which the modify action will take effect. Only present if type is timestamp.
+	// The timestamp at which the modify action takes effect. Only present if type is timestamp.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
-	// When the modify action will take effect.
+	// When the modify action takes effect.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -233,9 +233,9 @@ type V2BillingIntentActionModifyPricingPlanSubscriptionDetailsParams struct {
 
 // Details for a modify action.
 type V2BillingIntentActionModifyParams struct {
-	// When the invoice will be collected. If not specified, the default behavior is next_billing_date.
+	// When the invoice is collected. If not specified, the default behavior is next_billing_date.
 	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
-	// When the modify action will take effect. If not specified, the default behavior is on_reserve.
+	// When the modify action takes effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentActionModifyEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for modifying a pricing plan subscription.
 	PricingPlanSubscriptionDetails *V2BillingIntentActionModifyPricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details"`
@@ -243,15 +243,15 @@ type V2BillingIntentActionModifyParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// When the remove action will take effect. If not specified, defaults to on_reserve.
+// When the remove action takes effect. If not specified, defaults to on_reserve.
 type V2BillingIntentActionRemoveEffectiveAtParams struct {
-	// When the remove action will take effect.
+	// When the remove action takes effect.
 	Type *string `form:"type" json:"type"`
 }
 
 // Details for a remove action.
 type V2BillingIntentActionRemoveParams struct {
-	// When the remove action will take effect. If not specified, defaults to on_reserve.
+	// When the remove action takes effect. If not specified, defaults to on_reserve.
 	EffectiveAt *V2BillingIntentActionRemoveEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// The ID of the discount rule to remove for future invoices.
 	InvoiceDiscountRule *string `form:"invoice_discount_rule" json:"invoice_discount_rule,omitempty"`
@@ -261,11 +261,11 @@ type V2BillingIntentActionRemoveParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
+// When the subscribe action takes effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentActionSubscribeEffectiveAtParams struct {
-	// The timestamp at which the subscribe action will take effect. Only present if type is timestamp.
+	// The timestamp at which the subscribe action takes effect. Only present if type is timestamp.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
-	// When the subscribe action will take effect.
+	// When the subscribe action takes effect.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -371,9 +371,9 @@ func (p *V2BillingIntentActionSubscribeV1SubscriptionDetailsParams) AddMetadata(
 
 // Details for a subscribe action.
 type V2BillingIntentActionSubscribeParams struct {
-	// When the invoice will be collected. If not specified, defaults to on_effective_at.
+	// When the invoice is collected. If not specified, defaults to on_effective_at.
 	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
-	// When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
+	// When the subscribe action takes effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentActionSubscribeEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for subscribing to a pricing plan.
 	PricingPlanSubscriptionDetails *V2BillingIntentActionSubscribePricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details,omitempty"`
@@ -400,7 +400,7 @@ type V2BillingIntentActionParams struct {
 }
 
 // The time at which the billing cycle ends.
-// This field is optional, and if not provided, it will default to
+// This field is optional, and if not provided, it defaults to
 // the time at which the cadence was created in UTC timezone.
 type V2BillingIntentCadenceDataBillingCycleDayTimeParams struct {
 	// The hour at which the billing cycle ends.
@@ -418,13 +418,13 @@ type V2BillingIntentCadenceDataBillingCycleDayTimeParams struct {
 // Specific configuration for determining billing dates when type=day.
 type V2BillingIntentCadenceDataBillingCycleDayParams struct {
 	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it will default to
+	// This field is optional, and if not provided, it defaults to
 	// the time at which the cadence was created in UTC timezone.
 	Time *V2BillingIntentCadenceDataBillingCycleDayTimeParams `form:"time" json:"time,omitempty"`
 }
 
 // The time at which the billing cycle ends.
-// This field is optional, and if not provided, it will default to
+// This field is optional, and if not provided, it defaults to
 // the time at which the cadence was created in UTC timezone.
 type V2BillingIntentCadenceDataBillingCycleMonthTimeParams struct {
 	// The hour at which the billing cycle ends.
@@ -443,22 +443,22 @@ type V2BillingIntentCadenceDataBillingCycleMonthTimeParams struct {
 type V2BillingIntentCadenceDataBillingCycleMonthParams struct {
 	// The day to anchor the billing on for a type="month" billing cycle from
 	// 1-31. If this number is greater than the number of days in the month being
-	// billed, this will anchor to the last day of the month. If not provided,
-	// this will default to the day the cadence was created.
+	// billed, this anchors to the last day of the month. If not provided,
+	// this defaults to the day the cadence was created.
 	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The month to anchor the billing on for a type="month" billing cycle from
-	// 1-12. If not provided, this will default to the month the cadence was created.
+	// 1-12. If not provided, this defaults to the month the cadence was created.
 	// This setting can only be used for monthly billing cycles with `interval_count` of 2, 3, 4 or 6.
-	// All occurrences will be calculated from month provided.
+	// All occurrences are calculated from the month provided.
 	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
 	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it will default to
+	// This field is optional, and if not provided, it defaults to
 	// the time at which the cadence was created in UTC timezone.
 	Time *V2BillingIntentCadenceDataBillingCycleMonthTimeParams `form:"time" json:"time,omitempty"`
 }
 
 // The time at which the billing cycle ends.
-// This field is optional, and if not provided, it will default to
+// This field is optional, and if not provided, it defaults to
 // the time at which the cadence was created in UTC timezone.
 type V2BillingIntentCadenceDataBillingCycleWeekTimeParams struct {
 	// The hour at which the billing cycle ends.
@@ -477,17 +477,17 @@ type V2BillingIntentCadenceDataBillingCycleWeekTimeParams struct {
 type V2BillingIntentCadenceDataBillingCycleWeekParams struct {
 	// The day of the week to bill the type=week billing cycle on.
 	// Numbered from 1-7 for Monday to Sunday respectively, based on the ISO-8601
-	// week day numbering. If not provided, this will default to the day the
+	// week day numbering. If not provided, this defaults to the day the
 	// cadence was created.
 	DayOfWeek *int64 `form:"day_of_week" json:"day_of_week"`
 	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it will default to
+	// This field is optional, and if not provided, it defaults to
 	// the time at which the cadence was created in UTC timezone.
 	Time *V2BillingIntentCadenceDataBillingCycleWeekTimeParams `form:"time" json:"time,omitempty"`
 }
 
 // The time at which the billing cycle ends.
-// This field is optional, and if not provided, it will default to
+// This field is optional, and if not provided, it defaults to
 // the time at which the cadence was created in UTC timezone.
 type V2BillingIntentCadenceDataBillingCycleYearTimeParams struct {
 	// The hour at which the billing cycle ends.
@@ -506,14 +506,14 @@ type V2BillingIntentCadenceDataBillingCycleYearTimeParams struct {
 type V2BillingIntentCadenceDataBillingCycleYearParams struct {
 	// The day to anchor the billing on for a type="month" billing cycle from
 	// 1-31. If this number is greater than the number of days in the month being
-	// billed, this will anchor to the last day of the month. If not provided,
-	// this will default to the day the cadence was created.
+	// billed, this anchors to the last day of the month. If not provided,
+	// this defaults to the day the cadence was created.
 	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month,omitempty"`
-	// The month to bill on from 1-12. If not provided, this will default to the
+	// The month to bill on from 1-12. If not provided, this defaults to the
 	// month the cadence was created.
 	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
 	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it will default to
+	// This field is optional, and if not provided, it defaults to
 	// the time at which the cadence was created in UTC timezone.
 	Time *V2BillingIntentCadenceDataBillingCycleYearTimeParams `form:"time" json:"time,omitempty"`
 }
@@ -524,7 +524,7 @@ type V2BillingIntentCadenceDataBillingCycleParams struct {
 	Day *V2BillingIntentCadenceDataBillingCycleDayParams `form:"day" json:"day,omitempty"`
 	// The number of intervals (specified in the interval attribute) between
 	// cadence billings. For example, type=month and interval_count=3 bills every
-	// 3 months. If this is not provided, it will default to 1.
+	// 3 months. If not provided, this defaults to 1.
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 	// Specific configuration for determining billing dates when type=month.
 	Month *V2BillingIntentCadenceDataBillingCycleMonthParams `form:"month" json:"month,omitempty"`
@@ -542,13 +542,13 @@ type V2BillingIntentCadenceDataPayerBillingProfileDataParams struct {
 	Customer *string `form:"customer" json:"customer"`
 	// The default payment method to use when billing this profile.
 	// If left blank, the `PaymentMethod` from the `PaymentIntent` provided
-	// on commit will be used to create the profile.
+	// on commit is used to create the profile.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
 }
 
 // Information about the payer for this Cadence.
 type V2BillingIntentCadenceDataPayerParams struct {
-	// The ID of the Billing Profile object which determines how a bill will be paid.
+	// The ID of the Billing Profile object which determines how a bill is paid.
 	BillingProfile *string `form:"billing_profile" json:"billing_profile,omitempty"`
 	// Data for creating a new profile.
 	BillingProfileData *V2BillingIntentCadenceDataPayerBillingProfileDataParams `form:"billing_profile_data" json:"billing_profile_data,omitempty"`
@@ -561,7 +561,7 @@ type V2BillingIntentCadenceDataSettingsBillParams struct {
 	// The ID of the referenced settings object.
 	ID *string `form:"id" json:"id"`
 	// An optional field to specify the version of the Settings to use.
-	// If not provided, this will always default to the live version any time the settings are used.
+	// If not provided, this defaults to the live version any time the settings are used.
 	Version *string `form:"version" json:"version,omitempty"`
 }
 
@@ -572,7 +572,7 @@ type V2BillingIntentCadenceDataSettingsCollectionParams struct {
 	// The ID of the referenced settings object.
 	ID *string `form:"id" json:"id"`
 	// An optional field to specify the version of the Settings to use.
-	// If not provided, this will always default to the live version any time the settings are used.
+	// If not provided, this defaults to the live version any time the settings are used.
 	Version *string `form:"version" json:"version,omitempty"`
 }
 
@@ -643,11 +643,11 @@ type V2BillingIntentCreateActionApplyDiscountParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// When the apply action will take effect. If not specified, defaults to on_reserve.
+// When the apply action takes effect. If not specified, defaults to on_reserve.
 type V2BillingIntentCreateActionApplyEffectiveAtParams struct {
-	// The timestamp at which the apply action will take effect. Only present if type is timestamp. Only allowed for discount actions.
+	// The timestamp at which the apply action takes effect. Only present if type is timestamp. Only allowed for discount actions.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
-	// When the apply action will take effect.
+	// When the apply action takes effect.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -661,7 +661,7 @@ type V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffMaximumApplica
 type V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffParams struct {
 	// The maximum number of times this discount can be applied for this cadence.
 	MaximumApplications *V2BillingIntentCreateActionApplyInvoiceDiscountRulePercentOffMaximumApplicationsParams `form:"maximum_applications" json:"maximum_applications"`
-	// Percent that will be taken off of the amount. For example, percent_off of 50.0 will make $100 amount $50 instead.
+	// Percent that is taken off the amount. For example, a percent_off of 50.0 reduces a 100 USD amount to 50 USD.
 	PercentOff *float64 `form:"percent_off,high_precision" json:"percent_off,string"`
 }
 
@@ -719,7 +719,7 @@ type V2BillingIntentCreateActionApplySpendModifierRuleParams struct {
 type V2BillingIntentCreateActionApplyParams struct {
 	// Details for applying a discount.
 	Discount *V2BillingIntentCreateActionApplyDiscountParams `form:"discount" json:"discount,omitempty"`
-	// When the apply action will take effect. If not specified, defaults to on_reserve.
+	// When the apply action takes effect. If not specified, defaults to on_reserve.
 	EffectiveAt *V2BillingIntentCreateActionApplyEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for applying a discount rule to future invoices.
 	InvoiceDiscountRule *V2BillingIntentCreateActionApplyInvoiceDiscountRuleParams `form:"invoice_discount_rule" json:"invoice_discount_rule,omitempty"`
@@ -737,11 +737,11 @@ type V2BillingIntentCreateActionDeactivateCancellationDetailsParams struct {
 	Feedback *string `form:"feedback" json:"feedback,omitempty"`
 }
 
-// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
+// When the deactivate action takes effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentCreateActionDeactivateEffectiveAtParams struct {
-	// The timestamp at which the deactivate action will take effect. Only present if type is timestamp.
+	// The timestamp at which the deactivate action takes effect. Only present if type is timestamp.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
-	// When the deactivate action will take effect.
+	// When the deactivate action takes effect.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -777,9 +777,9 @@ type V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsParams s
 type V2BillingIntentCreateActionDeactivateParams struct {
 	// Details about why the cancellation is being requested.
 	CancellationDetails *V2BillingIntentCreateActionDeactivateCancellationDetailsParams `form:"cancellation_details" json:"cancellation_details,omitempty"`
-	// When the invoice will be collected. If not specified, the default behavior is on_effective_at.
+	// When the invoice is collected. If not specified, the default behavior is on_effective_at.
 	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
-	// When the deactivate action will take effect. If not specified, the default behavior is on_reserve.
+	// When the deactivate action takes effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentCreateActionDeactivateEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for deactivating a pricing plan subscription.
 	PricingPlanSubscriptionDetails *V2BillingIntentCreateActionDeactivatePricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details"`
@@ -787,11 +787,11 @@ type V2BillingIntentCreateActionDeactivateParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// When the modify action will take effect. If not specified, the default behavior is on_reserve.
+// When the modify action takes effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentCreateActionModifyEffectiveAtParams struct {
-	// The timestamp at which the modify action will take effect. Only present if type is timestamp.
+	// The timestamp at which the modify action takes effect. Only present if type is timestamp.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
-	// When the modify action will take effect.
+	// When the modify action takes effect.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -851,9 +851,9 @@ type V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsParams struc
 
 // Details for a modify action.
 type V2BillingIntentCreateActionModifyParams struct {
-	// When the invoice will be collected. If not specified, the default behavior is next_billing_date.
+	// When the invoice is collected. If not specified, the default behavior is next_billing_date.
 	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
-	// When the modify action will take effect. If not specified, the default behavior is on_reserve.
+	// When the modify action takes effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentCreateActionModifyEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for modifying a pricing plan subscription.
 	PricingPlanSubscriptionDetails *V2BillingIntentCreateActionModifyPricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details"`
@@ -861,15 +861,15 @@ type V2BillingIntentCreateActionModifyParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// When the remove action will take effect. If not specified, defaults to on_reserve.
+// When the remove action takes effect. If not specified, defaults to on_reserve.
 type V2BillingIntentCreateActionRemoveEffectiveAtParams struct {
-	// When the remove action will take effect.
+	// When the remove action takes effect.
 	Type *string `form:"type" json:"type"`
 }
 
 // Details for a remove action.
 type V2BillingIntentCreateActionRemoveParams struct {
-	// When the remove action will take effect. If not specified, defaults to on_reserve.
+	// When the remove action takes effect. If not specified, defaults to on_reserve.
 	EffectiveAt *V2BillingIntentCreateActionRemoveEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// The ID of the discount rule to remove for future invoices.
 	InvoiceDiscountRule *string `form:"invoice_discount_rule" json:"invoice_discount_rule,omitempty"`
@@ -879,11 +879,11 @@ type V2BillingIntentCreateActionRemoveParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
+// When the subscribe action takes effect. If not specified, the default behavior is on_reserve.
 type V2BillingIntentCreateActionSubscribeEffectiveAtParams struct {
-	// The timestamp at which the subscribe action will take effect. Only present if type is timestamp.
+	// The timestamp at which the subscribe action takes effect. Only present if type is timestamp.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
-	// When the subscribe action will take effect.
+	// When the subscribe action takes effect.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -989,9 +989,9 @@ func (p *V2BillingIntentCreateActionSubscribeV1SubscriptionDetailsParams) AddMet
 
 // Details for a subscribe action.
 type V2BillingIntentCreateActionSubscribeParams struct {
-	// When the invoice will be collected. If not specified, defaults to on_effective_at.
+	// When the invoice is collected. If not specified, defaults to on_effective_at.
 	CollectAt *string `form:"collect_at" json:"collect_at,omitempty"`
-	// When the subscribe action will take effect. If not specified, the default behavior is on_reserve.
+	// When the subscribe action takes effect. If not specified, the default behavior is on_reserve.
 	EffectiveAt *V2BillingIntentCreateActionSubscribeEffectiveAtParams `form:"effective_at" json:"effective_at,omitempty"`
 	// Details for subscribing to a pricing plan.
 	PricingPlanSubscriptionDetails *V2BillingIntentCreateActionSubscribePricingPlanSubscriptionDetailsParams `form:"pricing_plan_subscription_details" json:"pricing_plan_subscription_details,omitempty"`
@@ -1018,7 +1018,7 @@ type V2BillingIntentCreateActionParams struct {
 }
 
 // The time at which the billing cycle ends.
-// This field is optional, and if not provided, it will default to
+// This field is optional, and if not provided, it defaults to
 // the time at which the cadence was created in UTC timezone.
 type V2BillingIntentCreateCadenceDataBillingCycleDayTimeParams struct {
 	// The hour at which the billing cycle ends.
@@ -1036,13 +1036,13 @@ type V2BillingIntentCreateCadenceDataBillingCycleDayTimeParams struct {
 // Specific configuration for determining billing dates when type=day.
 type V2BillingIntentCreateCadenceDataBillingCycleDayParams struct {
 	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it will default to
+	// This field is optional, and if not provided, it defaults to
 	// the time at which the cadence was created in UTC timezone.
 	Time *V2BillingIntentCreateCadenceDataBillingCycleDayTimeParams `form:"time" json:"time,omitempty"`
 }
 
 // The time at which the billing cycle ends.
-// This field is optional, and if not provided, it will default to
+// This field is optional, and if not provided, it defaults to
 // the time at which the cadence was created in UTC timezone.
 type V2BillingIntentCreateCadenceDataBillingCycleMonthTimeParams struct {
 	// The hour at which the billing cycle ends.
@@ -1061,22 +1061,22 @@ type V2BillingIntentCreateCadenceDataBillingCycleMonthTimeParams struct {
 type V2BillingIntentCreateCadenceDataBillingCycleMonthParams struct {
 	// The day to anchor the billing on for a type="month" billing cycle from
 	// 1-31. If this number is greater than the number of days in the month being
-	// billed, this will anchor to the last day of the month. If not provided,
-	// this will default to the day the cadence was created.
+	// billed, this anchors to the last day of the month. If not provided,
+	// this defaults to the day the cadence was created.
 	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
 	// The month to anchor the billing on for a type="month" billing cycle from
-	// 1-12. If not provided, this will default to the month the cadence was created.
+	// 1-12. If not provided, this defaults to the month the cadence was created.
 	// This setting can only be used for monthly billing cycles with `interval_count` of 2, 3, 4 or 6.
-	// All occurrences will be calculated from month provided.
+	// All occurrences are calculated from the month provided.
 	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
 	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it will default to
+	// This field is optional, and if not provided, it defaults to
 	// the time at which the cadence was created in UTC timezone.
 	Time *V2BillingIntentCreateCadenceDataBillingCycleMonthTimeParams `form:"time" json:"time,omitempty"`
 }
 
 // The time at which the billing cycle ends.
-// This field is optional, and if not provided, it will default to
+// This field is optional, and if not provided, it defaults to
 // the time at which the cadence was created in UTC timezone.
 type V2BillingIntentCreateCadenceDataBillingCycleWeekTimeParams struct {
 	// The hour at which the billing cycle ends.
@@ -1095,17 +1095,17 @@ type V2BillingIntentCreateCadenceDataBillingCycleWeekTimeParams struct {
 type V2BillingIntentCreateCadenceDataBillingCycleWeekParams struct {
 	// The day of the week to bill the type=week billing cycle on.
 	// Numbered from 1-7 for Monday to Sunday respectively, based on the ISO-8601
-	// week day numbering. If not provided, this will default to the day the
+	// week day numbering. If not provided, this defaults to the day the
 	// cadence was created.
 	DayOfWeek *int64 `form:"day_of_week" json:"day_of_week"`
 	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it will default to
+	// This field is optional, and if not provided, it defaults to
 	// the time at which the cadence was created in UTC timezone.
 	Time *V2BillingIntentCreateCadenceDataBillingCycleWeekTimeParams `form:"time" json:"time,omitempty"`
 }
 
 // The time at which the billing cycle ends.
-// This field is optional, and if not provided, it will default to
+// This field is optional, and if not provided, it defaults to
 // the time at which the cadence was created in UTC timezone.
 type V2BillingIntentCreateCadenceDataBillingCycleYearTimeParams struct {
 	// The hour at which the billing cycle ends.
@@ -1124,14 +1124,14 @@ type V2BillingIntentCreateCadenceDataBillingCycleYearTimeParams struct {
 type V2BillingIntentCreateCadenceDataBillingCycleYearParams struct {
 	// The day to anchor the billing on for a type="month" billing cycle from
 	// 1-31. If this number is greater than the number of days in the month being
-	// billed, this will anchor to the last day of the month. If not provided,
-	// this will default to the day the cadence was created.
+	// billed, this anchors to the last day of the month. If not provided,
+	// this defaults to the day the cadence was created.
 	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month,omitempty"`
-	// The month to bill on from 1-12. If not provided, this will default to the
+	// The month to bill on from 1-12. If not provided, this defaults to the
 	// month the cadence was created.
 	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
 	// The time at which the billing cycle ends.
-	// This field is optional, and if not provided, it will default to
+	// This field is optional, and if not provided, it defaults to
 	// the time at which the cadence was created in UTC timezone.
 	Time *V2BillingIntentCreateCadenceDataBillingCycleYearTimeParams `form:"time" json:"time,omitempty"`
 }
@@ -1142,7 +1142,7 @@ type V2BillingIntentCreateCadenceDataBillingCycleParams struct {
 	Day *V2BillingIntentCreateCadenceDataBillingCycleDayParams `form:"day" json:"day,omitempty"`
 	// The number of intervals (specified in the interval attribute) between
 	// cadence billings. For example, type=month and interval_count=3 bills every
-	// 3 months. If this is not provided, it will default to 1.
+	// 3 months. If not provided, this defaults to 1.
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 	// Specific configuration for determining billing dates when type=month.
 	Month *V2BillingIntentCreateCadenceDataBillingCycleMonthParams `form:"month" json:"month,omitempty"`
@@ -1160,13 +1160,13 @@ type V2BillingIntentCreateCadenceDataPayerBillingProfileDataParams struct {
 	Customer *string `form:"customer" json:"customer"`
 	// The default payment method to use when billing this profile.
 	// If left blank, the `PaymentMethod` from the `PaymentIntent` provided
-	// on commit will be used to create the profile.
+	// on commit is used to create the profile.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
 }
 
 // Information about the payer for this Cadence.
 type V2BillingIntentCreateCadenceDataPayerParams struct {
-	// The ID of the Billing Profile object which determines how a bill will be paid.
+	// The ID of the Billing Profile object which determines how a bill is paid.
 	BillingProfile *string `form:"billing_profile" json:"billing_profile,omitempty"`
 	// Data for creating a new profile.
 	BillingProfileData *V2BillingIntentCreateCadenceDataPayerBillingProfileDataParams `form:"billing_profile_data" json:"billing_profile_data,omitempty"`
@@ -1179,7 +1179,7 @@ type V2BillingIntentCreateCadenceDataSettingsBillParams struct {
 	// The ID of the referenced settings object.
 	ID *string `form:"id" json:"id"`
 	// An optional field to specify the version of the Settings to use.
-	// If not provided, this will always default to the live version any time the settings are used.
+	// If not provided, this defaults to the live version any time the settings are used.
 	Version *string `form:"version" json:"version,omitempty"`
 }
 
@@ -1190,7 +1190,7 @@ type V2BillingIntentCreateCadenceDataSettingsCollectionParams struct {
 	// The ID of the referenced settings object.
 	ID *string `form:"id" json:"id"`
 	// An optional field to specify the version of the Settings to use.
-	// If not provided, this will always default to the live version any time the settings are used.
+	// If not provided, this defaults to the live version any time the settings are used.
 	Version *string `form:"version" json:"version,omitempty"`
 }
 

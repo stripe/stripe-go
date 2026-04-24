@@ -25,7 +25,7 @@ type V2BillingLicensedItemTaxDetailsParams struct {
 // Create a Licensed Item object.
 type V2BillingLicensedItemParams struct {
 	Params `form:"*"`
-	// Description that customers will see in the invoice line item.
+	// Description that customers see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// An internal key you can use to search for a particular licensed item.
@@ -60,7 +60,7 @@ type V2BillingLicensedItemCreateTaxDetailsParams struct {
 // Create a Licensed Item object.
 type V2BillingLicensedItemCreateParams struct {
 	Params `form:"*"`
-	// Description that customers will see in the invoice line item.
+	// Description that customers see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name"`
 	// An internal key you can use to search for a particular licensed item.
@@ -100,7 +100,7 @@ type V2BillingLicensedItemUpdateTaxDetailsParams struct {
 // Update a Licensed Item object. At least one of the fields is required.
 type V2BillingLicensedItemUpdateParams struct {
 	Params `form:"*"`
-	// Description that customers will see in the invoice line item.
+	// Description that customers see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// An internal key you can use to search for a particular licensed item.

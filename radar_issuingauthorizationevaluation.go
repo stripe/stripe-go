@@ -130,7 +130,7 @@ type RadarIssuingAuthorizationEvaluationAuthorizationDetailsParams struct {
 	EntryMode *string `form:"entry_mode" json:"entry_mode,omitempty"`
 	// Raw code indicating the entry mode from the network message.
 	EntryModeRawCode *string `form:"entry_mode_raw_code" json:"entry_mode_raw_code,omitempty"`
-	// The timestamp of the authorization initiated in seconds.
+	// The time the authorization was initiated, as a Unix timestamp in seconds. Must not be in the future.
 	InitiatedAt *int64 `form:"initiated_at" json:"initiated_at"`
 	// Defines how the card was read at the point of sale.
 	PointOfSaleCondition *string `form:"point_of_sale_condition" json:"point_of_sale_condition,omitempty"`
@@ -148,7 +148,7 @@ type RadarIssuingAuthorizationEvaluationCardDetailsParams struct {
 	BinCountry *string `form:"bin_country" json:"bin_country"`
 	// The type of the card.
 	CardType *string `form:"card_type" json:"card_type"`
-	// The timestamp when the card was created.
+	// The timestamp when the card was created, as a Unix timestamp in seconds.
 	CreatedAt *int64 `form:"created_at" json:"created_at"`
 	// The last 4 digits of the card number.
 	Last4 *string `form:"last4" json:"last4,omitempty"`
@@ -251,7 +251,7 @@ type RadarIssuingAuthorizationEvaluationCreateAuthorizationDetailsParams struct 
 	EntryMode *string `form:"entry_mode" json:"entry_mode,omitempty"`
 	// Raw code indicating the entry mode from the network message.
 	EntryModeRawCode *string `form:"entry_mode_raw_code" json:"entry_mode_raw_code,omitempty"`
-	// The timestamp of the authorization initiated in seconds.
+	// The time the authorization was initiated, as a Unix timestamp in seconds. Must not be in the future.
 	InitiatedAt *int64 `form:"initiated_at" json:"initiated_at"`
 	// Defines how the card was read at the point of sale.
 	PointOfSaleCondition *string `form:"point_of_sale_condition" json:"point_of_sale_condition,omitempty"`
@@ -269,7 +269,7 @@ type RadarIssuingAuthorizationEvaluationCreateCardDetailsParams struct {
 	BinCountry *string `form:"bin_country" json:"bin_country"`
 	// The type of the card.
 	CardType *string `form:"card_type" json:"card_type"`
-	// The timestamp when the card was created.
+	// The timestamp when the card was created, as a Unix timestamp in seconds.
 	CreatedAt *int64 `form:"created_at" json:"created_at"`
 	// The last 4 digits of the card number.
 	Last4 *string `form:"last4" json:"last4,omitempty"`
@@ -372,7 +372,7 @@ type RadarIssuingAuthorizationEvaluationAuthorizationDetails struct {
 	EntryMode RadarIssuingAuthorizationEvaluationAuthorizationDetailsEntryMode `json:"entry_mode"`
 	// Raw code indicating the entry mode from the network message.
 	EntryModeRawCode string `json:"entry_mode_raw_code"`
-	// The timestamp of the authorization initiated in seconds.
+	// The time the authorization was initiated, as a Unix timestamp in seconds.
 	InitiatedAt int64 `json:"initiated_at"`
 	// Defines how the card was read at the point of sale.
 	PointOfSaleCondition RadarIssuingAuthorizationEvaluationAuthorizationDetailsPointOfSaleCondition `json:"point_of_sale_condition"`
@@ -390,7 +390,7 @@ type RadarIssuingAuthorizationEvaluationCardDetails struct {
 	BinCountry string `json:"bin_country"`
 	// The type of the card.
 	CardType RadarIssuingAuthorizationEvaluationCardDetailsCardType `json:"card_type"`
-	// The timestamp when the card was created.
+	// The timestamp when the card was created, as a Unix timestamp in seconds.
 	CreatedAt int64 `json:"created_at"`
 	// The last 4 digits of the card number.
 	Last4 string `json:"last4"`
