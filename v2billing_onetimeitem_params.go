@@ -25,7 +25,7 @@ type V2BillingOneTimeItemTaxDetailsParams struct {
 // Create a One-Time Item object.
 type V2BillingOneTimeItemParams struct {
 	Params `form:"*"`
-	// Description that customers will see in the invoice line item.
+	// Description that customers see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// An internal key you can use to search for a particular one-time item.
@@ -60,7 +60,7 @@ type V2BillingOneTimeItemCreateTaxDetailsParams struct {
 // Create a One-Time Item object.
 type V2BillingOneTimeItemCreateParams struct {
 	Params `form:"*"`
-	// Description that customers will see in the invoice line item.
+	// Description that customers see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name"`
 	// An internal key you can use to search for a particular one-time item.
@@ -100,7 +100,7 @@ type V2BillingOneTimeItemUpdateTaxDetailsParams struct {
 // Update a One-Time Item object.
 type V2BillingOneTimeItemUpdateParams struct {
 	Params `form:"*"`
-	// Description that customers will see in the invoice line item.
+	// Description that customers see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// An internal key you can use to search for a particular one-time item.

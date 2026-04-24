@@ -43,3 +43,17 @@ func (c v2CoreClaimableSandboxService) Retrieve(ctx context.Context, id string, 
 	err := c.B.Call(http.MethodGet, path, c.Key, params, claimablesandbox)
 	return claimablesandbox, err
 }
+
+// Renew the claimable sandbox onboarding link. This will invalidate any existing onboarding links.
+// The endpoint only works on a claimable sandbox with status `unclaimed` or `claimed`.
+func (c v2CoreClaimableSandboxService) RenewOnboardingLink(ctx context.Context, id string, params *V2CoreClaimableSandboxRenewOnboardingLinkParams) (*V2CoreClaimableSandbox, error) {
+	if params == nil {
+		params = &V2CoreClaimableSandboxRenewOnboardingLinkParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v2/core/claimable_sandboxes/%s/renew_onboarding_link", id)
+	claimablesandbox := &V2CoreClaimableSandbox{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, claimablesandbox)
+	return claimablesandbox, err
+}

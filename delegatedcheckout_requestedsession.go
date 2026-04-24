@@ -24,6 +24,15 @@ const (
 	DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpointLast  DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint = "last"
 )
 
+// The marketing channel type.
+type DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOptionChannel string
+
+// List of values that DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOptionChannel can take
+const (
+	DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOptionChannelEmail DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOptionChannel = "email"
+	DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOptionChannelSms   DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOptionChannel = "sms"
+)
+
 // The type of the fulfillment option.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionType string
 
@@ -719,6 +728,28 @@ type DelegatedCheckoutRequestedSessionAffiliateAttribution struct {
 	Touchpoint DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint `json:"touchpoint"`
 }
 
+// The available marketing consent options.
+type DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOption struct {
+	// The marketing channel type.
+	Channel DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOptionChannel `json:"channel"`
+	// The description of the marketing consent option.
+	Description string `json:"description"`
+	// The privacy policy URL for this marketing channel.
+	PrivacyPolicyURL string `json:"privacy_policy_url"`
+}
+
+// The marketing consent options.
+type DelegatedCheckoutRequestedSessionBuyerConsentsMarketing struct {
+	// The available marketing consent options.
+	Options []*DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOption `json:"options"`
+}
+
+// The buyer consent options for this requested session, including marketing preferences.
+type DelegatedCheckoutRequestedSessionBuyerConsents struct {
+	// The marketing consent options.
+	Marketing *DelegatedCheckoutRequestedSessionBuyerConsentsMarketing `json:"marketing"`
+}
+
 // The digital options.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionDigitalDigitalOption struct {
 	// The description of the digital fulfillment option.
@@ -1016,6 +1047,8 @@ type DelegatedCheckoutRequestedSession struct {
 	AmountSubtotal int64 `json:"amount_subtotal"`
 	// The total amount of the requested session.
 	AmountTotal int64 `json:"amount_total"`
+	// The buyer consent options for this requested session, including marketing preferences.
+	BuyerConsents *DelegatedCheckoutRequestedSessionBuyerConsents `json:"buyer_consents"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	CreatedAt int64 `json:"created_at"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).

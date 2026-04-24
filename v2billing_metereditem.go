@@ -28,7 +28,7 @@ type V2BillingMeteredItem struct {
 	APIResource
 	// Timestamp of when the object was created.
 	Created time.Time `json:"created"`
-	// Description that customers will see in the invoice line item.
+	// Description that customers see in the invoice line item.
 	// Maximum length of 250 characters.
 	DisplayName string `json:"display_name"`
 	// Unique identifier for the object.

@@ -8,9 +8,9 @@ package stripe
 
 import "time"
 
-// Either automatic, or send_invoice. When charging automatically, Stripe will attempt to pay this
-// bill at the end of the period using the payment method attached to the payer profile. When sending an invoice,
-// Stripe will email your payer profile an invoice with payment instructions.
+// Either automatic, or send_invoice. When charging automatically, Stripe attempts to pay this
+// bill at the end of the period using the payment method attached to the billing profile. When sending an invoice,
+// Stripe emails your billing profile an invoice with payment instructions.
 // Defaults to automatic.
 type V2BillingCollectionSettingVersionCollectionMethod string
 
@@ -275,9 +275,9 @@ type V2BillingCollectionSettingVersionPaymentMethodOptions struct {
 // A Collection Setting Version is a specific configuration of a CollectionSetting at a point in time. Collection Setting Versions enable you to track changes to payment collection settings over time and manage which version is active for new billing operations.
 type V2BillingCollectionSettingVersion struct {
 	APIResource
-	// Either automatic, or send_invoice. When charging automatically, Stripe will attempt to pay this
-	// bill at the end of the period using the payment method attached to the payer profile. When sending an invoice,
-	// Stripe will email your payer profile an invoice with payment instructions.
+	// Either automatic, or send_invoice. When charging automatically, Stripe attempts to pay this
+	// bill at the end of the period using the payment method attached to the billing profile. When sending an invoice,
+	// Stripe emails your billing profile an invoice with payment instructions.
 	// Defaults to automatic.
 	CollectionMethod V2BillingCollectionSettingVersionCollectionMethod `json:"collection_method,omitempty"`
 	// Timestamp of when the object was created.

@@ -25,7 +25,7 @@ type V2BillingPricingPlanParams struct {
 	Active *bool `form:"active" json:"active,omitempty"`
 	// The currency of the PricingPlan.
 	Currency *string `form:"currency" json:"currency,omitempty"`
-	// Description of pricing plan subscription.
+	// Description of the pricing plan. Maximum length of 500 characters.
 	Description *string `form:"description" json:"description,omitempty"`
 	// Display name of the PricingPlan. Maximum 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
@@ -35,7 +35,7 @@ type V2BillingPricingPlanParams struct {
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
-	// The Stripe Tax tax behavior - whether the PricingPlan is inclusive or exclusive of tax.
+	// The tax behavior for Stripe Tax — whether the pricing plan price includes or excludes tax.
 	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
 }
 
@@ -53,7 +53,7 @@ type V2BillingPricingPlanCreateParams struct {
 	Params `form:"*"`
 	// The currency of the PricingPlan.
 	Currency *string `form:"currency" json:"currency"`
-	// Description of pricing plan subscription.
+	// Description of the pricing plan. Maximum length of 500 characters.
 	Description *string `form:"description" json:"description,omitempty"`
 	// Display name of the PricingPlan. Maximum 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name"`
@@ -61,7 +61,7 @@ type V2BillingPricingPlanCreateParams struct {
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// The Stripe Tax tax behavior - whether the PricingPlan is inclusive or exclusive of tax.
+	// The tax behavior for Stripe Tax — whether the pricing plan price includes or excludes tax.
 	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior"`
 }
 
@@ -84,7 +84,7 @@ type V2BillingPricingPlanUpdateParams struct {
 	Params `form:"*"`
 	// Whether the PricingPlan is active.
 	Active *bool `form:"active" json:"active,omitempty"`
-	// Description of pricing plan subscription.
+	// Description of the pricing plan. Maximum length of 500 characters.
 	Description *string `form:"description" json:"description,omitempty"`
 	// Display name of the PricingPlan. Maximum 250 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`

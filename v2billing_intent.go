@@ -84,7 +84,7 @@ type V2BillingIntentCadenceDataBillingCycleMonthTime struct {
 type V2BillingIntentCadenceDataBillingCycleMonth struct {
 	// The day to anchor the billing on for a type="month" billing cycle from 1-31.
 	// If this number is greater than the number of days in the month being billed,
-	// this will anchor to the last day of the month.
+	// this anchors to the last day of the month.
 	DayOfMonth int64 `json:"day_of_month"`
 	// The month to anchor the billing on for a type="month" billing cycle from
 	// 1-12. Occurrences are calculated from the month anchor.
@@ -134,9 +134,9 @@ type V2BillingIntentCadenceDataBillingCycleYearTime struct {
 type V2BillingIntentCadenceDataBillingCycleYear struct {
 	// The day to anchor the billing on for a type="month" billing cycle from 1-31.
 	// If this number is greater than the number of days in the month being billed,
-	// this will anchor to the last day of the month.
+	// this anchors to the last day of the month.
 	DayOfMonth int64 `json:"day_of_month"`
-	// The month to bill on from 1-12. If not provided, this will default to the month the cadence was created.
+	// The month to bill on from 1-12. If not provided, this defaults to the month the cadence was created.
 	MonthOfYear int64 `json:"month_of_year"`
 	// The time at which the billing cycle ends.
 	Time *V2BillingIntentCadenceDataBillingCycleYearTime `json:"time"`
@@ -163,13 +163,13 @@ type V2BillingIntentCadenceDataPayerBillingProfileData struct {
 	// The customer to associate with the profile.
 	Customer string `json:"customer"`
 	// The default payment method to use when billing this profile.
-	// If none is provided, the customer `default_payment_method` will be used.
+	// If none is provided, the customer `default_payment_method` is used.
 	DefaultPaymentMethod string `json:"default_payment_method,omitempty"`
 }
 
 // Information about the payer for this Cadence.
 type V2BillingIntentCadenceDataPayer struct {
-	// The ID of the Billing Profile object which determines how a bill will be paid.
+	// The ID of the Billing Profile object which determines how a bill is paid.
 	BillingProfile string `json:"billing_profile,omitempty"`
 	// Data for creating a new profile.
 	BillingProfileData *V2BillingIntentCadenceDataPayerBillingProfileData `json:"billing_profile_data,omitempty"`
@@ -217,7 +217,7 @@ type V2BillingIntentStatusTransitions struct {
 	CommittedAt time.Time `json:"committed_at,omitempty"`
 	// Time at which the Billing Intent was drafted.
 	DraftedAt time.Time `json:"drafted_at,omitempty"`
-	// Time at which the Billing Intent will expire.
+	// Time at which the Billing Intent expires.
 	ExpiresAt time.Time `json:"expires_at"`
 	// Time at which the Billing Intent was reserved.
 	ReservedAt time.Time `json:"reserved_at,omitempty"`

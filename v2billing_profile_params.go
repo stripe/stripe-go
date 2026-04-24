@@ -22,7 +22,7 @@ type V2BillingProfileListParams struct {
 	// You can specify up to 10 lookup_keys.
 	LookupKeys []*string `form:"lookup_keys" json:"lookup_keys"`
 	// Filter billing profiles by status. Can be combined
-	// with all other filters. If not provided, all billing profiles will be returned.
+	// with all other filters. If not provided, all billing profiles are returned.
 	Status *string `form:"status" json:"status,omitempty"`
 }
 

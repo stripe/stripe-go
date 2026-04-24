@@ -28,7 +28,7 @@ type V2MoneyManagementCurrencyConversion struct {
 	// The exchange rate used when processing the CurrencyConversion.
 	ExchangeRate string `json:"exchange_rate"`
 	// The FinancialAccount the CurrencyConversion was performed on.
-	FinancialAccount string `json:"financial_account"`
+	FinancialAccount string `json:"financial_account,omitempty"`
 	// The from block containing what was debited.
 	From *V2MoneyManagementCurrencyConversionFrom `json:"from"`
 	// The id of the CurrencyConversion.

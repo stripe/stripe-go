@@ -48,3 +48,17 @@ func (c Client) Get(id string, params *stripe.V2CoreClaimableSandboxParams) (*st
 	err := c.B.Call(http.MethodGet, path, c.Key, params, claimablesandbox)
 	return claimablesandbox, err
 }
+
+// Renew the claimable sandbox onboarding link. This will invalidate any existing onboarding links.
+// The endpoint only works on a claimable sandbox with status `unclaimed` or `claimed`.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) RenewOnboardingLink(id string, params *stripe.V2CoreClaimableSandboxRenewOnboardingLinkParams) (*stripe.V2CoreClaimableSandbox, error) {
+	path := stripe.FormatURLPath(
+		"/v2/core/claimable_sandboxes/%s/renew_onboarding_link", id)
+	claimablesandbox := &stripe.V2CoreClaimableSandbox{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, claimablesandbox)
+	return claimablesandbox, err
+}

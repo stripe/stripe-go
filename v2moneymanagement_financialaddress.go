@@ -13,6 +13,7 @@ type V2MoneyManagementFinancialAddressCredentialsType string
 
 // List of values that V2MoneyManagementFinancialAddressCredentialsType can take
 const (
+	V2MoneyManagementFinancialAddressCredentialsTypeCaBankAccount   V2MoneyManagementFinancialAddressCredentialsType = "ca_bank_account"
 	V2MoneyManagementFinancialAddressCredentialsTypeGBBankAccount   V2MoneyManagementFinancialAddressCredentialsType = "gb_bank_account"
 	V2MoneyManagementFinancialAddressCredentialsTypeSEPABankAccount V2MoneyManagementFinancialAddressCredentialsType = "sepa_bank_account"
 	V2MoneyManagementFinancialAddressCredentialsTypeUSBankAccount   V2MoneyManagementFinancialAddressCredentialsType = "us_bank_account"
@@ -28,6 +29,23 @@ const (
 	V2MoneyManagementFinancialAddressStatusFailed   V2MoneyManagementFinancialAddressStatus = "failed"
 	V2MoneyManagementFinancialAddressStatusPending  V2MoneyManagementFinancialAddressStatus = "pending"
 )
+
+// The credentials of the Canadian Bank Account for the FinancialAddress. This contains unique banking details such as the account number, institution number, etc. of a Canadian bank account.
+type V2MoneyManagementFinancialAddressCredentialsCaBankAccount struct {
+	// The account holder name to be used during bank transfers.
+	AccountHolderName string `json:"account_holder_name"`
+	// The account number of the Canadian Bank Account.
+	AccountNumber string `json:"account_number,omitempty"`
+	// The name of the Bank.
+	BankName string `json:"bank_name"`
+	// The institution number of the Canadian Bank Account.
+	InstitutionNumber string `json:"institution_number"`
+	// The last four digits of the Canadian Bank Account number. This will always be returned.
+	// To view the full account number when retrieving or listing FinancialAddresses, use the `include` request parameter.
+	Last4 string `json:"last4"`
+	// The transit number of the Canadian Bank Account.
+	TransitNumber string `json:"transit_number"`
+}
 
 // The credentials of the UK Bank Account for the FinancialAddress. This contains unique banking details such as the sort code, account number, etc. of a UK bank account.
 type V2MoneyManagementFinancialAddressCredentialsGBBankAccount struct {
@@ -100,6 +118,8 @@ type V2MoneyManagementFinancialAddressCredentialsUSBankAccount struct {
 // It contains all necessary banking details with which to perform money movements with the FinancialAddress.
 // This field is only available for FinancialAddresses with an active status.
 type V2MoneyManagementFinancialAddressCredentials struct {
+	// The credentials of the Canadian Bank Account for the FinancialAddress. This contains unique banking details such as the account number, institution number, etc. of a Canadian bank account.
+	CaBankAccount *V2MoneyManagementFinancialAddressCredentialsCaBankAccount `json:"ca_bank_account,omitempty"`
 	// The credentials of the UK Bank Account for the FinancialAddress. This contains unique banking details such as the sort code, account number, etc. of a UK bank account.
 	GBBankAccount *V2MoneyManagementFinancialAddressCredentialsGBBankAccount `json:"gb_bank_account,omitempty"`
 	// The credentials of the SEPA Bank Account for the FinancialAddress. This contains unique banking details such as the IBAN, BIC, etc. of a SEPA bank account.

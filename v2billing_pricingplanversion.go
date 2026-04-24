@@ -15,7 +15,7 @@ type V2BillingPricingPlanVersion struct {
 	APIResource
 	// Time at which the object was created.
 	Created time.Time `json:"created"`
-	// The timestamp when this version became inactive. Null if it's the latest version.
+	// The timestamp when this version became inactive. null if it's the latest version.
 	EndDate time.Time `json:"end_date,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

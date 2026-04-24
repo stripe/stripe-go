@@ -23,7 +23,7 @@ type V2BillingCustomPricingUnitParams struct {
 	Params `form:"*"`
 	// Whether the Custom Pricing Unit is active.
 	Active *bool `form:"active" json:"active,omitempty"`
-	// Description that customers will see in the invoice line item.
+	// Description that customers see in the invoice line item.
 	// Maximum length of 10 characters.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// An internal key you can use to search for a particular custom pricing unit item.
@@ -46,7 +46,7 @@ func (p *V2BillingCustomPricingUnitParams) AddMetadata(key string, value *string
 // Create a Custom Pricing Unit object.
 type V2BillingCustomPricingUnitCreateParams struct {
 	Params `form:"*"`
-	// Description that customers will see in the invoice line item.
+	// Description that customers see in the invoice line item.
 	// Maximum length of 10 characters.
 	DisplayName *string `form:"display_name" json:"display_name"`
 	// An internal key you can use to search for a particular custom pricing unit item.
@@ -76,7 +76,7 @@ type V2BillingCustomPricingUnitUpdateParams struct {
 	Params `form:"*"`
 	// Whether the Custom Pricing Unit is active.
 	Active *bool `form:"active" json:"active,omitempty"`
-	// Description that customers will see in the invoice line item.
+	// Description that customers see in the invoice line item.
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// An internal key you can use to search for a particular CustomPricingUnit item.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`

@@ -715,6 +715,43 @@ type OrderLineItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
+// Other identifiers for this product.
+type OrderLineItemProductDataIdentifiersParams struct {
+	// European Article Number (EAN) consisting of 8 or 13 digits and optional dashes. You may optionally provide a leading 0 for a total of 14 digits. The final digit is a validated check digit.
+	Ean *string `form:"ean" json:"ean,omitempty"`
+	// Global Trade Item Number (GTIN) consisting of 8, 12, 13, or 14 digits and optional dashes. The final digit is a validated check digit.
+	Gtin *string `form:"gtin" json:"gtin,omitempty"`
+	// International Standard Book Number (ISBN) consisting of 10 or 13 digits and optional dashes. The final digit is a validated check digit. For ISBN-10, the final digit may be a `X`.
+	Isbn *string `form:"isbn" json:"isbn,omitempty"`
+	// Japanese Article Number (JAN) consisting of 13 digits and optional dashes. The first two digits must either be `45` or `49`. The final digit is a validated check digit.
+	Jan *string `form:"jan" json:"jan,omitempty"`
+	// Manufacturer Part Number (MPN). May include up to 70 alphanumeric characters and dashes.
+	Mpn *string `form:"mpn" json:"mpn,omitempty"`
+	// National Stock Number (NSN) consisting of 13 digits and optional dashes. The seventh character may also be alphanumeric.
+	Nsn *string `form:"nsn" json:"nsn,omitempty"`
+	// Universal Product Code (UPC) consisting of 12 digits and optional dashes. The final digit is a validated check digit.
+	Upc         *string                                               `form:"upc" json:"upc,omitempty"`
+	UnsetFields []OrderLineItemProductDataIdentifiersParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderLineItemProductDataIdentifiersParamsUnsetField is the list of fields that can be cleared/unset on OrderLineItemProductDataIdentifiersParams.
+type OrderLineItemProductDataIdentifiersParamsUnsetField string
+
+const (
+	OrderLineItemProductDataIdentifiersParamsUnsetFieldEan  OrderLineItemProductDataIdentifiersParamsUnsetField = "ean"
+	OrderLineItemProductDataIdentifiersParamsUnsetFieldGtin OrderLineItemProductDataIdentifiersParamsUnsetField = "gtin"
+	OrderLineItemProductDataIdentifiersParamsUnsetFieldIsbn OrderLineItemProductDataIdentifiersParamsUnsetField = "isbn"
+	OrderLineItemProductDataIdentifiersParamsUnsetFieldJan  OrderLineItemProductDataIdentifiersParamsUnsetField = "jan"
+	OrderLineItemProductDataIdentifiersParamsUnsetFieldMpn  OrderLineItemProductDataIdentifiersParamsUnsetField = "mpn"
+	OrderLineItemProductDataIdentifiersParamsUnsetFieldNsn  OrderLineItemProductDataIdentifiersParamsUnsetField = "nsn"
+	OrderLineItemProductDataIdentifiersParamsUnsetFieldUpc  OrderLineItemProductDataIdentifiersParamsUnsetField = "upc"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderLineItemProductDataIdentifiersParams) AddUnsetField(field OrderLineItemProductDataIdentifiersParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // The dimensions of this product for shipping purposes.
 type OrderLineItemProductDataPackageDimensionsParams struct {
 	// Height, in inches. Maximum precision is 2 decimal places.
@@ -739,6 +776,8 @@ type OrderLineItemProductDataParams struct {
 	//
 	// `product_data` automatically creates a Product with this ID. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates. If any of the fields in the existing Product are different from the values in `product_data`, `product_data` updates the existing Product with the new information. So set `product_data[id]` to the same string every time you sell the same product, but don't re-use the same string for different products.
 	ID *string `form:"id" json:"id"`
+	// Other identifiers for this product.
+	Identifiers *OrderLineItemProductDataIdentifiersParams `form:"identifiers" json:"identifiers,omitempty"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 	Images []*string `form:"images" json:"images,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -2263,6 +2302,43 @@ type OrderCreateLineItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
+// Other identifiers for this product.
+type OrderCreateLineItemProductDataIdentifiersParams struct {
+	// European Article Number (EAN) consisting of 8 or 13 digits and optional dashes. You may optionally provide a leading 0 for a total of 14 digits. The final digit is a validated check digit.
+	Ean *string `form:"ean" json:"ean,omitempty"`
+	// Global Trade Item Number (GTIN) consisting of 8, 12, 13, or 14 digits and optional dashes. The final digit is a validated check digit.
+	Gtin *string `form:"gtin" json:"gtin,omitempty"`
+	// International Standard Book Number (ISBN) consisting of 10 or 13 digits and optional dashes. The final digit is a validated check digit. For ISBN-10, the final digit may be a `X`.
+	Isbn *string `form:"isbn" json:"isbn,omitempty"`
+	// Japanese Article Number (JAN) consisting of 13 digits and optional dashes. The first two digits must either be `45` or `49`. The final digit is a validated check digit.
+	Jan *string `form:"jan" json:"jan,omitempty"`
+	// Manufacturer Part Number (MPN). May include up to 70 alphanumeric characters and dashes.
+	Mpn *string `form:"mpn" json:"mpn,omitempty"`
+	// National Stock Number (NSN) consisting of 13 digits and optional dashes. The seventh character may also be alphanumeric.
+	Nsn *string `form:"nsn" json:"nsn,omitempty"`
+	// Universal Product Code (UPC) consisting of 12 digits and optional dashes. The final digit is a validated check digit.
+	Upc         *string                                                     `form:"upc" json:"upc,omitempty"`
+	UnsetFields []OrderCreateLineItemProductDataIdentifiersParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderCreateLineItemProductDataIdentifiersParamsUnsetField is the list of fields that can be cleared/unset on OrderCreateLineItemProductDataIdentifiersParams.
+type OrderCreateLineItemProductDataIdentifiersParamsUnsetField string
+
+const (
+	OrderCreateLineItemProductDataIdentifiersParamsUnsetFieldEan  OrderCreateLineItemProductDataIdentifiersParamsUnsetField = "ean"
+	OrderCreateLineItemProductDataIdentifiersParamsUnsetFieldGtin OrderCreateLineItemProductDataIdentifiersParamsUnsetField = "gtin"
+	OrderCreateLineItemProductDataIdentifiersParamsUnsetFieldIsbn OrderCreateLineItemProductDataIdentifiersParamsUnsetField = "isbn"
+	OrderCreateLineItemProductDataIdentifiersParamsUnsetFieldJan  OrderCreateLineItemProductDataIdentifiersParamsUnsetField = "jan"
+	OrderCreateLineItemProductDataIdentifiersParamsUnsetFieldMpn  OrderCreateLineItemProductDataIdentifiersParamsUnsetField = "mpn"
+	OrderCreateLineItemProductDataIdentifiersParamsUnsetFieldNsn  OrderCreateLineItemProductDataIdentifiersParamsUnsetField = "nsn"
+	OrderCreateLineItemProductDataIdentifiersParamsUnsetFieldUpc  OrderCreateLineItemProductDataIdentifiersParamsUnsetField = "upc"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderCreateLineItemProductDataIdentifiersParams) AddUnsetField(field OrderCreateLineItemProductDataIdentifiersParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // The dimensions of this product for shipping purposes.
 type OrderCreateLineItemProductDataPackageDimensionsParams struct {
 	// Height, in inches. Maximum precision is 2 decimal places.
@@ -2287,6 +2363,8 @@ type OrderCreateLineItemProductDataParams struct {
 	//
 	// `product_data` automatically creates a Product with this ID. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates. If any of the fields in the existing Product are different from the values in `product_data`, `product_data` updates the existing Product with the new information. So set `product_data[id]` to the same string every time you sell the same product, but don't re-use the same string for different products.
 	ID *string `form:"id" json:"id"`
+	// Other identifiers for this product.
+	Identifiers *OrderCreateLineItemProductDataIdentifiersParams `form:"identifiers" json:"identifiers,omitempty"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 	Images []*string `form:"images" json:"images,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -3763,6 +3841,43 @@ type OrderUpdateLineItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
 }
 
+// Other identifiers for this product.
+type OrderUpdateLineItemProductDataIdentifiersParams struct {
+	// European Article Number (EAN) consisting of 8 or 13 digits and optional dashes. You may optionally provide a leading 0 for a total of 14 digits. The final digit is a validated check digit.
+	Ean *string `form:"ean" json:"ean,omitempty"`
+	// Global Trade Item Number (GTIN) consisting of 8, 12, 13, or 14 digits and optional dashes. The final digit is a validated check digit.
+	Gtin *string `form:"gtin" json:"gtin,omitempty"`
+	// International Standard Book Number (ISBN) consisting of 10 or 13 digits and optional dashes. The final digit is a validated check digit. For ISBN-10, the final digit may be a `X`.
+	Isbn *string `form:"isbn" json:"isbn,omitempty"`
+	// Japanese Article Number (JAN) consisting of 13 digits and optional dashes. The first two digits must either be `45` or `49`. The final digit is a validated check digit.
+	Jan *string `form:"jan" json:"jan,omitempty"`
+	// Manufacturer Part Number (MPN). May include up to 70 alphanumeric characters and dashes.
+	Mpn *string `form:"mpn" json:"mpn,omitempty"`
+	// National Stock Number (NSN) consisting of 13 digits and optional dashes. The seventh character may also be alphanumeric.
+	Nsn *string `form:"nsn" json:"nsn,omitempty"`
+	// Universal Product Code (UPC) consisting of 12 digits and optional dashes. The final digit is a validated check digit.
+	Upc         *string                                                     `form:"upc" json:"upc,omitempty"`
+	UnsetFields []OrderUpdateLineItemProductDataIdentifiersParamsUnsetField `form:"-" json:"-"`
+}
+
+// OrderUpdateLineItemProductDataIdentifiersParamsUnsetField is the list of fields that can be cleared/unset on OrderUpdateLineItemProductDataIdentifiersParams.
+type OrderUpdateLineItemProductDataIdentifiersParamsUnsetField string
+
+const (
+	OrderUpdateLineItemProductDataIdentifiersParamsUnsetFieldEan  OrderUpdateLineItemProductDataIdentifiersParamsUnsetField = "ean"
+	OrderUpdateLineItemProductDataIdentifiersParamsUnsetFieldGtin OrderUpdateLineItemProductDataIdentifiersParamsUnsetField = "gtin"
+	OrderUpdateLineItemProductDataIdentifiersParamsUnsetFieldIsbn OrderUpdateLineItemProductDataIdentifiersParamsUnsetField = "isbn"
+	OrderUpdateLineItemProductDataIdentifiersParamsUnsetFieldJan  OrderUpdateLineItemProductDataIdentifiersParamsUnsetField = "jan"
+	OrderUpdateLineItemProductDataIdentifiersParamsUnsetFieldMpn  OrderUpdateLineItemProductDataIdentifiersParamsUnsetField = "mpn"
+	OrderUpdateLineItemProductDataIdentifiersParamsUnsetFieldNsn  OrderUpdateLineItemProductDataIdentifiersParamsUnsetField = "nsn"
+	OrderUpdateLineItemProductDataIdentifiersParamsUnsetFieldUpc  OrderUpdateLineItemProductDataIdentifiersParamsUnsetField = "upc"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *OrderUpdateLineItemProductDataIdentifiersParams) AddUnsetField(field OrderUpdateLineItemProductDataIdentifiersParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // The dimensions of this product for shipping purposes.
 type OrderUpdateLineItemProductDataPackageDimensionsParams struct {
 	// Height, in inches. Maximum precision is 2 decimal places.
@@ -3787,6 +3902,8 @@ type OrderUpdateLineItemProductDataParams struct {
 	//
 	// `product_data` automatically creates a Product with this ID. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates. If any of the fields in the existing Product are different from the values in `product_data`, `product_data` updates the existing Product with the new information. So set `product_data[id]` to the same string every time you sell the same product, but don't re-use the same string for different products.
 	ID *string `form:"id" json:"id"`
+	// Other identifiers for this product.
+	Identifiers *OrderUpdateLineItemProductDataIdentifiersParams `form:"identifiers" json:"identifiers,omitempty"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 	Images []*string `form:"images" json:"images,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.

@@ -36,7 +36,7 @@ type V2BillingPricingPlanSubscriptionListParams struct {
 // Retrieve a Pricing Plan Subscription object.
 type V2BillingPricingPlanSubscriptionParams struct {
 	Params `form:"*"`
-	// When set to true, the `servicing_status_transition.will_cancel_at` field will be cleared.
+	// When set to true, the `servicing_status_transition.will_cancel_at` field is cleared.
 	ClearCancelAt *bool `form:"clear_cancel_at" json:"clear_cancel_at,omitempty"`
 	// Expand to include additional data such as discount_details.
 	Include []*string `form:"include" json:"include,omitempty"`
@@ -70,7 +70,7 @@ type V2BillingPricingPlanSubscriptionRetrieveParams struct {
 // Update a Pricing Plan Subscription object.
 type V2BillingPricingPlanSubscriptionUpdateParams struct {
 	Params `form:"*"`
-	// When set to true, the `servicing_status_transition.will_cancel_at` field will be cleared.
+	// When set to true, the `servicing_status_transition.will_cancel_at` field is cleared.
 	ClearCancelAt *bool `form:"clear_cancel_at" json:"clear_cancel_at,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`

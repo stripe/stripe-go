@@ -55,7 +55,6 @@ const (
 	V2MoneyManagementTransactionCategoryReceivedDebitReversal                   V2MoneyManagementTransactionCategory = "received_debit_reversal"
 	V2MoneyManagementTransactionCategoryRefund                                  V2MoneyManagementTransactionCategory = "refund"
 	V2MoneyManagementTransactionCategoryRefundFailure                           V2MoneyManagementTransactionCategory = "refund_failure"
-	V2MoneyManagementTransactionCategoryReturn                                  V2MoneyManagementTransactionCategory = "return"
 	V2MoneyManagementTransactionCategoryRiskReservedFunds                       V2MoneyManagementTransactionCategory = "risk_reserved_funds"
 	V2MoneyManagementTransactionCategoryStripeBalancePaymentDebit               V2MoneyManagementTransactionCategory = "stripe_balance_payment_debit"
 	V2MoneyManagementTransactionCategoryStripeBalancePaymentDebitReversal       V2MoneyManagementTransactionCategory = "stripe_balance_payment_debit_reversal"

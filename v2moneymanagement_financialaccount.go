@@ -60,10 +60,11 @@ type V2MoneyManagementFinancialAccountType string
 
 // List of values that V2MoneyManagementFinancialAccountType can take
 const (
-	V2MoneyManagementFinancialAccountTypeAccruedFees V2MoneyManagementFinancialAccountType = "accrued_fees"
-	V2MoneyManagementFinancialAccountTypeOther       V2MoneyManagementFinancialAccountType = "other"
-	V2MoneyManagementFinancialAccountTypePayments    V2MoneyManagementFinancialAccountType = "payments"
-	V2MoneyManagementFinancialAccountTypeStorage     V2MoneyManagementFinancialAccountType = "storage"
+	V2MoneyManagementFinancialAccountTypeAccruedFees              V2MoneyManagementFinancialAccountType = "accrued_fees"
+	V2MoneyManagementFinancialAccountTypeMultiprocessorSettlement V2MoneyManagementFinancialAccountType = "multiprocessor_settlement"
+	V2MoneyManagementFinancialAccountTypeOther                    V2MoneyManagementFinancialAccountType = "other"
+	V2MoneyManagementFinancialAccountTypePayments                 V2MoneyManagementFinancialAccountType = "payments"
+	V2MoneyManagementFinancialAccountTypeStorage                  V2MoneyManagementFinancialAccountType = "storage"
 )
 
 // If this is a `accrued_fees` FinancialAccount, this hash include details specific to `accrued_fees` FinancialAccount.
@@ -89,6 +90,12 @@ type V2MoneyManagementFinancialAccountBalance struct {
 type V2MoneyManagementFinancialAccountManagedBy struct {
 	// Enum describing the Stripe product that is managing this FinancialAccount.
 	Type V2MoneyManagementFinancialAccountManagedByType `json:"type"`
+}
+
+// If this is a `multiprocessor_settlement` FinancialAccount, this hash includes details specific to `multiprocessor_settlement` FinancialAccounts.
+type V2MoneyManagementFinancialAccountMultiprocessorSettlement struct {
+	// Settlement currencies enabled for this FinancialAccount.
+	SettlementCurrencies []Currency `json:"settlement_currencies"`
 }
 
 // If this is a `other` FinancialAccount, this hash indicates what the actual type is. Upgrade your API version to see it reflected in `type`.
@@ -199,6 +206,8 @@ type V2MoneyManagementFinancialAccount struct {
 	ManagedBy *V2MoneyManagementFinancialAccountManagedBy `json:"managed_by,omitempty"`
 	// Metadata associated with the FinancialAccount.
 	Metadata map[string]string `json:"metadata,omitempty"`
+	// If this is a `multiprocessor_settlement` FinancialAccount, this hash includes details specific to `multiprocessor_settlement` FinancialAccounts.
+	MultiprocessorSettlement *V2MoneyManagementFinancialAccountMultiprocessorSettlement `json:"multiprocessor_settlement,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// If this is a `other` FinancialAccount, this hash indicates what the actual type is. Upgrade your API version to see it reflected in `type`.

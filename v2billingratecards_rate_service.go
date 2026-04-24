@@ -17,7 +17,7 @@ type v2BillingRateCardsRateService struct {
 	Key string
 }
 
-// Set the Rate for a Metered Item on the latest version of a Rate Card object. This will create a new Rate Card version
+// Set the Rate for a Metered Item on the latest version of a Rate Card object. This creates a new Rate Card version
 // if the Metered Item already has a rate on the Rate Card.
 func (c v2BillingRateCardsRateService) Create(ctx context.Context, params *V2BillingRateCardsRateCreateParams) (*V2BillingRateCardRate, error) {
 	if params == nil {
@@ -44,7 +44,7 @@ func (c v2BillingRateCardsRateService) Retrieve(ctx context.Context, id string, 
 	return ratecardrate, err
 }
 
-// Remove an existing Rate from a Rate Card. This will create a new Rate Card Version without that Rate.
+// Remove an existing Rate from a Rate Card. This creates a new Rate Card Version without that Rate.
 func (c v2BillingRateCardsRateService) Delete(ctx context.Context, id string, params *V2BillingRateCardsRateDeleteParams) (*V2DeletedObject, error) {
 	if params == nil {
 		params = &V2BillingRateCardsRateDeleteParams{}

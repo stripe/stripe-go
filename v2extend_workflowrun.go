@@ -9,57 +9,48 @@ package stripe
 import "time"
 
 // The current Workflow Run execution status.
-type V2CoreWorkflowRunStatus string
+type V2ExtendWorkflowRunStatus string
 
-// List of values that V2CoreWorkflowRunStatus can take
+// List of values that V2ExtendWorkflowRunStatus can take
 const (
-	V2CoreWorkflowRunStatusFailed    V2CoreWorkflowRunStatus = "failed"
-	V2CoreWorkflowRunStatusStarted   V2CoreWorkflowRunStatus = "started"
-	V2CoreWorkflowRunStatusSucceeded V2CoreWorkflowRunStatus = "succeeded"
+	V2ExtendWorkflowRunStatusFailed    V2ExtendWorkflowRunStatus = "failed"
+	V2ExtendWorkflowRunStatusStarted   V2ExtendWorkflowRunStatus = "started"
+	V2ExtendWorkflowRunStatusSucceeded V2ExtendWorkflowRunStatus = "succeeded"
 )
 
 // Which type of trigger this is.
-type V2CoreWorkflowRunTriggerType string
+type V2ExtendWorkflowRunTriggerType string
 
-// List of values that V2CoreWorkflowRunTriggerType can take
+// List of values that V2ExtendWorkflowRunTriggerType can take
 const (
-	V2CoreWorkflowRunTriggerTypeEventTrigger V2CoreWorkflowRunTriggerType = "event_trigger"
-	V2CoreWorkflowRunTriggerTypeManual       V2CoreWorkflowRunTriggerType = "manual"
+	V2ExtendWorkflowRunTriggerTypeEventTrigger V2ExtendWorkflowRunTriggerType = "event_trigger"
+	V2ExtendWorkflowRunTriggerTypeManual       V2ExtendWorkflowRunTriggerType = "manual"
 )
 
 // Details about the Workflow Run's transition into the FAILED state.
-type V2CoreWorkflowRunStatusDetailsFailed struct {
-	// If this Workflow Run failed during the processing of an action step, the step identifier.
-	Action string `json:"action,omitempty"`
-	// Category of the failure result.
-	ErrorCode string `json:"error_code"`
+type V2ExtendWorkflowRunStatusDetailsFailed struct {
 	// Optional details about the failure result.
 	ErrorMessage string `json:"error_message,omitempty"`
 }
 
 // Details about the Workflow Run's transition in to the STARTED state.
-type V2CoreWorkflowRunStatusDetailsStarted struct{}
+type V2ExtendWorkflowRunStatusDetailsStarted struct{}
 
 // Details about the Workflow Run's transition into the SUCCEEDED state.
-type V2CoreWorkflowRunStatusDetailsSucceeded struct {
-	// Category of the success result.
-	StatusCode string `json:"status_code"`
-	// Optional details about the success result.
-	StatusMessage string `json:"status_message,omitempty"`
-}
+type V2ExtendWorkflowRunStatusDetailsSucceeded struct{}
 
 // Details about the Workflow Run's status transitions.
-type V2CoreWorkflowRunStatusDetails struct {
+type V2ExtendWorkflowRunStatusDetails struct {
 	// Details about the Workflow Run's transition into the FAILED state.
-	Failed *V2CoreWorkflowRunStatusDetailsFailed `json:"failed,omitempty"`
+	Failed *V2ExtendWorkflowRunStatusDetailsFailed `json:"failed,omitempty"`
 	// Details about the Workflow Run's transition in to the STARTED state.
-	Started *V2CoreWorkflowRunStatusDetailsStarted `json:"started,omitempty"`
+	Started *V2ExtendWorkflowRunStatusDetailsStarted `json:"started,omitempty"`
 	// Details about the Workflow Run's transition into the SUCCEEDED state.
-	Succeeded *V2CoreWorkflowRunStatusDetailsSucceeded `json:"succeeded,omitempty"`
+	Succeeded *V2ExtendWorkflowRunStatusDetailsSucceeded `json:"succeeded,omitempty"`
 }
 
 // Summary information about the Workflow Run's status transitions.
-type V2CoreWorkflowRunStatusTransitions struct {
+type V2ExtendWorkflowRunStatusTransitions struct {
 	// When the Workflow Run failed.
 	FailedAt time.Time `json:"failed_at,omitempty"`
 	// When the Workflow Run was started.
@@ -69,7 +60,9 @@ type V2CoreWorkflowRunStatusTransitions struct {
 }
 
 // The Workflow Run was launched when Stripe emitted a certain event.
-type V2CoreWorkflowRunTriggerEventTrigger struct {
+type V2ExtendWorkflowRunTriggerEventTrigger struct {
+	// The account that generated the triggering event.
+	Context string `json:"context"`
 	// The Stripe event that triggered this Run.
 	ID string `json:"id"`
 	// The Stripe event type triggered this Run.
@@ -77,23 +70,23 @@ type V2CoreWorkflowRunTriggerEventTrigger struct {
 }
 
 // The Workflow Run was launched through a direct call, using either the Dashboard or the Stripe API.
-type V2CoreWorkflowRunTriggerManual struct {
+type V2ExtendWorkflowRunTriggerManual struct {
 	// The input parameters used when launching the Run.
 	InputParameters map[string]any `json:"input_parameters"`
 }
 
 // A record of the trigger that launched this Workflow Run.
-type V2CoreWorkflowRunTrigger struct {
+type V2ExtendWorkflowRunTrigger struct {
 	// The Workflow Run was launched when Stripe emitted a certain event.
-	EventTrigger *V2CoreWorkflowRunTriggerEventTrigger `json:"event_trigger,omitempty"`
+	EventTrigger *V2ExtendWorkflowRunTriggerEventTrigger `json:"event_trigger,omitempty"`
 	// The Workflow Run was launched through a direct call, using either the Dashboard or the Stripe API.
-	Manual *V2CoreWorkflowRunTriggerManual `json:"manual,omitempty"`
+	Manual *V2ExtendWorkflowRunTriggerManual `json:"manual,omitempty"`
 	// Which type of trigger this is.
-	Type V2CoreWorkflowRunTriggerType `json:"type"`
+	Type V2ExtendWorkflowRunTriggerType `json:"type"`
 }
 
 // An execution of a Workflow in response to a triggering event.
-type V2CoreWorkflowRun struct {
+type V2ExtendWorkflowRun struct {
 	APIResource
 	// When the Workflow Run was created.
 	Created time.Time `json:"created"`
@@ -104,13 +97,13 @@ type V2CoreWorkflowRun struct {
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The current Workflow Run execution status.
-	Status V2CoreWorkflowRunStatus `json:"status"`
+	Status V2ExtendWorkflowRunStatus `json:"status"`
 	// Details about the Workflow Run's status transitions.
-	StatusDetails *V2CoreWorkflowRunStatusDetails `json:"status_details,omitempty"`
+	StatusDetails *V2ExtendWorkflowRunStatusDetails `json:"status_details,omitempty"`
 	// Summary information about the Workflow Run's status transitions.
-	StatusTransitions *V2CoreWorkflowRunStatusTransitions `json:"status_transitions"`
+	StatusTransitions *V2ExtendWorkflowRunStatusTransitions `json:"status_transitions"`
 	// A record of the trigger that launched this Workflow Run.
-	Trigger *V2CoreWorkflowRunTrigger `json:"trigger"`
+	Trigger *V2ExtendWorkflowRunTrigger `json:"trigger"`
 	// The Workflow this Run belongs to.
 	Workflow string `json:"workflow"`
 }
