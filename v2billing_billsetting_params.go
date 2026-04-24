@@ -18,7 +18,7 @@ type V2BillingBillSettingListParams struct {
 
 // Settings for calculating tax.
 type V2BillingBillSettingCalculationTaxParams struct {
-	// Determines if tax will be calculated automatically based on a PTC or manually based on rules defined by the merchant. Defaults to "manual".
+	// Determines if tax is calculated automatically based on a PTC or manually based on rules defined by the business. Defaults to "manual".
 	Type *string `form:"type" json:"type"`
 }
 
@@ -28,18 +28,18 @@ type V2BillingBillSettingCalculationParams struct {
 	Tax *V2BillingBillSettingCalculationTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
-// The amount of time until the invoice will be overdue for payment.
+// The amount of time until the invoice is overdue for payment.
 type V2BillingBillSettingInvoiceTimeUntilDueParams struct {
 	// The interval unit for the time until due.
 	Interval *string `form:"interval" json:"interval"`
 	// The number of interval units. For example, if interval=day and interval_count=30,
-	// the invoice will be due in 30 days.
+	// the invoice is due in 30 days.
 	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Settings related to invoice behavior.
 type V2BillingBillSettingInvoiceParams struct {
-	// The amount of time until the invoice will be overdue for payment.
+	// The amount of time until the invoice is overdue for payment.
 	TimeUntilDue *V2BillingBillSettingInvoiceTimeUntilDueParams `form:"time_until_due" json:"time_until_due,omitempty"`
 }
 
@@ -56,7 +56,7 @@ type V2BillingBillSettingParams struct {
 	Invoice *V2BillingBillSettingInvoiceParams `form:"invoice" json:"invoice,omitempty"`
 	// The ID of the invoice rendering template to be used when generating invoices.
 	InvoiceRenderingTemplate *string `form:"invoice_rendering_template" json:"invoice_rendering_template,omitempty"`
-	// Optionally change the live version of the BillSetting. Providing `live_version = "latest"` will set the
+	// Optionally change the live version of the BillSetting. Providing `live_version = "latest"` sets the
 	// BillSetting' `live_version` to its latest version.
 	LiveVersion *string `form:"live_version" json:"live_version,omitempty"`
 	// A lookup key used to retrieve settings dynamically from a static string.
@@ -66,7 +66,7 @@ type V2BillingBillSettingParams struct {
 
 // Settings for calculating tax.
 type V2BillingBillSettingCreateCalculationTaxParams struct {
-	// Determines if tax will be calculated automatically based on a PTC or manually based on rules defined by the merchant. Defaults to "manual".
+	// Determines if tax is calculated automatically based on a PTC or manually based on rules defined by the business. Defaults to "manual".
 	Type *string `form:"type" json:"type"`
 }
 
@@ -76,18 +76,18 @@ type V2BillingBillSettingCreateCalculationParams struct {
 	Tax *V2BillingBillSettingCreateCalculationTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
-// The amount of time until the invoice will be overdue for payment.
+// The amount of time until the invoice is overdue for payment.
 type V2BillingBillSettingCreateInvoiceTimeUntilDueParams struct {
 	// The interval unit for the time until due.
 	Interval *string `form:"interval" json:"interval"`
 	// The number of interval units. For example, if interval=day and interval_count=30,
-	// the invoice will be due in 30 days.
+	// the invoice is due in 30 days.
 	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Settings related to invoice behavior.
 type V2BillingBillSettingCreateInvoiceParams struct {
-	// The amount of time until the invoice will be overdue for payment.
+	// The amount of time until the invoice is overdue for payment.
 	TimeUntilDue *V2BillingBillSettingCreateInvoiceTimeUntilDueParams `form:"time_until_due" json:"time_until_due,omitempty"`
 }
 
@@ -115,7 +115,7 @@ type V2BillingBillSettingRetrieveParams struct {
 
 // Settings for calculating tax.
 type V2BillingBillSettingUpdateCalculationTaxParams struct {
-	// Determines if tax will be calculated automatically based on a PTC or manually based on rules defined by the merchant. Defaults to "manual".
+	// Determines if tax is calculated automatically based on a PTC or manually based on rules defined by the business. Defaults to "manual".
 	Type *string `form:"type" json:"type"`
 }
 
@@ -125,18 +125,18 @@ type V2BillingBillSettingUpdateCalculationParams struct {
 	Tax *V2BillingBillSettingUpdateCalculationTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
-// The amount of time until the invoice will be overdue for payment.
+// The amount of time until the invoice is overdue for payment.
 type V2BillingBillSettingUpdateInvoiceTimeUntilDueParams struct {
 	// The interval unit for the time until due.
 	Interval *string `form:"interval" json:"interval"`
 	// The number of interval units. For example, if interval=day and interval_count=30,
-	// the invoice will be due in 30 days.
+	// the invoice is due in 30 days.
 	IntervalCount *int64 `form:"interval_count" json:"interval_count"`
 }
 
 // Settings related to invoice behavior.
 type V2BillingBillSettingUpdateInvoiceParams struct {
-	// The amount of time until the invoice will be overdue for payment.
+	// The amount of time until the invoice is overdue for payment.
 	TimeUntilDue *V2BillingBillSettingUpdateInvoiceTimeUntilDueParams `form:"time_until_due" json:"time_until_due,omitempty"`
 }
 
@@ -153,7 +153,7 @@ type V2BillingBillSettingUpdateParams struct {
 	Invoice *V2BillingBillSettingUpdateInvoiceParams `form:"invoice" json:"invoice,omitempty"`
 	// The ID of the invoice rendering template to be used when generating invoices.
 	InvoiceRenderingTemplate *string `form:"invoice_rendering_template" json:"invoice_rendering_template,omitempty"`
-	// Optionally change the live version of the BillSetting. Providing `live_version = "latest"` will set the
+	// Optionally change the live version of the BillSetting. Providing `live_version = "latest"` sets the
 	// BillSetting' `live_version` to its latest version.
 	LiveVersion *string `form:"live_version" json:"live_version,omitempty"`
 	// A lookup key used to retrieve settings dynamically from a static string.

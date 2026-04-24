@@ -95,6 +95,12 @@ type V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceParams struct 
 	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 }
 
+// This sub-hash contains details about the Konbini payment method options.
+type V2BillingCollectionSettingPaymentMethodOptionsKonbiniParams struct{}
+
+// This sub-hash contains details about the SEPA Direct Debit payment method options.
+type V2BillingCollectionSettingPaymentMethodOptionsSEPADebitParams struct{}
+
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts.
@@ -130,9 +136,9 @@ type V2BillingCollectionSettingPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Bank transfer payment method options.
 	CustomerBalance *V2BillingCollectionSettingPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options.
-	Konbini map[string]any `form:"konbini" json:"konbini,omitempty"`
+	Konbini *V2BillingCollectionSettingPaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options.
-	SEPADebit map[string]any `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	SEPADebit *V2BillingCollectionSettingPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options.
 	USBankAccount *V2BillingCollectionSettingPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
@@ -140,9 +146,9 @@ type V2BillingCollectionSettingPaymentMethodOptionsParams struct {
 // Create a CollectionSetting object.
 type V2BillingCollectionSettingParams struct {
 	Params `form:"*"`
-	// Either automatic, or send_invoice. When charging automatically, Stripe will attempt to pay this
-	// bill at the end of the period using the payment method attached to the payer profile. When sending an invoice,
-	// Stripe will email your payer profile an invoice with payment instructions.
+	// Either automatic, or send_invoice. When charging automatically, Stripe attempts to pay this
+	// bill at the end of the period using the payment method attached to the billing profile. When sending an invoice,
+	// Stripe emails your billing profile an invoice with payment instructions.
 	// Defaults to automatic.
 	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// An optional customer-facing display name for the CollectionSetting object.
@@ -152,7 +158,7 @@ type V2BillingCollectionSettingParams struct {
 	// Email delivery settings.
 	EmailDelivery *V2BillingCollectionSettingEmailDeliveryParams `form:"email_delivery" json:"email_delivery,omitempty"`
 	// Optionally change the live version of the CollectionSetting. Billing Cadences and other objects that refer to this
-	// CollectionSetting will use this version when no overrides are set. Providing `live_version = "latest"` will set the
+	// CollectionSetting uses this version when no overrides are set. Providing `live_version = "latest"` sets the
 	// CollectionSetting's `live_version` to its latest version.
 	LiveVersion *string `form:"live_version" json:"live_version,omitempty"`
 	// A lookup key used to retrieve settings dynamically from a static string.
@@ -243,6 +249,12 @@ type V2BillingCollectionSettingCreatePaymentMethodOptionsCustomerBalanceParams s
 	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 }
 
+// This sub-hash contains details about the Konbini payment method options.
+type V2BillingCollectionSettingCreatePaymentMethodOptionsKonbiniParams struct{}
+
+// This sub-hash contains details about the SEPA Direct Debit payment method options.
+type V2BillingCollectionSettingCreatePaymentMethodOptionsSEPADebitParams struct{}
+
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCollectionSettingCreatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts.
@@ -278,9 +290,9 @@ type V2BillingCollectionSettingCreatePaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Bank transfer payment method options.
 	CustomerBalance *V2BillingCollectionSettingCreatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options.
-	Konbini map[string]any `form:"konbini" json:"konbini,omitempty"`
+	Konbini *V2BillingCollectionSettingCreatePaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options.
-	SEPADebit map[string]any `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	SEPADebit *V2BillingCollectionSettingCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options.
 	USBankAccount *V2BillingCollectionSettingCreatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
@@ -288,9 +300,9 @@ type V2BillingCollectionSettingCreatePaymentMethodOptionsParams struct {
 // Create a CollectionSetting object.
 type V2BillingCollectionSettingCreateParams struct {
 	Params `form:"*"`
-	// Either automatic, or send_invoice. When charging automatically, Stripe will attempt to pay this
-	// bill at the end of the period using the payment method attached to the payer profile. When sending an invoice,
-	// Stripe will email your payer profile an invoice with payment instructions.
+	// Either automatic, or send_invoice. When charging automatically, Stripe attempts to pay this
+	// bill at the end of the period using the payment method attached to the billing profile. When sending an invoice,
+	// Stripe emails your billing profile an invoice with payment instructions.
 	// Defaults to automatic.
 	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// An optional customer-facing display name for the CollectionSetting object.
@@ -391,6 +403,12 @@ type V2BillingCollectionSettingUpdatePaymentMethodOptionsCustomerBalanceParams s
 	FundingType *string `form:"funding_type" json:"funding_type,omitempty"`
 }
 
+// This sub-hash contains details about the Konbini payment method options.
+type V2BillingCollectionSettingUpdatePaymentMethodOptionsKonbiniParams struct{}
+
+// This sub-hash contains details about the SEPA Direct Debit payment method options.
+type V2BillingCollectionSettingUpdatePaymentMethodOptionsSEPADebitParams struct{}
+
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCollectionSettingUpdatePaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts.
@@ -426,9 +444,9 @@ type V2BillingCollectionSettingUpdatePaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Bank transfer payment method options.
 	CustomerBalance *V2BillingCollectionSettingUpdatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance" json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options.
-	Konbini map[string]any `form:"konbini" json:"konbini,omitempty"`
+	Konbini *V2BillingCollectionSettingUpdatePaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options.
-	SEPADebit map[string]any `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	SEPADebit *V2BillingCollectionSettingUpdatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options.
 	USBankAccount *V2BillingCollectionSettingUpdatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
 }
@@ -436,9 +454,9 @@ type V2BillingCollectionSettingUpdatePaymentMethodOptionsParams struct {
 // Update fields on an existing CollectionSetting.
 type V2BillingCollectionSettingUpdateParams struct {
 	Params `form:"*"`
-	// Either automatic, or send_invoice. When charging automatically, Stripe will attempt to pay this
-	// bill at the end of the period using the payment method attached to the payer profile. When sending an invoice,
-	// Stripe will email your payer profile an invoice with payment instructions.
+	// Either automatic, or send_invoice. When charging automatically, Stripe attempts to pay this
+	// bill at the end of the period using the payment method attached to the billing profile. When sending an invoice,
+	// Stripe emails your billing profile an invoice with payment instructions.
 	CollectionMethod *string `form:"collection_method" json:"collection_method,omitempty"`
 	// An optional customer-facing display name for the CollectionSetting object.
 	// To remove the display name, set it to an empty string in the request.
@@ -447,7 +465,7 @@ type V2BillingCollectionSettingUpdateParams struct {
 	// Email delivery settings.
 	EmailDelivery *V2BillingCollectionSettingUpdateEmailDeliveryParams `form:"email_delivery" json:"email_delivery,omitempty"`
 	// Optionally change the live version of the CollectionSetting. Billing Cadences and other objects that refer to this
-	// CollectionSetting will use this version when no overrides are set. Providing `live_version = "latest"` will set the
+	// CollectionSetting uses this version when no overrides are set. Providing `live_version = "latest"` sets the
 	// CollectionSetting's `live_version` to its latest version.
 	LiveVersion *string `form:"live_version" json:"live_version,omitempty"`
 	// A lookup key used to retrieve settings dynamically from a static string.

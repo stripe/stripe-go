@@ -32,7 +32,9 @@ type V2MoneyManagementPayoutMethodBankAccountBankAccountType string
 // List of values that V2MoneyManagementPayoutMethodBankAccountBankAccountType can take
 const (
 	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeChecking V2MoneyManagementPayoutMethodBankAccountBankAccountType = "checking"
+	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeFutsu    V2MoneyManagementPayoutMethodBankAccountBankAccountType = "futsu"
 	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeSavings  V2MoneyManagementPayoutMethodBankAccountBankAccountType = "savings"
+	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeToza     V2MoneyManagementPayoutMethodBankAccountBankAccountType = "toza"
 )
 
 // Closed Enum. The type of payout method.

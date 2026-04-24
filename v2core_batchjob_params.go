@@ -30,7 +30,7 @@ type V2CoreBatchJobParams struct {
 	// Optional field that allows the user to control how fast they want this batch job to run.
 	// Gives them a control over the number of webhooks they receive.
 	MaximumRps *int64 `form:"maximum_rps" json:"maximum_rps,omitempty"`
-	// The metadata of the `BatchJob` object.
+	// The metadata of the `batch_job`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Notification suppression settings for the batch job.
 	NotificationSuppression *V2CoreBatchJobNotificationSuppressionParams `form:"notification_suppression" json:"notification_suppression,omitempty"`
@@ -76,7 +76,7 @@ type V2CoreBatchJobCreateParams struct {
 	// Optional field that allows the user to control how fast they want this batch job to run.
 	// Gives them a control over the number of webhooks they receive.
 	MaximumRps *int64 `form:"maximum_rps" json:"maximum_rps,omitempty"`
-	// The metadata of the `BatchJob` object.
+	// The metadata of the `batch_job`.
 	Metadata map[string]string `form:"metadata" json:"metadata"`
 	// Notification suppression settings for the batch job.
 	NotificationSuppression *V2CoreBatchJobCreateNotificationSuppressionParams `form:"notification_suppression" json:"notification_suppression,omitempty"`

@@ -33,6 +33,7 @@ const (
 	ErrorTypeAlreadyCanceled               ErrorType = "already_canceled"
 	ErrorTypeAlreadyExists                 ErrorType = "already_exists"
 	ErrorTypeBlockedByStripe               ErrorType = "blocked_by_stripe"
+	ErrorTypeCannotProceed                 ErrorType = "cannot_proceed"
 	ErrorTypeControlledByAlternateResource ErrorType = "controlled_by_alternate_resource"
 	ErrorTypeControlledByDashboard         ErrorType = "controlled_by_dashboard"
 	ErrorTypeFeatureNotEnabled             ErrorType = "feature_not_enabled"
@@ -532,6 +533,34 @@ func (e *BlockedByStripeError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *BlockedByStripeError) canRetry() bool {
+	return false
+}
+
+// CannotProceedError is the Go struct corresponding to the error type "cannot_proceed".
+// Returned when the PayoutMethod object is set as default_for_currency and cannot be archived.
+type CannotProceedError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Reason      string    `json:"reason"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *CannotProceedError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *CannotProceedError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *CannotProceedError) canRetry() bool {
 	return false
 }
 

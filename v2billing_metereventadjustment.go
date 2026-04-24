@@ -17,7 +17,7 @@ const (
 	V2BillingMeterEventAdjustmentStatusPending  V2BillingMeterEventAdjustmentStatus = "pending"
 )
 
-// Open Enum. Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet.
+// Open Enum. Specifies the type of cancellation. Currently supports canceling a single event.
 type V2BillingMeterEventAdjustmentType string
 
 // List of values that V2BillingMeterEventAdjustmentType can take
@@ -27,7 +27,7 @@ const (
 
 // Specifies which event to cancel.
 type V2BillingMeterEventAdjustmentCancel struct {
-	// Unique identifier for the event. You can only cancel events within 24 hours of Stripe receiving them.
+	// The identifier that was originally assigned to the meter event. You can only cancel events within 24 hours of Stripe receiving them.
 	Identifier string `json:"identifier"`
 }
 
@@ -40,7 +40,7 @@ type V2BillingMeterEventAdjustment struct {
 	Created time.Time `json:"created"`
 	// The name of the meter event. Corresponds with the `event_name` field on a meter.
 	EventName string `json:"event_name"`
-	// The unique id of this meter event adjustment.
+	// The unique ID of this meter event adjustment.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
@@ -48,6 +48,6 @@ type V2BillingMeterEventAdjustment struct {
 	Object string `json:"object"`
 	// Open Enum. The meter event adjustment's status.
 	Status V2BillingMeterEventAdjustmentStatus `json:"status"`
-	// Open Enum. Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet.
+	// Open Enum. Specifies the type of cancellation. Currently supports canceling a single event.
 	Type V2BillingMeterEventAdjustmentType `json:"type"`
 }

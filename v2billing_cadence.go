@@ -27,7 +27,7 @@ const (
 	V2BillingCadencePayerTypeCustomer V2BillingCadencePayerType = "customer"
 )
 
-// Determines if tax will be calculated automatically based on a PTC or manually based on rules defined by the merchant. Defaults to "manual".
+// Determines if tax is calculated automatically based on a PTC or manually based on rules defined by the business. Defaults to "manual".
 type V2BillingCadenceSettingsDataBillCalculationTaxType string
 
 // List of values that V2BillingCadenceSettingsDataBillCalculationTaxType can take
@@ -47,9 +47,9 @@ const (
 	V2BillingCadenceSettingsDataBillInvoiceTimeUntilDueIntervalYear  V2BillingCadenceSettingsDataBillInvoiceTimeUntilDueInterval = "year"
 )
 
-// Either automatic, or send_invoice. When charging automatically, Stripe will attempt to pay this
-// bill at the end of the period using the payment method attached to the payer profile. When sending an invoice,
-// Stripe will email your payer profile an invoice with payment instructions.
+// Either automatic, or send_invoice. When charging automatically, Stripe attempts to pay this
+// bill at the end of the period using the payment method attached to the billing profile. When sending an invoice,
+// Stripe emails your billing profile an invoice with payment instructions.
 // Defaults to automatic.
 type V2BillingCadenceSettingsDataCollectionCollectionMethod string
 
@@ -231,7 +231,7 @@ type V2BillingCadenceBillingCycleMonthTime struct {
 type V2BillingCadenceBillingCycleMonth struct {
 	// The day to anchor the billing on for a type="month" billing cycle from 1-31.
 	// If this number is greater than the number of days in the month being billed,
-	// this will anchor to the last day of the month.
+	// this anchors to the last day of the month.
 	DayOfMonth int64 `json:"day_of_month"`
 	// The month to anchor the billing on for a type="month" billing cycle from
 	// 1-12. Occurrences are calculated from the month anchor.
@@ -281,9 +281,9 @@ type V2BillingCadenceBillingCycleYearTime struct {
 type V2BillingCadenceBillingCycleYear struct {
 	// The day to anchor the billing on for a type="month" billing cycle from 1-31.
 	// If this number is greater than the number of days in the month being billed,
-	// this will anchor to the last day of the month.
+	// this anchors to the last day of the month.
 	DayOfMonth int64 `json:"day_of_month"`
-	// The month to bill on from 1-12. If not provided, this will default to the month the cadence was created.
+	// The month to bill on from 1-12. If not provided, this defaults to the month the cadence was created.
 	MonthOfYear int64 `json:"month_of_year"`
 	// The time at which the billing cycle ends.
 	Time *V2BillingCadenceBillingCycleYearTime `json:"time"`
@@ -307,7 +307,7 @@ type V2BillingCadenceBillingCycle struct {
 
 // The payer determines the entity financially responsible for the bill.
 type V2BillingCadencePayer struct {
-	// The ID of the Billing Profile object which determines how a bill will be paid.
+	// The ID of the Billing Profile object which determines how a bill is paid.
 	BillingProfile string `json:"billing_profile"`
 	// The ID of the Customer object.
 	Customer string `json:"customer,omitempty"`
@@ -341,7 +341,7 @@ type V2BillingCadenceSettings struct {
 
 // Settings for calculating tax.
 type V2BillingCadenceSettingsDataBillCalculationTax struct {
-	// Determines if tax will be calculated automatically based on a PTC or manually based on rules defined by the merchant. Defaults to "manual".
+	// Determines if tax is calculated automatically based on a PTC or manually based on rules defined by the business. Defaults to "manual".
 	Type V2BillingCadenceSettingsDataBillCalculationTaxType `json:"type"`
 }
 
@@ -351,18 +351,18 @@ type V2BillingCadenceSettingsDataBillCalculation struct {
 	Tax *V2BillingCadenceSettingsDataBillCalculationTax `json:"tax,omitempty"`
 }
 
-// The amount of time until the invoice will be overdue for payment.
+// The amount of time until the invoice is overdue for payment.
 type V2BillingCadenceSettingsDataBillInvoiceTimeUntilDue struct {
 	// The interval unit for the time until due.
 	Interval V2BillingCadenceSettingsDataBillInvoiceTimeUntilDueInterval `json:"interval"`
 	// The number of interval units. For example, if interval=day and interval_count=30,
-	// the invoice will be due in 30 days.
+	// the invoice is due in 30 days.
 	IntervalCount int64 `json:"interval_count"`
 }
 
 // Settings related to invoice behavior.
 type V2BillingCadenceSettingsDataBillInvoice struct {
-	// The amount of time until the invoice will be overdue for payment.
+	// The amount of time until the invoice is overdue for payment.
 	TimeUntilDue *V2BillingCadenceSettingsDataBillInvoiceTimeUntilDue `json:"time_until_due,omitempty"`
 }
 
@@ -455,6 +455,12 @@ type V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsCustomerBalance s
 	FundingType V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsCustomerBalanceFundingType `json:"funding_type,omitempty"`
 }
 
+// This sub-hash contains details about the Konbini payment method options.
+type V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsKonbini struct{}
+
+// This sub-hash contains details about the SEPA Direct Debit payment method options.
+type V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsSEPADebit struct{}
+
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for selectable accounts.
@@ -490,18 +496,18 @@ type V2BillingCadenceSettingsDataCollectionPaymentMethodOptions struct {
 	// This sub-hash contains details about the Bank transfer payment method options.
 	CustomerBalance *V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsCustomerBalance `json:"customer_balance,omitempty"`
 	// This sub-hash contains details about the Konbini payment method options.
-	Konbini map[string]any `json:"konbini,omitempty"`
+	Konbini *V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsKonbini `json:"konbini,omitempty"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options.
-	SEPADebit map[string]any `json:"sepa_debit,omitempty"`
+	SEPADebit *V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsSEPADebit `json:"sepa_debit,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options.
 	USBankAccount *V2BillingCadenceSettingsDataCollectionPaymentMethodOptionsUSBankAccount `json:"us_bank_account,omitempty"`
 }
 
 // Expanded collection settings data with actual configuration values.
 type V2BillingCadenceSettingsDataCollection struct {
-	// Either automatic, or send_invoice. When charging automatically, Stripe will attempt to pay this
-	// bill at the end of the period using the payment method attached to the payer profile. When sending an invoice,
-	// Stripe will email your payer profile an invoice with payment instructions.
+	// Either automatic, or send_invoice. When charging automatically, Stripe attempts to pay this
+	// bill at the end of the period using the payment method attached to the billing profile. When sending an invoice,
+	// Stripe emails your billing profile an invoice with payment instructions.
 	// Defaults to automatic.
 	CollectionMethod V2BillingCadenceSettingsDataCollectionCollectionMethod `json:"collection_method"`
 	// Email delivery settings.

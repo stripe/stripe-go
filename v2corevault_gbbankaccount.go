@@ -23,7 +23,9 @@ type V2CoreVaultGBBankAccountBankAccountType string
 // List of values that V2CoreVaultGBBankAccountBankAccountType can take
 const (
 	V2CoreVaultGBBankAccountBankAccountTypeChecking V2CoreVaultGBBankAccountBankAccountType = "checking"
+	V2CoreVaultGBBankAccountBankAccountTypeFutsu    V2CoreVaultGBBankAccountBankAccountType = "futsu"
 	V2CoreVaultGBBankAccountBankAccountTypeSavings  V2CoreVaultGBBankAccountBankAccountType = "savings"
+	V2CoreVaultGBBankAccountBankAccountTypeToza     V2CoreVaultGBBankAccountBankAccountType = "toza"
 )
 
 // Whether or not the information of the bank account matches what you have provided. Closed enum.
