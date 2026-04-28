@@ -343,6 +343,7 @@ const (
 	PaymentMethodTypeShopeepay        PaymentMethodType = "shopeepay"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeStripeBalance    PaymentMethodType = "stripe_balance"
+	PaymentMethodTypeSunbit           PaymentMethodType = "sunbit"
 	PaymentMethodTypeSwish            PaymentMethodType = "swish"
 	PaymentMethodTypeTWINT            PaymentMethodType = "twint"
 	PaymentMethodTypeUpi              PaymentMethodType = "upi"
@@ -762,6 +763,9 @@ type PaymentMethodStripeBalanceParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type PaymentMethodSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type PaymentMethodSwishParams struct{}
 
@@ -929,6 +933,8 @@ type PaymentMethodParams struct {
 	Sofort *PaymentMethodSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *PaymentMethodStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *PaymentMethodSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -1343,6 +1349,9 @@ type PaymentMethodCreateStripeBalanceParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
+// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+type PaymentMethodCreateSunbitParams struct{}
+
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type PaymentMethodCreateSwishParams struct{}
 
@@ -1514,6 +1523,8 @@ type PaymentMethodCreateParams struct {
 	Sofort *PaymentMethodCreateSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *PaymentMethodCreateStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *PaymentMethodCreateSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodCreateSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -2261,6 +2272,7 @@ type PaymentMethodStripeBalance struct {
 	// The connected account ID whose Stripe balance to use as the source of payment
 	Account string `json:"account,omitempty"`
 }
+type PaymentMethodSunbit struct{}
 type PaymentMethodSwish struct{}
 type PaymentMethodTWINT struct{}
 type PaymentMethodUpi struct {
@@ -2384,17 +2396,20 @@ type PaymentMethod struct {
 	PromptPay *PaymentMethodPromptPay `json:"promptpay,omitempty"`
 	Qris      *PaymentMethodQris      `json:"qris,omitempty"`
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
-	RadarOptions  *PaymentMethodRadarOptions  `json:"radar_options,omitempty"`
-	Rechnung      *PaymentMethodRechnung      `json:"rechnung,omitempty"`
-	RevolutPay    *PaymentMethodRevolutPay    `json:"revolut_pay,omitempty"`
-	SamsungPay    *PaymentMethodSamsungPay    `json:"samsung_pay,omitempty"`
-	Satispay      *PaymentMethodSatispay      `json:"satispay,omitempty"`
-	SEPADebit     *PaymentMethodSEPADebit     `json:"sepa_debit,omitempty"`
-	Shopeepay     *PaymentMethodShopeepay     `json:"shopeepay,omitempty"`
-	Sofort        *PaymentMethodSofort        `json:"sofort,omitempty"`
-	StripeBalance *PaymentMethodStripeBalance `json:"stripe_balance,omitempty"`
-	Swish         *PaymentMethodSwish         `json:"swish,omitempty"`
-	TWINT         *PaymentMethodTWINT         `json:"twint,omitempty"`
+	RadarOptions *PaymentMethodRadarOptions `json:"radar_options,omitempty"`
+	Rechnung     *PaymentMethodRechnung     `json:"rechnung,omitempty"`
+	RevolutPay   *PaymentMethodRevolutPay   `json:"revolut_pay,omitempty"`
+	SamsungPay   *PaymentMethodSamsungPay   `json:"samsung_pay,omitempty"`
+	Satispay     *PaymentMethodSatispay     `json:"satispay,omitempty"`
+	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit,omitempty"`
+	// ID of the shared payment granted token used in the creation of this PaymentMethod.
+	SharedPaymentGrantedToken string                      `json:"shared_payment_granted_token,omitempty"`
+	Shopeepay                 *PaymentMethodShopeepay     `json:"shopeepay,omitempty"`
+	Sofort                    *PaymentMethodSofort        `json:"sofort,omitempty"`
+	StripeBalance             *PaymentMethodStripeBalance `json:"stripe_balance,omitempty"`
+	Sunbit                    *PaymentMethodSunbit        `json:"sunbit,omitempty"`
+	Swish                     *PaymentMethodSwish         `json:"swish,omitempty"`
+	TWINT                     *PaymentMethodTWINT         `json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          PaymentMethodType           `json:"type"`
 	Upi           *PaymentMethodUpi           `json:"upi,omitempty"`

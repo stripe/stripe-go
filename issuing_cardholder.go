@@ -36,6 +36,24 @@ const (
 	IssuingCardholderRequirementsDisabledReasonUnderReview         IssuingCardholderRequirementsDisabledReason = "under_review"
 )
 
+// Array of card presence statuses from which authorizations will be allowed. Possible options are `present`, `not_present`. All other statuses will be blocked. Cannot be set with `blocked_card_presences`. Provide an empty value to unset this control.
+type IssuingCardholderSpendingControlsAllowedCardPresence string
+
+// List of values that IssuingCardholderSpendingControlsAllowedCardPresence can take
+const (
+	IssuingCardholderSpendingControlsAllowedCardPresenceNotPresent IssuingCardholderSpendingControlsAllowedCardPresence = "not_present"
+	IssuingCardholderSpendingControlsAllowedCardPresencePresent    IssuingCardholderSpendingControlsAllowedCardPresence = "present"
+)
+
+// Array of card presence statuses from which authorizations will be declined. Possible options are `present`, `not_present`. Cannot be set with `allowed_card_presences`. Provide an empty value to unset this control.
+type IssuingCardholderSpendingControlsBlockedCardPresence string
+
+// List of values that IssuingCardholderSpendingControlsBlockedCardPresence can take
+const (
+	IssuingCardholderSpendingControlsBlockedCardPresenceNotPresent IssuingCardholderSpendingControlsBlockedCardPresence = "not_present"
+	IssuingCardholderSpendingControlsBlockedCardPresencePresent    IssuingCardholderSpendingControlsBlockedCardPresence = "present"
+)
+
 // Interval (or event) to which the amount applies.
 type IssuingCardholderSpendingControlsSpendingLimitInterval string
 
@@ -183,10 +201,14 @@ type IssuingCardholderSpendingControlsSpendingLimitParams struct {
 
 // Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 type IssuingCardholderSpendingControlsParams struct {
+	// Array of card presence statuses from which authorizations will be allowed. Possible options are `present`, `not_present`. All other statuses will be blocked. Cannot be set with `blocked_card_presences`. Provide an empty value to unset this control.
+	AllowedCardPresences []*string `form:"allowed_card_presences" json:"allowed_card_presences,omitempty"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
 	AllowedCategories []*string `form:"allowed_categories" json:"allowed_categories,omitempty"`
 	// Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
 	AllowedMerchantCountries []*string `form:"allowed_merchant_countries" json:"allowed_merchant_countries,omitempty"`
+	// Array of card presence statuses from which authorizations will be declined. Possible options are `present`, `not_present`. Cannot be set with `allowed_card_presences`. Provide an empty value to unset this control.
+	BlockedCardPresences []*string `form:"blocked_card_presences" json:"blocked_card_presences,omitempty"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
 	BlockedCategories []*string `form:"blocked_categories" json:"blocked_categories,omitempty"`
 	// Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
@@ -333,10 +355,14 @@ type IssuingCardholderCreateSpendingControlsSpendingLimitParams struct {
 
 // Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 type IssuingCardholderCreateSpendingControlsParams struct {
+	// Array of card presence statuses from which authorizations will be allowed. Possible options are `present`, `not_present`. All other statuses will be blocked. Cannot be set with `blocked_card_presences`. Provide an empty value to unset this control.
+	AllowedCardPresences []*string `form:"allowed_card_presences" json:"allowed_card_presences,omitempty"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
 	AllowedCategories []*string `form:"allowed_categories" json:"allowed_categories,omitempty"`
 	// Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
 	AllowedMerchantCountries []*string `form:"allowed_merchant_countries" json:"allowed_merchant_countries,omitempty"`
+	// Array of card presence statuses from which authorizations will be declined. Possible options are `present`, `not_present`. Cannot be set with `allowed_card_presences`. Provide an empty value to unset this control.
+	BlockedCardPresences []*string `form:"blocked_card_presences" json:"blocked_card_presences,omitempty"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
 	BlockedCategories []*string `form:"blocked_categories" json:"blocked_categories,omitempty"`
 	// Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
@@ -495,10 +521,14 @@ type IssuingCardholderUpdateSpendingControlsSpendingLimitParams struct {
 
 // Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 type IssuingCardholderUpdateSpendingControlsParams struct {
+	// Array of card presence statuses from which authorizations will be allowed. Possible options are `present`, `not_present`. All other statuses will be blocked. Cannot be set with `blocked_card_presences`. Provide an empty value to unset this control.
+	AllowedCardPresences []*string `form:"allowed_card_presences" json:"allowed_card_presences,omitempty"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
 	AllowedCategories []*string `form:"allowed_categories" json:"allowed_categories,omitempty"`
 	// Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
 	AllowedMerchantCountries []*string `form:"allowed_merchant_countries" json:"allowed_merchant_countries,omitempty"`
+	// Array of card presence statuses from which authorizations will be declined. Possible options are `present`, `not_present`. Cannot be set with `allowed_card_presences`. Provide an empty value to unset this control.
+	BlockedCardPresences []*string `form:"blocked_card_presences" json:"blocked_card_presences,omitempty"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
 	BlockedCategories []*string `form:"blocked_categories" json:"blocked_categories,omitempty"`
 	// Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
@@ -631,10 +661,14 @@ type IssuingCardholderSpendingControlsSpendingLimit struct {
 
 // Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 type IssuingCardholderSpendingControls struct {
+	// Array of card presence statuses from which authorizations will be allowed. Possible options are `present`, `not_present`. All other statuses will be blocked. Cannot be set with `blocked_card_presences`. Provide an empty value to unset this control.
+	AllowedCardPresences []IssuingCardholderSpendingControlsAllowedCardPresence `json:"allowed_card_presences"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
 	AllowedCategories []string `json:"allowed_categories"`
 	// Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
 	AllowedMerchantCountries []string `json:"allowed_merchant_countries"`
+	// Array of card presence statuses from which authorizations will be declined. Possible options are `present`, `not_present`. Cannot be set with `allowed_card_presences`. Provide an empty value to unset this control.
+	BlockedCardPresences []IssuingCardholderSpendingControlsBlockedCardPresence `json:"blocked_card_presences"`
 	// Array of strings containing [categories](https://docs.stripe.com/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
 	BlockedCategories []string `json:"blocked_categories"`
 	// Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.

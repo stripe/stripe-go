@@ -50,6 +50,14 @@ const (
 	TreasuryOutboundPaymentDestinationPaymentMethodDetailsUSBankAccountNetworkUSDomesticWire TreasuryOutboundPaymentDestinationPaymentMethodDetailsUSBankAccountNetwork = "us_domestic_wire"
 )
 
+// The purpose of the OutboundPayment, if applicable.
+type TreasuryOutboundPaymentPurpose string
+
+// List of values that TreasuryOutboundPaymentPurpose can take
+const (
+	TreasuryOutboundPaymentPurposePayroll TreasuryOutboundPaymentPurpose = "payroll"
+)
+
 // Reason for the return.
 type TreasuryOutboundPaymentReturnedDetailsCode string
 
@@ -233,6 +241,8 @@ type TreasuryOutboundPaymentParams struct {
 	FinancialAccount *string `form:"financial_account" json:"financial_account,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The purpose of the OutboundPayment, if applicable. This list is not exhaustive, do not specify this parameter if your purpose does not match any that are provided.
+	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 	// The description that appears on the receiving end for this OutboundPayment (for example, bank statement for external bank transfer). Maximum 10 characters for `ach` payments, 140 characters for `us_domestic_wire` payments, or 500 characters for `stripe` network transfers. Can only include -#.$&*, spaces, and alphanumeric characters. The default value is "payment".
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 }
@@ -386,6 +396,8 @@ type TreasuryOutboundPaymentCreateParams struct {
 	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The purpose of the OutboundPayment, if applicable. This list is not exhaustive, do not specify this parameter if your purpose does not match any that are provided.
+	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 	// The description that appears on the receiving end for this OutboundPayment (for example, bank statement for external bank transfer). Maximum 10 characters for `ach` payments, 140 characters for `us_domestic_wire` payments, or 500 characters for `stripe` network transfers. Can only include -#.$&*, spaces, and alphanumeric characters. The default value is "payment".
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 }
@@ -542,6 +554,8 @@ type TreasuryOutboundPayment struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The purpose of the OutboundPayment, if applicable.
+	Purpose TreasuryOutboundPaymentPurpose `json:"purpose,omitempty"`
 	// Details about a returned OutboundPayment. Only set when the status is `returned`.
 	ReturnedDetails *TreasuryOutboundPaymentReturnedDetails `json:"returned_details"`
 	// The description that appears on the receiving end for an OutboundPayment (for example, bank statement for external bank transfer).

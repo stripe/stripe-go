@@ -258,6 +258,8 @@ type Client struct {
 	V1SetupIntents *v1SetupIntentService
 	// V1SharedPaymentGrantedTokens is the service used to invoke /v1/shared_payment/granted_tokens APIs.
 	V1SharedPaymentGrantedTokens *v1SharedPaymentGrantedTokenService
+	// V1SharedPaymentIssuedTokens is the service used to invoke /v1/shared_payment/issued_tokens APIs.
+	V1SharedPaymentIssuedTokens *v1SharedPaymentIssuedTokenService
 	// V1ShippingRates is the service used to invoke /v1/shipping_rates APIs.
 	V1ShippingRates *v1ShippingRateService
 	// V1SigmaScheduledQueryRuns is the service used to invoke /v1/sigma/scheduled_query_runs APIs.
@@ -682,6 +684,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1SetupAttempts = &v1SetupAttemptService{B: backends.API, Key: key}
 	client.V1SetupIntents = &v1SetupIntentService{B: backends.API, Key: key}
 	client.V1SharedPaymentGrantedTokens = &v1SharedPaymentGrantedTokenService{B: backends.API, Key: key}
+	client.V1SharedPaymentIssuedTokens = &v1SharedPaymentIssuedTokenService{B: backends.API, Key: key}
 	client.V1ShippingRates = &v1ShippingRateService{B: backends.API, Key: key}
 	client.V1SigmaScheduledQueryRuns = &v1SigmaScheduledQueryRunService{B: backends.API, Key: key}
 	client.V1Sources = &v1SourceService{B: backends.API, Key: key}

@@ -140,6 +140,7 @@ import (
 	"github.com/stripe/stripe-go/v85/setupattempt"
 	"github.com/stripe/stripe-go/v85/setupintent"
 	sharedpaymentgrantedtoken "github.com/stripe/stripe-go/v85/sharedpayment/grantedtoken"
+	sharedpaymentissuedtoken "github.com/stripe/stripe-go/v85/sharedpayment/issuedtoken"
 	"github.com/stripe/stripe-go/v85/shippingrate"
 	sigmascheduledqueryrun "github.com/stripe/stripe-go/v85/sigma/scheduledqueryrun"
 	"github.com/stripe/stripe-go/v85/source"
@@ -531,6 +532,8 @@ type API struct {
 	SetupIntents *setupintent.Client
 	// SharedPaymentGrantedTokens is the client used to invoke /v1/shared_payment/granted_tokens APIs.
 	SharedPaymentGrantedTokens *sharedpaymentgrantedtoken.Client
+	// SharedPaymentIssuedTokens is the client used to invoke /v1/shared_payment/issued_tokens APIs.
+	SharedPaymentIssuedTokens *sharedpaymentissuedtoken.Client
 	// ShippingRates is the client used to invoke /v1/shipping_rates APIs.
 	ShippingRates *shippingrate.Client
 	// SigmaScheduledQueryRuns is the client used to invoke /v1/sigma/scheduled_query_runs APIs.
@@ -932,6 +935,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.SetupAttempts = &setupattempt.Client{B: backends.API, Key: key}
 	a.SetupIntents = &setupintent.Client{B: backends.API, Key: key}
 	a.SharedPaymentGrantedTokens = &sharedpaymentgrantedtoken.Client{B: backends.API, Key: key}
+	a.SharedPaymentIssuedTokens = &sharedpaymentissuedtoken.Client{B: backends.API, Key: key}
 	a.ShippingRates = &shippingrate.Client{B: backends.API, Key: key}
 	a.SigmaScheduledQueryRuns = &sigmascheduledqueryrun.Client{B: backends.API, Key: key}
 	a.Sources = &source.Client{B: backends.API, Key: key}

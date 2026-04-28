@@ -226,7 +226,7 @@ const (
 	RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementTypeCard RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType = "card"
 )
 
-// Recommended action based on the score of the fraudulent_payment signal. Possible values are `block` and `continue`.
+// Recommended action based on the score of the `fraudulent_payment` signal. Possible values are `block` and `continue`.
 type RadarPaymentEvaluationRecommendedAction string
 
 // List of values that RadarPaymentEvaluationRecommendedAction can take
@@ -240,9 +240,12 @@ type RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel string
 
 // List of values that RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel can take
 const (
-	RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevelElevated RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel = "elevated"
-	RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevelHighest  RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel = "highest"
-	RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevelNormal   RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel = "normal"
+	RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevelElevated    RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel = "elevated"
+	RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevelHighest     RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel = "highest"
+	RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevelLow         RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel = "low"
+	RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevelNormal      RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel = "normal"
+	RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevelNotAssessed RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel = "not_assessed"
+	RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevelUnknown     RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel = "unknown"
 )
 
 // Direct client device attributes such as IP address and user agent. Use this as an alternative to radar_session when a Radar Session isn't available.
@@ -731,7 +734,7 @@ type RadarPaymentEvaluationSignalsFraudulentPayment struct {
 	EvaluatedAt int64 `json:"evaluated_at"`
 	// Risk level of this signal, based on the score.
 	RiskLevel RadarPaymentEvaluationSignalsFraudulentPaymentRiskLevel `json:"risk_level"`
-	// Score for this insight. Possible values for evaluated payments are -1 and any value between 0 and 100. The value is returned with two decimal places. A score of -1 indicates a test integration and higher scores indicate a higher likelihood of the signal being true.
+	// Score for this signal. Possible values for evaluated payments are between 0 and 100. The value is returned with two decimal places and higher scores indicate a higher likelihood of the signal being true. A score of -1 is returned when a model evaluation was not performed, such as requests from incomplete integrations.
 	Score float64 `json:"score"`
 }
 
@@ -764,7 +767,7 @@ type RadarPaymentEvaluation struct {
 	Outcome *RadarPaymentEvaluationOutcome `json:"outcome,omitempty"`
 	// Payment details attached to this payment evaluation.
 	PaymentDetails *RadarPaymentEvaluationPaymentDetails `json:"payment_details,omitempty"`
-	// Recommended action based on the score of the fraudulent_payment signal. Possible values are `block` and `continue`.
+	// Recommended action based on the score of the `fraudulent_payment` signal. Possible values are `block` and `continue`.
 	RecommendedAction RadarPaymentEvaluationRecommendedAction `json:"recommended_action"`
 	// Collection of signals for this payment evaluation.
 	Signals *RadarPaymentEvaluationSignals `json:"signals"`

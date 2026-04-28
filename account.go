@@ -375,7 +375,7 @@ type AccountParams struct {
 	Settings *AccountSettingsParams `form:"settings" json:"settings,omitempty"`
 	// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 	TOSAcceptance *AccountTOSAcceptanceParams `form:"tos_acceptance" json:"tos_acceptance,omitempty"`
-	// The type of Stripe account to create. May be one of `custom`, `express` or `standard`.
+	// The `type` parameter is deprecated. Use [`controller`](https://docs.stripe.com/api/accounts/create#create_account-controller) instead to configure dashboard access, fee payer, loss liability, and requirement collection.
 	Type        *string                   `form:"type" json:"type,omitempty"`
 	UnsetFields []AccountParamsUnsetField `form:"-" json:"-"`
 }
@@ -495,6 +495,12 @@ type AccountCapabilitiesAlmaPaymentsParams struct {
 
 // The amazon_pay_payments capability.
 type AccountCapabilitiesAmazonPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// The app_distribution capability.
+type AccountCapabilitiesAppDistributionParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -841,6 +847,12 @@ type AccountCapabilitiesStripeBalancePaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The sunbit_payments capability.
+type AccountCapabilitiesSunbitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The swish_payments capability.
 type AccountCapabilitiesSwishPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -938,6 +950,8 @@ type AccountCapabilitiesParams struct {
 	AlmaPayments *AccountCapabilitiesAlmaPaymentsParams `form:"alma_payments" json:"alma_payments,omitempty"`
 	// The amazon_pay_payments capability.
 	AmazonPayPayments *AccountCapabilitiesAmazonPayPaymentsParams `form:"amazon_pay_payments" json:"amazon_pay_payments,omitempty"`
+	// The app_distribution capability.
+	AppDistribution *AccountCapabilitiesAppDistributionParams `form:"app_distribution" json:"app_distribution,omitempty"`
 	// The au_becs_debit_payments capability.
 	AUBECSDebitPayments *AccountCapabilitiesAUBECSDebitPaymentsParams `form:"au_becs_debit_payments" json:"au_becs_debit_payments,omitempty"`
 	// The automatic_indirect_tax capability.
@@ -1052,6 +1066,8 @@ type AccountCapabilitiesParams struct {
 	SofortPayments *AccountCapabilitiesSofortPaymentsParams `form:"sofort_payments" json:"sofort_payments,omitempty"`
 	// The stripe_balance_payments capability.
 	StripeBalancePayments *AccountCapabilitiesStripeBalancePaymentsParams `form:"stripe_balance_payments" json:"stripe_balance_payments,omitempty"`
+	// The sunbit_payments capability.
+	SunbitPayments *AccountCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// The swish_payments capability.
 	SwishPayments *AccountCapabilitiesSwishPaymentsParams `form:"swish_payments" json:"swish_payments,omitempty"`
 	// The tax_reporting_us_1099_k capability.
@@ -1893,6 +1909,12 @@ type AccountUpdateCapabilitiesAmazonPayPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The app_distribution capability.
+type AccountUpdateCapabilitiesAppDistributionParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The au_becs_debit_payments capability.
 type AccountUpdateCapabilitiesAUBECSDebitPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2235,6 +2257,12 @@ type AccountUpdateCapabilitiesStripeBalancePaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The sunbit_payments capability.
+type AccountUpdateCapabilitiesSunbitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The swish_payments capability.
 type AccountUpdateCapabilitiesSwishPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2332,6 +2360,8 @@ type AccountUpdateCapabilitiesParams struct {
 	AlmaPayments *AccountUpdateCapabilitiesAlmaPaymentsParams `form:"alma_payments" json:"alma_payments,omitempty"`
 	// The amazon_pay_payments capability.
 	AmazonPayPayments *AccountUpdateCapabilitiesAmazonPayPaymentsParams `form:"amazon_pay_payments" json:"amazon_pay_payments,omitempty"`
+	// The app_distribution capability.
+	AppDistribution *AccountUpdateCapabilitiesAppDistributionParams `form:"app_distribution" json:"app_distribution,omitempty"`
 	// The au_becs_debit_payments capability.
 	AUBECSDebitPayments *AccountUpdateCapabilitiesAUBECSDebitPaymentsParams `form:"au_becs_debit_payments" json:"au_becs_debit_payments,omitempty"`
 	// The automatic_indirect_tax capability.
@@ -2446,6 +2476,8 @@ type AccountUpdateCapabilitiesParams struct {
 	SofortPayments *AccountUpdateCapabilitiesSofortPaymentsParams `form:"sofort_payments" json:"sofort_payments,omitempty"`
 	// The stripe_balance_payments capability.
 	StripeBalancePayments *AccountUpdateCapabilitiesStripeBalancePaymentsParams `form:"stripe_balance_payments" json:"stripe_balance_payments,omitempty"`
+	// The sunbit_payments capability.
+	SunbitPayments *AccountUpdateCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// The swish_payments capability.
 	SwishPayments *AccountUpdateCapabilitiesSwishPaymentsParams `form:"swish_payments" json:"swish_payments,omitempty"`
 	// The tax_reporting_us_1099_k capability.
@@ -3272,6 +3304,12 @@ type AccountCreateCapabilitiesAmazonPayPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The app_distribution capability.
+type AccountCreateCapabilitiesAppDistributionParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The au_becs_debit_payments capability.
 type AccountCreateCapabilitiesAUBECSDebitPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3614,6 +3652,12 @@ type AccountCreateCapabilitiesStripeBalancePaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The sunbit_payments capability.
+type AccountCreateCapabilitiesSunbitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The swish_payments capability.
 type AccountCreateCapabilitiesSwishPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3711,6 +3755,8 @@ type AccountCreateCapabilitiesParams struct {
 	AlmaPayments *AccountCreateCapabilitiesAlmaPaymentsParams `form:"alma_payments" json:"alma_payments,omitempty"`
 	// The amazon_pay_payments capability.
 	AmazonPayPayments *AccountCreateCapabilitiesAmazonPayPaymentsParams `form:"amazon_pay_payments" json:"amazon_pay_payments,omitempty"`
+	// The app_distribution capability.
+	AppDistribution *AccountCreateCapabilitiesAppDistributionParams `form:"app_distribution" json:"app_distribution,omitempty"`
 	// The au_becs_debit_payments capability.
 	AUBECSDebitPayments *AccountCreateCapabilitiesAUBECSDebitPaymentsParams `form:"au_becs_debit_payments" json:"au_becs_debit_payments,omitempty"`
 	// The automatic_indirect_tax capability.
@@ -3825,6 +3871,8 @@ type AccountCreateCapabilitiesParams struct {
 	SofortPayments *AccountCreateCapabilitiesSofortPaymentsParams `form:"sofort_payments" json:"sofort_payments,omitempty"`
 	// The stripe_balance_payments capability.
 	StripeBalancePayments *AccountCreateCapabilitiesStripeBalancePaymentsParams `form:"stripe_balance_payments" json:"stripe_balance_payments,omitempty"`
+	// The sunbit_payments capability.
+	SunbitPayments *AccountCreateCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// The swish_payments capability.
 	SwishPayments *AccountCreateCapabilitiesSwishPaymentsParams `form:"swish_payments" json:"swish_payments,omitempty"`
 	// The tax_reporting_us_1099_k capability.
@@ -4565,7 +4613,7 @@ type AccountCreateParams struct {
 	Settings *AccountCreateSettingsParams `form:"settings" json:"settings,omitempty"`
 	// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 	TOSAcceptance *AccountCreateTOSAcceptanceParams `form:"tos_acceptance" json:"tos_acceptance,omitempty"`
-	// The type of Stripe account to create. May be one of `custom`, `express` or `standard`.
+	// The `type` parameter is deprecated. Use [`controller`](https://docs.stripe.com/api/accounts/create#create_account-controller) instead to configure dashboard access, fee payer, loss liability, and requirement collection.
 	Type        *string                         `form:"type" json:"type,omitempty"`
 	UnsetFields []AccountCreateParamsUnsetField `form:"-" json:"-"`
 }
@@ -4651,6 +4699,8 @@ type AccountCapabilities struct {
 	AlmaPayments AccountCapabilityStatus `json:"alma_payments,omitempty"`
 	// The status of the AmazonPay capability of the account, or whether the account can directly process AmazonPay payments.
 	AmazonPayPayments AccountCapabilityStatus `json:"amazon_pay_payments,omitempty"`
+	// The status of the `app_distribution` capability of the account, or whether the platform can distribute apps to other accounts.
+	AppDistribution AccountCapabilityStatus `json:"app_distribution,omitempty"`
 	// The status of the BECS Direct Debit (AU) payments capability of the account, or whether the account can directly process BECS Direct Debit (AU) charges.
 	AUBECSDebitPayments AccountCapabilityStatus `json:"au_becs_debit_payments,omitempty"`
 	// The status of the automatic_indirect_tax capability of the account.
@@ -4765,6 +4815,8 @@ type AccountCapabilities struct {
 	SofortPayments AccountCapabilityStatus `json:"sofort_payments,omitempty"`
 	// The status of the stripe_balance payments capability of the account, or whether the account can directly process stripe_balance charges.
 	StripeBalancePayments AccountCapabilityStatus `json:"stripe_balance_payments,omitempty"`
+	// The status of the Sunbit capability of the account, or whether the account can directly process Sunbit payments.
+	SunbitPayments AccountCapabilityStatus `json:"sunbit_payments,omitempty"`
 	// The status of the Swish capability of the account, or whether the account can directly process Swish payments.
 	SwishPayments AccountCapabilityStatus `json:"swish_payments,omitempty"`
 	// The status of the tax reporting 1099-K (US) capability of the account.

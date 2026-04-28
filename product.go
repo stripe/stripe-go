@@ -732,6 +732,14 @@ type ProductPackageDimensions struct {
 	Width float64 `json:"width"`
 }
 
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type ProductTaxDetails struct {
+	// The performance location.
+	PerformanceLocation string `json:"performance_location"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode string `json:"tax_code"`
+}
+
 // Products describe the specific goods or services you offer to your customers.
 // For example, you might offer a Standard and Premium version of your goods or service; each version would be a separate Product.
 // They can be used in conjunction with [Prices](https://api.stripe.com#prices) to configure pricing in Payment Links, Checkout, and Subscriptions.
@@ -774,6 +782,8 @@ type Product struct {
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
 	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
 	TaxCode *TaxCode `json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *ProductTaxDetails `json:"tax_details,omitempty"`
 	// The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.
 	Type ProductType `json:"type"`
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
