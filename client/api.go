@@ -140,6 +140,7 @@ import (
 	"github.com/stripe/stripe-go/v85/setupattempt"
 	"github.com/stripe/stripe-go/v85/setupintent"
 	sharedpaymentgrantedtoken "github.com/stripe/stripe-go/v85/sharedpayment/grantedtoken"
+	sharedpaymentissuedtoken "github.com/stripe/stripe-go/v85/sharedpayment/issuedtoken"
 	"github.com/stripe/stripe-go/v85/shippingrate"
 	sigmascheduledqueryrun "github.com/stripe/stripe-go/v85/sigma/scheduledqueryrun"
 	"github.com/stripe/stripe-go/v85/source"
@@ -237,6 +238,7 @@ import (
 	v2coreeventdestination "github.com/stripe/stripe-go/v85/v2/core/eventdestination"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v85/v2/core/vault/gbbankaccount"
 	v2corevaultusbankaccount "github.com/stripe/stripe-go/v85/v2/core/vault/usbankaccount"
+	v2dataanalyticsmetricquery "github.com/stripe/stripe-go/v85/v2/data/analytics/metricquery"
 	v2datareportingqueryrun "github.com/stripe/stripe-go/v85/v2/data/reporting/queryrun"
 	v2extendworkflow "github.com/stripe/stripe-go/v85/v2/extend/workflow"
 	v2extendworkflowrun "github.com/stripe/stripe-go/v85/v2/extend/workflowrun"
@@ -531,6 +533,8 @@ type API struct {
 	SetupIntents *setupintent.Client
 	// SharedPaymentGrantedTokens is the client used to invoke /v1/shared_payment/granted_tokens APIs.
 	SharedPaymentGrantedTokens *sharedpaymentgrantedtoken.Client
+	// SharedPaymentIssuedTokens is the client used to invoke /v1/shared_payment/issued_tokens APIs.
+	SharedPaymentIssuedTokens *sharedpaymentissuedtoken.Client
 	// ShippingRates is the client used to invoke /v1/shipping_rates APIs.
 	ShippingRates *shippingrate.Client
 	// SigmaScheduledQueryRuns is the client used to invoke /v1/sigma/scheduled_query_runs APIs.
@@ -725,6 +729,8 @@ type API struct {
 	V2CoreVaultGBBankAccounts *v2corevaultgbbankaccount.Client
 	// V2CoreVaultUSBankAccounts is the client used to invoke /v2/core/vault/us_bank_accounts APIs.
 	V2CoreVaultUSBankAccounts *v2corevaultusbankaccount.Client
+	// V2DataAnalyticsMetricQueries is the client used to invoke /v2/data/analytics/metric_query APIs.
+	V2DataAnalyticsMetricQueries *v2dataanalyticsmetricquery.Client
 	// V2DataReportingQueryRuns is the client used to invoke /v2/data/reporting/query_runs APIs.
 	V2DataReportingQueryRuns *v2datareportingqueryrun.Client
 	// V2ExtendWorkflowRuns is the client used to invoke /v2/extend/workflow_runs APIs.
@@ -932,6 +938,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.SetupAttempts = &setupattempt.Client{B: backends.API, Key: key}
 	a.SetupIntents = &setupintent.Client{B: backends.API, Key: key}
 	a.SharedPaymentGrantedTokens = &sharedpaymentgrantedtoken.Client{B: backends.API, Key: key}
+	a.SharedPaymentIssuedTokens = &sharedpaymentissuedtoken.Client{B: backends.API, Key: key}
 	a.ShippingRates = &shippingrate.Client{B: backends.API, Key: key}
 	a.SigmaScheduledQueryRuns = &sigmascheduledqueryrun.Client{B: backends.API, Key: key}
 	a.Sources = &source.Client{B: backends.API, Key: key}
@@ -1029,6 +1036,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}
 	a.V2CoreVaultUSBankAccounts = &v2corevaultusbankaccount.Client{B: backends.API, Key: key}
+	a.V2DataAnalyticsMetricQueries = &v2dataanalyticsmetricquery.Client{B: backends.API, Key: key}
 	a.V2DataReportingQueryRuns = &v2datareportingqueryrun.Client{B: backends.API, Key: key}
 	a.V2ExtendWorkflowRuns = &v2extendworkflowrun.Client{B: backends.API, Key: key}
 	a.V2ExtendWorkflows = &v2extendworkflow.Client{B: backends.API, Key: key}

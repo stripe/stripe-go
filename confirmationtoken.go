@@ -422,6 +422,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeShopeepay        ConfirmationTokenPaymentMethodPreviewType = "shopeepay"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
 	ConfirmationTokenPaymentMethodPreviewTypeStripeBalance    ConfirmationTokenPaymentMethodPreviewType = "stripe_balance"
+	ConfirmationTokenPaymentMethodPreviewTypeSunbit           ConfirmationTokenPaymentMethodPreviewType = "sunbit"
 	ConfirmationTokenPaymentMethodPreviewTypeSwish            ConfirmationTokenPaymentMethodPreviewType = "swish"
 	ConfirmationTokenPaymentMethodPreviewTypeTWINT            ConfirmationTokenPaymentMethodPreviewType = "twint"
 	ConfirmationTokenPaymentMethodPreviewTypeUpi              ConfirmationTokenPaymentMethodPreviewType = "upi"
@@ -1118,6 +1119,7 @@ type ConfirmationTokenPaymentMethodPreviewStripeBalance struct {
 	// The connected account ID whose Stripe balance to use as the source of payment
 	Account string `json:"account,omitempty"`
 }
+type ConfirmationTokenPaymentMethodPreviewSunbit struct{}
 type ConfirmationTokenPaymentMethodPreviewSwish struct{}
 type ConfirmationTokenPaymentMethodPreviewTWINT struct{}
 type ConfirmationTokenPaymentMethodPreviewUpi struct {
@@ -1230,6 +1232,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Shopeepay       *ConfirmationTokenPaymentMethodPreviewShopeepay       `json:"shopeepay,omitempty"`
 	Sofort          *ConfirmationTokenPaymentMethodPreviewSofort          `json:"sofort,omitempty"`
 	StripeBalance   *ConfirmationTokenPaymentMethodPreviewStripeBalance   `json:"stripe_balance,omitempty"`
+	Sunbit          *ConfirmationTokenPaymentMethodPreviewSunbit          `json:"sunbit,omitempty"`
 	Swish           *ConfirmationTokenPaymentMethodPreviewSwish           `json:"swish,omitempty"`
 	TWINT           *ConfirmationTokenPaymentMethodPreviewTWINT           `json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.

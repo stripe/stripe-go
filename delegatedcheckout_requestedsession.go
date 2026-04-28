@@ -24,6 +24,24 @@ const (
 	DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpointLast  DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint = "last"
 )
 
+// The marketing consent channel.
+type DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentChannel string
+
+// List of values that DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentChannel can take
+const (
+	DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentChannelEmail DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentChannel = "email"
+	DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentChannelSms   DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentChannel = "sms"
+)
+
+// The consent status. 'granted' means the buyer opted in, 'none' means they did not.
+type DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentStatus string
+
+// List of values that DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentStatus can take
+const (
+	DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentStatusGranted DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentStatus = "granted"
+	DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentStatusNone    DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentStatus = "none"
+)
+
 // The marketing channel type.
 type DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOptionChannel string
 
@@ -378,6 +396,26 @@ type DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionParams struct {
 	Touchpoint *string `form:"touchpoint" json:"touchpoint"`
 }
 
+// The list of marketing consent entries.
+type DelegatedCheckoutRequestedSessionConfirmBuyerConsentsMarketingConsentParams struct {
+	// The marketing consent channel.
+	Channel *string `form:"channel" json:"channel"`
+	// The consent status. Use 'granted' to indicate the buyer has opted in.
+	Status *string `form:"status" json:"status"`
+}
+
+// The marketing consent data for the buyer.
+type DelegatedCheckoutRequestedSessionConfirmBuyerConsentsMarketingParams struct {
+	// The list of marketing consent entries.
+	Consents []*DelegatedCheckoutRequestedSessionConfirmBuyerConsentsMarketingConsentParams `form:"consents" json:"consents,omitempty"`
+}
+
+// The buyer's consent choices for marketing communications.
+type DelegatedCheckoutRequestedSessionConfirmBuyerConsentsParams struct {
+	// The marketing consent data for the buyer.
+	Marketing *DelegatedCheckoutRequestedSessionConfirmBuyerConsentsMarketingParams `form:"marketing" json:"marketing,omitempty"`
+}
+
 // The client device metadata details for this requested session.
 type DelegatedCheckoutRequestedSessionConfirmRiskDetailsClientDeviceMetadataDetailsParams struct {
 	// The radar session.
@@ -403,6 +441,8 @@ type DelegatedCheckoutRequestedSessionConfirmParams struct {
 	Params `form:"*"`
 	// Affiliate attribution data associated with this requested session.
 	AffiliateAttribution *DelegatedCheckoutRequestedSessionConfirmAffiliateAttributionParams `form:"affiliate_attribution" json:"affiliate_attribution,omitempty"`
+	// The buyer's consent choices for marketing communications.
+	BuyerConsents *DelegatedCheckoutRequestedSessionConfirmBuyerConsentsParams `form:"buyer_consents" json:"buyer_consents,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The PaymentMethod to use with the requested session.
@@ -728,6 +768,14 @@ type DelegatedCheckoutRequestedSessionAffiliateAttribution struct {
 	Touchpoint DelegatedCheckoutRequestedSessionAffiliateAttributionTouchpoint `json:"touchpoint"`
 }
 
+// The buyer's marketing consent choices.
+type DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsent struct {
+	// The marketing consent channel.
+	Channel DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentChannel `json:"channel"`
+	// The consent status. 'granted' means the buyer opted in, 'none' means they did not.
+	Status DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsentStatus `json:"status"`
+}
+
 // The available marketing consent options.
 type DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOption struct {
 	// The marketing channel type.
@@ -740,6 +788,8 @@ type DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOption struct {
 
 // The marketing consent options.
 type DelegatedCheckoutRequestedSessionBuyerConsentsMarketing struct {
+	// The buyer's marketing consent choices.
+	Consents []*DelegatedCheckoutRequestedSessionBuyerConsentsMarketingConsent `json:"consents"`
 	// The available marketing consent options.
 	Options []*DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOption `json:"options"`
 }

@@ -55,6 +55,118 @@ const (
 	SharedPaymentIssuedTokenUsageLimitsRecurringIntervalYear  SharedPaymentIssuedTokenUsageLimitsRecurringInterval = "year"
 )
 
+// Retrieves an existing SharedPaymentIssuedToken object
+type SharedPaymentIssuedTokenParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// The PaymentMethod that is going to be shared by the SharedPaymentIssuedToken.
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
+	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
+	// Seller details of the SharedPaymentIssuedToken, including network_id and external_id.
+	SellerDetails *SharedPaymentIssuedTokenSellerDetailsParams `form:"seller_details" json:"seller_details,omitempty"`
+	// Indicates that you intend to save the PaymentMethod of this SharedPaymentToken to a customer later.
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to the SharedPaymentIssuedToken. The values here are visible by default with the party that you share this SharedPaymentIssuedToken with.
+	SharedMetadata map[string]string `form:"shared_metadata" json:"shared_metadata,omitempty"`
+	// Limits on how this SharedPaymentToken can be used.
+	UsageLimits *SharedPaymentIssuedTokenUsageLimitsParams `form:"usage_limits" json:"usage_limits,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SharedPaymentIssuedTokenParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Seller details of the SharedPaymentIssuedToken, including network_id and external_id.
+type SharedPaymentIssuedTokenSellerDetailsParams struct {
+	// A unique id within a network that identifies a logical seller, usually this would be the unique merchant id.
+	ExternalID *string `form:"external_id" json:"external_id,omitempty"`
+	// A string that identifies the network that this SharedToken is being created for.
+	NetworkBusinessProfile *string `form:"network_business_profile" json:"network_business_profile,omitempty"`
+}
+
+// Limits on how this SharedPaymentToken can be used.
+type SharedPaymentIssuedTokenUsageLimitsParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// Time at which this SharedPaymentToken expires and can no longer be used to confirm a PaymentIntent.
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+	// Max amount that can be captured using this SharedPaymentToken
+	MaxAmount *int64 `form:"max_amount" json:"max_amount"`
+	// The recurring interval at which the shared payment token's amount usage restrictions reset.
+	RecurringInterval *string `form:"recurring_interval" json:"recurring_interval,omitempty"`
+}
+
+// Revokes a SharedPaymentIssuedToken
+type SharedPaymentIssuedTokenRevokeParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SharedPaymentIssuedTokenRevokeParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves an existing SharedPaymentIssuedToken object
+type SharedPaymentIssuedTokenRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SharedPaymentIssuedTokenRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Seller details of the SharedPaymentIssuedToken, including network_id and external_id.
+type SharedPaymentIssuedTokenCreateSellerDetailsParams struct {
+	// A unique id within a network that identifies a logical seller, usually this would be the unique merchant id.
+	ExternalID *string `form:"external_id" json:"external_id,omitempty"`
+	// A string that identifies the network that this SharedToken is being created for.
+	NetworkBusinessProfile *string `form:"network_business_profile" json:"network_business_profile,omitempty"`
+}
+
+// Limits on how this SharedPaymentToken can be used.
+type SharedPaymentIssuedTokenCreateUsageLimitsParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// Time at which this SharedPaymentToken expires and can no longer be used to confirm a PaymentIntent.
+	ExpiresAt *int64 `form:"expires_at" json:"expires_at,omitempty"`
+	// Max amount that can be captured using this SharedPaymentToken
+	MaxAmount *int64 `form:"max_amount" json:"max_amount"`
+	// The recurring interval at which the shared payment token's amount usage restrictions reset.
+	RecurringInterval *string `form:"recurring_interval" json:"recurring_interval,omitempty"`
+}
+
+// Creates a new SharedPaymentIssuedToken object
+type SharedPaymentIssuedTokenCreateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// The PaymentMethod that is going to be shared by the SharedPaymentIssuedToken.
+	PaymentMethod *string `form:"payment_method" json:"payment_method"`
+	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
+	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
+	// Seller details of the SharedPaymentIssuedToken, including network_id and external_id.
+	SellerDetails *SharedPaymentIssuedTokenCreateSellerDetailsParams `form:"seller_details" json:"seller_details"`
+	// Indicates that you intend to save the PaymentMethod of this SharedPaymentToken to a customer later.
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to the SharedPaymentIssuedToken. The values here are visible by default with the party that you share this SharedPaymentIssuedToken with.
+	SharedMetadata map[string]string `form:"shared_metadata" json:"shared_metadata,omitempty"`
+	// Limits on how this SharedPaymentToken can be used.
+	UsageLimits *SharedPaymentIssuedTokenCreateUsageLimitsParams `form:"usage_limits" json:"usage_limits"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SharedPaymentIssuedTokenCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Contains details for handling the next action using Stripe.js, iOS, or Android SDKs. Present when `next_action.type` is `use_stripe_sdk`.
 type SharedPaymentIssuedTokenNextActionUseStripeSDK struct {
 	// A base64-encoded string used by Stripe.js and the iOS and Android client SDKs to handle the next action. Its content is subject to change.
@@ -165,6 +277,7 @@ type SharedPaymentIssuedTokenUsageLimits struct {
 
 // A SharedPaymentIssuedToken is a limited-use reference to a PaymentMethod that can be created with a secret key. When shared with another Stripe account (Seller), it enables that account to either process a payment on Stripe against a PaymentMethod that your Stripe account owns, or to forward a usable credential created against the originalPaymentMethod to then process the payment off-Stripe.
 type SharedPaymentIssuedToken struct {
+	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Time at which this SharedPaymentIssuedToken was deactivated.

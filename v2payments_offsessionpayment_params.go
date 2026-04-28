@@ -531,7 +531,7 @@ type V2PaymentsOffSessionPaymentCreateParams struct {
 	// attach to an object. This can be useful for storing additional information about
 	// the object in a structured format. Learn more about
 	// [storing information in metadata](https://docs.stripe.com/payments/payment-intents#storing-information-in-metadata).
-	Metadata map[string]string `form:"metadata" json:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The account (if any) for which the funds of the OffSessionPayment are intended.
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Provides industry-specific information about the payment.

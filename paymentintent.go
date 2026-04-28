@@ -128,6 +128,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeShopeepay        PaymentIntentExcludedPaymentMethodType = "shopeepay"
 	PaymentIntentExcludedPaymentMethodTypeSofort           PaymentIntentExcludedPaymentMethodType = "sofort"
 	PaymentIntentExcludedPaymentMethodTypeStripeBalance    PaymentIntentExcludedPaymentMethodType = "stripe_balance"
+	PaymentIntentExcludedPaymentMethodTypeSunbit           PaymentIntentExcludedPaymentMethodType = "sunbit"
 	PaymentIntentExcludedPaymentMethodTypeSwish            PaymentIntentExcludedPaymentMethodType = "swish"
 	PaymentIntentExcludedPaymentMethodTypeTWINT            PaymentIntentExcludedPaymentMethodType = "twint"
 	PaymentIntentExcludedPaymentMethodTypeUpi              PaymentIntentExcludedPaymentMethodType = "upi"
@@ -1968,9 +1969,9 @@ type PaymentIntentAmountDetailsLineItemParams struct {
 type PaymentIntentAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                              `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -3278,12 +3279,16 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *PaymentMethodStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *PaymentMethodSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -5459,8 +5464,6 @@ type PaymentIntentPaymentMethodOptionsPixParams struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	//
-	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
@@ -6437,9 +6440,9 @@ type PaymentIntentCaptureAmountDetailsLineItemParams struct {
 type PaymentIntentCaptureAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                                     `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentCaptureAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -7697,9 +7700,9 @@ type PaymentIntentConfirmAmountDetailsLineItemParams struct {
 type PaymentIntentConfirmAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                                     `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentConfirmAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -8864,6 +8867,8 @@ type PaymentIntentConfirmParams struct {
 	AllocatedFunds *PaymentIntentConfirmAllocatedFundsParams `form:"allocated_funds" json:"allocated_funds,omitempty"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *PaymentIntentConfirmAmountDetailsParams `form:"amount_details" json:"amount_details,omitempty"`
+	// Amount to confirm on the PaymentIntent. Defaults to `amount` if not provided.
+	AmountToConfirm *int64 `form:"amount_to_confirm" json:"amount_to_confirm,omitempty"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount" json:"application_fee_amount,omitempty"`
 	// Controls when the funds will be captured from the customer's account.
@@ -9042,9 +9047,9 @@ type PaymentIntentDecrementAuthorizationAmountDetailsLineItemParams struct {
 type PaymentIntentDecrementAuthorizationAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                                                    `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -9343,9 +9348,9 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
 type PaymentIntentIncrementAuthorizationAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                                                    `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentIncrementAuthorizationAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -9744,9 +9749,9 @@ type PaymentIntentCreateAmountDetailsLineItemParams struct {
 type PaymentIntentCreateAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                                    `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentCreateAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -11054,12 +11059,16 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *PaymentMethodStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *PaymentMethodSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -13235,8 +13244,6 @@ type PaymentIntentCreatePaymentMethodOptionsPixParams struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	//
-	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
@@ -14170,9 +14177,9 @@ type PaymentIntentUpdateAmountDetailsLineItemParams struct {
 type PaymentIntentUpdateAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                                    `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentUpdateAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -15463,12 +15470,16 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
+	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
+	SharedPaymentGrantedToken *string `form:"shared_payment_granted_token" json:"shared_payment_granted_token,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay" json:"shopeepay,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *PaymentMethodStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
+	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	Sunbit *PaymentMethodSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -17644,8 +17655,6 @@ type PaymentIntentUpdatePaymentMethodOptionsPixParams struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	//
-	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
@@ -18431,9 +18440,9 @@ type PaymentIntentAmountDetailsError struct {
 type PaymentIntentAmountDetailsShipping struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount int64 `json:"amount"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode string `json:"from_postal_code"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode string `json:"to_postal_code"`
 }
 type PaymentIntentAmountDetailsSurcharge struct {
@@ -18722,6 +18731,16 @@ type PaymentIntentNextActionDisplayBankTransferInstructions struct {
 	// Type of bank transfer
 	Type PaymentIntentNextActionDisplayBankTransferInstructionsType `json:"type"`
 }
+type PaymentIntentNextActionKlarnaDisplayQRCode struct {
+	// The data being used to generate QR code
+	Data string `json:"data"`
+	// The timestamp at which the QR code expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// The image_url_png string used to render QR code
+	ImageURLPNG string `json:"image_url_png"`
+	// The image_url_svg string used to render QR code
+	ImageURLSVG string `json:"image_url_svg"`
+}
 
 // FamilyMart instruction details.
 type PaymentIntentNextActionKonbiniDisplayDetailsStoresFamilyMart struct {
@@ -18907,6 +18926,7 @@ type PaymentIntentNextAction struct {
 	CashAppHandleRedirectOrDisplayQRCode *PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code,omitempty"`
 	CryptoDisplayDetails                 *PaymentIntentNextActionCryptoDisplayDetails                 `json:"crypto_display_details,omitempty"`
 	DisplayBankTransferInstructions      *PaymentIntentNextActionDisplayBankTransferInstructions      `json:"display_bank_transfer_instructions,omitempty"`
+	KlarnaDisplayQRCode                  *PaymentIntentNextActionKlarnaDisplayQRCode                  `json:"klarna_display_qr_code,omitempty"`
 	KonbiniDisplayDetails                *PaymentIntentNextActionKonbiniDisplayDetails                `json:"konbini_display_details,omitempty"`
 	MultibancoDisplayDetails             *PaymentIntentNextActionMultibancoDisplayDetails             `json:"multibanco_display_details,omitempty"`
 	OXXODisplayDetails                   *PaymentIntentNextActionOXXODisplayDetails                   `json:"oxxo_display_details,omitempty"`
@@ -20605,7 +20625,7 @@ type PaymentIntent struct {
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Settings for Managed Payments.
-	ManagedPayments *PaymentIntentManagedPayments `json:"managed_payments,omitempty"`
+	ManagedPayments *PaymentIntentManagedPayments `json:"managed_payments"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Learn more about [storing information in metadata](https://docs.stripe.com/payments/payment-intents/creating-payment-intents#storing-information-in-metadata).
 	Metadata map[string]string `json:"metadata"`
 	// If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source.

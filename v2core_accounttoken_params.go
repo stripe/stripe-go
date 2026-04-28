@@ -720,7 +720,7 @@ type V2CoreAccountTokenIdentityIndividualParams struct {
 	DateOfBirth *V2CoreAccountTokenIdentityIndividualDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *V2CoreAccountTokenIdentityIndividualDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// The individual's email address.
+	// The individual's email address. You can only set this field when the Account is configured as a `merchant` or `recipient`. Use `contact_email` as the primary contact email for this Account.
 	Email *string `form:"email" json:"email,omitempty"`
 	// The individual's first name.
 	GivenName *string `form:"given_name" json:"given_name,omitempty"`
@@ -770,7 +770,7 @@ type V2CoreAccountTokenIdentityParams struct {
 // Creates an Account Token.
 type V2CoreAccountTokenParams struct {
 	Params `form:"*"`
-	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
+	// The primary contact email address for the Account.
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// The default contact phone for the Account.
 	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
@@ -1494,7 +1494,7 @@ type V2CoreAccountTokenCreateIdentityIndividualParams struct {
 	DateOfBirth *V2CoreAccountTokenCreateIdentityIndividualDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *V2CoreAccountTokenCreateIdentityIndividualDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// The individual's email address.
+	// The individual's email address. You can only set this field when the Account is configured as a `merchant` or `recipient`. Use `contact_email` as the primary contact email for this Account.
 	Email *string `form:"email" json:"email,omitempty"`
 	// The individual's first name.
 	GivenName *string `form:"given_name" json:"given_name,omitempty"`
@@ -1544,7 +1544,7 @@ type V2CoreAccountTokenCreateIdentityParams struct {
 // Creates an Account Token.
 type V2CoreAccountTokenCreateParams struct {
 	Params `form:"*"`
-	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
+	// The primary contact email address for the Account.
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// The default contact phone for the Account.
 	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`

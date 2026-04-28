@@ -30,14 +30,14 @@ type V2NetworkBusinessProfileBranding struct {
 	SecondaryColor string `json:"secondary_color,omitempty"`
 }
 
-// The Stripe profile represents a business' public identity on the Stripe network.
+// The Stripe business profile represents a business' public identity on the Stripe network.
 type V2NetworkBusinessProfile struct {
 	APIResource
 	// Branding data for the business.
 	Branding *V2NetworkBusinessProfileBranding `json:"branding,omitempty"`
 	// The description of the business.
 	Description string `json:"description,omitempty"`
-	// The display name of the Stripe profile.
+	// The display name of the Stripe business profile.
 	DisplayName string `json:"display_name"`
 	// The ID of the Stripe business profile; also known as the Network ID. This is the ID used to identify the business on the Stripe network.
 	ID string `json:"id"`
@@ -47,6 +47,6 @@ type V2NetworkBusinessProfile struct {
 	Object string `json:"object"`
 	// The URL of the business.
 	URL string `json:"url,omitempty"`
-	// The username of the Stripe profile.
+	// The username of the Stripe business profile.
 	Username string `json:"username"`
 }

@@ -6,17 +6,17 @@
 
 package stripe
 
-// Retrieve the Stripe profile associated with the requesting merchant and livemode.
+// Retrieve the Stripe business profile associated with the requesting merchant and livemode.
 type V2NetworkBusinessProfileMeParams struct {
 	Params `form:"*"`
 }
 
-// Retrieve a Stripe profile by its Network ID.
+// Retrieve a Stripe business profile by its Network ID.
 type V2NetworkBusinessProfileParams struct {
 	Params `form:"*"`
 }
 
-// Retrieve a Stripe profile by its Network ID.
+// Retrieve a Stripe business profile by its Network ID.
 type V2NetworkBusinessProfileRetrieveParams struct {
 	Params `form:"*"`
 }

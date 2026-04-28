@@ -32,10 +32,14 @@ type TestHelpersIssuingTransactionCreateForceCaptureMerchantDataParams struct {
 	Name *string `form:"name" json:"name,omitempty"`
 	// Identifier assigned to the seller by the card network. Different card networks may assign different network_id fields to the same merchant.
 	NetworkID *string `form:"network_id" json:"network_id,omitempty"`
+	// The identifier of the payment facilitator (PayFac) that processed this authorization, as assigned by the card network.
+	PaymentFacilitatorID *string `form:"payment_facilitator_id" json:"payment_facilitator_id,omitempty"`
 	// Postal code where the seller is located
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State where the seller is located
 	State *string `form:"state" json:"state,omitempty"`
+	// The identifier of the sub-merchant involved in this authorization, as assigned by the payment facilitator.
+	SubMerchantID *string `form:"sub_merchant_id" json:"sub_merchant_id,omitempty"`
 	// An ID assigned by the seller to the location of the sale.
 	TerminalID *string `form:"terminal_id" json:"terminal_id,omitempty"`
 	// URL provided by the merchant on a 3DS request
@@ -208,10 +212,14 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundMerchantDataParams struct 
 	Name *string `form:"name" json:"name,omitempty"`
 	// Identifier assigned to the seller by the card network. Different card networks may assign different network_id fields to the same merchant.
 	NetworkID *string `form:"network_id" json:"network_id,omitempty"`
+	// The identifier of the payment facilitator (PayFac) that processed this authorization, as assigned by the card network.
+	PaymentFacilitatorID *string `form:"payment_facilitator_id" json:"payment_facilitator_id,omitempty"`
 	// Postal code where the seller is located
 	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
 	// State where the seller is located
 	State *string `form:"state" json:"state,omitempty"`
+	// The identifier of the sub-merchant involved in this authorization, as assigned by the payment facilitator.
+	SubMerchantID *string `form:"sub_merchant_id" json:"sub_merchant_id,omitempty"`
 	// An ID assigned by the seller to the location of the sale.
 	TerminalID *string `form:"terminal_id" json:"terminal_id,omitempty"`
 	// URL provided by the merchant on a 3DS request

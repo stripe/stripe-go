@@ -251,6 +251,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeBACSDebit          InvoicePaymentSettingsPaymentMethodType = "bacs_debit"
 	InvoicePaymentSettingsPaymentMethodTypeBancontact         InvoicePaymentSettingsPaymentMethodType = "bancontact"
 	InvoicePaymentSettingsPaymentMethodTypeBizum              InvoicePaymentSettingsPaymentMethodType = "bizum"
+	InvoicePaymentSettingsPaymentMethodTypeBLIK               InvoicePaymentSettingsPaymentMethodType = "blik"
 	InvoicePaymentSettingsPaymentMethodTypeBoleto             InvoicePaymentSettingsPaymentMethodType = "boleto"
 	InvoicePaymentSettingsPaymentMethodTypeCard               InvoicePaymentSettingsPaymentMethodType = "card"
 	InvoicePaymentSettingsPaymentMethodTypeCashApp            InvoicePaymentSettingsPaymentMethodType = "cashapp"
@@ -599,6 +600,9 @@ type InvoicePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 // If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsBizumParams struct{}
 
+// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBLIKParams struct{}
+
 // The selected installment plan to use for this invoice.
 type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
@@ -754,6 +758,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 	Bizum *InvoicePaymentSettingsPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
+	// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+	BLIK *InvoicePaymentSettingsPaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoicePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
@@ -784,6 +790,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
+	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBLIK            InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "blik"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
@@ -1746,7 +1753,7 @@ func (p *InvoiceCreatePreviewCustomerDetailsTaxParams) AddUnsetField(field Invoi
 
 // The customer's tax IDs.
 type InvoiceCreatePreviewCustomerDetailsTaxIDParams struct {
-	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `fo_vat`, `gb_vat`, `ge_vat`, `gi_tin`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `it_cf`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `py_ruc`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
 	Type *string `form:"type" json:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value" json:"value"`
@@ -3540,6 +3547,9 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 // If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBizumParams struct{}
 
+// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBLIKParams struct{}
+
 // The selected installment plan to use for this invoice.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
@@ -3695,6 +3705,8 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 	Bizum *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
+	// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+	BLIK *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
@@ -3725,6 +3737,7 @@ const (
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBLIK            InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "blik"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
@@ -4121,6 +4134,9 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 // If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsBizumParams struct{}
 
+// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBLIKParams struct{}
+
 // The selected installment plan to use for this invoice.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
@@ -4276,6 +4292,8 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *InvoiceCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 	Bizum *InvoiceCreatePaymentSettingsPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
+	// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+	BLIK *InvoiceCreatePaymentSettingsPaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoiceCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
@@ -4306,6 +4324,7 @@ const (
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBLIK            InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "blik"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCheckScan       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "check_scan"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
@@ -4653,7 +4672,7 @@ type InvoiceCustomField struct {
 
 // The customer's tax IDs. Until the invoice is finalized, this field will contain the same tax IDs as `customer.tax_ids`. Once the invoice is finalized, this field will no longer be updated.
 type InvoiceCustomerTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 	Type *TaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -4747,6 +4766,9 @@ type InvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
 
 // If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsBizum struct{}
+
+// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBLIK struct{}
 type InvoicePaymentSettingsPaymentMethodOptionsCardInstallments struct {
 	// Whether Installments are enabled for this Invoice.
 	Enabled bool `json:"enabled"`
@@ -4853,6 +4875,8 @@ type InvoicePaymentSettingsPaymentMethodOptions struct {
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
 	// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 	Bizum *InvoicePaymentSettingsPaymentMethodOptionsBizum `json:"bizum,omitempty"`
+	// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
+	BLIK *InvoicePaymentSettingsPaymentMethodOptionsBLIK `json:"blik,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoicePaymentSettingsPaymentMethodOptionsCard `json:"card"`
 	// If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
@@ -4866,11 +4890,11 @@ type InvoicePaymentSettingsPaymentMethodOptions struct {
 	// If paying by `payto`, this sub-hash contains details about the PayTo payment method options to pass to the invoice's PaymentIntent.
 	Payto *InvoicePaymentSettingsPaymentMethodOptionsPayto `json:"payto"`
 	// If paying by `pix`, this sub-hash contains details about the Pix payment method options to pass to the invoice's PaymentIntent.
-	Pix *InvoicePaymentSettingsPaymentMethodOptionsPix `json:"pix,omitempty"`
+	Pix *InvoicePaymentSettingsPaymentMethodOptionsPix `json:"pix"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *InvoicePaymentSettingsPaymentMethodOptionsSEPADebit `json:"sepa_debit"`
 	// If paying by `upi`, this sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
-	Upi *InvoicePaymentSettingsPaymentMethodOptionsUpi `json:"upi,omitempty"`
+	Upi *InvoicePaymentSettingsPaymentMethodOptionsUpi `json:"upi"`
 	// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *InvoicePaymentSettingsPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
@@ -4986,7 +5010,7 @@ type InvoiceTotalPretaxCreditAmount struct {
 // Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
 type InvoiceTotalTaxTaxRateDetails struct {
 	// ID of the tax rate
-	TaxRate string `json:"tax_rate"`
+	TaxRate *TaxRate `json:"tax_rate"`
 }
 
 // The aggregate tax information of all line items.
@@ -5159,9 +5183,9 @@ type Invoice struct {
 	// Payments for this invoice. Use [invoice payment](https://docs.stripe.com/api/invoice-payment) to get more details.
 	Payments        *InvoicePaymentList     `json:"payments,omitempty"`
 	PaymentSettings *InvoicePaymentSettings `json:"payment_settings"`
-	// End of the usage period during which invoice items were added to this invoice. This looks back one period for a subscription invoice. Use the [line item period](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price.
+	// The latest timestamp at which invoice items can be associated with this invoice. Use the [line item period](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price.
 	PeriodEnd int64 `json:"period_end"`
-	// Start of the usage period during which invoice items were added to this invoice. This looks back one period for a subscription invoice. Use the [line item period](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price.
+	// The earliest timestamp at which invoice items can be associated with this invoice. Use the [line item period](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price.
 	PeriodStart int64 `json:"period_start"`
 	// Total amount of all post-payment credit notes issued for this invoice.
 	PostPaymentCreditNotesAmount int64 `json:"post_payment_credit_notes_amount"`
