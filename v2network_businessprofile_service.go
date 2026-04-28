@@ -17,7 +17,7 @@ type v2NetworkBusinessProfileService struct {
 	Key string
 }
 
-// Retrieve a Stripe profile by its Network ID.
+// Retrieve a Stripe business profile by its Network ID.
 func (c v2NetworkBusinessProfileService) Retrieve(ctx context.Context, id string, params *V2NetworkBusinessProfileRetrieveParams) (*V2NetworkBusinessProfile, error) {
 	if params == nil {
 		params = &V2NetworkBusinessProfileRetrieveParams{}
@@ -29,7 +29,7 @@ func (c v2NetworkBusinessProfileService) Retrieve(ctx context.Context, id string
 	return businessprofile, err
 }
 
-// Retrieve the Stripe profile associated with the requesting merchant and livemode.
+// Retrieve the Stripe business profile associated with the requesting merchant and livemode.
 func (c v2NetworkBusinessProfileService) Me(ctx context.Context, params *V2NetworkBusinessProfileMeParams) (*V2NetworkBusinessProfile, error) {
 	if params == nil {
 		params = &V2NetworkBusinessProfileMeParams{}

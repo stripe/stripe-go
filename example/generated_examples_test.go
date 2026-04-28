@@ -17833,6 +17833,52 @@ func TestV2CoreVaultUsBankAccountPost5Client(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestV2DataAnalyticsMetricQueryPostService(t *testing.T) {
+	params := &stripe.V2DataAnalyticsMetricQueryParams{
+		EndsAt:      stripe.Time(time.Now()),
+		Granularity: stripe.String("week"),
+		Metrics: []*stripe.V2DataAnalyticsMetricQueryMetricParams{
+			{
+				ID:   stripe.String("obj_123"),
+				Name: stripe.String("name"),
+			},
+		},
+		StartsAt: stripe.Time(time.Now()),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/data/analytics/metric_query", params, "{\"object\":\"v2.data.analytics.metric_query_result\",\"created\":\"1970-01-12T21:42:34.472Z\",\"data\":[{\"dimensions\":{\"key\":\"dimensions\"},\"id\":\"obj_123\",\"results\":[{\"metric\":\"metric\",\"name\":\"name\",\"value\":\"111972721\"}],\"timestamp\":\"1970-01-01T15:18:46.294Z\"}],\"id\":\"obj_123\",\"livemode\":true,\"refreshed_at\":\"1970-01-01T11:25:45.896Z\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2DataAnalyticsMetricQueries.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2DataAnalyticsMetricQueryPostClient(t *testing.T) {
+	params := &stripe.V2DataAnalyticsMetricQueryCreateParams{
+		EndsAt:      stripe.Time(time.Now()),
+		Granularity: stripe.String("week"),
+		Metrics: []*stripe.V2DataAnalyticsMetricQueryCreateMetricParams{
+			{
+				ID:   stripe.String("obj_123"),
+				Name: stripe.String("name"),
+			},
+		},
+		StartsAt: stripe.Time(time.Now()),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/data/analytics/metric_query", params, "{\"object\":\"v2.data.analytics.metric_query_result\",\"created\":\"1970-01-12T21:42:34.472Z\",\"data\":[{\"dimensions\":{\"key\":\"dimensions\"},\"id\":\"obj_123\",\"results\":[{\"metric\":\"metric\",\"name\":\"name\",\"value\":\"111972721\"}],\"timestamp\":\"1970-01-01T15:18:46.294Z\"}],\"id\":\"obj_123\",\"livemode\":true,\"refreshed_at\":\"1970-01-01T11:25:45.896Z\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2DataAnalyticsMetricQueries.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
 func TestV2DataReportingQueryRunPostService(t *testing.T) {
 	params := &stripe.V2DataReportingQueryRunParams{SQL: stripe.String("sql")}
 	testServer := MockServer(
@@ -18529,7 +18575,7 @@ func TestV2MoneyManagementFinancialAddressGetClient(t *testing.T) {
 func TestV2MoneyManagementFinancialAddressPostService(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAddressParams{
 		FinancialAccount: stripe.String("financial_account"),
-		Type:             stripe.String("sepa_bank_account"),
+		Type:             stripe.String("ca_bank_account"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_addresses", params, "{\"object\":\"v2.money_management.financial_address\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\"}")
@@ -18545,7 +18591,7 @@ func TestV2MoneyManagementFinancialAddressPostService(t *testing.T) {
 func TestV2MoneyManagementFinancialAddressPostClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAddressCreateParams{
 		FinancialAccount: stripe.String("financial_account"),
-		Type:             stripe.String("sepa_bank_account"),
+		Type:             stripe.String("ca_bank_account"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_addresses", params, "{\"object\":\"v2.money_management.financial_address\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"failed\"}")
@@ -19789,7 +19835,6 @@ func TestV2PaymentsOffSessionPaymentPostService(t *testing.T) {
 		Cadence:  stripe.String("unscheduled"),
 		Customer: stripe.String("customer"),
 	}
-	params.AddMetadata("key", "metadata")
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/payments/off_session_payments", params, "{\"object\":\"v2.payments.off_session_payment\",\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"requires_capture\"}")
 	defer testServer.Close()
@@ -19807,7 +19852,6 @@ func TestV2PaymentsOffSessionPaymentPostClient(t *testing.T) {
 		Cadence:  stripe.String("unscheduled"),
 		Customer: stripe.String("customer"),
 	}
-	params.AddMetadata("key", "metadata")
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/payments/off_session_payments", params, "{\"object\":\"v2.payments.off_session_payment\",\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"requires_capture\"}")
 	defer testServer.Close()
@@ -19875,7 +19919,6 @@ func TestV2PaymentsOffSessionPaymentPost2Client(t *testing.T) {
 
 func TestV2PaymentsOffSessionPaymentPost3Service(t *testing.T) {
 	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{}
-	params.AddMetadata("key", "metadata")
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/capture", params, "{\"object\":\"v2.payments.off_session_payment\",\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"requires_capture\"}")
 	defer testServer.Close()
@@ -19889,7 +19932,6 @@ func TestV2PaymentsOffSessionPaymentPost3Service(t *testing.T) {
 
 func TestV2PaymentsOffSessionPaymentPost3Client(t *testing.T) {
 	params := &stripe.V2PaymentsOffSessionPaymentCaptureParams{}
-	params.AddMetadata("key", "metadata")
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/payments/off_session_payments/id_123/capture", params, "{\"object\":\"v2.payments.off_session_payment\",\"amount_requested\":{\"currency\":\"USD\",\"value\":47},\"cadence\":\"unscheduled\",\"created\":\"1970-01-12T21:42:34.472Z\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"payment_method\":\"payment_method\",\"payments_orchestration\":{\"enabled\":true},\"retry_details\":{\"attempts\":542738246,\"retry_strategy\":\"scheduled\"},\"status\":\"requires_capture\"}")
 	defer testServer.Close()
@@ -20882,7 +20924,7 @@ func TestFeatureNotEnabledErrorClient(t *testing.T) {
 func TestFinancialAccountNotOpenErrorService(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAddressParams{
 		FinancialAccount: stripe.String("financial_account"),
-		Type:             stripe.String("sepa_bank_account"),
+		Type:             stripe.String("ca_bank_account"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_addresses", params, "{\"error\":{\"type\":\"financial_account_not_open\",\"code\":\"financial_account_not_in_open_status\"}}")
@@ -20898,7 +20940,7 @@ func TestFinancialAccountNotOpenErrorService(t *testing.T) {
 func TestFinancialAccountNotOpenErrorClient(t *testing.T) {
 	params := &stripe.V2MoneyManagementFinancialAddressCreateParams{
 		FinancialAccount: stripe.String("financial_account"),
-		Type:             stripe.String("sepa_bank_account"),
+		Type:             stripe.String("ca_bank_account"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/money_management/financial_addresses", params, "{\"error\":{\"type\":\"financial_account_not_open\",\"code\":\"financial_account_not_in_open_status\"}}")

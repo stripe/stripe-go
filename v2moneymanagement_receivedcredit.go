@@ -28,11 +28,27 @@ const (
 )
 
 // Open Enum. The money transmission network used to send funds for this ReceivedCredit.
+type V2MoneyManagementReceivedCreditBankTransferEUBankAccountNetwork string
+
+// List of values that V2MoneyManagementReceivedCreditBankTransferEUBankAccountNetwork can take
+const (
+	V2MoneyManagementReceivedCreditBankTransferEUBankAccountNetworkSEPA V2MoneyManagementReceivedCreditBankTransferEUBankAccountNetwork = "sepa"
+)
+
+// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
 type V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork string
 
 // List of values that V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork can take
 const (
 	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkFPS V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "fps"
+)
+
+// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
+type V2MoneyManagementReceivedCreditBankTransferMXBankAccountNetwork string
+
+// List of values that V2MoneyManagementReceivedCreditBankTransferMXBankAccountNetwork can take
+const (
+	V2MoneyManagementReceivedCreditBankTransferMXBankAccountNetworkSpei V2MoneyManagementReceivedCreditBankTransferMXBankAccountNetwork = "spei"
 )
 
 // Open Enum. Indicates the origin of source from which external funds originated from.
@@ -41,7 +57,10 @@ type V2MoneyManagementReceivedCreditBankTransferOriginType string
 // List of values that V2MoneyManagementReceivedCreditBankTransferOriginType can take
 const (
 	V2MoneyManagementReceivedCreditBankTransferOriginTypeCaBankAccount   V2MoneyManagementReceivedCreditBankTransferOriginType = "ca_bank_account"
+	V2MoneyManagementReceivedCreditBankTransferOriginTypeCryptoWallet    V2MoneyManagementReceivedCreditBankTransferOriginType = "crypto_wallet"
+	V2MoneyManagementReceivedCreditBankTransferOriginTypeEUBankAccount   V2MoneyManagementReceivedCreditBankTransferOriginType = "eu_bank_account"
 	V2MoneyManagementReceivedCreditBankTransferOriginTypeGBBankAccount   V2MoneyManagementReceivedCreditBankTransferOriginType = "gb_bank_account"
+	V2MoneyManagementReceivedCreditBankTransferOriginTypeMXBankAccount   V2MoneyManagementReceivedCreditBankTransferOriginType = "mx_bank_account"
 	V2MoneyManagementReceivedCreditBankTransferOriginTypeSEPABankAccount V2MoneyManagementReceivedCreditBankTransferOriginType = "sepa_bank_account"
 	V2MoneyManagementReceivedCreditBankTransferOriginTypeUSBankAccount   V2MoneyManagementReceivedCreditBankTransferOriginType = "us_bank_account"
 )
@@ -62,6 +81,36 @@ const (
 	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkACH            V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "ach"
 	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkRTP            V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "rtp"
 	V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetworkUSDomesticWire V2MoneyManagementReceivedCreditBankTransferUSBankAccountNetwork = "us_domestic_wire"
+)
+
+// The network the crypto was received from.
+type V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork string
+
+// List of values that V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork can take
+const (
+	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkArbitrum        V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "arbitrum"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkAvalancheCChain V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "avalanche_c_chain"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkBase            V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "base"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkEthereum        V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "ethereum"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkOptimism        V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "optimism"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkPolygon         V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "polygon"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkSolana          V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "solana"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkStellar         V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "stellar"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetworkTempo           V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork = "tempo"
+)
+
+// Open Enum. Indicates the origin of source from which external funds originated from.
+type V2MoneyManagementReceivedCreditCryptoWalletTransferOriginType string
+
+// List of values that V2MoneyManagementReceivedCreditCryptoWalletTransferOriginType can take
+const (
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginTypeCaBankAccount   V2MoneyManagementReceivedCreditCryptoWalletTransferOriginType = "ca_bank_account"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginTypeCryptoWallet    V2MoneyManagementReceivedCreditCryptoWalletTransferOriginType = "crypto_wallet"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginTypeEUBankAccount   V2MoneyManagementReceivedCreditCryptoWalletTransferOriginType = "eu_bank_account"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginTypeGBBankAccount   V2MoneyManagementReceivedCreditCryptoWalletTransferOriginType = "gb_bank_account"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginTypeMXBankAccount   V2MoneyManagementReceivedCreditCryptoWalletTransferOriginType = "mx_bank_account"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginTypeSEPABankAccount V2MoneyManagementReceivedCreditCryptoWalletTransferOriginType = "sepa_bank_account"
+	V2MoneyManagementReceivedCreditCryptoWalletTransferOriginTypeUSBankAccount   V2MoneyManagementReceivedCreditCryptoWalletTransferOriginType = "us_bank_account"
 )
 
 // Open Enum. The status of the ReceivedCredit.
@@ -102,6 +151,7 @@ const (
 	V2MoneyManagementReceivedCreditTypeBalanceTransfer      V2MoneyManagementReceivedCreditType = "balance_transfer"
 	V2MoneyManagementReceivedCreditTypeBankTransfer         V2MoneyManagementReceivedCreditType = "bank_transfer"
 	V2MoneyManagementReceivedCreditTypeCardSpend            V2MoneyManagementReceivedCreditType = "card_spend"
+	V2MoneyManagementReceivedCreditTypeCryptoWalletTransfer V2MoneyManagementReceivedCreditType = "crypto_wallet_transfer"
 	V2MoneyManagementReceivedCreditTypeExternalCredit       V2MoneyManagementReceivedCreditType = "external_credit"
 	V2MoneyManagementReceivedCreditTypeStripeBalancePayment V2MoneyManagementReceivedCreditType = "stripe_balance_payment"
 )
@@ -135,6 +185,20 @@ type V2MoneyManagementReceivedCreditBankTransferCaBankAccount struct {
 	Network V2MoneyManagementReceivedCreditBankTransferCaBankAccountNetwork `json:"network"`
 }
 
+// Hash containing the transaction bank details. Present if `origin_type` field value is `eu_bank_account`.
+type V2MoneyManagementReceivedCreditBankTransferEUBankAccount struct {
+	// The account holder name of the bank account the transfer was received from.
+	AccountHolderName string `json:"account_holder_name,omitempty"`
+	// The bank name the transfer was received from.
+	BankName string `json:"bank_name,omitempty"`
+	// The bic of the account that originated the transfer.
+	BIC string `json:"bic,omitempty"`
+	// The last 4 digits of the account number that originated the transfer.
+	Last4 string `json:"last4,omitempty"`
+	// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
+	Network V2MoneyManagementReceivedCreditBankTransferEUBankAccountNetwork `json:"network"`
+}
+
 // Hash containing the transaction bank details. Present if `origin_type` field value is `gb_bank_account`.
 type V2MoneyManagementReceivedCreditBankTransferGBBankAccount struct {
 	// The bank name the transfer was received from.
@@ -147,6 +211,18 @@ type V2MoneyManagementReceivedCreditBankTransferGBBankAccount struct {
 	Network V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork `json:"network"`
 	// The sort code of the account that originated the transfer.
 	SortCode string `json:"sort_code,omitempty"`
+}
+
+// Hash containing the transaction bank details. Present if  `origin_type` field value is `mx_bank_account`.
+type V2MoneyManagementReceivedCreditBankTransferMXBankAccount struct {
+	// The account holder name of the bank account the transfer was received from.
+	AccountHolderName string `json:"account_holder_name,omitempty"`
+	// The bank name the transfer was received from.
+	BankName string `json:"bank_name,omitempty"`
+	// The last 4 digits of the account number that originated the transfer.
+	Last4 string `json:"last4,omitempty"`
+	// Open Enum. The money transmission network used to send funds for this ReceivedCredit.
+	Network V2MoneyManagementReceivedCreditBankTransferMXBankAccountNetwork `json:"network"`
 }
 
 // Hash containing the transaction bank details. Present if `origin_type` field value is `sepa_bank_account`.
@@ -181,10 +257,14 @@ type V2MoneyManagementReceivedCreditBankTransferUSBankAccount struct {
 type V2MoneyManagementReceivedCreditBankTransfer struct {
 	// Hash containing the transaction bank details. Present if `origin_type` field value is `ca_bank_account`.
 	CaBankAccount *V2MoneyManagementReceivedCreditBankTransferCaBankAccount `json:"ca_bank_account,omitempty"`
+	// Hash containing the transaction bank details. Present if `origin_type` field value is `eu_bank_account`.
+	EUBankAccount *V2MoneyManagementReceivedCreditBankTransferEUBankAccount `json:"eu_bank_account,omitempty"`
 	// Financial Address on which funds for ReceivedCredit were received.
 	FinancialAddress string `json:"financial_address"`
 	// Hash containing the transaction bank details. Present if `origin_type` field value is `gb_bank_account`.
 	GBBankAccount *V2MoneyManagementReceivedCreditBankTransferGBBankAccount `json:"gb_bank_account,omitempty"`
+	// Hash containing the transaction bank details. Present if  `origin_type` field value is `mx_bank_account`.
+	MXBankAccount *V2MoneyManagementReceivedCreditBankTransferMXBankAccount `json:"mx_bank_account,omitempty"`
 	// Open Enum. Indicates the origin of source from which external funds originated from.
 	OriginType V2MoneyManagementReceivedCreditBankTransferOriginType `json:"origin_type"`
 	// Hash containing the transaction bank details. Present if `origin_type` field value is `sepa_bank_account`.
@@ -215,6 +295,28 @@ type V2MoneyManagementReceivedCreditCardSpend struct {
 	Dispute *V2MoneyManagementReceivedCreditCardSpendDispute `json:"dispute,omitempty"`
 	// Hash containing information about the Refund that triggered this credit.
 	Refund *V2MoneyManagementReceivedCreditCardSpendRefund `json:"refund,omitempty"`
+}
+
+// Hash containing the transaction crypto wallet details.
+type V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWallet struct {
+	// The address of the wallet the crypto was received from.
+	Address string `json:"address"`
+	// A memo also for identifying the recipient for memo-based blockchains (e.g., Stellar),.
+	Memo string `json:"memo"`
+	// The network the crypto was received from.
+	Network V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWalletNetwork `json:"network"`
+}
+
+// This object stores details about the originating crypto transaction that resulted in the ReceivedCredit. Present if `type` field value is `crypto_wallet_transfer`.
+type V2MoneyManagementReceivedCreditCryptoWalletTransfer struct {
+	// Hash containing the transaction crypto wallet details.
+	CryptoWallet *V2MoneyManagementReceivedCreditCryptoWalletTransferCryptoWallet `json:"crypto_wallet"`
+	// Financial Address on which funds for ReceivedCredit were received.
+	FinancialAddress string `json:"financial_address"`
+	// Open Enum. Indicates the origin of source from which external funds originated from.
+	OriginType V2MoneyManagementReceivedCreditCryptoWalletTransferOriginType `json:"origin_type"`
+	// Freeform string set by originator of the external ReceivedCredit.
+	StatementDescriptor string `json:"statement_descriptor,omitempty"`
 }
 
 // Hash that provides additional information regarding the reason behind a `failed` ReceivedCredit status. It is only present when the ReceivedCredit status is `failed`.
@@ -270,6 +372,8 @@ type V2MoneyManagementReceivedCredit struct {
 	// Time at which the ReceivedCredit was created.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`
+	// This object stores details about the originating crypto transaction that resulted in the ReceivedCredit. Present if `type` field value is `crypto_wallet_transfer`.
+	CryptoWalletTransfer *V2MoneyManagementReceivedCreditCryptoWalletTransfer `json:"crypto_wallet_transfer,omitempty"`
 	// Freeform string set by originator of the ReceivedCredit.
 	Description string `json:"description,omitempty"`
 	// The amount and currency of the original/external credit request.

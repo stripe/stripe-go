@@ -458,6 +458,8 @@ type Client struct {
 	V2CoreVaultGBBankAccounts *v2CoreVaultGBBankAccountService
 	// V2CoreVaultUSBankAccounts is the service used to invoke /v2/core/vault/us_bank_accounts APIs.
 	V2CoreVaultUSBankAccounts *v2CoreVaultUSBankAccountService
+	// V2DataAnalyticsMetricQueries is the service used to invoke /v2/data/analytics/metric_query APIs.
+	V2DataAnalyticsMetricQueries *v2DataAnalyticsMetricQueryService
 	// V2DataReportingQueryRuns is the service used to invoke /v2/data/reporting/query_runs APIs.
 	V2DataReportingQueryRuns *v2DataReportingQueryRunService
 	// V2ExtendWorkflowRuns is the service used to invoke /v2/extend/workflow_runs APIs.
@@ -784,6 +786,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}
 	client.V2CoreVaultUSBankAccounts = &v2CoreVaultUSBankAccountService{B: backends.API, Key: key}
+	client.V2DataAnalyticsMetricQueries = &v2DataAnalyticsMetricQueryService{B: backends.API, Key: key}
 	client.V2DataReportingQueryRuns = &v2DataReportingQueryRunService{B: backends.API, Key: key}
 	client.V2ExtendWorkflowRuns = &v2ExtendWorkflowRunService{B: backends.API, Key: key}
 	client.V2ExtendWorkflows = &v2ExtendWorkflowService{B: backends.API, Key: key}

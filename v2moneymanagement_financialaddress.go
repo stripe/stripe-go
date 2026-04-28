@@ -8,13 +8,31 @@ package stripe
 
 import "time"
 
+// The blockchain network of the crypto wallet.
+type V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork string
+
+// List of values that V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork can take
+const (
+	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkArbitrum        V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "arbitrum"
+	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkAvalancheCChain V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "avalanche_c_chain"
+	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkBase            V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "base"
+	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkEthereum        V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "ethereum"
+	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkOptimism        V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "optimism"
+	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkPolygon         V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "polygon"
+	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkSolana          V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "solana"
+	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkStellar         V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "stellar"
+	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkTempo           V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "tempo"
+)
+
 // Open Enum. The type of Credentials that are provisioned for the FinancialAddress.
 type V2MoneyManagementFinancialAddressCredentialsType string
 
 // List of values that V2MoneyManagementFinancialAddressCredentialsType can take
 const (
 	V2MoneyManagementFinancialAddressCredentialsTypeCaBankAccount   V2MoneyManagementFinancialAddressCredentialsType = "ca_bank_account"
+	V2MoneyManagementFinancialAddressCredentialsTypeCryptoWallet    V2MoneyManagementFinancialAddressCredentialsType = "crypto_wallet"
 	V2MoneyManagementFinancialAddressCredentialsTypeGBBankAccount   V2MoneyManagementFinancialAddressCredentialsType = "gb_bank_account"
+	V2MoneyManagementFinancialAddressCredentialsTypeMXBankAccount   V2MoneyManagementFinancialAddressCredentialsType = "mx_bank_account"
 	V2MoneyManagementFinancialAddressCredentialsTypeSEPABankAccount V2MoneyManagementFinancialAddressCredentialsType = "sepa_bank_account"
 	V2MoneyManagementFinancialAddressCredentialsTypeUSBankAccount   V2MoneyManagementFinancialAddressCredentialsType = "us_bank_account"
 )
@@ -47,6 +65,16 @@ type V2MoneyManagementFinancialAddressCredentialsCaBankAccount struct {
 	TransitNumber string `json:"transit_number"`
 }
 
+// The credentials of the crypto wallet for the Financial Address. This contains unique details such as the blockchain network, wallet address, and memo of a crypto wallet.
+type V2MoneyManagementFinancialAddressCredentialsCryptoWallet struct {
+	// The blockchain address of the crypto wallet.
+	Address string `json:"address"`
+	// Required if the network supports memos (e.g. Stellar).
+	Memo string `json:"memo,omitempty"`
+	// The blockchain network of the crypto wallet.
+	Network V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork `json:"network"`
+}
+
 // The credentials of the UK Bank Account for the FinancialAddress. This contains unique banking details such as the sort code, account number, etc. of a UK bank account.
 type V2MoneyManagementFinancialAddressCredentialsGBBankAccount struct {
 	// The account holder name to be used during bank transference.
@@ -58,6 +86,14 @@ type V2MoneyManagementFinancialAddressCredentialsGBBankAccount struct {
 	Last4 string `json:"last4"`
 	// The sort code of the UK Bank Account.
 	SortCode string `json:"sort_code"`
+}
+
+// The credentials of the Mexican Bank Account for the FinancialAddress. This contains unique banking details such as the CLABE and account holder name of a Mexican bank account.
+type V2MoneyManagementFinancialAddressCredentialsMXBankAccount struct {
+	// The account holder name to be used during bank transfers.
+	AccountHolderName string `json:"account_holder_name"`
+	// The CLABE (Clave Bancaria Estandarizada) of the Mexican Bank Account.
+	Clabe string `json:"clabe"`
 }
 
 // The credentials of the SEPA Bank Account for the FinancialAddress. This contains unique banking details such as the IBAN, BIC, etc. of a SEPA bank account.
@@ -120,8 +156,12 @@ type V2MoneyManagementFinancialAddressCredentialsUSBankAccount struct {
 type V2MoneyManagementFinancialAddressCredentials struct {
 	// The credentials of the Canadian Bank Account for the FinancialAddress. This contains unique banking details such as the account number, institution number, etc. of a Canadian bank account.
 	CaBankAccount *V2MoneyManagementFinancialAddressCredentialsCaBankAccount `json:"ca_bank_account,omitempty"`
+	// The credentials of the crypto wallet for the Financial Address. This contains unique details such as the blockchain network, wallet address, and memo of a crypto wallet.
+	CryptoWallet *V2MoneyManagementFinancialAddressCredentialsCryptoWallet `json:"crypto_wallet,omitempty"`
 	// The credentials of the UK Bank Account for the FinancialAddress. This contains unique banking details such as the sort code, account number, etc. of a UK bank account.
 	GBBankAccount *V2MoneyManagementFinancialAddressCredentialsGBBankAccount `json:"gb_bank_account,omitempty"`
+	// The credentials of the Mexican Bank Account for the FinancialAddress. This contains unique banking details such as the CLABE and account holder name of a Mexican bank account.
+	MXBankAccount *V2MoneyManagementFinancialAddressCredentialsMXBankAccount `json:"mx_bank_account,omitempty"`
 	// The credentials of the SEPA Bank Account for the FinancialAddress. This contains unique banking details such as the IBAN, BIC, etc. of a SEPA bank account.
 	SEPABankAccount *V2MoneyManagementFinancialAddressCredentialsSEPABankAccount `json:"sepa_bank_account,omitempty"`
 	// Open Enum. The type of Credentials that are provisioned for the FinancialAddress.

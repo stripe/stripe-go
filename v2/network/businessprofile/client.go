@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Retrieve a Stripe profile by its Network ID.
+// Retrieve a Stripe business profile by its Network ID.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) Get(id string, params *stripe.V2NetworkBusinessProfileParams) (*
 	return businessprofile, err
 }
 
-// Retrieve the Stripe profile associated with the requesting merchant and livemode.
+// Retrieve the Stripe business profile associated with the requesting merchant and livemode.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

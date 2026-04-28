@@ -231,7 +231,7 @@ type V2CoreAccountConfigurationCustomerBillingInvoiceParams struct {
 
 // Billing settings - default settings used for this customer in Billing flows such as Invoices and Subscriptions.
 type V2CoreAccountConfigurationCustomerBillingParams struct {
-	// ID of a PaymentMethod attached to the customer account to use as the default for invoices and subscriptions.
+	// The ID of a `PaymentMethod` attached to this Account's `customer` configuration, used as the default payment method for invoices and subscriptions.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
 	// Default invoice settings for the customer account.
 	Invoice *V2CoreAccountConfigurationCustomerBillingInvoiceParams `form:"invoice" json:"invoice,omitempty"`
@@ -259,7 +259,7 @@ type V2CoreAccountConfigurationCustomerShippingParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// The Customer Configuration allows the Account to be used in inbound payment flows.
+// The Customer Configuration allows the Account to be used in inbound payment flows (i.e. customer-facing payment and billing flows).
 type V2CoreAccountConfigurationCustomerParams struct {
 	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
 	Applied *bool `form:"applied" json:"applied,omitempty"`
@@ -1087,7 +1087,7 @@ type V2CoreAccountConfigurationStorerParams struct {
 type V2CoreAccountConfigurationParams struct {
 	// The CardCreator Configuration allows the Account to create and issue cards to users.
 	CardCreator *V2CoreAccountConfigurationCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
-	// The Customer Configuration allows the Account to be used in inbound payment flows.
+	// The Customer Configuration allows the Account to be used in inbound payment flows (i.e. customer-facing payment and billing flows).
 	Customer *V2CoreAccountConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
 	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
@@ -2281,7 +2281,7 @@ type V2CoreAccountIdentityIndividualParams struct {
 	DateOfBirth *V2CoreAccountIdentityIndividualDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *V2CoreAccountIdentityIndividualDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// The individual's email address.
+	// The individual's email address. You can only set this field when the Account is configured as a `merchant` or `recipient`. Use `contact_email` as the primary contact email for this Account.
 	Email *string `form:"email" json:"email,omitempty"`
 	// The individual's first name.
 	GivenName *string `form:"given_name" json:"given_name,omitempty"`
@@ -2324,20 +2324,20 @@ type V2CoreAccountIdentityParams struct {
 	BusinessDetails *V2CoreAccountIdentityBusinessDetailsParams `form:"business_details" json:"business_details,omitempty"`
 	// The country in which the account holder resides, or in which the business is legally established. This should be an [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code.
 	Country *string `form:"country" json:"country,omitempty"`
-	// The entity type.
+	// The entity type represented by the Account. Ensure this field is accurate before adding configurations that rely on identity information, as it determines which identity fields apply and how the Account is validated.
 	EntityType *string `form:"entity_type" json:"entity_type,omitempty"`
 	// Information about the individual represented by the Account. This property is `null` unless `entity_type` is set to `individual`.
 	Individual *V2CoreAccountIdentityIndividualParams `form:"individual" json:"individual,omitempty"`
 }
 
-// An Account is a representation of a company, individual or other entity that a user interacts with. Accounts contain identifying information about the entity, and configurations that store the features an account has access to. An account can be configured as any or all of the following configurations: Customer, Merchant and/or Recipient.
+// Create an Account that represents a company, individual, or other entity that your business interacts with. Accounts contain identifying information about the entity, and configurations that store the features an account has access to. An account can be configured as any or all of the following configurations: Customer, Merchant and/or Recipient.
 type V2CoreAccountParams struct {
 	Params `form:"*"`
 	// The account token generated by the account token api.
 	AccountToken *string `form:"account_token" json:"account_token,omitempty"`
 	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
 	Configuration *V2CoreAccountConfigurationParams `form:"configuration" json:"configuration,omitempty"`
-	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
+	// The primary contact email address for the Account.
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// The default contact phone for the Account.
 	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
@@ -2615,7 +2615,7 @@ type V2CoreAccountCreateConfigurationCustomerShippingParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// The Customer Configuration allows the Account to be used in inbound payment flows.
+// The Customer Configuration allows the Account to be used in inbound payment flows (i.e. customer-facing payment and billing flows).
 type V2CoreAccountCreateConfigurationCustomerParams struct {
 	// Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
 	AutomaticIndirectTax *V2CoreAccountCreateConfigurationCustomerAutomaticIndirectTaxParams `form:"automatic_indirect_tax" json:"automatic_indirect_tax,omitempty"`
@@ -3433,7 +3433,7 @@ type V2CoreAccountCreateConfigurationStorerParams struct {
 type V2CoreAccountCreateConfigurationParams struct {
 	// The CardCreator Configuration allows the Account to create and issue cards to users.
 	CardCreator *V2CoreAccountCreateConfigurationCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
-	// The Customer Configuration allows the Account to be used in inbound payment flows.
+	// The Customer Configuration allows the Account to be used in inbound payment flows (i.e. customer-facing payment and billing flows).
 	Customer *V2CoreAccountCreateConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
 	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountCreateConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
@@ -4625,7 +4625,7 @@ type V2CoreAccountCreateIdentityIndividualParams struct {
 	DateOfBirth *V2CoreAccountCreateIdentityIndividualDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *V2CoreAccountCreateIdentityIndividualDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// The individual's email address.
+	// The individual's email address. You can only set this field when the Account is configured as a `merchant` or `recipient`. Use `contact_email` as the primary contact email for this Account.
 	Email *string `form:"email" json:"email,omitempty"`
 	// The individual's first name.
 	GivenName *string `form:"given_name" json:"given_name,omitempty"`
@@ -4668,20 +4668,20 @@ type V2CoreAccountCreateIdentityParams struct {
 	BusinessDetails *V2CoreAccountCreateIdentityBusinessDetailsParams `form:"business_details" json:"business_details,omitempty"`
 	// The country in which the account holder resides, or in which the business is legally established. This should be an [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code.
 	Country *string `form:"country" json:"country,omitempty"`
-	// The entity type.
+	// The entity type represented by the Account. Ensure this field is accurate before adding configurations that rely on identity information, as it determines which identity fields apply and how the Account is validated.
 	EntityType *string `form:"entity_type" json:"entity_type,omitempty"`
 	// Information about the person represented by the account.
 	Individual *V2CoreAccountCreateIdentityIndividualParams `form:"individual" json:"individual,omitempty"`
 }
 
-// An Account is a representation of a company, individual or other entity that a user interacts with. Accounts contain identifying information about the entity, and configurations that store the features an account has access to. An account can be configured as any or all of the following configurations: Customer, Merchant and/or Recipient.
+// Create an Account that represents a company, individual, or other entity that your business interacts with. Accounts contain identifying information about the entity, and configurations that store the features an account has access to. An account can be configured as any or all of the following configurations: Customer, Merchant and/or Recipient.
 type V2CoreAccountCreateParams struct {
 	Params `form:"*"`
 	// The account token generated by the account token api.
 	AccountToken *string `form:"account_token" json:"account_token,omitempty"`
 	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
 	Configuration *V2CoreAccountCreateConfigurationParams `form:"configuration" json:"configuration,omitempty"`
-	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
+	// The primary contact email address for the Account.
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// The default contact phone for the Account.
 	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
@@ -4927,7 +4927,7 @@ type V2CoreAccountUpdateConfigurationCustomerBillingInvoiceParams struct {
 
 // Billing settings - default settings used for this customer in Billing flows such as Invoices and Subscriptions.
 type V2CoreAccountUpdateConfigurationCustomerBillingParams struct {
-	// ID of a PaymentMethod attached to the customer account to use as the default for invoices and subscriptions.
+	// The ID of a `PaymentMethod` attached to this Account's `customer` configuration, used as the default payment method for invoices and subscriptions.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
 	// Default invoice settings for the customer account.
 	Invoice *V2CoreAccountUpdateConfigurationCustomerBillingInvoiceParams `form:"invoice" json:"invoice,omitempty"`
@@ -6975,7 +6975,7 @@ type V2CoreAccountUpdateIdentityIndividualParams struct {
 	DateOfBirth *V2CoreAccountUpdateIdentityIndividualDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *V2CoreAccountUpdateIdentityIndividualDocumentsParams `form:"documents" json:"documents,omitempty"`
-	// The individual's email address.
+	// The individual's email address. You can only set this field when the Account is configured as a `merchant` or `recipient`. Use `contact_email` as the primary contact email for this Account.
 	Email *string `form:"email" json:"email,omitempty"`
 	// The individual's first name.
 	GivenName *string `form:"given_name" json:"given_name,omitempty"`
@@ -7018,7 +7018,7 @@ type V2CoreAccountUpdateIdentityParams struct {
 	BusinessDetails *V2CoreAccountUpdateIdentityBusinessDetailsParams `form:"business_details" json:"business_details,omitempty"`
 	// The country in which the account holder resides, or in which the business is legally established. This should be an [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code.
 	Country *string `form:"country" json:"country,omitempty"`
-	// The entity type.
+	// The entity type represented by the Account. Ensure this field is accurate before adding configurations that rely on identity information, as it determines which identity fields apply and how the Account is validated.
 	EntityType *string `form:"entity_type" json:"entity_type,omitempty"`
 	// Information about the individual represented by the Account. This property is `null` unless `entity_type` is set to `individual`.
 	Individual *V2CoreAccountUpdateIdentityIndividualParams `form:"individual" json:"individual,omitempty"`
@@ -7031,7 +7031,7 @@ type V2CoreAccountUpdateParams struct {
 	AccountToken *string `form:"account_token" json:"account_token,omitempty"`
 	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
 	Configuration *V2CoreAccountUpdateConfigurationParams `form:"configuration" json:"configuration,omitempty"`
-	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
+	// The primary contact email address for the Account.
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// The default contact phone for the Account.
 	ContactPhone *string `form:"contact_phone" json:"contact_phone,omitempty"`
