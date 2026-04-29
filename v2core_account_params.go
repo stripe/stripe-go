@@ -149,6 +149,12 @@ type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankPara
 	PrepaidCard *V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 }
 
+// Can create consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can create consumer issuing prepaid cards with Lead as BIN sponsor.
 type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -157,6 +163,8 @@ type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardPar
 
 // Can create consumer issuing cards with Lead as BIN sponsor.
 type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadParams struct {
+	// Can create consumer issuing debit cards with Lead as BIN sponsor.
+	DebitCard *V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardParams `form:"debit_card" json:"debit_card,omitempty"`
 	// Can create consumer issuing prepaid cards with Lead as BIN sponsor.
 	PrepaidCard *V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 }
@@ -1651,6 +1659,46 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerGlobalAcc
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
+// Bank terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardParams struct {
+	// Bank terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+	BankTerms *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+	Platform *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
 // Bank terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
 type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardBankTermsParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -1695,6 +1743,8 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepa
 type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadParams struct {
 	// Terms of service acceptances for consumer issuing Apple Pay cards with Lead as BIN sponsor.
 	ApplePay *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
+	// Terms of service acceptances for consumer issuing debit cards with Lead as BIN sponsor.
+	DebitCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardParams `form:"debit_card" json:"debit_card,omitempty"`
 	// Terms of service acceptances for consumer issuing prepaid cards with Lead as BIN sponsor.
 	PrepaidCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 }
@@ -2511,6 +2561,12 @@ type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerCrossRiverBa
 	PrepaidCard *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 }
 
+// Can create consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Can create consumer issuing prepaid cards with Lead as BIN sponsor.
 type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -2519,6 +2575,8 @@ type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidC
 
 // Can create consumer issuing cards with Lead as BIN sponsor.
 type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerLeadParams struct {
+	// Can create consumer issuing debit cards with Lead as BIN sponsor.
+	DebitCard *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardParams `form:"debit_card" json:"debit_card,omitempty"`
 	// Can create consumer issuing prepaid cards with Lead as BIN sponsor.
 	PrepaidCard *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 }
@@ -3997,6 +4055,46 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerGlo
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
+// Bank terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardParams struct {
+	// Bank terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+	BankTerms *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+	Platform *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
 // Bank terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
 type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardBankTermsParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -4039,6 +4137,8 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLea
 
 // Terms of service acceptances for consumer issuing cards with Lead as BIN sponsor.
 type V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadParams struct {
+	// Terms of service acceptances for consumer issuing debit cards with Lead as BIN sponsor.
+	DebitCard *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardParams `form:"debit_card" json:"debit_card,omitempty"`
 	// Terms of service acceptances for consumer issuing prepaid cards with Lead as BIN sponsor.
 	PrepaidCard *V2CoreAccountCreateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 }
@@ -4845,6 +4945,12 @@ type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerCrossRiverBa
 	PrepaidCard *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerCrossRiverBankPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 }
 
+// Can create consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can create consumer issuing prepaid cards with Lead as BIN sponsor.
 type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -4853,6 +4959,8 @@ type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidC
 
 // Can create consumer issuing cards with Lead as BIN sponsor.
 type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerLeadParams struct {
+	// Can create consumer issuing debit cards with Lead as BIN sponsor.
+	DebitCard *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardParams `form:"debit_card" json:"debit_card,omitempty"`
 	// Can create consumer issuing prepaid cards with Lead as BIN sponsor.
 	PrepaidCard *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 }
@@ -6345,6 +6453,46 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLea
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
+// Bank terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardBankTermsParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardFinancingDisclosuresParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardPlatformParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardParams struct {
+	// Bank terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+	BankTerms *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardBankTermsParams `form:"bank_terms" json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardFinancingDisclosuresParams `form:"financing_disclosures" json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+	Platform *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardPlatformParams `form:"platform" json:"platform,omitempty"`
+}
+
 // Bank terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardBankTermsParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -6389,6 +6537,8 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLea
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadParams struct {
 	// Terms of service acceptances for consumer issuing Apple Pay cards with Lead as BIN sponsor.
 	ApplePay *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadApplePayParams `form:"apple_pay" json:"apple_pay,omitempty"`
+	// Terms of service acceptances for consumer issuing debit cards with Lead as BIN sponsor.
+	DebitCard *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardParams `form:"debit_card" json:"debit_card,omitempty"`
 	// Terms of service acceptances for consumer issuing prepaid cards with Lead as BIN sponsor.
 	PrepaidCard *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
 }

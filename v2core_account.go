@@ -406,6 +406,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatus string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatus can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusActive      V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatus = "active"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusPending     V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatus = "pending"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusRestricted  V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatus = "restricted"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusUnsupported V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailResolutionContactStripe V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailResolutionNoResolution  V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardStatus string
 
 // List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardStatus can take
@@ -3300,6 +3335,7 @@ const (
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerCelticRevolvingCreditCard   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.celtic.revolving_credit_card"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerCrossRiverBankPrepaidCard   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.cross_river_bank.prepaid_card"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerHoldsCurrenciesUSD          V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.holds_currencies.usd"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerLeadDebitCard               V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.lead.debit_card"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerLeadPrepaidCard             V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.lead.prepaid_card"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCryptoWallets                       V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "crypto_wallets"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityEPSPayments                         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "eps_payments"
@@ -4018,6 +4054,7 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerCelticRevolvingCreditCard   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.celtic.revolving_credit_card"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerCrossRiverBankPrepaidCard   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.cross_river_bank.prepaid_card"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerHoldsCurrenciesUSD          V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.holds_currencies.usd"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerLeadDebitCard               V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.lead.debit_card"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerLeadPrepaidCard             V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.lead.prepaid_card"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCryptoWallets                       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "crypto_wallets"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityEPSPayments                         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "eps_payments"
@@ -4369,6 +4406,22 @@ type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerCrossRiverBank str
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetailResolution `json:"resolution"`
+}
+
+// Can create consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCard struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCardStatusDetail `json:"status_details"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCardStatusDetailCode `json:"code"`
@@ -4386,6 +4439,8 @@ type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCard st
 
 // Can create consumer issuing cards with Lead as BIN sponsor.
 type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLead struct {
+	// Can create consumer issuing debit cards with Lead as BIN sponsor.
+	DebitCard *V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadDebitCard `json:"debit_card,omitempty"`
 	// Can create consumer issuing prepaid cards with Lead as BIN sponsor.
 	PrepaidCard *V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadPrepaidCard `json:"prepaid_card,omitempty"`
 }
@@ -6769,6 +6824,52 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadApple
 	UserAgent string `json:"user_agent,omitempty"`
 }
 
+// Bank terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardBankTerms struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Financial disclosures terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardFinancingDisclosures struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Platform terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardPlatform struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip,omitempty"`
+	// The URL to the service agreement the Account's representative accepted.
+	URL string `json:"url,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent,omitempty"`
+}
+
+// Terms of service acceptances for consumer issuing debit cards with Lead as BIN sponsor.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCard struct {
+	// Bank terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+	BankTerms *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardBankTerms `json:"bank_terms,omitempty"`
+	// Financial disclosures terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+	FinancingDisclosures *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardFinancingDisclosures `json:"financing_disclosures,omitempty"`
+	// Platform terms of service acceptance for consumer issuing debit cards with Lead as BIN sponsor.
+	Platform *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCardPlatform `json:"platform,omitempty"`
+}
+
 // Bank terms of service acceptance for consumer issuing prepaid cards with Lead as BIN sponsor.
 type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCardBankTerms struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
@@ -6819,6 +6920,8 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepa
 type V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLead struct {
 	// Terms of service acceptances for commercial issuing Apple Pay cards with Lead as BIN sponsor.
 	ApplePay *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadApplePay `json:"apple_pay,omitempty"`
+	// Terms of service acceptances for consumer issuing debit cards with Lead as BIN sponsor.
+	DebitCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadDebitCard `json:"debit_card,omitempty"`
 	// Terms of service acceptances for commercial issuing revolving credit cards with Lead as BIN sponsor.
 	PrepaidCard *V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadPrepaidCard `json:"prepaid_card,omitempty"`
 }
