@@ -559,8 +559,22 @@ type AccountCapabilitiesCardIssuingParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Protection for connected accounts migrating from another PSP.
+type AccountCapabilitiesCardPaymentsProtectionsPspMigrationParams struct {
+	// Passing true requests the protection.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protections to apply to this capability.
+type AccountCapabilitiesCardPaymentsProtectionsParams struct {
+	// Protection for connected accounts migrating from another PSP.
+	PspMigration *AccountCapabilitiesCardPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
 // The card_payments capability.
 type AccountCapabilitiesCardPaymentsParams struct {
+	// Protections to apply to this capability.
+	Protections *AccountCapabilitiesCardPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -1969,8 +1983,22 @@ type AccountUpdateCapabilitiesCardIssuingParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Protection for connected accounts migrating from another PSP.
+type AccountUpdateCapabilitiesCardPaymentsProtectionsPspMigrationParams struct {
+	// Passing true requests the protection.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protections to apply to this capability.
+type AccountUpdateCapabilitiesCardPaymentsProtectionsParams struct {
+	// Protection for connected accounts migrating from another PSP.
+	PspMigration *AccountUpdateCapabilitiesCardPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
 // The card_payments capability.
 type AccountUpdateCapabilitiesCardPaymentsParams struct {
+	// Protections to apply to this capability.
+	Protections *AccountUpdateCapabilitiesCardPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
@@ -3364,8 +3392,22 @@ type AccountCreateCapabilitiesCardIssuingParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Protection for connected accounts migrating from another PSP.
+type AccountCreateCapabilitiesCardPaymentsProtectionsPspMigrationParams struct {
+	// Passing true requests the protection.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protections to apply to this capability.
+type AccountCreateCapabilitiesCardPaymentsProtectionsParams struct {
+	// Protection for connected accounts migrating from another PSP.
+	PspMigration *AccountCreateCapabilitiesCardPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
 // The card_payments capability.
 type AccountCreateCapabilitiesCardPaymentsParams struct {
+	// Protections to apply to this capability.
+	Protections *AccountCreateCapabilitiesCardPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }

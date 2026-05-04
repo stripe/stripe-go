@@ -135,6 +135,16 @@ const (
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankUob               SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "uob"
 )
 
+// The brand of the gift card.
+type SharedPaymentGrantedTokenPaymentMethodDetailsGiftCardBrand string
+
+// List of values that SharedPaymentGrantedTokenPaymentMethodDetailsGiftCardBrand can take
+const (
+	SharedPaymentGrantedTokenPaymentMethodDetailsGiftCardBrandFiservValuelink SharedPaymentGrantedTokenPaymentMethodDetailsGiftCardBrand = "fiserv_valuelink"
+	SharedPaymentGrantedTokenPaymentMethodDetailsGiftCardBrandGivex           SharedPaymentGrantedTokenPaymentMethodDetailsGiftCardBrand = "givex"
+	SharedPaymentGrantedTokenPaymentMethodDetailsGiftCardBrandSvs             SharedPaymentGrantedTokenPaymentMethodDetailsGiftCardBrand = "svs"
+)
+
 type SharedPaymentGrantedTokenPaymentMethodDetailsIDBankTransferBank string
 
 // List of values that SharedPaymentGrantedTokenPaymentMethodDetailsIDBankTransferBank can take
@@ -309,6 +319,7 @@ const (
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeCustomerBalance  SharedPaymentGrantedTokenPaymentMethodDetailsType = "customer_balance"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeEPS              SharedPaymentGrantedTokenPaymentMethodDetailsType = "eps"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeFPX              SharedPaymentGrantedTokenPaymentMethodDetailsType = "fpx"
+	SharedPaymentGrantedTokenPaymentMethodDetailsTypeGiftCard         SharedPaymentGrantedTokenPaymentMethodDetailsType = "gift_card"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeGiropay          SharedPaymentGrantedTokenPaymentMethodDetailsType = "giropay"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeGopay            SharedPaymentGrantedTokenPaymentMethodDetailsType = "gopay"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeGrabpay          SharedPaymentGrantedTokenPaymentMethodDetailsType = "grabpay"
@@ -673,6 +684,20 @@ type SharedPaymentGrantedTokenPaymentMethodDetailsFPX struct {
 	// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
 	Bank SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank `json:"bank"`
 }
+type SharedPaymentGrantedTokenPaymentMethodDetailsGiftCard struct {
+	// The brand of the gift card.
+	Brand SharedPaymentGrantedTokenPaymentMethodDetailsGiftCardBrand `json:"brand"`
+	// The expiration month of the gift card.
+	ExpMonth int64 `json:"exp_month"`
+	// The expiration year of the gift card.
+	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies the gift card.
+	Fingerprint string `json:"fingerprint,omitempty"`
+	// The first six digits of the gift card number.
+	First6 string `json:"first6"`
+	// The last four digits of the gift card number.
+	Last4 string `json:"last4"`
+}
 type SharedPaymentGrantedTokenPaymentMethodDetailsGiropay struct{}
 type SharedPaymentGrantedTokenPaymentMethodDetailsGopay struct{}
 type SharedPaymentGrantedTokenPaymentMethodDetailsGrabpay struct{}
@@ -935,6 +960,7 @@ type SharedPaymentGrantedTokenPaymentMethodDetails struct {
 	CustomerBalance *SharedPaymentGrantedTokenPaymentMethodDetailsCustomerBalance `json:"customer_balance,omitempty"`
 	EPS             *SharedPaymentGrantedTokenPaymentMethodDetailsEPS             `json:"eps,omitempty"`
 	FPX             *SharedPaymentGrantedTokenPaymentMethodDetailsFPX             `json:"fpx,omitempty"`
+	GiftCard        *SharedPaymentGrantedTokenPaymentMethodDetailsGiftCard        `json:"gift_card,omitempty"`
 	Giropay         *SharedPaymentGrantedTokenPaymentMethodDetailsGiropay         `json:"giropay,omitempty"`
 	Gopay           *SharedPaymentGrantedTokenPaymentMethodDetailsGopay           `json:"gopay,omitempty"`
 	Grabpay         *SharedPaymentGrantedTokenPaymentMethodDetailsGrabpay         `json:"grabpay,omitempty"`

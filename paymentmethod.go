@@ -222,6 +222,16 @@ const (
 	PaymentMethodFPXAccountHolderTypeIndividual PaymentMethodFPXAccountHolderType = "individual"
 )
 
+// The brand of the gift card.
+type PaymentMethodGiftCardBrand string
+
+// List of values that PaymentMethodGiftCardBrand can take
+const (
+	PaymentMethodGiftCardBrandFiservValuelink PaymentMethodGiftCardBrand = "fiserv_valuelink"
+	PaymentMethodGiftCardBrandGivex           PaymentMethodGiftCardBrand = "givex"
+	PaymentMethodGiftCardBrandSvs             PaymentMethodGiftCardBrand = "svs"
+)
+
 type PaymentMethodIDBankTransferBank string
 
 // List of values that PaymentMethodIDBankTransferBank can take
@@ -308,6 +318,7 @@ const (
 	PaymentMethodTypeCustomerBalance  PaymentMethodType = "customer_balance"
 	PaymentMethodTypeEPS              PaymentMethodType = "eps"
 	PaymentMethodTypeFPX              PaymentMethodType = "fpx"
+	PaymentMethodTypeGiftCard         PaymentMethodType = "gift_card"
 	PaymentMethodTypeGiropay          PaymentMethodType = "giropay"
 	PaymentMethodTypeGopay            PaymentMethodType = "gopay"
 	PaymentMethodTypeGrabpay          PaymentMethodType = "grabpay"
@@ -586,6 +597,12 @@ type PaymentMethodFPXParams struct {
 	Bank *string `form:"bank" json:"bank"`
 }
 
+// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
+type PaymentMethodGiftCardParams struct {
+	// The gift card ID to redeem
+	GiftCard *string `form:"gift_card" json:"gift_card"`
+}
+
 // If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 type PaymentMethodGiropayParams struct{}
 
@@ -859,6 +876,8 @@ type PaymentMethodParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *PaymentMethodFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
+	GiftCard *PaymentMethodGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *PaymentMethodGiropayParams `form:"giropay" json:"giropay,omitempty"`
 	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
@@ -1172,6 +1191,12 @@ type PaymentMethodCreateFPXParams struct {
 	Bank *string `form:"bank" json:"bank"`
 }
 
+// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
+type PaymentMethodCreateGiftCardParams struct {
+	// The gift card ID to redeem
+	GiftCard *string `form:"gift_card" json:"gift_card"`
+}
+
 // If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 type PaymentMethodCreateGiropayParams struct{}
 
@@ -1447,6 +1472,8 @@ type PaymentMethodCreateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *PaymentMethodCreateFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
+	GiftCard *PaymentMethodCreateGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *PaymentMethodCreateGiropayParams `form:"giropay" json:"giropay,omitempty"`
 	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
@@ -2078,6 +2105,20 @@ type PaymentMethodFPX struct {
 	// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
 	Bank string `json:"bank"`
 }
+type PaymentMethodGiftCard struct {
+	// The brand of the gift card.
+	Brand PaymentMethodGiftCardBrand `json:"brand"`
+	// The expiration month of the gift card.
+	ExpMonth int64 `json:"exp_month"`
+	// The expiration year of the gift card.
+	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies the gift card.
+	Fingerprint string `json:"fingerprint,omitempty"`
+	// The first six digits of the gift card number.
+	First6 string `json:"first6"`
+	// The last four digits of the gift card number.
+	Last4 string `json:"last4"`
+}
 type PaymentMethodGiropay struct{}
 type PaymentMethodGopay struct{}
 type PaymentMethodGrabpay struct{}
@@ -2358,6 +2399,7 @@ type PaymentMethod struct {
 	CustomerBalance *PaymentMethodCustomerBalance `json:"customer_balance,omitempty"`
 	EPS             *PaymentMethodEPS             `json:"eps,omitempty"`
 	FPX             *PaymentMethodFPX             `json:"fpx,omitempty"`
+	GiftCard        *PaymentMethodGiftCard        `json:"gift_card,omitempty"`
 	Giropay         *PaymentMethodGiropay         `json:"giropay,omitempty"`
 	Gopay           *PaymentMethodGopay           `json:"gopay,omitempty"`
 	Grabpay         *PaymentMethodGrabpay         `json:"grabpay,omitempty"`

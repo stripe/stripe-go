@@ -445,17 +445,41 @@ type DelegatedCheckoutRequestedSessionConfirmParams struct {
 	BuyerConsents *DelegatedCheckoutRequestedSessionConfirmBuyerConsentsParams `form:"buyer_consents" json:"buyer_consents,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// The metadata for this requested session.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The PaymentMethod to use with the requested session.
 	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or complete a payment action. Required for redirect-based payment methods such as Affirm or Klarna.
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// Risk details/signals associated with the requested session
 	RiskDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams `form:"risk_details" json:"risk_details,omitempty"`
+	UnsetFields []DelegatedCheckoutRequestedSessionConfirmParamsUnsetField `form:"-" json:"-"`
+}
+
+// DelegatedCheckoutRequestedSessionConfirmParamsUnsetField is the list of fields that can be cleared/unset on DelegatedCheckoutRequestedSessionConfirmParams.
+type DelegatedCheckoutRequestedSessionConfirmParamsUnsetField string
+
+const (
+	DelegatedCheckoutRequestedSessionConfirmParamsUnsetFieldMetadata DelegatedCheckoutRequestedSessionConfirmParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DelegatedCheckoutRequestedSessionConfirmParams) AddUnsetField(field DelegatedCheckoutRequestedSessionConfirmParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
 func (p *DelegatedCheckoutRequestedSessionConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *DelegatedCheckoutRequestedSessionConfirmParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Expires a requested session

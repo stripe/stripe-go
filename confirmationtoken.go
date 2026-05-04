@@ -213,6 +213,16 @@ const (
 	ConfirmationTokenPaymentMethodPreviewFPXBankUob               ConfirmationTokenPaymentMethodPreviewFPXBank = "uob"
 )
 
+// The brand of the gift card.
+type ConfirmationTokenPaymentMethodPreviewGiftCardBrand string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewGiftCardBrand can take
+const (
+	ConfirmationTokenPaymentMethodPreviewGiftCardBrandFiservValuelink ConfirmationTokenPaymentMethodPreviewGiftCardBrand = "fiserv_valuelink"
+	ConfirmationTokenPaymentMethodPreviewGiftCardBrandGivex           ConfirmationTokenPaymentMethodPreviewGiftCardBrand = "givex"
+	ConfirmationTokenPaymentMethodPreviewGiftCardBrandSvs             ConfirmationTokenPaymentMethodPreviewGiftCardBrand = "svs"
+)
+
 type ConfirmationTokenPaymentMethodPreviewIDBankTransferBank string
 
 // List of values that ConfirmationTokenPaymentMethodPreviewIDBankTransferBank can take
@@ -387,6 +397,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeCustomerBalance  ConfirmationTokenPaymentMethodPreviewType = "customer_balance"
 	ConfirmationTokenPaymentMethodPreviewTypeEPS              ConfirmationTokenPaymentMethodPreviewType = "eps"
 	ConfirmationTokenPaymentMethodPreviewTypeFPX              ConfirmationTokenPaymentMethodPreviewType = "fpx"
+	ConfirmationTokenPaymentMethodPreviewTypeGiftCard         ConfirmationTokenPaymentMethodPreviewType = "gift_card"
 	ConfirmationTokenPaymentMethodPreviewTypeGiropay          ConfirmationTokenPaymentMethodPreviewType = "giropay"
 	ConfirmationTokenPaymentMethodPreviewTypeGopay            ConfirmationTokenPaymentMethodPreviewType = "gopay"
 	ConfirmationTokenPaymentMethodPreviewTypeGrabpay          ConfirmationTokenPaymentMethodPreviewType = "grabpay"
@@ -931,6 +942,20 @@ type ConfirmationTokenPaymentMethodPreviewFPX struct {
 	// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
 	Bank ConfirmationTokenPaymentMethodPreviewFPXBank `json:"bank"`
 }
+type ConfirmationTokenPaymentMethodPreviewGiftCard struct {
+	// The brand of the gift card.
+	Brand ConfirmationTokenPaymentMethodPreviewGiftCardBrand `json:"brand"`
+	// The expiration month of the gift card.
+	ExpMonth int64 `json:"exp_month"`
+	// The expiration year of the gift card.
+	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies the gift card.
+	Fingerprint string `json:"fingerprint,omitempty"`
+	// The first six digits of the gift card number.
+	First6 string `json:"first6"`
+	// The last four digits of the gift card number.
+	Last4 string `json:"last4"`
+}
 type ConfirmationTokenPaymentMethodPreviewGiropay struct{}
 type ConfirmationTokenPaymentMethodPreviewGopay struct{}
 type ConfirmationTokenPaymentMethodPreviewGrabpay struct{}
@@ -1197,6 +1222,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	CustomerBalance *ConfirmationTokenPaymentMethodPreviewCustomerBalance `json:"customer_balance,omitempty"`
 	EPS             *ConfirmationTokenPaymentMethodPreviewEPS             `json:"eps,omitempty"`
 	FPX             *ConfirmationTokenPaymentMethodPreviewFPX             `json:"fpx,omitempty"`
+	GiftCard        *ConfirmationTokenPaymentMethodPreviewGiftCard        `json:"gift_card,omitempty"`
 	Giropay         *ConfirmationTokenPaymentMethodPreviewGiropay         `json:"giropay,omitempty"`
 	Gopay           *ConfirmationTokenPaymentMethodPreviewGopay           `json:"gopay,omitempty"`
 	Grabpay         *ConfirmationTokenPaymentMethodPreviewGrabpay         `json:"grabpay,omitempty"`

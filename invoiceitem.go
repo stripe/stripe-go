@@ -38,6 +38,15 @@ const (
 	InvoiceItemPricingTypeRateCardRateDetails                         InvoiceItemPricingType = "rate_card_rate_details"
 )
 
+// Whether the credit references a pending invoice item or one or more invoice line items on an invoice.
+type InvoiceItemProrationDetailsCreditedItemsType string
+
+// List of values that InvoiceItemProrationDetailsCreditedItemsType can take
+const (
+	InvoiceItemProrationDetailsCreditedItemsTypeInvoiceItem      InvoiceItemProrationDetailsCreditedItemsType = "invoice_item"
+	InvoiceItemProrationDetailsCreditedItemsTypeInvoiceLineItems InvoiceItemProrationDetailsCreditedItemsType = "invoice_line_items"
+)
+
 // Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
 type InvoiceItemParams struct {
 	Params `form:"*"`
@@ -564,6 +573,19 @@ type InvoiceItemPricing struct {
 	// The unit amount (in the `currency` specified) of the item which contains a decimal value with at most 12 decimal places.
 	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
 }
+type InvoiceItemProrationDetailsCreditedItemsInvoiceLineItems struct {
+	// The invoice id for the debited line item(s).
+	Invoice string `json:"invoice"`
+	// IDs of the debited invoice line item(s) on the invoice that correspond to the credit proration.
+	InvoiceLineItems []string `json:"invoice_line_items"`
+}
+type InvoiceItemProrationDetailsCreditedItems struct {
+	// When `type` is `invoice_item`, the invoice item id for the debited invoice item corresponding to this credit proration.
+	InvoiceItem      string                                                    `json:"invoice_item,omitempty"`
+	InvoiceLineItems *InvoiceItemProrationDetailsCreditedItemsInvoiceLineItems `json:"invoice_line_items,omitempty"`
+	// Whether the credit references a pending invoice item or one or more invoice line items on an invoice.
+	Type InvoiceItemProrationDetailsCreditedItemsType `json:"type"`
+}
 
 // Discount amounts applied when the proration was created.
 type InvoiceItemProrationDetailsDiscountAmount struct {
@@ -573,6 +595,7 @@ type InvoiceItemProrationDetailsDiscountAmount struct {
 	Discount *Discount `json:"discount"`
 }
 type InvoiceItemProrationDetails struct {
+	CreditedItems *InvoiceItemProrationDetailsCreditedItems `json:"credited_items,omitempty"`
 	// Discount amounts applied when the proration was created.
 	DiscountAmounts []*InvoiceItemProrationDetailsDiscountAmount `json:"discount_amounts"`
 }

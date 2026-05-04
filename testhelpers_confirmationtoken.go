@@ -115,6 +115,12 @@ type TestHelpersConfirmationTokenPaymentMethodDataFPXParams struct {
 	Bank *string `form:"bank" json:"bank"`
 }
 
+// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataGiftCardParams struct {
+	// The gift card ID to redeem
+	GiftCard *string `form:"gift_card" json:"gift_card"`
+}
+
 // If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataGiropayParams struct{}
 
@@ -379,6 +385,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	EPS *TestHelpersConfirmationTokenPaymentMethodDataEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *TestHelpersConfirmationTokenPaymentMethodDataFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
+	GiftCard *TestHelpersConfirmationTokenPaymentMethodDataGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *TestHelpersConfirmationTokenPaymentMethodDataGiropayParams `form:"giropay" json:"giropay,omitempty"`
 	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
@@ -671,6 +679,12 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataFPXParams struct {
 	Bank *string `form:"bank" json:"bank"`
 }
 
+// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataGiftCardParams struct {
+	// The gift card ID to redeem
+	GiftCard *string `form:"gift_card" json:"gift_card"`
+}
+
 // If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataGiropayParams struct{}
 
@@ -935,6 +949,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	EPS *TestHelpersConfirmationTokenCreatePaymentMethodDataEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *TestHelpersConfirmationTokenCreatePaymentMethodDataFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
+	GiftCard *TestHelpersConfirmationTokenCreatePaymentMethodDataGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *TestHelpersConfirmationTokenCreatePaymentMethodDataGiropayParams `form:"giropay" json:"giropay,omitempty"`
 	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
