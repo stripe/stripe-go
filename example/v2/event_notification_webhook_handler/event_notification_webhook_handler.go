@@ -1,3 +1,9 @@
+//
+//
+// File copied from our code generator; changes here will be overwritten.
+//
+//
+
 // event_notification_webhook_handler.go - receive and process event notifications like the
 // "v1.billing.meter.error_report_triggered" event.
 //
