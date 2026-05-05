@@ -395,18 +395,18 @@ func (h *EventNotificationHandler) OnV1CustomerSubscriptionUpdated(callback func
 	return registerTypedHandler(h, "v1.customer.subscription.updated", callback)
 }
 
-// OnV1CustomerTaxIdCreated registers a callback to handle notifications about the "v1.customer.tax_id.created" event.
-func (h *EventNotificationHandler) OnV1CustomerTaxIdCreated(callback func(ctx context.Context, notif *V1CustomerTaxIDCreatedEventNotification, client *Client) error) error {
+// OnV1CustomerTaxIDCreated registers a callback to handle notifications about the "v1.customer.tax_id.created" event.
+func (h *EventNotificationHandler) OnV1CustomerTaxIDCreated(callback func(ctx context.Context, notif *V1CustomerTaxIDCreatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v1.customer.tax_id.created", callback)
 }
 
-// OnV1CustomerTaxIdDeleted registers a callback to handle notifications about the "v1.customer.tax_id.deleted" event.
-func (h *EventNotificationHandler) OnV1CustomerTaxIdDeleted(callback func(ctx context.Context, notif *V1CustomerTaxIDDeletedEventNotification, client *Client) error) error {
+// OnV1CustomerTaxIDDeleted registers a callback to handle notifications about the "v1.customer.tax_id.deleted" event.
+func (h *EventNotificationHandler) OnV1CustomerTaxIDDeleted(callback func(ctx context.Context, notif *V1CustomerTaxIDDeletedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v1.customer.tax_id.deleted", callback)
 }
 
-// OnV1CustomerTaxIdUpdated registers a callback to handle notifications about the "v1.customer.tax_id.updated" event.
-func (h *EventNotificationHandler) OnV1CustomerTaxIdUpdated(callback func(ctx context.Context, notif *V1CustomerTaxIDUpdatedEventNotification, client *Client) error) error {
+// OnV1CustomerTaxIDUpdated registers a callback to handle notifications about the "v1.customer.tax_id.updated" event.
+func (h *EventNotificationHandler) OnV1CustomerTaxIDUpdated(callback func(ctx context.Context, notif *V1CustomerTaxIDUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v1.customer.tax_id.updated", callback)
 }
 
@@ -1617,23 +1617,23 @@ func (h *EventNotificationHandler) OnV2CoreEventDestinationPing(callback func(ct
 	return registerTypedHandler(h, "v2.core.event_destination.ping", callback)
 }
 
-// OnV2CoreHealthApiErrorFiring registers a callback to handle notifications about the "v2.core.health.api_error.firing" event.
-func (h *EventNotificationHandler) OnV2CoreHealthApiErrorFiring(callback func(ctx context.Context, notif *V2CoreHealthAPIErrorFiringEventNotification, client *Client) error) error {
+// OnV2CoreHealthAPIErrorFiring registers a callback to handle notifications about the "v2.core.health.api_error.firing" event.
+func (h *EventNotificationHandler) OnV2CoreHealthAPIErrorFiring(callback func(ctx context.Context, notif *V2CoreHealthAPIErrorFiringEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.core.health.api_error.firing", callback)
 }
 
-// OnV2CoreHealthApiErrorResolved registers a callback to handle notifications about the "v2.core.health.api_error.resolved" event.
-func (h *EventNotificationHandler) OnV2CoreHealthApiErrorResolved(callback func(ctx context.Context, notif *V2CoreHealthAPIErrorResolvedEventNotification, client *Client) error) error {
+// OnV2CoreHealthAPIErrorResolved registers a callback to handle notifications about the "v2.core.health.api_error.resolved" event.
+func (h *EventNotificationHandler) OnV2CoreHealthAPIErrorResolved(callback func(ctx context.Context, notif *V2CoreHealthAPIErrorResolvedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.core.health.api_error.resolved", callback)
 }
 
-// OnV2CoreHealthApiLatencyFiring registers a callback to handle notifications about the "v2.core.health.api_latency.firing" event.
-func (h *EventNotificationHandler) OnV2CoreHealthApiLatencyFiring(callback func(ctx context.Context, notif *V2CoreHealthAPILatencyFiringEventNotification, client *Client) error) error {
+// OnV2CoreHealthAPILatencyFiring registers a callback to handle notifications about the "v2.core.health.api_latency.firing" event.
+func (h *EventNotificationHandler) OnV2CoreHealthAPILatencyFiring(callback func(ctx context.Context, notif *V2CoreHealthAPILatencyFiringEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.core.health.api_latency.firing", callback)
 }
 
-// OnV2CoreHealthApiLatencyResolved registers a callback to handle notifications about the "v2.core.health.api_latency.resolved" event.
-func (h *EventNotificationHandler) OnV2CoreHealthApiLatencyResolved(callback func(ctx context.Context, notif *V2CoreHealthAPILatencyResolvedEventNotification, client *Client) error) error {
+// OnV2CoreHealthAPILatencyResolved registers a callback to handle notifications about the "v2.core.health.api_latency.resolved" event.
+func (h *EventNotificationHandler) OnV2CoreHealthAPILatencyResolved(callback func(ctx context.Context, notif *V2CoreHealthAPILatencyResolvedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.core.health.api_latency.resolved", callback)
 }
@@ -1710,14 +1710,14 @@ func (h *EventNotificationHandler) OnV2CoreHealthPaymentMethodErrorResolved(call
 		h, "v2.core.health.payment_method_error.resolved", callback)
 }
 
-// OnV2CoreHealthSepaDebitDelayedFiring registers a callback to handle notifications about the "v2.core.health.sepa_debit_delayed.firing" event.
-func (h *EventNotificationHandler) OnV2CoreHealthSepaDebitDelayedFiring(callback func(ctx context.Context, notif *V2CoreHealthSEPADebitDelayedFiringEventNotification, client *Client) error) error {
+// OnV2CoreHealthSEPADebitDelayedFiring registers a callback to handle notifications about the "v2.core.health.sepa_debit_delayed.firing" event.
+func (h *EventNotificationHandler) OnV2CoreHealthSEPADebitDelayedFiring(callback func(ctx context.Context, notif *V2CoreHealthSEPADebitDelayedFiringEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.core.health.sepa_debit_delayed.firing", callback)
 }
 
-// OnV2CoreHealthSepaDebitDelayedResolved registers a callback to handle notifications about the "v2.core.health.sepa_debit_delayed.resolved" event.
-func (h *EventNotificationHandler) OnV2CoreHealthSepaDebitDelayedResolved(callback func(ctx context.Context, notif *V2CoreHealthSEPADebitDelayedResolvedEventNotification, client *Client) error) error {
+// OnV2CoreHealthSEPADebitDelayedResolved registers a callback to handle notifications about the "v2.core.health.sepa_debit_delayed.resolved" event.
+func (h *EventNotificationHandler) OnV2CoreHealthSEPADebitDelayedResolved(callback func(ctx context.Context, notif *V2CoreHealthSEPADebitDelayedResolvedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.core.health.sepa_debit_delayed.resolved", callback)
 }
@@ -1789,34 +1789,34 @@ func (h *EventNotificationHandler) OnV2ExtendWorkflowRunSucceeded(callback func(
 	return registerTypedHandler(h, "v2.extend.workflow_run.succeeded", callback)
 }
 
-// OnV2IamApiKeyCreated registers a callback to handle notifications about the "v2.iam.api_key.created" event.
-func (h *EventNotificationHandler) OnV2IamApiKeyCreated(callback func(ctx context.Context, notif *V2IamAPIKeyCreatedEventNotification, client *Client) error) error {
+// OnV2IamAPIKeyCreated registers a callback to handle notifications about the "v2.iam.api_key.created" event.
+func (h *EventNotificationHandler) OnV2IamAPIKeyCreated(callback func(ctx context.Context, notif *V2IamAPIKeyCreatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.iam.api_key.created", callback)
 }
 
-// OnV2IamApiKeyDefaultSecretRevealed registers a callback to handle notifications about the "v2.iam.api_key.default_secret_revealed" event.
-func (h *EventNotificationHandler) OnV2IamApiKeyDefaultSecretRevealed(callback func(ctx context.Context, notif *V2IamAPIKeyDefaultSecretRevealedEventNotification, client *Client) error) error {
+// OnV2IamAPIKeyDefaultSecretRevealed registers a callback to handle notifications about the "v2.iam.api_key.default_secret_revealed" event.
+func (h *EventNotificationHandler) OnV2IamAPIKeyDefaultSecretRevealed(callback func(ctx context.Context, notif *V2IamAPIKeyDefaultSecretRevealedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.iam.api_key.default_secret_revealed", callback)
 }
 
-// OnV2IamApiKeyExpired registers a callback to handle notifications about the "v2.iam.api_key.expired" event.
-func (h *EventNotificationHandler) OnV2IamApiKeyExpired(callback func(ctx context.Context, notif *V2IamAPIKeyExpiredEventNotification, client *Client) error) error {
+// OnV2IamAPIKeyExpired registers a callback to handle notifications about the "v2.iam.api_key.expired" event.
+func (h *EventNotificationHandler) OnV2IamAPIKeyExpired(callback func(ctx context.Context, notif *V2IamAPIKeyExpiredEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.iam.api_key.expired", callback)
 }
 
-// OnV2IamApiKeyPermissionsUpdated registers a callback to handle notifications about the "v2.iam.api_key.permissions_updated" event.
-func (h *EventNotificationHandler) OnV2IamApiKeyPermissionsUpdated(callback func(ctx context.Context, notif *V2IamAPIKeyPermissionsUpdatedEventNotification, client *Client) error) error {
+// OnV2IamAPIKeyPermissionsUpdated registers a callback to handle notifications about the "v2.iam.api_key.permissions_updated" event.
+func (h *EventNotificationHandler) OnV2IamAPIKeyPermissionsUpdated(callback func(ctx context.Context, notif *V2IamAPIKeyPermissionsUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.iam.api_key.permissions_updated", callback)
 }
 
-// OnV2IamApiKeyRotated registers a callback to handle notifications about the "v2.iam.api_key.rotated" event.
-func (h *EventNotificationHandler) OnV2IamApiKeyRotated(callback func(ctx context.Context, notif *V2IamAPIKeyRotatedEventNotification, client *Client) error) error {
+// OnV2IamAPIKeyRotated registers a callback to handle notifications about the "v2.iam.api_key.rotated" event.
+func (h *EventNotificationHandler) OnV2IamAPIKeyRotated(callback func(ctx context.Context, notif *V2IamAPIKeyRotatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.iam.api_key.rotated", callback)
 }
 
-// OnV2IamApiKeyUpdated registers a callback to handle notifications about the "v2.iam.api_key.updated" event.
-func (h *EventNotificationHandler) OnV2IamApiKeyUpdated(callback func(ctx context.Context, notif *V2IamAPIKeyUpdatedEventNotification, client *Client) error) error {
+// OnV2IamAPIKeyUpdated registers a callback to handle notifications about the "v2.iam.api_key.updated" event.
+func (h *EventNotificationHandler) OnV2IamAPIKeyUpdated(callback func(ctx context.Context, notif *V2IamAPIKeyUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.iam.api_key.updated", callback)
 }
 
