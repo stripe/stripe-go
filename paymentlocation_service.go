@@ -28,3 +28,39 @@ func (c v1PaymentLocationService) Create(ctx context.Context, params *PaymentLoc
 		http.MethodPost, "/v1/payment_locations", c.Key, params, paymentlocation)
 	return paymentlocation, err
 }
+
+// Retrieve a Payment Location.
+func (c v1PaymentLocationService) Retrieve(ctx context.Context, id string, params *PaymentLocationRetrieveParams) (*PaymentLocation, error) {
+	if params == nil {
+		params = &PaymentLocationRetrieveParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/payment_locations/%s", id)
+	paymentlocation := &PaymentLocation{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentlocation)
+	return paymentlocation, err
+}
+
+// Update a Payment Location.
+func (c v1PaymentLocationService) Update(ctx context.Context, id string, params *PaymentLocationUpdateParams) (*PaymentLocation, error) {
+	if params == nil {
+		params = &PaymentLocationUpdateParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/payment_locations/%s", id)
+	paymentlocation := &PaymentLocation{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentlocation)
+	return paymentlocation, err
+}
+
+// Delete a Payment Location.
+func (c v1PaymentLocationService) Delete(ctx context.Context, id string, params *PaymentLocationDeleteParams) (*PaymentLocation, error) {
+	if params == nil {
+		params = &PaymentLocationDeleteParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/payment_locations/%s", id)
+	paymentlocation := &PaymentLocation{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, paymentlocation)
+	return paymentlocation, err
+}

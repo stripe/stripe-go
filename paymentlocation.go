@@ -28,27 +28,68 @@ const (
 	PaymentLocationCapabilitySettingsFRMealVouchersConecsPaymentsSupportedIssuersCardPresentUp      PaymentLocationCapabilitySettingsFRMealVouchersConecsPaymentsSupportedIssuersCardPresent = "up"
 )
 
-// Identification numbers associated with the location.
-type PaymentLocationBusinessRegistrationParams struct {
-	// 14-digit SIRET (Système d'identification du répertoire des établissements) number for the location.
-	Siret *string `form:"siret" json:"siret,omitempty"`
-}
-
-// Create a Payment Location.
+// Delete a Payment Location.
 type PaymentLocationParams struct {
 	Params `form:"*"`
 	// The full address of the location.
-	Address *AddressParams `form:"address" json:"address"`
+	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Identification numbers associated with the location.
 	BusinessRegistration *PaymentLocationBusinessRegistrationParams `form:"business_registration" json:"business_registration,omitempty"`
 	// A name for the location.
-	DisplayName *string `form:"display_name" json:"display_name"`
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
 func (p *PaymentLocationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Identification numbers associated with the location.
+type PaymentLocationBusinessRegistrationParams struct {
+	// 14-digit SIRET (Système d'identification du répertoire des établissements) number for the location.
+	Siret *string `form:"siret" json:"siret,omitempty"`
+}
+
+// Delete a Payment Location.
+type PaymentLocationDeleteParams struct {
+	Params `form:"*"`
+}
+
+// Retrieve a Payment Location.
+type PaymentLocationRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentLocationRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Identification numbers associated with the location.
+type PaymentLocationUpdateBusinessRegistrationParams struct {
+	// 14-digit SIRET (Système d'identification du répertoire des établissements) number for the location.
+	Siret *string `form:"siret" json:"siret,omitempty"`
+}
+
+// Update a Payment Location.
+type PaymentLocationUpdateParams struct {
+	Params `form:"*"`
+	// The full address of the location.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Identification numbers associated with the location.
+	BusinessRegistration *PaymentLocationUpdateBusinessRegistrationParams `form:"business_registration" json:"business_registration,omitempty"`
+	// A name for the location.
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentLocationUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -110,6 +151,7 @@ type PaymentLocation struct {
 	BusinessRegistration *PaymentLocationBusinessRegistration `json:"business_registration"`
 	// The capability settings for the location. Only applicable for locations with requested Payment Location Capabilities.
 	CapabilitySettings *PaymentLocationCapabilitySettings `json:"capability_settings"`
+	Deleted            bool                               `json:"deleted,omitempty"`
 	// The display name of the location.
 	DisplayName string `json:"display_name"`
 	// Unique identifier for the object.
