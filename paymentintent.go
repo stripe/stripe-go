@@ -95,6 +95,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeCustomerBalance  PaymentIntentExcludedPaymentMethodType = "customer_balance"
 	PaymentIntentExcludedPaymentMethodTypeEPS              PaymentIntentExcludedPaymentMethodType = "eps"
 	PaymentIntentExcludedPaymentMethodTypeFPX              PaymentIntentExcludedPaymentMethodType = "fpx"
+	PaymentIntentExcludedPaymentMethodTypeGiftCard         PaymentIntentExcludedPaymentMethodType = "gift_card"
 	PaymentIntentExcludedPaymentMethodTypeGiropay          PaymentIntentExcludedPaymentMethodType = "giropay"
 	PaymentIntentExcludedPaymentMethodTypeGopay            PaymentIntentExcludedPaymentMethodType = "gopay"
 	PaymentIntentExcludedPaymentMethodTypeGrabpay          PaymentIntentExcludedPaymentMethodType = "grabpay"
@@ -3211,6 +3212,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	EPS *PaymentMethodEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *PaymentMethodFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
+	GiftCard *PaymentMethodGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *PaymentMethodGiropayParams `form:"giropay" json:"giropay,omitempty"`
 	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
@@ -10991,6 +10994,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	EPS *PaymentMethodEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *PaymentMethodFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
+	GiftCard *PaymentMethodGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *PaymentMethodGiropayParams `form:"giropay" json:"giropay,omitempty"`
 	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
@@ -15402,6 +15407,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	EPS *PaymentMethodEPSParams `form:"eps" json:"eps,omitempty"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
 	FPX *PaymentMethodFPXParams `form:"fpx" json:"fpx,omitempty"`
+	// If this is a `gift_card` PaymentMethod, this hash contains details about the gift card payment method.
+	GiftCard *PaymentMethodGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *PaymentMethodGiropayParams `form:"giropay" json:"giropay,omitempty"`
 	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.

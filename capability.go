@@ -23,6 +23,17 @@ const (
 	CapabilityFutureRequirementsDisabledReasonRequirementsFieldsNeeded    CapabilityFutureRequirementsDisabledReason = "requirements.fields_needed"
 )
 
+// The status of the capability protection.
+type CapabilityProtectionsPspMigrationStatus string
+
+// List of values that CapabilityProtectionsPspMigrationStatus can take
+const (
+	CapabilityProtectionsPspMigrationStatusActive    CapabilityProtectionsPspMigrationStatus = "active"
+	CapabilityProtectionsPspMigrationStatusDisrupted CapabilityProtectionsPspMigrationStatus = "disrupted"
+	CapabilityProtectionsPspMigrationStatusExpired   CapabilityProtectionsPspMigrationStatus = "expired"
+	CapabilityProtectionsPspMigrationStatusInactive  CapabilityProtectionsPspMigrationStatus = "inactive"
+)
+
 // Description of why the capability is disabled. [Learn more about handling verification issues](https://docs.stripe.com/connect/handling-api-verification).
 type CapabilityDisabledReason string
 
@@ -146,6 +157,17 @@ type CapabilityFutureRequirements struct {
 	// Fields that are being reviewed, or might become required depending on the results of a review. If the review fails, these fields can move to `eventually_due`, `currently_due`, `past_due` or `alternatives`. Fields might appear in `eventually_due`, `currently_due`, `past_due` or `alternatives` and in `pending_verification` if one verification fails but another is still pending.
 	PendingVerification []string `json:"pending_verification"`
 }
+type CapabilityProtectionsPspMigration struct {
+	// Time at which the protection expires. Measured in seconds since the Unix epoch.
+	ExpiresAt int64 `json:"expires_at"`
+	// Time at which the protection was requested. Measured in seconds since the Unix epoch.
+	RequestedAt int64 `json:"requested_at"`
+	// The status of the capability protection.
+	Status CapabilityProtectionsPspMigrationStatus `json:"status"`
+}
+type CapabilityProtections struct {
+	PspMigration *CapabilityProtectionsPspMigration `json:"psp_migration,omitempty"`
+}
 
 // Fields that are due and can be resolved by providing the corresponding alternative fields instead. Multiple alternatives can reference the same `original_fields_due`. When this happens, any of these alternatives can serve as a pathway for attempting to resolve the fields. Additionally, providing `original_fields_due` again also serves as a pathway for attempting to resolve the fields.
 type CapabilityRequirementsAlternative struct {
@@ -184,7 +206,8 @@ type Capability struct {
 	// The identifier for the capability.
 	ID string `json:"id"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object string `json:"object"`
+	Object      string                 `json:"object"`
+	Protections *CapabilityProtections `json:"protections,omitempty"`
 	// Whether the capability has been requested.
 	Requested bool `json:"requested"`
 	// Time at which the capability was requested. Measured in seconds since the Unix epoch.

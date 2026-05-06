@@ -1357,6 +1357,40 @@ type IssuingDisputeEvidence struct {
 	ServiceNotAsDescribed *IssuingDisputeEvidenceServiceNotAsDescribed `json:"service_not_as_described,omitempty"`
 }
 
+// Information related to the acquiring merchant's initial response to this dispute.
+type IssuingDisputeNetworkLifecycleDisputeResponse struct {
+	// Error message if processing the acquiring merchant's initial dispute response failed.
+	Error string `json:"error"`
+	// Array of [File](https://docs.stripe.com/api/files) ids containing evidence the acquiring merchant provided in support of their initial dispute response.
+	MerchantEvidenceFiles []string `json:"merchant_evidence_files"`
+}
+
+// Information related to the acquiring merchant's pre-arbitration response for this dispute.
+type IssuingDisputeNetworkLifecyclePreArbitrationResponse struct {
+	// Error message if processing the acquiring merchant's pre-arbitration response failed.
+	Error string `json:"error"`
+	// Array of [File](https://docs.stripe.com/api/files) ids containing evidence the acquiring merchant provided with their pre-arbitration response.
+	MerchantEvidenceFiles []string `json:"merchant_evidence_files"`
+}
+
+// Information related to the acquiring merchant's pre-arbitration submission for this dispute.
+type IssuingDisputeNetworkLifecyclePreArbitrationSubmission struct {
+	// Error message if processing the acquiring merchant's pre-arbitration submission failed.
+	Error string `json:"error"`
+	// Array of [File](https://docs.stripe.com/api/files) ids containing evidence the acquiring merchant provided with their pre-arbitration submission.
+	MerchantEvidenceFiles []string `json:"merchant_evidence_files"`
+}
+
+// Incoming information from the card network for this dispute. Includes the acquiring merchant's initial response, pre-arbitration submission, and pre-arbitration response to the dispute.
+type IssuingDisputeNetworkLifecycle struct {
+	// Information related to the acquiring merchant's initial response to this dispute.
+	DisputeResponse *IssuingDisputeNetworkLifecycleDisputeResponse `json:"dispute_response"`
+	// Information related to the acquiring merchant's pre-arbitration response for this dispute.
+	PreArbitrationResponse *IssuingDisputeNetworkLifecyclePreArbitrationResponse `json:"pre_arbitration_response"`
+	// Information related to the acquiring merchant's pre-arbitration submission for this dispute.
+	PreArbitrationSubmission *IssuingDisputeNetworkLifecyclePreArbitrationSubmission `json:"pre_arbitration_submission"`
+}
+
 // [Treasury](https://docs.stripe.com/api/treasury) details related to this dispute if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
 type IssuingDisputeTreasury struct {
 	// The Treasury [DebitReversal](https://docs.stripe.com/api/treasury/debit_reversals) representing this Issuing dispute
@@ -1389,6 +1423,8 @@ type IssuingDispute struct {
 	LossReason IssuingDisputeLossReason `json:"loss_reason,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
+	// Incoming information from the card network for this dispute. Includes the acquiring merchant's initial response, pre-arbitration submission, and pre-arbitration response to the dispute.
+	NetworkLifecycle *IssuingDisputeNetworkLifecycle `json:"network_lifecycle,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Current status of the dispute.
