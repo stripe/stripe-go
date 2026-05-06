@@ -1,5 +1,19 @@
 # Changelog
 
+## 85.2.0-alpha.4 - 2026-05-06
+* [#2351](https://github.com/stripe/stripe-go/pull/2351) Update generated code for private-preview
+  * Add support for new resource `PaymentLocation`
+  * Add support for `Del`, `Get`, `New`, and `Update` methods on resource `PaymentLocation`
+  * Add support for `Protections` on `AccountCapabilitiesCardPaymentsParams` and `Capability`
+  * Add support for `GiftCard` on `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, `SetupIntentPaymentMethodDataParams`, and `SharedPaymentGrantedTokenPaymentMethodDetails`
+  * Add support for new value `gift_card` on enums `ConfirmationTokenPaymentMethodPreview.Type`, `PaymentMethod.Type`, and `SharedPaymentGrantedTokenPaymentMethodDetails.Type`
+  * Add support for `Metadata` on `DelegatedCheckoutRequestedSessionConfirmParams`
+  * Add support for `CreditedItems` on `InvoiceItemProrationDetails`
+  * Add support for `NetworkLifecycle` on `IssuingDispute`
+  * Add support for new value `gift_card` on enums `PaymentIntent.ExcludedPaymentMethodTypes` and `SetupIntent.ExcludedPaymentMethodTypes`
+  * Add support for `StatusDetails` on `Subscription`
+* [#2352](https://github.com/stripe/stripe-go/pull/2352) Add EventNotificationHandler (private preview)
+
 ## 85.2.0-alpha.3 - 2026-04-28
 * [#2349](https://github.com/stripe/stripe-go/pull/2349) Update generated code for private-preview
   * Add support for `DebitCard` on `V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLeadParams`, `V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerLead`, `V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLeadParams`, and `V2CoreAccountIdentityAttestationsTermsOfServiceCardCreatorConsumerLead`
