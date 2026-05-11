@@ -170,6 +170,7 @@ import (
 	testhelperscustomer "github.com/stripe/stripe-go/v85/testhelpers/customer"
 	testhelpersissuingauthorization "github.com/stripe/stripe-go/v85/testhelpers/issuing/authorization"
 	testhelpersissuingcard "github.com/stripe/stripe-go/v85/testhelpers/issuing/card"
+	testhelpersissuingdispute "github.com/stripe/stripe-go/v85/testhelpers/issuing/dispute"
 	testhelpersissuingpersonalizationdesign "github.com/stripe/stripe-go/v85/testhelpers/issuing/personalizationdesign"
 	testhelpersissuingtransaction "github.com/stripe/stripe-go/v85/testhelpers/issuing/transaction"
 	testhelperspaymentintent "github.com/stripe/stripe-go/v85/testhelpers/paymentintent"
@@ -594,6 +595,8 @@ type API struct {
 	TestHelpersIssuingAuthorizations *testhelpersissuingauthorization.Client
 	// TestHelpersIssuingCards is the client used to invoke /v1/issuing/cards APIs.
 	TestHelpersIssuingCards *testhelpersissuingcard.Client
+	// TestHelpersIssuingDisputes is the client used to invoke /v1/issuing/disputes APIs.
+	TestHelpersIssuingDisputes *testhelpersissuingdispute.Client
 	// TestHelpersIssuingPersonalizationDesigns is the client used to invoke /v1/issuing/personalization_designs APIs.
 	TestHelpersIssuingPersonalizationDesigns *testhelpersissuingpersonalizationdesign.Client
 	// TestHelpersIssuingTransactions is the client used to invoke /v1/issuing/transactions APIs.
@@ -971,6 +974,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TestHelpersCustomers = &testhelperscustomer.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingAuthorizations = &testhelpersissuingauthorization.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingCards = &testhelpersissuingcard.Client{B: backends.API, Key: key}
+	a.TestHelpersIssuingDisputes = &testhelpersissuingdispute.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingPersonalizationDesigns = &testhelpersissuingpersonalizationdesign.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingTransactions = &testhelpersissuingtransaction.Client{B: backends.API, Key: key}
 	a.TestHelpersPaymentIntents = &testhelperspaymentintent.Client{B: backends.API, Key: key}

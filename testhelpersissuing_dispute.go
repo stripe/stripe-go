@@ -1,0 +1,27 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+package stripe
+
+// Controls the acquiring merchant's simulated submitted evidence files for the pre-arbitration submission stage.
+type TestHelpersIssuingDisputeSimulateNetworkLifecyclePreArbitrationSubmissionMerchantEvidenceFilesParams struct {
+	// How many simulated merchant evidence file tokens to attach (between 1 and 12).
+	NumberToGenerate *int64 `form:"number_to_generate" json:"number_to_generate"`
+}
+
+// Test helper: populates network_lifecycle.pre_arbitration_submission on a test-mode Visa Issuing Dispute using placeholder file tokens. Only supported for Visa disputes.
+type TestHelpersIssuingDisputeSimulateNetworkLifecyclePreArbitrationSubmissionParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Controls the acquiring merchant's simulated submitted evidence files for the pre-arbitration submission stage.
+	MerchantEvidenceFiles *TestHelpersIssuingDisputeSimulateNetworkLifecyclePreArbitrationSubmissionMerchantEvidenceFilesParams `form:"merchant_evidence_files" json:"merchant_evidence_files"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingDisputeSimulateNetworkLifecyclePreArbitrationSubmissionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}

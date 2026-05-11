@@ -318,6 +318,8 @@ type Client struct {
 	V1TestHelpersIssuingAuthorizations *v1TestHelpersIssuingAuthorizationService
 	// V1TestHelpersIssuingCards is the service used to invoke /v1/issuing/cards APIs.
 	V1TestHelpersIssuingCards *v1TestHelpersIssuingCardService
+	// V1TestHelpersIssuingDisputes is the service used to invoke /v1/issuing/disputes APIs.
+	V1TestHelpersIssuingDisputes *v1TestHelpersIssuingDisputeService
 	// V1TestHelpersIssuingPersonalizationDesigns is the service used to invoke /v1/issuing/personalization_designs APIs.
 	V1TestHelpersIssuingPersonalizationDesigns *v1TestHelpersIssuingPersonalizationDesignService
 	// V1TestHelpersIssuingTransactions is the service used to invoke /v1/issuing/transactions APIs.
@@ -718,6 +720,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TestHelpersCustomers = &v1TestHelpersCustomerService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingAuthorizations = &v1TestHelpersIssuingAuthorizationService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingCards = &v1TestHelpersIssuingCardService{B: backends.API, Key: key}
+	client.V1TestHelpersIssuingDisputes = &v1TestHelpersIssuingDisputeService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingPersonalizationDesigns = &v1TestHelpersIssuingPersonalizationDesignService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingTransactions = &v1TestHelpersIssuingTransactionService{B: backends.API, Key: key}
 	client.V1TestHelpersPaymentIntents = &v1TestHelpersPaymentIntentService{B: backends.API, Key: key}
