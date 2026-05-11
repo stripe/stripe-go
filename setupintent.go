@@ -1450,6 +1450,8 @@ func (p *SetupIntentSetupDetailsBenefitParams) AddUnsetField(field SetupIntentSe
 type SetupIntentSetupDetailsParams struct {
 	// Benefit details for this SetupIntent
 	Benefit *SetupIntentSetupDetailsBenefitParams `form:"benefit" json:"benefit,omitempty"`
+	// The ID of the Payment Location for this SetupIntent.
+	Location *string `form:"location" json:"location,omitempty"`
 }
 
 // If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
@@ -2090,6 +2092,8 @@ func (p *SetupIntentConfirmSetupDetailsBenefitParams) AddUnsetField(field SetupI
 type SetupIntentConfirmSetupDetailsParams struct {
 	// Benefit details for this SetupIntent
 	Benefit *SetupIntentConfirmSetupDetailsBenefitParams `form:"benefit" json:"benefit,omitempty"`
+	// The ID of the Payment Location for this SetupIntent.
+	Location *string `form:"location" json:"location,omitempty"`
 }
 
 // Confirm that your customer intends to set up the current or
@@ -3193,6 +3197,8 @@ func (p *SetupIntentCreateSetupDetailsBenefitParams) AddUnsetField(field SetupIn
 type SetupIntentCreateSetupDetailsParams struct {
 	// Benefit details for this SetupIntent
 	Benefit *SetupIntentCreateSetupDetailsBenefitParams `form:"benefit" json:"benefit,omitempty"`
+	// The ID of the Payment Location for this SetupIntent.
+	Location *string `form:"location" json:"location,omitempty"`
 }
 
 // If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
@@ -4305,6 +4311,8 @@ func (p *SetupIntentUpdateSetupDetailsBenefitParams) AddUnsetField(field SetupIn
 type SetupIntentUpdateSetupDetailsParams struct {
 	// Benefit details for this SetupIntent
 	Benefit *SetupIntentUpdateSetupDetailsBenefitParams `form:"benefit" json:"benefit,omitempty"`
+	// The ID of the Payment Location for this SetupIntent.
+	Location *string `form:"location" json:"location,omitempty"`
 }
 
 // Updates a SetupIntent object.

@@ -39,6 +39,8 @@ type PaymentLocationParams struct {
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Pass true when updating location fields that will trigger onboarding review for any of the location's active location capabilities. If this parameter is not set to true, updates that would trigger onboarding review will fail. Only applicable for locations with active location capabilities.
+	OnboardingDataUpdateAcknowledged *bool `form:"onboarding_data_update_acknowledged" json:"onboarding_data_update_acknowledged,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -98,6 +100,8 @@ type PaymentLocationUpdateParams struct {
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Pass true when updating location fields that will trigger onboarding review for any of the location's active location capabilities. If this parameter is not set to true, updates that would trigger onboarding review will fail. Only applicable for locations with active location capabilities.
+	OnboardingDataUpdateAcknowledged *bool `form:"onboarding_data_update_acknowledged" json:"onboarding_data_update_acknowledged,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

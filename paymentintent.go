@@ -3101,6 +3101,8 @@ type PaymentIntentPaymentDetailsParams struct {
 	Flight *PaymentIntentPaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
 	FlightData []*PaymentIntentPaymentDetailsFlightDatumParams `form:"flight_data" json:"flight_data,omitempty"`
+	// The ID of the Payment Location for this PaymentIntent.
+	Location *string `form:"location" json:"location,omitempty"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentPaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
@@ -8795,6 +8797,8 @@ type PaymentIntentConfirmPaymentDetailsParams struct {
 	Flight *PaymentIntentConfirmPaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
 	FlightData []*PaymentIntentConfirmPaymentDetailsFlightDatumParams `form:"flight_data" json:"flight_data,omitempty"`
+	// The ID of the Payment Location for this PaymentIntent.
+	Location *string `form:"location" json:"location,omitempty"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentConfirmPaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
@@ -10883,6 +10887,8 @@ type PaymentIntentCreatePaymentDetailsParams struct {
 	Flight *PaymentIntentCreatePaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
 	FlightData []*PaymentIntentCreatePaymentDetailsFlightDatumParams `form:"flight_data" json:"flight_data,omitempty"`
+	// The ID of the Payment Location for this PaymentIntent.
+	Location *string `form:"location" json:"location,omitempty"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentCreatePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
@@ -15296,6 +15302,8 @@ type PaymentIntentUpdatePaymentDetailsParams struct {
 	Flight *PaymentIntentUpdatePaymentDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Flight data for this PaymentIntent.
 	FlightData []*PaymentIntentUpdatePaymentDetailsFlightDatumParams `form:"flight_data" json:"flight_data,omitempty"`
+	// The ID of the Payment Location for this PaymentIntent.
+	Location *string `form:"location" json:"location,omitempty"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentUpdatePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
