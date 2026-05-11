@@ -1060,9 +1060,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCardParams struct {
 }
 
 // This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
-type SubscriptionPaymentSettingsPaymentMethodOptionsCheckScanParams struct {
-	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
-}
+type SubscriptionPaymentSettingsPaymentMethodOptionsCheckScanParams struct{}
 
 // Configuration for eu_bank_transfer funding type.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
@@ -1477,6 +1475,8 @@ type SubscriptionResumeParams struct {
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Controls whether Stripe attempts payment on the resumption invoice in the resume request, and how payment on that invoice affects the subscription's status. The default is `resume_on_payment_attempt`.
+	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) resulting from the `billing_cycle_anchor` being `unchanged`. When the `billing_cycle_anchor` is set to `now` (default value), no prorations are generated. If no value is passed, the default is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// If set, prorations will be calculated as though the subscription was resumed at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint.
@@ -1995,9 +1995,7 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardParams struct {
 }
 
 // This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
-type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
-	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
-}
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCheckScanParams struct{}
 
 // Configuration for eu_bank_transfer funding type.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
@@ -2883,9 +2881,7 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardParams struct {
 }
 
 // This sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
-type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
-	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
-}
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCheckScanParams struct{}
 
 // Configuration for eu_bank_transfer funding type.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
@@ -3469,9 +3465,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCard struct {
 }
 
 // This sub-hash contains details about the Check Scan payment method options to pass to invoices created by the subscription.
-type SubscriptionPaymentSettingsPaymentMethodOptionsCheckScan struct {
-	CheckDepositAddress *Address `json:"check_deposit_address,omitempty"`
-}
+type SubscriptionPaymentSettingsPaymentMethodOptionsCheckScan struct{}
 type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country string `json:"country"`

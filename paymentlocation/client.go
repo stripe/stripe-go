@@ -11,6 +11,7 @@ import (
 	"net/http"
 
 	stripe "github.com/stripe/stripe-go/v85"
+	"github.com/stripe/stripe-go/v85/form"
 )
 
 // Client is used to invoke /v1/payment_locations APIs.
@@ -88,6 +89,49 @@ func (c Client) Del(id string, params *stripe.PaymentLocationParams) (*stripe.Pa
 	paymentlocation := &stripe.PaymentLocation{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, paymentlocation)
 	return paymentlocation, err
+}
+
+// List all Payment Locations.
+func List(params *stripe.PaymentLocationListParams) *Iter {
+	return getC().List(params)
+}
+
+// List all Payment Locations.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) List(listParams *stripe.PaymentLocationListParams) *Iter {
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.PaymentLocationList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/payment_locations", c.Key, []byte(b.Encode()), p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// Iter is an iterator for payment locations.
+type Iter struct {
+	*stripe.Iter
+}
+
+// PaymentLocation returns the payment location which the iterator is currently pointing to.
+func (i *Iter) PaymentLocation() *stripe.PaymentLocation {
+	return i.Current().(*stripe.PaymentLocation)
+}
+
+// PaymentLocationList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) PaymentLocationList() *stripe.PaymentLocationList {
+	return i.List().(*stripe.PaymentLocationList)
 }
 
 func getC() Client {

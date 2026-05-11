@@ -9,6 +9,8 @@ package stripe
 import (
 	"context"
 	"net/http"
+
+	"github.com/stripe/stripe-go/v85/form"
 )
 
 // v1PaymentLocationService is used to invoke /v1/payment_locations APIs.
@@ -63,4 +65,21 @@ func (c v1PaymentLocationService) Delete(ctx context.Context, id string, params 
 	paymentlocation := &PaymentLocation{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, paymentlocation)
 	return paymentlocation, err
+}
+
+// List all Payment Locations.
+func (c v1PaymentLocationService) List(ctx context.Context, listParams *PaymentLocationListParams) *V1List[*PaymentLocation] {
+	if listParams == nil {
+		listParams = &PaymentLocationListParams{}
+	}
+	listParams.Context = ctx
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentLocation], error) {
+		list := &v1Page[*PaymentLocation]{}
+		if p == nil {
+			p = &Params{}
+		}
+		p.Context = ctx
+		err := c.B.CallRaw(http.MethodGet, "/v1/payment_locations", c.Key, []byte(b.Encode()), p, list)
+		return list, err
+	})
 }

@@ -649,9 +649,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCardParams struct {
 }
 
 // If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
-	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
-}
+type InvoicePaymentSettingsPaymentMethodOptionsCheckScanParams struct{}
 
 // Configuration for eu_bank_transfer funding type.
 type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
@@ -3596,9 +3594,7 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardParams struct {
 }
 
 // If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
-type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
-	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
-}
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCheckScanParams struct{}
 
 // Configuration for eu_bank_transfer funding type.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
@@ -4183,9 +4179,7 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardParams struct {
 }
 
 // If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
-type InvoiceCreatePaymentSettingsPaymentMethodOptionsCheckScanParams struct {
-	CheckDepositAddress *AddressParams `form:"check_deposit_address" json:"check_deposit_address,omitempty"`
-}
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsCheckScanParams struct{}
 
 // Configuration for eu_bank_transfer funding type.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
@@ -4782,9 +4776,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCard struct {
 }
 
 // If paying by `check_scan`, this sub-hash contains details about the Check Scan payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsCheckScan struct {
-	CheckDepositAddress *Address `json:"check_deposit_address,omitempty"`
-}
+type InvoicePaymentSettingsPaymentMethodOptionsCheckScan struct{}
 type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
 	Country string `json:"country"`

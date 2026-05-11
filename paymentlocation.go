@@ -52,6 +52,18 @@ type PaymentLocationBusinessRegistrationParams struct {
 	Siret *string `form:"siret" json:"siret,omitempty"`
 }
 
+// List all Payment Locations.
+type PaymentLocationListParams struct {
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentLocationListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Delete a Payment Location.
 type PaymentLocationDeleteParams struct {
 	Params `form:"*"`
@@ -160,4 +172,11 @@ type PaymentLocation struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+}
+
+// PaymentLocationList is a list of PaymentLocations as retrieved from a list endpoint.
+type PaymentLocationList struct {
+	APIResource
+	ListMeta
+	Data []*PaymentLocation `json:"data"`
 }
