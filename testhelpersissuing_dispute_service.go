@@ -17,6 +17,19 @@ type v1TestHelpersIssuingDisputeService struct {
 	Key string
 }
 
+// Test helper: populates network_lifecycle.pre_arbitration_response on a test-mode Visa Issuing Dispute using placeholder file tokens. Only supported for Visa disputes in the collaboration flow.
+func (c v1TestHelpersIssuingDisputeService) SimulateNetworkLifecyclePreArbitrationResponse(ctx context.Context, id string, params *TestHelpersIssuingDisputeSimulateNetworkLifecyclePreArbitrationResponseParams) (*IssuingDispute, error) {
+	if params == nil {
+		params = &TestHelpersIssuingDisputeSimulateNetworkLifecyclePreArbitrationResponseParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/test_helpers/issuing/disputes/%s/simulate_network_lifecycle_pre_arbitration_response", id)
+	dispute := &IssuingDispute{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
+	return dispute, err
+}
+
 // Test helper: populates network_lifecycle.pre_arbitration_submission on a test-mode Visa Issuing Dispute using placeholder file tokens. Only supported for Visa disputes.
 func (c v1TestHelpersIssuingDisputeService) SimulateNetworkLifecyclePreArbitrationSubmission(ctx context.Context, id string, params *TestHelpersIssuingDisputeSimulateNetworkLifecyclePreArbitrationSubmissionParams) (*IssuingDispute, error) {
 	if params == nil {
