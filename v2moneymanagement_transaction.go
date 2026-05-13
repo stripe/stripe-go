@@ -23,6 +23,7 @@ const (
 	V2MoneyManagementTransactionCategoryConnectReservedFunds                    V2MoneyManagementTransactionCategory = "connect_reserved_funds"
 	V2MoneyManagementTransactionCategoryContribution                            V2MoneyManagementTransactionCategory = "contribution"
 	V2MoneyManagementTransactionCategoryCurrencyConversion                      V2MoneyManagementTransactionCategory = "currency_conversion"
+	V2MoneyManagementTransactionCategoryDebitDispute                            V2MoneyManagementTransactionCategory = "debit_dispute"
 	V2MoneyManagementTransactionCategoryDispute                                 V2MoneyManagementTransactionCategory = "dispute"
 	V2MoneyManagementTransactionCategoryDisputeReversal                         V2MoneyManagementTransactionCategory = "dispute_reversal"
 	V2MoneyManagementTransactionCategoryFinancingPaydown                        V2MoneyManagementTransactionCategory = "financing_paydown"
@@ -75,6 +76,7 @@ const (
 	V2MoneyManagementTransactionFlowTypeApplicationFeeRefund         V2MoneyManagementTransactionFlowType = "application_fee_refund"
 	V2MoneyManagementTransactionFlowTypeCharge                       V2MoneyManagementTransactionFlowType = "charge"
 	V2MoneyManagementTransactionFlowTypeCurrencyConversion           V2MoneyManagementTransactionFlowType = "currency_conversion"
+	V2MoneyManagementTransactionFlowTypeDebitDispute                 V2MoneyManagementTransactionFlowType = "debit_dispute"
 	V2MoneyManagementTransactionFlowTypeDispute                      V2MoneyManagementTransactionFlowType = "dispute"
 	V2MoneyManagementTransactionFlowTypeFeeTransaction               V2MoneyManagementTransactionFlowType = "fee_transaction"
 	V2MoneyManagementTransactionFlowTypeInboundTransfer              V2MoneyManagementTransactionFlowType = "inbound_transfer"
@@ -143,6 +145,8 @@ type V2MoneyManagementTransactionFlow struct {
 	Charge string `json:"charge,omitempty"`
 	// In the future, this will be the ID of the currency conversion that created this Transaction. For now, this field is always null.
 	CurrencyConversion string `json:"currency_conversion,omitempty"`
+	// If applicable, the ID of the DebitDispute that created this Transaction.
+	DebitDispute string `json:"debit_dispute,omitempty"`
 	// If applicable, the ID of the Dispute that created this Transaction.
 	Dispute string `json:"dispute,omitempty"`
 	// If applicable, the ID of the FeeTransaction that created this Transaction.

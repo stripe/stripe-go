@@ -1871,6 +1871,18 @@ func (h *EventNotificationHandler) OnV2MoneyManagementFinancialAccountUpdated(ca
 		h, "v2.money_management.financial_account.updated", callback)
 }
 
+// OnV2MoneyManagementFinancialAccountStatementCreated registers a callback to handle notifications about the "v2.money_management.financial_account_statement.created" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementFinancialAccountStatementCreated(callback func(ctx context.Context, notif *V2MoneyManagementFinancialAccountStatementCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.financial_account_statement.created", callback)
+}
+
+// OnV2MoneyManagementFinancialAccountStatementRestated registers a callback to handle notifications about the "v2.money_management.financial_account_statement.restated" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementFinancialAccountStatementRestated(callback func(ctx context.Context, notif *V2MoneyManagementFinancialAccountStatementRestatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.financial_account_statement.restated", callback)
+}
+
 // OnV2MoneyManagementFinancialAddressActivated registers a callback to handle notifications about the "v2.money_management.financial_address.activated" event.
 func (h *EventNotificationHandler) OnV2MoneyManagementFinancialAddressActivated(callback func(ctx context.Context, notif *V2MoneyManagementFinancialAddressActivatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(

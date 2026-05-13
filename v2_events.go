@@ -13555,6 +13555,98 @@ func (n *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchRelated
 	return relatedObj, err
 }
 
+// V2MoneyManagementFinancialAccountStatementCreatedEvent is the Go struct for the "v2.money_management.financial_account_statement.created" event.
+// Occurs when a Financial Account Statement is created and ready for download.
+type V2MoneyManagementFinancialAccountStatementCreatedEvent struct {
+	V2BaseEvent
+	Data               V2MoneyManagementFinancialAccountStatementCreatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                                   `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFinancialAccountStatement, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccountStatement related to the event.
+func (e *V2MoneyManagementFinancialAccountStatementCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccountStatement, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAccountStatementCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.financial_account_statement.created"
+// Occurs when a Financial Account Statement is created and ready for download.
+type V2MoneyManagementFinancialAccountStatementCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementFinancialAccountStatementCreatedEvent that created this Notification
+func (n *V2MoneyManagementFinancialAccountStatementCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountStatementCreatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFinancialAccountStatementCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccountStatement related to the event.
+func (n *V2MoneyManagementFinancialAccountStatementCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccountStatement, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementFinancialAccountStatement{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementFinancialAccountStatementRestatedEvent is the Go struct for the "v2.money_management.financial_account_statement.restated" event.
+// Occurs when a Financial Account Statement has been restated.
+// A restatement occurs when a new statement is generated for a period
+// that already had an existing statement. The related object references
+// the original statement that was restated. The new replacement statement
+// will also fire a FinancialAccountStatementCreated event.
+type V2MoneyManagementFinancialAccountStatementRestatedEvent struct {
+	V2BaseEvent
+	Data               V2MoneyManagementFinancialAccountStatementRestatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                                    `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementFinancialAccountStatement, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccountStatement related to the event.
+func (e *V2MoneyManagementFinancialAccountStatementRestatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccountStatement, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAccountStatementRestatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.financial_account_statement.restated"
+// Occurs when a Financial Account Statement has been restated.
+// A restatement occurs when a new statement is generated for a period
+// that already had an existing statement. The related object references
+// the original statement that was restated. The new replacement statement
+// will also fire a FinancialAccountStatementCreated event.
+type V2MoneyManagementFinancialAccountStatementRestatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementFinancialAccountStatementRestatedEvent that created this Notification
+func (n *V2MoneyManagementFinancialAccountStatementRestatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountStatementRestatedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementFinancialAccountStatementRestatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementFinancialAccountStatement related to the event.
+func (n *V2MoneyManagementFinancialAccountStatementRestatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementFinancialAccountStatement, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementFinancialAccountStatement{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2MoneyManagementFinancialAddressActivatedEvent is the Go struct for the "v2.money_management.financial_address.activated" event.
 // Occurs when a FinancialAddress is activated and is ready to receive funds.
 type V2MoneyManagementFinancialAddressActivatedEvent struct {
@@ -15165,7 +15257,8 @@ func (n *V2OrchestratedCommerceAgreementTerminatedEventNotification) FetchRelate
 // Sent after a failed attempt if there are still retries available on the OffSessionPayment.
 type V2PaymentsOffSessionPaymentAttemptFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	Data               V2PaymentsOffSessionPaymentAttemptFailedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                          `json:"related_object"`
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
@@ -15419,7 +15512,8 @@ func (n *V2PaymentsOffSessionPaymentCreatedEventNotification) FetchRelatedObject
 // Sent after a failed authorization if there are no retries remaining, or if the failure is unretryable.
 type V2PaymentsOffSessionPaymentFailedEvent struct {
 	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	Data               V2PaymentsOffSessionPaymentFailedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                   `json:"related_object"`
 	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
 }
 
@@ -17288,6 +17382,24 @@ type V2IamStripeAccessGrantUpdatedEventData struct {
 	StripeAccessGrant string `json:"stripe_access_grant"`
 }
 
+// Occurs when a Financial Account Statement is created and ready for download.
+type V2MoneyManagementFinancialAccountStatementCreatedEventData struct {
+	// The ID of the Financial Account this statement belongs to.
+	FinancialAccount string `json:"financial_account"`
+}
+
+// Occurs when a Financial Account Statement has been restated.
+// A restatement occurs when a new statement is generated for a period
+// that already had an existing statement. The related object references
+// the original statement that was restated. The new replacement statement
+// will also fire a FinancialAccountStatementCreated event.
+type V2MoneyManagementFinancialAccountStatementRestatedEventData struct {
+	// The ID of the Financial Account this statement belongs to.
+	FinancialAccount string `json:"financial_account"`
+	// The ID of the new statement that replaces the original.
+	RestatementID string `json:"restatement_id"`
+}
+
 // Occurs when an InboundTransfer's funds are made available.
 type V2MoneyManagementInboundTransferAvailableEventData struct {
 	// The transaction ID of the received credit.
@@ -17410,6 +17522,18 @@ type V2OrchestratedCommerceAgreementTerminatedEventData struct {
 	TerminatedAt time.Time `json:"terminated_at"`
 	// The party that terminated the agreement.
 	TerminatedBy V2OrchestratedCommerceAgreementTerminatedEventDataTerminatedBy `json:"terminated_by"`
+}
+
+// Sent after a failed attempt if there are still retries available on the OffSessionPayment.
+type V2PaymentsOffSessionPaymentAttemptFailedEventData struct {
+	// The ID of the payment attempt record associated with this failed attempt.
+	PaymentAttemptRecord string `json:"payment_attempt_record"`
+}
+
+// Sent after a failed authorization if there are no retries remaining, or if the failure is unretryable.
+type V2PaymentsOffSessionPaymentFailedEventData struct {
+	// The ID of the payment attempt record associated with this terminal failure. Equal to the `latest_payment_attempt_record` on the Off-Session Payment object.
+	PaymentAttemptRecord string `json:"payment_attempt_record"`
 }
 
 // Occurs when an error occurs in reconciling a SettlementAllocationIntent.
@@ -22165,6 +22289,42 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.money_management.financial_account_statement.created":
+		result := &V2MoneyManagementFinancialAccountStatementCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccountStatement, error) {
+			v := &V2MoneyManagementFinancialAccountStatement{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.money_management.financial_account_statement.restated":
+		result := &V2MoneyManagementFinancialAccountStatementRestatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccountStatement, error) {
+			v := &V2MoneyManagementFinancialAccountStatement{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case "v2.money_management.financial_address.activated":
 		result := &V2MoneyManagementFinancialAddressActivatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -22785,6 +22945,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
 		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
 		return result, nil
 	case "v2.payments.off_session_payment.attempt_started":
 		result := &V2PaymentsOffSessionPaymentAttemptStartedEvent{}
@@ -22874,6 +23037,9 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			err := backend.Call(
 				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
 		}
 		return result, nil
 	case "v2.payments.off_session_payment.paused":
@@ -25530,6 +25696,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.money_management.financial_account.updated":
 		evt := V2MoneyManagementFinancialAccountUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.financial_account_statement.created":
+		evt := V2MoneyManagementFinancialAccountStatementCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.financial_account_statement.restated":
+		evt := V2MoneyManagementFinancialAccountStatementRestatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

@@ -23,6 +23,7 @@ const (
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryConnectReservedFunds                    V2MoneyManagementTransactionEntryTransactionDetailsCategory = "connect_reserved_funds"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryContribution                            V2MoneyManagementTransactionEntryTransactionDetailsCategory = "contribution"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryCurrencyConversion                      V2MoneyManagementTransactionEntryTransactionDetailsCategory = "currency_conversion"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryDebitDispute                            V2MoneyManagementTransactionEntryTransactionDetailsCategory = "debit_dispute"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryDispute                                 V2MoneyManagementTransactionEntryTransactionDetailsCategory = "dispute"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryDisputeReversal                         V2MoneyManagementTransactionEntryTransactionDetailsCategory = "dispute_reversal"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryFinancingPaydown                        V2MoneyManagementTransactionEntryTransactionDetailsCategory = "financing_paydown"
@@ -75,6 +76,7 @@ const (
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeApplicationFeeRefund         V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "application_fee_refund"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeCharge                       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "charge"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeCurrencyConversion           V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "currency_conversion"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeDebitDispute                 V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "debit_dispute"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeDispute                      V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "dispute"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeFeeTransaction               V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "fee_transaction"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeInboundTransfer              V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "inbound_transfer"
@@ -122,6 +124,8 @@ type V2MoneyManagementTransactionEntryTransactionDetailsFlow struct {
 	Charge string `json:"charge,omitempty"`
 	// In the future, this will be the ID of the currency conversion that created this Transaction. For now, this field is always null.
 	CurrencyConversion string `json:"currency_conversion,omitempty"`
+	// If applicable, the ID of the DebitDispute that created this Transaction.
+	DebitDispute string `json:"debit_dispute,omitempty"`
 	// If applicable, the ID of the Dispute that created this Transaction.
 	Dispute string `json:"dispute,omitempty"`
 	// If applicable, the ID of the FeeTransaction that created this Transaction.
