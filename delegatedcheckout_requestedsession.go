@@ -193,7 +193,7 @@ type DelegatedCheckoutRequestedSessionParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The customer for this requested session.
 	Customer *string `form:"customer" json:"customer,omitempty"`
-	// The discount codes to apply to this requested session.
+	// The discount codes to apply to this requested session. Pass an empty value to remove all applied discounts.
 	Discounts *DelegatedCheckoutRequestedSessionDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -243,12 +243,25 @@ func (p *DelegatedCheckoutRequestedSessionParams) AddMetadata(key string, value 
 	p.Metadata[key] = value
 }
 
-// The discount codes to apply to this requested session.
+// The discount codes to apply to this requested session. Pass an empty value to remove all applied discounts.
 type DelegatedCheckoutRequestedSessionDiscountsParams struct {
-	// Array of discount codes to apply.
+	// Array of discount codes to apply. Pass an empty value to remove all applied discounts.
 	Codes []*string `form:"codes" json:"codes"`
 	// Whether to enforce strict eligibility for discount codes. Defaults to true. When false, invalid codes are returned in the discounts.invalid array instead of raising an error.
-	EnforceStrictEligibility *bool `form:"enforce_strict_eligibility" json:"enforce_strict_eligibility,omitempty"`
+	EnforceStrictEligibility *bool                                                        `form:"enforce_strict_eligibility" json:"enforce_strict_eligibility,omitempty"`
+	UnsetFields              []DelegatedCheckoutRequestedSessionDiscountsParamsUnsetField `form:"-" json:"-"`
+}
+
+// DelegatedCheckoutRequestedSessionDiscountsParamsUnsetField is the list of fields that can be cleared/unset on DelegatedCheckoutRequestedSessionDiscountsParams.
+type DelegatedCheckoutRequestedSessionDiscountsParamsUnsetField string
+
+const (
+	DelegatedCheckoutRequestedSessionDiscountsParamsUnsetFieldCodes DelegatedCheckoutRequestedSessionDiscountsParamsUnsetField = "codes"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DelegatedCheckoutRequestedSessionDiscountsParams) AddUnsetField(field DelegatedCheckoutRequestedSessionDiscountsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The digital fulfillment option.
@@ -525,12 +538,25 @@ func (p *DelegatedCheckoutRequestedSessionRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// The discount codes to apply to this requested session.
+// The discount codes to apply to this requested session. Pass an empty value to remove all applied discounts.
 type DelegatedCheckoutRequestedSessionUpdateDiscountsParams struct {
-	// Array of discount codes to apply.
+	// Array of discount codes to apply. Pass an empty value to remove all applied discounts.
 	Codes []*string `form:"codes" json:"codes"`
 	// Whether to enforce strict eligibility for discount codes. Defaults to true. When false, invalid codes are returned in the discounts.invalid array instead of raising an error.
-	EnforceStrictEligibility *bool `form:"enforce_strict_eligibility" json:"enforce_strict_eligibility,omitempty"`
+	EnforceStrictEligibility *bool                                                              `form:"enforce_strict_eligibility" json:"enforce_strict_eligibility,omitempty"`
+	UnsetFields              []DelegatedCheckoutRequestedSessionUpdateDiscountsParamsUnsetField `form:"-" json:"-"`
+}
+
+// DelegatedCheckoutRequestedSessionUpdateDiscountsParamsUnsetField is the list of fields that can be cleared/unset on DelegatedCheckoutRequestedSessionUpdateDiscountsParams.
+type DelegatedCheckoutRequestedSessionUpdateDiscountsParamsUnsetField string
+
+const (
+	DelegatedCheckoutRequestedSessionUpdateDiscountsParamsUnsetFieldCodes DelegatedCheckoutRequestedSessionUpdateDiscountsParamsUnsetField = "codes"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *DelegatedCheckoutRequestedSessionUpdateDiscountsParams) AddUnsetField(field DelegatedCheckoutRequestedSessionUpdateDiscountsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The digital fulfillment option.
@@ -620,7 +646,7 @@ type DelegatedCheckoutRequestedSessionUpdatePaymentMethodOptionsParams struct {
 // Updates a requested session
 type DelegatedCheckoutRequestedSessionUpdateParams struct {
 	Params `form:"*"`
-	// The discount codes to apply to this requested session.
+	// The discount codes to apply to this requested session. Pass an empty value to remove all applied discounts.
 	Discounts *DelegatedCheckoutRequestedSessionUpdateDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`

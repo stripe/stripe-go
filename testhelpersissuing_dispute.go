@@ -6,6 +6,26 @@
 
 package stripe
 
+// Controls the acquiring merchant's simulated submitted evidence files for the dispute response stage.
+type TestHelpersIssuingDisputeSimulateNetworkLifecycleDisputeResponseMerchantEvidenceFilesParams struct {
+	// How many simulated merchant evidence file tokens to attach (between 1 and 12).
+	NumberToGenerate *int64 `form:"number_to_generate" json:"number_to_generate"`
+}
+
+// Test helper: populates network_lifecycle.dispute_response on a test-mode Visa Issuing Dispute using placeholder file tokens. Only supported for Visa disputes.
+type TestHelpersIssuingDisputeSimulateNetworkLifecycleDisputeResponseParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Controls the acquiring merchant's simulated submitted evidence files for the dispute response stage.
+	MerchantEvidenceFiles *TestHelpersIssuingDisputeSimulateNetworkLifecycleDisputeResponseMerchantEvidenceFilesParams `form:"merchant_evidence_files" json:"merchant_evidence_files"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingDisputeSimulateNetworkLifecycleDisputeResponseParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Controls the acquiring merchant's simulated submitted evidence files for the pre-arbitration response stage.
 type TestHelpersIssuingDisputeSimulateNetworkLifecyclePreArbitrationResponseMerchantEvidenceFilesParams struct {
 	// How many simulated merchant evidence file tokens to attach (between 1 and 12).

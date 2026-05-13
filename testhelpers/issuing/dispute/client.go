@@ -22,6 +22,24 @@ type Client struct {
 	Key string
 }
 
+// Test helper: populates network_lifecycle.dispute_response on a test-mode Visa Issuing Dispute using placeholder file tokens. Only supported for Visa disputes.
+func SimulateNetworkLifecycleDisputeResponse(id string, params *stripe.TestHelpersIssuingDisputeSimulateNetworkLifecycleDisputeResponseParams) (*stripe.IssuingDispute, error) {
+	return getC().SimulateNetworkLifecycleDisputeResponse(id, params)
+}
+
+// Test helper: populates network_lifecycle.dispute_response on a test-mode Visa Issuing Dispute using placeholder file tokens. Only supported for Visa disputes.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) SimulateNetworkLifecycleDisputeResponse(id string, params *stripe.TestHelpersIssuingDisputeSimulateNetworkLifecycleDisputeResponseParams) (*stripe.IssuingDispute, error) {
+	path := stripe.FormatURLPath(
+		"/v1/test_helpers/issuing/disputes/%s/simulate_network_lifecycle_dispute_response", id)
+	dispute := &stripe.IssuingDispute{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
+	return dispute, err
+}
+
 // Test helper: populates network_lifecycle.pre_arbitration_response on a test-mode Visa Issuing Dispute using placeholder file tokens. Only supported for Visa disputes in the collaboration flow.
 func SimulateNetworkLifecyclePreArbitrationResponse(id string, params *stripe.TestHelpersIssuingDisputeSimulateNetworkLifecyclePreArbitrationResponseParams) (*stripe.IssuingDispute, error) {
 	return getC().SimulateNetworkLifecyclePreArbitrationResponse(id, params)
