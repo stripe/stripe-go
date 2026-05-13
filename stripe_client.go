@@ -318,6 +318,8 @@ type Client struct {
 	V1TestHelpersIssuingAuthorizations *v1TestHelpersIssuingAuthorizationService
 	// V1TestHelpersIssuingCards is the service used to invoke /v1/issuing/cards APIs.
 	V1TestHelpersIssuingCards *v1TestHelpersIssuingCardService
+	// V1TestHelpersIssuingDisputes is the service used to invoke /v1/issuing/disputes APIs.
+	V1TestHelpersIssuingDisputes *v1TestHelpersIssuingDisputeService
 	// V1TestHelpersIssuingPersonalizationDesigns is the service used to invoke /v1/issuing/personalization_designs APIs.
 	V1TestHelpersIssuingPersonalizationDesigns *v1TestHelpersIssuingPersonalizationDesignService
 	// V1TestHelpersIssuingTransactions is the service used to invoke /v1/issuing/transactions APIs.
@@ -456,6 +458,10 @@ type Client struct {
 	V2CoreEventDestinations *v2CoreEventDestinationService
 	// V2CoreEvents is the service used to invoke /v2/core/events APIs.
 	V2CoreEvents *v2CoreEventService
+	// V2CoreFeeBatches is the service used to invoke /v2/core/fee_batches APIs.
+	V2CoreFeeBatches *v2CoreFeeBatchService
+	// V2CoreFeeEntries is the service used to invoke /v2/core/fee_entries APIs.
+	V2CoreFeeEntries *v2CoreFeeEntryService
 	// V2CoreVaultGBBankAccounts is the service used to invoke /v2/core/vault/gb_bank_accounts APIs.
 	V2CoreVaultGBBankAccounts *v2CoreVaultGBBankAccountService
 	// V2CoreVaultUSBankAccounts is the service used to invoke /v2/core/vault/us_bank_accounts APIs.
@@ -476,8 +482,12 @@ type Client struct {
 	V2MoneyManagementAdjustments *v2MoneyManagementAdjustmentService
 	// V2MoneyManagementCurrencyConversions is the service used to invoke /v2/money_management/currency_conversions APIs.
 	V2MoneyManagementCurrencyConversions *v2MoneyManagementCurrencyConversionService
+	// V2MoneyManagementDebitDisputes is the service used to invoke /v2/money_management/debit_disputes APIs.
+	V2MoneyManagementDebitDisputes *v2MoneyManagementDebitDisputeService
 	// V2MoneyManagementFinancialAccounts is the service used to invoke /v2/money_management/financial_accounts APIs.
 	V2MoneyManagementFinancialAccounts *v2MoneyManagementFinancialAccountService
+	// V2MoneyManagementFinancialAccountsStatements is the service used to invoke /v2/money_management/financial_accounts/{financial_account_id}/statements APIs.
+	V2MoneyManagementFinancialAccountsStatements *v2MoneyManagementFinancialAccountsStatementService
 	// V2MoneyManagementFinancialAddresses is the service used to invoke /v2/money_management/financial_addresses APIs.
 	V2MoneyManagementFinancialAddresses *v2MoneyManagementFinancialAddressService
 	// V2MoneyManagementInboundTransfers is the service used to invoke /v2/money_management/inbound_transfers APIs.
@@ -718,6 +728,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TestHelpersCustomers = &v1TestHelpersCustomerService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingAuthorizations = &v1TestHelpersIssuingAuthorizationService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingCards = &v1TestHelpersIssuingCardService{B: backends.API, Key: key}
+	client.V1TestHelpersIssuingDisputes = &v1TestHelpersIssuingDisputeService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingPersonalizationDesigns = &v1TestHelpersIssuingPersonalizationDesignService{B: backends.API, Key: key}
 	client.V1TestHelpersIssuingTransactions = &v1TestHelpersIssuingTransactionService{B: backends.API, Key: key}
 	client.V1TestHelpersPaymentIntents = &v1TestHelpersPaymentIntentService{B: backends.API, Key: key}
@@ -787,6 +798,8 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreConnectionSessions = &v2CoreConnectionSessionService{B: backends.API, Key: key}
 	client.V2CoreEventDestinations = &v2CoreEventDestinationService{B: backends.API, Key: key}
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
+	client.V2CoreFeeBatches = &v2CoreFeeBatchService{B: backends.API, Key: key}
+	client.V2CoreFeeEntries = &v2CoreFeeEntryService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}
 	client.V2CoreVaultUSBankAccounts = &v2CoreVaultUSBankAccountService{B: backends.API, Key: key}
 	client.V2DataAnalyticsMetricQueries = &v2DataAnalyticsMetricQueryService{B: backends.API, Key: key}
@@ -797,7 +810,9 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2IamAPIKeys = &v2IamAPIKeyService{B: backends.API, Key: key}
 	client.V2MoneyManagementAdjustments = &v2MoneyManagementAdjustmentService{B: backends.API, Key: key}
 	client.V2MoneyManagementCurrencyConversions = &v2MoneyManagementCurrencyConversionService{B: backends.API, Key: key}
+	client.V2MoneyManagementDebitDisputes = &v2MoneyManagementDebitDisputeService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAccounts = &v2MoneyManagementFinancialAccountService{B: backends.API, Key: key}
+	client.V2MoneyManagementFinancialAccountsStatements = &v2MoneyManagementFinancialAccountsStatementService{B: backends.API, Key: key}
 	client.V2MoneyManagementFinancialAddresses = &v2MoneyManagementFinancialAddressService{B: backends.API, Key: key}
 	client.V2MoneyManagementInboundTransfers = &v2MoneyManagementInboundTransferService{B: backends.API, Key: key}
 	client.V2MoneyManagementOutboundPaymentQuotes = &v2MoneyManagementOutboundPaymentQuoteService{B: backends.API, Key: key}

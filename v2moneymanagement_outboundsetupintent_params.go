@@ -74,6 +74,7 @@ type V2MoneyManagementOutboundSetupIntentParams struct {
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
 	// If no payout_method provided, used to create the underlying credential that is set up for outbound money movement.
 	// If a payout_method provided, used to update data on the credential linked to this setup intent.
+	// Only card expiry (exp_month, exp_year) can be updated in the case where payout_method is provided.
 	PayoutMethodData *V2MoneyManagementOutboundSetupIntentPayoutMethodDataParams `form:"payout_method_data" json:"payout_method_data,omitempty"`
 	// Specify which type of outbound money movement this credential should be set up for (payment | transfer).
 	// If not provided, defaults to payment.
@@ -189,6 +190,7 @@ type V2MoneyManagementOutboundSetupIntentUpdatePayoutMethodDataCardParams struct
 
 // If no payout_method provided, used to create the underlying credential that is set up for outbound money movement.
 // If a payout_method provided, used to update data on the credential linked to this setup intent.
+// Only card expiry (exp_month, exp_year) can be updated in the case where payout_method is provided.
 type V2MoneyManagementOutboundSetupIntentUpdatePayoutMethodDataParams struct {
 	// The type specific details of the bank account payout method.
 	BankAccount *V2MoneyManagementOutboundSetupIntentUpdatePayoutMethodDataBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
@@ -205,5 +207,6 @@ type V2MoneyManagementOutboundSetupIntentUpdateParams struct {
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
 	// If no payout_method provided, used to create the underlying credential that is set up for outbound money movement.
 	// If a payout_method provided, used to update data on the credential linked to this setup intent.
+	// Only card expiry (exp_month, exp_year) can be updated in the case where payout_method is provided.
 	PayoutMethodData *V2MoneyManagementOutboundSetupIntentUpdatePayoutMethodDataParams `form:"payout_method_data" json:"payout_method_data,omitempty"`
 }

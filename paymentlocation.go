@@ -39,6 +39,8 @@ type PaymentLocationParams struct {
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Pass true when updating location fields that will trigger onboarding review for any of the location's active location capabilities. If this parameter is not set to true, updates that would trigger onboarding review will fail. Only applicable for locations with active location capabilities.
+	OnboardingDataUpdateAcknowledged *bool `form:"onboarding_data_update_acknowledged" json:"onboarding_data_update_acknowledged,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -50,6 +52,18 @@ func (p *PaymentLocationParams) AddExpand(f string) {
 type PaymentLocationBusinessRegistrationParams struct {
 	// 14-digit SIRET (Système d'identification du répertoire des établissements) number for the location.
 	Siret *string `form:"siret" json:"siret,omitempty"`
+}
+
+// List all Payment Locations.
+type PaymentLocationListParams struct {
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentLocationListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Delete a Payment Location.
@@ -86,6 +100,8 @@ type PaymentLocationUpdateParams struct {
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Pass true when updating location fields that will trigger onboarding review for any of the location's active location capabilities. If this parameter is not set to true, updates that would trigger onboarding review will fail. Only applicable for locations with active location capabilities.
+	OnboardingDataUpdateAcknowledged *bool `form:"onboarding_data_update_acknowledged" json:"onboarding_data_update_acknowledged,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -160,4 +176,11 @@ type PaymentLocation struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+}
+
+// PaymentLocationList is a list of PaymentLocations as retrieved from a list endpoint.
+type PaymentLocationList struct {
+	APIResource
+	ListMeta
+	Data []*PaymentLocation `json:"data"`
 }

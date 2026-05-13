@@ -132,6 +132,14 @@ type V2MoneyManagementReceivedDebitCardSpend struct {
 	CardV1ID string `json:"card_v1_id"`
 }
 
+// The dispute details.
+type V2MoneyManagementReceivedDebitDisputeDetails struct {
+	// The ID of the debit dispute, if one has been created.
+	DebitDispute string `json:"debit_dispute,omitempty"`
+	// The time at which the dispute window closes.
+	DisputeWindowClosesAt time.Time `json:"dispute_window_closes_at,omitempty"`
+}
+
 // Information that elaborates on the `failed` status of a ReceivedDebit.
 // It is only present when the ReceivedDebit status is `failed`.
 type V2MoneyManagementReceivedDebitStatusDetailsFailed struct {
@@ -183,6 +191,8 @@ type V2MoneyManagementReceivedDebit struct {
 	Created time.Time `json:"created"`
 	// Freeform string sent by the originator of the ReceivedDebit.
 	Description string `json:"description,omitempty"`
+	// The dispute details.
+	DisputeDetails *V2MoneyManagementReceivedDebitDisputeDetails `json:"dispute_details,omitempty"`
 	// The amount and currency of the original/external debit request.
 	ExternalAmount Amount `json:"external_amount,omitempty"`
 	// Financial Account on which funds for ReceivedDebit were debited.

@@ -51,6 +51,15 @@ const (
 	DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOptionChannelSms   DelegatedCheckoutRequestedSessionBuyerConsentsMarketingOptionChannel = "sms"
 )
 
+// The type of discount.
+type DelegatedCheckoutRequestedSessionDiscountsAppliedType string
+
+// List of values that DelegatedCheckoutRequestedSessionDiscountsAppliedType can take
+const (
+	DelegatedCheckoutRequestedSessionDiscountsAppliedTypeCart        DelegatedCheckoutRequestedSessionDiscountsAppliedType = "cart"
+	DelegatedCheckoutRequestedSessionDiscountsAppliedTypeFulfillment DelegatedCheckoutRequestedSessionDiscountsAppliedType = "fulfillment"
+)
+
 // The type of the fulfillment option.
 type DelegatedCheckoutRequestedSessionFulfillmentDetailsFulfillmentOptionType string
 
@@ -184,6 +193,8 @@ type DelegatedCheckoutRequestedSessionParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The customer for this requested session.
 	Customer *string `form:"customer" json:"customer,omitempty"`
+	// The discount codes to apply to this requested session.
+	Discounts *DelegatedCheckoutRequestedSessionDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The details of the fulfillment.
@@ -230,6 +241,14 @@ func (p *DelegatedCheckoutRequestedSessionParams) AddMetadata(key string, value 
 	}
 
 	p.Metadata[key] = value
+}
+
+// The discount codes to apply to this requested session.
+type DelegatedCheckoutRequestedSessionDiscountsParams struct {
+	// Array of discount codes to apply.
+	Codes []*string `form:"codes" json:"codes"`
+	// Whether to enforce strict eligibility for discount codes. Defaults to true. When false, invalid codes are returned in the discounts.invalid array instead of raising an error.
+	EnforceStrictEligibility *bool `form:"enforce_strict_eligibility" json:"enforce_strict_eligibility,omitempty"`
 }
 
 // The digital fulfillment option.
@@ -506,6 +525,14 @@ func (p *DelegatedCheckoutRequestedSessionRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The discount codes to apply to this requested session.
+type DelegatedCheckoutRequestedSessionUpdateDiscountsParams struct {
+	// Array of discount codes to apply.
+	Codes []*string `form:"codes" json:"codes"`
+	// Whether to enforce strict eligibility for discount codes. Defaults to true. When false, invalid codes are returned in the discounts.invalid array instead of raising an error.
+	EnforceStrictEligibility *bool `form:"enforce_strict_eligibility" json:"enforce_strict_eligibility,omitempty"`
+}
+
 // The digital fulfillment option.
 type DelegatedCheckoutRequestedSessionUpdateFulfillmentDetailsSelectedFulfillmentOptionDigitalParams struct {
 	// The digital option identifier.
@@ -593,6 +620,8 @@ type DelegatedCheckoutRequestedSessionUpdatePaymentMethodOptionsParams struct {
 // Updates a requested session
 type DelegatedCheckoutRequestedSessionUpdateParams struct {
 	Params `form:"*"`
+	// The discount codes to apply to this requested session.
+	Discounts *DelegatedCheckoutRequestedSessionUpdateDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The details of the fulfillment.
@@ -673,6 +702,14 @@ type DelegatedCheckoutRequestedSessionCreateAffiliateAttributionParams struct {
 	Touchpoint *string `form:"touchpoint" json:"touchpoint"`
 }
 
+// The discount codes to apply to this requested session.
+type DelegatedCheckoutRequestedSessionCreateDiscountsParams struct {
+	// Array of discount codes to apply.
+	Codes []*string `form:"codes" json:"codes"`
+	// Whether to enforce strict eligibility for discount codes. Defaults to true. When false, invalid codes are returned in the discounts.invalid array instead of raising an error.
+	EnforceStrictEligibility *bool `form:"enforce_strict_eligibility" json:"enforce_strict_eligibility,omitempty"`
+}
+
 // The details of the fulfillment.
 type DelegatedCheckoutRequestedSessionCreateFulfillmentDetailsParams struct {
 	// The customer's address.
@@ -722,6 +759,8 @@ type DelegatedCheckoutRequestedSessionCreateParams struct {
 	Currency *string `form:"currency" json:"currency"`
 	// The customer for this requested session.
 	Customer *string `form:"customer" json:"customer,omitempty"`
+	// The discount codes to apply to this requested session.
+	Discounts *DelegatedCheckoutRequestedSessionCreateDiscountsParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The details of the fulfillment.
@@ -822,6 +861,40 @@ type DelegatedCheckoutRequestedSessionBuyerConsentsMarketing struct {
 type DelegatedCheckoutRequestedSessionBuyerConsents struct {
 	// The marketing consent options.
 	Marketing *DelegatedCheckoutRequestedSessionBuyerConsentsMarketing `json:"marketing"`
+}
+
+// The list of successfully applied discounts.
+type DelegatedCheckoutRequestedSessionDiscountsApplied struct {
+	// The amount off provided by this discount.
+	AmountOff int64 `json:"amount_off"`
+	// The discount code.
+	Code string `json:"code"`
+	// The currency of the discount amount.
+	Currency Currency `json:"currency"`
+	// The unique key of the applied discount.
+	Key string `json:"key"`
+	// The display name of the discount.
+	Name string `json:"name"`
+	// The percentage off provided by this discount.
+	PercentOff float64 `json:"percent_off"`
+	// The type of discount.
+	Type DelegatedCheckoutRequestedSessionDiscountsAppliedType `json:"type"`
+}
+
+// The list of discount codes that could not be applied.
+type DelegatedCheckoutRequestedSessionDiscountsInvalid struct {
+	// The discount code that was invalid.
+	Code string `json:"code"`
+	// The reason the discount code is invalid.
+	Reason string `json:"reason"`
+}
+
+// The discounts applied to and rejected from this requested session.
+type DelegatedCheckoutRequestedSessionDiscounts struct {
+	// The list of successfully applied discounts.
+	Applied []*DelegatedCheckoutRequestedSessionDiscountsApplied `json:"applied"`
+	// The list of discount codes that could not be applied.
+	Invalid []*DelegatedCheckoutRequestedSessionDiscountsInvalid `json:"invalid"`
 }
 
 // The digital options.
@@ -976,6 +1049,8 @@ type DelegatedCheckoutRequestedSessionLineItemDetailProductDetails struct {
 type DelegatedCheckoutRequestedSessionLineItemDetail struct {
 	// The total discount for this line item. If no discount were applied, defaults to 0.
 	AmountDiscount int64 `json:"amount_discount"`
+	// The sale amount for this line item.
+	AmountSale int64 `json:"amount_sale,omitempty"`
 	// The total before any discounts or taxes are applied.
 	AmountSubtotal int64 `json:"amount_subtotal"`
 	// The fulfillment type of the line item.
@@ -1099,17 +1174,37 @@ type DelegatedCheckoutRequestedSessionTotalDetailsApplicableFee struct {
 	// The display name of the applicable fee.
 	DisplayName string `json:"display_name"`
 }
+
+// The breakdown of discounts applied to the session.
+type DelegatedCheckoutRequestedSessionTotalDetailsBreakdownDiscount struct {
+	// The amount this discount contributed to the total discount.
+	Amount int64 `json:"amount"`
+	// The key of the applied discount.
+	Key string `json:"key"`
+}
+
+// The breakdown of discounts applied to the session.
+type DelegatedCheckoutRequestedSessionTotalDetailsBreakdown struct {
+	// The breakdown of discounts applied to the session.
+	Discounts []*DelegatedCheckoutRequestedSessionTotalDetailsBreakdownDiscount `json:"discounts"`
+}
 type DelegatedCheckoutRequestedSessionTotalDetails struct {
 	// The amount of order-level discounts applied to the cart. The total discount amount for this session can be computed by summing the cart discount and the item discounts.
 	AmountCartDiscount int64 `json:"amount_cart_discount"`
+	// The total discount amount from discount codes across the session.
+	AmountDiscount int64 `json:"amount_discount,omitempty"`
 	// The amount fulfillment of the total details.
 	AmountFulfillment int64 `json:"amount_fulfillment"`
 	// The amount of item-level discounts applied to the cart. The total discount amount for this session can be computed by summing the cart discount and the item discounts.
 	AmountItemsDiscount int64 `json:"amount_items_discount"`
+	// The total sale amount across the session.
+	AmountSale int64 `json:"amount_sale,omitempty"`
 	// The amount tax of the total details.
 	AmountTax int64 `json:"amount_tax"`
 	// The applicable fees of the total details.
 	ApplicableFees []*DelegatedCheckoutRequestedSessionTotalDetailsApplicableFee `json:"applicable_fees"`
+	// The breakdown of discounts applied to the session.
+	Breakdown *DelegatedCheckoutRequestedSessionTotalDetailsBreakdown `json:"breakdown,omitempty"`
 }
 
 // A requested session is a session that has been requested by a customer.
@@ -1129,6 +1224,8 @@ type DelegatedCheckoutRequestedSession struct {
 	Currency Currency `json:"currency"`
 	// The customer for this requested session.
 	Customer string `json:"customer"`
+	// The discounts applied to and rejected from this requested session.
+	Discounts *DelegatedCheckoutRequestedSessionDiscounts `json:"discounts,omitempty"`
 	// Time at which the requested session expires. Measured in seconds since the Unix epoch.
 	ExpiresAt int64 `json:"expires_at"`
 	// The details of the fulfillment.
