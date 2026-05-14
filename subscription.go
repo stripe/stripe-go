@@ -1459,8 +1459,8 @@ type SubscriptionPauseParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Determines how to handle debits and credits when pausing. The default is `pending_invoice_item`.
 	InvoicingBehavior *string `form:"invoicing_behavior" json:"invoicing_behavior,omitempty"`
-	// The type of pause to apply.
-	Type *string `form:"type" json:"type"`
+	// The type of pause to apply. Defaults to `subscription`.
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
