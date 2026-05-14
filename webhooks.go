@@ -108,7 +108,7 @@ func WithTolerance(tolerance time.Duration) WebhookOption {
 	}
 }
 
-// WithIgnoreTolerance will ignore the the event signature's timestamp.
+// WithIgnoreTolerance will ignore the event signature's timestamp.
 func WithIgnoreTolerance() WebhookOption {
 	return func(w *webhookConfig) {
 		w.IgnoreTolerance = true
