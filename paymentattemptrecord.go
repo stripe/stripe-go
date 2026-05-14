@@ -800,6 +800,8 @@ type PaymentAttemptRecordReportFailedParams struct {
 	FailureCode *string `form:"failure_code" json:"failure_code,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Payment evaluations associated with this reported payment.
+	PaymentEvaluations []*string `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
 	// Processor information for this payment.
 	ProcessorDetails *PaymentAttemptRecordReportFailedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
 	UnsetFields      []PaymentAttemptRecordReportFailedParamsUnsetField      `form:"-" json:"-"`

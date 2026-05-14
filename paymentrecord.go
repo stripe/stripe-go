@@ -656,6 +656,8 @@ type PaymentRecordReportPaymentAttemptFailedParams struct {
 	FailureCode *string `form:"failure_code" json:"failure_code,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Payment evaluations associated with this reported payment.
+	PaymentEvaluations []*string `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
 	// Processor information for this payment.
 	ProcessorDetails *PaymentRecordReportPaymentAttemptFailedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
 	UnsetFields      []PaymentRecordReportPaymentAttemptFailedParamsUnsetField      `form:"-" json:"-"`
@@ -1061,6 +1063,8 @@ type PaymentRecordReportPaymentFailedParams struct {
 	FailedAt *int64 `form:"failed_at" json:"failed_at"`
 	// The failure code for this payment attempt. Must be one of `payment_method_customer_decline` or `payment_method_provider_unknown_outcome`.
 	FailureCode *string `form:"failure_code" json:"failure_code,omitempty"`
+	// Payment evaluations associated with this reported payment.
+	PaymentEvaluations []*string `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
 	// Processor information for this payment.
 	ProcessorDetails *PaymentRecordReportPaymentFailedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
 }
