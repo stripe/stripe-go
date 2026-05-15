@@ -6,6 +6,20 @@
 
 package stripe
 
+// Test helper: closes a test-mode Issuing dispute as won or lost.
+type TestHelpersIssuingDisputeCloseParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Whether to close the dispute as `won` or `lost`.
+	Status *string `form:"status" json:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingDisputeCloseParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Controls the acquiring merchant's simulated submitted evidence files for the dispute response stage.
 type TestHelpersIssuingDisputeSimulateNetworkLifecycleDisputeResponseMerchantEvidenceFilesParams struct {
 	// How many simulated merchant evidence file tokens to attach (between 1 and 12).

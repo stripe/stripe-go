@@ -17,6 +17,18 @@ type v1TestHelpersIssuingDisputeService struct {
 	Key string
 }
 
+// Test helper: closes a test-mode Issuing dispute as won or lost.
+func (c v1TestHelpersIssuingDisputeService) Close(ctx context.Context, id string, params *TestHelpersIssuingDisputeCloseParams) (*IssuingDispute, error) {
+	if params == nil {
+		params = &TestHelpersIssuingDisputeCloseParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/test_helpers/issuing/disputes/%s/close", id)
+	dispute := &IssuingDispute{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
+	return dispute, err
+}
+
 // Test helper: populates network_lifecycle.dispute_response on a test-mode Visa Issuing Dispute using placeholder file tokens. Only supported for Visa disputes.
 func (c v1TestHelpersIssuingDisputeService) SimulateNetworkLifecycleDisputeResponse(ctx context.Context, id string, params *TestHelpersIssuingDisputeSimulateNetworkLifecycleDisputeResponseParams) (*IssuingDispute, error) {
 	if params == nil {
