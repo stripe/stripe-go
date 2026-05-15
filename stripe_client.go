@@ -188,6 +188,8 @@ type Client struct {
 	V1PaymentIntents *v1PaymentIntentService
 	// V1PaymentLinks is the service used to invoke /v1/payment_links APIs.
 	V1PaymentLinks *v1PaymentLinkService
+	// V1PaymentLocationCapabilities is the service used to invoke paymentlocationcapability related APIs.
+	V1PaymentLocationCapabilities *v1PaymentLocationCapabilityService
 	// V1PaymentLocations is the service used to invoke /v1/payment_locations APIs.
 	V1PaymentLocations *v1PaymentLocationService
 	// V1PaymentMethodConfigurations is the service used to invoke /v1/payment_method_configurations APIs.
@@ -663,6 +665,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1PaymentIntentAmountDetailsLineItems = &v1PaymentIntentAmountDetailsLineItemService{B: backends.API, Key: key}
 	client.V1PaymentIntents = &v1PaymentIntentService{B: backends.API, Key: key}
 	client.V1PaymentLinks = &v1PaymentLinkService{B: backends.API, Key: key}
+	client.V1PaymentLocationCapabilities = &v1PaymentLocationCapabilityService{B: backends.API, Key: key}
 	client.V1PaymentLocations = &v1PaymentLocationService{B: backends.API, Key: key}
 	client.V1PaymentMethodConfigurations = &v1PaymentMethodConfigurationService{B: backends.API, Key: key}
 	client.V1PaymentMethodDomains = &v1PaymentMethodDomainService{B: backends.API, Key: key}
