@@ -470,7 +470,7 @@ type API struct {
 	PaymentIntents *paymentintent.Client
 	// PaymentLinks is the client used to invoke /v1/payment_links APIs.
 	PaymentLinks *paymentlink.Client
-	// PaymentLocationCapabilities is the client used to invoke paymentlocationcapability related APIs.
+	// PaymentLocationCapabilities is the client used to invoke /v1/payment_location_capabilities APIs.
 	PaymentLocationCapabilities *paymentlocationcapability.Client
 	// PaymentLocations is the client used to invoke /v1/payment_locations APIs.
 	PaymentLocations *paymentlocation.Client

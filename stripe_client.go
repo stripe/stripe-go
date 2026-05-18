@@ -188,7 +188,7 @@ type Client struct {
 	V1PaymentIntents *v1PaymentIntentService
 	// V1PaymentLinks is the service used to invoke /v1/payment_links APIs.
 	V1PaymentLinks *v1PaymentLinkService
-	// V1PaymentLocationCapabilities is the service used to invoke paymentlocationcapability related APIs.
+	// V1PaymentLocationCapabilities is the service used to invoke /v1/payment_location_capabilities APIs.
 	V1PaymentLocationCapabilities *v1PaymentLocationCapabilityService
 	// V1PaymentLocations is the service used to invoke /v1/payment_locations APIs.
 	V1PaymentLocations *v1PaymentLocationService

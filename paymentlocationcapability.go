@@ -47,19 +47,47 @@ const (
 	PaymentLocationCapabilityStatusUnrequested PaymentLocationCapabilityStatus = "unrequested"
 )
 
-// Updates a specified Payment Location Capability. Request or remove a payment location capability by updating its requested parameter.
+// Returns a list of PaymentLocationCapability objects associated with the location.
+type PaymentLocationCapabilityListParams struct {
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// The location for which the capabilities enable functionality.
+	Location *string `form:"location" json:"location"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentLocationCapabilityListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves information about the specified Payment Location Capability.
 type PaymentLocationCapabilityParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// The location for which the capability enables functionality.
+	// The payment location for which the capability enables functionality.
 	Location *string `form:"location" json:"location"`
 	// To request a new capability for the location, set this to `true`. You can remove it from the location by passing `false`.
-	Requested *bool `form:"requested" json:"requested"`
+	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
 func (p *PaymentLocationCapabilityParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves information about the specified Payment Location Capability.
+type PaymentLocationCapabilityRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// The payment location for which the capability enables functionality.
+	Location *string `form:"location" json:"location"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentLocationCapabilityRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -104,6 +132,8 @@ type PaymentLocationCapability struct {
 	Account string `json:"account"`
 	// The identifier for the capability.
 	Capability PaymentLocationCapabilityCapability `json:"capability"`
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	Livemode bool `json:"livemode"`
 	// The payment location for which the capability enables functionality.
 	Location string `json:"location"`
 	// String representing the object's type. Objects of the same type share the same value.
@@ -115,4 +145,11 @@ type PaymentLocationCapability struct {
 	Requirements *PaymentLocationCapabilityRequirements `json:"requirements"`
 	// The status of the capability.
 	Status PaymentLocationCapabilityStatus `json:"status"`
+}
+
+// PaymentLocationCapabilityList is a list of PaymentLocationCapabilities as retrieved from a list endpoint.
+type PaymentLocationCapabilityList struct {
+	APIResource
+	ListMeta
+	Data []*PaymentLocationCapability `json:"data"`
 }
