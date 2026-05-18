@@ -1423,6 +1423,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 
 // French meal voucher benefit details for this SetupIntent.
 type SetupIntentSetupDetailsBenefitFRMealVoucherParams struct {
+	// Whether to enable meal voucher benefit for this setup intent.
+	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
 	Siret *string `form:"siret" json:"siret"`
 }
@@ -2065,6 +2067,8 @@ func (p *SetupIntentConfirmPaymentMethodDataParams) AddMetadata(key string, valu
 
 // French meal voucher benefit details for this SetupIntent.
 type SetupIntentConfirmSetupDetailsBenefitFRMealVoucherParams struct {
+	// Whether to enable meal voucher benefit for this setup intent.
+	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
 	Siret *string `form:"siret" json:"siret"`
 }
@@ -3170,6 +3174,8 @@ type SetupIntentCreatePaymentMethodOptionsParams struct {
 
 // French meal voucher benefit details for this SetupIntent.
 type SetupIntentCreateSetupDetailsBenefitFRMealVoucherParams struct {
+	// Whether to enable meal voucher benefit for this setup intent.
+	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
 	Siret *string `form:"siret" json:"siret"`
 }
@@ -4284,6 +4290,8 @@ type SetupIntentUpdatePaymentMethodOptionsParams struct {
 
 // French meal voucher benefit details for this SetupIntent.
 type SetupIntentUpdateSetupDetailsBenefitFRMealVoucherParams struct {
+	// Whether to enable meal voucher benefit for this setup intent.
+	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
 	Siret *string `form:"siret" json:"siret"`
 }

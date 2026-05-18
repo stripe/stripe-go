@@ -2132,6 +2132,8 @@ type PaymentIntentMandateDataParams struct {
 
 // French meal voucher benefit details for this PaymentIntent.
 type PaymentIntentPaymentDetailsBenefitFRMealVoucherParams struct {
+	// Whether to enable meal voucher benefit for this payment.
+	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
 	Siret *string `form:"siret" json:"siret"`
 }
@@ -7828,6 +7830,8 @@ type PaymentIntentConfirmHooksParams struct {
 
 // French meal voucher benefit details for this PaymentIntent.
 type PaymentIntentConfirmPaymentDetailsBenefitFRMealVoucherParams struct {
+	// Whether to enable meal voucher benefit for this payment.
+	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
 	Siret *string `form:"siret" json:"siret"`
 }
@@ -9918,6 +9922,8 @@ type PaymentIntentCreateMandateDataParams struct {
 
 // French meal voucher benefit details for this PaymentIntent.
 type PaymentIntentCreatePaymentDetailsBenefitFRMealVoucherParams struct {
+	// Whether to enable meal voucher benefit for this payment.
+	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
 	Siret *string `form:"siret" json:"siret"`
 }
@@ -14333,6 +14339,8 @@ type PaymentIntentUpdateMandateDataParams struct {
 
 // French meal voucher benefit details for this PaymentIntent.
 type PaymentIntentUpdatePaymentDetailsBenefitFRMealVoucherParams struct {
+	// Whether to enable meal voucher benefit for this payment.
+	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
 	Siret *string `form:"siret" json:"siret"`
 }
