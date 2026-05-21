@@ -421,24 +421,6 @@ const (
 	SubscriptionStatusUnpaid            SubscriptionStatus = "unpaid"
 )
 
-// The reason that the subscription was paused.
-type SubscriptionStatusDetailsPausedSubscriptionType string
-
-// List of values that SubscriptionStatusDetailsPausedSubscriptionType can take
-const (
-	SubscriptionStatusDetailsPausedSubscriptionTypePauseRequested               SubscriptionStatusDetailsPausedSubscriptionType = "pause_requested"
-	SubscriptionStatusDetailsPausedSubscriptionTypeSystem                       SubscriptionStatusDetailsPausedSubscriptionType = "system"
-	SubscriptionStatusDetailsPausedSubscriptionTypeTrialEndWithoutPaymentMethod SubscriptionStatusDetailsPausedSubscriptionType = "trial_end_without_payment_method"
-)
-
-// The type of pause.
-type SubscriptionStatusDetailsPausedType string
-
-// List of values that SubscriptionStatusDetailsPausedType can take
-const (
-	SubscriptionStatusDetailsPausedTypeSubscription SubscriptionStatusDetailsPausedType = "subscription"
-)
-
 // Indicates how the subscription's billing cycle anchor is reset when a trial ends. If not set, the default is `now`.
 type SubscriptionTrialSettingsEndBehaviorBillingCycleAnchor string
 
@@ -1459,8 +1441,8 @@ type SubscriptionPauseParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Determines how to handle debits and credits when pausing. The default is `pending_invoice_item`.
 	InvoicingBehavior *string `form:"invoicing_behavior" json:"invoicing_behavior,omitempty"`
-	// The type of pause to apply.
-	Type *string `form:"type" json:"type"`
+	// The type of pause to apply. Defaults to `subscription`.
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1475,8 +1457,6 @@ type SubscriptionResumeParams struct {
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Controls whether Stripe attempts payment on the resumption invoice in the resume request, and how payment on that invoice affects the subscription's status. The default is `resume_on_payment_attempt`.
-	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) resulting from the `billing_cycle_anchor` being `unchanged`. When the `billing_cycle_anchor` is set to `now` (default value), no prorations are generated. If no value is passed, the default is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 	// If set, prorations will be calculated as though the subscription was resumed at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint.
@@ -3639,28 +3619,6 @@ type SubscriptionPresentmentDetails struct {
 	PresentmentCurrency Currency `json:"presentment_currency"`
 }
 
-// Information on the `type=subscription` pause.
-type SubscriptionStatusDetailsPausedSubscription struct {
-	// The reason that the subscription was paused.
-	Type SubscriptionStatusDetailsPausedSubscriptionType `json:"type"`
-}
-
-// Indicates when and why the subscription transitioned to the paused status.
-type SubscriptionStatusDetailsPaused struct {
-	// Information on the `type=subscription` pause.
-	Subscription *SubscriptionStatusDetailsPausedSubscription `json:"subscription"`
-	// Unix timestamp in seconds of when the subscription status transitioned to `paused`.
-	TransitionedAt int64 `json:"transitioned_at"`
-	// The type of pause.
-	Type SubscriptionStatusDetailsPausedType `json:"type"`
-}
-
-// Describes changes to the subscription's status.
-type SubscriptionStatusDetails struct {
-	// Indicates when and why the subscription transitioned to the paused status.
-	Paused *SubscriptionStatusDetailsPaused `json:"paused"`
-}
-
 // The account (if any) the subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 type SubscriptionTransferData struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
@@ -3787,8 +3745,6 @@ type Subscription struct {
 	//
 	// If subscription `collection_method=send_invoice` it becomes `past_due` when its invoice is not paid by the due date, and `canceled` or `unpaid` if it is still not paid by an additional deadline after that. Note that when a subscription has a status of `unpaid`, no subsequent invoices will be attempted (invoices will be created, but then immediately automatically closed). After receiving updated payment information from a customer, you may choose to reopen and pay their closed invoices.
 	Status SubscriptionStatus `json:"status"`
-	// Describes changes to the subscription's status.
-	StatusDetails *SubscriptionStatusDetails `json:"status_details,omitempty"`
 	// ID of the test clock this subscription belongs to.
 	TestClock *TestHelpersTestClock `json:"test_clock"`
 	// The account (if any) the subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.

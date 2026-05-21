@@ -8,6 +8,51 @@ package stripe
 
 import "encoding/json"
 
+// Indicates whether the feature is supported.
+type PaymentIntentAdvancedFeatureDetailsDecrementalAuthorizationStatus string
+
+// List of values that PaymentIntentAdvancedFeatureDetailsDecrementalAuthorizationStatus can take
+const (
+	PaymentIntentAdvancedFeatureDetailsDecrementalAuthorizationStatusAvailable   PaymentIntentAdvancedFeatureDetailsDecrementalAuthorizationStatus = "available"
+	PaymentIntentAdvancedFeatureDetailsDecrementalAuthorizationStatusUnavailable PaymentIntentAdvancedFeatureDetailsDecrementalAuthorizationStatus = "unavailable"
+)
+
+// Indicates whether the feature is supported.
+type PaymentIntentAdvancedFeatureDetailsIncrementalAuthorizationStatus string
+
+// List of values that PaymentIntentAdvancedFeatureDetailsIncrementalAuthorizationStatus can take
+const (
+	PaymentIntentAdvancedFeatureDetailsIncrementalAuthorizationStatusAvailable   PaymentIntentAdvancedFeatureDetailsIncrementalAuthorizationStatus = "available"
+	PaymentIntentAdvancedFeatureDetailsIncrementalAuthorizationStatusUnavailable PaymentIntentAdvancedFeatureDetailsIncrementalAuthorizationStatus = "unavailable"
+)
+
+// Indicates whether the feature is supported.
+type PaymentIntentAdvancedFeatureDetailsMulticaptureStatus string
+
+// List of values that PaymentIntentAdvancedFeatureDetailsMulticaptureStatus can take
+const (
+	PaymentIntentAdvancedFeatureDetailsMulticaptureStatusAvailable   PaymentIntentAdvancedFeatureDetailsMulticaptureStatus = "available"
+	PaymentIntentAdvancedFeatureDetailsMulticaptureStatusUnavailable PaymentIntentAdvancedFeatureDetailsMulticaptureStatus = "unavailable"
+)
+
+// Indicates whether overcapture is supported.
+type PaymentIntentAdvancedFeatureDetailsOvercaptureStatus string
+
+// List of values that PaymentIntentAdvancedFeatureDetailsOvercaptureStatus can take
+const (
+	PaymentIntentAdvancedFeatureDetailsOvercaptureStatusAvailable   PaymentIntentAdvancedFeatureDetailsOvercaptureStatus = "available"
+	PaymentIntentAdvancedFeatureDetailsOvercaptureStatusUnavailable PaymentIntentAdvancedFeatureDetailsOvercaptureStatus = "unavailable"
+)
+
+// Indicates whether the feature is supported.
+type PaymentIntentAdvancedFeatureDetailsReauthorizationStatus string
+
+// List of values that PaymentIntentAdvancedFeatureDetailsReauthorizationStatus can take
+const (
+	PaymentIntentAdvancedFeatureDetailsReauthorizationStatusAvailable   PaymentIntentAdvancedFeatureDetailsReauthorizationStatus = "available"
+	PaymentIntentAdvancedFeatureDetailsReauthorizationStatusUnavailable PaymentIntentAdvancedFeatureDetailsReauthorizationStatus = "unavailable"
+)
+
 // The code of the error that occurred when validating the current amount details.
 type PaymentIntentAmountDetailsErrorCode string
 
@@ -2132,6 +2177,8 @@ type PaymentIntentMandateDataParams struct {
 
 // French meal voucher benefit details for this PaymentIntent.
 type PaymentIntentPaymentDetailsBenefitFRMealVoucherParams struct {
+	// Whether to enable meal voucher benefit for this payment.
+	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
 	Siret *string `form:"siret" json:"siret"`
 }
@@ -7828,6 +7875,8 @@ type PaymentIntentConfirmHooksParams struct {
 
 // French meal voucher benefit details for this PaymentIntent.
 type PaymentIntentConfirmPaymentDetailsBenefitFRMealVoucherParams struct {
+	// Whether to enable meal voucher benefit for this payment.
+	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
 	Siret *string `form:"siret" json:"siret"`
 }
@@ -9918,6 +9967,8 @@ type PaymentIntentCreateMandateDataParams struct {
 
 // French meal voucher benefit details for this PaymentIntent.
 type PaymentIntentCreatePaymentDetailsBenefitFRMealVoucherParams struct {
+	// Whether to enable meal voucher benefit for this payment.
+	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
 	Siret *string `form:"siret" json:"siret"`
 }
@@ -14333,6 +14384,8 @@ type PaymentIntentUpdateMandateDataParams struct {
 
 // French meal voucher benefit details for this PaymentIntent.
 type PaymentIntentUpdatePaymentDetailsBenefitFRMealVoucherParams struct {
+	// Whether to enable meal voucher benefit for this payment.
+	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
 	Siret *string `form:"siret" json:"siret"`
 }
@@ -18433,6 +18486,40 @@ func (p *PaymentIntentUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+type PaymentIntentAdvancedFeatureDetailsDecrementalAuthorization struct {
+	// Indicates whether the feature is supported.
+	Status PaymentIntentAdvancedFeatureDetailsDecrementalAuthorizationStatus `json:"status"`
+}
+type PaymentIntentAdvancedFeatureDetailsIncrementalAuthorization struct {
+	// Indicates whether the feature is supported.
+	Status PaymentIntentAdvancedFeatureDetailsIncrementalAuthorizationStatus `json:"status"`
+}
+type PaymentIntentAdvancedFeatureDetailsMulticapture struct {
+	// Indicates whether the feature is supported.
+	Status PaymentIntentAdvancedFeatureDetailsMulticaptureStatus `json:"status"`
+}
+type PaymentIntentAdvancedFeatureDetailsOvercapture struct {
+	// The maximum amount that can be captured.
+	MaximumAmountCapturable int64 `json:"maximum_amount_capturable,omitempty"`
+	// Indicates whether overcapture is supported.
+	Status PaymentIntentAdvancedFeatureDetailsOvercaptureStatus `json:"status"`
+}
+type PaymentIntentAdvancedFeatureDetailsReauthorization struct {
+	// Indicates whether the feature is supported.
+	Status PaymentIntentAdvancedFeatureDetailsReauthorizationStatus `json:"status"`
+}
+type PaymentIntentAdvancedFeatureDetails struct {
+	// Timestamp at which the authorization will expire if not captured.
+	CaptureBefore            int64                                                        `json:"capture_before,omitempty"`
+	DecrementalAuthorization *PaymentIntentAdvancedFeatureDetailsDecrementalAuthorization `json:"decremental_authorization,omitempty"`
+	IncrementalAuthorization *PaymentIntentAdvancedFeatureDetailsIncrementalAuthorization `json:"incremental_authorization,omitempty"`
+	Multicapture             *PaymentIntentAdvancedFeatureDetailsMulticapture             `json:"multicapture,omitempty"`
+	Overcapture              *PaymentIntentAdvancedFeatureDetailsOvercapture              `json:"overcapture,omitempty"`
+	Reauthorization          *PaymentIntentAdvancedFeatureDetailsReauthorization          `json:"reauthorization,omitempty"`
+	// Timestamp at which the reauthorization window closes.
+	ReauthorizeBefore int64 `json:"reauthorize_before"`
+}
+
 // Details about the agent that initiated the creation of this PaymentIntent.
 type PaymentIntentAgentDetails struct {
 	// The name of the agent that initiated the payment.
@@ -20576,10 +20663,13 @@ type PaymentIntentTransferData struct {
 // Related guide: [Payment Intents API](https://docs.stripe.com/payments/payment-intents)
 type PaymentIntent struct {
 	APIResource
+	AdvancedFeatureDetails *PaymentIntentAdvancedFeatureDetails `json:"advanced_feature_details,omitempty"`
 	// Details about the agent that initiated the creation of this PaymentIntent.
 	AgentDetails *PaymentIntentAgentDetails `json:"agent_details,omitempty"`
 	// Allocated Funds configuration for this PaymentIntent.
 	AllocatedFunds *PaymentIntentAllocatedFunds `json:"allocated_funds,omitempty"`
+	// The list of payment method types allowed for use with this payment. Stripe automatically returns compatible payment methods from this list in the `payment_method_types` field of the response, based on the other PaymentIntent parameters, such as `currency`, `amount`, and `customer`.
+	AllowedPaymentMethodTypes []string `json:"allowed_payment_method_types,omitempty"`
 	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount int64 `json:"amount"`
 	// Amount that can be captured from this PaymentIntent.

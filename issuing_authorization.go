@@ -20,6 +20,19 @@ const (
 	IssuingAuthorizationAuthorizationMethodSwipe       IssuingAuthorizationAuthorizationMethod = "swipe"
 )
 
+// The cardholder account type affected by this authorization.
+type IssuingAuthorizationBalanceResponseAccountType string
+
+// List of values that IssuingAuthorizationBalanceResponseAccountType can take
+const (
+	IssuingAuthorizationBalanceResponseAccountTypeChecking  IssuingAuthorizationBalanceResponseAccountType = "checking"
+	IssuingAuthorizationBalanceResponseAccountTypeCredit    IssuingAuthorizationBalanceResponseAccountType = "credit"
+	IssuingAuthorizationBalanceResponseAccountTypeDefault   IssuingAuthorizationBalanceResponseAccountType = "default"
+	IssuingAuthorizationBalanceResponseAccountTypeOther     IssuingAuthorizationBalanceResponseAccountType = "other"
+	IssuingAuthorizationBalanceResponseAccountTypeSavings   IssuingAuthorizationBalanceResponseAccountType = "savings"
+	IssuingAuthorizationBalanceResponseAccountTypeUniversal IssuingAuthorizationBalanceResponseAccountType = "universal"
+)
+
 // Whether the card was present at the point of sale for the authorization.
 type IssuingAuthorizationCardPresence string
 
@@ -637,6 +650,14 @@ type IssuingAuthorizationAmountDetails struct {
 	// The amount of cash requested by the cardholder.
 	CashbackAmount int64 `json:"cashback_amount"`
 }
+type IssuingAuthorizationBalanceResponse struct {
+	// The cardholder account type affected by this authorization.
+	AccountType IssuingAuthorizationBalanceResponseAccountType `json:"account_type"`
+	// The remaining balance in the cardholder's account after the authorization, in the smallest currency unit.
+	Amount int64 `json:"amount"`
+	// The currency of the remaining balance in the cardholder's account after the authorization.
+	Currency Currency `json:"currency"`
+}
 
 // Fees associated with the transaction.
 type IssuingAuthorizationCryptoTransactionCryptoTransactionConfirmedFee struct {
@@ -995,6 +1016,7 @@ type IssuingAuthorization struct {
 	Approved bool `json:"approved"`
 	// How the card details were provided.
 	AuthorizationMethod IssuingAuthorizationAuthorizationMethod `json:"authorization_method"`
+	BalanceResponse     *IssuingAuthorizationBalanceResponse    `json:"balance_response,omitempty"`
 	// List of balance transactions associated with this authorization.
 	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
 	// You can [create physical or virtual cards](https://docs.stripe.com/issuing) that are issued to cardholders.
