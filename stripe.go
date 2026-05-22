@@ -987,6 +987,10 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 		return nil, nil, nil, err
 	}
 
+	if notice := resp.Header.Get("Stripe-Notice"); notice != "" {
+		s.logWarnf(req.Context(), "%s", notice)
+	}
+
 	return resp, result, &requestDuration, nil
 }
 

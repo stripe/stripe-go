@@ -515,6 +515,90 @@ func TestDo_LastResponsePopulated(t *testing.T) {
 	assert.Equal(t, http.StatusCreated, resource.LastResponse.StatusCode)
 }
 
+func TestDo_StripeNoticeHeaderLogged(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	noticeMessage := "This is a notice from Stripe."
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Stripe-Notice", noticeMessage)
+
+		data, err := json.Marshal(testServerResponse{Message: "Hello, client."})
+		assert.NoError(t, err)
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	var stderr bytes.Buffer
+	warnLogger := &LeveledLogger{
+		Level:          LevelWarn,
+		stderrOverride: &stderr,
+	}
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     warnLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	).(*BackendImplementation)
+
+	request, err := backend.NewRequest(http.MethodGet, "/v1/hello", "sk_test_123", "application/x-www-form-urlencoded", nil)
+	assert.NoError(t, err)
+
+	var response testServerResponse
+	err = backend.Do(request, nil, &response)
+	assert.NoError(t, err)
+
+	assert.Contains(t, stderr.String(), noticeMessage)
+}
+
+func TestDo_StripeNoticeHeaderAbsent(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		data, err := json.Marshal(testServerResponse{Message: "Hello, client."})
+		assert.NoError(t, err)
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	var stderr bytes.Buffer
+	warnLogger := &LeveledLogger{
+		Level:          LevelWarn,
+		stderrOverride: &stderr,
+	}
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     warnLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	).(*BackendImplementation)
+
+	request, err := backend.NewRequest(http.MethodGet, "/v1/hello", "sk_test_123", "application/x-www-form-urlencoded", nil)
+	assert.NoError(t, err)
+
+	var response testServerResponse
+	err = backend.Do(request, nil, &response)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "", stderr.String())
+}
+
 // Test that telemetry metrics are not sent by default
 func TestCall_TelemetryDisabled(t *testing.T) {
 	type testServerResponse struct {
