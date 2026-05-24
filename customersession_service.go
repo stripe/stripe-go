@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 )
 
@@ -27,4 +28,35 @@ func (c v1CustomerSessionService) Create(ctx context.Context, params *CustomerSe
 	err := c.B.Call(
 		http.MethodPost, "/v1/customer_sessions", c.Key, params, customersession)
 	return customersession, err
+}
+
+// Serializes a CustomerSession create request into a batch job JSONL line.
+func (c v1CustomerSessionService) MarshalBatchCreate(params *CustomerSessionCreateParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    nil,
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
