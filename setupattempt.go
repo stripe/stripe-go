@@ -304,6 +304,7 @@ type SetupAttemptPaymentMethodDetailsSofort struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type SetupAttemptPaymentMethodDetailsTWINT struct{}
 type SetupAttemptPaymentMethodDetailsUpi struct{}
 type SetupAttemptPaymentMethodDetailsUSBankAccount struct{}
 type SetupAttemptPaymentMethodDetails struct {
@@ -329,6 +330,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	RevolutPay    *SetupAttemptPaymentMethodDetailsRevolutPay    `json:"revolut_pay,omitempty"`
 	SEPADebit     *SetupAttemptPaymentMethodDetailsSEPADebit     `json:"sepa_debit,omitempty"`
 	Sofort        *SetupAttemptPaymentMethodDetailsSofort        `json:"sofort,omitempty"`
+	TWINT         *SetupAttemptPaymentMethodDetailsTWINT         `json:"twint,omitempty"`
 	// The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.
 	Type          SetupAttemptPaymentMethodDetailsType           `json:"type"`
 	Upi           *SetupAttemptPaymentMethodDetailsUpi           `json:"upi,omitempty"`

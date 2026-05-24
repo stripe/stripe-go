@@ -46,6 +46,34 @@ const (
 	SubscriptionBillingModeTypeFlexible SubscriptionBillingModeType = "flexible"
 )
 
+// Controls which subscription items the billing schedule applies to.
+type SubscriptionBillingScheduleAppliesToType string
+
+// List of values that SubscriptionBillingScheduleAppliesToType can take
+const (
+	SubscriptionBillingScheduleAppliesToTypePrice SubscriptionBillingScheduleAppliesToType = "price"
+)
+
+// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+type SubscriptionBillingScheduleBillUntilDurationInterval string
+
+// List of values that SubscriptionBillingScheduleBillUntilDurationInterval can take
+const (
+	SubscriptionBillingScheduleBillUntilDurationIntervalDay   SubscriptionBillingScheduleBillUntilDurationInterval = "day"
+	SubscriptionBillingScheduleBillUntilDurationIntervalMonth SubscriptionBillingScheduleBillUntilDurationInterval = "month"
+	SubscriptionBillingScheduleBillUntilDurationIntervalWeek  SubscriptionBillingScheduleBillUntilDurationInterval = "week"
+	SubscriptionBillingScheduleBillUntilDurationIntervalYear  SubscriptionBillingScheduleBillUntilDurationInterval = "year"
+)
+
+// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+type SubscriptionBillingScheduleBillUntilType string
+
+// List of values that SubscriptionBillingScheduleBillUntilType can take
+const (
+	SubscriptionBillingScheduleBillUntilTypeDuration  SubscriptionBillingScheduleBillUntilType = "duration"
+	SubscriptionBillingScheduleBillUntilTypeTimestamp SubscriptionBillingScheduleBillUntilType = "timestamp"
+)
+
 // The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
 type SubscriptionCancellationDetailsFeedback string
 
@@ -309,6 +337,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeSEPADebit          SubscriptionPaymentSettingsPaymentMethodType = "sepa_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeSofort             SubscriptionPaymentSettingsPaymentMethodType = "sofort"
 	SubscriptionPaymentSettingsPaymentMethodTypeSwish              SubscriptionPaymentSettingsPaymentMethodType = "swish"
+	SubscriptionPaymentSettingsPaymentMethodTypeTWINT              SubscriptionPaymentSettingsPaymentMethodType = "twint"
 	SubscriptionPaymentSettingsPaymentMethodTypeUpi                SubscriptionPaymentSettingsPaymentMethodType = "upi"
 	SubscriptionPaymentSettingsPaymentMethodTypeUSBankAccount      SubscriptionPaymentSettingsPaymentMethodType = "us_bank_account"
 	SubscriptionPaymentSettingsPaymentMethodTypeWeChatPay          SubscriptionPaymentSettingsPaymentMethodType = "wechat_pay"
@@ -391,7 +420,7 @@ func (p *SubscriptionCancelCancellationDetailsParams) AddUnsetField(field Subscr
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// Cancels a customer's subscription immediately. The customer won't be charged again for the subscription. After it's canceled, you can no longer update the subscription or its [metadata](https://docs.stripe.com/metadata).
+// Cancels a customer's subscription immediately. The customer won't be charged again for the subscription. After it's canceled, the subscription is largely immutable. You can still update its [metadata](https://docs.stripe.com/metadata) and cancellation_details.
 //
 // Any pending invoice items that you've created are still charged at the end of the period, unless manually [deleted](https://docs.stripe.com/api/invoiceitems/delete). If you've set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if invoice_now and prorate are both set to true.
 //
@@ -432,12 +461,15 @@ type SubscriptionParams struct {
 	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *SubscriptionBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
+	// Sets the billing schedules for the subscription.
+	BillingSchedules []*SubscriptionBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt             *int64 `form:"cancel_at" json:"cancel_at,omitempty"`
-	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
-	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	CancelAt               *int64 `form:"cancel_at" json:"cancel_at,omitempty"`
+	CancelAtMaxBilledUntil *bool  `form:"-"` // See custom AppendTo
+	CancelAtMaxPeriodEnd   *bool  `form:"-"` // See custom AppendTo
+	CancelAtMinPeriodEnd   *bool  `form:"-"` // See custom AppendTo
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end" json:"cancel_at_period_end,omitempty"`
 	// Details about why this subscription was cancelled
@@ -460,7 +492,7 @@ type SubscriptionParams struct {
 	DefaultTaxRates []*string `form:"default_tax_rates" json:"default_tax_rates,omitempty"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description" json:"description,omitempty"`
-	// The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
+	// The coupons to redeem into discounts for the subscription. A populated array overwrites the existing discounts on the subscription. If not specified or empty array, it leaves the subscription's discounts unchanged. If empty string, it clears the subscription's discounts.
 	Discounts []*SubscriptionDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -476,17 +508,7 @@ type SubscriptionParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionPauseCollectionParams `form:"pause_collection" json:"pause_collection,omitempty"`
-	// Only applies to subscriptions with `collection_method=charge_automatically`.
-	//
-	// Use `allow_incomplete` to create Subscriptions with `status=incomplete` if the first invoice can't be paid. Creating Subscriptions with this status allows you to manage scenarios where additional customer actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.
-	//
-	// Use `default_incomplete` to create Subscriptions with `status=incomplete` when the first invoice requires payment, otherwise start as active. Subscriptions transition to `status=active` when successfully confirming the PaymentIntent on the first invoice. This allows simpler management of scenarios where additional customer actions are needed to pay a subscription's invoice, such as failed payments, [SCA regulation](https://docs.stripe.com/billing/migration/strong-customer-authentication), or collecting a mandate for a bank debit payment method. If the PaymentIntent is not confirmed within 23 hours Subscriptions transition to `status=incomplete_expired`, which is a terminal state.
-	//
-	// Use `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's first invoice can't be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further customer action is needed, this parameter doesn't create a Subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://docs.stripe.com/upgrades#2019-03-14) to learn more.
-	//
-	// `pending_if_incomplete` is only used with updates and cannot be passed when creating a Subscription.
-	//
-	// Subscriptions with `collection_method=send_invoice` are automatically activated regardless of the first Invoice status.
+	// Controls how Stripe handles the first invoice when payment is required and `collection_method=charge_automatically`. Subscriptions with `collection_method=send_invoice` are automatically activated regardless of the first Invoice status.
 	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// Payment settings to pass to invoices created by the subscription.
 	PaymentSettings *SubscriptionPaymentSettingsParams `form:"payment_settings" json:"payment_settings,omitempty"`
@@ -515,6 +537,7 @@ type SubscriptionParamsUnsetField string
 
 const (
 	SubscriptionParamsUnsetFieldApplicationFeePercent      SubscriptionParamsUnsetField = "application_fee_percent"
+	SubscriptionParamsUnsetFieldBillingSchedules           SubscriptionParamsUnsetField = "billing_schedules"
 	SubscriptionParamsUnsetFieldBillingThresholds          SubscriptionParamsUnsetField = "billing_thresholds"
 	SubscriptionParamsUnsetFieldCancelAt                   SubscriptionParamsUnsetField = "cancel_at"
 	SubscriptionParamsUnsetFieldDefaultSource              SubscriptionParamsUnsetField = "default_source"
@@ -554,6 +577,9 @@ func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 	if BoolValue(p.BillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
+	}
+	if BoolValue(p.CancelAtMaxBilledUntil) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_billed_until")
 	}
 	if BoolValue(p.CancelAtMaxPeriodEnd) {
 		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_period_end")
@@ -602,6 +628,8 @@ type SubscriptionAddInvoiceItemPeriodParams struct {
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
 type SubscriptionAddInvoiceItemParams struct {
+	// Controls whether discounts apply to this invoice item. Defaults to true if no value is provided.
+	Discountable *bool `form:"discountable" json:"discountable,omitempty"`
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionAddInvoiceItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -656,6 +684,42 @@ type SubscriptionAutomaticTaxParams struct {
 	Liability *SubscriptionAutomaticTaxLiabilityParams `form:"liability" json:"liability,omitempty"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type SubscriptionBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price" json:"price,omitempty"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type" json:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
+// The end date for the billing schedule.
+type SubscriptionBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *SubscriptionBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type" json:"type"`
+}
+
+// Sets the billing schedules for the subscription.
+type SubscriptionBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*SubscriptionBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
+	// The end date for the billing schedule.
+	BillUntil *SubscriptionBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key" json:"key,omitempty"`
+}
+
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 type SubscriptionBillingThresholdsParams struct {
 	// Monetary threshold that triggers the subscription to advance to a new billing period
@@ -686,7 +750,7 @@ func (p *SubscriptionCancellationDetailsParams) AddUnsetField(field Subscription
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
+// The coupons to redeem into discounts for the subscription. A populated array overwrites the existing discounts on the subscription. If not specified or empty array, it leaves the subscription's discounts unchanged. If empty string, it clears the subscription's discounts.
 type SubscriptionDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon" json:"coupon,omitempty"`
@@ -1150,7 +1214,7 @@ func (p *SubscriptionMigrateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If no resumption invoice is generated, the subscription becomes active immediately. If a resumption invoice is generated, the subscription remains paused until the invoice is paid or marked uncollectible. If the invoice isn't paid by the expiration date, it is voided and the subscription remains paused. You can only resume subscriptions with collection_method set to charge_automatically. send_invoice subscriptions are not supported.
+// Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. Resume is only available for subscriptions that use charge_automatically collection. If Stripe doesn't generate a resumption invoice, the subscription becomes active immediately. When a resumption invoice is generated, Stripe finalizes it immediately. If the invoice is paid or marked uncollectible, the subscription becomes active. If the invoice is manually voided, the subscription stays paused. If there is no payment attempt within 23 hours, Stripe voids the invoice and the subscription stays paused. Learn more about [resuming subscriptions](https://docs.stripe.com/docs/billing/subscriptions/pause#resume-subscriptions).
 type SubscriptionResumeParams struct {
 	Params `form:"*"`
 	// The billing cycle anchor that applies when the subscription is resumed. Either `now` or `unchanged`. The default is `now`. For more information, see the billing cycle [documentation](https://docs.stripe.com/billing/subscriptions/billing-cycle).
@@ -1216,6 +1280,8 @@ type SubscriptionUpdateAddInvoiceItemPeriodParams struct {
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
 type SubscriptionUpdateAddInvoiceItemParams struct {
+	// Controls whether discounts apply to this invoice item. Defaults to true if no value is provided.
+	Discountable *bool `form:"discountable" json:"discountable,omitempty"`
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionUpdateAddInvoiceItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -1270,6 +1336,42 @@ type SubscriptionUpdateAutomaticTaxParams struct {
 	Liability *SubscriptionUpdateAutomaticTaxLiabilityParams `form:"liability" json:"liability,omitempty"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type SubscriptionUpdateBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price" json:"price,omitempty"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type" json:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionUpdateBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
+// The end date for the billing schedule.
+type SubscriptionUpdateBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *SubscriptionUpdateBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type" json:"type"`
+}
+
+// Sets the billing schedules for the subscription.
+type SubscriptionUpdateBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*SubscriptionUpdateBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
+	// The end date for the billing schedule.
+	BillUntil *SubscriptionUpdateBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key" json:"key,omitempty"`
+}
+
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 type SubscriptionUpdateBillingThresholdsParams struct {
 	// Monetary threshold that triggers the subscription to advance to a new billing period
@@ -1300,7 +1402,7 @@ func (p *SubscriptionUpdateCancellationDetailsParams) AddUnsetField(field Subscr
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
+// The coupons to redeem into discounts for the subscription. A populated array overwrites the existing discounts on the subscription. If not specified or empty array, it leaves the subscription's discounts unchanged. If empty string, it clears the subscription's discounts.
 type SubscriptionUpdateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon" json:"coupon,omitempty"`
@@ -1710,12 +1812,15 @@ type SubscriptionUpdateParams struct {
 	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
+	// Sets the billing schedules for the subscription.
+	BillingSchedules []*SubscriptionUpdateBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionUpdateBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt             *int64 `form:"cancel_at" json:"cancel_at,omitempty"`
-	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
-	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	CancelAt               *int64 `form:"cancel_at" json:"cancel_at,omitempty"`
+	CancelAtMaxBilledUntil *bool  `form:"-"` // See custom AppendTo
+	CancelAtMaxPeriodEnd   *bool  `form:"-"` // See custom AppendTo
+	CancelAtMinPeriodEnd   *bool  `form:"-"` // See custom AppendTo
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end" json:"cancel_at_period_end,omitempty"`
 	// Details about why this subscription was cancelled
@@ -1732,7 +1837,7 @@ type SubscriptionUpdateParams struct {
 	DefaultTaxRates []*string `form:"default_tax_rates" json:"default_tax_rates,omitempty"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description" json:"description,omitempty"`
-	// The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
+	// The coupons to redeem into discounts for the subscription. A populated array overwrites the existing discounts on the subscription. If not specified or empty array, it leaves the subscription's discounts unchanged. If empty string, it clears the subscription's discounts.
 	Discounts []*SubscriptionUpdateDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -1748,13 +1853,7 @@ type SubscriptionUpdateParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://docs.stripe.com/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionUpdatePauseCollectionParams `form:"pause_collection" json:"pause_collection,omitempty"`
-	// Use `allow_incomplete` to transition the subscription to `status=past_due` if a payment is required but cannot be paid. This allows you to manage scenarios where additional user actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.
-	//
-	// Use `default_incomplete` to transition the subscription to `status=past_due` when payment is required and await explicit confirmation of the invoice's payment intent. This allows simpler management of scenarios where additional user actions are needed to pay a subscription's invoice. Such as failed payments, [SCA regulation](https://docs.stripe.com/billing/migration/strong-customer-authentication), or collecting a mandate for a bank debit payment method.
-	//
-	// Use `pending_if_incomplete` to update the subscription using [pending updates](https://docs.stripe.com/billing/subscriptions/pending-updates). When you use `pending_if_incomplete` you can only pass the parameters [supported by pending updates](https://docs.stripe.com/billing/pending-updates-reference#supported-attributes).
-	//
-	// Use `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not update the subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://docs.stripe.com/changelog/2019-03-14) to learn more.
+	// Controls how Stripe handles payment when a subscription update requires payment and `collection_method=charge_automatically`.
 	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// Payment settings to pass to invoices created by the subscription.
 	PaymentSettings *SubscriptionUpdatePaymentSettingsParams `form:"payment_settings" json:"payment_settings,omitempty"`
@@ -1781,6 +1880,7 @@ type SubscriptionUpdateParamsUnsetField string
 
 const (
 	SubscriptionUpdateParamsUnsetFieldApplicationFeePercent      SubscriptionUpdateParamsUnsetField = "application_fee_percent"
+	SubscriptionUpdateParamsUnsetFieldBillingSchedules           SubscriptionUpdateParamsUnsetField = "billing_schedules"
 	SubscriptionUpdateParamsUnsetFieldBillingThresholds          SubscriptionUpdateParamsUnsetField = "billing_thresholds"
 	SubscriptionUpdateParamsUnsetFieldCancelAt                   SubscriptionUpdateParamsUnsetField = "cancel_at"
 	SubscriptionUpdateParamsUnsetFieldDefaultSource              SubscriptionUpdateParamsUnsetField = "default_source"
@@ -1820,6 +1920,9 @@ func (p *SubscriptionUpdateParams) AppendTo(body *form.Values, keyParts []string
 	}
 	if BoolValue(p.BillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
+	}
+	if BoolValue(p.CancelAtMaxBilledUntil) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_billed_until")
 	}
 	if BoolValue(p.CancelAtMaxPeriodEnd) {
 		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_period_end")
@@ -1868,6 +1971,8 @@ type SubscriptionCreateAddInvoiceItemPeriodParams struct {
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
 type SubscriptionCreateAddInvoiceItemParams struct {
+	// Controls whether discounts apply to this invoice item. Defaults to true if no value is provided.
+	Discountable *bool `form:"discountable" json:"discountable,omitempty"`
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionCreateAddInvoiceItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -1948,6 +2053,42 @@ type SubscriptionCreateBillingModeParams struct {
 	Flexible *SubscriptionCreateBillingModeFlexibleParams `form:"flexible" json:"flexible,omitempty"`
 	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
 	Type *string `form:"type" json:"type"`
+}
+
+// Configure billing schedule differently for individual subscription items.
+type SubscriptionCreateBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price" json:"price,omitempty"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type" json:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionCreateBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
+// The end date for the billing schedule.
+type SubscriptionCreateBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *SubscriptionCreateBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type" json:"type"`
+}
+
+// Sets the billing schedules for the subscription.
+type SubscriptionCreateBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*SubscriptionCreateBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
+	// The end date for the billing schedule.
+	BillUntil *SubscriptionCreateBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key" json:"key,omitempty"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
@@ -2347,12 +2488,15 @@ type SubscriptionCreateParams struct {
 	BillingCycleAnchorUnchanged *bool                                             `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *SubscriptionCreateBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
+	// Sets the billing schedules for the subscription.
+	BillingSchedules []*SubscriptionCreateBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionCreateBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt             *int64 `form:"cancel_at" json:"cancel_at,omitempty"`
-	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
-	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	CancelAt               *int64 `form:"cancel_at" json:"cancel_at,omitempty"`
+	CancelAtMaxBilledUntil *bool  `form:"-"` // See custom AppendTo
+	CancelAtMaxPeriodEnd   *bool  `form:"-"` // See custom AppendTo
+	CancelAtMinPeriodEnd   *bool  `form:"-"` // See custom AppendTo
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end" json:"cancel_at_period_end,omitempty"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
@@ -2387,17 +2531,7 @@ type SubscriptionCreateParams struct {
 	OffSession *bool `form:"off_session" json:"off_session,omitempty"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
-	// Only applies to subscriptions with `collection_method=charge_automatically`.
-	//
-	// Use `allow_incomplete` to create Subscriptions with `status=incomplete` if the first invoice can't be paid. Creating Subscriptions with this status allows you to manage scenarios where additional customer actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://docs.stripe.com/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.
-	//
-	// Use `default_incomplete` to create Subscriptions with `status=incomplete` when the first invoice requires payment, otherwise start as active. Subscriptions transition to `status=active` when successfully confirming the PaymentIntent on the first invoice. This allows simpler management of scenarios where additional customer actions are needed to pay a subscription's invoice, such as failed payments, [SCA regulation](https://docs.stripe.com/billing/migration/strong-customer-authentication), or collecting a mandate for a bank debit payment method. If the PaymentIntent is not confirmed within 23 hours Subscriptions transition to `status=incomplete_expired`, which is a terminal state.
-	//
-	// Use `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's first invoice can't be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further customer action is needed, this parameter doesn't create a Subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://docs.stripe.com/upgrades#2019-03-14) to learn more.
-	//
-	// `pending_if_incomplete` is only used with updates and cannot be passed when creating a Subscription.
-	//
-	// Subscriptions with `collection_method=send_invoice` are automatically activated regardless of the first Invoice status.
+	// Controls how Stripe handles the first invoice when payment is required and `collection_method=charge_automatically`. Subscriptions with `collection_method=send_invoice` are automatically activated regardless of the first Invoice status.
 	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// Payment settings to pass to invoices created by the subscription.
 	PaymentSettings *SubscriptionCreatePaymentSettingsParams `form:"payment_settings" json:"payment_settings,omitempty"`
@@ -2459,6 +2593,9 @@ func (p *SubscriptionCreateParams) AppendTo(body *form.Values, keyParts []string
 	if BoolValue(p.BillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
 	}
+	if BoolValue(p.CancelAtMaxBilledUntil) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_billed_until")
+	}
 	if BoolValue(p.CancelAtMaxPeriodEnd) {
 		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_period_end")
 	}
@@ -2514,6 +2651,44 @@ type SubscriptionBillingMode struct {
 	Type SubscriptionBillingModeType `json:"type"`
 	// Details on when the current billing_mode was adopted.
 	UpdatedAt int64 `json:"updated_at,omitempty"`
+}
+
+// Specifies which subscription items the billing schedule applies to.
+type SubscriptionBillingScheduleAppliesTo struct {
+	// The billing schedule will apply to the subscription item with the given price ID.
+	Price *Price `json:"price"`
+	// Controls which subscription items the billing schedule applies to.
+	Type SubscriptionBillingScheduleAppliesToType `json:"type"`
+}
+
+// Specifies the billing period.
+type SubscriptionBillingScheduleBillUntilDuration struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval SubscriptionBillingScheduleBillUntilDurationInterval `json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount int64 `json:"interval_count"`
+}
+
+// Specifies the end of billing period.
+type SubscriptionBillingScheduleBillUntil struct {
+	// The timestamp the billing schedule will apply until.
+	ComputedTimestamp int64 `json:"computed_timestamp"`
+	// Specifies the billing period.
+	Duration *SubscriptionBillingScheduleBillUntilDuration `json:"duration"`
+	// If specified, the billing schedule will apply until the specified timestamp.
+	Timestamp int64 `json:"timestamp"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type SubscriptionBillingScheduleBillUntilType `json:"type"`
+}
+
+// Billing schedules for this subscription.
+type SubscriptionBillingSchedule struct {
+	// Specifies which subscription items the billing schedule applies to.
+	AppliesTo []*SubscriptionBillingScheduleAppliesTo `json:"applies_to"`
+	// Specifies the end of billing period.
+	BillUntil *SubscriptionBillingScheduleBillUntil `json:"bill_until"`
+	// Unique identifier for the billing schedule.
+	Key string `json:"key"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
@@ -2724,8 +2899,14 @@ type SubscriptionPendingInvoiceItemInterval struct {
 type SubscriptionPendingUpdate struct {
 	// If the update is applied, determines the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. The timestamp is in UTC format.
 	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
+	// The pending subscription-level discount that will be applied when the pending update is applied.
+	Discount *Discount `json:"discount"`
+	// The discounts that will be applied to the subscription when the pending update is applied. Use `expand[]=discounts` to expand each discount.
+	Discounts []*Discount `json:"discounts"`
 	// The point after which the changes reflected by this update will be discarded and no longer applied.
 	ExpiresAt int64 `json:"expires_at"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// List of subscription items, each with an attached plan, that will be set if the update is applied.
 	SubscriptionItems []*SubscriptionItem `json:"subscription_items"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time, if the update is applied.
@@ -2774,6 +2955,8 @@ type Subscription struct {
 	BillingCycleAnchorConfig *SubscriptionBillingCycleAnchorConfig `json:"billing_cycle_anchor_config"`
 	// The billing mode of the subscription.
 	BillingMode *SubscriptionBillingMode `json:"billing_mode"`
+	// Billing schedules for this subscription.
+	BillingSchedules []*SubscriptionBillingSchedule `json:"billing_schedules"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 	BillingThresholds *SubscriptionBillingThresholds `json:"billing_thresholds"`
 	// A date in the future at which the subscription will automatically get canceled
