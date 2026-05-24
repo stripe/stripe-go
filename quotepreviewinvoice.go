@@ -444,6 +444,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSofort             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "sofort"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeStripeBalance      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "stripe_balance"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSwish              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "swish"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeTWINT              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "twint"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeUpi                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "upi"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeUSBankAccount      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "us_bank_account"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeWeChatPay          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "wechat_pay"
@@ -994,6 +995,8 @@ type QuotePreviewInvoice struct {
 	AmountOverpaid int64 `json:"amount_overpaid"`
 	// The amount, in cents (or local equivalent), that was paid.
 	AmountPaid int64 `json:"amount_paid"`
+	// Amount, in cents (or local equivalent), that was paid on the invoice outside of Stripe.
+	AmountPaidOffStripe int64 `json:"amount_paid_off_stripe,omitempty"`
 	// The difference between amount_due and amount_paid, in cents (or local equivalent).
 	AmountRemaining int64 `json:"amount_remaining"`
 	// List of expected payments and corresponding due dates. This value will be null for invoices where collection_method=charge_automatically.

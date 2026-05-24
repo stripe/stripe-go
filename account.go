@@ -541,6 +541,12 @@ type AccountCapabilitiesBilliePaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The bizum_payments capability.
+type AccountCapabilitiesBizumPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The blik_payments capability.
 type AccountCapabilitiesBLIKPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -817,6 +823,12 @@ type AccountCapabilitiesSatispayPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The scalapay_payments capability.
+type AccountCapabilitiesScalapayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The sepa_bank_transfer_payments capability.
 type AccountCapabilitiesSEPABankTransferPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -964,6 +976,8 @@ type AccountCapabilitiesParams struct {
 	BankTransferPayments *AccountCapabilitiesBankTransferPaymentsParams `form:"bank_transfer_payments" json:"bank_transfer_payments,omitempty"`
 	// The billie_payments capability.
 	BilliePayments *AccountCapabilitiesBilliePaymentsParams `form:"billie_payments" json:"billie_payments,omitempty"`
+	// The bizum_payments capability.
+	BizumPayments *AccountCapabilitiesBizumPaymentsParams `form:"bizum_payments" json:"bizum_payments,omitempty"`
 	// The blik_payments capability.
 	BLIKPayments *AccountCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
 	// The boleto_payments capability.
@@ -1056,6 +1070,8 @@ type AccountCapabilitiesParams struct {
 	SamsungPayPayments *AccountCapabilitiesSamsungPayPaymentsParams `form:"samsung_pay_payments" json:"samsung_pay_payments,omitempty"`
 	// The satispay_payments capability.
 	SatispayPayments *AccountCapabilitiesSatispayPaymentsParams `form:"satispay_payments" json:"satispay_payments,omitempty"`
+	// The scalapay_payments capability.
+	ScalapayPayments *AccountCapabilitiesScalapayPaymentsParams `form:"scalapay_payments" json:"scalapay_payments,omitempty"`
 	// The sepa_bank_transfer_payments capability.
 	SEPABankTransferPayments *AccountCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// The sepa_debit_payments capability.
@@ -1951,6 +1967,12 @@ type AccountUpdateCapabilitiesBilliePaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The bizum_payments capability.
+type AccountUpdateCapabilitiesBizumPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The blik_payments capability.
 type AccountUpdateCapabilitiesBLIKPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2227,6 +2249,12 @@ type AccountUpdateCapabilitiesSatispayPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The scalapay_payments capability.
+type AccountUpdateCapabilitiesScalapayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The sepa_bank_transfer_payments capability.
 type AccountUpdateCapabilitiesSEPABankTransferPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2374,6 +2402,8 @@ type AccountUpdateCapabilitiesParams struct {
 	BankTransferPayments *AccountUpdateCapabilitiesBankTransferPaymentsParams `form:"bank_transfer_payments" json:"bank_transfer_payments,omitempty"`
 	// The billie_payments capability.
 	BilliePayments *AccountUpdateCapabilitiesBilliePaymentsParams `form:"billie_payments" json:"billie_payments,omitempty"`
+	// The bizum_payments capability.
+	BizumPayments *AccountUpdateCapabilitiesBizumPaymentsParams `form:"bizum_payments" json:"bizum_payments,omitempty"`
 	// The blik_payments capability.
 	BLIKPayments *AccountUpdateCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
 	// The boleto_payments capability.
@@ -2466,6 +2496,8 @@ type AccountUpdateCapabilitiesParams struct {
 	SamsungPayPayments *AccountUpdateCapabilitiesSamsungPayPaymentsParams `form:"samsung_pay_payments" json:"samsung_pay_payments,omitempty"`
 	// The satispay_payments capability.
 	SatispayPayments *AccountUpdateCapabilitiesSatispayPaymentsParams `form:"satispay_payments" json:"satispay_payments,omitempty"`
+	// The scalapay_payments capability.
+	ScalapayPayments *AccountUpdateCapabilitiesScalapayPaymentsParams `form:"scalapay_payments" json:"scalapay_payments,omitempty"`
 	// The sepa_bank_transfer_payments capability.
 	SEPABankTransferPayments *AccountUpdateCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// The sepa_debit_payments capability.
@@ -3346,6 +3378,12 @@ type AccountCreateCapabilitiesBilliePaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The bizum_payments capability.
+type AccountCreateCapabilitiesBizumPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The blik_payments capability.
 type AccountCreateCapabilitiesBLIKPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3622,6 +3660,12 @@ type AccountCreateCapabilitiesSatispayPaymentsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// The scalapay_payments capability.
+type AccountCreateCapabilitiesScalapayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // The sepa_bank_transfer_payments capability.
 type AccountCreateCapabilitiesSEPABankTransferPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3769,6 +3813,8 @@ type AccountCreateCapabilitiesParams struct {
 	BankTransferPayments *AccountCreateCapabilitiesBankTransferPaymentsParams `form:"bank_transfer_payments" json:"bank_transfer_payments,omitempty"`
 	// The billie_payments capability.
 	BilliePayments *AccountCreateCapabilitiesBilliePaymentsParams `form:"billie_payments" json:"billie_payments,omitempty"`
+	// The bizum_payments capability.
+	BizumPayments *AccountCreateCapabilitiesBizumPaymentsParams `form:"bizum_payments" json:"bizum_payments,omitempty"`
 	// The blik_payments capability.
 	BLIKPayments *AccountCreateCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
 	// The boleto_payments capability.
@@ -3861,6 +3907,8 @@ type AccountCreateCapabilitiesParams struct {
 	SamsungPayPayments *AccountCreateCapabilitiesSamsungPayPaymentsParams `form:"samsung_pay_payments" json:"samsung_pay_payments,omitempty"`
 	// The satispay_payments capability.
 	SatispayPayments *AccountCreateCapabilitiesSatispayPaymentsParams `form:"satispay_payments" json:"satispay_payments,omitempty"`
+	// The scalapay_payments capability.
+	ScalapayPayments *AccountCreateCapabilitiesScalapayPaymentsParams `form:"scalapay_payments" json:"scalapay_payments,omitempty"`
 	// The sepa_bank_transfer_payments capability.
 	SEPABankTransferPayments *AccountCreateCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// The sepa_debit_payments capability.
@@ -4713,6 +4761,8 @@ type AccountCapabilities struct {
 	BankTransferPayments AccountCapabilityStatus `json:"bank_transfer_payments,omitempty"`
 	// The status of the Billie capability of the account, or whether the account can directly process Billie payments.
 	BilliePayments AccountCapabilityStatus `json:"billie_payments,omitempty"`
+	// The status of the Bizum capability of the account, or whether the account can directly process Bizum payments.
+	BizumPayments AccountCapabilityStatus `json:"bizum_payments,omitempty"`
 	// The status of the blik payments capability of the account, or whether the account can directly process blik charges.
 	BLIKPayments AccountCapabilityStatus `json:"blik_payments,omitempty"`
 	// The status of the boleto payments capability of the account, or whether the account can directly process boleto charges.
@@ -4805,6 +4855,8 @@ type AccountCapabilities struct {
 	SamsungPayPayments AccountCapabilityStatus `json:"samsung_pay_payments,omitempty"`
 	// The status of the Satispay capability of the account, or whether the account can directly process Satispay payments.
 	SatispayPayments AccountCapabilityStatus `json:"satispay_payments,omitempty"`
+	// The status of the Scalapay capability of the account, or whether the account can directly process Scalapay payments.
+	ScalapayPayments AccountCapabilityStatus `json:"scalapay_payments,omitempty"`
 	// The status of the SEPA customer_balance payments (EUR currency) capability of the account, or whether the account can directly process SEPA customer_balance charges.
 	SEPABankTransferPayments AccountCapabilityStatus `json:"sepa_bank_transfer_payments,omitempty"`
 	// The status of the SEPA Direct Debits payments capability of the account, or whether the account can directly process SEPA Direct Debits charges.

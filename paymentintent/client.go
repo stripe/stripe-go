@@ -326,7 +326,9 @@ func (c Client) DecrementAuthorization(id string, params *stripe.PaymentIntentDe
 // Each PaymentIntent can have a maximum of 10 incremental authorization attempts, including declines.
 // After it's captured, a PaymentIntent can no longer be incremented.
 //
-// Learn more about [incremental authorizations](https://docs.stripe.com/docs/terminal/features/incremental-authorizations).
+// Learn more about incremental authorizations with
+// [in-person payments](https://docs.stripe.com/docs/terminal/features/incremental-authorizations) and
+// [online payments](https://docs.stripe.com/docs/payments/incremental-authorization?platform=web&ui=elements).
 func IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuthorizationParams) (*stripe.PaymentIntent, error) {
 	return getC().IncrementAuthorization(id, params)
 }
@@ -354,7 +356,9 @@ func IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuth
 // Each PaymentIntent can have a maximum of 10 incremental authorization attempts, including declines.
 // After it's captured, a PaymentIntent can no longer be incremented.
 //
-// Learn more about [incremental authorizations](https://docs.stripe.com/docs/terminal/features/incremental-authorizations).
+// Learn more about incremental authorizations with
+// [in-person payments](https://docs.stripe.com/docs/terminal/features/incremental-authorizations) and
+// [online payments](https://docs.stripe.com/docs/payments/incremental-authorization?platform=web&ui=elements).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

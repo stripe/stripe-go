@@ -41,8 +41,16 @@ type TerminalConfigurationParams struct {
 	StripeS710 *TerminalConfigurationStripeS710Params `form:"stripe_s710" json:"stripe_s710,omitempty"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationTippingParams `form:"tipping" json:"tipping,omitempty"`
+	// An object containing device type specific settings for Verifone M425 readers.
+	VerifoneM425 *TerminalConfigurationVerifoneM425Params `form:"verifone_m425" json:"verifone_m425,omitempty"`
 	// An object containing device type specific settings for Verifone P400 readers.
 	VerifoneP400 *TerminalConfigurationVerifoneP400Params `form:"verifone_p400" json:"verifone_p400,omitempty"`
+	// An object containing device type specific settings for Verifone P630 readers.
+	VerifoneP630 *TerminalConfigurationVerifoneP630Params `form:"verifone_p630" json:"verifone_p630,omitempty"`
+	// An object containing device type specific settings for Verifone UX700 readers.
+	VerifoneUx700 *TerminalConfigurationVerifoneUx700Params `form:"verifone_ux700" json:"verifone_ux700,omitempty"`
+	// An object containing device type specific settings for Verifone V660p readers.
+	VerifoneV660p *TerminalConfigurationVerifoneV660pParams `form:"verifone_v660p" json:"verifone_v660p,omitempty"`
 	// Configurations for connecting to a WiFi network.
 	Wifi        *TerminalConfigurationWifiParams        `form:"wifi" json:"wifi,omitempty"`
 	UnsetFields []TerminalConfigurationParamsUnsetField `form:"-" json:"-"`
@@ -61,7 +69,11 @@ const (
 	TerminalConfigurationParamsUnsetFieldStripeS700     TerminalConfigurationParamsUnsetField = "stripe_s700"
 	TerminalConfigurationParamsUnsetFieldStripeS710     TerminalConfigurationParamsUnsetField = "stripe_s710"
 	TerminalConfigurationParamsUnsetFieldTipping        TerminalConfigurationParamsUnsetField = "tipping"
+	TerminalConfigurationParamsUnsetFieldVerifoneM425   TerminalConfigurationParamsUnsetField = "verifone_m425"
 	TerminalConfigurationParamsUnsetFieldVerifoneP400   TerminalConfigurationParamsUnsetField = "verifone_p400"
+	TerminalConfigurationParamsUnsetFieldVerifoneP630   TerminalConfigurationParamsUnsetField = "verifone_p630"
+	TerminalConfigurationParamsUnsetFieldVerifoneUx700  TerminalConfigurationParamsUnsetField = "verifone_ux700"
+	TerminalConfigurationParamsUnsetFieldVerifoneV660p  TerminalConfigurationParamsUnsetField = "verifone_v660p"
 	TerminalConfigurationParamsUnsetFieldWifi           TerminalConfigurationParamsUnsetField = "wifi"
 )
 
@@ -446,6 +458,25 @@ type TerminalConfigurationTippingParams struct {
 	USD *TerminalConfigurationTippingUSDParams `form:"usd" json:"usd,omitempty"`
 }
 
+// An object containing device type specific settings for Verifone M425 readers.
+type TerminalConfigurationVerifoneM425Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                             `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationVerifoneM425ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationVerifoneM425ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationVerifoneM425Params.
+type TerminalConfigurationVerifoneM425ParamsUnsetField string
+
+const (
+	TerminalConfigurationVerifoneM425ParamsUnsetFieldSplashscreen TerminalConfigurationVerifoneM425ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationVerifoneM425Params) AddUnsetField(field TerminalConfigurationVerifoneM425ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // An object containing device type specific settings for Verifone P400 readers.
 type TerminalConfigurationVerifoneP400Params struct {
 	// A File ID representing an image you want to display on the reader.
@@ -462,6 +493,63 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalConfigurationVerifoneP400Params) AddUnsetField(field TerminalConfigurationVerifoneP400ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Verifone P630 readers.
+type TerminalConfigurationVerifoneP630Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                             `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationVerifoneP630ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationVerifoneP630ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationVerifoneP630Params.
+type TerminalConfigurationVerifoneP630ParamsUnsetField string
+
+const (
+	TerminalConfigurationVerifoneP630ParamsUnsetFieldSplashscreen TerminalConfigurationVerifoneP630ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationVerifoneP630Params) AddUnsetField(field TerminalConfigurationVerifoneP630ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Verifone UX700 readers.
+type TerminalConfigurationVerifoneUx700Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                              `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationVerifoneUx700ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationVerifoneUx700ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationVerifoneUx700Params.
+type TerminalConfigurationVerifoneUx700ParamsUnsetField string
+
+const (
+	TerminalConfigurationVerifoneUx700ParamsUnsetFieldSplashscreen TerminalConfigurationVerifoneUx700ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationVerifoneUx700Params) AddUnsetField(field TerminalConfigurationVerifoneUx700ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Verifone V660p readers.
+type TerminalConfigurationVerifoneV660pParams struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                              `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationVerifoneV660pParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationVerifoneV660pParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationVerifoneV660pParams.
+type TerminalConfigurationVerifoneV660pParamsUnsetField string
+
+const (
+	TerminalConfigurationVerifoneV660pParamsUnsetFieldSplashscreen TerminalConfigurationVerifoneV660pParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationVerifoneV660pParams) AddUnsetField(field TerminalConfigurationVerifoneV660pParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
@@ -913,6 +1001,25 @@ type TerminalConfigurationUpdateTippingParams struct {
 	USD *TerminalConfigurationUpdateTippingUSDParams `form:"usd" json:"usd,omitempty"`
 }
 
+// An object containing device type specific settings for Verifone M425 readers.
+type TerminalConfigurationUpdateVerifoneM425Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                                   `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationUpdateVerifoneM425ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateVerifoneM425ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateVerifoneM425Params.
+type TerminalConfigurationUpdateVerifoneM425ParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateVerifoneM425ParamsUnsetFieldSplashscreen TerminalConfigurationUpdateVerifoneM425ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateVerifoneM425Params) AddUnsetField(field TerminalConfigurationUpdateVerifoneM425ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // An object containing device type specific settings for Verifone P400 readers.
 type TerminalConfigurationUpdateVerifoneP400Params struct {
 	// A File ID representing an image you want to display on the reader.
@@ -929,6 +1036,63 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalConfigurationUpdateVerifoneP400Params) AddUnsetField(field TerminalConfigurationUpdateVerifoneP400ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Verifone P630 readers.
+type TerminalConfigurationUpdateVerifoneP630Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                                   `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationUpdateVerifoneP630ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateVerifoneP630ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateVerifoneP630Params.
+type TerminalConfigurationUpdateVerifoneP630ParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateVerifoneP630ParamsUnsetFieldSplashscreen TerminalConfigurationUpdateVerifoneP630ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateVerifoneP630Params) AddUnsetField(field TerminalConfigurationUpdateVerifoneP630ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Verifone UX700 readers.
+type TerminalConfigurationUpdateVerifoneUx700Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                                    `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationUpdateVerifoneUx700ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateVerifoneUx700ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateVerifoneUx700Params.
+type TerminalConfigurationUpdateVerifoneUx700ParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateVerifoneUx700ParamsUnsetFieldSplashscreen TerminalConfigurationUpdateVerifoneUx700ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateVerifoneUx700Params) AddUnsetField(field TerminalConfigurationUpdateVerifoneUx700ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Verifone V660p readers.
+type TerminalConfigurationUpdateVerifoneV660pParams struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                                    `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationUpdateVerifoneV660pParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationUpdateVerifoneV660pParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationUpdateVerifoneV660pParams.
+type TerminalConfigurationUpdateVerifoneV660pParamsUnsetField string
+
+const (
+	TerminalConfigurationUpdateVerifoneV660pParamsUnsetFieldSplashscreen TerminalConfigurationUpdateVerifoneV660pParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationUpdateVerifoneV660pParams) AddUnsetField(field TerminalConfigurationUpdateVerifoneV660pParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
@@ -1003,8 +1167,16 @@ type TerminalConfigurationUpdateParams struct {
 	StripeS710 *TerminalConfigurationUpdateStripeS710Params `form:"stripe_s710" json:"stripe_s710,omitempty"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationUpdateTippingParams `form:"tipping" json:"tipping,omitempty"`
+	// An object containing device type specific settings for Verifone M425 readers.
+	VerifoneM425 *TerminalConfigurationUpdateVerifoneM425Params `form:"verifone_m425" json:"verifone_m425,omitempty"`
 	// An object containing device type specific settings for Verifone P400 readers.
 	VerifoneP400 *TerminalConfigurationUpdateVerifoneP400Params `form:"verifone_p400" json:"verifone_p400,omitempty"`
+	// An object containing device type specific settings for Verifone P630 readers.
+	VerifoneP630 *TerminalConfigurationUpdateVerifoneP630Params `form:"verifone_p630" json:"verifone_p630,omitempty"`
+	// An object containing device type specific settings for Verifone UX700 readers.
+	VerifoneUx700 *TerminalConfigurationUpdateVerifoneUx700Params `form:"verifone_ux700" json:"verifone_ux700,omitempty"`
+	// An object containing device type specific settings for Verifone V660p readers.
+	VerifoneV660p *TerminalConfigurationUpdateVerifoneV660pParams `form:"verifone_v660p" json:"verifone_v660p,omitempty"`
 	// Configurations for connecting to a WiFi network.
 	Wifi        *TerminalConfigurationUpdateWifiParams        `form:"wifi" json:"wifi,omitempty"`
 	UnsetFields []TerminalConfigurationUpdateParamsUnsetField `form:"-" json:"-"`
@@ -1023,7 +1195,11 @@ const (
 	TerminalConfigurationUpdateParamsUnsetFieldStripeS700     TerminalConfigurationUpdateParamsUnsetField = "stripe_s700"
 	TerminalConfigurationUpdateParamsUnsetFieldStripeS710     TerminalConfigurationUpdateParamsUnsetField = "stripe_s710"
 	TerminalConfigurationUpdateParamsUnsetFieldTipping        TerminalConfigurationUpdateParamsUnsetField = "tipping"
+	TerminalConfigurationUpdateParamsUnsetFieldVerifoneM425   TerminalConfigurationUpdateParamsUnsetField = "verifone_m425"
 	TerminalConfigurationUpdateParamsUnsetFieldVerifoneP400   TerminalConfigurationUpdateParamsUnsetField = "verifone_p400"
+	TerminalConfigurationUpdateParamsUnsetFieldVerifoneP630   TerminalConfigurationUpdateParamsUnsetField = "verifone_p630"
+	TerminalConfigurationUpdateParamsUnsetFieldVerifoneUx700  TerminalConfigurationUpdateParamsUnsetField = "verifone_ux700"
+	TerminalConfigurationUpdateParamsUnsetFieldVerifoneV660p  TerminalConfigurationUpdateParamsUnsetField = "verifone_v660p"
 	TerminalConfigurationUpdateParamsUnsetFieldWifi           TerminalConfigurationUpdateParamsUnsetField = "wifi"
 )
 
@@ -1408,6 +1584,25 @@ type TerminalConfigurationCreateTippingParams struct {
 	USD *TerminalConfigurationCreateTippingUSDParams `form:"usd" json:"usd,omitempty"`
 }
 
+// An object containing device type specific settings for Verifone M425 readers.
+type TerminalConfigurationCreateVerifoneM425Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                                   `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationCreateVerifoneM425ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateVerifoneM425ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateVerifoneM425Params.
+type TerminalConfigurationCreateVerifoneM425ParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateVerifoneM425ParamsUnsetFieldSplashscreen TerminalConfigurationCreateVerifoneM425ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateVerifoneM425Params) AddUnsetField(field TerminalConfigurationCreateVerifoneM425ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // An object containing device type specific settings for Verifone P400 readers.
 type TerminalConfigurationCreateVerifoneP400Params struct {
 	// A File ID representing an image you want to display on the reader.
@@ -1424,6 +1619,63 @@ const (
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *TerminalConfigurationCreateVerifoneP400Params) AddUnsetField(field TerminalConfigurationCreateVerifoneP400ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Verifone P630 readers.
+type TerminalConfigurationCreateVerifoneP630Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                                   `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationCreateVerifoneP630ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateVerifoneP630ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateVerifoneP630Params.
+type TerminalConfigurationCreateVerifoneP630ParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateVerifoneP630ParamsUnsetFieldSplashscreen TerminalConfigurationCreateVerifoneP630ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateVerifoneP630Params) AddUnsetField(field TerminalConfigurationCreateVerifoneP630ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Verifone UX700 readers.
+type TerminalConfigurationCreateVerifoneUx700Params struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                                    `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationCreateVerifoneUx700ParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateVerifoneUx700ParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateVerifoneUx700Params.
+type TerminalConfigurationCreateVerifoneUx700ParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateVerifoneUx700ParamsUnsetFieldSplashscreen TerminalConfigurationCreateVerifoneUx700ParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateVerifoneUx700Params) AddUnsetField(field TerminalConfigurationCreateVerifoneUx700ParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// An object containing device type specific settings for Verifone V660p readers.
+type TerminalConfigurationCreateVerifoneV660pParams struct {
+	// A File ID representing an image you want to display on the reader.
+	Splashscreen *string                                                    `form:"splashscreen" json:"splashscreen,omitempty"`
+	UnsetFields  []TerminalConfigurationCreateVerifoneV660pParamsUnsetField `form:"-" json:"-"`
+}
+
+// TerminalConfigurationCreateVerifoneV660pParamsUnsetField is the list of fields that can be cleared/unset on TerminalConfigurationCreateVerifoneV660pParams.
+type TerminalConfigurationCreateVerifoneV660pParamsUnsetField string
+
+const (
+	TerminalConfigurationCreateVerifoneV660pParamsUnsetFieldSplashscreen TerminalConfigurationCreateVerifoneV660pParamsUnsetField = "splashscreen"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *TerminalConfigurationCreateVerifoneV660pParams) AddUnsetField(field TerminalConfigurationCreateVerifoneV660pParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
@@ -1498,8 +1750,16 @@ type TerminalConfigurationCreateParams struct {
 	StripeS710 *TerminalConfigurationCreateStripeS710Params `form:"stripe_s710" json:"stripe_s710,omitempty"`
 	// Tipping configurations for readers that support on-reader tips.
 	Tipping *TerminalConfigurationCreateTippingParams `form:"tipping" json:"tipping,omitempty"`
+	// An object containing device type specific settings for Verifone M425 readers.
+	VerifoneM425 *TerminalConfigurationCreateVerifoneM425Params `form:"verifone_m425" json:"verifone_m425,omitempty"`
 	// An object containing device type specific settings for Verifone P400 readers.
 	VerifoneP400 *TerminalConfigurationCreateVerifoneP400Params `form:"verifone_p400" json:"verifone_p400,omitempty"`
+	// An object containing device type specific settings for Verifone P630 readers.
+	VerifoneP630 *TerminalConfigurationCreateVerifoneP630Params `form:"verifone_p630" json:"verifone_p630,omitempty"`
+	// An object containing device type specific settings for Verifone UX700 readers.
+	VerifoneUx700 *TerminalConfigurationCreateVerifoneUx700Params `form:"verifone_ux700" json:"verifone_ux700,omitempty"`
+	// An object containing device type specific settings for Verifone V660p readers.
+	VerifoneV660p *TerminalConfigurationCreateVerifoneV660pParams `form:"verifone_v660p" json:"verifone_v660p,omitempty"`
 	// Configurations for connecting to a WiFi network.
 	Wifi        *TerminalConfigurationCreateWifiParams        `form:"wifi" json:"wifi,omitempty"`
 	UnsetFields []TerminalConfigurationCreateParamsUnsetField `form:"-" json:"-"`
@@ -1751,7 +2011,23 @@ type TerminalConfigurationTipping struct {
 	SGD *TerminalConfigurationTippingSGD `json:"sgd,omitempty"`
 	USD *TerminalConfigurationTippingUSD `json:"usd,omitempty"`
 }
+type TerminalConfigurationVerifoneM425 struct {
+	// A File ID representing an image to display on the reader
+	Splashscreen *File `json:"splashscreen,omitempty"`
+}
 type TerminalConfigurationVerifoneP400 struct {
+	// A File ID representing an image to display on the reader
+	Splashscreen *File `json:"splashscreen,omitempty"`
+}
+type TerminalConfigurationVerifoneP630 struct {
+	// A File ID representing an image to display on the reader
+	Splashscreen *File `json:"splashscreen,omitempty"`
+}
+type TerminalConfigurationVerifoneUx700 struct {
+	// A File ID representing an image to display on the reader
+	Splashscreen *File `json:"splashscreen,omitempty"`
+}
+type TerminalConfigurationVerifoneV660p struct {
 	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen,omitempty"`
 }
@@ -1815,7 +2091,11 @@ type TerminalConfiguration struct {
 	StripeS700     *TerminalConfigurationStripeS700     `json:"stripe_s700,omitempty"`
 	StripeS710     *TerminalConfigurationStripeS710     `json:"stripe_s710,omitempty"`
 	Tipping        *TerminalConfigurationTipping        `json:"tipping,omitempty"`
+	VerifoneM425   *TerminalConfigurationVerifoneM425   `json:"verifone_m425,omitempty"`
 	VerifoneP400   *TerminalConfigurationVerifoneP400   `json:"verifone_p400,omitempty"`
+	VerifoneP630   *TerminalConfigurationVerifoneP630   `json:"verifone_p630,omitempty"`
+	VerifoneUx700  *TerminalConfigurationVerifoneUx700  `json:"verifone_ux700,omitempty"`
+	VerifoneV660p  *TerminalConfigurationVerifoneV660p  `json:"verifone_v660p,omitempty"`
 	Wifi           *TerminalConfigurationWifi           `json:"wifi,omitempty"`
 }
 

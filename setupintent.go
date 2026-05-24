@@ -44,6 +44,7 @@ const (
 	SetupIntentExcludedPaymentMethodTypeBACSDebit        SetupIntentExcludedPaymentMethodType = "bacs_debit"
 	SetupIntentExcludedPaymentMethodTypeBancontact       SetupIntentExcludedPaymentMethodType = "bancontact"
 	SetupIntentExcludedPaymentMethodTypeBillie           SetupIntentExcludedPaymentMethodType = "billie"
+	SetupIntentExcludedPaymentMethodTypeBizum            SetupIntentExcludedPaymentMethodType = "bizum"
 	SetupIntentExcludedPaymentMethodTypeBLIK             SetupIntentExcludedPaymentMethodType = "blik"
 	SetupIntentExcludedPaymentMethodTypeBoleto           SetupIntentExcludedPaymentMethodType = "boleto"
 	SetupIntentExcludedPaymentMethodTypeCard             SetupIntentExcludedPaymentMethodType = "card"
@@ -81,6 +82,7 @@ const (
 	SetupIntentExcludedPaymentMethodTypeRevolutPay       SetupIntentExcludedPaymentMethodType = "revolut_pay"
 	SetupIntentExcludedPaymentMethodTypeSamsungPay       SetupIntentExcludedPaymentMethodType = "samsung_pay"
 	SetupIntentExcludedPaymentMethodTypeSatispay         SetupIntentExcludedPaymentMethodType = "satispay"
+	SetupIntentExcludedPaymentMethodTypeScalapay         SetupIntentExcludedPaymentMethodType = "scalapay"
 	SetupIntentExcludedPaymentMethodTypeSEPADebit        SetupIntentExcludedPaymentMethodType = "sepa_debit"
 	SetupIntentExcludedPaymentMethodTypeShopeepay        SetupIntentExcludedPaymentMethodType = "shopeepay"
 	SetupIntentExcludedPaymentMethodTypeSofort           SetupIntentExcludedPaymentMethodType = "sofort"
@@ -538,6 +540,9 @@ func (p *SetupIntentPaymentMethodDataBillingDetailsParams) AddUnsetField(field S
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+type SetupIntentPaymentMethodDataBizumParams struct{}
+
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 type SetupIntentPaymentMethodDataBLIKParams struct{}
 
@@ -619,7 +624,7 @@ type SetupIntentPaymentMethodDataKonbiniParams struct{}
 // If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 type SetupIntentPaymentMethodDataKrCardParams struct{}
 
-// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 type SetupIntentPaymentMethodDataLinkParams struct{}
 
 // If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
@@ -726,6 +731,9 @@ type SetupIntentPaymentMethodDataSamsungPayParams struct{}
 // If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type SetupIntentPaymentMethodDataSatispayParams struct{}
 
+// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+type SetupIntentPaymentMethodDataScalapayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -821,6 +829,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Billie *SetupIntentPaymentMethodDataBillieParams `form:"billie" json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *SetupIntentPaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+	Bizum *SetupIntentPaymentMethodDataBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 	BLIK *SetupIntentPaymentMethodDataBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
@@ -855,7 +865,7 @@ type SetupIntentPaymentMethodDataParams struct {
 	Konbini *SetupIntentPaymentMethodDataKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 	KrCard *SetupIntentPaymentMethodDataKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 	Link *SetupIntentPaymentMethodDataLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *SetupIntentPaymentMethodDataMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -901,6 +911,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	SamsungPay *SetupIntentPaymentMethodDataSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *SetupIntentPaymentMethodDataSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+	Scalapay *SetupIntentPaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
@@ -1004,6 +1016,9 @@ type SetupIntentPaymentMethodOptionsBACSDebitParams struct {
 	// Additional fields for Mandate creation
 	MandateOptions *SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
+
+// If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
+type SetupIntentPaymentMethodOptionsBizumParams struct{}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptionsParams struct {
@@ -1161,7 +1176,7 @@ func (p *SetupIntentPaymentMethodOptionsKlarnaParams) AddUnsetField(field SetupI
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options (Link is also known as Onelink in the UK).
 type SetupIntentPaymentMethodOptionsLinkParams struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
 	// Deprecated:
@@ -1376,13 +1391,15 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	AmazonPay *SetupIntentPaymentMethodOptionsAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
 	BACSDebit *SetupIntentPaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
+	// If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
+	Bizum *SetupIntentPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 	CardPresent *SetupIntentPaymentMethodOptionsCardPresentParams `form:"card_present" json:"card_present,omitempty"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
 	Klarna *SetupIntentPaymentMethodOptionsKlarnaParams `form:"klarna" json:"klarna,omitempty"`
-	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options (Link is also known as Onelink in the UK).
 	Link *SetupIntentPaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 	Paypal *SetupIntentPaymentMethodOptionsPaypalParams `form:"paypal" json:"paypal,omitempty"`
@@ -1597,6 +1614,9 @@ func (p *SetupIntentConfirmPaymentMethodDataBillingDetailsParams) AddUnsetField(
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+type SetupIntentConfirmPaymentMethodDataBizumParams struct{}
+
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 type SetupIntentConfirmPaymentMethodDataBLIKParams struct{}
 
@@ -1678,7 +1698,7 @@ type SetupIntentConfirmPaymentMethodDataKonbiniParams struct{}
 // If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 type SetupIntentConfirmPaymentMethodDataKrCardParams struct{}
 
-// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 type SetupIntentConfirmPaymentMethodDataLinkParams struct{}
 
 // If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
@@ -1785,6 +1805,9 @@ type SetupIntentConfirmPaymentMethodDataSamsungPayParams struct{}
 // If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type SetupIntentConfirmPaymentMethodDataSatispayParams struct{}
 
+// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+type SetupIntentConfirmPaymentMethodDataScalapayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentConfirmPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -1880,6 +1903,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Billie *SetupIntentConfirmPaymentMethodDataBillieParams `form:"billie" json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *SetupIntentConfirmPaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+	Bizum *SetupIntentConfirmPaymentMethodDataBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 	BLIK *SetupIntentConfirmPaymentMethodDataBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
@@ -1914,7 +1939,7 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Konbini *SetupIntentConfirmPaymentMethodDataKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 	KrCard *SetupIntentConfirmPaymentMethodDataKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 	Link *SetupIntentConfirmPaymentMethodDataLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *SetupIntentConfirmPaymentMethodDataMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -1960,6 +1985,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	SamsungPay *SetupIntentConfirmPaymentMethodDataSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *SetupIntentConfirmPaymentMethodDataSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+	Scalapay *SetupIntentConfirmPaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
@@ -2185,6 +2212,9 @@ func (p *SetupIntentCreatePaymentMethodDataBillingDetailsParams) AddUnsetField(f
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+type SetupIntentCreatePaymentMethodDataBizumParams struct{}
+
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 type SetupIntentCreatePaymentMethodDataBLIKParams struct{}
 
@@ -2266,7 +2296,7 @@ type SetupIntentCreatePaymentMethodDataKonbiniParams struct{}
 // If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 type SetupIntentCreatePaymentMethodDataKrCardParams struct{}
 
-// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 type SetupIntentCreatePaymentMethodDataLinkParams struct{}
 
 // If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
@@ -2373,6 +2403,9 @@ type SetupIntentCreatePaymentMethodDataSamsungPayParams struct{}
 // If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type SetupIntentCreatePaymentMethodDataSatispayParams struct{}
 
+// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+type SetupIntentCreatePaymentMethodDataScalapayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentCreatePaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -2468,6 +2501,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	Billie *SetupIntentCreatePaymentMethodDataBillieParams `form:"billie" json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *SetupIntentCreatePaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+	Bizum *SetupIntentCreatePaymentMethodDataBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 	BLIK *SetupIntentCreatePaymentMethodDataBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
@@ -2502,7 +2537,7 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	Konbini *SetupIntentCreatePaymentMethodDataKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 	KrCard *SetupIntentCreatePaymentMethodDataKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 	Link *SetupIntentCreatePaymentMethodDataLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *SetupIntentCreatePaymentMethodDataMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -2548,6 +2583,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	SamsungPay *SetupIntentCreatePaymentMethodDataSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *SetupIntentCreatePaymentMethodDataSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+	Scalapay *SetupIntentCreatePaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
@@ -2651,6 +2688,9 @@ type SetupIntentCreatePaymentMethodOptionsBACSDebitParams struct {
 	// Additional fields for Mandate creation
 	MandateOptions *SetupIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
+
+// If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
+type SetupIntentCreatePaymentMethodOptionsBizumParams struct{}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentCreatePaymentMethodOptionsCardMandateOptionsParams struct {
@@ -2808,7 +2848,7 @@ func (p *SetupIntentCreatePaymentMethodOptionsKlarnaParams) AddUnsetField(field 
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options (Link is also known as Onelink in the UK).
 type SetupIntentCreatePaymentMethodOptionsLinkParams struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
 	// Deprecated:
@@ -3023,13 +3063,15 @@ type SetupIntentCreatePaymentMethodOptionsParams struct {
 	AmazonPay *SetupIntentCreatePaymentMethodOptionsAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
 	BACSDebit *SetupIntentCreatePaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
+	// If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
+	Bizum *SetupIntentCreatePaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentCreatePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 	CardPresent *SetupIntentCreatePaymentMethodOptionsCardPresentParams `form:"card_present" json:"card_present,omitempty"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
 	Klarna *SetupIntentCreatePaymentMethodOptionsKlarnaParams `form:"klarna" json:"klarna,omitempty"`
-	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options (Link is also known as Onelink in the UK).
 	Link *SetupIntentCreatePaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 	Paypal *SetupIntentCreatePaymentMethodOptionsPaypalParams `form:"paypal" json:"paypal,omitempty"`
@@ -3242,6 +3284,9 @@ func (p *SetupIntentUpdatePaymentMethodDataBillingDetailsParams) AddUnsetField(f
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+type SetupIntentUpdatePaymentMethodDataBizumParams struct{}
+
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 type SetupIntentUpdatePaymentMethodDataBLIKParams struct{}
 
@@ -3323,7 +3368,7 @@ type SetupIntentUpdatePaymentMethodDataKonbiniParams struct{}
 // If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 type SetupIntentUpdatePaymentMethodDataKrCardParams struct{}
 
-// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 type SetupIntentUpdatePaymentMethodDataLinkParams struct{}
 
 // If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
@@ -3430,6 +3475,9 @@ type SetupIntentUpdatePaymentMethodDataSamsungPayParams struct{}
 // If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type SetupIntentUpdatePaymentMethodDataSatispayParams struct{}
 
+// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+type SetupIntentUpdatePaymentMethodDataScalapayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentUpdatePaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -3525,6 +3573,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	Billie *SetupIntentUpdatePaymentMethodDataBillieParams `form:"billie" json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *SetupIntentUpdatePaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+	Bizum *SetupIntentUpdatePaymentMethodDataBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 	BLIK *SetupIntentUpdatePaymentMethodDataBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
@@ -3559,7 +3609,7 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	Konbini *SetupIntentUpdatePaymentMethodDataKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 	KrCard *SetupIntentUpdatePaymentMethodDataKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 	Link *SetupIntentUpdatePaymentMethodDataLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *SetupIntentUpdatePaymentMethodDataMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -3605,6 +3655,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	SamsungPay *SetupIntentUpdatePaymentMethodDataSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *SetupIntentUpdatePaymentMethodDataSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+	Scalapay *SetupIntentUpdatePaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentUpdatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
@@ -3708,6 +3760,9 @@ type SetupIntentUpdatePaymentMethodOptionsBACSDebitParams struct {
 	// Additional fields for Mandate creation
 	MandateOptions *SetupIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
 }
+
+// If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
+type SetupIntentUpdatePaymentMethodOptionsBizumParams struct{}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentUpdatePaymentMethodOptionsCardMandateOptionsParams struct {
@@ -3865,7 +3920,7 @@ func (p *SetupIntentUpdatePaymentMethodOptionsKlarnaParams) AddUnsetField(field 
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options (Link is also known as Onelink in the UK).
 type SetupIntentUpdatePaymentMethodOptionsLinkParams struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
 	// Deprecated:
@@ -4080,13 +4135,15 @@ type SetupIntentUpdatePaymentMethodOptionsParams struct {
 	AmazonPay *SetupIntentUpdatePaymentMethodOptionsAmazonPayParams `form:"amazon_pay" json:"amazon_pay,omitempty"`
 	// If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
 	BACSDebit *SetupIntentUpdatePaymentMethodOptionsBACSDebitParams `form:"bacs_debit" json:"bacs_debit,omitempty"`
+	// If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
+	Bizum *SetupIntentUpdatePaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentUpdatePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 	CardPresent *SetupIntentUpdatePaymentMethodOptionsCardPresentParams `form:"card_present" json:"card_present,omitempty"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
 	Klarna *SetupIntentUpdatePaymentMethodOptionsKlarnaParams `form:"klarna" json:"klarna,omitempty"`
-	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options (Link is also known as Onelink in the UK).
 	Link *SetupIntentUpdatePaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 	Paypal *SetupIntentUpdatePaymentMethodOptionsPaypalParams `form:"paypal" json:"paypal,omitempty"`
@@ -4183,6 +4240,7 @@ type SetupIntentManagedPayments struct {
 	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
 	Enabled bool `json:"enabled"`
 }
+type SetupIntentNextActionBLIKAuthorize struct{}
 type SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode struct {
 	// The date (unix timestamp) when the QR code expires.
 	ExpiresAt int64 `json:"expires_at"`
@@ -4243,6 +4301,7 @@ type SetupIntentNextActionVerifyWithMicrodeposits struct {
 
 // If present, this property tells you what actions you need to take in order for your customer to continue payment setup.
 type SetupIntentNextAction struct {
+	BLIKAuthorize                        *SetupIntentNextActionBLIKAuthorize                        `json:"blik_authorize,omitempty"`
 	CashAppHandleRedirectOrDisplayQRCode *SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code,omitempty"`
 	PixDisplayQRCode                     *SetupIntentNextActionPixDisplayQRCode                     `json:"pix_display_qr_code,omitempty"`
 	RedirectToURL                        *SetupIntentNextActionRedirectToURL                        `json:"redirect_to_url,omitempty"`
@@ -4288,6 +4347,7 @@ type SetupIntentPaymentMethodOptionsBACSDebitMandateOptions struct {
 type SetupIntentPaymentMethodOptionsBACSDebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsBACSDebitMandateOptions `json:"mandate_options,omitempty"`
 }
+type SetupIntentPaymentMethodOptionsBizum struct{}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptions struct {
@@ -4436,6 +4496,7 @@ type SetupIntentPaymentMethodOptions struct {
 	ACSSDebit     *SetupIntentPaymentMethodOptionsACSSDebit     `json:"acss_debit,omitempty"`
 	AmazonPay     *SetupIntentPaymentMethodOptionsAmazonPay     `json:"amazon_pay,omitempty"`
 	BACSDebit     *SetupIntentPaymentMethodOptionsBACSDebit     `json:"bacs_debit,omitempty"`
+	Bizum         *SetupIntentPaymentMethodOptionsBizum         `json:"bizum,omitempty"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card,omitempty"`
 	CardPresent   *SetupIntentPaymentMethodOptionsCardPresent   `json:"card_present,omitempty"`
 	Klarna        *SetupIntentPaymentMethodOptionsKlarna        `json:"klarna,omitempty"`
