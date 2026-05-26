@@ -17,7 +17,8 @@ type v2CoreEventService struct {
 	Key string
 }
 
-// Retrieves the details of an event.
+// Retrieves the details of an event if it was created in the last 30 days. Supply the unique
+// identifier of the event, which might have been delivered to your event destination.
 func (c v2CoreEventService) Retrieve(ctx context.Context, id string, params *V2CoreEventRetrieveParams) (V2CoreEvent, error) {
 	if params == nil {
 		params = &V2CoreEventRetrieveParams{}

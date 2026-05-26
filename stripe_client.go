@@ -296,6 +296,8 @@ type Client struct {
 	V2BillingMeterEventSessions *v2BillingMeterEventSessionService
 	// V2BillingMeterEventStreams is the service used to invoke /v2/billing/meter_event_stream APIs.
 	V2BillingMeterEventStreams *v2BillingMeterEventStreamService
+	// V2CommerceProductCatalogImports is the service used to invoke /v2/commerce/product_catalog/imports APIs.
+	V2CommerceProductCatalogImports *v2CommerceProductCatalogImportService
 	// V2CoreAccountLinks is the service used to invoke /v2/core/account_links APIs.
 	V2CoreAccountLinks *v2CoreAccountLinkService
 	// V2CoreAccounts is the service used to invoke /v2/core/accounts APIs.
@@ -493,6 +495,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2BillingMeterEvents = &v2BillingMeterEventService{B: backends.API, Key: key}
 	client.V2BillingMeterEventSessions = &v2BillingMeterEventSessionService{B: backends.API, Key: key}
 	client.V2BillingMeterEventStreams = &v2BillingMeterEventStreamService{BMeterEvents: backends.MeterEvents, Key: key}
+	client.V2CommerceProductCatalogImports = &v2CommerceProductCatalogImportService{B: backends.API, Key: key}
 	client.V2CoreAccountLinks = &v2CoreAccountLinkService{B: backends.API, Key: key}
 	client.V2CoreAccounts = &v2CoreAccountService{B: backends.API, Key: key}
 	client.V2CoreAccountsPersons = &v2CoreAccountsPersonService{B: backends.API, Key: key}

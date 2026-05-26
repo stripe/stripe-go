@@ -23,6 +23,16 @@ type V2CoreEventDestinationAmazonEventbridgeParams struct {
 	AwsRegion *string `form:"aws_region" json:"aws_region"`
 }
 
+// Azure Event Grid configuration.
+type V2CoreEventDestinationAzureEventGridParams struct {
+	// The Azure region.
+	AzureRegion *string `form:"azure_region" json:"azure_region"`
+	// The name of the Azure resource group.
+	AzureResourceGroupName *string `form:"azure_resource_group_name" json:"azure_resource_group_name"`
+	// The Azure subscription ID.
+	AzureSubscriptionID *string `form:"azure_subscription_id" json:"azure_subscription_id"`
+}
+
 // Webhook endpoint configuration.
 type V2CoreEventDestinationWebhookEndpointParams struct {
 	// The URL of the webhook endpoint.
@@ -34,6 +44,8 @@ type V2CoreEventDestinationParams struct {
 	Params `form:"*"`
 	// Amazon EventBridge configuration.
 	AmazonEventbridge *V2CoreEventDestinationAmazonEventbridgeParams `form:"amazon_eventbridge" json:"amazon_eventbridge,omitempty"`
+	// Azure Event Grid configuration.
+	AzureEventGrid *V2CoreEventDestinationAzureEventGridParams `form:"azure_event_grid" json:"azure_event_grid,omitempty"`
 	// An optional description of what the event destination is used for.
 	Description *string `form:"description" json:"description,omitempty"`
 	// The list of events to enable for this endpoint.
@@ -92,6 +104,16 @@ type V2CoreEventDestinationCreateAmazonEventbridgeParams struct {
 	AwsRegion *string `form:"aws_region" json:"aws_region"`
 }
 
+// Azure Event Grid configuration.
+type V2CoreEventDestinationCreateAzureEventGridParams struct {
+	// The Azure region.
+	AzureRegion *string `form:"azure_region" json:"azure_region"`
+	// The name of the Azure resource group.
+	AzureResourceGroupName *string `form:"azure_resource_group_name" json:"azure_resource_group_name"`
+	// The Azure subscription ID.
+	AzureSubscriptionID *string `form:"azure_subscription_id" json:"azure_subscription_id"`
+}
+
 // Webhook endpoint configuration.
 type V2CoreEventDestinationCreateWebhookEndpointParams struct {
 	// The URL of the webhook endpoint.
@@ -103,6 +125,8 @@ type V2CoreEventDestinationCreateParams struct {
 	Params `form:"*"`
 	// Amazon EventBridge configuration.
 	AmazonEventbridge *V2CoreEventDestinationCreateAmazonEventbridgeParams `form:"amazon_eventbridge" json:"amazon_eventbridge,omitempty"`
+	// Azure Event Grid configuration.
+	AzureEventGrid *V2CoreEventDestinationCreateAzureEventGridParams `form:"azure_event_grid" json:"azure_event_grid,omitempty"`
 	// An optional description of what the event destination is used for.
 	Description *string `form:"description" json:"description,omitempty"`
 	// The list of events to enable for this endpoint.

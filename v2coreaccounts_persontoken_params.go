@@ -244,7 +244,8 @@ type V2CoreAccountsPersonTokenScriptNamesParams struct {
 	Kanji *V2CoreAccountsPersonTokenScriptNamesKanjiParams `form:"kanji" json:"kanji,omitempty"`
 }
 
-// Creates a Person Token associated with an Account.
+// Creates a single-use token that represents the details for a person. Use this when you create or update persons associated with an Account v2. Learn more about [account tokens](https://docs.stripe.com/connect/account-tokens).
+// You can only create person tokens with your application's publishable key and in live mode. You can use your application's secret key to create person tokens only in test mode.
 type V2CoreAccountsPersonTokenParams struct {
 	Params `form:"*"`
 	// The Account the Person is associated with.
@@ -534,7 +535,8 @@ type V2CoreAccountsPersonTokenCreateScriptNamesParams struct {
 	Kanji *V2CoreAccountsPersonTokenCreateScriptNamesKanjiParams `form:"kanji" json:"kanji,omitempty"`
 }
 
-// Creates a Person Token associated with an Account.
+// Creates a single-use token that represents the details for a person. Use this when you create or update persons associated with an Account v2. Learn more about [account tokens](https://docs.stripe.com/connect/account-tokens).
+// You can only create person tokens with your application's publishable key and in live mode. You can use your application's secret key to create person tokens only in test mode.
 type V2CoreAccountsPersonTokenCreateParams struct {
 	Params `form:"*"`
 	// The Account the Person is associated with.
