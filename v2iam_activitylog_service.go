@@ -17,6 +17,18 @@ type v2IamActivityLogService struct {
 	Key string
 }
 
+// Retrieve an activity log.
+func (c v2IamActivityLogService) Retrieve(ctx context.Context, id string, params *V2IamActivityLogRetrieveParams) (*V2IamActivityLog, error) {
+	if params == nil {
+		params = &V2IamActivityLogRetrieveParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/iam/activity_logs/%s", id)
+	activitylog := &V2IamActivityLog{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, activitylog)
+	return activitylog, err
+}
+
 // List activity logs of an account.
 func (c v2IamActivityLogService) List(ctx context.Context, listParams *V2IamActivityLogListParams) *V2List[*V2IamActivityLog] {
 	if listParams == nil {

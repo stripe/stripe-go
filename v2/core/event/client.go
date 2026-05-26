@@ -22,7 +22,8 @@ type Client struct {
 	Key string
 }
 
-// Retrieves the details of an event.
+// Retrieves the details of an event if it was created in the last 30 days. Supply the unique
+// identifier of the event, which might have been delivered to your event destination.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
