@@ -1939,18 +1939,34 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddressParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Person that is signing the document.
+type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParams struct {
+	// Person signing the document.
+	Person *string `form:"person" json:"person"`
+}
+
 // One or more documents showing the company's proof of registration with the national business registry.
 type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
+	// Person that is signing the document.
+	Signer *V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParams `form:"signer" json:"signer,omitempty"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
+}
+
+// Person that is signing the document.
+type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
+	// Person signing the document.
+	Person *string `form:"person" json:"person"`
 }
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
+	// Person that is signing the document.
+	Signer *V2CoreAccountIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer" json:"signer,omitempty"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -4333,18 +4349,34 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfAddressParams str
 	Type *string `form:"type" json:"type"`
 }
 
+// Person that is signing the document.
+type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParams struct {
+	// Person signing the document.
+	Person *string `form:"person" json:"person"`
+}
+
 // One or more documents showing the company's proof of registration with the national business registry.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
+	// Person that is signing the document.
+	Signer *V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParams `form:"signer" json:"signer,omitempty"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
+}
+
+// Person that is signing the document.
+type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
+	// Person signing the document.
+	Person *string `form:"person" json:"person"`
 }
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
+	// Person that is signing the document.
+	Signer *V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer" json:"signer,omitempty"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -6733,18 +6765,34 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfAddressParams str
 	Type *string `form:"type" json:"type"`
 }
 
-// One or more documents showing the company's proof of registration with the national business registry.
+// Person that is signing the document.
+type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParams struct {
+	// Person signing the document.
+	Person *string `form:"person" json:"person"`
+}
+
+// One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
+	// Person that is signing the document.
+	Signer *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParams `form:"signer" json:"signer,omitempty"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
+}
+
+// Person that is signing the document.
+type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
+	// Person signing the document.
+	Person *string `form:"person" json:"person"`
 }
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
+	// Person that is signing the document.
+	Signer *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer" json:"signer,omitempty"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -6767,7 +6815,7 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsParams struct {
 	PrimaryVerification *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsPrimaryVerificationParams `form:"primary_verification" json:"primary_verification,omitempty"`
 	// One or more documents that demonstrate proof of address.
 	ProofOfAddress *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
-	// One or more documents showing the company's proof of registration with the national business registry.
+	// One or more documents that demonstrate proof of ultimate beneficial ownership.
 	ProofOfRegistration *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
 	ProofOfUltimateBeneficialOwnership *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams `form:"proof_of_ultimate_beneficial_ownership" json:"proof_of_ultimate_beneficial_ownership,omitempty"`

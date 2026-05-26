@@ -46,6 +46,7 @@ type BillingAlertSpendThresholdGroupBy string
 
 // List of values that BillingAlertSpendThresholdGroupBy can take
 const (
+	BillingAlertSpendThresholdGroupByBillingCadence          BillingAlertSpendThresholdGroupBy = "billing_cadence"
 	BillingAlertSpendThresholdGroupByPricingPlanSubscription BillingAlertSpendThresholdGroupBy = "pricing_plan_subscription"
 )
 

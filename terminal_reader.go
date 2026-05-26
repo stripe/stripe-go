@@ -102,17 +102,25 @@ type TerminalReaderDeviceType string
 
 // List of values that TerminalReaderDeviceType can take
 const (
-	TerminalReaderDeviceTypeBBPOSChipper2X      TerminalReaderDeviceType = "bbpos_chipper2x"
-	TerminalReaderDeviceTypeBBPOSWisePad3       TerminalReaderDeviceType = "bbpos_wisepad3"
-	TerminalReaderDeviceTypeBBPOSWisePOSE       TerminalReaderDeviceType = "bbpos_wisepos_e"
-	TerminalReaderDeviceTypeMobilePhoneReader   TerminalReaderDeviceType = "mobile_phone_reader"
-	TerminalReaderDeviceTypeSimulatedStripeS700 TerminalReaderDeviceType = "simulated_stripe_s700"
-	TerminalReaderDeviceTypeSimulatedStripeS710 TerminalReaderDeviceType = "simulated_stripe_s710"
-	TerminalReaderDeviceTypeSimulatedWisePOSE   TerminalReaderDeviceType = "simulated_wisepos_e"
-	TerminalReaderDeviceTypeStripeM2            TerminalReaderDeviceType = "stripe_m2"
-	TerminalReaderDeviceTypeStripeS700          TerminalReaderDeviceType = "stripe_s700"
-	TerminalReaderDeviceTypeStripeS710          TerminalReaderDeviceType = "stripe_s710"
-	TerminalReaderDeviceTypeVerifoneP400        TerminalReaderDeviceType = "verifone_P400"
+	TerminalReaderDeviceTypeBBPOSChipper2X         TerminalReaderDeviceType = "bbpos_chipper2x"
+	TerminalReaderDeviceTypeBBPOSWisePad3          TerminalReaderDeviceType = "bbpos_wisepad3"
+	TerminalReaderDeviceTypeBBPOSWisePOSE          TerminalReaderDeviceType = "bbpos_wisepos_e"
+	TerminalReaderDeviceTypeMobilePhoneReader      TerminalReaderDeviceType = "mobile_phone_reader"
+	TerminalReaderDeviceTypeSimulatedStripeS700    TerminalReaderDeviceType = "simulated_stripe_s700"
+	TerminalReaderDeviceTypeSimulatedStripeS710    TerminalReaderDeviceType = "simulated_stripe_s710"
+	TerminalReaderDeviceTypeSimulatedVerifoneM425  TerminalReaderDeviceType = "simulated_verifone_m425"
+	TerminalReaderDeviceTypeSimulatedVerifoneP630  TerminalReaderDeviceType = "simulated_verifone_p630"
+	TerminalReaderDeviceTypeSimulatedVerifoneUx700 TerminalReaderDeviceType = "simulated_verifone_ux700"
+	TerminalReaderDeviceTypeSimulatedVerifoneV660p TerminalReaderDeviceType = "simulated_verifone_v660p"
+	TerminalReaderDeviceTypeSimulatedWisePOSE      TerminalReaderDeviceType = "simulated_wisepos_e"
+	TerminalReaderDeviceTypeStripeM2               TerminalReaderDeviceType = "stripe_m2"
+	TerminalReaderDeviceTypeStripeS700             TerminalReaderDeviceType = "stripe_s700"
+	TerminalReaderDeviceTypeStripeS710             TerminalReaderDeviceType = "stripe_s710"
+	TerminalReaderDeviceTypeVerifoneP400           TerminalReaderDeviceType = "verifone_P400"
+	TerminalReaderDeviceTypeVerifoneM425           TerminalReaderDeviceType = "verifone_m425"
+	TerminalReaderDeviceTypeVerifoneP630           TerminalReaderDeviceType = "verifone_p630"
+	TerminalReaderDeviceTypeVerifoneUx700          TerminalReaderDeviceType = "verifone_ux700"
+	TerminalReaderDeviceTypeVerifoneV660p          TerminalReaderDeviceType = "verifone_v660p"
 )
 
 // The networking status of the reader. We do not recommend using this field in flows that may block taking payments.
@@ -851,6 +859,8 @@ type TerminalReaderActionSetReaderDisplay struct {
 
 // The most recent action performed by the reader.
 type TerminalReaderAction struct {
+	// The reader action failed due to an [API error](https://docs.stripe.com/api/errors). Only present when `status` is `failed` and the underlying failure was an API error. Avoid parsing the `message` field for programmatic logic; use `type` or `code` instead. The `message` field is for display to humans only and may be updated at anytime. Requires [reader version](https://docs.stripe.com/terminal/readers/stripe-reader-s700-s710#reader-software-version) 2.42 or later. Readers on older versions always return null.
+	APIError *Error `json:"api_error"`
 	// Represents a reader action to collect customer inputs
 	CollectInputs *TerminalReaderActionCollectInputs `json:"collect_inputs,omitempty"`
 	// Represents a reader action to collect a payment method

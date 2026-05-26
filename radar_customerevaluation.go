@@ -86,39 +86,13 @@ type RadarCustomerEvaluationParams struct {
 	EventType *string `form:"event_type" json:"event_type,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Data for a failed login event.
-	LoginFailed *RadarCustomerEvaluationLoginFailedParams `form:"login_failed" json:"login_failed,omitempty"`
-	// Data for a failed registration event.
-	RegistrationFailed *RadarCustomerEvaluationRegistrationFailedParams `form:"registration_failed" json:"registration_failed,omitempty"`
-	// Data for a successful registration event.
-	RegistrationSuccess *RadarCustomerEvaluationRegistrationSuccessParams `form:"registration_success" json:"registration_success,omitempty"`
 	// The outcome status of the evaluation: allowed, restricted, or blocked.
 	Status *string `form:"status" json:"status,omitempty"`
-	// The type of event to report on the customer evaluation.
-	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
 func (p *RadarCustomerEvaluationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
-}
-
-// Data for a failed login event.
-type RadarCustomerEvaluationLoginFailedParams struct {
-	// The reason why this login failed.
-	Reason *string `form:"reason" json:"reason"`
-}
-
-// Data for a failed registration event.
-type RadarCustomerEvaluationRegistrationFailedParams struct {
-	// The reason why this registration failed.
-	Reason *string `form:"reason" json:"reason"`
-}
-
-// Data for a successful registration event.
-type RadarCustomerEvaluationRegistrationSuccessParams struct {
-	// The ID of a Customer to attach to an entity-less registration evaluation.
-	Customer *string `form:"customer" json:"customer,omitempty"`
 }
 
 // Client details context.
@@ -171,24 +145,6 @@ func (p *RadarCustomerEvaluationCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Data for a failed login event.
-type RadarCustomerEvaluationUpdateLoginFailedParams struct {
-	// The reason why this login failed.
-	Reason *string `form:"reason" json:"reason"`
-}
-
-// Data for a failed registration event.
-type RadarCustomerEvaluationUpdateRegistrationFailedParams struct {
-	// The reason why this registration failed.
-	Reason *string `form:"reason" json:"reason"`
-}
-
-// Data for a successful registration event.
-type RadarCustomerEvaluationUpdateRegistrationSuccessParams struct {
-	// The ID of a Customer to attach to an entity-less registration evaluation.
-	Customer *string `form:"customer" json:"customer,omitempty"`
-}
-
 // Reports an event on a CustomerEvaluation object.
 type RadarCustomerEvaluationUpdateParams struct {
 	Params `form:"*"`
@@ -196,16 +152,8 @@ type RadarCustomerEvaluationUpdateParams struct {
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Data for a failed login event.
-	LoginFailed *RadarCustomerEvaluationUpdateLoginFailedParams `form:"login_failed" json:"login_failed,omitempty"`
-	// Data for a failed registration event.
-	RegistrationFailed *RadarCustomerEvaluationUpdateRegistrationFailedParams `form:"registration_failed" json:"registration_failed,omitempty"`
-	// Data for a successful registration event.
-	RegistrationSuccess *RadarCustomerEvaluationUpdateRegistrationSuccessParams `form:"registration_success" json:"registration_success,omitempty"`
 	// The outcome status of the evaluation: allowed, restricted, or blocked.
 	Status *string `form:"status" json:"status,omitempty"`
-	// The type of event to report on the customer evaluation.
-	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

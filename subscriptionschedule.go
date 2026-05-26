@@ -512,6 +512,8 @@ type SubscriptionSchedulePhaseAddInvoiceItemPeriodParams struct {
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
+	// Controls whether discounts apply to this invoice item. Defaults to true if no value is provided.
+	Discountable *bool `form:"discountable" json:"discountable,omitempty"`
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionSchedulePhaseAddInvoiceItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -1774,6 +1776,8 @@ type SubscriptionScheduleCreatePhaseAddInvoiceItemPeriodParams struct {
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 type SubscriptionScheduleCreatePhaseAddInvoiceItemParams struct {
+	// Controls whether discounts apply to this invoice item. Defaults to true if no value is provided.
+	Discountable *bool `form:"discountable" json:"discountable,omitempty"`
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionScheduleCreatePhaseAddInvoiceItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -2416,6 +2420,8 @@ type SubscriptionScheduleUpdatePhaseAddInvoiceItemPeriodParams struct {
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 type SubscriptionScheduleUpdatePhaseAddInvoiceItemParams struct {
+	// Controls whether discounts apply to this invoice item. Defaults to true if no value is provided.
+	Discountable *bool `form:"discountable" json:"discountable,omitempty"`
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionScheduleUpdatePhaseAddInvoiceItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -3038,6 +3044,8 @@ type SubscriptionSchedulePhaseAddInvoiceItemPeriod struct {
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
 type SubscriptionSchedulePhaseAddInvoiceItem struct {
+	// Controls whether discounts apply to this invoice item. Defaults to true if no value is provided.
+	Discountable bool `json:"discountable"`
 	// The stackable discounts that will be applied to the item.
 	Discounts []*SubscriptionSchedulePhaseAddInvoiceItemDiscount `json:"discounts"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

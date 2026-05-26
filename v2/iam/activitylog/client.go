@@ -22,6 +22,18 @@ type Client struct {
 	Key string
 }
 
+// Retrieve an activity log.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Get(id string, params *stripe.V2IamActivityLogParams) (*stripe.V2IamActivityLog, error) {
+	path := stripe.FormatURLPath("/v2/iam/activity_logs/%s", id)
+	activitylog := &stripe.V2IamActivityLog{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, activitylog)
+	return activitylog, err
+}
+
 // List activity logs of an account.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.

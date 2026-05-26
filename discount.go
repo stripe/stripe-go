@@ -34,7 +34,7 @@ type DiscountSource struct {
 //
 // Related guide: [Applying discounts to subscriptions](https://docs.stripe.com/billing/subscriptions/discounts)
 type Discount struct {
-	// The Checkout session that this coupon is applied to, if it is applied to a particular session in payment mode. Will not be present for subscription mode.
+	// The Checkout session that this coupon is applied to, if it is applied to a particular session in payment mode. Not present for subscription mode.
 	CheckoutSession string `json:"checkout_session"`
 	// The ID of the customer associated with this discount.
 	Customer *Customer `json:"customer"`
@@ -43,7 +43,7 @@ type Discount struct {
 	Deleted         bool   `json:"deleted,omitempty"`
 	// If the coupon has a duration of `repeating`, the date that this discount will end. If the coupon has a duration of `once` or `forever`, this attribute will be null.
 	End int64 `json:"end"`
-	// The ID of the discount object. Discounts cannot be fetched by ID. Use `expand[]=discounts` in API calls to expand discount IDs in an array.
+	// The ID of the discount object. Discounts can't be fetched by ID. Use `expand[]=discounts` in API calls to expand discount IDs in an array.
 	ID string `json:"id"`
 	// The invoice that the discount's coupon was applied to, if it was applied directly to a particular invoice.
 	Invoice string `json:"invoice"`

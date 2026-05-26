@@ -38,11 +38,11 @@ type V2MoneyManagementFinancialAccountStatementFilesByCurrency struct {
 
 // The time period covered by this statement.
 type V2MoneyManagementFinancialAccountStatementPeriod struct {
-	// The end of the statement period (exclusive), as a UTC-aligned ISO 8601 date
-	// (e.g., "2025-02-01"). For example, a January statement has end_date "2025-02-01",
-	// meaning all transactions up to but not including February 1st UTC are included.
+	// The end of the statement period (inclusive), as a UTC-aligned ISO 8601 date
+	// (e.g., "2026-05-31"). For example, a May 2026 statement has end_date "2026-05-31",
+	// meaning all transactions up to and including May 31st UTC are included.
 	EndDate string `json:"end_date"`
-	// The start of the statement period (inclusive), as a UTC-aligned ISO 8601 date (e.g., "2025-01-01").
+	// The start of the statement period (inclusive), as a UTC-aligned ISO 8601 date (e.g., "2026-05-01").
 	StartDate string `json:"start_date"`
 }
 

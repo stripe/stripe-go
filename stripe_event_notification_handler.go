@@ -1650,6 +1650,18 @@ func (h *EventNotificationHandler) OnV2CoreHealthAuthorizationRateDropResolved(c
 		h, "v2.core.health.authorization_rate_drop.resolved", callback)
 }
 
+// OnV2CoreHealthElementsErrorFiring registers a callback to handle notifications about the "v2.core.health.elements_error.firing" event.
+func (h *EventNotificationHandler) OnV2CoreHealthElementsErrorFiring(callback func(ctx context.Context, notif *V2CoreHealthElementsErrorFiringEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.health.elements_error.firing", callback)
+}
+
+// OnV2CoreHealthElementsErrorResolved registers a callback to handle notifications about the "v2.core.health.elements_error.resolved" event.
+func (h *EventNotificationHandler) OnV2CoreHealthElementsErrorResolved(callback func(ctx context.Context, notif *V2CoreHealthElementsErrorResolvedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.health.elements_error.resolved", callback)
+}
+
 // OnV2CoreHealthEventGenerationFailureResolved registers a callback to handle notifications about the "v2.core.health.event_generation_failure.resolved" event.
 func (h *EventNotificationHandler) OnV2CoreHealthEventGenerationFailureResolved(callback func(ctx context.Context, notif *V2CoreHealthEventGenerationFailureResolvedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
@@ -1660,6 +1672,18 @@ func (h *EventNotificationHandler) OnV2CoreHealthEventGenerationFailureResolved(
 func (h *EventNotificationHandler) OnV2CoreHealthFraudRateIncreased(callback func(ctx context.Context, notif *V2CoreHealthFraudRateIncreasedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.core.health.fraud_rate.increased", callback)
+}
+
+// OnV2CoreHealthInvoiceCountDroppedFiring registers a callback to handle notifications about the "v2.core.health.invoice_count_dropped.firing" event.
+func (h *EventNotificationHandler) OnV2CoreHealthInvoiceCountDroppedFiring(callback func(ctx context.Context, notif *V2CoreHealthInvoiceCountDroppedFiringEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.health.invoice_count_dropped.firing", callback)
+}
+
+// OnV2CoreHealthInvoiceCountDroppedResolved registers a callback to handle notifications about the "v2.core.health.invoice_count_dropped.resolved" event.
+func (h *EventNotificationHandler) OnV2CoreHealthInvoiceCountDroppedResolved(callback func(ctx context.Context, notif *V2CoreHealthInvoiceCountDroppedResolvedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.health.invoice_count_dropped.resolved", callback)
 }
 
 // OnV2CoreHealthIssuingAuthorizationRequestErrorsFiring registers a callback to handle notifications about the "v2.core.health.issuing_authorization_request_errors.firing" event.

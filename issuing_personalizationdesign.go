@@ -358,7 +358,7 @@ type IssuingPersonalizationDesignRejectionReasons struct {
 // A Personalization Design is a logical grouping of a Physical Bundle, card logo, and carrier text that represents a product line.
 type IssuingPersonalizationDesign struct {
 	APIResource
-	// The file for the card logo to use with physical bundles that support card logos. Must have a `purpose` value of `issuing_logo`.
+	// The file for the card logo to use with physical bundles that support card logos. Must have a `purpose` value of `issuing_logo`. Image must be in PNG format with dimensions of 1000px by 200px. It must be a binary (black and white) image containing a black logo on a white background. We don't accept grayscale.
 	CardLogo *File `json:"card_logo"`
 	// Hash containing carrier text, for use with physical bundles that support carrier text.
 	CarrierText *IssuingPersonalizationDesignCarrierText `json:"carrier_text"`

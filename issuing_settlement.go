@@ -8,13 +8,14 @@ package stripe
 
 import "encoding/json"
 
-// The card network for this settlement report. One of ["visa", "maestro"]
+// The card network for this settlement report. One of ["visa", "maestro", "mastercard"]
 type IssuingSettlementNetwork string
 
 // List of values that IssuingSettlementNetwork can take
 const (
-	IssuingSettlementNetworkMaestro IssuingSettlementNetwork = "maestro"
-	IssuingSettlementNetworkVisa    IssuingSettlementNetwork = "visa"
+	IssuingSettlementNetworkMaestro    IssuingSettlementNetwork = "maestro"
+	IssuingSettlementNetworkMastercard IssuingSettlementNetwork = "mastercard"
+	IssuingSettlementNetworkVisa       IssuingSettlementNetwork = "visa"
 )
 
 // The current processing status of this settlement.
@@ -46,7 +47,7 @@ type IssuingSettlement struct {
 	Metadata map[string]string `json:"metadata"`
 	// The total net amount required to settle with the network.
 	NetTotalAmount int64 `json:"net_total_amount"`
-	// The card network for this settlement report. One of ["visa", "maestro"]
+	// The card network for this settlement report. One of ["visa", "maestro", "mastercard"]
 	Network IssuingSettlementNetwork `json:"network"`
 	// The total amount of fees owed to the network.
 	NetworkFeesAmount int64 `json:"network_fees_amount"`

@@ -12,7 +12,7 @@ import "time"
 type V2DataAnalyticsMetricQueryResultDataResult struct {
 	// If this is a monetary metric, the currency it is returned in. Otherwise null.
 	Currency Currency `json:"currency,omitempty"`
-	// The Gen6 ID of this metric.
+	// The ID of this metric.
 	Metric string `json:"metric"`
 	// The common name of this metric.
 	Name string `json:"name"`

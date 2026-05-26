@@ -126,11 +126,12 @@ type FinancialConnectionsAccountStatusDetailsInactiveCause string
 
 // List of values that FinancialConnectionsAccountStatusDetailsInactiveCause can take
 const (
-	FinancialConnectionsAccountStatusDetailsInactiveCauseAccessDenied       FinancialConnectionsAccountStatusDetailsInactiveCause = "access_denied"
-	FinancialConnectionsAccountStatusDetailsInactiveCauseAccessExpired      FinancialConnectionsAccountStatusDetailsInactiveCause = "access_expired"
-	FinancialConnectionsAccountStatusDetailsInactiveCauseAccountClosed      FinancialConnectionsAccountStatusDetailsInactiveCause = "account_closed"
-	FinancialConnectionsAccountStatusDetailsInactiveCauseAccountUnavailable FinancialConnectionsAccountStatusDetailsInactiveCause = "account_unavailable"
-	FinancialConnectionsAccountStatusDetailsInactiveCauseUnspecified        FinancialConnectionsAccountStatusDetailsInactiveCause = "unspecified"
+	FinancialConnectionsAccountStatusDetailsInactiveCauseAccessDenied           FinancialConnectionsAccountStatusDetailsInactiveCause = "access_denied"
+	FinancialConnectionsAccountStatusDetailsInactiveCauseAccessExpired          FinancialConnectionsAccountStatusDetailsInactiveCause = "access_expired"
+	FinancialConnectionsAccountStatusDetailsInactiveCauseAccountClosed          FinancialConnectionsAccountStatusDetailsInactiveCause = "account_closed"
+	FinancialConnectionsAccountStatusDetailsInactiveCauseAccountUnavailable     FinancialConnectionsAccountStatusDetailsInactiveCause = "account_unavailable"
+	FinancialConnectionsAccountStatusDetailsInactiveCauseInstitutionRequirement FinancialConnectionsAccountStatusDetailsInactiveCause = "institution_requirement"
+	FinancialConnectionsAccountStatusDetailsInactiveCauseUnspecified            FinancialConnectionsAccountStatusDetailsInactiveCause = "unspecified"
 )
 
 // If `category` is `cash`, one of:

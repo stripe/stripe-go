@@ -271,7 +271,7 @@ const (
 
 // If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
 // Session will determine whether to display an option to opt into promotional communication
-// from the merchant depending on the customer's locale. Only available to US merchants.
+// from the merchant depending on the customer's locale. Only available to US merchants and US customers.
 type CheckoutSessionConsentCollectionPromotions string
 
 // List of values that CheckoutSessionConsentCollectionPromotions can take
@@ -827,7 +827,7 @@ const (
 	CheckoutSessionPaymentMethodOptionsCardRequestThreeDSecureChallenge CheckoutSessionPaymentMethodOptionsCardRequestThreeDSecure = "challenge"
 )
 
-// Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
+// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 type CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked string
 
 // List of values that CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked can take
@@ -1385,6 +1385,14 @@ const (
 	CheckoutSessionPaymentMethodOptionsSatispayCaptureMethodManual CheckoutSessionPaymentMethodOptionsSatispayCaptureMethod = "manual"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsScalapayCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsScalapayCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsScalapayCaptureMethodManual CheckoutSessionPaymentMethodOptionsScalapayCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1426,7 +1434,8 @@ type CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsage string
 
 // List of values that CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsage can take
 const (
-	CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsTWINTSetupFutureUsage = "off_session"
 )
 
 // One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
@@ -1556,7 +1565,7 @@ const (
 	CheckoutSessionPermissionsUpdateShippingDetailsServerOnly CheckoutSessionPermissionsUpdateShippingDetails = "server_only"
 )
 
-// This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
+// This parameter applies to `ui_mode: embedded_page`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
 type CheckoutSessionRedirectOnCompletion string
 
 // List of values that CheckoutSessionRedirectOnCompletion can take
@@ -1758,7 +1767,7 @@ type CheckoutSessionAfterExpirationRecoveryParams struct {
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
-// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `custom`.
+// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `elements`.
 type CheckoutSessionAfterExpirationParams struct {
 	// Configure a Checkout Session that can be used to recover an expired session.
 	Recovery *CheckoutSessionAfterExpirationRecoveryParams `form:"recovery" json:"recovery,omitempty"`
@@ -1812,7 +1821,7 @@ type CheckoutSessionBrandingSettingsLogoParams struct {
 	URL *string `form:"url" json:"url,omitempty"`
 }
 
-// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `elements`.
 type CheckoutSessionBrandingSettingsParams struct {
 	// A hex color value starting with `#` representing the background color for the Checkout Session.
 	BackgroundColor *string `form:"background_color" json:"background_color,omitempty"`
@@ -1859,7 +1868,7 @@ type CheckoutSessionConsentCollectionParams struct {
 	PaymentMethodReuseAgreement *CheckoutSessionConsentCollectionPaymentMethodReuseAgreementParams `form:"payment_method_reuse_agreement" json:"payment_method_reuse_agreement,omitempty"`
 	// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
 	// Session will determine whether to display an option to opt into promotional communication
-	// from the merchant depending on the customer's locale. Only available to US merchants.
+	// from the merchant depending on the customer's locale. Only available to US merchants and US customers.
 	Promotions *string `form:"promotions" json:"promotions,omitempty"`
 	// If set to `required`, it requires customers to check a terms of service checkbox before being able to pay.
 	// There must be a valid terms of service URL set in your [Dashboard settings](https://dashboard.stripe.com/settings/public).
@@ -2430,7 +2439,7 @@ func (p *CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams) AddUn
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `custom`.
+// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `elements`.
 type CheckoutSessionPaymentMethodOptionsACSSDebitParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). This is only accepted for Checkout Sessions in `setup` mode.
 	Currency *string `form:"currency" json:"currency,omitempty"`
@@ -2635,7 +2644,7 @@ type CheckoutSessionPaymentMethodOptionsCardInstallmentsParams struct {
 
 // Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionPaymentMethodOptionsCardRestrictionsParams struct {
-	// Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
+	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 	BrandsBlocked []*string `form:"brands_blocked" json:"brands_blocked,omitempty"`
 }
 
@@ -2898,7 +2907,7 @@ type CheckoutSessionPaymentMethodOptionsKrCardParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
-// contains details about the Link payment method options.
+// contains details about the Link payment method options (Link is also known as Onelink in the UK).
 type CheckoutSessionPaymentMethodOptionsLinkParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
@@ -3156,6 +3165,12 @@ type CheckoutSessionPaymentMethodOptionsSatispayParams struct {
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 }
 
+// contains details about the Scalapay payment method options.
+type CheckoutSessionPaymentMethodOptionsScalapayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type CheckoutSessionPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -3297,7 +3312,7 @@ type CheckoutSessionPaymentMethodOptionsWeChatPayParams struct {
 
 // Payment-method-specific configuration.
 type CheckoutSessionPaymentMethodOptionsParams struct {
-	// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `custom`.
+	// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `elements`.
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// contains details about the Affirm payment method options.
 	Affirm *CheckoutSessionPaymentMethodOptionsAffirmParams `form:"affirm" json:"affirm,omitempty"`
@@ -3351,7 +3366,7 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Konbini *CheckoutSessionPaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// contains details about the Korean card payment method options.
 	KrCard *CheckoutSessionPaymentMethodOptionsKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// contains details about the Link payment method options.
+	// contains details about the Link payment method options (Link is also known as Onelink in the UK).
 	Link *CheckoutSessionPaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// contains details about the Mobilepay payment method options.
 	Mobilepay *CheckoutSessionPaymentMethodOptionsMobilepayParams `form:"mobilepay" json:"mobilepay,omitempty"`
@@ -3381,6 +3396,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	SamsungPay *CheckoutSessionPaymentMethodOptionsSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// contains details about the Satispay payment method options.
 	Satispay *CheckoutSessionPaymentMethodOptionsSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// contains details about the Scalapay payment method options.
+	Scalapay *CheckoutSessionPaymentMethodOptionsScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// contains details about the Sepa Debit payment method options.
 	SEPADebit *CheckoutSessionPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// contains details about the Sofort payment method options.
@@ -3621,7 +3638,7 @@ type CheckoutSessionSubscriptionDataTrialSettingsParams struct {
 type CheckoutSessionSubscriptionDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
-	// A future timestamp to anchor the subscription's billing cycle for new subscriptions. You can't set this parameter if `ui_mode` is `custom`.
+	// A future timestamp to anchor the subscription's billing cycle for new subscriptions. You can't set this parameter if `ui_mode` is `elements`.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *CheckoutSessionSubscriptionDataBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
@@ -3684,7 +3701,7 @@ type CheckoutSessionTaxIDCollectionParams struct {
 	Required *string `form:"required" json:"required,omitempty"`
 }
 
-// contains details about the Link wallet options.
+// contains details about the Link wallet options (Link is also known as Onelink in the UK).
 type CheckoutSessionWalletOptionsLinkParams struct {
 	// Specifies whether Checkout should display Link as a payment option. By default, Checkout will display all the supported wallets that the Checkout Session was created with. This is the `auto` behavior, and it is the default choice.
 	Display *string `form:"display" json:"display,omitempty"`
@@ -3692,7 +3709,7 @@ type CheckoutSessionWalletOptionsLinkParams struct {
 
 // Wallet-specific configuration.
 type CheckoutSessionWalletOptionsParams struct {
-	// contains details about the Link wallet options.
+	// contains details about the Link wallet options (Link is also known as Onelink in the UK).
 	Link *CheckoutSessionWalletOptionsLinkParams `form:"link" json:"link,omitempty"`
 }
 type CheckoutSessionCheckoutItemRateCardSubscriptionItemParams struct {
@@ -3744,7 +3761,7 @@ type CheckoutSessionParams struct {
 	Params `form:"*"`
 	// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 	AdaptivePricing *CheckoutSessionAdaptivePricingParams `form:"adaptive_pricing" json:"adaptive_pricing,omitempty"`
-	// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `custom`.
+	// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `elements`.
 	AfterExpiration *CheckoutSessionAfterExpirationParams `form:"after_expiration" json:"after_expiration,omitempty"`
 	// Enables user redeemable promotion codes.
 	AllowPromotionCodes *bool `form:"allow_promotion_codes" json:"allow_promotion_codes,omitempty"`
@@ -3760,9 +3777,9 @@ type CheckoutSessionParams struct {
 	AutomaticTax *CheckoutSessionAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection" json:"billing_address_collection,omitempty"`
-	// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+	// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `elements`.
 	BrandingSettings *CheckoutSessionBrandingSettingsParams `form:"branding_settings" json:"branding_settings,omitempty"`
-	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded` or `custom`.
+	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded_page` or `elements`.
 	CancelURL     *string                              `form:"cancel_url" json:"cancel_url,omitempty"`
 	CheckoutItems []*CheckoutSessionCheckoutItemParams `form:"checkout_items" json:"checkout_items,omitempty"`
 	// A unique string to reference the Checkout Session. This can be a
@@ -3861,7 +3878,7 @@ type CheckoutSessionParams struct {
 	//
 	// You can't set this parameter if `ui_mode` is `custom`.
 	OptionalItems []*CheckoutSessionOptionalItemParams `form:"optional_items" json:"optional_items,omitempty"`
-	// Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `custom`.
+	// Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `elements`.
 	OriginContext *string `form:"origin_context" json:"origin_context,omitempty"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data" json:"payment_intent_data,omitempty"`
@@ -3899,10 +3916,10 @@ type CheckoutSessionParams struct {
 	// We recommend that you review your privacy policy and check with your legal contacts
 	// before using this feature. Learn more about [collecting phone numbers with Checkout](https://docs.stripe.com/payments/checkout/phone-numbers).
 	PhoneNumberCollection *CheckoutSessionPhoneNumberCollectionParams `form:"phone_number_collection" json:"phone_number_collection,omitempty"`
-	// This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
+	// This parameter applies to `ui_mode: embedded_page`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
 	RedirectOnCompletion *string `form:"redirect_on_completion" json:"redirect_on_completion,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the
-	// payment method's app or site. This parameter is required if `ui_mode` is `embedded` or `custom`
+	// payment method's app or site. This parameter is required if `ui_mode` is `embedded_page` or `elements`
 	// and redirect-based payment methods are enabled on the session.
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
@@ -3917,19 +3934,19 @@ type CheckoutSessionParams struct {
 	// to customize relevant text on the page, such as the submit button.
 	//  `submit_type` can only be specified on Checkout Sessions in
 	// `payment` or `subscription` mode. If blank or `auto`, `pay` is used.
-	// You can't set this parameter if `ui_mode` is `custom`.
+	// You can't set this parameter if `ui_mode` is `elements`.
 	SubmitType *string `form:"submit_type" json:"submit_type,omitempty"`
 	// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 	SubscriptionData *CheckoutSessionSubscriptionDataParams `form:"subscription_data" json:"subscription_data,omitempty"`
 	// The URL to which Stripe should send customers when payment or setup
 	// is complete.
-	// This parameter is not allowed if ui_mode is `embedded` or `custom`. If you'd like to use
+	// This parameter is not allowed if ui_mode is `embedded_page` or `elements`. If you'd like to use
 	// information from the successful Checkout Session on your page, read the
 	// guide on [customizing your success page](https://docs.stripe.com/payments/checkout/custom-success-page).
 	SuccessURL *string `form:"success_url" json:"success_url,omitempty"`
 	// Controls tax ID collection during checkout.
 	TaxIDCollection *CheckoutSessionTaxIDCollectionParams `form:"tax_id_collection" json:"tax_id_collection,omitempty"`
-	// The UI mode of the Session. Defaults to `hosted`.
+	// The UI mode of the Session. Defaults to `hosted_page`.
 	UIMode *string `form:"ui_mode" json:"ui_mode,omitempty"`
 	// Wallet-specific configuration.
 	WalletOptions *CheckoutSessionWalletOptionsParams `form:"wallet_options" json:"wallet_options,omitempty"`
@@ -4055,7 +4072,7 @@ type CheckoutSessionCreateAfterExpirationRecoveryParams struct {
 	Enabled *bool `form:"enabled" json:"enabled"`
 }
 
-// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `custom`.
+// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `elements`.
 type CheckoutSessionCreateAfterExpirationParams struct {
 	// Configure a Checkout Session that can be used to recover an expired session.
 	Recovery *CheckoutSessionCreateAfterExpirationRecoveryParams `form:"recovery" json:"recovery,omitempty"`
@@ -4109,7 +4126,7 @@ type CheckoutSessionCreateBrandingSettingsLogoParams struct {
 	URL *string `form:"url" json:"url,omitempty"`
 }
 
-// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `elements`.
 type CheckoutSessionCreateBrandingSettingsParams struct {
 	// A hex color value starting with `#` representing the background color for the Checkout Session.
 	BackgroundColor *string `form:"background_color" json:"background_color,omitempty"`
@@ -4156,7 +4173,7 @@ type CheckoutSessionCreateConsentCollectionParams struct {
 	PaymentMethodReuseAgreement *CheckoutSessionCreateConsentCollectionPaymentMethodReuseAgreementParams `form:"payment_method_reuse_agreement" json:"payment_method_reuse_agreement,omitempty"`
 	// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
 	// Session will determine whether to display an option to opt into promotional communication
-	// from the merchant depending on the customer's locale. Only available to US merchants.
+	// from the merchant depending on the customer's locale. Only available to US merchants and US customers.
 	Promotions *string `form:"promotions" json:"promotions,omitempty"`
 	// If set to `required`, it requires customers to check a terms of service checkbox before being able to pay.
 	// There must be a valid terms of service URL set in your [Dashboard settings](https://dashboard.stripe.com/settings/public).
@@ -4711,7 +4728,7 @@ func (p *CheckoutSessionCreatePaymentMethodOptionsACSSDebitMandateOptionsParams)
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `custom`.
+// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `elements`.
 type CheckoutSessionCreatePaymentMethodOptionsACSSDebitParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). This is only accepted for Checkout Sessions in `setup` mode.
 	Currency *string `form:"currency" json:"currency,omitempty"`
@@ -4916,7 +4933,7 @@ type CheckoutSessionCreatePaymentMethodOptionsCardInstallmentsParams struct {
 
 // Restrictions to apply to the card payment method. For example, you can block specific card brands. You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionCreatePaymentMethodOptionsCardRestrictionsParams struct {
-	// Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
+	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 	BrandsBlocked []*string `form:"brands_blocked" json:"brands_blocked,omitempty"`
 }
 
@@ -5179,7 +5196,7 @@ type CheckoutSessionCreatePaymentMethodOptionsKrCardParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
-// contains details about the Link payment method options.
+// contains details about the Link payment method options (Link is also known as Onelink in the UK).
 type CheckoutSessionCreatePaymentMethodOptionsLinkParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
@@ -5437,6 +5454,12 @@ type CheckoutSessionCreatePaymentMethodOptionsSatispayParams struct {
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
 }
 
+// contains details about the Scalapay payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsScalapayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type CheckoutSessionCreatePaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -5578,7 +5601,7 @@ type CheckoutSessionCreatePaymentMethodOptionsWeChatPayParams struct {
 
 // Payment-method-specific configuration.
 type CheckoutSessionCreatePaymentMethodOptionsParams struct {
-	// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `custom`.
+	// contains details about the ACSS Debit payment method options. You can't set this parameter if `ui_mode` is `elements`.
 	ACSSDebit *CheckoutSessionCreatePaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// contains details about the Affirm payment method options.
 	Affirm *CheckoutSessionCreatePaymentMethodOptionsAffirmParams `form:"affirm" json:"affirm,omitempty"`
@@ -5632,7 +5655,7 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	Konbini *CheckoutSessionCreatePaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// contains details about the Korean card payment method options.
 	KrCard *CheckoutSessionCreatePaymentMethodOptionsKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// contains details about the Link payment method options.
+	// contains details about the Link payment method options (Link is also known as Onelink in the UK).
 	Link *CheckoutSessionCreatePaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// contains details about the Mobilepay payment method options.
 	Mobilepay *CheckoutSessionCreatePaymentMethodOptionsMobilepayParams `form:"mobilepay" json:"mobilepay,omitempty"`
@@ -5662,6 +5685,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	SamsungPay *CheckoutSessionCreatePaymentMethodOptionsSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// contains details about the Satispay payment method options.
 	Satispay *CheckoutSessionCreatePaymentMethodOptionsSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// contains details about the Scalapay payment method options.
+	Scalapay *CheckoutSessionCreatePaymentMethodOptionsScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// contains details about the Sepa Debit payment method options.
 	SEPADebit *CheckoutSessionCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// contains details about the Sofort payment method options.
@@ -5902,7 +5927,7 @@ type CheckoutSessionCreateSubscriptionDataTrialSettingsParams struct {
 type CheckoutSessionCreateSubscriptionDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
-	// A future timestamp to anchor the subscription's billing cycle for new subscriptions. You can't set this parameter if `ui_mode` is `custom`.
+	// A future timestamp to anchor the subscription's billing cycle for new subscriptions. You can't set this parameter if `ui_mode` is `elements`.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *CheckoutSessionCreateSubscriptionDataBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
@@ -5951,7 +5976,7 @@ type CheckoutSessionCreateTaxIDCollectionParams struct {
 	Required *string `form:"required" json:"required,omitempty"`
 }
 
-// contains details about the Link wallet options.
+// contains details about the Link wallet options (Link is also known as Onelink in the UK).
 type CheckoutSessionCreateWalletOptionsLinkParams struct {
 	// Specifies whether Checkout should display Link as a payment option. By default, Checkout will display all the supported wallets that the Checkout Session was created with. This is the `auto` behavior, and it is the default choice.
 	Display *string `form:"display" json:"display,omitempty"`
@@ -5959,7 +5984,7 @@ type CheckoutSessionCreateWalletOptionsLinkParams struct {
 
 // Wallet-specific configuration.
 type CheckoutSessionCreateWalletOptionsParams struct {
-	// contains details about the Link wallet options.
+	// contains details about the Link wallet options (Link is also known as Onelink in the UK).
 	Link *CheckoutSessionCreateWalletOptionsLinkParams `form:"link" json:"link,omitempty"`
 }
 type CheckoutSessionCreateCheckoutItemRateCardSubscriptionItemParams struct {
@@ -6011,7 +6036,7 @@ type CheckoutSessionCreateParams struct {
 	Params `form:"*"`
 	// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 	AdaptivePricing *CheckoutSessionCreateAdaptivePricingParams `form:"adaptive_pricing" json:"adaptive_pricing,omitempty"`
-	// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `custom`.
+	// Configure actions after a Checkout Session has expired. You can't set this parameter if `ui_mode` is `elements`.
 	AfterExpiration *CheckoutSessionCreateAfterExpirationParams `form:"after_expiration" json:"after_expiration,omitempty"`
 	// Enables user redeemable promotion codes.
 	AllowPromotionCodes *bool `form:"allow_promotion_codes" json:"allow_promotion_codes,omitempty"`
@@ -6027,9 +6052,9 @@ type CheckoutSessionCreateParams struct {
 	AutomaticTax *CheckoutSessionCreateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection" json:"billing_address_collection,omitempty"`
-	// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `custom`.
+	// The branding settings for the Checkout Session. This parameter is not allowed if ui_mode is `elements`.
 	BrandingSettings *CheckoutSessionCreateBrandingSettingsParams `form:"branding_settings" json:"branding_settings,omitempty"`
-	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded` or `custom`.
+	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded_page` or `elements`.
 	CancelURL     *string                                    `form:"cancel_url" json:"cancel_url,omitempty"`
 	CheckoutItems []*CheckoutSessionCreateCheckoutItemParams `form:"checkout_items" json:"checkout_items,omitempty"`
 	// A unique string to reference the Checkout Session. This can be a
@@ -6126,7 +6151,7 @@ type CheckoutSessionCreateParams struct {
 	//
 	// You can't set this parameter if `ui_mode` is `custom`.
 	OptionalItems []*CheckoutSessionCreateOptionalItemParams `form:"optional_items" json:"optional_items,omitempty"`
-	// Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `custom`.
+	// Where the user is coming from. This informs the optimizations that are applied to the session. You can't set this parameter if `ui_mode` is `elements`.
 	OriginContext *string `form:"origin_context" json:"origin_context,omitempty"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionCreatePaymentIntentDataParams `form:"payment_intent_data" json:"payment_intent_data,omitempty"`
@@ -6164,10 +6189,10 @@ type CheckoutSessionCreateParams struct {
 	// We recommend that you review your privacy policy and check with your legal contacts
 	// before using this feature. Learn more about [collecting phone numbers with Checkout](https://docs.stripe.com/payments/checkout/phone-numbers).
 	PhoneNumberCollection *CheckoutSessionCreatePhoneNumberCollectionParams `form:"phone_number_collection" json:"phone_number_collection,omitempty"`
-	// This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
+	// This parameter applies to `ui_mode: embedded_page`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
 	RedirectOnCompletion *string `form:"redirect_on_completion" json:"redirect_on_completion,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the
-	// payment method's app or site. This parameter is required if `ui_mode` is `embedded` or `custom`
+	// payment method's app or site. This parameter is required if `ui_mode` is `embedded_page` or `elements`
 	// and redirect-based payment methods are enabled on the session.
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
@@ -6182,19 +6207,19 @@ type CheckoutSessionCreateParams struct {
 	// to customize relevant text on the page, such as the submit button.
 	//  `submit_type` can only be specified on Checkout Sessions in
 	// `payment` or `subscription` mode. If blank or `auto`, `pay` is used.
-	// You can't set this parameter if `ui_mode` is `custom`.
+	// You can't set this parameter if `ui_mode` is `elements`.
 	SubmitType *string `form:"submit_type" json:"submit_type,omitempty"`
 	// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 	SubscriptionData *CheckoutSessionCreateSubscriptionDataParams `form:"subscription_data" json:"subscription_data,omitempty"`
 	// The URL to which Stripe should send customers when payment or setup
 	// is complete.
-	// This parameter is not allowed if ui_mode is `embedded` or `custom`. If you'd like to use
+	// This parameter is not allowed if ui_mode is `embedded_page` or `elements`. If you'd like to use
 	// information from the successful Checkout Session on your page, read the
 	// guide on [customizing your success page](https://docs.stripe.com/payments/checkout/custom-success-page).
 	SuccessURL *string `form:"success_url" json:"success_url,omitempty"`
 	// Controls tax ID collection during checkout.
 	TaxIDCollection *CheckoutSessionCreateTaxIDCollectionParams `form:"tax_id_collection" json:"tax_id_collection,omitempty"`
-	// The UI mode of the Session. Defaults to `hosted`.
+	// The UI mode of the Session. Defaults to `hosted_page`.
 	UIMode *string `form:"ui_mode" json:"ui_mode,omitempty"`
 	// Wallet-specific configuration.
 	WalletOptions *CheckoutSessionCreateWalletOptionsParams `form:"wallet_options" json:"wallet_options,omitempty"`
@@ -6794,7 +6819,7 @@ type CheckoutSessionConsentCollection struct {
 	PaymentMethodReuseAgreement *CheckoutSessionConsentCollectionPaymentMethodReuseAgreement `json:"payment_method_reuse_agreement"`
 	// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
 	// Session will determine whether to display an option to opt into promotional communication
-	// from the merchant depending on the customer's locale. Only available to US merchants.
+	// from the merchant depending on the customer's locale. Only available to US merchants and US customers.
 	Promotions CheckoutSessionConsentCollectionPromotions `json:"promotions"`
 	// If set to `required`, it requires customers to accept the terms of service before being able to pay.
 	TermsOfService CheckoutSessionConsentCollectionTermsOfService `json:"terms_of_service"`
@@ -7269,7 +7294,7 @@ type CheckoutSessionPaymentMethodOptionsCardInstallments struct {
 	Enabled bool `json:"enabled,omitempty"`
 }
 type CheckoutSessionPaymentMethodOptionsCardRestrictions struct {
-	// Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
+	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 	BrandsBlocked []CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked `json:"brands_blocked,omitempty"`
 }
 type CheckoutSessionPaymentMethodOptionsCard struct {
@@ -7618,6 +7643,10 @@ type CheckoutSessionPaymentMethodOptionsSatispay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod CheckoutSessionPaymentMethodOptionsSatispayCaptureMethod `json:"capture_method,omitempty"`
 }
+type CheckoutSessionPaymentMethodOptionsScalapay struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsScalapayCaptureMethod `json:"capture_method,omitempty"`
+}
 type CheckoutSessionPaymentMethodOptionsSEPADebitMandateOptions struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
 	ReferencePrefix string `json:"reference_prefix,omitempty"`
@@ -7756,6 +7785,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	RevolutPay       *CheckoutSessionPaymentMethodOptionsRevolutPay       `json:"revolut_pay,omitempty"`
 	SamsungPay       *CheckoutSessionPaymentMethodOptionsSamsungPay       `json:"samsung_pay,omitempty"`
 	Satispay         *CheckoutSessionPaymentMethodOptionsSatispay         `json:"satispay,omitempty"`
+	Scalapay         *CheckoutSessionPaymentMethodOptionsScalapay         `json:"scalapay,omitempty"`
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit,omitempty"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort,omitempty"`
 	Swish            *CheckoutSessionPaymentMethodOptionsSwish            `json:"swish,omitempty"`
@@ -8001,8 +8031,8 @@ type CheckoutSession struct {
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
 	// Session with your internal systems.
 	ClientReferenceID string `json:"client_reference_id"`
-	// The client secret of your Checkout Session. Applies to Checkout Sessions with `ui_mode: embedded` or `ui_mode: custom`. For `ui_mode: embedded`, the client secret is to be used when initializing Stripe.js embedded checkout.
-	//  For `ui_mode: custom`, use the client secret with [initCheckout](https://docs.stripe.com/js/custom_checkout/init) on your front end.
+	// The client secret of your Checkout Session. Applies to Checkout Sessions with `ui_mode: embedded_page` or `ui_mode: elements`. For `ui_mode: embedded_page`, the client secret is to be used when initializing Stripe.js embedded checkout.
+	//  For `ui_mode: elements`, use the client secret with [initCheckout](https://docs.stripe.com/js/custom_checkout/init) on your front end.
 	ClientSecret string `json:"client_secret"`
 	// Information about the customer collected within the Checkout Session.
 	CollectedInformation *CheckoutSessionCollectedInformation `json:"collected_information"`
@@ -8101,9 +8131,9 @@ type CheckoutSession struct {
 	PresentmentDetails    *CheckoutSessionPresentmentDetails    `json:"presentment_details,omitempty"`
 	// The ID of the original expired Checkout Session that triggered the recovery flow.
 	RecoveredFrom string `json:"recovered_from"`
-	// This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
+	// This parameter applies to `ui_mode: embedded_page`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
 	RedirectOnCompletion CheckoutSessionRedirectOnCompletion `json:"redirect_on_completion,omitempty"`
-	// Applies to Checkout Sessions with `ui_mode: embedded` or `ui_mode: custom`. The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site.
+	// Applies to Checkout Sessions with `ui_mode: embedded_page` or `ui_mode: elements`. The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site.
 	ReturnURL string `json:"return_url,omitempty"`
 	// Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
 	SavedPaymentMethodOptions *CheckoutSessionSavedPaymentMethodOptions `json:"saved_payment_method_options"`
@@ -8132,7 +8162,7 @@ type CheckoutSession struct {
 	TotalDetails *CheckoutSessionTotalDetails `json:"total_details"`
 	// The UI mode of the Session. Defaults to `hosted_page`.
 	UIMode CheckoutSessionUIMode `json:"ui_mode"`
-	// The URL to the Checkout Session. Applies to Checkout Sessions with `ui_mode: hosted`. Redirect customers to this URL to take them to Checkout. If you're using [Custom Domains](https://docs.stripe.com/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it'll use `checkout.stripe.com.`
+	// The URL to the Checkout Session. Applies to Checkout Sessions with `ui_mode: hosted_page`. Redirect customers to this URL to take them to Checkout. If you're using [Custom Domains](https://docs.stripe.com/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it'll use `checkout.stripe.com.`
 	// This value is only present when the session is active.
 	URL string `json:"url"`
 	// Wallet-specific configuration for this Checkout Session.

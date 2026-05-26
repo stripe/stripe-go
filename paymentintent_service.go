@@ -209,7 +209,9 @@ func (c v1PaymentIntentService) DecrementAuthorization(ctx context.Context, id s
 // Each PaymentIntent can have a maximum of 10 incremental authorization attempts, including declines.
 // After it's captured, a PaymentIntent can no longer be incremented.
 //
-// Learn more about [incremental authorizations](https://docs.stripe.com/docs/terminal/features/incremental-authorizations).
+// Learn more about incremental authorizations with
+// [in-person payments](https://docs.stripe.com/docs/terminal/features/incremental-authorizations) and
+// [online payments](https://docs.stripe.com/docs/payments/incremental-authorization?platform=web&ui=elements).
 func (c v1PaymentIntentService) IncrementAuthorization(ctx context.Context, id string, params *PaymentIntentIncrementAuthorizationParams) (*PaymentIntent, error) {
 	if params == nil {
 		params = &PaymentIntentIncrementAuthorizationParams{}

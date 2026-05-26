@@ -1237,7 +1237,7 @@ type DelegatedCheckoutRequestedSessionTotalDetails struct {
 type DelegatedCheckoutRequestedSession struct {
 	APIResource
 	// Affiliate attribution data associated with this requested session.
-	AffiliateAttributions []*DelegatedCheckoutRequestedSessionAffiliateAttribution `json:"affiliate_attributions,omitempty"`
+	AffiliateAttributions []*DelegatedCheckoutRequestedSessionAffiliateAttribution `json:"affiliate_attributions"`
 	// The subtotal amount of the requested session.
 	AmountSubtotal int64 `json:"amount_subtotal"`
 	// The total amount of the requested session.
