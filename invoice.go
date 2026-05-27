@@ -258,6 +258,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeSEPADebit          InvoicePaymentSettingsPaymentMethodType = "sepa_debit"
 	InvoicePaymentSettingsPaymentMethodTypeSofort             InvoicePaymentSettingsPaymentMethodType = "sofort"
 	InvoicePaymentSettingsPaymentMethodTypeSwish              InvoicePaymentSettingsPaymentMethodType = "swish"
+	InvoicePaymentSettingsPaymentMethodTypeTWINT              InvoicePaymentSettingsPaymentMethodType = "twint"
 	InvoicePaymentSettingsPaymentMethodTypeUpi                InvoicePaymentSettingsPaymentMethodType = "upi"
 	InvoicePaymentSettingsPaymentMethodTypeUSBankAccount      InvoicePaymentSettingsPaymentMethodType = "us_bank_account"
 	InvoicePaymentSettingsPaymentMethodTypeWeChatPay          InvoicePaymentSettingsPaymentMethodType = "wechat_pay"
@@ -1717,6 +1718,8 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPriceDataParams struc
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemParams struct {
+	// Controls whether discounts apply to this invoice item. Defaults to true if no value is provided.
+	Discountable *bool `form:"discountable" json:"discountable,omitempty"`
 	// The coupons to redeem into discounts for the item.
 	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -2035,6 +2038,42 @@ type InvoiceCreatePreviewSubscriptionDetailsBillingModeParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Configure billing schedule differently for individual subscription items.
+type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleAppliesToParams struct {
+	// The ID of the price object.
+	Price *string `form:"price" json:"price,omitempty"`
+	// Controls which subscription items the billing schedule applies to.
+	Type *string `form:"type" json:"type"`
+}
+
+// Specifies the billing period.
+type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilDurationParams struct {
+	// Specifies billing duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
+// The end date for the billing schedule.
+type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilParams struct {
+	// Specifies the billing period.
+	Duration *InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
+	// The end date of the billing schedule.
+	Timestamp *int64 `form:"timestamp" json:"timestamp,omitempty"`
+	// Describes how the billing schedule will determine the end date. Either `duration` or `timestamp`.
+	Type *string `form:"type" json:"type"`
+}
+
+// Sets the billing schedules for the subscription.
+type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleParams struct {
+	// Configure billing schedule differently for individual subscription items.
+	AppliesTo []*InvoiceCreatePreviewSubscriptionDetailsBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
+	// The end date for the billing schedule.
+	BillUntil *InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
+	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
+	Key *string `form:"key" json:"key,omitempty"`
+}
+
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 type InvoiceCreatePreviewSubscriptionDetailsItemBillingThresholdsParams struct {
 	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://docs.stripe.com/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
@@ -2134,10 +2173,13 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *InvoiceCreatePreviewSubscriptionDetailsBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
+	// Sets the billing schedules for the subscription.
+	BillingSchedules []*InvoiceCreatePreviewSubscriptionDetailsBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt             *int64 `form:"cancel_at" json:"cancel_at,omitempty"`
-	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
-	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	CancelAt               *int64 `form:"cancel_at" json:"cancel_at,omitempty"`
+	CancelAtMaxBilledUntil *bool  `form:"-"` // See custom AppendTo
+	CancelAtMaxPeriodEnd   *bool  `form:"-"` // See custom AppendTo
+	CancelAtMinPeriodEnd   *bool  `form:"-"` // See custom AppendTo
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end" json:"cancel_at_period_end,omitempty"`
 	// This simulates the subscription being canceled or expired immediately.
@@ -2164,8 +2206,9 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 type InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField string
 
 const (
-	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldCancelAt        InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "cancel_at"
-	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldDefaultTaxRates InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "default_tax_rates"
+	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldBillingSchedules InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "billing_schedules"
+	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldCancelAt         InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "cancel_at"
+	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldDefaultTaxRates  InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "default_tax_rates"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -2180,6 +2223,9 @@ func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AppendTo(body *form.Valu
 	}
 	if BoolValue(p.BillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
+	}
+	if BoolValue(p.CancelAtMaxBilledUntil) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_billed_until")
 	}
 	if BoolValue(p.CancelAtMaxPeriodEnd) {
 		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_period_end")
@@ -3696,6 +3742,8 @@ type Invoice struct {
 	AmountOverpaid int64 `json:"amount_overpaid"`
 	// The amount, in cents (or local equivalent), that was paid.
 	AmountPaid int64 `json:"amount_paid"`
+	// Amount, in cents (or local equivalent), that was paid on the invoice outside of Stripe.
+	AmountPaidOffStripe int64 `json:"amount_paid_off_stripe,omitempty"`
 	// The difference between amount_due and amount_paid, in cents (or local equivalent).
 	AmountRemaining int64 `json:"amount_remaining"`
 	// This is the sum of all the shipping amounts.

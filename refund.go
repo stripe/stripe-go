@@ -369,6 +369,7 @@ type RefundDestinationDetailsPaypal struct {
 }
 type RefundDestinationDetailsPix struct{}
 type RefundDestinationDetailsRevolut struct{}
+type RefundDestinationDetailsScalapay struct{}
 type RefundDestinationDetailsSofort struct{}
 type RefundDestinationDetailsSwish struct {
 	// For refunds declined by the network, a decline code provided by the network which indicates the reason the refund failed.
@@ -422,6 +423,7 @@ type RefundDestinationDetails struct {
 	Paypal              *RefundDestinationDetailsPaypal              `json:"paypal,omitempty"`
 	Pix                 *RefundDestinationDetailsPix                 `json:"pix,omitempty"`
 	Revolut             *RefundDestinationDetailsRevolut             `json:"revolut,omitempty"`
+	Scalapay            *RefundDestinationDetailsScalapay            `json:"scalapay,omitempty"`
 	Sofort              *RefundDestinationDetailsSofort              `json:"sofort,omitempty"`
 	Swish               *RefundDestinationDetailsSwish               `json:"swish,omitempty"`
 	THBankTransfer      *RefundDestinationDetailsTHBankTransfer      `json:"th_bank_transfer,omitempty"`
