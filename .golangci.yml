@@ -60,12 +60,6 @@ linters:
         linters: [staticcheck]
         text: "SA1019"
 
-      # ST1001: dot import in mock package test helper.
-      # TODO: remove dot import in a follow-up cleanup.
-      - path: "^mock/mock\\.go$"
-        linters: [staticcheck]
-        text: "ST1001"
-
       # ST1003: naming convention (sdkApiVersion → sdkAPIVersion).
       # TODO: fix in a follow-up PR — rename requires updating callers.
       - path: "^webhook/client\\.go$"
