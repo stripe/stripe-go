@@ -39,6 +39,14 @@ jobs:
         with:
           go-version: "1.26"
 
+      - name: Cache staticcheck
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/staticcheck
+          key: staticcheck-${{ runner.os }}-${{ hashFiles('go.sum') }}
+          restore-keys: |
+            staticcheck-${{ runner.os }}-
+
       - name: lint
         run: |
           just lint format-check
