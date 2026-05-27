@@ -32,10 +32,10 @@ jobs:
 
     steps:
       - uses: extractions/setup-just@v2
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
       - name: Setup go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v5
         with:
           go-version: "1.26"
 
@@ -66,9 +66,9 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v5
         with:
           go-version: "1.26"
           check-latest: true
@@ -94,9 +94,9 @@ jobs:
     name: "Test: go v${{ matrix.go }}"
     steps:
       - uses: extractions/setup-just@v2
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
       - name: Setup go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go }}
       - uses: stripe/openapi/actions/stripe-mock@master
@@ -112,7 +112,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
       - uses: stripe/openapi/actions/notify-release@master
         if: always()
         with:
