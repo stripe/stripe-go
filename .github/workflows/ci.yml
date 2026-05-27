@@ -62,9 +62,7 @@ jobs:
 
       - name: lint
         run: |
-          go vet ./...
-          staticcheck ./...
-          just format-check
+          just lint format-check
 
   govulncheck:
     name: govulncheck
