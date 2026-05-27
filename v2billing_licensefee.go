@@ -19,17 +19,6 @@ const (
 	V2BillingLicenseFeeServiceCycleIntervalYear  V2BillingLicenseFeeServiceCycleInterval = "year"
 )
 
-// The interval for assessing service.
-type V2BillingLicenseFeeServiceInterval string
-
-// List of values that V2BillingLicenseFeeServiceInterval can take
-const (
-	V2BillingLicenseFeeServiceIntervalDay   V2BillingLicenseFeeServiceInterval = "day"
-	V2BillingLicenseFeeServiceIntervalMonth V2BillingLicenseFeeServiceInterval = "month"
-	V2BillingLicenseFeeServiceIntervalWeek  V2BillingLicenseFeeServiceInterval = "week"
-	V2BillingLicenseFeeServiceIntervalYear  V2BillingLicenseFeeServiceInterval = "year"
-)
-
 // The tax behavior for Stripe Tax — whether the license fee price includes or excludes tax.
 type V2BillingLicenseFeeTaxBehavior string
 
@@ -115,8 +104,6 @@ type V2BillingLicenseFee struct {
 	DisplayName string `json:"display_name"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// The ID of the license fee's most recently created version.
-	LatestVersion string `json:"latest_version"`
 	// A Licensed Item represents a billable item whose pricing is based on license fees. You can use license fees
 	// to specify the pricing and create subscriptions to these items.
 	LicensedItem *V2BillingLicensedItem `json:"licensed_item"`
@@ -132,11 +119,6 @@ type V2BillingLicenseFee struct {
 	Object string `json:"object"`
 	// The service cycle configuration for this License Fee.
 	ServiceCycle *V2BillingLicenseFeeServiceCycle `json:"service_cycle"`
-	// The interval for assessing service.
-	ServiceInterval V2BillingLicenseFeeServiceInterval `json:"service_interval"`
-	// The length of the interval for assessing service. For example, set this to 3 and `service_interval` to `"month"`
-	// to specify quarterly service.
-	ServiceIntervalCount int64 `json:"service_interval_count"`
 	// The tax behavior for Stripe Tax — whether the license fee price includes or excludes tax.
 	TaxBehavior V2BillingLicenseFeeTaxBehavior `json:"tax_behavior"`
 	// Defines whether the tiering price is graduated or volume-based. In volume-based tiering, the maximum

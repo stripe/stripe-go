@@ -472,6 +472,24 @@ const (
 	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodTypeZip                  V2CoreHealthAuthorizationRateDropResolvedEventDataImpactPaymentMethodType = "zip"
 )
 
+// The type of the element.
+type V2CoreHealthElementsErrorFiringEventDataImpactElementType string
+
+// List of values that V2CoreHealthElementsErrorFiringEventDataImpactElementType can take
+const (
+	V2CoreHealthElementsErrorFiringEventDataImpactElementTypeExpressCheckout V2CoreHealthElementsErrorFiringEventDataImpactElementType = "expressCheckout"
+	V2CoreHealthElementsErrorFiringEventDataImpactElementTypePayment         V2CoreHealthElementsErrorFiringEventDataImpactElementType = "payment"
+)
+
+// The type of the element.
+type V2CoreHealthElementsErrorResolvedEventDataImpactElementType string
+
+// List of values that V2CoreHealthElementsErrorResolvedEventDataImpactElementType can take
+const (
+	V2CoreHealthElementsErrorResolvedEventDataImpactElementTypeExpressCheckout V2CoreHealthElementsErrorResolvedEventDataImpactElementType = "expressCheckout"
+	V2CoreHealthElementsErrorResolvedEventDataImpactElementTypePayment         V2CoreHealthElementsErrorResolvedEventDataImpactElementType = "payment"
+)
+
 // Fraud attack type.
 type V2CoreHealthFraudRateIncreasedEventDataImpactAttackType string
 
@@ -12514,6 +12532,50 @@ func (n *V2CoreHealthAuthorizationRateDropResolvedEventNotification) FetchEvent(
 	return evt.(*V2CoreHealthAuthorizationRateDropResolvedEvent), nil
 }
 
+// V2CoreHealthElementsErrorFiringEvent is the Go struct for the "v2.core.health.elements_error.firing" event.
+// Occurs when an elements error alert is firing.
+type V2CoreHealthElementsErrorFiringEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthElementsErrorFiringEventData `json:"data"`
+}
+
+// V2CoreHealthElementsErrorFiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.elements_error.firing"
+// Occurs when an elements error alert is firing.
+type V2CoreHealthElementsErrorFiringEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2CoreHealthElementsErrorFiringEvent that created this Notification
+func (n *V2CoreHealthElementsErrorFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthElementsErrorFiringEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreHealthElementsErrorFiringEvent), nil
+}
+
+// V2CoreHealthElementsErrorResolvedEvent is the Go struct for the "v2.core.health.elements_error.resolved" event.
+// Occurs when an elements error alert is resolved.
+type V2CoreHealthElementsErrorResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthElementsErrorResolvedEventData `json:"data"`
+}
+
+// V2CoreHealthElementsErrorResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.elements_error.resolved"
+// Occurs when an elements error alert is resolved.
+type V2CoreHealthElementsErrorResolvedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2CoreHealthElementsErrorResolvedEvent that created this Notification
+func (n *V2CoreHealthElementsErrorResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthElementsErrorResolvedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreHealthElementsErrorResolvedEvent), nil
+}
+
 // V2CoreHealthEventGenerationFailureResolvedEvent is the Go struct for the "v2.core.health.event_generation_failure.resolved" event.
 // Occurs when an event generation failure alert is resolved.
 type V2CoreHealthEventGenerationFailureResolvedEvent struct {
@@ -12556,6 +12618,50 @@ func (n *V2CoreHealthFraudRateIncreasedEventNotification) FetchEvent(ctx context
 		return nil, err
 	}
 	return evt.(*V2CoreHealthFraudRateIncreasedEvent), nil
+}
+
+// V2CoreHealthInvoiceCountDroppedFiringEvent is the Go struct for the "v2.core.health.invoice_count_dropped.firing" event.
+// Occurs when an invoice count dropped alert is firing.
+type V2CoreHealthInvoiceCountDroppedFiringEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthInvoiceCountDroppedFiringEventData `json:"data"`
+}
+
+// V2CoreHealthInvoiceCountDroppedFiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.invoice_count_dropped.firing"
+// Occurs when an invoice count dropped alert is firing.
+type V2CoreHealthInvoiceCountDroppedFiringEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2CoreHealthInvoiceCountDroppedFiringEvent that created this Notification
+func (n *V2CoreHealthInvoiceCountDroppedFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthInvoiceCountDroppedFiringEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreHealthInvoiceCountDroppedFiringEvent), nil
+}
+
+// V2CoreHealthInvoiceCountDroppedResolvedEvent is the Go struct for the "v2.core.health.invoice_count_dropped.resolved" event.
+// Occurs when an invoice count dropped alert is resolved.
+type V2CoreHealthInvoiceCountDroppedResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthInvoiceCountDroppedResolvedEventData `json:"data"`
+}
+
+// V2CoreHealthInvoiceCountDroppedResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.invoice_count_dropped.resolved"
+// Occurs when an invoice count dropped alert is resolved.
+type V2CoreHealthInvoiceCountDroppedResolvedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2CoreHealthInvoiceCountDroppedResolvedEvent that created this Notification
+func (n *V2CoreHealthInvoiceCountDroppedResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthInvoiceCountDroppedResolvedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreHealthInvoiceCountDroppedResolvedEvent), nil
 }
 
 // V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent is the Go struct for the "v2.core.health.issuing_authorization_request_errors.firing" event.
@@ -16838,6 +16944,52 @@ type V2CoreHealthAuthorizationRateDropResolvedEventData struct {
 	Summary string `json:"summary"`
 }
 
+// The user impact.
+type V2CoreHealthElementsErrorFiringEventDataImpact struct {
+	// The type of the element.
+	ElementType V2CoreHealthElementsErrorFiringEventDataImpactElementType `json:"element_type,omitempty"`
+	// The number of impacted sessions.
+	ImpactedSessions int64 `json:"impacted_sessions"`
+}
+
+// Occurs when an elements error alert is firing.
+type V2CoreHealthElementsErrorFiringEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthElementsErrorFiringEventDataImpact `json:"impact"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthElementsErrorResolvedEventDataImpact struct {
+	// The type of the element.
+	ElementType V2CoreHealthElementsErrorResolvedEventDataImpactElementType `json:"element_type,omitempty"`
+	// The number of impacted sessions.
+	ImpactedSessions int64 `json:"impacted_sessions"`
+}
+
+// Occurs when an elements error alert is resolved.
+type V2CoreHealthElementsErrorResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthElementsErrorResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
 // The related object details.
 type V2CoreHealthEventGenerationFailureResolvedEventDataImpactRelatedObject struct {
 	// The ID of the related object (e.g., "pi_...").
@@ -16892,6 +17044,56 @@ type V2CoreHealthFraudRateIncreasedEventData struct {
 	Impact *V2CoreHealthFraudRateIncreasedEventDataImpact `json:"impact"`
 	// The time when the user experience has returned to expected levels.
 	ResolvedAt time.Time `json:"resolved_at,omitempty"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthInvoiceCountDroppedFiringEventDataImpact struct {
+	// The observed number of invoices within the time window.
+	ObservedCount float64 `json:"observed_count,string"`
+	// The expected threshold number of invoices within the time window.
+	ThresholdCount float64 `json:"threshold_count,string"`
+	// The size of the observation time window.
+	TimeWindow string `json:"time_window"`
+}
+
+// Occurs when an invoice count dropped alert is firing.
+type V2CoreHealthInvoiceCountDroppedFiringEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthInvoiceCountDroppedFiringEventDataImpact `json:"impact"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthInvoiceCountDroppedResolvedEventDataImpact struct {
+	// The observed number of invoices within the time window.
+	ObservedCount float64 `json:"observed_count,string"`
+	// The expected threshold number of invoices within the time window.
+	ThresholdCount float64 `json:"threshold_count,string"`
+	// The size of the observation time window.
+	TimeWindow string `json:"time_window"`
+}
+
+// Occurs when an invoice count dropped alert is resolved.
+type V2CoreHealthInvoiceCountDroppedResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthInvoiceCountDroppedResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
 	// The time when impact on the user experience was first detected.
 	StartedAt time.Time `json:"started_at"`
 	// A short description of the alert.
@@ -17176,6 +17378,8 @@ type V2CoreHealthSEPADebitDelayedResolvedEventData struct {
 type V2CoreHealthTrafficVolumeDropFiringEventDataImpact struct {
 	// The total volume of payment requests within the latest observation time window.
 	ActualTraffic int64 `json:"actual_traffic"`
+	// The canonical path.
+	CanonicalPath string `json:"canonical_path,omitempty"`
 	// The expected volume of payment requests within the latest observation time window.
 	ExpectedTraffic int64 `json:"expected_traffic,omitempty"`
 	// The size of the observation time window.
@@ -17200,6 +17404,8 @@ type V2CoreHealthTrafficVolumeDropFiringEventData struct {
 type V2CoreHealthTrafficVolumeDropResolvedEventDataImpact struct {
 	// The total volume of payment requests within the latest observation time window.
 	ActualTraffic int64 `json:"actual_traffic"`
+	// The canonical path.
+	CanonicalPath string `json:"canonical_path,omitempty"`
 	// The expected volume of payment requests within the latest observation time window.
 	ExpectedTraffic int64 `json:"expected_traffic,omitempty"`
 	// The size of the observation time window.
@@ -21933,6 +22139,20 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return nil, err
 		}
 		return result, nil
+	case "v2.core.health.elements_error.firing":
+		result := &V2CoreHealthElementsErrorFiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.elements_error.resolved":
+		result := &V2CoreHealthElementsErrorResolvedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case "v2.core.health.event_generation_failure.resolved":
 		result := &V2CoreHealthEventGenerationFailureResolvedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -21942,6 +22162,20 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v2.core.health.fraud_rate.increased":
 		result := &V2CoreHealthFraudRateIncreasedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.invoice_count_dropped.firing":
+		result := &V2CoreHealthInvoiceCountDroppedFiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.invoice_count_dropped.resolved":
+		result := &V2CoreHealthInvoiceCountDroppedResolvedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
@@ -25428,6 +25662,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.core.health.elements_error.firing":
+		evt := V2CoreHealthElementsErrorFiringEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.health.elements_error.resolved":
+		evt := V2CoreHealthElementsErrorResolvedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.core.health.event_generation_failure.resolved":
 		evt := V2CoreHealthEventGenerationFailureResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -25437,6 +25685,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.core.health.fraud_rate.increased":
 		evt := V2CoreHealthFraudRateIncreasedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.health.invoice_count_dropped.firing":
+		evt := V2CoreHealthInvoiceCountDroppedFiringEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.health.invoice_count_dropped.resolved":
+		evt := V2CoreHealthInvoiceCountDroppedResolvedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

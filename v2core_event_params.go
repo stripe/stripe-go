@@ -21,14 +21,16 @@ type V2CoreEventListParams struct {
 	Types []*string `form:"types" json:"types,omitempty"`
 }
 
-// Retrieves the details of an event.
+// Retrieves the details of an event if it was created in the last 30 days. Supply the unique
+// identifier of the event, which might have been delivered to your event destination.
 type V2CoreEventParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
 }
 
-// Retrieves the details of an event.
+// Retrieves the details of an event if it was created in the last 30 days. Supply the unique
+// identifier of the event, which might have been delivered to your event destination.
 type V2CoreEventRetrieveParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.

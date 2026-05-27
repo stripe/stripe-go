@@ -328,18 +328,34 @@ type V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfAddressParams stru
 	Type *string `form:"type" json:"type"`
 }
 
-// One or more documents showing the company's proof of registration with the national business registry.
+// Person that is signing the document.
+type V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParams struct {
+	// Person signing the document.
+	Person *string `form:"person" json:"person"`
+}
+
+// One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
+	// Person that is signing the document.
+	Signer *V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParams `form:"signer" json:"signer,omitempty"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
+}
+
+// Person that is signing the document.
+type V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
+	// Person signing the document.
+	Person *string `form:"person" json:"person"`
 }
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
+	// Person that is signing the document.
+	Signer *V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer" json:"signer,omitempty"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -362,7 +378,7 @@ type V2CoreAccountTokenIdentityBusinessDetailsDocumentsParams struct {
 	PrimaryVerification *V2CoreAccountTokenIdentityBusinessDetailsDocumentsPrimaryVerificationParams `form:"primary_verification" json:"primary_verification,omitempty"`
 	// One or more documents that demonstrate proof of address.
 	ProofOfAddress *V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
-	// One or more documents showing the company's proof of registration with the national business registry.
+	// One or more documents that demonstrate proof of ultimate beneficial ownership.
 	ProofOfRegistration *V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
 	ProofOfUltimateBeneficialOwnership *V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams `form:"proof_of_ultimate_beneficial_ownership" json:"proof_of_ultimate_beneficial_ownership,omitempty"`
@@ -767,7 +783,11 @@ type V2CoreAccountTokenIdentityParams struct {
 	Individual *V2CoreAccountTokenIdentityIndividualParams `form:"individual" json:"individual,omitempty"`
 }
 
-// Creates an Account Token.
+// Create an account token with a publishable key and pass it to the Accounts v2 API to
+// create or update an account without its data touching your server.
+// Learn more about [account tokens](https://docs.stripe.com/connect/account-tokens).
+// In live mode, you can only create account tokens with your application's publishable key.
+// In test mode, you can create account tokens with your secret key or publishable key.
 type V2CoreAccountTokenParams struct {
 	Params `form:"*"`
 	// The primary contact email address for the Account.
@@ -1102,18 +1122,34 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsProofOfAddressParam
 	Type *string `form:"type" json:"type"`
 }
 
-// One or more documents showing the company's proof of registration with the national business registry.
+// Person that is signing the document.
+type V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParams struct {
+	// Person signing the document.
+	Person *string `form:"person" json:"person"`
+}
+
+// One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
+	// Person that is signing the document.
+	Signer *V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsProofOfRegistrationSignerParams `form:"signer" json:"signer,omitempty"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
+}
+
+// Person that is signing the document.
+type V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
+	// Person signing the document.
+	Person *string `form:"person" json:"person"`
 }
 
 // One or more documents that demonstrate proof of ultimate beneficial ownership.
 type V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
 	Files []*string `form:"files" json:"files"`
+	// Person that is signing the document.
+	Signer *V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipSignerParams `form:"signer" json:"signer,omitempty"`
 	// The format of the document. Currently supports `files` only.
 	Type *string `form:"type" json:"type"`
 }
@@ -1136,7 +1172,7 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsParams struct {
 	PrimaryVerification *V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsPrimaryVerificationParams `form:"primary_verification" json:"primary_verification,omitempty"`
 	// One or more documents that demonstrate proof of address.
 	ProofOfAddress *V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
-	// One or more documents showing the company's proof of registration with the national business registry.
+	// One or more documents that demonstrate proof of ultimate beneficial ownership.
 	ProofOfRegistration *V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
 	ProofOfUltimateBeneficialOwnership *V2CoreAccountTokenCreateIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams `form:"proof_of_ultimate_beneficial_ownership" json:"proof_of_ultimate_beneficial_ownership,omitempty"`
@@ -1541,7 +1577,11 @@ type V2CoreAccountTokenCreateIdentityParams struct {
 	Individual *V2CoreAccountTokenCreateIdentityIndividualParams `form:"individual" json:"individual,omitempty"`
 }
 
-// Creates an Account Token.
+// Create an account token with a publishable key and pass it to the Accounts v2 API to
+// create or update an account without its data touching your server.
+// Learn more about [account tokens](https://docs.stripe.com/connect/account-tokens).
+// In live mode, you can only create account tokens with your application's publishable key.
+// In test mode, you can create account tokens with your secret key or publishable key.
 type V2CoreAccountTokenCreateParams struct {
 	Params `form:"*"`
 	// The primary contact email address for the Account.

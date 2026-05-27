@@ -1391,7 +1391,7 @@ type IssuingDisputeNetworkLifecycle struct {
 	PreArbitrationSubmission *IssuingDisputeNetworkLifecyclePreArbitrationSubmission `json:"pre_arbitration_submission"`
 }
 
-// [Treasury](https://docs.stripe.com/api/treasury) details related to this dispute if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
+// [Treasury](https://docs.stripe.com/api/treasury) details related to this dispute if it was created on a [FinancialAccount](https://docs.stripe.com/api/treasury/financial_accounts)
 type IssuingDisputeTreasury struct {
 	// The Treasury [DebitReversal](https://docs.stripe.com/api/treasury/debit_reversals) representing this Issuing dispute
 	DebitReversal string `json:"debit_reversal"`
@@ -1431,7 +1431,7 @@ type IssuingDispute struct {
 	Status IssuingDisputeStatus `json:"status"`
 	// The transaction being disputed.
 	Transaction *IssuingTransaction `json:"transaction"`
-	// [Treasury](https://docs.stripe.com/api/treasury) details related to this dispute if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
+	// [Treasury](https://docs.stripe.com/api/treasury) details related to this dispute if it was created on a [FinancialAccount](https://docs.stripe.com/api/treasury/financial_accounts)
 	Treasury *IssuingDisputeTreasury `json:"treasury,omitempty"`
 }
 

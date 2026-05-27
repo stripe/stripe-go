@@ -338,6 +338,7 @@ type MandatePaymentMethodDetailsSEPADebit struct {
 	// The URL of the mandate. This URL generally contains sensitive information about the customer and should be shared with them exclusively.
 	URL string `json:"url"`
 }
+type MandatePaymentMethodDetailsTWINT struct{}
 type MandatePaymentMethodDetailsUpi struct {
 	// Amount to be charged for future payments.
 	Amount int64 `json:"amount"`
@@ -370,6 +371,7 @@ type MandatePaymentMethodDetails struct {
 	Pix           *MandatePaymentMethodDetailsPix           `json:"pix,omitempty"`
 	RevolutPay    *MandatePaymentMethodDetailsRevolutPay    `json:"revolut_pay,omitempty"`
 	SEPADebit     *MandatePaymentMethodDetailsSEPADebit     `json:"sepa_debit,omitempty"`
+	TWINT         *MandatePaymentMethodDetailsTWINT         `json:"twint,omitempty"`
 	// This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method.
 	Type          MandatePaymentMethodDetailsType           `json:"type"`
 	Upi           *MandatePaymentMethodDetailsUpi           `json:"upi,omitempty"`

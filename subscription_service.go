@@ -92,7 +92,7 @@ func (c v1SubscriptionService) AttachCadence(ctx context.Context, id string, par
 	return subscription, err
 }
 
-// Cancels a customer's subscription immediately. The customer won't be charged again for the subscription. After it's canceled, you can no longer update the subscription or its [metadata](https://docs.stripe.com/metadata).
+// Cancels a customer's subscription immediately. The customer won't be charged again for the subscription. After it's canceled, the subscription is largely immutable. You can still update its [metadata](https://docs.stripe.com/metadata) and cancellation_details.
 //
 // Any pending invoice items that you've created are still charged at the end of the period, unless manually [deleted](https://docs.stripe.com/api/invoiceitems/delete). If you've set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if invoice_now and prorate are both set to true.
 //
@@ -120,8 +120,132 @@ func (c v1SubscriptionService) DeleteDiscount(ctx context.Context, id string, pa
 	return subscription, err
 }
 
+// Serializes a Subscription cancel request into a batch job JSONL line.
+func (c v1SubscriptionService) MarshalBatchCancel(id string, params *SubscriptionCancelParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    map[string]string{"subscription_exposed_id": id},
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+// Serializes a Subscription create request into a batch job JSONL line.
+func (c v1SubscriptionService) MarshalBatchCreate(params *SubscriptionCreateParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    nil,
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
 // Serializes a Subscription migrate request into a batch job JSONL line.
 func (c v1SubscriptionService) MarshalBatchMigrate(id string, params *SubscriptionMigrateParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    map[string]string{"subscription": id},
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+// Serializes a Subscription pause request into a batch job JSONL line.
+func (c v1SubscriptionService) MarshalBatchPause(id string, params *SubscriptionPauseParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    map[string]string{"subscription": id},
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+// Serializes a Subscription resume request into a batch job JSONL line.
+func (c v1SubscriptionService) MarshalBatchResume(id string, params *SubscriptionResumeParams) (string, error) {
 	itemID, err := newUUID4()
 	if err != nil {
 		return "", err
@@ -206,7 +330,7 @@ func (c v1SubscriptionService) Pause(ctx context.Context, id string, params *Sub
 	return subscription, err
 }
 
-// Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become active, and if payment fails the subscription will be past_due. The resumption invoice will void automatically if not paid by the expiration date.
+// Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. Resume is only available for subscriptions that use charge_automatically collection. If Stripe doesn't generate a resumption invoice, the subscription becomes active immediately. When a resumption invoice is generated, Stripe finalizes it immediately. If the invoice is paid or marked uncollectible, the subscription becomes active. If the invoice is manually voided, the subscription stays paused. If there is no payment attempt within 23 hours, Stripe voids the invoice and the subscription stays paused. Learn more about [resuming subscriptions](https://docs.stripe.com/docs/billing/subscriptions/pause#resume-subscriptions).
 func (c v1SubscriptionService) Resume(ctx context.Context, id string, params *SubscriptionResumeParams) (*Subscription, error) {
 	if params == nil {
 		params = &SubscriptionResumeParams{}

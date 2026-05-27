@@ -14344,7 +14344,7 @@ func TestV2BillingLicenseFeeGetService(t *testing.T) {
 		LookupKeys: []*string{stripe.String("lookup_keys")},
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/license_fees", params, "{\"data\":[{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/license_fees", params, "{\"data\":[{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14358,7 +14358,7 @@ func TestV2BillingLicenseFeeGetClient(t *testing.T) {
 		LookupKeys: []*string{stripe.String("lookup_keys")},
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/license_fees", params, "{\"data\":[{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/license_fees", params, "{\"data\":[{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14377,7 +14377,7 @@ func TestV2BillingLicenseFeePostService(t *testing.T) {
 		TaxBehavior:          stripe.String("exclusive"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/license_fees", params, "{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}")
+		t, http.MethodPost, "/v2/billing/license_fees", params, "{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14397,7 +14397,7 @@ func TestV2BillingLicenseFeePostClient(t *testing.T) {
 		TaxBehavior:          stripe.String("exclusive"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/license_fees", params, "{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}")
+		t, http.MethodPost, "/v2/billing/license_fees", params, "{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14410,7 +14410,7 @@ func TestV2BillingLicenseFeePostClient(t *testing.T) {
 func TestV2BillingLicenseFeeGet2Service(t *testing.T) {
 	params := &stripe.V2BillingLicenseFeeParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/license_fees/id_123", params, "{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}")
+		t, http.MethodGet, "/v2/billing/license_fees/id_123", params, "{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14423,7 +14423,7 @@ func TestV2BillingLicenseFeeGet2Service(t *testing.T) {
 func TestV2BillingLicenseFeeGet2Client(t *testing.T) {
 	params := &stripe.V2BillingLicenseFeeRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/license_fees/id_123", params, "{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}")
+		t, http.MethodGet, "/v2/billing/license_fees/id_123", params, "{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14437,7 +14437,7 @@ func TestV2BillingLicenseFeeGet2Client(t *testing.T) {
 func TestV2BillingLicenseFeePost2Service(t *testing.T) {
 	params := &stripe.V2BillingLicenseFeeParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/license_fees/id_123", params, "{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}")
+		t, http.MethodPost, "/v2/billing/license_fees/id_123", params, "{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14450,7 +14450,7 @@ func TestV2BillingLicenseFeePost2Service(t *testing.T) {
 func TestV2BillingLicenseFeePost2Client(t *testing.T) {
 	params := &stripe.V2BillingLicenseFeeUpdateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/license_fees/id_123", params, "{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}")
+		t, http.MethodPost, "/v2/billing/license_fees/id_123", params, "{\"object\":\"v2.billing.license_fee\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"licensed_item\":{\"object\":\"v2.billing.licensed_item\",\"created\":\"1970-01-12T21:42:34.472Z\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true},\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\",\"tiers\":[{}]}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14986,7 +14986,7 @@ func TestV2BillingOneTimeItemPost2Client(t *testing.T) {
 func TestV2BillingPricingPlanGetService(t *testing.T) {
 	params := &stripe.V2BillingPricingPlanListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/pricing_plans", params, "{\"data\":[{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/pricing_plans", params, "{\"data\":[{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14998,7 +14998,7 @@ func TestV2BillingPricingPlanGetService(t *testing.T) {
 func TestV2BillingPricingPlanGetClient(t *testing.T) {
 	params := &stripe.V2BillingPricingPlanListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/pricing_plans", params, "{\"data\":[{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/pricing_plans", params, "{\"data\":[{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15014,7 +15014,7 @@ func TestV2BillingPricingPlanPostService(t *testing.T) {
 		TaxBehavior: stripe.String("exclusive"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/pricing_plans", params, "{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}")
+		t, http.MethodPost, "/v2/billing/pricing_plans", params, "{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15031,7 +15031,7 @@ func TestV2BillingPricingPlanPostClient(t *testing.T) {
 		TaxBehavior: stripe.String("exclusive"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/pricing_plans", params, "{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}")
+		t, http.MethodPost, "/v2/billing/pricing_plans", params, "{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15044,7 +15044,7 @@ func TestV2BillingPricingPlanPostClient(t *testing.T) {
 func TestV2BillingPricingPlanGet2Service(t *testing.T) {
 	params := &stripe.V2BillingPricingPlanParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/pricing_plans/id_123", params, "{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}")
+		t, http.MethodGet, "/v2/billing/pricing_plans/id_123", params, "{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15057,7 +15057,7 @@ func TestV2BillingPricingPlanGet2Service(t *testing.T) {
 func TestV2BillingPricingPlanGet2Client(t *testing.T) {
 	params := &stripe.V2BillingPricingPlanRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/pricing_plans/id_123", params, "{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}")
+		t, http.MethodGet, "/v2/billing/pricing_plans/id_123", params, "{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15071,7 +15071,7 @@ func TestV2BillingPricingPlanGet2Client(t *testing.T) {
 func TestV2BillingPricingPlanPost2Service(t *testing.T) {
 	params := &stripe.V2BillingPricingPlanParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/pricing_plans/id_123", params, "{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}")
+		t, http.MethodPost, "/v2/billing/pricing_plans/id_123", params, "{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15084,7 +15084,7 @@ func TestV2BillingPricingPlanPost2Service(t *testing.T) {
 func TestV2BillingPricingPlanPost2Client(t *testing.T) {
 	params := &stripe.V2BillingPricingPlanUpdateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/pricing_plans/id_123", params, "{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}")
+		t, http.MethodPost, "/v2/billing/pricing_plans/id_123", params, "{\"object\":\"v2.billing.pricing_plan\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"livemode\":true,\"tax_behavior\":\"exclusive\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15525,7 +15525,7 @@ func TestV2BillingProfilePost2Client(t *testing.T) {
 func TestV2BillingRateCardGetService(t *testing.T) {
 	params := &stripe.V2BillingRateCardListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/rate_cards", params, "{\"data\":[{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/rate_cards", params, "{\"data\":[{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15537,7 +15537,7 @@ func TestV2BillingRateCardGetService(t *testing.T) {
 func TestV2BillingRateCardGetClient(t *testing.T) {
 	params := &stripe.V2BillingRateCardListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/rate_cards", params, "{\"data\":[{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/rate_cards", params, "{\"data\":[{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15555,7 +15555,7 @@ func TestV2BillingRateCardPostService(t *testing.T) {
 		TaxBehavior:          stripe.String("exclusive"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/rate_cards", params, "{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\"}")
+		t, http.MethodPost, "/v2/billing/rate_cards", params, "{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15574,7 +15574,7 @@ func TestV2BillingRateCardPostClient(t *testing.T) {
 		TaxBehavior:          stripe.String("exclusive"),
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/rate_cards", params, "{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\"}")
+		t, http.MethodPost, "/v2/billing/rate_cards", params, "{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15587,7 +15587,7 @@ func TestV2BillingRateCardPostClient(t *testing.T) {
 func TestV2BillingRateCardGet2Service(t *testing.T) {
 	params := &stripe.V2BillingRateCardParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/rate_cards/id_123", params, "{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\"}")
+		t, http.MethodGet, "/v2/billing/rate_cards/id_123", params, "{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15600,7 +15600,7 @@ func TestV2BillingRateCardGet2Service(t *testing.T) {
 func TestV2BillingRateCardGet2Client(t *testing.T) {
 	params := &stripe.V2BillingRateCardRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/rate_cards/id_123", params, "{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\"}")
+		t, http.MethodGet, "/v2/billing/rate_cards/id_123", params, "{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15614,7 +15614,7 @@ func TestV2BillingRateCardGet2Client(t *testing.T) {
 func TestV2BillingRateCardPost2Service(t *testing.T) {
 	params := &stripe.V2BillingRateCardParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/rate_cards/id_123", params, "{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\"}")
+		t, http.MethodPost, "/v2/billing/rate_cards/id_123", params, "{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -15627,7 +15627,7 @@ func TestV2BillingRateCardPost2Service(t *testing.T) {
 func TestV2BillingRateCardPost2Client(t *testing.T) {
 	params := &stripe.V2BillingRateCardUpdateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/rate_cards/id_123", params, "{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"latest_version\":\"latest_version\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"service_interval\":\"month\",\"service_interval_count\":1375336415,\"tax_behavior\":\"exclusive\"}")
+		t, http.MethodPost, "/v2/billing/rate_cards/id_123", params, "{\"object\":\"v2.billing.rate_card\",\"active\":true,\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"display_name\":\"display_name\",\"id\":\"obj_123\",\"live_version\":\"live_version\",\"livemode\":true,\"service_cycle\":{\"interval\":\"month\",\"interval_count\":797691627},\"tax_behavior\":\"exclusive\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16958,7 +16958,7 @@ func TestV2CoreBatchJobPostService(t *testing.T) {
 	params := &stripe.V2CoreBatchJobParams{
 		Endpoint: &stripe.V2CoreBatchJobEndpointParams{
 			HTTPMethod: stripe.String("delete"),
-			Path:       stripe.Pointer(stripe.V2CoreBatchJobsPath("/v1/subscription_schedules")),
+			Path:       stripe.Pointer(stripe.V2CoreBatchJobsPath("/v1/products")),
 		},
 		SkipValidation: stripe.Bool(true),
 	}
@@ -16978,7 +16978,7 @@ func TestV2CoreBatchJobPostClient(t *testing.T) {
 	params := &stripe.V2CoreBatchJobCreateParams{
 		Endpoint: &stripe.V2CoreBatchJobCreateEndpointParams{
 			HTTPMethod: stripe.String("delete"),
-			Path:       stripe.Pointer(stripe.V2CoreBatchJobsPath("/v1/subscription_schedules")),
+			Path:       stripe.Pointer(stripe.V2CoreBatchJobsPath("/v1/products")),
 		},
 		SkipValidation: stripe.Bool(true),
 	}
@@ -18207,6 +18207,32 @@ func TestV2IamActivityLogGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result := sc.V2IamActivityLogs.List(context.TODO(), params)
 	assert.NotNil(t, result)
+}
+
+func TestV2IamActivityLogGet2Service(t *testing.T) {
+	params := &stripe.V2IamActivityLogParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/iam/activity_logs/id_123", params, "{\"object\":\"v2.iam.activity_log\",\"actor\":{\"type\":\"api_key\"},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"details\":{\"type\":\"api_key\"},\"id\":\"obj_123\",\"livemode\":true,\"type\":\"api_key_created\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2IamActivityLogs.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2IamActivityLogGet2Client(t *testing.T) {
+	params := &stripe.V2IamActivityLogRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/iam/activity_logs/id_123", params, "{\"object\":\"v2.iam.activity_log\",\"actor\":{\"type\":\"api_key\"},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"details\":{\"type\":\"api_key\"},\"id\":\"obj_123\",\"livemode\":true,\"type\":\"api_key_created\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2IamActivityLogs.Retrieve(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
 }
 
 func TestV2IamApiKeyGetService(t *testing.T) {
@@ -20846,7 +20872,7 @@ func TestV2TaxManualRulePost3Client(t *testing.T) {
 func TestV2TestHelpersFinancialAddressPostService(t *testing.T) {
 	params := &stripe.V2TestHelpersFinancialAddressCreditParams{
 		Amount:  &stripe.Amount{Value: 96, Currency: stripe.CurrencyUSD},
-		Network: stripe.String("fps"),
+		Network: stripe.String("wire"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/test_helpers/financial_addresses/id_123/credit", params, "{\"object\":\"financial_address_credit_simulation\",\"livemode\":true,\"status\":\"status\"}")
@@ -20862,7 +20888,7 @@ func TestV2TestHelpersFinancialAddressPostService(t *testing.T) {
 func TestV2TestHelpersFinancialAddressPostClient(t *testing.T) {
 	params := &stripe.V2TestHelpersFinancialAddressCreditParams{
 		Amount:  &stripe.Amount{Value: 96, Currency: stripe.CurrencyUSD},
-		Network: stripe.String("fps"),
+		Network: stripe.String("wire"),
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/test_helpers/financial_addresses/id_123/credit", params, "{\"object\":\"financial_address_credit_simulation\",\"livemode\":true,\"status\":\"status\"}")

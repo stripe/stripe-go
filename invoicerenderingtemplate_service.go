@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 
 	"github.com/stripe/stripe-go/v85/form"
@@ -42,6 +43,68 @@ func (c v1InvoiceRenderingTemplateService) Archive(ctx context.Context, id strin
 	err := c.B.Call(
 		http.MethodPost, path, c.Key, params, invoicerenderingtemplate)
 	return invoicerenderingtemplate, err
+}
+
+// Serializes an InvoiceRenderingTemplate archive request into a batch job JSONL line.
+func (c v1InvoiceRenderingTemplateService) MarshalBatchArchive(id string, params *InvoiceRenderingTemplateArchiveParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    map[string]string{"template": id},
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+// Serializes an InvoiceRenderingTemplate unarchive request into a batch job JSONL line.
+func (c v1InvoiceRenderingTemplateService) MarshalBatchUnarchive(id string, params *InvoiceRenderingTemplateUnarchiveParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    map[string]string{"template": id},
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
 
 // Unarchive an invoice rendering template so it can be used on new Stripe objects again.

@@ -40,7 +40,8 @@ type V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork string
 
 // List of values that V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork can take
 const (
-	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkFPS V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "fps"
+	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkChaps V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "chaps"
+	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkFPS   V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "fps"
 )
 
 // Open Enum. The money transmission network used to send funds for this ReceivedCredit.
@@ -354,6 +355,8 @@ type V2MoneyManagementReceivedCreditStatusTransitions struct {
 
 // This object stores details about the stripe balance pay refund that resulted in the ReceivedCredit. Present if `type` field value is `stripe_balance_payment`.
 type V2MoneyManagementReceivedCreditStripeBalancePayment struct {
+	// ID of the debit agreement associated with this payment.
+	DebitAgreement string `json:"debit_agreement,omitempty"`
 	// Statement descriptor for the Stripe Balance Payment.
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
 }

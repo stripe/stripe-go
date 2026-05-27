@@ -329,6 +329,7 @@ const (
 	EventTypeTreasuryReceivedDebitCreated                           EventType = "treasury.received_debit.created"
 	EventTypeInvoicePaymentDetached                                 EventType = "invoice_payment.detached"
 	EventTypeBillingAlertRecovered                                  EventType = "billing.alert.recovered"
+	EventTypePaymentIntentExpired                                   EventType = "payment_intent.expired"
 	EventTypeBillingCreditBalanceTransactionCreated                 EventType = "billing.credit_balance_transaction.created"
 	EventTypeBillingCreditGrantUpdated                              EventType = "billing.credit_grant.updated"
 	EventTypeBillingMeterCreated                                    EventType = "billing.meter.created"

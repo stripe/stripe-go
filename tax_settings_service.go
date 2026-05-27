@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 )
 
@@ -37,4 +38,35 @@ func (c v1TaxSettingsService) Update(ctx context.Context, params *TaxSettingsUpd
 	settings := &TaxSettings{}
 	err := c.B.Call(http.MethodPost, "/v1/tax/settings", c.Key, params, settings)
 	return settings, err
+}
+
+// Serializes a Settings update request into a batch job JSONL line.
+func (c v1TaxSettingsService) MarshalBatchUpdate(params *TaxSettingsUpdateParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    nil,
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }

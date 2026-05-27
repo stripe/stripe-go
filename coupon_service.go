@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 
 	"github.com/stripe/stripe-go/v85/form"
@@ -66,6 +67,99 @@ func (c v1CouponService) Delete(ctx context.Context, id string, params *CouponDe
 	coupon := &Coupon{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, coupon)
 	return coupon, err
+}
+
+// Serializes a Coupon create request into a batch job JSONL line.
+func (c v1CouponService) MarshalBatchCreate(params *CouponCreateParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    nil,
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+// Serializes a Coupon delete request into a batch job JSONL line.
+func (c v1CouponService) MarshalBatchDelete(id string, params *CouponDeleteParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    map[string]string{"coupon": id},
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+// Serializes a Coupon update request into a batch job JSONL line.
+func (c v1CouponService) MarshalBatchUpdate(id string, params *CouponUpdateParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    map[string]string{"coupon": id},
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
 
 // Returns a list of your coupons.

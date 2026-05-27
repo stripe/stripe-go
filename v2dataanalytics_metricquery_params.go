@@ -10,9 +10,9 @@ import "time"
 
 // A list of the metrics to be returned; all metrics must share the same metric namespace.
 type V2DataAnalyticsMetricQueryMetricParams struct {
-	// The Gen6 ID for this metric, e.g. metric_61Sud3n5oAGVCWiSr5.
+	// The ID for this metric, e.g. metric_61Sud3n5oAGVCWiSr5.
 	ID *string `form:"id" json:"id,omitempty"`
-	// The common name for this metric, e.g. mrr_minor_units.
+	// The common name for this metric, e.g. revenue.mrr.
 	Name *string `form:"name" json:"name,omitempty"`
 }
 
@@ -43,9 +43,9 @@ type V2DataAnalyticsMetricQueryParams struct {
 
 // A list of the metrics to be returned; all metrics must share the same metric namespace.
 type V2DataAnalyticsMetricQueryCreateMetricParams struct {
-	// The Gen6 ID for this metric, e.g. metric_61Sud3n5oAGVCWiSr5.
+	// The ID for this metric, e.g. metric_61Sud3n5oAGVCWiSr5.
 	ID *string `form:"id" json:"id,omitempty"`
-	// The common name for this metric, e.g. mrr_minor_units.
+	// The common name for this metric, e.g. revenue.mrr.
 	Name *string `form:"name" json:"name,omitempty"`
 }
 

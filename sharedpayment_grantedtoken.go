@@ -309,6 +309,7 @@ const (
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeBACSDebit        SharedPaymentGrantedTokenPaymentMethodDetailsType = "bacs_debit"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeBancontact       SharedPaymentGrantedTokenPaymentMethodDetailsType = "bancontact"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeBillie           SharedPaymentGrantedTokenPaymentMethodDetailsType = "billie"
+	SharedPaymentGrantedTokenPaymentMethodDetailsTypeBizum            SharedPaymentGrantedTokenPaymentMethodDetailsType = "bizum"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeBLIK             SharedPaymentGrantedTokenPaymentMethodDetailsType = "blik"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeBoleto           SharedPaymentGrantedTokenPaymentMethodDetailsType = "boleto"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeCard             SharedPaymentGrantedTokenPaymentMethodDetailsType = "card"
@@ -351,6 +352,7 @@ const (
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeRevolutPay       SharedPaymentGrantedTokenPaymentMethodDetailsType = "revolut_pay"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeSamsungPay       SharedPaymentGrantedTokenPaymentMethodDetailsType = "samsung_pay"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeSatispay         SharedPaymentGrantedTokenPaymentMethodDetailsType = "satispay"
+	SharedPaymentGrantedTokenPaymentMethodDetailsTypeScalapay         SharedPaymentGrantedTokenPaymentMethodDetailsType = "scalapay"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeSEPADebit        SharedPaymentGrantedTokenPaymentMethodDetailsType = "sepa_debit"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeShopeepay        SharedPaymentGrantedTokenPaymentMethodDetailsType = "shopeepay"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeSofort           SharedPaymentGrantedTokenPaymentMethodDetailsType = "sofort"
@@ -514,6 +516,7 @@ type SharedPaymentGrantedTokenPaymentMethodDetailsBillingDetails struct {
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
 	TaxID string `json:"tax_id"`
 }
+type SharedPaymentGrantedTokenPaymentMethodDetailsBizum struct{}
 type SharedPaymentGrantedTokenPaymentMethodDetailsBLIK struct{}
 type SharedPaymentGrantedTokenPaymentMethodDetailsBoleto struct {
 	// Uniquely identifies the customer tax id (CNPJ or CPF)
@@ -853,6 +856,7 @@ type SharedPaymentGrantedTokenPaymentMethodDetailsRechnung struct {
 type SharedPaymentGrantedTokenPaymentMethodDetailsRevolutPay struct{}
 type SharedPaymentGrantedTokenPaymentMethodDetailsSamsungPay struct{}
 type SharedPaymentGrantedTokenPaymentMethodDetailsSatispay struct{}
+type SharedPaymentGrantedTokenPaymentMethodDetailsScalapay struct{}
 
 // Information about the object that generated this PaymentMethod.
 type SharedPaymentGrantedTokenPaymentMethodDetailsSEPADebitGeneratedFrom struct {
@@ -951,6 +955,7 @@ type SharedPaymentGrantedTokenPaymentMethodDetails struct {
 	Billie           *SharedPaymentGrantedTokenPaymentMethodDetailsBillie           `json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails  *SharedPaymentGrantedTokenPaymentMethodDetailsBillingDetails  `json:"billing_details"`
+	Bizum           *SharedPaymentGrantedTokenPaymentMethodDetailsBizum           `json:"bizum,omitempty"`
 	BLIK            *SharedPaymentGrantedTokenPaymentMethodDetailsBLIK            `json:"blik,omitempty"`
 	Boleto          *SharedPaymentGrantedTokenPaymentMethodDetailsBoleto          `json:"boleto,omitempty"`
 	Card            *SharedPaymentGrantedTokenPaymentMethodDetailsCard            `json:"card,omitempty"`
@@ -992,6 +997,7 @@ type SharedPaymentGrantedTokenPaymentMethodDetails struct {
 	RevolutPay      *SharedPaymentGrantedTokenPaymentMethodDetailsRevolutPay      `json:"revolut_pay,omitempty"`
 	SamsungPay      *SharedPaymentGrantedTokenPaymentMethodDetailsSamsungPay      `json:"samsung_pay,omitempty"`
 	Satispay        *SharedPaymentGrantedTokenPaymentMethodDetailsSatispay        `json:"satispay,omitempty"`
+	Scalapay        *SharedPaymentGrantedTokenPaymentMethodDetailsScalapay        `json:"scalapay,omitempty"`
 	SEPADebit       *SharedPaymentGrantedTokenPaymentMethodDetailsSEPADebit       `json:"sepa_debit,omitempty"`
 	Shopeepay       *SharedPaymentGrantedTokenPaymentMethodDetailsShopeepay       `json:"shopeepay,omitempty"`
 	Sofort          *SharedPaymentGrantedTokenPaymentMethodDetailsSofort          `json:"sofort,omitempty"`
@@ -1098,7 +1104,7 @@ type SharedPaymentGrantedTokenUsageLimits struct {
 type SharedPaymentGrantedToken struct {
 	APIResource
 	// Details about the agent that issued this SharedPaymentGrantedToken.
-	AgentDetails *SharedPaymentGrantedTokenAgentDetails `json:"agent_details,omitempty"`
+	AgentDetails *SharedPaymentGrantedTokenAgentDetails `json:"agent_details"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Time at which this SharedPaymentGrantedToken expires and can no longer be used to confirm a PaymentIntent.

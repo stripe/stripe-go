@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 
 	"github.com/stripe/stripe-go/v85/form"
@@ -53,6 +54,37 @@ func (c v1TaxTransactionService) CreateReversal(ctx context.Context, params *Tax
 	err := c.B.Call(
 		http.MethodPost, "/v1/tax/transactions/create_reversal", c.Key, params, transaction)
 	return transaction, err
+}
+
+// Serializes a Transaction create_reversal request into a batch job JSONL line.
+func (c v1TaxTransactionService) MarshalBatchCreateReversal(params *TaxTransactionCreateReversalParams) (string, error) {
+	itemID, err := newUUID4()
+	if err != nil {
+		return "", err
+	}
+
+	item := struct {
+		ID            string            `json:"id"`
+		Context       string            `json:"context,omitempty"`
+		StripeVersion string            `json:"stripe_version,omitempty"`
+		PathParams    map[string]string `json:"path_params,omitempty"`
+		Params        interface{}       `json:"params"`
+	}{
+		ID:            itemID,
+		PathParams:    nil,
+		StripeVersion: APIVersion,
+	}
+	if params != nil {
+		item.Params = params
+		if params.StripeContext != nil {
+			item.Context = *params.StripeContext
+		}
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
 
 // Retrieves the line items of a committed standalone transaction as a collection.

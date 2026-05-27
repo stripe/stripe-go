@@ -560,7 +560,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionStatusPartiallyEligible PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionStatus = "partially_eligible"
 )
 
-// funding type of the underlying payment method.
+// Funding type of the underlying payment method.
 type PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingType string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingType can take
@@ -1263,6 +1263,10 @@ type PaymentAttemptRecordPaymentMethodDetailsBillingDetails struct {
 	// The billing phone number associated with the method of payment.
 	Phone string `json:"phone"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsBizum struct {
+	// The Bizum transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsBLIK struct {
 	// A unique and immutable identifier assigned by BLIK to every buyer.
 	BuyerID string `json:"buyer_id"`
@@ -1690,11 +1694,9 @@ type PaymentAttemptRecordPaymentMethodDetailsKlarna struct {
 	Location string `json:"location,omitempty"`
 	// The payer details for this transaction.
 	PayerDetails *PaymentAttemptRecordPaymentMethodDetailsKlarnaPayerDetails `json:"payer_details"`
-	// The Klarna payment method used for this transaction.
-	// Can be one of `pay_later`, `pay_now`, `pay_with_financing`, or `pay_in_installments`
+	// The Klarna payment method used for this transaction. Can be one of `pay_later`, `pay_now`, `pay_with_financing`, or `pay_in_installments`
 	PaymentMethodCategory string `json:"payment_method_category"`
-	// Preferred language of the Klarna authorization page that the customer is redirected to.
-	// Can be one of `de-AT`, `en-AT`, `nl-BE`, `fr-BE`, `en-BE`, `de-DE`, `en-DE`, `da-DK`, `en-DK`, `es-ES`, `en-ES`, `fi-FI`, `sv-FI`, `en-FI`, `en-GB`, `en-IE`, `it-IT`, `en-IT`, `nl-NL`, `en-NL`, `nb-NO`, `en-NO`, `sv-SE`, `en-SE`, `en-US`, `es-US`, `fr-FR`, `en-FR`, `cs-CZ`, `en-CZ`, `ro-RO`, `en-RO`, `el-GR`, `en-GR`, `en-AU`, `en-NZ`, `en-CA`, `fr-CA`, `pl-PL`, `en-PL`, `pt-PT`, `en-PT`, `de-CH`, `fr-CH`, `it-CH`, or `en-CH`
+	// Preferred language of the Klarna authorization page that the customer is redirected to. Can be one of `de-AT`, `en-AT`, `nl-BE`, `fr-BE`, `en-BE`, `de-DE`, `en-DE`, `da-DK`, `en-DK`, `es-ES`, `en-ES`, `fi-FI`, `sv-FI`, `en-FI`, `en-GB`, `en-IE`, `it-IT`, `en-IT`, `nl-NL`, `en-NL`, `nb-NO`, `en-NO`, `sv-SE`, `en-SE`, `en-US`, `es-US`, `fr-FR`, `en-FR`, `cs-CZ`, `en-CZ`, `ro-RO`, `en-RO`, `el-GR`, `en-GR`, `en-AU`, `en-NZ`, `en-CA`, `fr-CA`, `pl-PL`, `en-PL`, `pt-PT`, `en-PT`, `de-CH`, `fr-CH`, `it-CH`, or `en-CH`
 	PreferredLocale string `json:"preferred_locale"`
 	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
 	Reader string `json:"reader,omitempty"`
@@ -1720,8 +1722,7 @@ type PaymentAttemptRecordPaymentMethodDetailsKrCard struct {
 	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsLink struct {
-	// Two-letter ISO code representing the funding source country beneath the Link payment.
-	// You could use this attribute to get a sense of international fees.
+	// Two-letter ISO code representing the funding source country beneath the Link payment. You could use this attribute to get a sense of international fees.
 	Country string `json:"country"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsMbWay struct{}
@@ -1780,9 +1781,7 @@ type PaymentAttemptRecordPaymentMethodDetailsP24 struct {
 	Bank PaymentAttemptRecordPaymentMethodDetailsP24Bank `json:"bank"`
 	// Unique reference for this Przelewy24 payment.
 	Reference string `json:"reference"`
-	// Owner's verified full name. Values are verified or provided by Przelewy24 directly
-	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
-	// Przelewy24 rarely provides this information so the attribute is usually empty.
+	// Owner's verified full name. Values are verified or provided by Przelewy24 directly (if supported) at the time of authorization or settlement. They cannot be set or mutated. Przelewy24 rarely provides this information so the attribute is usually empty.
 	VerifiedName string `json:"verified_name"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsPayByBank struct{}
@@ -1882,7 +1881,7 @@ type PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingCard struct {
 }
 type PaymentAttemptRecordPaymentMethodDetailsRevolutPayFunding struct {
 	Card *PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingCard `json:"card,omitempty"`
-	// funding type of the underlying payment method.
+	// Funding type of the underlying payment method.
 	Type PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingType `json:"type"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsRevolutPay struct {
@@ -1898,6 +1897,10 @@ type PaymentAttemptRecordPaymentMethodDetailsSamsungPay struct {
 }
 type PaymentAttemptRecordPaymentMethodDetailsSatispay struct {
 	// The Satispay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsScalapay struct {
+	// The Scalapay transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsSEPACreditTransfer struct {
@@ -1962,7 +1965,10 @@ type PaymentAttemptRecordPaymentMethodDetailsSwish struct {
 	// The last four digits of the Swish account phone number
 	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
 }
-type PaymentAttemptRecordPaymentMethodDetailsTWINT struct{}
+type PaymentAttemptRecordPaymentMethodDetailsTWINT struct {
+	// ID of the multi use Mandate generated by the PaymentIntent
+	Mandate string `json:"mandate,omitempty"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsUpi struct {
 	// Customer's unique Virtual Payment Address.
 	Vpa string `json:"vpa"`
@@ -2016,6 +2022,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	Billie            *PaymentAttemptRecordPaymentMethodDetailsBillie            `json:"billie,omitempty"`
 	// The billing details associated with the method of payment.
 	BillingDetails *PaymentAttemptRecordPaymentMethodDetailsBillingDetails `json:"billing_details"`
+	Bizum          *PaymentAttemptRecordPaymentMethodDetailsBizum          `json:"bizum,omitempty"`
 	BLIK           *PaymentAttemptRecordPaymentMethodDetailsBLIK           `json:"blik,omitempty"`
 	Boleto         *PaymentAttemptRecordPaymentMethodDetailsBoleto         `json:"boleto,omitempty"`
 	// Details of the card used for this payment attempt.
@@ -2064,6 +2071,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	RevolutPay         *PaymentAttemptRecordPaymentMethodDetailsRevolutPay         `json:"revolut_pay,omitempty"`
 	SamsungPay         *PaymentAttemptRecordPaymentMethodDetailsSamsungPay         `json:"samsung_pay,omitempty"`
 	Satispay           *PaymentAttemptRecordPaymentMethodDetailsSatispay           `json:"satispay,omitempty"`
+	Scalapay           *PaymentAttemptRecordPaymentMethodDetailsScalapay           `json:"scalapay,omitempty"`
 	SEPACreditTransfer *PaymentAttemptRecordPaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *PaymentAttemptRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
 	Shopeepay          *PaymentAttemptRecordPaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
