@@ -357,6 +357,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeBACSDebit        ConfirmationTokenPaymentMethodPreviewType = "bacs_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeBancontact       ConfirmationTokenPaymentMethodPreviewType = "bancontact"
 	ConfirmationTokenPaymentMethodPreviewTypeBillie           ConfirmationTokenPaymentMethodPreviewType = "billie"
+	ConfirmationTokenPaymentMethodPreviewTypeBizum            ConfirmationTokenPaymentMethodPreviewType = "bizum"
 	ConfirmationTokenPaymentMethodPreviewTypeBLIK             ConfirmationTokenPaymentMethodPreviewType = "blik"
 	ConfirmationTokenPaymentMethodPreviewTypeBoleto           ConfirmationTokenPaymentMethodPreviewType = "boleto"
 	ConfirmationTokenPaymentMethodPreviewTypeCard             ConfirmationTokenPaymentMethodPreviewType = "card"
@@ -393,6 +394,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeRevolutPay       ConfirmationTokenPaymentMethodPreviewType = "revolut_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeSamsungPay       ConfirmationTokenPaymentMethodPreviewType = "samsung_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeSatispay         ConfirmationTokenPaymentMethodPreviewType = "satispay"
+	ConfirmationTokenPaymentMethodPreviewTypeScalapay         ConfirmationTokenPaymentMethodPreviewType = "scalapay"
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
 	ConfirmationTokenPaymentMethodPreviewTypeSunbit           ConfirmationTokenPaymentMethodPreviewType = "sunbit"
@@ -595,6 +597,7 @@ type ConfirmationTokenPaymentMethodPreviewBillingDetails struct {
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
 	TaxID string `json:"tax_id"`
 }
+type ConfirmationTokenPaymentMethodPreviewBizum struct{}
 type ConfirmationTokenPaymentMethodPreviewBLIK struct{}
 type ConfirmationTokenPaymentMethodPreviewBoleto struct {
 	// Uniquely identifies the customer tax id (CNPJ or CPF)
@@ -1015,6 +1018,7 @@ type ConfirmationTokenPaymentMethodPreviewPromptPay struct{}
 type ConfirmationTokenPaymentMethodPreviewRevolutPay struct{}
 type ConfirmationTokenPaymentMethodPreviewSamsungPay struct{}
 type ConfirmationTokenPaymentMethodPreviewSatispay struct{}
+type ConfirmationTokenPaymentMethodPreviewScalapay struct{}
 
 // Information about the object that generated this PaymentMethod.
 type ConfirmationTokenPaymentMethodPreviewSEPADebitGeneratedFrom struct {
@@ -1105,6 +1109,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Bancontact     *ConfirmationTokenPaymentMethodPreviewBancontact     `json:"bancontact,omitempty"`
 	Billie         *ConfirmationTokenPaymentMethodPreviewBillie         `json:"billie,omitempty"`
 	BillingDetails *ConfirmationTokenPaymentMethodPreviewBillingDetails `json:"billing_details"`
+	Bizum          *ConfirmationTokenPaymentMethodPreviewBizum          `json:"bizum,omitempty"`
 	BLIK           *ConfirmationTokenPaymentMethodPreviewBLIK           `json:"blik,omitempty"`
 	Boleto         *ConfirmationTokenPaymentMethodPreviewBoleto         `json:"boleto,omitempty"`
 	Card           *ConfirmationTokenPaymentMethodPreviewCard           `json:"card,omitempty"`
@@ -1143,6 +1148,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	RevolutPay      *ConfirmationTokenPaymentMethodPreviewRevolutPay      `json:"revolut_pay,omitempty"`
 	SamsungPay      *ConfirmationTokenPaymentMethodPreviewSamsungPay      `json:"samsung_pay,omitempty"`
 	Satispay        *ConfirmationTokenPaymentMethodPreviewSatispay        `json:"satispay,omitempty"`
+	Scalapay        *ConfirmationTokenPaymentMethodPreviewScalapay        `json:"scalapay,omitempty"`
 	SEPADebit       *ConfirmationTokenPaymentMethodPreviewSEPADebit       `json:"sepa_debit,omitempty"`
 	Sofort          *ConfirmationTokenPaymentMethodPreviewSofort          `json:"sofort,omitempty"`
 	Sunbit          *ConfirmationTokenPaymentMethodPreviewSunbit          `json:"sunbit,omitempty"`

@@ -20,6 +20,7 @@ const (
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventDimensionCountTooHigh V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_dimension_count_too_high"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventInvalidValue          V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_invalid_value"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
+	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMeterEventValueTooManyDigits    V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "meter_event_value_too_many_digits"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "no_meter"
 	V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode = "timestamp_in_future"
@@ -36,6 +37,7 @@ const (
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventDimensionCountTooHigh V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_dimension_count_too_high"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventInvalidValue          V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_invalid_value"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventNoCustomerDefined     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_no_customer_defined"
+	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMeterEventValueTooManyDigits    V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "meter_event_value_too_many_digits"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeMissingDimensionPayloadKeys     V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "missing_dimension_payload_keys"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeNoMeter                         V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "no_meter"
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampInFuture               V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_in_future"
@@ -216,6 +218,170 @@ func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Con
 		return nil, err
 	}
 	return evt.(*V1BillingMeterNoMeterFoundEvent), nil
+}
+
+// V2CommerceProductCatalogImportsFailedEvent is the Go struct for the "v2.commerce.product_catalog.imports.failed" event.
+// Occurs when a product catalog import cannot be processed or if processing fails unexpectedly.
+type V2CommerceProductCatalogImportsFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CommerceProductCatalogImport, error)
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (e *V2CommerceProductCatalogImportsFailedEvent) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CommerceProductCatalogImportsFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.commerce.product_catalog.imports.failed"
+// Occurs when a product catalog import cannot be processed or if processing fails unexpectedly.
+type V2CommerceProductCatalogImportsFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CommerceProductCatalogImportsFailedEvent that created this Notification
+func (n *V2CommerceProductCatalogImportsFailedEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsFailedEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CommerceProductCatalogImportsFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (n *V2CommerceProductCatalogImportsFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CommerceProductCatalogImport{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CommerceProductCatalogImportsProcessingEvent is the Go struct for the "v2.commerce.product_catalog.imports.processing" event.
+// Occurs when a product catalog import file has been uploaded and has started processing.
+type V2CommerceProductCatalogImportsProcessingEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CommerceProductCatalogImport, error)
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (e *V2CommerceProductCatalogImportsProcessingEvent) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CommerceProductCatalogImportsProcessingEventNotification is the webhook payload you'll get when handling an event with type "v2.commerce.product_catalog.imports.processing"
+// Occurs when a product catalog import file has been uploaded and has started processing.
+type V2CommerceProductCatalogImportsProcessingEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CommerceProductCatalogImportsProcessingEvent that created this Notification
+func (n *V2CommerceProductCatalogImportsProcessingEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsProcessingEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CommerceProductCatalogImportsProcessingEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (n *V2CommerceProductCatalogImportsProcessingEventNotification) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CommerceProductCatalogImport{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CommerceProductCatalogImportsSucceededEvent is the Go struct for the "v2.commerce.product_catalog.imports.succeeded" event.
+// Occurs when a product catalog file has been uploaded successfully and passed validation.
+type V2CommerceProductCatalogImportsSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CommerceProductCatalogImport, error)
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (e *V2CommerceProductCatalogImportsSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CommerceProductCatalogImportsSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.commerce.product_catalog.imports.succeeded"
+// Occurs when a product catalog file has been uploaded successfully and passed validation.
+type V2CommerceProductCatalogImportsSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CommerceProductCatalogImportsSucceededEvent that created this Notification
+func (n *V2CommerceProductCatalogImportsSucceededEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsSucceededEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CommerceProductCatalogImportsSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (n *V2CommerceProductCatalogImportsSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CommerceProductCatalogImport{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CommerceProductCatalogImportsSucceededWithErrorsEvent is the Go struct for the "v2.commerce.product_catalog.imports.succeeded_with_errors" event.
+// Occurs when a product catalog file has been successfully processed but some rows failed validation.
+type V2CommerceProductCatalogImportsSucceededWithErrorsEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CommerceProductCatalogImport, error)
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (e *V2CommerceProductCatalogImportsSucceededWithErrorsEvent) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification is the webhook payload you'll get when handling an event with type "v2.commerce.product_catalog.imports.succeeded_with_errors"
+// Occurs when a product catalog file has been successfully processed but some rows failed validation.
+type V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CommerceProductCatalogImportsSucceededWithErrorsEvent that created this Notification
+func (n *V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsSucceededWithErrorsEvent, error) {
+	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CommerceProductCatalogImportsSucceededWithErrorsEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CommerceProductCatalogImport related to the event.
+func (n *V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification) FetchRelatedObject(ctx context.Context) (*V2CommerceProductCatalogImport, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CommerceProductCatalogImport{}
+	err := n.client.backend.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
 }
 
 // V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
@@ -1106,6 +1272,66 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return nil, err
 		}
 		return result, nil
+	case "v2.commerce.product_catalog.imports.failed":
+		result := &V2CommerceProductCatalogImportsFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
+			v := &V2CommerceProductCatalogImport{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.commerce.product_catalog.imports.processing":
+		result := &V2CommerceProductCatalogImportsProcessingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
+			v := &V2CommerceProductCatalogImport{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.commerce.product_catalog.imports.succeeded":
+		result := &V2CommerceProductCatalogImportsSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
+			v := &V2CommerceProductCatalogImport{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.commerce.product_catalog.imports.succeeded_with_errors":
+		result := &V2CommerceProductCatalogImportsSucceededWithErrorsEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CommerceProductCatalogImport, error) {
+			v := &V2CommerceProductCatalogImport{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.core.account.closed":
 		result := &V2CoreAccountClosedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -1420,6 +1646,34 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.billing.meter.no_meter_found":
 		evt := V1BillingMeterNoMeterFoundEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.commerce.product_catalog.imports.failed":
+		evt := V2CommerceProductCatalogImportsFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.commerce.product_catalog.imports.processing":
+		evt := V2CommerceProductCatalogImportsProcessingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.commerce.product_catalog.imports.succeeded":
+		evt := V2CommerceProductCatalogImportsSucceededEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.commerce.product_catalog.imports.succeeded_with_errors":
+		evt := V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

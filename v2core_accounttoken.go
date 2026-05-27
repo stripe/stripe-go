@@ -8,7 +8,7 @@ package stripe
 
 import "time"
 
-// Account tokens are single-use tokens which tokenize company/individual/business information, and are used for creating or updating an Account.
+// Account tokens are single-use tokens which tokenize an account's contact_email, display_name, contact_phone, and identity.
 type V2CoreAccountToken struct {
 	APIResource
 	// Time at which the token was created. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.

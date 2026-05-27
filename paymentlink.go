@@ -128,6 +128,17 @@ const (
 	PaymentLinkPaymentMethodCollectionIfRequired PaymentLinkPaymentMethodCollection = "if_required"
 )
 
+// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
+type PaymentLinkPaymentMethodOptionsCardRestrictionsBrandsBlocked string
+
+// List of values that PaymentLinkPaymentMethodOptionsCardRestrictionsBrandsBlocked can take
+const (
+	PaymentLinkPaymentMethodOptionsCardRestrictionsBrandsBlockedAmericanExpress       PaymentLinkPaymentMethodOptionsCardRestrictionsBrandsBlocked = "american_express"
+	PaymentLinkPaymentMethodOptionsCardRestrictionsBrandsBlockedDiscoverGlobalNetwork PaymentLinkPaymentMethodOptionsCardRestrictionsBrandsBlocked = "discover_global_network"
+	PaymentLinkPaymentMethodOptionsCardRestrictionsBrandsBlockedMastercard            PaymentLinkPaymentMethodOptionsCardRestrictionsBrandsBlocked = "mastercard"
+	PaymentLinkPaymentMethodOptionsCardRestrictionsBrandsBlockedVisa                  PaymentLinkPaymentMethodOptionsCardRestrictionsBrandsBlocked = "visa"
+)
+
 // The list of payment method types that customers can use. When `null`, Stripe will dynamically show relevant payment methods you've enabled in your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 type PaymentLinkPaymentMethodType string
 
@@ -141,6 +152,7 @@ const (
 	PaymentLinkPaymentMethodTypeBACSDebit        PaymentLinkPaymentMethodType = "bacs_debit"
 	PaymentLinkPaymentMethodTypeBancontact       PaymentLinkPaymentMethodType = "bancontact"
 	PaymentLinkPaymentMethodTypeBillie           PaymentLinkPaymentMethodType = "billie"
+	PaymentLinkPaymentMethodTypeBizum            PaymentLinkPaymentMethodType = "bizum"
 	PaymentLinkPaymentMethodTypeBLIK             PaymentLinkPaymentMethodType = "blik"
 	PaymentLinkPaymentMethodTypeBoleto           PaymentLinkPaymentMethodType = "boleto"
 	PaymentLinkPaymentMethodTypeCard             PaymentLinkPaymentMethodType = "card"
@@ -282,7 +294,7 @@ type PaymentLinkConsentCollectionParams struct {
 	PaymentMethodReuseAgreement *PaymentLinkConsentCollectionPaymentMethodReuseAgreementParams `form:"payment_method_reuse_agreement" json:"payment_method_reuse_agreement,omitempty"`
 	// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
 	// Session will determine whether to display an option to opt into promotional communication
-	// from the merchant depending on the customer's locale. Only available to US merchants.
+	// from the merchant depending on the customer's locale. Only available to US merchants and US customers.
 	Promotions *string `form:"promotions" json:"promotions,omitempty"`
 	// If set to `required`, it requires customers to check a terms of service checkbox before being able to pay.
 	// There must be a valid terms of service URL set in your [Dashboard settings](https://dashboard.stripe.com/settings/public).
@@ -674,6 +686,63 @@ func (p *PaymentLinkPaymentIntentDataParams) AddMetadata(key string, value strin
 	p.Metadata[key] = value
 }
 
+// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+type PaymentLinkPaymentMethodOptionsCardRestrictionsParams struct {
+	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
+	BrandsBlocked []*string                                                         `form:"brands_blocked" json:"brands_blocked,omitempty"`
+	UnsetFields   []PaymentLinkPaymentMethodOptionsCardRestrictionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLinkPaymentMethodOptionsCardRestrictionsParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkPaymentMethodOptionsCardRestrictionsParams.
+type PaymentLinkPaymentMethodOptionsCardRestrictionsParamsUnsetField string
+
+const (
+	PaymentLinkPaymentMethodOptionsCardRestrictionsParamsUnsetFieldBrandsBlocked PaymentLinkPaymentMethodOptionsCardRestrictionsParamsUnsetField = "brands_blocked"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkPaymentMethodOptionsCardRestrictionsParams) AddUnsetField(field PaymentLinkPaymentMethodOptionsCardRestrictionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Configuration for `card` payment methods.
+type PaymentLinkPaymentMethodOptionsCardParams struct {
+	// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+	Restrictions *PaymentLinkPaymentMethodOptionsCardRestrictionsParams `form:"restrictions" json:"restrictions,omitempty"`
+	UnsetFields  []PaymentLinkPaymentMethodOptionsCardParamsUnsetField  `form:"-" json:"-"`
+}
+
+// PaymentLinkPaymentMethodOptionsCardParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkPaymentMethodOptionsCardParams.
+type PaymentLinkPaymentMethodOptionsCardParamsUnsetField string
+
+const (
+	PaymentLinkPaymentMethodOptionsCardParamsUnsetFieldRestrictions PaymentLinkPaymentMethodOptionsCardParamsUnsetField = "restrictions"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkPaymentMethodOptionsCardParams) AddUnsetField(field PaymentLinkPaymentMethodOptionsCardParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Payment-method-specific configuration.
+type PaymentLinkPaymentMethodOptionsParams struct {
+	// Configuration for `card` payment methods.
+	Card        *PaymentLinkPaymentMethodOptionsCardParams        `form:"card" json:"card,omitempty"`
+	UnsetFields []PaymentLinkPaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLinkPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkPaymentMethodOptionsParams.
+type PaymentLinkPaymentMethodOptionsParamsUnsetField string
+
+const (
+	PaymentLinkPaymentMethodOptionsParamsUnsetFieldCard PaymentLinkPaymentMethodOptionsParamsUnsetField = "card"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkPaymentMethodOptionsParams) AddUnsetField(field PaymentLinkPaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Controls phone number collection settings during checkout.
 //
 // We recommend that you review your privacy policy and check with your legal contacts.
@@ -845,6 +914,8 @@ type PaymentLinkParams struct {
 	//
 	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://docs.stripe.com/payments/checkout/free-trials).
 	PaymentMethodCollection *string `form:"payment_method_collection" json:"payment_method_collection,omitempty"`
+	// Payment-method-specific configuration.
+	PaymentMethodOptions *PaymentLinkPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The list of payment method types that customers can use. If no value is passed, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods) (20+ payment methods [supported](https://docs.stripe.com/payments/payment-methods/integration-options#payment-method-product-support)).
 	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// Controls phone number collection settings during checkout.
@@ -876,6 +947,7 @@ const (
 	PaymentLinkParamsUnsetFieldInactiveMessage           PaymentLinkParamsUnsetField = "inactive_message"
 	PaymentLinkParamsUnsetFieldNameCollection            PaymentLinkParamsUnsetField = "name_collection"
 	PaymentLinkParamsUnsetFieldOptionalItems             PaymentLinkParamsUnsetField = "optional_items"
+	PaymentLinkParamsUnsetFieldPaymentMethodOptions      PaymentLinkParamsUnsetField = "payment_method_options"
 	PaymentLinkParamsUnsetFieldPaymentMethodTypes        PaymentLinkParamsUnsetField = "payment_method_types"
 	PaymentLinkParamsUnsetFieldRestrictions              PaymentLinkParamsUnsetField = "restrictions"
 	PaymentLinkParamsUnsetFieldShippingAddressCollection PaymentLinkParamsUnsetField = "shipping_address_collection"
@@ -966,7 +1038,7 @@ type PaymentLinkCreateConsentCollectionParams struct {
 	PaymentMethodReuseAgreement *PaymentLinkCreateConsentCollectionPaymentMethodReuseAgreementParams `form:"payment_method_reuse_agreement" json:"payment_method_reuse_agreement,omitempty"`
 	// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
 	// Session will determine whether to display an option to opt into promotional communication
-	// from the merchant depending on the customer's locale. Only available to US merchants.
+	// from the merchant depending on the customer's locale. Only available to US merchants and US customers.
 	Promotions *string `form:"promotions" json:"promotions,omitempty"`
 	// If set to `required`, it requires customers to check a terms of service checkbox before being able to pay.
 	// There must be a valid terms of service URL set in your [Dashboard settings](https://dashboard.stripe.com/settings/public).
@@ -1339,6 +1411,22 @@ func (p *PaymentLinkCreatePaymentIntentDataParams) AddMetadata(key string, value
 	p.Metadata[key] = value
 }
 
+// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+type PaymentLinkCreatePaymentMethodOptionsCardRestrictionsParams struct {
+	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
+	BrandsBlocked []*string `form:"brands_blocked" json:"brands_blocked,omitempty"`
+}
+
+// Configuration for `card` payment methods.
+type PaymentLinkCreatePaymentMethodOptionsCardParams struct {
+	// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+	Restrictions *PaymentLinkCreatePaymentMethodOptionsCardRestrictionsParams `form:"restrictions" json:"restrictions,omitempty"`
+}
+type PaymentLinkCreatePaymentMethodOptionsParams struct {
+	// Configuration for `card` payment methods.
+	Card *PaymentLinkCreatePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
+}
+
 // Controls phone number collection settings during checkout.
 //
 // We recommend that you review your privacy policy and check with your legal contacts.
@@ -1492,7 +1580,8 @@ type PaymentLinkCreateParams struct {
 	// Can only be set in `subscription` mode. Defaults to `always`.
 	//
 	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://docs.stripe.com/payments/checkout/free-trials).
-	PaymentMethodCollection *string `form:"payment_method_collection" json:"payment_method_collection,omitempty"`
+	PaymentMethodCollection *string                                      `form:"payment_method_collection" json:"payment_method_collection,omitempty"`
+	PaymentMethodOptions    *PaymentLinkCreatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The list of payment method types that customers can use. If no value is passed, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods) (20+ payment methods [supported](https://docs.stripe.com/payments/payment-methods/integration-options#payment-method-product-support)).
 	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// Controls phone number collection settings during checkout.
@@ -1891,6 +1980,63 @@ func (p *PaymentLinkUpdatePaymentIntentDataParams) AddMetadata(key string, value
 	p.Metadata[key] = value
 }
 
+// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+type PaymentLinkUpdatePaymentMethodOptionsCardRestrictionsParams struct {
+	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
+	BrandsBlocked []*string                                                               `form:"brands_blocked" json:"brands_blocked,omitempty"`
+	UnsetFields   []PaymentLinkUpdatePaymentMethodOptionsCardRestrictionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLinkUpdatePaymentMethodOptionsCardRestrictionsParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkUpdatePaymentMethodOptionsCardRestrictionsParams.
+type PaymentLinkUpdatePaymentMethodOptionsCardRestrictionsParamsUnsetField string
+
+const (
+	PaymentLinkUpdatePaymentMethodOptionsCardRestrictionsParamsUnsetFieldBrandsBlocked PaymentLinkUpdatePaymentMethodOptionsCardRestrictionsParamsUnsetField = "brands_blocked"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkUpdatePaymentMethodOptionsCardRestrictionsParams) AddUnsetField(field PaymentLinkUpdatePaymentMethodOptionsCardRestrictionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Configuration for `card` payment methods.
+type PaymentLinkUpdatePaymentMethodOptionsCardParams struct {
+	// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+	Restrictions *PaymentLinkUpdatePaymentMethodOptionsCardRestrictionsParams `form:"restrictions" json:"restrictions,omitempty"`
+	UnsetFields  []PaymentLinkUpdatePaymentMethodOptionsCardParamsUnsetField  `form:"-" json:"-"`
+}
+
+// PaymentLinkUpdatePaymentMethodOptionsCardParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkUpdatePaymentMethodOptionsCardParams.
+type PaymentLinkUpdatePaymentMethodOptionsCardParamsUnsetField string
+
+const (
+	PaymentLinkUpdatePaymentMethodOptionsCardParamsUnsetFieldRestrictions PaymentLinkUpdatePaymentMethodOptionsCardParamsUnsetField = "restrictions"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkUpdatePaymentMethodOptionsCardParams) AddUnsetField(field PaymentLinkUpdatePaymentMethodOptionsCardParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Payment-method-specific configuration.
+type PaymentLinkUpdatePaymentMethodOptionsParams struct {
+	// Configuration for `card` payment methods.
+	Card        *PaymentLinkUpdatePaymentMethodOptionsCardParams        `form:"card" json:"card,omitempty"`
+	UnsetFields []PaymentLinkUpdatePaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLinkUpdatePaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on PaymentLinkUpdatePaymentMethodOptionsParams.
+type PaymentLinkUpdatePaymentMethodOptionsParamsUnsetField string
+
+const (
+	PaymentLinkUpdatePaymentMethodOptionsParamsUnsetFieldCard PaymentLinkUpdatePaymentMethodOptionsParamsUnsetField = "card"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLinkUpdatePaymentMethodOptionsParams) AddUnsetField(field PaymentLinkUpdatePaymentMethodOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Controls phone number collection settings during checkout.
 //
 // We recommend that you review your privacy policy and check with your legal contacts.
@@ -2031,6 +2177,8 @@ type PaymentLinkUpdateParams struct {
 	//
 	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://docs.stripe.com/payments/checkout/free-trials).
 	PaymentMethodCollection *string `form:"payment_method_collection" json:"payment_method_collection,omitempty"`
+	// Payment-method-specific configuration.
+	PaymentMethodOptions *PaymentLinkUpdatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The list of payment method types that customers can use. Pass an empty string to enable dynamic payment methods that use your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// Controls phone number collection settings during checkout.
@@ -2058,6 +2206,7 @@ const (
 	PaymentLinkUpdateParamsUnsetFieldInactiveMessage           PaymentLinkUpdateParamsUnsetField = "inactive_message"
 	PaymentLinkUpdateParamsUnsetFieldNameCollection            PaymentLinkUpdateParamsUnsetField = "name_collection"
 	PaymentLinkUpdateParamsUnsetFieldOptionalItems             PaymentLinkUpdateParamsUnsetField = "optional_items"
+	PaymentLinkUpdateParamsUnsetFieldPaymentMethodOptions      PaymentLinkUpdateParamsUnsetField = "payment_method_options"
 	PaymentLinkUpdateParamsUnsetFieldPaymentMethodTypes        PaymentLinkUpdateParamsUnsetField = "payment_method_types"
 	PaymentLinkUpdateParamsUnsetFieldRestrictions              PaymentLinkUpdateParamsUnsetField = "restrictions"
 	PaymentLinkUpdateParamsUnsetFieldShippingAddressCollection PaymentLinkUpdateParamsUnsetField = "shipping_address_collection"
@@ -2317,6 +2466,24 @@ type PaymentLinkPaymentIntentData struct {
 	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://docs.stripe.com/connect/separate-charges-and-transfers) for details.
 	TransferGroup string `json:"transfer_group"`
 }
+
+// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+type PaymentLinkPaymentMethodOptionsCardRestrictions struct {
+	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
+	BrandsBlocked []PaymentLinkPaymentMethodOptionsCardRestrictionsBrandsBlocked `json:"brands_blocked"`
+}
+
+// Configuration for `card` payment methods.
+type PaymentLinkPaymentMethodOptionsCard struct {
+	// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+	Restrictions *PaymentLinkPaymentMethodOptionsCardRestrictions `json:"restrictions"`
+}
+
+// Payment-method-specific configuration.
+type PaymentLinkPaymentMethodOptions struct {
+	// Configuration for `card` payment methods.
+	Card *PaymentLinkPaymentMethodOptionsCard `json:"card"`
+}
 type PaymentLinkPhoneNumberCollection struct {
 	// If `true`, a phone number will be collected during checkout.
 	Enabled bool `json:"enabled"`
@@ -2449,6 +2616,8 @@ type PaymentLink struct {
 	PaymentIntentData *PaymentLinkPaymentIntentData `json:"payment_intent_data"`
 	// Configuration for collecting a payment method during checkout. Defaults to `always`.
 	PaymentMethodCollection PaymentLinkPaymentMethodCollection `json:"payment_method_collection"`
+	// Payment-method-specific configuration.
+	PaymentMethodOptions *PaymentLinkPaymentMethodOptions `json:"payment_method_options"`
 	// The list of payment method types that customers can use. When `null`, Stripe will dynamically show relevant payment methods you've enabled in your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes    []PaymentLinkPaymentMethodType    `json:"payment_method_types"`
 	PhoneNumberCollection *PaymentLinkPhoneNumberCollection `json:"phone_number_collection"`
