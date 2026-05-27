@@ -44,25 +44,21 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/go/bin
-          key: go-tools-${{ runner.os }}-staticcheck-v0.6.1-goimports-v0.39.0
+          key: go-tools-${{ runner.os }}-goimports-v0.39.0
 
       - name: Install Go tools
         if: steps.cache-go-tools.outputs.cache-hit != 'true'
         run: |
-          go install honnef.co/go/tools/cmd/staticcheck@v0.6.1
           go install golang.org/x/tools/cmd/goimports@v0.39.0
 
-      - name: Cache staticcheck
-        uses: actions/cache@v4
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
         with:
-          path: ~/.cache/staticcheck
-          key: staticcheck-${{ runner.os }}-${{ hashFiles('go.sum') }}
-          restore-keys: |
-            staticcheck-${{ runner.os }}-
+          version: v2.11.4
 
       - name: lint
         run: |
-          just lint format-check
+          just format-check
 
   govulncheck:
     name: govulncheck

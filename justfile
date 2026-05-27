@@ -17,8 +17,7 @@ test *args="./...":
 
 # check for potential mistakes (slow)
 lint: install
-    go vet ./...
-    staticcheck
+    golangci-lint run ./...
 
 # don't depend on `install` in this step! Before formatting, our `go` code isn't syntactically valid
 # ⭐ format all files
@@ -39,7 +38,7 @@ build:
 # install dependencies (including those needed for development). Mostly called by other recipes
 install:
     go get -t
-    which staticcheck || go install honnef.co/go/tools/cmd/staticcheck@v0.6.1
+    which golangci-lint || go install github.com/golangci/golangci-lint/cmd/golangci-lint@v2.11.4
     which goimports || go install golang.org/x/tools/cmd/goimports@v0.39.0
 
 # run benchmarking to check for performance regressions

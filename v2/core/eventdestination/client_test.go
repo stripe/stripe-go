@@ -319,6 +319,7 @@ func TestEventDestinationList_MultiplePages(t *testing.T) {
 		default:
 			assert.Fail(t, fmt.Sprintf("unexpected page: %s", page))
 		}
+		assert.NoError(t, err)
 		_, err = w.Write(data)
 		assert.NoError(t, err)
 	}))
