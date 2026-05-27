@@ -21,11 +21,6 @@ import (
 	_ "github.com/stripe/stripe-go/v85/testing"
 )
 
-const (
-	expectedSize int64 = 734
-	expectedType       = "pdf"
-)
-
 func TestFileGet(t *testing.T) {
 	file, err := Get("file_123", nil)
 	assert.Nil(t, err)
