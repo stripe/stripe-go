@@ -16,3 +16,13 @@ type V2IamActivityLogListParams struct {
 	// Maximum number of results to return per page.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
+
+// Retrieve an activity log.
+type V2IamActivityLogParams struct {
+	Params `form:"*"`
+}
+
+// Retrieve an activity log.
+type V2IamActivityLogRetrieveParams struct {
+	Params `form:"*"`
+}

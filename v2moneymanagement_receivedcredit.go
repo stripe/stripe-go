@@ -24,7 +24,8 @@ type V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork string
 
 // List of values that V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork can take
 const (
-	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkFPS V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "fps"
+	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkChaps V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "chaps"
+	V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetworkFPS   V2MoneyManagementReceivedCreditBankTransferGBBankAccountNetwork = "fps"
 )
 
 // Open Enum. Indicates the origin of source from which external funds originated from.

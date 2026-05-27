@@ -83,6 +83,9 @@ func (p *TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams) AddU
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataBizumParams struct{}
+
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataBLIKParams struct{}
 
@@ -164,7 +167,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataKonbiniParams struct{}
 // If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataKrCardParams struct{}
 
-// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 type TestHelpersConfirmationTokenPaymentMethodDataLinkParams struct{}
 
 // If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
@@ -271,6 +274,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataSamsungPayParams struct{}
 // If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataSatispayParams struct{}
 
+// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataScalapayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -365,6 +371,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Billie *TestHelpersConfirmationTokenPaymentMethodDataBillieParams `form:"billie" json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+	Bizum *TestHelpersConfirmationTokenPaymentMethodDataBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 	BLIK *TestHelpersConfirmationTokenPaymentMethodDataBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
@@ -399,7 +407,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Konbini *TestHelpersConfirmationTokenPaymentMethodDataKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 	KrCard *TestHelpersConfirmationTokenPaymentMethodDataKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 	Link *TestHelpersConfirmationTokenPaymentMethodDataLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *TestHelpersConfirmationTokenPaymentMethodDataMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -445,6 +453,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	SamsungPay *TestHelpersConfirmationTokenPaymentMethodDataSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *TestHelpersConfirmationTokenPaymentMethodDataSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+	Scalapay *TestHelpersConfirmationTokenPaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
@@ -639,6 +649,9 @@ func (p *TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParams
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataBizumParams struct{}
+
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataBLIKParams struct{}
 
@@ -720,7 +733,7 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataKonbiniParams struct{}
 // If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataKrCardParams struct{}
 
-// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 type TestHelpersConfirmationTokenCreatePaymentMethodDataLinkParams struct{}
 
 // If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
@@ -827,6 +840,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataSamsungPayParams struct{
 // If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataSatispayParams struct{}
 
+// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataScalapayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -921,6 +937,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Billie *TestHelpersConfirmationTokenCreatePaymentMethodDataBillieParams `form:"billie" json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+	Bizum *TestHelpersConfirmationTokenCreatePaymentMethodDataBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 	BLIK *TestHelpersConfirmationTokenCreatePaymentMethodDataBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
@@ -955,7 +973,7 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Konbini *TestHelpersConfirmationTokenCreatePaymentMethodDataKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 	KrCard *TestHelpersConfirmationTokenCreatePaymentMethodDataKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 	Link *TestHelpersConfirmationTokenCreatePaymentMethodDataLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *TestHelpersConfirmationTokenCreatePaymentMethodDataMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -1001,6 +1019,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	SamsungPay *TestHelpersConfirmationTokenCreatePaymentMethodDataSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *TestHelpersConfirmationTokenCreatePaymentMethodDataSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+	Scalapay *TestHelpersConfirmationTokenCreatePaymentMethodDataScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.

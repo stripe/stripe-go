@@ -87,6 +87,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeBACSDebit        PaymentIntentExcludedPaymentMethodType = "bacs_debit"
 	PaymentIntentExcludedPaymentMethodTypeBancontact       PaymentIntentExcludedPaymentMethodType = "bancontact"
 	PaymentIntentExcludedPaymentMethodTypeBillie           PaymentIntentExcludedPaymentMethodType = "billie"
+	PaymentIntentExcludedPaymentMethodTypeBizum            PaymentIntentExcludedPaymentMethodType = "bizum"
 	PaymentIntentExcludedPaymentMethodTypeBLIK             PaymentIntentExcludedPaymentMethodType = "blik"
 	PaymentIntentExcludedPaymentMethodTypeBoleto           PaymentIntentExcludedPaymentMethodType = "boleto"
 	PaymentIntentExcludedPaymentMethodTypeCard             PaymentIntentExcludedPaymentMethodType = "card"
@@ -124,6 +125,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeRevolutPay       PaymentIntentExcludedPaymentMethodType = "revolut_pay"
 	PaymentIntentExcludedPaymentMethodTypeSamsungPay       PaymentIntentExcludedPaymentMethodType = "samsung_pay"
 	PaymentIntentExcludedPaymentMethodTypeSatispay         PaymentIntentExcludedPaymentMethodType = "satispay"
+	PaymentIntentExcludedPaymentMethodTypeScalapay         PaymentIntentExcludedPaymentMethodType = "scalapay"
 	PaymentIntentExcludedPaymentMethodTypeSEPADebit        PaymentIntentExcludedPaymentMethodType = "sepa_debit"
 	PaymentIntentExcludedPaymentMethodTypeShopeepay        PaymentIntentExcludedPaymentMethodType = "shopeepay"
 	PaymentIntentExcludedPaymentMethodTypeSofort           PaymentIntentExcludedPaymentMethodType = "sofort"
@@ -1507,6 +1509,14 @@ const (
 	PaymentIntentPaymentMethodOptionsSatispayCaptureMethodManual PaymentIntentPaymentMethodOptionsSatispayCaptureMethod = "manual"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsScalapayCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsScalapayCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsScalapayCaptureMethodManual PaymentIntentPaymentMethodOptionsScalapayCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1592,7 +1602,8 @@ type PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage can take
 const (
-	PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsageNone PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage = "off_session"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1881,9 +1892,9 @@ type PaymentIntentAmountDetailsLineItemParams struct {
 type PaymentIntentAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                              `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -2942,6 +2953,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Billie *PaymentMethodBillieParams `form:"billie" json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentIntentPaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+	Bizum *PaymentMethodBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 	BLIK *PaymentMethodBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
@@ -2976,7 +2989,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Konbini *PaymentMethodKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 	KrCard *PaymentMethodKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 	Link *PaymentMethodLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -3022,6 +3035,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+	Scalapay *PaymentMethodScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
@@ -3402,6 +3417,9 @@ const (
 func (p *PaymentIntentPaymentMethodOptionsBillieParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsBillieParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
+
+// If this is a `bizum` PaymentMethod, this sub-hash contains details about the Bizum payment method options.
+type PaymentIntentPaymentMethodOptionsBizumParams struct{}
 
 // If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
 type PaymentIntentPaymentMethodOptionsBLIKParams struct {
@@ -4595,7 +4613,7 @@ func (p *PaymentIntentPaymentMethodOptionsKrCardParams) AddUnsetField(field Paym
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options (Link is also known as Onelink in the UK).
 type PaymentIntentPaymentMethodOptionsLinkParams struct {
 	// Controls when the funds are captured from the customer's account.
 	//
@@ -5131,6 +5149,29 @@ func (p *PaymentIntentPaymentMethodOptionsSatispayParams) AddUnsetField(field Pa
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `scalapay` PaymentMethod, this sub-hash contains details about the ScalaPay payment method options.
+type PaymentIntentPaymentMethodOptionsScalapayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string                                                     `form:"capture_method" json:"capture_method,omitempty"`
+	UnsetFields   []PaymentIntentPaymentMethodOptionsScalapayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsScalapayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsScalapayParams.
+type PaymentIntentPaymentMethodOptionsScalapayParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsScalapayParamsUnsetFieldCaptureMethod PaymentIntentPaymentMethodOptionsScalapayParamsUnsetField = "capture_method"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsScalapayParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsScalapayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Additional fields for Mandate creation
 type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -5474,6 +5515,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If this is a `billie` PaymentMethod, this sub-hash contains details about the Billie payment method options.
 	Billie *PaymentIntentPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
+	// If this is a `bizum` PaymentMethod, this sub-hash contains details about the Bizum payment method options.
+	Bizum *PaymentIntentPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
 	BLIK *PaymentIntentPaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this sub-hash contains details about the Boleto payment method options.
@@ -5512,7 +5555,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Konbini *PaymentIntentPaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this sub-hash contains details about the KR Card payment method options.
 	KrCard *PaymentIntentPaymentMethodOptionsKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options (Link is also known as Onelink in the UK).
 	Link *PaymentIntentPaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a `mb_way` PaymentMethod, this sub-hash contains details about the MB WAY payment method options.
 	MbWay *PaymentIntentPaymentMethodOptionsMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -5554,6 +5597,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	SamsungPay *PaymentIntentPaymentMethodOptionsSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
 	Satispay *PaymentIntentPaymentMethodOptionsSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a `scalapay` PaymentMethod, this sub-hash contains details about the ScalaPay payment method options.
+	Scalapay *PaymentIntentPaymentMethodOptionsScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *PaymentIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `shopeepay` PaymentMethod, this sub-hash contains details about the ShopeePay payment method options.
@@ -5591,6 +5636,7 @@ const (
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldBACSDebit        PaymentIntentPaymentMethodOptionsParamsUnsetField = "bacs_debit"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldBancontact       PaymentIntentPaymentMethodOptionsParamsUnsetField = "bancontact"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldBillie           PaymentIntentPaymentMethodOptionsParamsUnsetField = "billie"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldBizum            PaymentIntentPaymentMethodOptionsParamsUnsetField = "bizum"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldBLIK             PaymentIntentPaymentMethodOptionsParamsUnsetField = "blik"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldBoleto           PaymentIntentPaymentMethodOptionsParamsUnsetField = "boleto"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldCard             PaymentIntentPaymentMethodOptionsParamsUnsetField = "card"
@@ -5631,6 +5677,7 @@ const (
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldRevolutPay       PaymentIntentPaymentMethodOptionsParamsUnsetField = "revolut_pay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldSamsungPay       PaymentIntentPaymentMethodOptionsParamsUnsetField = "samsung_pay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldSatispay         PaymentIntentPaymentMethodOptionsParamsUnsetField = "satispay"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldScalapay         PaymentIntentPaymentMethodOptionsParamsUnsetField = "scalapay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldSEPADebit        PaymentIntentPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldShopeepay        PaymentIntentPaymentMethodOptionsParamsUnsetField = "shopeepay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldSofort           PaymentIntentPaymentMethodOptionsParamsUnsetField = "sofort"
@@ -5654,6 +5701,36 @@ type PaymentIntentRadarOptionsParams struct {
 	Session *string `form:"session" json:"session,omitempty"`
 }
 
+// The data with which to populate the destination payment.
+type PaymentIntentTransferDataPaymentDataParams struct {
+	// An arbitrary string attached to the destination payment. Often useful for displaying to users.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata    map[string]string                                      `form:"metadata" json:"metadata,omitempty"`
+	UnsetFields []PaymentIntentTransferDataPaymentDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentTransferDataPaymentDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentTransferDataPaymentDataParams.
+type PaymentIntentTransferDataPaymentDataParamsUnsetField string
+
+const (
+	PaymentIntentTransferDataPaymentDataParamsUnsetFieldMetadata PaymentIntentTransferDataPaymentDataParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentTransferDataPaymentDataParams) AddUnsetField(field PaymentIntentTransferDataPaymentDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentIntentTransferDataPaymentDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // The parameters that you can use to automatically create a Transfer.
 // Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 type PaymentIntentTransferDataParams struct {
@@ -5665,11 +5742,39 @@ type PaymentIntentTransferDataParams struct {
 	// [application_fee_amount](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-application_fee_amount)
 	// might be a better fit for your integration.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// An arbitrary string attached to the transfer. Often useful for displaying to users.
+	Description *string `form:"description" json:"description,omitempty"`
 	// If specified, successful charges will be attributed to the destination
 	// account for tax reporting, and the funds from charges will be transferred
 	// to the destination account. The ID of the resulting transfer will be
 	// returned on the successful charge's `transfer` field.
 	Destination *string `form:"destination" json:"destination,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The data with which to populate the destination payment.
+	PaymentData *PaymentIntentTransferDataPaymentDataParams `form:"payment_data" json:"payment_data,omitempty"`
+	UnsetFields []PaymentIntentTransferDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentTransferDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentTransferDataParams.
+type PaymentIntentTransferDataParamsUnsetField string
+
+const (
+	PaymentIntentTransferDataParamsUnsetFieldMetadata PaymentIntentTransferDataParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentTransferDataParams) AddUnsetField(field PaymentIntentTransferDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentIntentTransferDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Creates a PaymentIntent object.
@@ -5788,7 +5893,7 @@ type PaymentIntentParams struct {
 	// These parameters apply only for paymentIntent.New with `confirm=true`
 	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. Use this parameter for simpler integrations that don't handle customer actions, such as [saving cards without authentication](https://docs.stripe.com/payments/save-card-without-authentication). This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action" json:"error_on_requires_action,omitempty"`
-	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect card details and [charge them later](https://docs.stripe.com/payments/cards/charging-saved-cards). This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
+	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect payment method details and [charge them later](https://docs.stripe.com/payments/save-during-payment). This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	OffSession *bool `form:"off_session" json:"off_session,omitempty"`
 	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
 	UseStripeSDK *bool `form:"use_stripe_sdk" json:"use_stripe_sdk,omitempty"`
@@ -5965,9 +6070,9 @@ type PaymentIntentCaptureAmountDetailsLineItemParams struct {
 type PaymentIntentCaptureAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                                     `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentCaptureAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -7067,9 +7172,9 @@ type PaymentIntentConfirmAmountDetailsLineItemParams struct {
 type PaymentIntentConfirmAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                                     `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentConfirmAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -8088,7 +8193,7 @@ type PaymentIntentConfirmParams struct {
 	// ID of the mandate that's used for this payment.
 	Mandate     *string                         `form:"mandate" json:"mandate,omitempty"`
 	MandateData *PaymentIntentMandateDataParams `form:"mandate_data" json:"mandate_data,omitempty"`
-	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect card details and [charge them later](https://docs.stripe.com/payments/cards/charging-saved-cards).
+	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect payment method details and [charge them later](https://docs.stripe.com/payments/save-during-payment).
 	OffSession *bool `form:"off_session" json:"off_session,omitempty"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentConfirmPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
@@ -8233,9 +8338,9 @@ type PaymentIntentDecrementAuthorizationAmountDetailsLineItemParams struct {
 type PaymentIntentDecrementAuthorizationAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                                                    `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentDecrementAuthorizationAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -8522,9 +8627,9 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
 type PaymentIntentIncrementAuthorizationAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                                                    `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentIncrementAuthorizationAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -8711,7 +8816,9 @@ type PaymentIntentIncrementAuthorizationTransferDataParams struct {
 // Each PaymentIntent can have a maximum of 10 incremental authorization attempts, including declines.
 // After it's captured, a PaymentIntent can no longer be incremented.
 //
-// Learn more about [incremental authorizations](https://docs.stripe.com/docs/terminal/features/incremental-authorizations).
+// Learn more about incremental authorizations with
+// [in-person payments](https://docs.stripe.com/docs/terminal/features/incremental-authorizations) and
+// [online payments](https://docs.stripe.com/docs/payments/incremental-authorization?platform=web&ui=elements).
 type PaymentIntentIncrementAuthorizationParams struct {
 	Params `form:"*"`
 	// The updated total amount that you intend to collect from the cardholder. This amount must be greater than the currently authorized amount.
@@ -8873,9 +8980,9 @@ type PaymentIntentCreateAmountDetailsLineItemParams struct {
 type PaymentIntentCreateAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                                    `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentCreateAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -9934,6 +10041,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Billie *PaymentMethodBillieParams `form:"billie" json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentIntentCreatePaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+	Bizum *PaymentMethodBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 	BLIK *PaymentMethodBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
@@ -9968,7 +10077,7 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Konbini *PaymentMethodKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 	KrCard *PaymentMethodKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 	Link *PaymentMethodLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -10014,6 +10123,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+	Scalapay *PaymentMethodScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
@@ -10394,6 +10505,9 @@ const (
 func (p *PaymentIntentCreatePaymentMethodOptionsBillieParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsBillieParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
+
+// If this is a `bizum` PaymentMethod, this sub-hash contains details about the Bizum payment method options.
+type PaymentIntentCreatePaymentMethodOptionsBizumParams struct{}
 
 // If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
 type PaymentIntentCreatePaymentMethodOptionsBLIKParams struct {
@@ -11587,7 +11701,7 @@ func (p *PaymentIntentCreatePaymentMethodOptionsKrCardParams) AddUnsetField(fiel
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options (Link is also known as Onelink in the UK).
 type PaymentIntentCreatePaymentMethodOptionsLinkParams struct {
 	// Controls when the funds are captured from the customer's account.
 	//
@@ -12123,6 +12237,29 @@ func (p *PaymentIntentCreatePaymentMethodOptionsSatispayParams) AddUnsetField(fi
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `scalapay` PaymentMethod, this sub-hash contains details about the ScalaPay payment method options.
+type PaymentIntentCreatePaymentMethodOptionsScalapayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string                                                           `form:"capture_method" json:"capture_method,omitempty"`
+	UnsetFields   []PaymentIntentCreatePaymentMethodOptionsScalapayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsScalapayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsScalapayParams.
+type PaymentIntentCreatePaymentMethodOptionsScalapayParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsScalapayParamsUnsetFieldCaptureMethod PaymentIntentCreatePaymentMethodOptionsScalapayParamsUnsetField = "capture_method"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsScalapayParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsScalapayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Additional fields for Mandate creation
 type PaymentIntentCreatePaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -12466,6 +12603,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	Bancontact *PaymentIntentCreatePaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If this is a `billie` PaymentMethod, this sub-hash contains details about the Billie payment method options.
 	Billie *PaymentIntentCreatePaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
+	// If this is a `bizum` PaymentMethod, this sub-hash contains details about the Bizum payment method options.
+	Bizum *PaymentIntentCreatePaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
 	BLIK *PaymentIntentCreatePaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this sub-hash contains details about the Boleto payment method options.
@@ -12504,7 +12643,7 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	Konbini *PaymentIntentCreatePaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this sub-hash contains details about the KR Card payment method options.
 	KrCard *PaymentIntentCreatePaymentMethodOptionsKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options (Link is also known as Onelink in the UK).
 	Link *PaymentIntentCreatePaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a `mb_way` PaymentMethod, this sub-hash contains details about the MB WAY payment method options.
 	MbWay *PaymentIntentCreatePaymentMethodOptionsMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -12546,6 +12685,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	SamsungPay *PaymentIntentCreatePaymentMethodOptionsSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
 	Satispay *PaymentIntentCreatePaymentMethodOptionsSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a `scalapay` PaymentMethod, this sub-hash contains details about the ScalaPay payment method options.
+	Scalapay *PaymentIntentCreatePaymentMethodOptionsScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *PaymentIntentCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `shopeepay` PaymentMethod, this sub-hash contains details about the ShopeePay payment method options.
@@ -12583,6 +12724,7 @@ const (
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldBACSDebit        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "bacs_debit"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldBancontact       PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "bancontact"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldBillie           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "billie"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldBizum            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "bizum"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldBLIK             PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "blik"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldBoleto           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "boleto"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldCard             PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "card"
@@ -12623,6 +12765,7 @@ const (
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldRevolutPay       PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "revolut_pay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldSamsungPay       PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "samsung_pay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldSatispay         PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "satispay"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldScalapay         PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "scalapay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldSEPADebit        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldShopeepay        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "shopeepay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldSofort           PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "sofort"
@@ -12646,6 +12789,36 @@ type PaymentIntentCreateRadarOptionsParams struct {
 	Session *string `form:"session" json:"session,omitempty"`
 }
 
+// The data with which to populate the destination payment.
+type PaymentIntentCreateTransferDataPaymentDataParams struct {
+	// An arbitrary string attached to the destination payment. Often useful for displaying to users.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata    map[string]string                                            `form:"metadata" json:"metadata,omitempty"`
+	UnsetFields []PaymentIntentCreateTransferDataPaymentDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreateTransferDataPaymentDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreateTransferDataPaymentDataParams.
+type PaymentIntentCreateTransferDataPaymentDataParamsUnsetField string
+
+const (
+	PaymentIntentCreateTransferDataPaymentDataParamsUnsetFieldMetadata PaymentIntentCreateTransferDataPaymentDataParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreateTransferDataPaymentDataParams) AddUnsetField(field PaymentIntentCreateTransferDataPaymentDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentIntentCreateTransferDataPaymentDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // The parameters that you can use to automatically create a Transfer.
 // Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 type PaymentIntentCreateTransferDataParams struct {
@@ -12657,11 +12830,39 @@ type PaymentIntentCreateTransferDataParams struct {
 	// [application_fee_amount](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-application_fee_amount)
 	// might be a better fit for your integration.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// An arbitrary string attached to the transfer. Often useful for displaying to users.
+	Description *string `form:"description" json:"description,omitempty"`
 	// If specified, successful charges will be attributed to the destination
 	// account for tax reporting, and the funds from charges will be transferred
 	// to the destination account. The ID of the resulting transfer will be
 	// returned on the successful charge's `transfer` field.
 	Destination *string `form:"destination" json:"destination"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The data with which to populate the destination payment.
+	PaymentData *PaymentIntentCreateTransferDataPaymentDataParams `form:"payment_data" json:"payment_data,omitempty"`
+	UnsetFields []PaymentIntentCreateTransferDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreateTransferDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreateTransferDataParams.
+type PaymentIntentCreateTransferDataParamsUnsetField string
+
+const (
+	PaymentIntentCreateTransferDataParamsUnsetFieldMetadata PaymentIntentCreateTransferDataParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreateTransferDataParams) AddUnsetField(field PaymentIntentCreateTransferDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentIntentCreateTransferDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Creates a PaymentIntent object.
@@ -12726,7 +12927,7 @@ type PaymentIntentCreateParams struct {
 	MandateData *PaymentIntentCreateMandateDataParams `form:"mandate_data" json:"mandate_data,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect card details and [charge them later](https://docs.stripe.com/payments/cards/charging-saved-cards). This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
+	// Set to `true` to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect payment method details and [charge them later](https://docs.stripe.com/payments/save-during-payment). This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/payment_intents/create#create_payment_intent-confirm).
 	OffSession *bool `form:"off_session" json:"off_session,omitempty"`
 	// The Stripe account ID that these funds are intended for. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
@@ -12908,9 +13109,9 @@ type PaymentIntentUpdateAmountDetailsLineItemParams struct {
 type PaymentIntentUpdateAmountDetailsShippingParams struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode *string `form:"from_postal_code" json:"from_postal_code,omitempty"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode *string                                                    `form:"to_postal_code" json:"to_postal_code,omitempty"`
 	UnsetFields  []PaymentIntentUpdateAmountDetailsShippingParamsUnsetField `form:"-" json:"-"`
 }
@@ -13952,6 +14153,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Billie *PaymentMethodBillieParams `form:"billie" json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentIntentUpdatePaymentMethodDataBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+	Bizum *PaymentMethodBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 	BLIK *PaymentMethodBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
@@ -13986,7 +14189,7 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Konbini *PaymentMethodKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 	KrCard *PaymentMethodKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 	Link *PaymentMethodLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -14032,6 +14235,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+	Scalapay *PaymentMethodScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ID of the SharedPaymentGrantedToken used to confirm this PaymentIntent.
@@ -14412,6 +14617,9 @@ const (
 func (p *PaymentIntentUpdatePaymentMethodOptionsBillieParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsBillieParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
 }
+
+// If this is a `bizum` PaymentMethod, this sub-hash contains details about the Bizum payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsBizumParams struct{}
 
 // If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsBLIKParams struct {
@@ -15605,7 +15813,7 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsKrCardParams) AddUnsetField(fiel
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options (Link is also known as Onelink in the UK).
 type PaymentIntentUpdatePaymentMethodOptionsLinkParams struct {
 	// Controls when the funds are captured from the customer's account.
 	//
@@ -16141,6 +16349,29 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsSatispayParams) AddUnsetField(fi
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `scalapay` PaymentMethod, this sub-hash contains details about the ScalaPay payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsScalapayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string                                                           `form:"capture_method" json:"capture_method,omitempty"`
+	UnsetFields   []PaymentIntentUpdatePaymentMethodOptionsScalapayParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsScalapayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsScalapayParams.
+type PaymentIntentUpdatePaymentMethodOptionsScalapayParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsScalapayParamsUnsetFieldCaptureMethod PaymentIntentUpdatePaymentMethodOptionsScalapayParamsUnsetField = "capture_method"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsScalapayParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsScalapayParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Additional fields for Mandate creation
 type PaymentIntentUpdatePaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -16484,6 +16715,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	Bancontact *PaymentIntentUpdatePaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// If this is a `billie` PaymentMethod, this sub-hash contains details about the Billie payment method options.
 	Billie *PaymentIntentUpdatePaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
+	// If this is a `bizum` PaymentMethod, this sub-hash contains details about the Bizum payment method options.
+	Bizum *PaymentIntentUpdatePaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
 	BLIK *PaymentIntentUpdatePaymentMethodOptionsBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this sub-hash contains details about the Boleto payment method options.
@@ -16522,7 +16755,7 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	Konbini *PaymentIntentUpdatePaymentMethodOptionsKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this sub-hash contains details about the KR Card payment method options.
 	KrCard *PaymentIntentUpdatePaymentMethodOptionsKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
+	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options (Link is also known as Onelink in the UK).
 	Link *PaymentIntentUpdatePaymentMethodOptionsLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a `mb_way` PaymentMethod, this sub-hash contains details about the MB WAY payment method options.
 	MbWay *PaymentIntentUpdatePaymentMethodOptionsMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -16564,6 +16797,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	SamsungPay *PaymentIntentUpdatePaymentMethodOptionsSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
 	Satispay *PaymentIntentUpdatePaymentMethodOptionsSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a `scalapay` PaymentMethod, this sub-hash contains details about the ScalaPay payment method options.
+	Scalapay *PaymentIntentUpdatePaymentMethodOptionsScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *PaymentIntentUpdatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `shopeepay` PaymentMethod, this sub-hash contains details about the ShopeePay payment method options.
@@ -16601,6 +16836,7 @@ const (
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldBACSDebit        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "bacs_debit"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldBancontact       PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "bancontact"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldBillie           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "billie"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldBizum            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "bizum"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldBLIK             PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "blik"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldBoleto           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "boleto"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldCard             PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "card"
@@ -16641,6 +16877,7 @@ const (
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldRevolutPay       PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "revolut_pay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldSamsungPay       PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "samsung_pay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldSatispay         PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "satispay"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldScalapay         PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "scalapay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldSEPADebit        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldShopeepay        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "shopeepay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldSofort           PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "sofort"
@@ -16658,10 +16895,68 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsParams) AddUnsetField(field Paym
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// The data with which to populate the destination payment.
+type PaymentIntentUpdateTransferDataPaymentDataParams struct {
+	// An arbitrary string attached to the destination payment. Often useful for displaying to users.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata    map[string]string                                            `form:"metadata" json:"metadata,omitempty"`
+	UnsetFields []PaymentIntentUpdateTransferDataPaymentDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdateTransferDataPaymentDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdateTransferDataPaymentDataParams.
+type PaymentIntentUpdateTransferDataPaymentDataParamsUnsetField string
+
+const (
+	PaymentIntentUpdateTransferDataPaymentDataParamsUnsetFieldMetadata PaymentIntentUpdateTransferDataPaymentDataParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdateTransferDataPaymentDataParams) AddUnsetField(field PaymentIntentUpdateTransferDataPaymentDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentIntentUpdateTransferDataPaymentDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Use this parameter to automatically create a Transfer when the payment succeeds. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 type PaymentIntentUpdateTransferDataParams struct {
 	// The amount that will be transferred automatically when a charge succeeds.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
+	// An arbitrary string attached to the transfer. Often useful for displaying to users.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The data with which to populate the destination payment.
+	PaymentData *PaymentIntentUpdateTransferDataPaymentDataParams `form:"payment_data" json:"payment_data,omitempty"`
+	UnsetFields []PaymentIntentUpdateTransferDataParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdateTransferDataParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdateTransferDataParams.
+type PaymentIntentUpdateTransferDataParamsUnsetField string
+
+const (
+	PaymentIntentUpdateTransferDataParamsUnsetFieldMetadata PaymentIntentUpdateTransferDataParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdateTransferDataParams) AddUnsetField(field PaymentIntentUpdateTransferDataParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentIntentUpdateTransferDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Updates properties on a PaymentIntent object without confirming.
@@ -16791,9 +17086,9 @@ type PaymentIntentAmountDetailsError struct {
 type PaymentIntentAmountDetailsShipping struct {
 	// If a physical good is being shipped, the cost of shipping represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than or equal to 0.
 	Amount int64 `json:"amount"`
-	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped from. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	FromPostalCode string `json:"from_postal_code"`
-	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens are allowed.
+	// If a physical good is being shipped, the postal code of where it is being shipped to. At most 10 alphanumeric characters long, hyphens and spaces are allowed.
 	ToPostalCode string `json:"to_postal_code"`
 }
 type PaymentIntentAmountDetailsSurcharge struct {
@@ -16875,6 +17170,7 @@ type PaymentIntentNextActionAlipayHandleRedirect struct {
 	// The URL you must redirect your customer to in order to authenticate the payment.
 	URL string `json:"url"`
 }
+type PaymentIntentNextActionBLIKAuthorize struct{}
 type PaymentIntentNextActionBoletoDisplayDetails struct {
 	// The timestamp after which the boleto expires.
 	ExpiresAt int64 `json:"expires_at"`
@@ -17222,6 +17518,7 @@ type PaymentIntentNextActionWeChatPayRedirectToIOSApp struct {
 // If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source.
 type PaymentIntentNextAction struct {
 	AlipayHandleRedirect                 *PaymentIntentNextActionAlipayHandleRedirect                 `json:"alipay_handle_redirect,omitempty"`
+	BLIKAuthorize                        *PaymentIntentNextActionBLIKAuthorize                        `json:"blik_authorize,omitempty"`
 	BoletoDisplayDetails                 *PaymentIntentNextActionBoletoDisplayDetails                 `json:"boleto_display_details,omitempty"`
 	CardAwaitNotification                *PaymentIntentNextActionCardAwaitNotification                `json:"card_await_notification,omitempty"`
 	CashAppHandleRedirectOrDisplayQRCode *PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code,omitempty"`
@@ -17932,6 +18229,7 @@ type PaymentIntentPaymentMethodOptionsBillie struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsBillieCaptureMethod `json:"capture_method,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsBizum struct{}
 type PaymentIntentPaymentMethodOptionsBLIK struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -18494,6 +18792,10 @@ type PaymentIntentPaymentMethodOptionsSatispay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsSatispayCaptureMethod `json:"capture_method,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsScalapay struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsScalapayCaptureMethod `json:"capture_method,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptions struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
 	ReferencePrefix string `json:"reference_prefix,omitempty"`
@@ -18654,6 +18956,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	BACSDebit        *PaymentIntentPaymentMethodOptionsBACSDebit        `json:"bacs_debit,omitempty"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact,omitempty"`
 	Billie           *PaymentIntentPaymentMethodOptionsBillie           `json:"billie,omitempty"`
+	Bizum            *PaymentIntentPaymentMethodOptionsBizum            `json:"bizum,omitempty"`
 	BLIK             *PaymentIntentPaymentMethodOptionsBLIK             `json:"blik,omitempty"`
 	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto,omitempty"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card,omitempty"`
@@ -18694,6 +18997,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	RevolutPay       *PaymentIntentPaymentMethodOptionsRevolutPay       `json:"revolut_pay,omitempty"`
 	SamsungPay       *PaymentIntentPaymentMethodOptionsSamsungPay       `json:"samsung_pay,omitempty"`
 	Satispay         *PaymentIntentPaymentMethodOptionsSatispay         `json:"satispay,omitempty"`
+	Scalapay         *PaymentIntentPaymentMethodOptionsScalapay         `json:"scalapay,omitempty"`
 	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit,omitempty"`
 	Shopeepay        *PaymentIntentPaymentMethodOptionsShopeepay        `json:"shopeepay,omitempty"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort,omitempty"`
@@ -18727,6 +19031,12 @@ type PaymentIntentProcessing struct {
 	// Type of the payment method for which payment is in `processing` state, one of `card`.
 	Type PaymentIntentProcessingType `json:"type"`
 }
+type PaymentIntentTransferDataPaymentData struct {
+	// An arbitrary string attached to the destination payment. Often useful for displaying to users.
+	Description string `json:"description,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata,omitempty"`
+}
 
 // The data that automatically creates a Transfer after the payment finalizes. Learn more about the [use case for connected accounts](https://docs.stripe.com/payments/connected-accounts).
 type PaymentIntentTransferData struct {
@@ -18734,8 +19044,13 @@ type PaymentIntentTransferData struct {
 	//  The amount must be less than or equal to the [amount](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-amount), and must be a positive integer
 	//  representing how much to transfer in the smallest currency unit (e.g., 100 cents to charge $1.00).
 	Amount int64 `json:"amount,omitempty"`
+	// An arbitrary string attached to the transfer. Often useful for displaying to users.
+	Description string `json:"description,omitempty"`
 	// The account (if any) that the payment is attributed to for tax reporting, and where funds from the payment are transferred to after payment success.
 	Destination *Account `json:"destination"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata    map[string]string                     `json:"metadata,omitempty"`
+	PaymentData *PaymentIntentTransferDataPaymentData `json:"payment_data,omitempty"`
 }
 
 // A PaymentIntent guides you through the process of collecting a payment from your customer.

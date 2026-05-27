@@ -21,6 +21,8 @@ const (
 // Deletes a test clock.
 type TestHelpersTestClockParams struct {
 	Params `form:"*"`
+	// Existing customer this test clock will be attached to. Once attached, customers can't be removed from a test clock.
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The initial frozen time for this test clock.
@@ -80,6 +82,8 @@ func (p *TestHelpersTestClockRetrieveParams) AddExpand(f string) {
 // Creates a new test clock that can be attached to new customers and quotes.
 type TestHelpersTestClockCreateParams struct {
 	Params `form:"*"`
+	// Existing customer this test clock will be attached to. Once attached, customers can't be removed from a test clock.
+	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The initial frozen time for this test clock.

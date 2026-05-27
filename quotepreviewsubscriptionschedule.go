@@ -428,6 +428,8 @@ type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriod struct {
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
 type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItem struct {
+	// Controls whether discounts apply to this invoice item. Defaults to true if no value is provided.
+	Discountable bool `json:"discountable"`
 	// The stackable discounts that will be applied to the item.
 	Discounts []*QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscount `json:"discounts"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

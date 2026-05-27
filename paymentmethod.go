@@ -281,6 +281,7 @@ const (
 	PaymentMethodTypeBACSDebit        PaymentMethodType = "bacs_debit"
 	PaymentMethodTypeBancontact       PaymentMethodType = "bancontact"
 	PaymentMethodTypeBillie           PaymentMethodType = "billie"
+	PaymentMethodTypeBizum            PaymentMethodType = "bizum"
 	PaymentMethodTypeBLIK             PaymentMethodType = "blik"
 	PaymentMethodTypeBoleto           PaymentMethodType = "boleto"
 	PaymentMethodTypeCard             PaymentMethodType = "card"
@@ -322,6 +323,7 @@ const (
 	PaymentMethodTypeRevolutPay       PaymentMethodType = "revolut_pay"
 	PaymentMethodTypeSamsungPay       PaymentMethodType = "samsung_pay"
 	PaymentMethodTypeSatispay         PaymentMethodType = "satispay"
+	PaymentMethodTypeScalapay         PaymentMethodType = "scalapay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeShopeepay        PaymentMethodType = "shopeepay"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
@@ -492,6 +494,9 @@ func (p *PaymentMethodBillingDetailsParams) AddUnsetField(field PaymentMethodBil
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+type PaymentMethodBizumParams struct{}
+
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 type PaymentMethodBLIKParams struct{}
 
@@ -614,7 +619,7 @@ type PaymentMethodKonbiniParams struct{}
 // If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 type PaymentMethodKrCardParams struct{}
 
-// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 type PaymentMethodLinkParams struct{}
 
 // If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
@@ -721,6 +726,9 @@ type PaymentMethodSamsungPayParams struct{}
 // If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type PaymentMethodSatispayParams struct{}
 
+// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+type PaymentMethodScalapayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type PaymentMethodSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -818,6 +826,8 @@ type PaymentMethodParams struct {
 	Billie *PaymentMethodBillieParams `form:"billie" json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentMethodBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+	Bizum *PaymentMethodBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 	BLIK *PaymentMethodBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
@@ -858,7 +868,7 @@ type PaymentMethodParams struct {
 	Konbini *PaymentMethodKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 	KrCard *PaymentMethodKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 	Link *PaymentMethodLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -904,6 +914,8 @@ type PaymentMethodParams struct {
 	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *PaymentMethodSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+	Scalapay *PaymentMethodScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -1079,6 +1091,9 @@ func (p *PaymentMethodCreateBillingDetailsParams) AddUnsetField(field PaymentMet
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+type PaymentMethodCreateBizumParams struct{}
+
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 type PaymentMethodCreateBLIKParams struct{}
 
@@ -1188,7 +1203,7 @@ type PaymentMethodCreateKonbiniParams struct{}
 // If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 type PaymentMethodCreateKrCardParams struct{}
 
-// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 type PaymentMethodCreateLinkParams struct{}
 
 // If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
@@ -1295,6 +1310,9 @@ type PaymentMethodCreateSamsungPayParams struct{}
 // If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type PaymentMethodCreateSatispayParams struct{}
 
+// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+type PaymentMethodCreateScalapayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type PaymentMethodCreateSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -1392,6 +1410,8 @@ type PaymentMethodCreateParams struct {
 	Billie *PaymentMethodCreateBillieParams `form:"billie" json:"billie,omitempty"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentMethodCreateBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// If this is a `bizum` PaymentMethod, this hash contains details about the Bizum payment method.
+	Bizum *PaymentMethodCreateBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
 	BLIK *PaymentMethodCreateBLIKParams `form:"blik" json:"blik,omitempty"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
@@ -1434,7 +1454,7 @@ type PaymentMethodCreateParams struct {
 	Konbini *PaymentMethodCreateKonbiniParams `form:"konbini" json:"konbini,omitempty"`
 	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
 	KrCard *PaymentMethodCreateKrCardParams `form:"kr_card" json:"kr_card,omitempty"`
-	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method (Link is also known as Onelink in the UK).
 	Link *PaymentMethodCreateLinkParams `form:"link" json:"link,omitempty"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
 	MbWay *PaymentMethodCreateMbWayParams `form:"mb_way" json:"mb_way,omitempty"`
@@ -1482,6 +1502,8 @@ type PaymentMethodCreateParams struct {
 	SamsungPay *PaymentMethodCreateSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *PaymentMethodCreateSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// If this is a Scalapay PaymentMethod, this hash contains details about the Scalapay payment method.
+	Scalapay *PaymentMethodCreateScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodCreateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -1706,6 +1728,7 @@ type PaymentMethodBillingDetails struct {
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
 	TaxID string `json:"tax_id"`
 }
+type PaymentMethodBizum struct{}
 type PaymentMethodBLIK struct{}
 type PaymentMethodBoleto struct {
 	// Uniquely identifies the customer tax id (CNPJ or CPF)
@@ -2175,6 +2198,7 @@ type PaymentMethodRechnung struct {
 type PaymentMethodRevolutPay struct{}
 type PaymentMethodSamsungPay struct{}
 type PaymentMethodSatispay struct{}
+type PaymentMethodScalapay struct{}
 
 // Information about the object that generated this PaymentMethod.
 type PaymentMethodSEPADebitGeneratedFrom struct {
@@ -2277,6 +2301,7 @@ type PaymentMethod struct {
 	Bancontact     *PaymentMethodBancontact     `json:"bancontact,omitempty"`
 	Billie         *PaymentMethodBillie         `json:"billie,omitempty"`
 	BillingDetails *PaymentMethodBillingDetails `json:"billing_details"`
+	Bizum          *PaymentMethodBizum          `json:"bizum,omitempty"`
 	BLIK           *PaymentMethodBLIK           `json:"blik,omitempty"`
 	Boleto         *PaymentMethodBoleto         `json:"boleto,omitempty"`
 	Card           *PaymentMethodCard           `json:"card,omitempty"`
@@ -2335,6 +2360,7 @@ type PaymentMethod struct {
 	RevolutPay   *PaymentMethodRevolutPay   `json:"revolut_pay,omitempty"`
 	SamsungPay   *PaymentMethodSamsungPay   `json:"samsung_pay,omitempty"`
 	Satispay     *PaymentMethodSatispay     `json:"satispay,omitempty"`
+	Scalapay     *PaymentMethodScalapay     `json:"scalapay,omitempty"`
 	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit,omitempty"`
 	// ID of the shared payment granted token used in the creation of this PaymentMethod.
 	SharedPaymentGrantedToken string                      `json:"shared_payment_granted_token,omitempty"`

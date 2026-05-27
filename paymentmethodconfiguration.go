@@ -216,6 +216,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationBizumDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationBizumDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationBizumDisplayPreferencePreferenceNone PaymentMethodConfigurationBizumDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationBizumDisplayPreferencePreferenceOff  PaymentMethodConfigurationBizumDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationBizumDisplayPreferencePreferenceOn   PaymentMethodConfigurationBizumDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationBizumDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationBizumDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationBizumDisplayPreferenceValueOff PaymentMethodConfigurationBizumDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationBizumDisplayPreferenceValueOn  PaymentMethodConfigurationBizumDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationBLIKDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationBLIKDisplayPreferencePreference can take
@@ -976,6 +995,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationScalapayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationScalapayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationScalapayDisplayPreferencePreferenceNone PaymentMethodConfigurationScalapayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationScalapayDisplayPreferencePreferenceOff  PaymentMethodConfigurationScalapayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationScalapayDisplayPreferencePreferenceOn   PaymentMethodConfigurationScalapayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationScalapayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationScalapayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationScalapayDisplayPreferenceValueOff PaymentMethodConfigurationScalapayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationScalapayDisplayPreferenceValueOn  PaymentMethodConfigurationScalapayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationSEPADebitDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationSEPADebitDisplayPreferencePreference can take
@@ -1168,6 +1206,8 @@ const (
 // List payment method configurations
 type PaymentMethodConfigurationListParams struct {
 	ListParams `form:"*"`
+	// Whether the configuration is active.
+	Active *bool `form:"active" json:"active,omitempty"`
 	// The Connect application to filter by.
 	Application *string `form:"application" json:"application,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -1321,6 +1361,18 @@ type PaymentMethodConfigurationBillieDisplayPreferenceParams struct {
 type PaymentMethodConfigurationBillieParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationBillieDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationBizumDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// To enable Bizum, buyers need a Spanish IBAN from a bank connected to Bizum. Within their banking app, they can enable Bizum and link their mobile number to their IBAN.
+type PaymentMethodConfigurationBizumParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationBizumDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -1816,6 +1868,18 @@ type PaymentMethodConfigurationSatispayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationScalapayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Scalapay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that lets customers pay in 3 or 4 installments. Customers are redirected from your website or app, authorize the payment with Scalapay, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationScalapayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationScalapayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationSEPADebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -1964,6 +2028,8 @@ type PaymentMethodConfigurationParams struct {
 	Bancontact *PaymentMethodConfigurationBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Billie *PaymentMethodConfigurationBillieParams `form:"billie" json:"billie,omitempty"`
+	// To enable Bizum, buyers need a Spanish IBAN from a bank connected to Bizum. Within their banking app, they can enable Bizum and link their mobile number to their IBAN.
+	Bizum *PaymentMethodConfigurationBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// BLIK is a [single use](https://docs.stripe.com/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://docs.stripe.com/payments/blik) for more details.
 	BLIK *PaymentMethodConfigurationBLIKParams `form:"blik" json:"blik,omitempty"`
 	// Boleto is an official (regulated by the Central Bank of Brazil) payment method in Brazil. Check this [page](https://docs.stripe.com/payments/boleto) for more details.
@@ -2052,6 +2118,8 @@ type PaymentMethodConfigurationParams struct {
 	SamsungPay *PaymentMethodConfigurationSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Satispay *PaymentMethodConfigurationSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// Scalapay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that lets customers pay in 3 or 4 installments. Customers are redirected from your website or app, authorize the payment with Scalapay, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Scalapay *PaymentMethodConfigurationScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ShopeePay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
@@ -2221,6 +2289,18 @@ type PaymentMethodConfigurationCreateBillieDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreateBillieParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateBillieDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateBizumDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// To enable Bizum, buyers need a Spanish IBAN from a bank connected to Bizum. Within their banking app, they can enable Bizum and link their mobile number to their IBAN.
+type PaymentMethodConfigurationCreateBizumParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateBizumDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2716,6 +2796,18 @@ type PaymentMethodConfigurationCreateSatispayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateScalapayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Scalapay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that lets customers pay in 3 or 4 installments. Customers are redirected from your website or app, authorize the payment with Scalapay, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationCreateScalapayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateScalapayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateSEPADebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -2862,6 +2954,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Bancontact *PaymentMethodConfigurationCreateBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Billie *PaymentMethodConfigurationCreateBillieParams `form:"billie" json:"billie,omitempty"`
+	// To enable Bizum, buyers need a Spanish IBAN from a bank connected to Bizum. Within their banking app, they can enable Bizum and link their mobile number to their IBAN.
+	Bizum *PaymentMethodConfigurationCreateBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// BLIK is a [single use](https://docs.stripe.com/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://docs.stripe.com/payments/blik) for more details.
 	BLIK *PaymentMethodConfigurationCreateBLIKParams `form:"blik" json:"blik,omitempty"`
 	// Boleto is an official (regulated by the Central Bank of Brazil) payment method in Brazil. Check this [page](https://docs.stripe.com/payments/boleto) for more details.
@@ -2950,6 +3044,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	SamsungPay *PaymentMethodConfigurationCreateSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Satispay *PaymentMethodConfigurationCreateSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// Scalapay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that lets customers pay in 3 or 4 installments. Customers are redirected from your website or app, authorize the payment with Scalapay, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Scalapay *PaymentMethodConfigurationCreateScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationCreateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ShopeePay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
@@ -3131,6 +3227,18 @@ type PaymentMethodConfigurationUpdateBillieDisplayPreferenceParams struct {
 type PaymentMethodConfigurationUpdateBillieParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateBillieDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateBizumDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// To enable Bizum, buyers need a Spanish IBAN from a bank connected to Bizum. Within their banking app, they can enable Bizum and link their mobile number to their IBAN.
+type PaymentMethodConfigurationUpdateBizumParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateBizumDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -3626,6 +3734,18 @@ type PaymentMethodConfigurationUpdateSatispayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateScalapayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Scalapay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that lets customers pay in 3 or 4 installments. Customers are redirected from your website or app, authorize the payment with Scalapay, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationUpdateScalapayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateScalapayDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateSEPADebitDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -3774,6 +3894,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Bancontact *PaymentMethodConfigurationUpdateBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
 	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Billie *PaymentMethodConfigurationUpdateBillieParams `form:"billie" json:"billie,omitempty"`
+	// To enable Bizum, buyers need a Spanish IBAN from a bank connected to Bizum. Within their banking app, they can enable Bizum and link their mobile number to their IBAN.
+	Bizum *PaymentMethodConfigurationUpdateBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// BLIK is a [single use](https://docs.stripe.com/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://docs.stripe.com/payments/blik) for more details.
 	BLIK *PaymentMethodConfigurationUpdateBLIKParams `form:"blik" json:"blik,omitempty"`
 	// Boleto is an official (regulated by the Central Bank of Brazil) payment method in Brazil. Check this [page](https://docs.stripe.com/payments/boleto) for more details.
@@ -3860,6 +3982,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	SamsungPay *PaymentMethodConfigurationUpdateSamsungPayParams `form:"samsung_pay" json:"samsung_pay,omitempty"`
 	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Satispay *PaymentMethodConfigurationUpdateSatispayParams `form:"satispay" json:"satispay,omitempty"`
+	// Scalapay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that lets customers pay in 3 or 4 installments. Customers are redirected from your website or app, authorize the payment with Scalapay, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Scalapay *PaymentMethodConfigurationUpdateScalapayParams `form:"scalapay" json:"scalapay,omitempty"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://docs.stripe.com/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationUpdateSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// ShopeePay is a [single use](https://docs.stripe.com/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
@@ -4029,6 +4153,19 @@ type PaymentMethodConfigurationBillie struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                               `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationBillieDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationBizumDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationBizumDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationBizumDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationBizum struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                              `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationBizumDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationBLIKDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -4550,6 +4687,19 @@ type PaymentMethodConfigurationSatispay struct {
 	Available         bool                                                 `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationSatispayDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationScalapayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationScalapayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationScalapayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationScalapay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                 `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationScalapayDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationSEPADebitDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -4712,6 +4862,7 @@ type PaymentMethodConfiguration struct {
 	BACSDebit       *PaymentMethodConfigurationBACSDebit       `json:"bacs_debit,omitempty"`
 	Bancontact      *PaymentMethodConfigurationBancontact      `json:"bancontact,omitempty"`
 	Billie          *PaymentMethodConfigurationBillie          `json:"billie,omitempty"`
+	Bizum           *PaymentMethodConfigurationBizum           `json:"bizum,omitempty"`
 	BLIK            *PaymentMethodConfigurationBLIK            `json:"blik,omitempty"`
 	Boleto          *PaymentMethodConfigurationBoleto          `json:"boleto,omitempty"`
 	Card            *PaymentMethodConfigurationCard            `json:"card,omitempty"`
@@ -4764,6 +4915,7 @@ type PaymentMethodConfiguration struct {
 	RevolutPay    *PaymentMethodConfigurationRevolutPay    `json:"revolut_pay,omitempty"`
 	SamsungPay    *PaymentMethodConfigurationSamsungPay    `json:"samsung_pay,omitempty"`
 	Satispay      *PaymentMethodConfigurationSatispay      `json:"satispay,omitempty"`
+	Scalapay      *PaymentMethodConfigurationScalapay      `json:"scalapay,omitempty"`
 	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit,omitempty"`
 	Shopeepay     *PaymentMethodConfigurationShopeepay     `json:"shopeepay,omitempty"`
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort,omitempty"`

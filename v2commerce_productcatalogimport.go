@@ -143,7 +143,7 @@ type V2CommerceProductCatalogImportStatusDetails struct {
 	SucceededWithErrors *V2CommerceProductCatalogImportStatusDetailsSucceededWithErrors `json:"succeeded_with_errors,omitempty"`
 }
 
-// The product catalog import object tracks the long-running background process that handles uploading, processing and validation.
+// The ProductCatalogImport object tracks the long-running background process that handles uploading, processing and validation.
 type V2CommerceProductCatalogImport struct {
 	APIResource
 	// The time this ProductCatalogImport was created.

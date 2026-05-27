@@ -282,6 +282,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeSofort             InvoicePaymentSettingsPaymentMethodType = "sofort"
 	InvoicePaymentSettingsPaymentMethodTypeStripeBalance      InvoicePaymentSettingsPaymentMethodType = "stripe_balance"
 	InvoicePaymentSettingsPaymentMethodTypeSwish              InvoicePaymentSettingsPaymentMethodType = "swish"
+	InvoicePaymentSettingsPaymentMethodTypeTWINT              InvoicePaymentSettingsPaymentMethodType = "twint"
 	InvoicePaymentSettingsPaymentMethodTypeUpi                InvoicePaymentSettingsPaymentMethodType = "upi"
 	InvoicePaymentSettingsPaymentMethodTypeUSBankAccount      InvoicePaymentSettingsPaymentMethodType = "us_bank_account"
 	InvoicePaymentSettingsPaymentMethodTypeWeChatPay          InvoicePaymentSettingsPaymentMethodType = "wechat_pay"
@@ -2327,6 +2328,8 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPriceDataParams struc
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemParams struct {
+	// Controls whether discounts apply to this invoice item. Defaults to true if no value is provided.
+	Discountable *bool `form:"discountable" json:"discountable,omitempty"`
 	// The coupons to redeem into discounts for the item.
 	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -2948,9 +2951,10 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	// Sets the billing schedules for the subscription.
 	BillingSchedules []*InvoiceCreatePreviewSubscriptionDetailsBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt             *int64 `form:"cancel_at" json:"cancel_at,omitempty"`
-	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
-	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	CancelAt               *int64 `form:"cancel_at" json:"cancel_at,omitempty"`
+	CancelAtMaxBilledUntil *bool  `form:"-"` // See custom AppendTo
+	CancelAtMaxPeriodEnd   *bool  `form:"-"` // See custom AppendTo
+	CancelAtMinPeriodEnd   *bool  `form:"-"` // See custom AppendTo
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end" json:"cancel_at_period_end,omitempty"`
 	// This simulates the subscription being canceled or expired immediately.
@@ -2996,6 +3000,9 @@ func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AppendTo(body *form.Valu
 	}
 	if BoolValue(p.BillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
+	}
+	if BoolValue(p.CancelAtMaxBilledUntil) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_billed_until")
 	}
 	if BoolValue(p.CancelAtMaxPeriodEnd) {
 		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_period_end")
@@ -4667,6 +4674,8 @@ type Invoice struct {
 	AmountOverpaid int64 `json:"amount_overpaid"`
 	// The amount, in cents (or local equivalent), that was paid.
 	AmountPaid int64 `json:"amount_paid"`
+	// Amount, in cents (or local equivalent), that was paid on the invoice outside of Stripe.
+	AmountPaidOffStripe int64 `json:"amount_paid_off_stripe,omitempty"`
 	// The difference between amount_due and amount_paid, in cents (or local equivalent).
 	AmountRemaining int64 `json:"amount_remaining"`
 	// List of expected payments and corresponding due dates. This value will be null for invoices where collection_method=charge_automatically.
