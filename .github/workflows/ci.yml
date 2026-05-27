@@ -32,10 +32,10 @@ jobs:
 
     steps:
       - uses: extractions/setup-just@v2
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: "1.26"
 
@@ -52,7 +52,7 @@ jobs:
           go install golang.org/x/tools/cmd/goimports@v0.39.0
 
       - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v8
+        uses: golangci/golangci-lint-action@v6
         with:
           version: v2.11.4
 
@@ -66,9 +66,9 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: "1.26"
           check-latest: true
@@ -94,9 +94,9 @@ jobs:
     name: "Test: go v${{ matrix.go }}"
     steps:
       - uses: extractions/setup-just@v2
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.go }}
       - uses: stripe/openapi/actions/stripe-mock@master
@@ -112,7 +112,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: stripe/openapi/actions/notify-release@master
         if: always()
         with:
