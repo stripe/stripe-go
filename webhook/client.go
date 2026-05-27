@@ -50,7 +50,7 @@ var (
 // See https://stripe.com/docs/webhooks#signatures for more information.
 func ComputeSignature(t time.Time, payload []byte, secret string) []byte {
 	mac := hmac.New(sha256.New, []byte(secret))
-	mac.Write([]byte(fmt.Sprintf("%d", t.Unix())))
+	fmt.Fprintf(mac, "%d", t.Unix())
 	mac.Write([]byte("."))
 	mac.Write(payload)
 	return mac.Sum(nil)
@@ -335,7 +335,7 @@ type SignedPayload struct {
 func GenerateTestSignedPayload(options *UnsignedPayload) *SignedPayload {
 	signedPayload := &SignedPayload{UnsignedPayload: *options}
 
-	if signedPayload.Timestamp == (time.Time{}) {
+	if signedPayload.Timestamp.IsZero() {
 		signedPayload.Timestamp = time.Now()
 	}
 

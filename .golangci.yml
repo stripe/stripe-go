@@ -60,23 +60,3 @@ linters:
         linters: [staticcheck]
         text: "SA1019"
 
-      # QF (quickfix) suggestions deferred to follow-up PRs to keep this migration
-      # scoped. Each entry below is the exhaustive list of currently-violating files.
-      - path: "^form/form\\.go$"
-        linters: [staticcheck]
-        text: "QF"
-      - path: "^search_iter_test\\.go$"
-        linters: [staticcheck]
-        text: "QF"
-      - path: "^stripe\\.go$"
-        linters: [staticcheck]
-        text: "QF"
-      - path: "^v2_events\\.go$"
-        linters: [staticcheck]
-        text: "QF"
-      - path: "^webhook/client\\.go$"
-        linters: [staticcheck]
-        text: "QF"
-      - path: "^webhooks\\.go$"
-        linters: [staticcheck]
-        text: "QF"

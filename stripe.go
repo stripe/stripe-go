@@ -574,7 +574,7 @@ func (s *BackendImplementation) Call(method, path, key string, params ParamsCont
 			}
 		}
 		body = []byte(bodyParams.Encode())
-	} else if params != nil && !(reflect.ValueOf(params).Kind() == reflect.Ptr && reflect.ValueOf(params).IsNil()) {
+	} else if params != nil && (reflect.ValueOf(params).Kind() != reflect.Ptr || !reflect.ValueOf(params).IsNil()) {
 		body, err = marshalV2JSON(params)
 		if err != nil {
 			return err
@@ -1263,7 +1263,7 @@ func (s *BackendImplementation) unmarshalJSONVerbose(ctx context.Context, status
 		}
 
 		// Make sure a multi-line response ends up all on one line
-		bodySample = strings.Replace(bodySample, "\n", "\\n", -1)
+		bodySample = strings.ReplaceAll(bodySample, "\n", "\\n")
 
 		newErr := fmt.Errorf("Couldn't deserialize JSON (response status: %v, body sample: '%s'): %v",
 			statusCode, bodySample, err)
