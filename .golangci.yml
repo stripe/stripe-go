@@ -60,15 +60,6 @@ linters:
         linters: [staticcheck]
         text: "SA1019"
 
-      # ST1003: naming convention (sdkApiVersion → sdkAPIVersion).
-      # TODO: fix in a follow-up PR — rename requires updating callers.
-      - path: "^webhook/client\\.go$"
-        linters: [staticcheck]
-        text: "ST1003"
-      - path: "^webhook/client_test\\.go$"
-        linters: [staticcheck]
-        text: "ST1003"
-
       # QF (quickfix) suggestions deferred to follow-up PRs to keep this migration
       # scoped. Each entry below is the exhaustive list of currently-violating files.
       - path: "^form/form\\.go$"
