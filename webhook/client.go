@@ -1,3 +1,6 @@
+// Package webhook provides utilities for parsing and validating Stripe webhook
+// event payloads, including signature verification against the
+// Stripe-Signature header.
 package webhook
 
 import (

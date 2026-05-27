@@ -60,20 +60,6 @@ linters:
         linters: [staticcheck]
         text: "SA1019"
 
-      # ST1000: missing package comment. TODO: add package docs in a follow-up PR.
-      - path: "^form/form\\.go$"
-        linters: [staticcheck]
-        text: "ST1000"
-      - path: "^mock/mock\\.go$"
-        linters: [staticcheck]
-        text: "ST1000"
-      - path: "^testing/testing\\.go$"
-        linters: [staticcheck]
-        text: "ST1000"
-      - path: "^webhook/client\\.go$"
-        linters: [staticcheck]
-        text: "ST1000"
-
       # ST1001: dot import in mock package test helper.
       # TODO: remove dot import in a follow-up cleanup.
       - path: "^mock/mock\\.go$"

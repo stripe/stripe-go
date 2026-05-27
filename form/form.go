@@ -1,3 +1,6 @@
+// Package form encodes Go structs into URL-encoded form values for Stripe API
+// requests. It uses struct field tags (e.g. `form:"name"`) to control encoding
+// behavior.
 package form
 
 import (

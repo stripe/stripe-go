@@ -1,3 +1,6 @@
+// Package mock provides a test helper for spinning up a local HTTP server that
+// simulates the Stripe API, for use in unit tests that don't require
+// stripe-mock.
 package mock
 
 import (
