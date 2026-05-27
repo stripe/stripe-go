@@ -41,7 +41,7 @@ jobs:
 
       - name: Cache Go tools
         id: cache-go-tools
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/go/bin
           key: go-tools-${{ runner.os }}-goimports-v0.39.0
@@ -51,12 +51,10 @@ jobs:
         run: |
           go install golang.org/x/tools/cmd/goimports@v0.39.0
 
-      - name: Install golangci-lint
-        run: |
-          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.11.4
-
       - name: Run golangci-lint
-        run: golangci-lint run
+        uses: golangci/golangci-lint-action@v9
+        with:
+          version: v2.11.4
 
       - name: lint
         run: |
