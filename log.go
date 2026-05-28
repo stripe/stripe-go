@@ -80,7 +80,9 @@ type LeveledLogger struct {
 // Debugf logs a debug message using Printf conventions.
 func (l *LeveledLogger) Debugf(format string, v ...interface{}) {
 	if l.Level >= LevelDebug {
-		fmt.Fprintf(l.stdout(), "[DEBUG] "+format+"\n", v...)
+		// Logger write failures are silently discarded — callers can't handle them,
+		// and adding error returns to these methods would be a breaking API change.
+		_, _ = fmt.Fprintf(l.stdout(), "[DEBUG] "+format+"\n", v...)
 	}
 }
 
@@ -88,21 +90,27 @@ func (l *LeveledLogger) Debugf(format string, v ...interface{}) {
 func (l *LeveledLogger) Errorf(format string, v ...interface{}) {
 	// Infof logs a debug message using Printf conventions.
 	if l.Level >= LevelError {
-		fmt.Fprintf(l.stderr(), "[ERROR] "+format+"\n", v...)
+		// Logger write failures are silently discarded — callers can't handle them,
+		// and adding error returns to these methods would be a breaking API change.
+		_, _ = fmt.Fprintf(l.stderr(), "[ERROR] "+format+"\n", v...)
 	}
 }
 
 // Infof logs an informational message using Printf conventions.
 func (l *LeveledLogger) Infof(format string, v ...interface{}) {
 	if l.Level >= LevelInfo {
-		fmt.Fprintf(l.stdout(), "[INFO] "+format+"\n", v...)
+		// Logger write failures are silently discarded — callers can't handle them,
+		// and adding error returns to these methods would be a breaking API change.
+		_, _ = fmt.Fprintf(l.stdout(), "[INFO] "+format+"\n", v...)
 	}
 }
 
 // Warnf logs a warning message using Printf conventions.
 func (l *LeveledLogger) Warnf(format string, v ...interface{}) {
 	if l.Level >= LevelWarn {
-		fmt.Fprintf(l.stderr(), "[WARN] "+format+"\n", v...)
+		// Logger write failures are silently discarded — callers can't handle them,
+		// and adding error returns to these methods would be a breaking API change.
+		_, _ = fmt.Fprintf(l.stderr(), "[WARN] "+format+"\n", v...)
 	}
 }
 

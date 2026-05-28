@@ -113,9 +113,11 @@ func TestSearchIterMultiplePages(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.RawQuery {
 		case "query=my+query":
-			w.Write([]byte(`{"data":[{"id": "1"}, {"id":"2"}], "has_more":true, "next_page":"page2", "total_count": 4 }`))
+			_, err := w.Write([]byte(`{"data":[{"id": "1"}, {"id":"2"}], "has_more":true, "next_page":"page2", "total_count": 4 }`))
+			assert.NoError(t, err)
 		case "query=my+query&page=page2":
-			w.Write([]byte(`{"data":[{"id": "3"}, {"id":"4"}], "has_more":false, "next_page":null }`))
+			_, err := w.Write([]byte(`{"data":[{"id": "3"}, {"id":"4"}], "has_more":false, "next_page":null }`))
+			assert.NoError(t, err)
 		default:
 			assert.Fail(t, "shouldn't be hit")
 		}
@@ -229,9 +231,11 @@ func TestV1SearchListMultiplePages(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.RawQuery {
 		case "query=my+query":
-			w.Write([]byte(`{"data":[{"id": "1"}, {"id":"2"}], "has_more":true, "next_page":"page2", "total_count": 4 }`))
+			_, err := w.Write([]byte(`{"data":[{"id": "1"}, {"id":"2"}], "has_more":true, "next_page":"page2", "total_count": 4 }`))
+			assert.NoError(t, err)
 		case "query=my+query&page=page2":
-			w.Write([]byte(`{"data":[{"id": "3"}, {"id":"4"}], "has_more":false, "next_page":null }`))
+			_, err := w.Write([]byte(`{"data":[{"id": "3"}, {"id":"4"}], "has_more":false, "next_page":null }`))
+			assert.NoError(t, err)
 		default:
 			assert.Fail(t, "shouldn't be hit")
 		}

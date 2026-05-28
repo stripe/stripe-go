@@ -56,7 +56,7 @@ func main() {
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
-			fmt.Fprintf(os.Stdout, "Meter %s (%s) had a problem\n", meter.DisplayName, meter.ID)
+			_, _ = fmt.Fprintf(os.Stdout, "Meter %s (%s) had a problem\n", meter.DisplayName, meter.ID) // stdout write errors are not actionable in example code
 
 			// And you can always fetch the full event:
 			event, err := evt.FetchEvent(context.TODO())

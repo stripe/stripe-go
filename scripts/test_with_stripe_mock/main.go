@@ -176,7 +176,7 @@ func stopStripeMock(process *os.Process) {
 	}
 
 	fmt.Printf("Stopping stripe-mock...\n")
-	process.Signal(os.Interrupt)
-	process.Wait()
+	_ = process.Signal(os.Interrupt) // best-effort; process may have already exited
+	_, _ = process.Wait()            // wait for process cleanup; exit status is irrelevant
 	fmt.Printf("Stopped stripe-mock\n")
 }

@@ -481,7 +481,7 @@ func setNestedNull(m map[string]json.RawMessage, path []string) {
 	if idx, err := strconv.Atoi(rest[0]); err == nil {
 		var arr []json.RawMessage
 		if existing, ok := m[key]; ok {
-			_ = json.Unmarshal(existing, &arr)
+			_ = json.Unmarshal(existing, &arr) // on failure arr stays nil; idx < len(arr) will be false and the null is silently not written
 		}
 		if idx < len(arr) {
 			if len(rest) == 1 {
@@ -1041,7 +1041,12 @@ func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response
 	// when logging the error
 	var resBody []byte
 	resBody, err = io.ReadAll(res.Body)
-	res.Body.Close()
+	if closeErr := res.Body.Close(); closeErr != nil {
+		// Body is already fully buffered; close error is a transport-layer issue that
+		// doesn't affect API semantics. Log but don't return it — the caller needs the
+		// API error (e.g. "card declined"), not a connection cleanup failure.
+		s.logWarnf(res.Request.Context(), "Error closing response body: %v", closeErr)
+	}
 	if err == nil {
 		err = s.ResponseToError(res, resBody)
 	} else {
@@ -1076,7 +1081,12 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 		var resBody []byte
 		if err == nil {
 			resBody, err = io.ReadAll(res.Body)
-			res.Body.Close()
+			if closeErr := res.Body.Close(); closeErr != nil {
+				// Body is already fully buffered; close error is a transport-layer issue that
+				// doesn't affect API semantics. Log but don't return it — the caller needs the
+				// API result (success or structured error), not a connection cleanup failure.
+				s.logWarnf(req.Context(), "Error closing response body: %v", closeErr)
+			}
 		}
 
 		ver, pathErr := extractVersion(req.URL.Path)

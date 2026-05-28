@@ -54,7 +54,9 @@ func refreshMeterEventSession(client rawrequest.Client) (err error) {
 
 func sendMeterEvent(client rawrequest.Client, eventName string, stripeCustomerID string, value string) (err error) {
 	// Refresh the meter event session if necessary
-	refreshMeterEventSession(client)
+	if err = refreshMeterEventSession(client); err != nil {
+		return
+	}
 
 	if sessionAuthToken == "" {
 		err = fmt.Errorf("Unable to refresh meter event session")

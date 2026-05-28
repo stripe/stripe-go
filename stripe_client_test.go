@@ -226,7 +226,8 @@ func TestParseUnknownEventNotificationWithRelatedObject(t *testing.T) {
 		assert.Equal(t, "Bearer "+TestAPIKey, r.Header.Get("Authorization"))
 		assert.Equal(t, "ctx_123", r.Header.Get("Stripe-Context"))
 		assert.Equal(t, "event=evt_test_webhook", r.Header.Get("Stripe-Request-Trigger"))
-		w.Write([]byte(relatedObjectResp))
+		_, err := w.Write([]byte(relatedObjectResp))
+		assert.NoError(t, err)
 	}))
 	defer server.Close()
 
@@ -297,7 +298,8 @@ func TestFetchEventHTTPCall(t *testing.T) {
 		assert.Equal(t, "Bearer "+TestAPIKey, r.Header.Get("Authorization"))
 		assert.Equal(t, "ctx_123", r.Header.Get("Stripe-Context"))
 		assert.Equal(t, "event=evt_123", r.Header.Get("Stripe-Request-Trigger"))
-		w.Write([]byte(mockEventResponse))
+		_, err := w.Write([]byte(mockEventResponse))
+		assert.NoError(t, err)
 	}))
 	defer server.Close()
 
@@ -360,7 +362,8 @@ func TestFetchRelatedObject(t *testing.T) {
 		assert.Equal(t, "/v1/billing/meters/bm_123", r.URL.Path)
 		assert.Equal(t, "Bearer "+TestAPIKey, r.Header.Get("Authorization"))
 		assert.Equal(t, "event=evt_123", r.Header.Get("Stripe-Request-Trigger"))
-		w.Write([]byte(mockRelatedObjectResponse))
+		_, err := w.Write([]byte(mockRelatedObjectResponse))
+		assert.NoError(t, err)
 	}))
 	defer server.Close()
 
@@ -433,7 +436,8 @@ func TestFetchRelatedObjectUnknownEvent(t *testing.T) {
 		assert.Equal(t, "Bearer "+TestAPIKey, r.Header.Get("Authorization"))
 		assert.Equal(t, "ctx_123", r.Header.Get("Stripe-Context"))
 		assert.Equal(t, "event=evt_123", r.Header.Get("Stripe-Request-Trigger"))
-		w.Write([]byte(mockRelatedObjectResponse))
+		_, err := w.Write([]byte(mockRelatedObjectResponse))
+		assert.NoError(t, err)
 	}))
 	defer server.Close()
 

@@ -134,7 +134,8 @@ func TestNewOAuthToken(t *testing.T) {
 	// stripe-mock doesn't support connect URLs so this stubs out the server.
 	httpClient := newTestClient(func(req *http.Request) *http.Response {
 		buf := new(bytes.Buffer)
-		buf.ReadFrom(req.Body)
+		_, err := buf.ReadFrom(req.Body)
+		assert.NoError(t, err)
 		reqBody := buf.String()
 
 		assert.Contains(t, req.URL.String(), "https://localhost:12113/oauth/token")
@@ -181,7 +182,8 @@ func TestNewOAuthTokenWithCustomKey(t *testing.T) {
 	// stripe-mock doesn't support connect URLs so this stubs out the server.
 	httpClient := newTestClient(func(req *http.Request) *http.Response {
 		buf := new(bytes.Buffer)
-		buf.ReadFrom(req.Body)
+		_, err := buf.ReadFrom(req.Body)
+		assert.NoError(t, err)
 		reqBody := buf.String()
 		assert.Contains(t, reqBody, "client_secret=sk_999")
 
@@ -207,7 +209,8 @@ func TestNewOAuthTokenWithError(t *testing.T) {
 	responseBody := `{"error":"invalid_grant","error_description": "Authorization code does not exist"}`
 	httpClient := newTestClient(func(req *http.Request) *http.Response {
 		buf := new(bytes.Buffer)
-		buf.ReadFrom(req.Body)
+		_, err := buf.ReadFrom(req.Body)
+		assert.NoError(t, err)
 		reqBody := buf.String()
 		assert.Contains(t, reqBody, "client_secret=sk_999")
 
@@ -238,7 +241,8 @@ func TestDeauthorize(t *testing.T) {
 	// stripe-mock doesn't support connect URLs so this stubs out the server.
 	httpClient := newTestClient(func(req *http.Request) *http.Response {
 		buf := new(bytes.Buffer)
-		buf.ReadFrom(req.Body)
+		_, err := buf.ReadFrom(req.Body)
+		assert.NoError(t, err)
 		reqBody := buf.String()
 		assert.Contains(t, req.URL.String(), "https://localhost:12113/oauth/deauthorize")
 		assert.Contains(t, reqBody, "client_id=sk_999")

@@ -50,7 +50,8 @@ var (
 // See https://stripe.com/docs/webhooks#signatures for more information.
 func ComputeSignature(t time.Time, payload []byte, secret string) []byte {
 	mac := hmac.New(sha256.New, []byte(secret))
-	fmt.Fprintf(mac, "%d", t.Unix())
+	// hmac.Hash.Write never returns a non-nil error per the hash.Hash interface contract.
+	_, _ = fmt.Fprintf(mac, "%d", t.Unix())
 	mac.Write([]byte("."))
 	mac.Write(payload)
 	return mac.Sum(nil)

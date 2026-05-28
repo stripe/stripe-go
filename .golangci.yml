@@ -1,11 +1,6 @@
 version: "2"
 
 linters:
-  disable:
-    # TODO: re-enable errcheck in a follow-up PR — production cases in stripe.go and
-    # log.go need per-case review before we can enable this broadly.
-    - errcheck
-
   settings:
     staticcheck:
       checks:
