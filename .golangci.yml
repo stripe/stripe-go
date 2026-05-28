@@ -15,7 +15,6 @@ linters:
     rules:
       # SA1019: deprecated client package usage. These files use the old client.API /
       # client.New surface intentionally (backward-compat tests or generated examples).
-      # TODO: migrate each file to stripe.NewClient in a follow-up PR.
       - path: "^account/client_test\\.go$"
         linters: [staticcheck]
         text: "SA1019"
@@ -28,12 +27,6 @@ linters:
       - path: "^example/generated_examples_test\\.go$"
         linters: [staticcheck]
         text: "SA1019"
-      - path: "^mock/mock\\.go$"
-        linters: [staticcheck]
-        text: "SA1019"
-      - path: "^oauth/client_test\\.go$"
-        linters: [staticcheck]
-        text: "SA1019"
       - path: "^v2/billing/meterevent/client_test\\.go$"
         linters: [staticcheck]
         text: "SA1019"
@@ -44,12 +37,6 @@ linters:
         linters: [staticcheck]
         text: "SA1019"
       - path: "^v2/billing/metereventstream/client_test\\.go$"
-        linters: [staticcheck]
-        text: "SA1019"
-      - path: "^v2/core/eventdestination/client_test\\.go$"
-        linters: [staticcheck]
-        text: "SA1019"
-      - path: "^webhook/client_test\\.go$"
         linters: [staticcheck]
         text: "SA1019"
 

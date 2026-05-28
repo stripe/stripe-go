@@ -2,7 +2,7 @@ package oauth
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 
@@ -155,7 +155,7 @@ func TestNewOAuthToken(t *testing.T) {
     }`
 		return &http.Response{
 			StatusCode: 200,
-			Body:       ioutil.NopCloser(bytes.NewBufferString(responseBody)),
+			Body:       io.NopCloser(bytes.NewBufferString(responseBody)),
 			Header:     make(http.Header),
 		}
 	})
@@ -189,7 +189,7 @@ func TestNewOAuthTokenWithCustomKey(t *testing.T) {
 
 		return &http.Response{
 			StatusCode: 200,
-			Body:       ioutil.NopCloser(bytes.NewBufferString(`{}`)),
+			Body:       io.NopCloser(bytes.NewBufferString(`{}`)),
 			Header:     make(http.Header),
 		}
 	})
@@ -216,7 +216,7 @@ func TestNewOAuthTokenWithError(t *testing.T) {
 
 		return &http.Response{
 			StatusCode: 400,
-			Body:       ioutil.NopCloser(bytes.NewBufferString(responseBody)),
+			Body:       io.NopCloser(bytes.NewBufferString(responseBody)),
 			Header:     make(http.Header),
 		}
 	})
@@ -251,7 +251,7 @@ func TestDeauthorize(t *testing.T) {
 		resBody := `{"stripe_user_id": "acct_123"}`
 		return &http.Response{
 			StatusCode: 200,
-			Body:       ioutil.NopCloser(bytes.NewBufferString(resBody)),
+			Body:       io.NopCloser(bytes.NewBufferString(resBody)),
 			Header:     make(http.Header),
 		}
 	})

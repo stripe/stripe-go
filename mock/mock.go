@@ -12,13 +12,12 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stripe/stripe-go/v85"
-	"github.com/stripe/stripe-go/v85/client"
 	stripetest "github.com/stripe/stripe-go/v85/testing"
 )
 
 type Assertion func(*testing.T, *http.Request)
 
-func Server[T any](t *testing.T, method, path string, req T, resp func(T) []byte, asserts ...Assertion) (*httptest.Server, *client.API) {
+func Server[T any](t *testing.T, method, path string, req T, resp func(T) []byte, asserts ...Assertion) (*httptest.Server, *stripe.Client) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		for _, assert := range asserts {
 			assert(t, r)
@@ -41,6 +40,6 @@ func Server[T any](t *testing.T, method, path string, req T, resp func(T) []byte
 			URL: stripe.String(server.URL),
 		},
 	)
-	sc := client.New(stripetest.TestAPIKey, backends)
+	sc := stripe.NewClient(stripetest.TestAPIKey, stripe.WithBackends(backends))
 	return server, sc
 }
