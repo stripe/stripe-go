@@ -1,3 +1,6 @@
+// Package webhook provides utilities for parsing and validating Stripe webhook
+// event payloads, including signature verification against the
+// Stripe-Signature header.
 package webhook
 
 import (
@@ -47,7 +50,8 @@ var (
 // See https://stripe.com/docs/webhooks#signatures for more information.
 func ComputeSignature(t time.Time, payload []byte, secret string) []byte {
 	mac := hmac.New(sha256.New, []byte(secret))
-	mac.Write([]byte(fmt.Sprintf("%d", t.Unix())))
+	// hmac.Hash.Write never returns a non-nil error per the hash.Hash interface contract.
+	_, _ = fmt.Fprintf(mac, "%d", t.Unix())
 	mac.Write([]byte("."))
 	mac.Write(payload)
 	return mac.Sum(nil)
@@ -187,22 +191,22 @@ type signedHeader struct {
 // Private functions
 //
 
-func isCompatibleAPIVersion(sdkApiVersion, eventApiVersion string) bool {
+func isCompatibleAPIVersion(sdkAPIVersion, eventAPIVersion string) bool {
 	// If the event api version is from before we started adding
 	// a release train, there's no way its compatible with this
 	// version
-	if !strings.Contains(eventApiVersion, ".") {
+	if !strings.Contains(eventAPIVersion, ".") {
 		return false
 	}
 
 	// if the SDK is pinned to a preview version, the event's API version must match exactly
-	var currentReleaseTrain = strings.Split(sdkApiVersion, ".")[1]
+	var currentReleaseTrain = strings.Split(sdkAPIVersion, ".")[1]
 	if currentReleaseTrain == "preview" {
-		return sdkApiVersion == eventApiVersion
+		return sdkAPIVersion == eventAPIVersion
 	}
 
 	// versions are yyyy-MM-dd.train
-	var eventReleaseTrain = strings.Split(eventApiVersion, ".")[1]
+	var eventReleaseTrain = strings.Split(eventAPIVersion, ".")[1]
 	return eventReleaseTrain == currentReleaseTrain
 }
 
@@ -223,11 +227,11 @@ func constructEvent(payload []byte, sigHeader string, secret string, options Con
 	}
 
 	if err := json.Unmarshal(payload, &e); err != nil {
-		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
+		return e, fmt.Errorf("failed to parse webhook body json: %s", err.Error())
 	}
 
 	if !options.IgnoreAPIVersionMismatch && !isCompatibleAPIVersion(stripe.APIVersion, e.APIVersion) {
-		return e, fmt.Errorf("Received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized.", e.APIVersion, stripe.ClientVersion, stripe.APIVersion)
+		return e, fmt.Errorf("received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized", e.APIVersion, stripe.ClientVersion, stripe.APIVersion)
 	}
 
 	return e, nil
@@ -238,11 +242,11 @@ func checkEventNotification(payload []byte) error {
 		Object string `json:"object"`
 	}{}
 	if err := json.Unmarshal(payload, &e); err != nil {
-		return fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
+		return fmt.Errorf("failed to parse webhook body json: %s", err.Error())
 	}
 
 	if e.Object != "event" {
-		return fmt.Errorf("Did you use ConstructEvent to parse a thin event notification? If so, use ParseEventNotification instead.")
+		return fmt.Errorf("did you use ConstructEvent to parse a thin event notification? If so, use ParseEventNotification instead")
 	}
 
 	return nil
@@ -332,7 +336,7 @@ type SignedPayload struct {
 func GenerateTestSignedPayload(options *UnsignedPayload) *SignedPayload {
 	signedPayload := &SignedPayload{UnsignedPayload: *options}
 
-	if signedPayload.Timestamp == (time.Time{}) {
+	if signedPayload.Timestamp.IsZero() {
 		signedPayload.Timestamp = time.Now()
 	}
 

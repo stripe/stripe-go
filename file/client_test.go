@@ -23,7 +23,7 @@ import (
 
 func TestFileGet(t *testing.T) {
 	file, err := Get("file_123", nil)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.NotNil(t, file)
 }
 
@@ -60,7 +60,8 @@ func TestFileBackend(t *testing.T) {
 	b := &testBackend{calledMultipart: false}
 	stripe.SetBackend(stripe.UploadsBackend, b)
 	fileParams := &stripe.FileParams{}
-	New(fileParams)
+	_, err := New(fileParams)
+	assert.NoError(t, err)
 	assert.Equal(t, b.calledMultipart, true)
 	stripe.SetBackend(stripe.UploadsBackend, orig)
 }

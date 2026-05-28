@@ -38,8 +38,8 @@ build:
 # install dependencies (including those needed for development). Mostly called by other recipes
 install:
     go get -t
-    which golangci-lint || go install github.com/golangci/golangci-lint/cmd/golangci-lint@v2.11.4
-    which goimports || go install golang.org/x/tools/cmd/goimports@v0.39.0
+    go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.11.4
+    go install golang.org/x/tools/cmd/goimports@v0.39.0
 
 # run benchmarking to check for performance regressions
 bench:

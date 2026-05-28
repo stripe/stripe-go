@@ -1,20 +1,13 @@
 version: "2"
 
 linters:
-  disable:
-    # TODO: re-enable errcheck in a follow-up PR — production cases in stripe.go and
-    # log.go need per-case review before we can enable this broadly.
-    - errcheck
-
   settings:
     staticcheck:
       checks:
         - "all"
-        # ST1005/ST1020/ST1021 are comment-format rules. All current violations are in
-        # generated resource files (e.g. account.go, bankaccount/client.go) that cannot
-        # be edited. TODO: fix the code generator to emit compliant comments, then
-        # remove these suppressions.
-        - "-ST1005"
+        # ST1020/ST1021 are doc-comment format rules (comments must start with the
+        # exported symbol name). All violations are in generated files and require
+        # large-scale codegen changes to fix.
         - "-ST1020"
         - "-ST1021"
 
@@ -22,7 +15,6 @@ linters:
     rules:
       # SA1019: deprecated client package usage. These files use the old client.API /
       # client.New surface intentionally (backward-compat tests or generated examples).
-      # TODO: migrate each file to stripe.NewClient in a follow-up PR.
       - path: "^account/client_test\\.go$"
         linters: [staticcheck]
         text: "SA1019"
@@ -33,12 +25,6 @@ linters:
         linters: [staticcheck]
         text: "SA1019"
       - path: "^example/generated_examples_test\\.go$"
-        linters: [staticcheck]
-        text: "SA1019"
-      - path: "^mock/mock\\.go$"
-        linters: [staticcheck]
-        text: "SA1019"
-      - path: "^oauth/client_test\\.go$"
         linters: [staticcheck]
         text: "SA1019"
       - path: "^v2/billing/meterevent/client_test\\.go$"
@@ -53,59 +39,4 @@ linters:
       - path: "^v2/billing/metereventstream/client_test\\.go$"
         linters: [staticcheck]
         text: "SA1019"
-      - path: "^v2/core/eventdestination/client_test\\.go$"
-        linters: [staticcheck]
-        text: "SA1019"
-      - path: "^webhook/client_test\\.go$"
-        linters: [staticcheck]
-        text: "SA1019"
 
-      # ST1000: missing package comment. TODO: add package docs in a follow-up PR.
-      - path: "^form/form\\.go$"
-        linters: [staticcheck]
-        text: "ST1000"
-      - path: "^mock/mock\\.go$"
-        linters: [staticcheck]
-        text: "ST1000"
-      - path: "^testing/testing\\.go$"
-        linters: [staticcheck]
-        text: "ST1000"
-      - path: "^webhook/client\\.go$"
-        linters: [staticcheck]
-        text: "ST1000"
-
-      # ST1001: dot import in mock package test helper.
-      # TODO: remove dot import in a follow-up cleanup.
-      - path: "^mock/mock\\.go$"
-        linters: [staticcheck]
-        text: "ST1001"
-
-      # ST1003: naming convention (sdkApiVersion → sdkAPIVersion).
-      # TODO: fix in a follow-up PR — rename requires updating callers.
-      - path: "^webhook/client\\.go$"
-        linters: [staticcheck]
-        text: "ST1003"
-      - path: "^webhook/client_test\\.go$"
-        linters: [staticcheck]
-        text: "ST1003"
-
-      # QF (quickfix) suggestions deferred to follow-up PRs to keep this migration
-      # scoped. Each entry below is the exhaustive list of currently-violating files.
-      - path: "^form/form\\.go$"
-        linters: [staticcheck]
-        text: "QF"
-      - path: "^search_iter_test\\.go$"
-        linters: [staticcheck]
-        text: "QF"
-      - path: "^stripe\\.go$"
-        linters: [staticcheck]
-        text: "QF"
-      - path: "^v2_events\\.go$"
-        linters: [staticcheck]
-        text: "QF"
-      - path: "^webhook/client\\.go$"
-        linters: [staticcheck]
-        text: "QF"
-      - path: "^webhooks\\.go$"
-        linters: [staticcheck]
-        text: "QF"
