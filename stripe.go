@@ -343,13 +343,13 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 
 			if !reflectValue.Elem().FieldByName("Metadata").IsZero() {
 				if commonParams.Metadata != nil {
-					return nil, nil, fmt.Errorf("You cannot specify both the (deprecated) .Params.Metadata and .Metadata in %s", reflectValue.Elem().Type().Name())
+					return nil, nil, fmt.Errorf("you cannot specify both the (deprecated) .Params.Metadata and .Metadata in %s", reflectValue.Elem().Type().Name())
 				}
 			}
 
 			if !reflectValue.Elem().FieldByName("Expand").IsZero() {
 				if commonParams.Expand != nil {
-					return nil, nil, fmt.Errorf("You cannot specify both the (deprecated) .Params.Expand and .Expand in %s", reflectValue.Elem().Type().Name())
+					return nil, nil, fmt.Errorf("you cannot specify both the (deprecated) .Params.Expand and .Expand in %s", reflectValue.Elem().Type().Name())
 				}
 			}
 
@@ -481,7 +481,7 @@ func setNestedNull(m map[string]json.RawMessage, path []string) {
 	if idx, err := strconv.Atoi(rest[0]); err == nil {
 		var arr []json.RawMessage
 		if existing, ok := m[key]; ok {
-			_ = json.Unmarshal(existing, &arr)
+			_ = json.Unmarshal(existing, &arr) // on failure arr stays nil; idx < len(arr) will be false and the null is silently not written
 		}
 		if idx < len(arr) {
 			if len(rest) == 1 {
@@ -574,7 +574,7 @@ func (s *BackendImplementation) Call(method, path, key string, params ParamsCont
 			}
 		}
 		body = []byte(bodyParams.Encode())
-	} else if params != nil && !(reflect.ValueOf(params).Kind() == reflect.Ptr && reflect.ValueOf(params).IsNil()) {
+	} else if params != nil && (reflect.ValueOf(params).Kind() != reflect.Ptr || !reflect.ValueOf(params).IsNil()) {
 		body, err = marshalV2JSON(params)
 		if err != nil {
 			return err
@@ -1041,7 +1041,12 @@ func (s *BackendImplementation) handleResponseBufferingErrors(res *http.Response
 	// when logging the error
 	var resBody []byte
 	resBody, err = io.ReadAll(res.Body)
-	res.Body.Close()
+	if closeErr := res.Body.Close(); closeErr != nil {
+		// Body is already fully buffered; close error is a transport-layer issue that
+		// doesn't affect API semantics. Log but don't return it — the caller needs the
+		// API error (e.g. "card declined"), not a connection cleanup failure.
+		s.logWarnf(res.Request.Context(), "Error closing response body: %v", closeErr)
+	}
 	if err == nil {
 		err = s.ResponseToError(res, resBody)
 	} else {
@@ -1076,7 +1081,12 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 		var resBody []byte
 		if err == nil {
 			resBody, err = io.ReadAll(res.Body)
-			res.Body.Close()
+			if closeErr := res.Body.Close(); closeErr != nil {
+				// Body is already fully buffered; close error is a transport-layer issue that
+				// doesn't affect API semantics. Log but don't return it — the caller needs the
+				// API result (success or structured error), not a connection cleanup failure.
+				s.logWarnf(req.Context(), "Error closing response body: %v", closeErr)
+			}
 		}
 
 		ver, pathErr := extractVersion(req.URL.Path)
@@ -1428,9 +1438,9 @@ func (s *BackendImplementation) unmarshalJSONVerbose(ctx context.Context, status
 		}
 
 		// Make sure a multi-line response ends up all on one line
-		bodySample = strings.Replace(bodySample, "\n", "\\n", -1)
+		bodySample = strings.ReplaceAll(bodySample, "\n", "\\n")
 
-		newErr := fmt.Errorf("Couldn't deserialize JSON (response status: %v, body sample: '%s'): %v",
+		newErr := fmt.Errorf("couldn't deserialize JSON (response status: %v, body sample: '%s'): %v",
 			statusCode, bodySample, err)
 		s.logErrorf(ctx, "%s", newErr.Error())
 		return newErr
@@ -1827,7 +1837,7 @@ func ParseID(data []byte) (string, bool) {
 // SetAppInfo sets app information. See AppInfo.
 func SetAppInfo(info *AppInfo) {
 	if info != nil && info.Name == "" {
-		panic(fmt.Errorf("App info name cannot be empty"))
+		panic(fmt.Errorf("app info name cannot be empty"))
 	}
 	appInfo = info
 
