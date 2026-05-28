@@ -249,7 +249,7 @@ func TestConstructEvent_ErrorOnLegacyAPIVersionMismatch(t *testing.T) {
 		t.Errorf("Expected error due to API version mismatch.")
 	}
 
-	if !strings.Contains(err.Error(), "Received event with API version") {
+	if !strings.Contains(err.Error(), "received event with API version") {
 		t.Errorf("Expected API version mismatch error but received %v", err)
 	}
 }
@@ -265,7 +265,7 @@ func TestConstructEvent_ErrorOnReleaseTrainMismatch(t *testing.T) {
 		t.Errorf("Expected error due to API version mismatch.")
 	}
 
-	if !strings.Contains(err.Error(), "Received event with API version") {
+	if !strings.Contains(err.Error(), "received event with API version") {
 		t.Errorf("Expected API version mismatch error but received %v", err)
 	}
 }

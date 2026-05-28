@@ -343,13 +343,13 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 
 			if !reflectValue.Elem().FieldByName("Metadata").IsZero() {
 				if commonParams.Metadata != nil {
-					return nil, nil, fmt.Errorf("You cannot specify both the (deprecated) .Params.Metadata and .Metadata in %s", reflectValue.Elem().Type().Name())
+					return nil, nil, fmt.Errorf("you cannot specify both the (deprecated) .Params.Metadata and .Metadata in %s", reflectValue.Elem().Type().Name())
 				}
 			}
 
 			if !reflectValue.Elem().FieldByName("Expand").IsZero() {
 				if commonParams.Expand != nil {
-					return nil, nil, fmt.Errorf("You cannot specify both the (deprecated) .Params.Expand and .Expand in %s", reflectValue.Elem().Type().Name())
+					return nil, nil, fmt.Errorf("you cannot specify both the (deprecated) .Params.Expand and .Expand in %s", reflectValue.Elem().Type().Name())
 				}
 			}
 
@@ -1275,7 +1275,7 @@ func (s *BackendImplementation) unmarshalJSONVerbose(ctx context.Context, status
 		// Make sure a multi-line response ends up all on one line
 		bodySample = strings.ReplaceAll(bodySample, "\n", "\\n")
 
-		newErr := fmt.Errorf("Couldn't deserialize JSON (response status: %v, body sample: '%s'): %v",
+		newErr := fmt.Errorf("couldn't deserialize JSON (response status: %v, body sample: '%s'): %v",
 			statusCode, bodySample, err)
 		s.logErrorf(ctx, "%s", newErr.Error())
 		return newErr
@@ -1678,7 +1678,7 @@ func ParseID(data []byte) (string, bool) {
 // SetAppInfo sets app information. See AppInfo.
 func SetAppInfo(info *AppInfo) {
 	if info != nil && info.Name == "" {
-		panic(fmt.Errorf("App info name cannot be empty"))
+		panic(fmt.Errorf("app info name cannot be empty"))
 	}
 	appInfo = info
 

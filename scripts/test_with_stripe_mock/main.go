@@ -114,7 +114,7 @@ func runTests(port string) error {
 
 	err := cmd.Run()
 	if err != nil {
-		return fmt.Errorf("Error running tests: %v", err)
+		return fmt.Errorf("error running tests: %v", err)
 	}
 
 	return nil
@@ -134,12 +134,12 @@ func startStripeMock() (string, *os.Process, error) {
 
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
-		return "", nil, fmt.Errorf("Error starting stripe-mock: %v", err)
+		return "", nil, fmt.Errorf("error starting stripe-mock: %v", err)
 	}
 
 	err = cmd.Start()
 	if err != nil {
-		return "", nil, fmt.Errorf("Error starting stripe-mock: %v", err)
+		return "", nil, fmt.Errorf("error starting stripe-mock: %v", err)
 	}
 
 	b := make([]byte, 1024)

@@ -5,11 +5,9 @@ linters:
     staticcheck:
       checks:
         - "all"
-        # ST1005/ST1020/ST1021 are comment-format rules. All current violations are in
-        # generated resource files (e.g. account.go, bankaccount/client.go) that cannot
-        # be edited. TODO: fix the code generator to emit compliant comments, then
-        # remove these suppressions.
-        - "-ST1005"
+        # ST1020/ST1021 are doc-comment format rules (comments must start with the
+        # exported symbol name). All violations are in generated files and require
+        # large-scale codegen changes to fix.
         - "-ST1020"
         - "-ST1021"
 

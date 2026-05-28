@@ -59,7 +59,7 @@ func sendMeterEvent(client rawrequest.Client, eventName string, stripeCustomerID
 	}
 
 	if sessionAuthToken == "" {
-		err = fmt.Errorf("Unable to refresh meter event session")
+		err = fmt.Errorf("unable to refresh meter event session")
 		return
 	}
 

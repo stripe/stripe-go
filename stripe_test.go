@@ -1620,7 +1620,7 @@ func TestDoStreaming_UnparsableError(t *testing.T) {
 	assert.NotNil(t, err)
 	_, ok := err.(*Error)
 	assert.False(t, ok)
-	assert.True(t, strings.Contains(err.Error(), "Couldn't deserialize JSON"))
+	assert.True(t, strings.Contains(err.Error(), "couldn't deserialize JSON"))
 }
 
 func TestFormatURLPath(t *testing.T) {
@@ -1859,7 +1859,7 @@ func TestUnmarshalJSONVerbose(t *testing.T) {
 		var sample testServerResponse
 		err := backend.unmarshalJSONVerbose(context.Background(), 200, []byte(body), &sample)
 		assert.Regexp(t,
-			fmt.Sprintf(`^Couldn't deserialize JSON \(response status: 200, body sample: '%s'\): invalid character`, body),
+			fmt.Sprintf(`^couldn't deserialize JSON \(response status: 200, body sample: '%s'\): invalid character`, body),
 			err)
 	}
 
@@ -1873,7 +1873,7 @@ func TestUnmarshalJSONVerbose(t *testing.T) {
 		var sample testServerResponse
 		err := backend.unmarshalJSONVerbose(context.Background(), 200, []byte(body), &sample)
 		assert.Regexp(t,
-			fmt.Sprintf(`^Couldn't deserialize JSON \(response status: 200, body sample: '%s ...'\): invalid character`, body[0:500]),
+			fmt.Sprintf(`^couldn't deserialize JSON \(response status: 200, body sample: '%s ...'\): invalid character`, body[0:500]),
 			err)
 	}
 }
