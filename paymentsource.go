@@ -70,7 +70,7 @@ func SourceParamsFor(obj interface{}) (*PaymentSourceSourceParams, error) {
 			Token: &p,
 		}
 	default:
-		err = fmt.Errorf("unsupported source type %s", p)
+		err = fmt.Errorf("Unsupported source type %s", p)
 	}
 	return sp, err
 }

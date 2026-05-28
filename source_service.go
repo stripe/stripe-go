@@ -59,7 +59,7 @@ func (c v1SourceService) Update(ctx context.Context, id string, params *SourceUp
 func (c v1SourceService) Detach(ctx context.Context, id string, params *SourceDetachParams) (*Source, error) {
 	if params.Customer == nil {
 		return nil, fmt.Errorf(
-			"invalid source detach params: Customer needs to be set")
+			"Invalid source detach params: Customer needs to be set")
 	}
 	if params == nil {
 		params = &SourceDetachParams{}

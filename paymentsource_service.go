@@ -56,7 +56,7 @@ func (c v1PaymentSourceService) Update(ctx context.Context, id string, params *P
 		return nil, fmt.Errorf("params should not be nil")
 	}
 	if params.Customer == nil {
-		return nil, fmt.Errorf("invalid source params: customer needs to be set")
+		return nil, fmt.Errorf("Invalid source params: customer needs to be set")
 	}
 	if params == nil {
 		params = &PaymentSourceUpdateParams{}

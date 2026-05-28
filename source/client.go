@@ -90,7 +90,7 @@ func Detach(id string, params *stripe.SourceDetachParams) (*stripe.Source, error
 func (c Client) Detach(id string, params *stripe.SourceDetachParams) (*stripe.Source, error) {
 	if params.Customer == nil {
 		return nil, fmt.Errorf(
-			"invalid source detach params: Customer needs to be set")
+			"Invalid source detach params: Customer needs to be set")
 	}
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
