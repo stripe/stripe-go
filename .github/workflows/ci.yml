@@ -40,9 +40,26 @@ jobs:
         with:
           go-version: "1.26"
 
+      - name: Cache Go tools
+        id: cache-go-tools
+        uses: actions/cache@v5
+        with:
+          path: ~/go/bin
+          key: v1-go-tools-${{ runner.os }}-goimports-v0.39.0
+
+      - name: Install Go tools
+        if: steps.cache-go-tools.outputs.cache-hit != 'true'
+        run: |
+          go install golang.org/x/tools/cmd/goimports@v0.39.0
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v9
+        with:
+          version: v2.11.4
+
       - name: lint
         run: |
-          just lint format-check
+          just format-check
 
   govulncheck:
     name: govulncheck

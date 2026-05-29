@@ -47,6 +47,15 @@ const (
 	InvoiceItemProrationDetailsCreditedItemsTypeInvoiceLineItems InvoiceItemProrationDetailsCreditedItemsType = "invoice_line_items"
 )
 
+// Whether the credit references a pending invoice item or one or more invoice line items on an invoice.
+type InvoiceItemProrationDetailsCreditedItemsType string
+
+// List of values that InvoiceItemProrationDetailsCreditedItemsType can take
+const (
+	InvoiceItemProrationDetailsCreditedItemsTypeInvoiceItem      InvoiceItemProrationDetailsCreditedItemsType = "invoice_item"
+	InvoiceItemProrationDetailsCreditedItemsTypeInvoiceLineItems InvoiceItemProrationDetailsCreditedItemsType = "invoice_line_items"
+)
+
 // Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
 type InvoiceItemParams struct {
 	Params `form:"*"`
