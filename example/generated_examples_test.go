@@ -130,7 +130,7 @@ func TestAccountLinksPost(t *testing.T) {
 	}
 	result, err := accountlink.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountLinksPostService(t *testing.T) {
@@ -143,7 +143,7 @@ func TestAccountLinksPostService(t *testing.T) {
 	}
 	result, err := sc.AccountLinks.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountLinksPostClient(t *testing.T) {
@@ -156,7 +156,7 @@ func TestAccountLinksPostClient(t *testing.T) {
 	}
 	result, err := sc.V1AccountLinks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsCapabilitiesGet(t *testing.T) {
@@ -165,7 +165,7 @@ func TestAccountsCapabilitiesGet(t *testing.T) {
 	}
 	result := capability.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAccountsCapabilitiesGetService(t *testing.T) {
@@ -175,7 +175,7 @@ func TestAccountsCapabilitiesGetService(t *testing.T) {
 	}
 	result := sc.Capabilities.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAccountsCapabilitiesGetClient(t *testing.T) {
@@ -185,7 +185,7 @@ func TestAccountsCapabilitiesGetClient(t *testing.T) {
 	}
 	result := sc.V1Capabilities.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAccountsCapabilitiesGet2(t *testing.T) {
@@ -194,7 +194,7 @@ func TestAccountsCapabilitiesGet2(t *testing.T) {
 	}
 	result, err := capability.Get("card_payments", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsCapabilitiesGet2Service(t *testing.T) {
@@ -204,7 +204,7 @@ func TestAccountsCapabilitiesGet2Service(t *testing.T) {
 	}
 	result, err := sc.Capabilities.Get("card_payments", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsCapabilitiesGet2Client(t *testing.T) {
@@ -215,7 +215,7 @@ func TestAccountsCapabilitiesGet2Client(t *testing.T) {
 	result, err := sc.V1Capabilities.Retrieve(
 		context.TODO(), "card_payments", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsCapabilitiesPost(t *testing.T) {
@@ -225,7 +225,7 @@ func TestAccountsCapabilitiesPost(t *testing.T) {
 	}
 	result, err := capability.Update("card_payments", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsCapabilitiesPostService(t *testing.T) {
@@ -236,7 +236,7 @@ func TestAccountsCapabilitiesPostService(t *testing.T) {
 	}
 	result, err := sc.Capabilities.Update("card_payments", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsCapabilitiesPostClient(t *testing.T) {
@@ -248,14 +248,14 @@ func TestAccountsCapabilitiesPostClient(t *testing.T) {
 	result, err := sc.V1Capabilities.Update(
 		context.TODO(), "card_payments", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsDelete(t *testing.T) {
 	params := &stripe.AccountParams{}
 	result, err := account.Del("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsDeleteService(t *testing.T) {
@@ -263,7 +263,7 @@ func TestAccountsDeleteService(t *testing.T) {
 	params := &stripe.AccountParams{}
 	result, err := sc.Accounts.Del("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsDeleteClient(t *testing.T) {
@@ -272,7 +272,7 @@ func TestAccountsDeleteClient(t *testing.T) {
 	result, err := sc.V1Accounts.Delete(
 		context.TODO(), "acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsExternalAccountsDelete(t *testing.T) {
@@ -281,7 +281,7 @@ func TestAccountsExternalAccountsDelete(t *testing.T) {
 	}
 	result, err := bankaccount.Del("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsExternalAccountsDeleteService(t *testing.T) {
@@ -291,7 +291,7 @@ func TestAccountsExternalAccountsDeleteService(t *testing.T) {
 	}
 	result, err := sc.BankAccounts.Del("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsExternalAccountsDeleteClient(t *testing.T) {
@@ -302,7 +302,7 @@ func TestAccountsExternalAccountsDeleteClient(t *testing.T) {
 	result, err := sc.V1BankAccounts.Delete(
 		context.TODO(), "ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsExternalAccountsDelete2(t *testing.T) {
@@ -311,7 +311,7 @@ func TestAccountsExternalAccountsDelete2(t *testing.T) {
 	}
 	result, err := bankaccount.Del("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsExternalAccountsDelete2Service(t *testing.T) {
@@ -321,7 +321,7 @@ func TestAccountsExternalAccountsDelete2Service(t *testing.T) {
 	}
 	result, err := sc.BankAccounts.Del("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsExternalAccountsDelete2Client(t *testing.T) {
@@ -332,7 +332,7 @@ func TestAccountsExternalAccountsDelete2Client(t *testing.T) {
 	result, err := sc.V1BankAccounts.Delete(
 		context.TODO(), "card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsExternalAccountsPost3(t *testing.T) {
@@ -342,7 +342,7 @@ func TestAccountsExternalAccountsPost3(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := bankaccount.Update("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsExternalAccountsPost3Service(t *testing.T) {
@@ -353,7 +353,7 @@ func TestAccountsExternalAccountsPost3Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.BankAccounts.Update("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsExternalAccountsPost3Client(t *testing.T) {
@@ -365,7 +365,7 @@ func TestAccountsExternalAccountsPost3Client(t *testing.T) {
 	result, err := sc.V1BankAccounts.Update(
 		context.TODO(), "ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsExternalAccountsPost4(t *testing.T) {
@@ -375,7 +375,7 @@ func TestAccountsExternalAccountsPost4(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := bankaccount.Update("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsExternalAccountsPost4Service(t *testing.T) {
@@ -386,7 +386,7 @@ func TestAccountsExternalAccountsPost4Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.BankAccounts.Update("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsExternalAccountsPost4Client(t *testing.T) {
@@ -398,7 +398,7 @@ func TestAccountsExternalAccountsPost4Client(t *testing.T) {
 	result, err := sc.V1BankAccounts.Update(
 		context.TODO(), "card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsGet(t *testing.T) {
@@ -406,7 +406,7 @@ func TestAccountsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := account.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAccountsGetService(t *testing.T) {
@@ -415,7 +415,7 @@ func TestAccountsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Accounts.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAccountsGetClient(t *testing.T) {
@@ -424,14 +424,14 @@ func TestAccountsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Accounts.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAccountsGet2(t *testing.T) {
 	params := &stripe.AccountParams{}
 	result, err := account.GetByID("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsGet2Service(t *testing.T) {
@@ -439,7 +439,7 @@ func TestAccountsGet2Service(t *testing.T) {
 	params := &stripe.AccountParams{}
 	result, err := sc.Accounts.GetByID("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsGet2Client(t *testing.T) {
@@ -448,7 +448,7 @@ func TestAccountsGet2Client(t *testing.T) {
 	result, err := sc.V1Accounts.GetByID(
 		context.TODO(), "acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsLoginLinksPost(t *testing.T) {
@@ -457,7 +457,7 @@ func TestAccountsLoginLinksPost(t *testing.T) {
 	}
 	result, err := loginlink.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsLoginLinksPostService(t *testing.T) {
@@ -467,7 +467,7 @@ func TestAccountsLoginLinksPostService(t *testing.T) {
 	}
 	result, err := sc.LoginLinks.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsLoginLinksPostClient(t *testing.T) {
@@ -477,14 +477,14 @@ func TestAccountsLoginLinksPostClient(t *testing.T) {
 	}
 	result, err := sc.V1LoginLinks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPersonsDelete(t *testing.T) {
 	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
 	result, err := person.Del("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPersonsDeleteService(t *testing.T) {
@@ -492,7 +492,7 @@ func TestAccountsPersonsDeleteService(t *testing.T) {
 	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
 	result, err := sc.Persons.Del("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPersonsDeleteClient(t *testing.T) {
@@ -503,7 +503,7 @@ func TestAccountsPersonsDeleteClient(t *testing.T) {
 	result, err := sc.V1Persons.Delete(
 		context.TODO(), "person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPersonsGet(t *testing.T) {
@@ -513,7 +513,7 @@ func TestAccountsPersonsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := person.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAccountsPersonsGetService(t *testing.T) {
@@ -524,7 +524,7 @@ func TestAccountsPersonsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Persons.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAccountsPersonsGetClient(t *testing.T) {
@@ -535,14 +535,14 @@ func TestAccountsPersonsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Persons.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAccountsPersonsGet2(t *testing.T) {
 	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
 	result, err := person.Get("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPersonsGet2Service(t *testing.T) {
@@ -550,7 +550,7 @@ func TestAccountsPersonsGet2Service(t *testing.T) {
 	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
 	result, err := sc.Persons.Get("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPersonsGet2Client(t *testing.T) {
@@ -561,7 +561,7 @@ func TestAccountsPersonsGet2Client(t *testing.T) {
 	result, err := sc.V1Persons.Retrieve(
 		context.TODO(), "person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPersonsPost(t *testing.T) {
@@ -572,7 +572,7 @@ func TestAccountsPersonsPost(t *testing.T) {
 	}
 	result, err := person.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPersonsPostService(t *testing.T) {
@@ -584,7 +584,7 @@ func TestAccountsPersonsPostService(t *testing.T) {
 	}
 	result, err := sc.Persons.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPersonsPostClient(t *testing.T) {
@@ -596,7 +596,7 @@ func TestAccountsPersonsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Persons.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPersonsPost2(t *testing.T) {
@@ -604,7 +604,7 @@ func TestAccountsPersonsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := person.Update("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPersonsPost2Service(t *testing.T) {
@@ -613,7 +613,7 @@ func TestAccountsPersonsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Persons.Update("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPersonsPost2Client(t *testing.T) {
@@ -625,7 +625,7 @@ func TestAccountsPersonsPost2Client(t *testing.T) {
 	result, err := sc.V1Persons.Update(
 		context.TODO(), "person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPost(t *testing.T) {
@@ -644,7 +644,7 @@ func TestAccountsPost(t *testing.T) {
 	}
 	result, err := account.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPostService(t *testing.T) {
@@ -664,7 +664,7 @@ func TestAccountsPostService(t *testing.T) {
 	}
 	result, err := sc.Accounts.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPostClient(t *testing.T) {
@@ -684,7 +684,7 @@ func TestAccountsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Accounts.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPost2(t *testing.T) {
@@ -692,7 +692,7 @@ func TestAccountsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := account.Update("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPost2Service(t *testing.T) {
@@ -701,7 +701,7 @@ func TestAccountsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Accounts.Update("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsPost2Client(t *testing.T) {
@@ -711,14 +711,14 @@ func TestAccountsPost2Client(t *testing.T) {
 	result, err := sc.V1Accounts.Update(
 		context.TODO(), "acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsRejectPost(t *testing.T) {
 	params := &stripe.AccountRejectParams{Reason: stripe.String("fraud")}
 	result, err := account.Reject("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsRejectPostService(t *testing.T) {
@@ -726,7 +726,7 @@ func TestAccountsRejectPostService(t *testing.T) {
 	params := &stripe.AccountRejectParams{Reason: stripe.String("fraud")}
 	result, err := sc.Accounts.Reject("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAccountsRejectPostClient(t *testing.T) {
@@ -735,7 +735,7 @@ func TestAccountsRejectPostClient(t *testing.T) {
 	result, err := sc.V1Accounts.Reject(
 		context.TODO(), "acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestApplicationFeesGet(t *testing.T) {
@@ -743,7 +743,7 @@ func TestApplicationFeesGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := applicationfee.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestApplicationFeesGetService(t *testing.T) {
@@ -752,7 +752,7 @@ func TestApplicationFeesGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.ApplicationFees.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestApplicationFeesGetClient(t *testing.T) {
@@ -761,14 +761,14 @@ func TestApplicationFeesGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1ApplicationFees.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestApplicationFeesGet2(t *testing.T) {
 	params := &stripe.ApplicationFeeParams{}
 	result, err := applicationfee.Get("fee_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestApplicationFeesGet2Service(t *testing.T) {
@@ -776,7 +776,7 @@ func TestApplicationFeesGet2Service(t *testing.T) {
 	params := &stripe.ApplicationFeeParams{}
 	result, err := sc.ApplicationFees.Get("fee_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestApplicationFeesGet2Client(t *testing.T) {
@@ -785,7 +785,7 @@ func TestApplicationFeesGet2Client(t *testing.T) {
 	result, err := sc.V1ApplicationFees.Retrieve(
 		context.TODO(), "fee_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestApplicationFeesRefundsGet(t *testing.T) {
@@ -793,7 +793,7 @@ func TestApplicationFeesRefundsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := feerefund.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestApplicationFeesRefundsGetService(t *testing.T) {
@@ -802,7 +802,7 @@ func TestApplicationFeesRefundsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.FeeRefunds.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestApplicationFeesRefundsGetClient(t *testing.T) {
@@ -811,14 +811,14 @@ func TestApplicationFeesRefundsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1FeeRefunds.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestApplicationFeesRefundsGet2(t *testing.T) {
 	params := &stripe.FeeRefundParams{Fee: stripe.String("fee_xxxxxxxxxxxxx")}
 	result, err := feerefund.Get("fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestApplicationFeesRefundsGet2Service(t *testing.T) {
@@ -826,7 +826,7 @@ func TestApplicationFeesRefundsGet2Service(t *testing.T) {
 	params := &stripe.FeeRefundParams{Fee: stripe.String("fee_xxxxxxxxxxxxx")}
 	result, err := sc.FeeRefunds.Get("fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestApplicationFeesRefundsGet2Client(t *testing.T) {
@@ -837,14 +837,14 @@ func TestApplicationFeesRefundsGet2Client(t *testing.T) {
 	result, err := sc.V1FeeRefunds.Retrieve(
 		context.TODO(), "fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestApplicationFeesRefundsPost(t *testing.T) {
 	params := &stripe.FeeRefundParams{ID: stripe.String("fee_xxxxxxxxxxxxx")}
 	result, err := feerefund.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestApplicationFeesRefundsPostService(t *testing.T) {
@@ -852,7 +852,7 @@ func TestApplicationFeesRefundsPostService(t *testing.T) {
 	params := &stripe.FeeRefundParams{ID: stripe.String("fee_xxxxxxxxxxxxx")}
 	result, err := sc.FeeRefunds.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestApplicationFeesRefundsPostClient(t *testing.T) {
@@ -862,7 +862,7 @@ func TestApplicationFeesRefundsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1FeeRefunds.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestApplicationFeesRefundsPost2(t *testing.T) {
@@ -870,7 +870,7 @@ func TestApplicationFeesRefundsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := feerefund.Update("fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestApplicationFeesRefundsPost2Service(t *testing.T) {
@@ -879,7 +879,7 @@ func TestApplicationFeesRefundsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.FeeRefunds.Update("fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestApplicationFeesRefundsPost2Client(t *testing.T) {
@@ -891,7 +891,7 @@ func TestApplicationFeesRefundsPost2Client(t *testing.T) {
 	result, err := sc.V1FeeRefunds.Update(
 		context.TODO(), "fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAppsSecretsDeletePost(t *testing.T) {
@@ -903,7 +903,7 @@ func TestAppsSecretsDeletePost(t *testing.T) {
 	}
 	result, err := apps_secret.DeleteWhere(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAppsSecretsDeletePostService(t *testing.T) {
@@ -916,7 +916,7 @@ func TestAppsSecretsDeletePostService(t *testing.T) {
 	}
 	result, err := sc.AppsSecrets.DeleteWhere(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAppsSecretsDeletePostClient(t *testing.T) {
@@ -929,7 +929,7 @@ func TestAppsSecretsDeletePostClient(t *testing.T) {
 	}
 	result, err := sc.V1AppsSecrets.DeleteWhere(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAppsSecretsFindGet(t *testing.T) {
@@ -941,7 +941,7 @@ func TestAppsSecretsFindGet(t *testing.T) {
 	}
 	result, err := apps_secret.Find(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAppsSecretsFindGetService(t *testing.T) {
@@ -954,7 +954,7 @@ func TestAppsSecretsFindGetService(t *testing.T) {
 	}
 	result, err := sc.AppsSecrets.Find(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAppsSecretsFindGetClient(t *testing.T) {
@@ -967,7 +967,7 @@ func TestAppsSecretsFindGetClient(t *testing.T) {
 	}
 	result, err := sc.V1AppsSecrets.Find(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAppsSecretsGet(t *testing.T) {
@@ -979,7 +979,7 @@ func TestAppsSecretsGet(t *testing.T) {
 	params.Limit = stripe.Int64(2)
 	result := apps_secret.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAppsSecretsGetService(t *testing.T) {
@@ -992,7 +992,7 @@ func TestAppsSecretsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(2)
 	result := sc.AppsSecrets.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAppsSecretsGetClient(t *testing.T) {
@@ -1005,7 +1005,7 @@ func TestAppsSecretsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(2)
 	result := sc.V1AppsSecrets.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAppsSecretsGet2(t *testing.T) {
@@ -1017,7 +1017,7 @@ func TestAppsSecretsGet2(t *testing.T) {
 	params.Limit = stripe.Int64(2)
 	result := apps_secret.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAppsSecretsGet2Service(t *testing.T) {
@@ -1030,7 +1030,7 @@ func TestAppsSecretsGet2Service(t *testing.T) {
 	params.Limit = stripe.Int64(2)
 	result := sc.AppsSecrets.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAppsSecretsGet2Client(t *testing.T) {
@@ -1043,7 +1043,7 @@ func TestAppsSecretsGet2Client(t *testing.T) {
 	params.Limit = stripe.Int64(2)
 	result := sc.V1AppsSecrets.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestAppsSecretsPost(t *testing.T) {
@@ -1056,7 +1056,7 @@ func TestAppsSecretsPost(t *testing.T) {
 	}
 	result, err := apps_secret.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAppsSecretsPostService(t *testing.T) {
@@ -1070,7 +1070,7 @@ func TestAppsSecretsPostService(t *testing.T) {
 	}
 	result, err := sc.AppsSecrets.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAppsSecretsPostClient(t *testing.T) {
@@ -1084,7 +1084,7 @@ func TestAppsSecretsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1AppsSecrets.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAppsSecretsPost2(t *testing.T) {
@@ -1097,7 +1097,7 @@ func TestAppsSecretsPost2(t *testing.T) {
 	}
 	result, err := apps_secret.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAppsSecretsPost2Service(t *testing.T) {
@@ -1111,7 +1111,7 @@ func TestAppsSecretsPost2Service(t *testing.T) {
 	}
 	result, err := sc.AppsSecrets.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAppsSecretsPost2Client(t *testing.T) {
@@ -1125,7 +1125,7 @@ func TestAppsSecretsPost2Client(t *testing.T) {
 	}
 	result, err := sc.V1AppsSecrets.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBalanceTransactionsGet(t *testing.T) {
@@ -1133,7 +1133,7 @@ func TestBalanceTransactionsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := balancetransaction.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestBalanceTransactionsGetService(t *testing.T) {
@@ -1142,7 +1142,7 @@ func TestBalanceTransactionsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.BalanceTransactions.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestBalanceTransactionsGetClient(t *testing.T) {
@@ -1151,14 +1151,14 @@ func TestBalanceTransactionsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1BalanceTransactions.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestBalanceTransactionsGet2(t *testing.T) {
 	params := &stripe.BalanceTransactionParams{}
 	result, err := balancetransaction.Get("txn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBalanceTransactionsGet2Service(t *testing.T) {
@@ -1166,7 +1166,7 @@ func TestBalanceTransactionsGet2Service(t *testing.T) {
 	params := &stripe.BalanceTransactionParams{}
 	result, err := sc.BalanceTransactions.Get("txn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBalanceTransactionsGet2Client(t *testing.T) {
@@ -1175,7 +1175,7 @@ func TestBalanceTransactionsGet2Client(t *testing.T) {
 	result, err := sc.V1BalanceTransactions.Retrieve(
 		context.TODO(), "txn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBillingPortalConfigurationsGet(t *testing.T) {
@@ -1183,7 +1183,7 @@ func TestBillingPortalConfigurationsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := billingportal_configuration.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestBillingPortalConfigurationsGetService(t *testing.T) {
@@ -1192,7 +1192,7 @@ func TestBillingPortalConfigurationsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.BillingPortalConfigurations.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestBillingPortalConfigurationsGetClient(t *testing.T) {
@@ -1201,14 +1201,14 @@ func TestBillingPortalConfigurationsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1BillingPortalConfigurations.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestBillingPortalConfigurationsGet2(t *testing.T) {
 	params := &stripe.BillingPortalConfigurationParams{}
 	result, err := billingportal_configuration.Get("bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBillingPortalConfigurationsGet2Service(t *testing.T) {
@@ -1216,7 +1216,7 @@ func TestBillingPortalConfigurationsGet2Service(t *testing.T) {
 	params := &stripe.BillingPortalConfigurationParams{}
 	result, err := sc.BillingPortalConfigurations.Get("bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBillingPortalConfigurationsGet2Client(t *testing.T) {
@@ -1225,7 +1225,7 @@ func TestBillingPortalConfigurationsGet2Client(t *testing.T) {
 	result, err := sc.V1BillingPortalConfigurations.Retrieve(
 		context.TODO(), "bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBillingPortalConfigurationsPost(t *testing.T) {
@@ -1249,7 +1249,7 @@ func TestBillingPortalConfigurationsPost(t *testing.T) {
 	}
 	result, err := billingportal_configuration.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBillingPortalConfigurationsPostService(t *testing.T) {
@@ -1274,7 +1274,7 @@ func TestBillingPortalConfigurationsPostService(t *testing.T) {
 	}
 	result, err := sc.BillingPortalConfigurations.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBillingPortalConfigurationsPostClient(t *testing.T) {
@@ -1299,7 +1299,7 @@ func TestBillingPortalConfigurationsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1BillingPortalConfigurations.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBillingPortalConfigurationsPost2(t *testing.T) {
@@ -1311,7 +1311,7 @@ func TestBillingPortalConfigurationsPost2(t *testing.T) {
 	}
 	result, err := billingportal_configuration.Update("bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBillingPortalConfigurationsPost2Service(t *testing.T) {
@@ -1325,7 +1325,7 @@ func TestBillingPortalConfigurationsPost2Service(t *testing.T) {
 	result, err := sc.BillingPortalConfigurations.Update(
 		"bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBillingPortalConfigurationsPost2Client(t *testing.T) {
@@ -1339,7 +1339,7 @@ func TestBillingPortalConfigurationsPost2Client(t *testing.T) {
 	result, err := sc.V1BillingPortalConfigurations.Update(
 		context.TODO(), "bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBillingPortalSessionsPost(t *testing.T) {
@@ -1349,7 +1349,7 @@ func TestBillingPortalSessionsPost(t *testing.T) {
 	}
 	result, err := billingportal_session.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBillingPortalSessionsPostService(t *testing.T) {
@@ -1360,7 +1360,7 @@ func TestBillingPortalSessionsPostService(t *testing.T) {
 	}
 	result, err := sc.BillingPortalSessions.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBillingPortalSessionsPostClient(t *testing.T) {
@@ -1371,14 +1371,14 @@ func TestBillingPortalSessionsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1BillingPortalSessions.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestChargesCapturePost(t *testing.T) {
 	params := &stripe.ChargeCaptureParams{}
 	result, err := charge.Capture("ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestChargesCapturePostService(t *testing.T) {
@@ -1386,7 +1386,7 @@ func TestChargesCapturePostService(t *testing.T) {
 	params := &stripe.ChargeCaptureParams{}
 	result, err := sc.Charges.Capture("ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestChargesCapturePostClient(t *testing.T) {
@@ -1395,7 +1395,7 @@ func TestChargesCapturePostClient(t *testing.T) {
 	result, err := sc.V1Charges.Capture(
 		context.TODO(), "ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestChargesGet(t *testing.T) {
@@ -1403,7 +1403,7 @@ func TestChargesGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := charge.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestChargesGetService(t *testing.T) {
@@ -1412,7 +1412,7 @@ func TestChargesGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Charges.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestChargesGetClient(t *testing.T) {
@@ -1421,14 +1421,14 @@ func TestChargesGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Charges.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestChargesGet2(t *testing.T) {
 	params := &stripe.ChargeParams{}
 	result, err := charge.Get("ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestChargesGet2Service(t *testing.T) {
@@ -1436,7 +1436,7 @@ func TestChargesGet2Service(t *testing.T) {
 	params := &stripe.ChargeParams{}
 	result, err := sc.Charges.Get("ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestChargesGet2Client(t *testing.T) {
@@ -1445,7 +1445,7 @@ func TestChargesGet2Client(t *testing.T) {
 	result, err := sc.V1Charges.Retrieve(
 		context.TODO(), "ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestChargesPost(t *testing.T) {
@@ -1457,7 +1457,7 @@ func TestChargesPost(t *testing.T) {
 	}
 	result, err := charge.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestChargesPostService(t *testing.T) {
@@ -1470,7 +1470,7 @@ func TestChargesPostService(t *testing.T) {
 	}
 	result, err := sc.Charges.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestChargesPostClient(t *testing.T) {
@@ -1483,7 +1483,7 @@ func TestChargesPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Charges.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestChargesPost2(t *testing.T) {
@@ -1491,7 +1491,7 @@ func TestChargesPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := charge.Update("ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestChargesPost2Service(t *testing.T) {
@@ -1500,7 +1500,7 @@ func TestChargesPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Charges.Update("ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestChargesPost2Client(t *testing.T) {
@@ -1509,7 +1509,7 @@ func TestChargesPost2Client(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.V1Charges.Update(context.TODO(), "ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestChargesSearchGet(t *testing.T) {
@@ -1520,7 +1520,7 @@ func TestChargesSearchGet(t *testing.T) {
 	}
 	result := charge.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestChargesSearchGetService(t *testing.T) {
@@ -1532,7 +1532,7 @@ func TestChargesSearchGetService(t *testing.T) {
 	}
 	result := sc.Charges.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestChargesSearchGetClient(t *testing.T) {
@@ -1544,14 +1544,14 @@ func TestChargesSearchGetClient(t *testing.T) {
 	}
 	result := sc.V1Charges.Search(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCheckoutSessionsExpirePost(t *testing.T) {
 	params := &stripe.CheckoutSessionExpireParams{}
 	result, err := checkout_session.Expire("sess_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsExpirePostService(t *testing.T) {
@@ -1559,7 +1559,7 @@ func TestCheckoutSessionsExpirePostService(t *testing.T) {
 	params := &stripe.CheckoutSessionExpireParams{}
 	result, err := sc.CheckoutSessions.Expire("sess_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsExpirePostClient(t *testing.T) {
@@ -1568,14 +1568,14 @@ func TestCheckoutSessionsExpirePostClient(t *testing.T) {
 	result, err := sc.V1CheckoutSessions.Expire(
 		context.TODO(), "sess_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsExpirePost2(t *testing.T) {
 	params := &stripe.CheckoutSessionExpireParams{}
 	result, err := checkout_session.Expire("cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsExpirePost2Service(t *testing.T) {
@@ -1583,7 +1583,7 @@ func TestCheckoutSessionsExpirePost2Service(t *testing.T) {
 	params := &stripe.CheckoutSessionExpireParams{}
 	result, err := sc.CheckoutSessions.Expire("cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsExpirePost2Client(t *testing.T) {
@@ -1592,7 +1592,7 @@ func TestCheckoutSessionsExpirePost2Client(t *testing.T) {
 	result, err := sc.V1CheckoutSessions.Expire(
 		context.TODO(), "cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsGet(t *testing.T) {
@@ -1600,7 +1600,7 @@ func TestCheckoutSessionsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := checkout_session.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCheckoutSessionsGetService(t *testing.T) {
@@ -1609,7 +1609,7 @@ func TestCheckoutSessionsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.CheckoutSessions.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCheckoutSessionsGetClient(t *testing.T) {
@@ -1618,14 +1618,14 @@ func TestCheckoutSessionsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1CheckoutSessions.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCheckoutSessionsGet2(t *testing.T) {
 	params := &stripe.CheckoutSessionParams{}
 	result, err := checkout_session.Get("cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsGet2Service(t *testing.T) {
@@ -1633,7 +1633,7 @@ func TestCheckoutSessionsGet2Service(t *testing.T) {
 	params := &stripe.CheckoutSessionParams{}
 	result, err := sc.CheckoutSessions.Get("cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsGet2Client(t *testing.T) {
@@ -1642,7 +1642,7 @@ func TestCheckoutSessionsGet2Client(t *testing.T) {
 	result, err := sc.V1CheckoutSessions.Retrieve(
 		context.TODO(), "cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsLineItemsGet(t *testing.T) {
@@ -1651,7 +1651,7 @@ func TestCheckoutSessionsLineItemsGet(t *testing.T) {
 	}
 	result := checkout_session.ListLineItems(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCheckoutSessionsLineItemsGetService(t *testing.T) {
@@ -1661,7 +1661,7 @@ func TestCheckoutSessionsLineItemsGetService(t *testing.T) {
 	}
 	result := sc.CheckoutSessions.ListLineItems(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCheckoutSessionsLineItemsGetClient(t *testing.T) {
@@ -1671,7 +1671,7 @@ func TestCheckoutSessionsLineItemsGetClient(t *testing.T) {
 	}
 	result := sc.V1CheckoutSessions.ListLineItems(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCheckoutSessionsPost(t *testing.T) {
@@ -1702,7 +1702,7 @@ func TestCheckoutSessionsPost(t *testing.T) {
 	}
 	result, err := checkout_session.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsPostService(t *testing.T) {
@@ -1734,7 +1734,7 @@ func TestCheckoutSessionsPostService(t *testing.T) {
 	}
 	result, err := sc.CheckoutSessions.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsPostClient(t *testing.T) {
@@ -1766,7 +1766,7 @@ func TestCheckoutSessionsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1CheckoutSessions.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsPost2(t *testing.T) {
@@ -1782,7 +1782,7 @@ func TestCheckoutSessionsPost2(t *testing.T) {
 	}
 	result, err := checkout_session.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsPost2Service(t *testing.T) {
@@ -1799,7 +1799,7 @@ func TestCheckoutSessionsPost2Service(t *testing.T) {
 	}
 	result, err := sc.CheckoutSessions.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCheckoutSessionsPost2Client(t *testing.T) {
@@ -1816,7 +1816,7 @@ func TestCheckoutSessionsPost2Client(t *testing.T) {
 	}
 	result, err := sc.V1CheckoutSessions.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCountrySpecsGet(t *testing.T) {
@@ -1824,7 +1824,7 @@ func TestCountrySpecsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := countryspec.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCountrySpecsGetService(t *testing.T) {
@@ -1833,7 +1833,7 @@ func TestCountrySpecsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.CountrySpecs.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCountrySpecsGetClient(t *testing.T) {
@@ -1842,14 +1842,14 @@ func TestCountrySpecsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1CountrySpecs.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCountrySpecsGet2(t *testing.T) {
 	params := &stripe.CountrySpecParams{}
 	result, err := countryspec.Get("US", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCountrySpecsGet2Service(t *testing.T) {
@@ -1857,7 +1857,7 @@ func TestCountrySpecsGet2Service(t *testing.T) {
 	params := &stripe.CountrySpecParams{}
 	result, err := sc.CountrySpecs.Get("US", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCountrySpecsGet2Client(t *testing.T) {
@@ -1865,14 +1865,14 @@ func TestCountrySpecsGet2Client(t *testing.T) {
 	params := &stripe.CountrySpecRetrieveParams{}
 	result, err := sc.V1CountrySpecs.Retrieve(context.TODO(), "US", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCouponsDelete(t *testing.T) {
 	params := &stripe.CouponParams{}
 	result, err := coupon.Del("Z4OV52SU", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCouponsDeleteService(t *testing.T) {
@@ -1880,7 +1880,7 @@ func TestCouponsDeleteService(t *testing.T) {
 	params := &stripe.CouponParams{}
 	result, err := sc.Coupons.Del("Z4OV52SU", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCouponsDeleteClient(t *testing.T) {
@@ -1888,7 +1888,7 @@ func TestCouponsDeleteClient(t *testing.T) {
 	params := &stripe.CouponDeleteParams{}
 	result, err := sc.V1Coupons.Delete(context.TODO(), "Z4OV52SU", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCouponsGet(t *testing.T) {
@@ -1896,7 +1896,7 @@ func TestCouponsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := coupon.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCouponsGetService(t *testing.T) {
@@ -1905,7 +1905,7 @@ func TestCouponsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Coupons.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCouponsGetClient(t *testing.T) {
@@ -1914,14 +1914,14 @@ func TestCouponsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Coupons.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCouponsGet2(t *testing.T) {
 	params := &stripe.CouponParams{}
 	result, err := coupon.Get("Z4OV52SU", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCouponsGet2Service(t *testing.T) {
@@ -1929,7 +1929,7 @@ func TestCouponsGet2Service(t *testing.T) {
 	params := &stripe.CouponParams{}
 	result, err := sc.Coupons.Get("Z4OV52SU", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCouponsGet2Client(t *testing.T) {
@@ -1937,7 +1937,7 @@ func TestCouponsGet2Client(t *testing.T) {
 	params := &stripe.CouponRetrieveParams{}
 	result, err := sc.V1Coupons.Retrieve(context.TODO(), "Z4OV52SU", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCouponsPost(t *testing.T) {
@@ -1947,7 +1947,7 @@ func TestCouponsPost(t *testing.T) {
 	}
 	result, err := coupon.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCouponsPostService(t *testing.T) {
@@ -1958,7 +1958,7 @@ func TestCouponsPostService(t *testing.T) {
 	}
 	result, err := sc.Coupons.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCouponsPostClient(t *testing.T) {
@@ -1969,7 +1969,7 @@ func TestCouponsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Coupons.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCouponsPost2(t *testing.T) {
@@ -1977,7 +1977,7 @@ func TestCouponsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := coupon.Update("Z4OV52SU", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCouponsPost2Service(t *testing.T) {
@@ -1986,7 +1986,7 @@ func TestCouponsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Coupons.Update("Z4OV52SU", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCouponsPost2Client(t *testing.T) {
@@ -1995,7 +1995,7 @@ func TestCouponsPost2Client(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.V1Coupons.Update(context.TODO(), "Z4OV52SU", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomerSessionsPost(t *testing.T) {
@@ -2009,7 +2009,7 @@ func TestCustomerSessionsPost(t *testing.T) {
 	}
 	result, err := customersession.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomerSessionsPostService(t *testing.T) {
@@ -2024,7 +2024,7 @@ func TestCustomerSessionsPostService(t *testing.T) {
 	}
 	result, err := sc.CustomerSessions.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomerSessionsPostClient(t *testing.T) {
@@ -2039,7 +2039,7 @@ func TestCustomerSessionsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1CustomerSessions.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersBalanceTransactionsGet(t *testing.T) {
@@ -2049,7 +2049,7 @@ func TestCustomersBalanceTransactionsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := customerbalancetransaction.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersBalanceTransactionsGetService(t *testing.T) {
@@ -2060,7 +2060,7 @@ func TestCustomersBalanceTransactionsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.CustomerBalanceTransactions.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersBalanceTransactionsGetClient(t *testing.T) {
@@ -2071,7 +2071,7 @@ func TestCustomersBalanceTransactionsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1CustomerBalanceTransactions.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersBalanceTransactionsGet2(t *testing.T) {
@@ -2080,7 +2080,7 @@ func TestCustomersBalanceTransactionsGet2(t *testing.T) {
 	}
 	result, err := customerbalancetransaction.Get("cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersBalanceTransactionsGet2Service(t *testing.T) {
@@ -2091,7 +2091,7 @@ func TestCustomersBalanceTransactionsGet2Service(t *testing.T) {
 	result, err := sc.CustomerBalanceTransactions.Get(
 		"cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersBalanceTransactionsGet2Client(t *testing.T) {
@@ -2102,7 +2102,7 @@ func TestCustomersBalanceTransactionsGet2Client(t *testing.T) {
 	result, err := sc.V1CustomerBalanceTransactions.Retrieve(
 		context.TODO(), "cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersBalanceTransactionsPost(t *testing.T) {
@@ -2113,7 +2113,7 @@ func TestCustomersBalanceTransactionsPost(t *testing.T) {
 	}
 	result, err := customerbalancetransaction.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersBalanceTransactionsPostService(t *testing.T) {
@@ -2125,7 +2125,7 @@ func TestCustomersBalanceTransactionsPostService(t *testing.T) {
 	}
 	result, err := sc.CustomerBalanceTransactions.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersBalanceTransactionsPostClient(t *testing.T) {
@@ -2137,7 +2137,7 @@ func TestCustomersBalanceTransactionsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1CustomerBalanceTransactions.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersBalanceTransactionsPost2(t *testing.T) {
@@ -2148,7 +2148,7 @@ func TestCustomersBalanceTransactionsPost2(t *testing.T) {
 	result, err := customerbalancetransaction.Update(
 		"cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersBalanceTransactionsPost2Service(t *testing.T) {
@@ -2160,7 +2160,7 @@ func TestCustomersBalanceTransactionsPost2Service(t *testing.T) {
 	result, err := sc.CustomerBalanceTransactions.Update(
 		"cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersBalanceTransactionsPost2Client(t *testing.T) {
@@ -2172,14 +2172,14 @@ func TestCustomersBalanceTransactionsPost2Client(t *testing.T) {
 	result, err := sc.V1CustomerBalanceTransactions.Update(
 		context.TODO(), "cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersCashBalanceGet(t *testing.T) {
 	params := &stripe.CashBalanceParams{Customer: stripe.String("cus_123")}
 	result, err := cashbalance.Get(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersCashBalanceGetService(t *testing.T) {
@@ -2187,7 +2187,7 @@ func TestCustomersCashBalanceGetService(t *testing.T) {
 	params := &stripe.CashBalanceParams{Customer: stripe.String("cus_123")}
 	result, err := sc.CashBalances.Get(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersCashBalanceGetClient(t *testing.T) {
@@ -2197,7 +2197,7 @@ func TestCustomersCashBalanceGetClient(t *testing.T) {
 	}
 	result, err := sc.V1CashBalances.Retrieve(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersCashBalancePost(t *testing.T) {
@@ -2209,7 +2209,7 @@ func TestCustomersCashBalancePost(t *testing.T) {
 	}
 	result, err := cashbalance.Update(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersCashBalancePostService(t *testing.T) {
@@ -2222,7 +2222,7 @@ func TestCustomersCashBalancePostService(t *testing.T) {
 	}
 	result, err := sc.CashBalances.Update(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersCashBalancePostClient(t *testing.T) {
@@ -2235,7 +2235,7 @@ func TestCustomersCashBalancePostClient(t *testing.T) {
 	}
 	result, err := sc.V1CashBalances.Update(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersCashBalanceTransactionsGet(t *testing.T) {
@@ -2245,7 +2245,7 @@ func TestCustomersCashBalanceTransactionsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := customercashbalancetransaction.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersCashBalanceTransactionsGetService(t *testing.T) {
@@ -2256,7 +2256,7 @@ func TestCustomersCashBalanceTransactionsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.CustomerCashBalanceTransactions.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersCashBalanceTransactionsGetClient(t *testing.T) {
@@ -2267,14 +2267,14 @@ func TestCustomersCashBalanceTransactionsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1CustomerCashBalanceTransactions.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersDelete(t *testing.T) {
 	params := &stripe.CustomerParams{}
 	result, err := customer.Del("cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersDeleteService(t *testing.T) {
@@ -2282,7 +2282,7 @@ func TestCustomersDeleteService(t *testing.T) {
 	params := &stripe.CustomerParams{}
 	result, err := sc.Customers.Del("cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersDeleteClient(t *testing.T) {
@@ -2291,7 +2291,7 @@ func TestCustomersDeleteClient(t *testing.T) {
 	result, err := sc.V1Customers.Delete(
 		context.TODO(), "cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersFundingInstructionsPost(t *testing.T) {
@@ -2305,7 +2305,7 @@ func TestCustomersFundingInstructionsPost(t *testing.T) {
 	}
 	result, err := customer.CreateFundingInstructions("cus_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersFundingInstructionsPostService(t *testing.T) {
@@ -2320,7 +2320,7 @@ func TestCustomersFundingInstructionsPostService(t *testing.T) {
 	}
 	result, err := sc.Customers.CreateFundingInstructions("cus_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersFundingInstructionsPostClient(t *testing.T) {
@@ -2336,7 +2336,7 @@ func TestCustomersFundingInstructionsPostClient(t *testing.T) {
 	result, err := sc.V1Customers.CreateFundingInstructions(
 		context.TODO(), "cus_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersGet(t *testing.T) {
@@ -2344,7 +2344,7 @@ func TestCustomersGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := customer.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersGetService(t *testing.T) {
@@ -2353,7 +2353,7 @@ func TestCustomersGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Customers.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersGetClient(t *testing.T) {
@@ -2362,7 +2362,7 @@ func TestCustomersGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Customers.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersGet2(t *testing.T) {
@@ -2370,7 +2370,7 @@ func TestCustomersGet2(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := customer.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersGet2Service(t *testing.T) {
@@ -2379,7 +2379,7 @@ func TestCustomersGet2Service(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Customers.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersGet2Client(t *testing.T) {
@@ -2388,14 +2388,14 @@ func TestCustomersGet2Client(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Customers.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersGet3(t *testing.T) {
 	params := &stripe.CustomerParams{}
 	result, err := customer.Get("cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersGet3Service(t *testing.T) {
@@ -2403,7 +2403,7 @@ func TestCustomersGet3Service(t *testing.T) {
 	params := &stripe.CustomerParams{}
 	result, err := sc.Customers.Get("cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersGet3Client(t *testing.T) {
@@ -2412,7 +2412,7 @@ func TestCustomersGet3Client(t *testing.T) {
 	result, err := sc.V1Customers.Retrieve(
 		context.TODO(), "cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersPaymentMethodsGet(t *testing.T) {
@@ -2422,7 +2422,7 @@ func TestCustomersPaymentMethodsGet(t *testing.T) {
 	}
 	result := customer.ListPaymentMethods(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersPaymentMethodsGetService(t *testing.T) {
@@ -2433,7 +2433,7 @@ func TestCustomersPaymentMethodsGetService(t *testing.T) {
 	}
 	result := sc.Customers.ListPaymentMethods(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersPaymentMethodsGetClient(t *testing.T) {
@@ -2444,7 +2444,7 @@ func TestCustomersPaymentMethodsGetClient(t *testing.T) {
 	}
 	result := sc.V1Customers.ListPaymentMethods(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersPaymentMethodsGet2(t *testing.T) {
@@ -2454,7 +2454,7 @@ func TestCustomersPaymentMethodsGet2(t *testing.T) {
 	}
 	result := customer.ListPaymentMethods(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersPaymentMethodsGet2Service(t *testing.T) {
@@ -2465,7 +2465,7 @@ func TestCustomersPaymentMethodsGet2Service(t *testing.T) {
 	}
 	result := sc.Customers.ListPaymentMethods(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersPaymentMethodsGet2Client(t *testing.T) {
@@ -2476,7 +2476,7 @@ func TestCustomersPaymentMethodsGet2Client(t *testing.T) {
 	}
 	result := sc.V1Customers.ListPaymentMethods(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersPost(t *testing.T) {
@@ -2485,7 +2485,7 @@ func TestCustomersPost(t *testing.T) {
 	}
 	result, err := customer.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersPostService(t *testing.T) {
@@ -2495,7 +2495,7 @@ func TestCustomersPostService(t *testing.T) {
 	}
 	result, err := sc.Customers.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersPostClient(t *testing.T) {
@@ -2505,7 +2505,7 @@ func TestCustomersPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Customers.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersPost2(t *testing.T) {
@@ -2513,7 +2513,7 @@ func TestCustomersPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := customer.Update("cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersPost2Service(t *testing.T) {
@@ -2522,7 +2522,7 @@ func TestCustomersPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Customers.Update("cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersPost2Client(t *testing.T) {
@@ -2532,7 +2532,7 @@ func TestCustomersPost2Client(t *testing.T) {
 	result, err := sc.V1Customers.Update(
 		context.TODO(), "cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSearchGet(t *testing.T) {
@@ -2543,7 +2543,7 @@ func TestCustomersSearchGet(t *testing.T) {
 	}
 	result := customer.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersSearchGetService(t *testing.T) {
@@ -2555,7 +2555,7 @@ func TestCustomersSearchGetService(t *testing.T) {
 	}
 	result := sc.Customers.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersSearchGetClient(t *testing.T) {
@@ -2567,7 +2567,7 @@ func TestCustomersSearchGetClient(t *testing.T) {
 	}
 	result := sc.V1Customers.Search(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersSearchGet2(t *testing.T) {
@@ -2578,7 +2578,7 @@ func TestCustomersSearchGet2(t *testing.T) {
 	}
 	result := customer.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersSearchGet2Service(t *testing.T) {
@@ -2590,7 +2590,7 @@ func TestCustomersSearchGet2Service(t *testing.T) {
 	}
 	result := sc.Customers.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersSearchGet2Client(t *testing.T) {
@@ -2602,14 +2602,14 @@ func TestCustomersSearchGet2Client(t *testing.T) {
 	}
 	result := sc.V1Customers.Search(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersSourcesDelete(t *testing.T) {
 	params := &stripe.CardParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := card.Del("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesDeleteService(t *testing.T) {
@@ -2617,7 +2617,7 @@ func TestCustomersSourcesDeleteService(t *testing.T) {
 	params := &stripe.CardParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.Cards.Del("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesDeleteClient(t *testing.T) {
@@ -2627,14 +2627,14 @@ func TestCustomersSourcesDeleteClient(t *testing.T) {
 	}
 	result, err := sc.V1Cards.Delete(context.TODO(), "ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesDelete2(t *testing.T) {
 	params := &stripe.CardParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := card.Del("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesDelete2Service(t *testing.T) {
@@ -2642,7 +2642,7 @@ func TestCustomersSourcesDelete2Service(t *testing.T) {
 	params := &stripe.CardParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.Cards.Del("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesDelete2Client(t *testing.T) {
@@ -2652,7 +2652,7 @@ func TestCustomersSourcesDelete2Client(t *testing.T) {
 	}
 	result, err := sc.V1Cards.Delete(context.TODO(), "card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesGet(t *testing.T) {
@@ -2663,7 +2663,7 @@ func TestCustomersSourcesGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := paymentsource.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersSourcesGetService(t *testing.T) {
@@ -2675,7 +2675,7 @@ func TestCustomersSourcesGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.PaymentSources.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersSourcesGetClient(t *testing.T) {
@@ -2687,7 +2687,7 @@ func TestCustomersSourcesGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1PaymentSources.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersSourcesGet2(t *testing.T) {
@@ -2698,7 +2698,7 @@ func TestCustomersSourcesGet2(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := paymentsource.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersSourcesGet2Service(t *testing.T) {
@@ -2710,7 +2710,7 @@ func TestCustomersSourcesGet2Service(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.PaymentSources.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersSourcesGet2Client(t *testing.T) {
@@ -2722,7 +2722,7 @@ func TestCustomersSourcesGet2Client(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1PaymentSources.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersSourcesGet3(t *testing.T) {
@@ -2731,7 +2731,7 @@ func TestCustomersSourcesGet3(t *testing.T) {
 	}
 	result, err := paymentsource.Get("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesGet3Service(t *testing.T) {
@@ -2741,7 +2741,7 @@ func TestCustomersSourcesGet3Service(t *testing.T) {
 	}
 	result, err := sc.PaymentSources.Get("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesGet3Client(t *testing.T) {
@@ -2752,7 +2752,7 @@ func TestCustomersSourcesGet3Client(t *testing.T) {
 	result, err := sc.V1PaymentSources.Retrieve(
 		context.TODO(), "ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesGet4(t *testing.T) {
@@ -2761,7 +2761,7 @@ func TestCustomersSourcesGet4(t *testing.T) {
 	}
 	result, err := paymentsource.Get("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesGet4Service(t *testing.T) {
@@ -2771,7 +2771,7 @@ func TestCustomersSourcesGet4Service(t *testing.T) {
 	}
 	result, err := sc.PaymentSources.Get("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesGet4Client(t *testing.T) {
@@ -2782,7 +2782,7 @@ func TestCustomersSourcesGet4Client(t *testing.T) {
 	result, err := sc.V1PaymentSources.Retrieve(
 		context.TODO(), "card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesPost(t *testing.T) {
@@ -2792,7 +2792,7 @@ func TestCustomersSourcesPost(t *testing.T) {
 	}
 	result, err := card.Update("card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesPostService(t *testing.T) {
@@ -2803,7 +2803,7 @@ func TestCustomersSourcesPostService(t *testing.T) {
 	}
 	result, err := sc.Cards.Update("card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesPostClient(t *testing.T) {
@@ -2814,7 +2814,7 @@ func TestCustomersSourcesPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Cards.Update(context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesPost5(t *testing.T) {
@@ -2824,7 +2824,7 @@ func TestCustomersSourcesPost5(t *testing.T) {
 	}
 	result, err := card.Update("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesPost5Service(t *testing.T) {
@@ -2835,7 +2835,7 @@ func TestCustomersSourcesPost5Service(t *testing.T) {
 	}
 	result, err := sc.Cards.Update("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersSourcesPost5Client(t *testing.T) {
@@ -2846,14 +2846,14 @@ func TestCustomersSourcesPost5Client(t *testing.T) {
 	}
 	result, err := sc.V1Cards.Update(context.TODO(), "card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersTaxIdsDelete(t *testing.T) {
 	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := taxid.Del("txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersTaxIdsDeleteService(t *testing.T) {
@@ -2861,7 +2861,7 @@ func TestCustomersTaxIdsDeleteService(t *testing.T) {
 	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.TaxIDs.Del("txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersTaxIdsDeleteClient(t *testing.T) {
@@ -2871,7 +2871,7 @@ func TestCustomersTaxIdsDeleteClient(t *testing.T) {
 	}
 	result, err := sc.V1TaxIDs.Delete(context.TODO(), "txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersTaxIdsGet(t *testing.T) {
@@ -2881,7 +2881,7 @@ func TestCustomersTaxIdsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := taxid.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersTaxIdsGetService(t *testing.T) {
@@ -2892,7 +2892,7 @@ func TestCustomersTaxIdsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TaxIDs.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersTaxIdsGetClient(t *testing.T) {
@@ -2903,14 +2903,14 @@ func TestCustomersTaxIdsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TaxIDs.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestCustomersTaxIdsGet2(t *testing.T) {
 	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := taxid.Get("txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersTaxIdsGet2Service(t *testing.T) {
@@ -2918,7 +2918,7 @@ func TestCustomersTaxIdsGet2Service(t *testing.T) {
 	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.TaxIDs.Get("txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersTaxIdsGet2Client(t *testing.T) {
@@ -2929,7 +2929,7 @@ func TestCustomersTaxIdsGet2Client(t *testing.T) {
 	result, err := sc.V1TaxIDs.Retrieve(
 		context.TODO(), "txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersTaxIdsPost(t *testing.T) {
@@ -2940,7 +2940,7 @@ func TestCustomersTaxIdsPost(t *testing.T) {
 	}
 	result, err := taxid.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersTaxIdsPostService(t *testing.T) {
@@ -2952,7 +2952,7 @@ func TestCustomersTaxIdsPostService(t *testing.T) {
 	}
 	result, err := sc.TaxIDs.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCustomersTaxIdsPostClient(t *testing.T) {
@@ -2964,14 +2964,14 @@ func TestCustomersTaxIdsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TaxIDs.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestDisputesClosePost(t *testing.T) {
 	params := &stripe.DisputeParams{}
 	result, err := dispute.Close("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestDisputesClosePostService(t *testing.T) {
@@ -2979,7 +2979,7 @@ func TestDisputesClosePostService(t *testing.T) {
 	params := &stripe.DisputeParams{}
 	result, err := sc.Disputes.Close("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestDisputesClosePostClient(t *testing.T) {
@@ -2987,7 +2987,7 @@ func TestDisputesClosePostClient(t *testing.T) {
 	params := &stripe.DisputeCloseParams{}
 	result, err := sc.V1Disputes.Close(context.TODO(), "dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestDisputesGet(t *testing.T) {
@@ -2995,7 +2995,7 @@ func TestDisputesGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := dispute.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestDisputesGetService(t *testing.T) {
@@ -3004,7 +3004,7 @@ func TestDisputesGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Disputes.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestDisputesGetClient(t *testing.T) {
@@ -3013,14 +3013,14 @@ func TestDisputesGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Disputes.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestDisputesGet2(t *testing.T) {
 	params := &stripe.DisputeParams{}
 	result, err := dispute.Get("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestDisputesGet2Service(t *testing.T) {
@@ -3028,7 +3028,7 @@ func TestDisputesGet2Service(t *testing.T) {
 	params := &stripe.DisputeParams{}
 	result, err := sc.Disputes.Get("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestDisputesGet2Client(t *testing.T) {
@@ -3037,7 +3037,7 @@ func TestDisputesGet2Client(t *testing.T) {
 	result, err := sc.V1Disputes.Retrieve(
 		context.TODO(), "dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestDisputesPost(t *testing.T) {
@@ -3045,7 +3045,7 @@ func TestDisputesPost(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := dispute.Update("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestDisputesPostService(t *testing.T) {
@@ -3054,7 +3054,7 @@ func TestDisputesPostService(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Disputes.Update("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestDisputesPostClient(t *testing.T) {
@@ -3064,7 +3064,7 @@ func TestDisputesPostClient(t *testing.T) {
 	result, err := sc.V1Disputes.Update(
 		context.TODO(), "dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestEventsGet(t *testing.T) {
@@ -3072,7 +3072,7 @@ func TestEventsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := event.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestEventsGetService(t *testing.T) {
@@ -3081,7 +3081,7 @@ func TestEventsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Events.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestEventsGetClient(t *testing.T) {
@@ -3090,14 +3090,14 @@ func TestEventsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Events.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestEventsGet2(t *testing.T) {
 	params := &stripe.EventParams{}
 	result, err := event.Get("evt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestEventsGet2Service(t *testing.T) {
@@ -3105,7 +3105,7 @@ func TestEventsGet2Service(t *testing.T) {
 	params := &stripe.EventParams{}
 	result, err := sc.Events.Get("evt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestEventsGet2Client(t *testing.T) {
@@ -3114,14 +3114,14 @@ func TestEventsGet2Client(t *testing.T) {
 	result, err := sc.V1Events.Retrieve(
 		context.TODO(), "evt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsDisconnectPost(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
 	result, err := financialconnections_account.Disconnect("fca_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsDisconnectPostService(t *testing.T) {
@@ -3129,7 +3129,7 @@ func TestFinancialConnectionsAccountsDisconnectPostService(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
 	result, err := sc.FinancialConnectionsAccounts.Disconnect("fca_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsDisconnectPostClient(t *testing.T) {
@@ -3138,7 +3138,7 @@ func TestFinancialConnectionsAccountsDisconnectPostClient(t *testing.T) {
 	result, err := sc.V1FinancialConnectionsAccounts.Disconnect(
 		context.TODO(), "fca_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsDisconnectPost2(t *testing.T) {
@@ -3146,7 +3146,7 @@ func TestFinancialConnectionsAccountsDisconnectPost2(t *testing.T) {
 	result, err := financialconnections_account.Disconnect(
 		"fca_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsDisconnectPost2Service(t *testing.T) {
@@ -3155,7 +3155,7 @@ func TestFinancialConnectionsAccountsDisconnectPost2Service(t *testing.T) {
 	result, err := sc.FinancialConnectionsAccounts.Disconnect(
 		"fca_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsDisconnectPost2Client(t *testing.T) {
@@ -3164,14 +3164,14 @@ func TestFinancialConnectionsAccountsDisconnectPost2Client(t *testing.T) {
 	result, err := sc.V1FinancialConnectionsAccounts.Disconnect(
 		context.TODO(), "fca_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsGet(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountListParams{}
 	result := financialconnections_account.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsGetService(t *testing.T) {
@@ -3179,7 +3179,7 @@ func TestFinancialConnectionsAccountsGetService(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountListParams{}
 	result := sc.FinancialConnectionsAccounts.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsGetClient(t *testing.T) {
@@ -3187,14 +3187,14 @@ func TestFinancialConnectionsAccountsGetClient(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountListParams{}
 	result := sc.V1FinancialConnectionsAccounts.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsGet2(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountParams{}
 	result, err := financialconnections_account.GetByID("fca_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsGet2Service(t *testing.T) {
@@ -3202,7 +3202,7 @@ func TestFinancialConnectionsAccountsGet2Service(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountParams{}
 	result, err := sc.FinancialConnectionsAccounts.GetByID("fca_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsGet2Client(t *testing.T) {
@@ -3211,7 +3211,7 @@ func TestFinancialConnectionsAccountsGet2Client(t *testing.T) {
 	result, err := sc.V1FinancialConnectionsAccounts.GetByID(
 		context.TODO(), "fca_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsGet3(t *testing.T) {
@@ -3222,7 +3222,7 @@ func TestFinancialConnectionsAccountsGet3(t *testing.T) {
 	}
 	result := financialconnections_account.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsGet3Service(t *testing.T) {
@@ -3234,7 +3234,7 @@ func TestFinancialConnectionsAccountsGet3Service(t *testing.T) {
 	}
 	result := sc.FinancialConnectionsAccounts.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsGet3Client(t *testing.T) {
@@ -3246,7 +3246,7 @@ func TestFinancialConnectionsAccountsGet3Client(t *testing.T) {
 	}
 	result := sc.V1FinancialConnectionsAccounts.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsGet4(t *testing.T) {
@@ -3254,7 +3254,7 @@ func TestFinancialConnectionsAccountsGet4(t *testing.T) {
 	result, err := financialconnections_account.GetByID(
 		"fca_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsGet4Service(t *testing.T) {
@@ -3263,7 +3263,7 @@ func TestFinancialConnectionsAccountsGet4Service(t *testing.T) {
 	result, err := sc.FinancialConnectionsAccounts.GetByID(
 		"fca_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsGet4Client(t *testing.T) {
@@ -3272,7 +3272,7 @@ func TestFinancialConnectionsAccountsGet4Client(t *testing.T) {
 	result, err := sc.V1FinancialConnectionsAccounts.GetByID(
 		context.TODO(), "fca_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsOwnersGet(t *testing.T) {
@@ -3282,7 +3282,7 @@ func TestFinancialConnectionsAccountsOwnersGet(t *testing.T) {
 	}
 	result := financialconnections_account.ListOwners(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsOwnersGetService(t *testing.T) {
@@ -3293,7 +3293,7 @@ func TestFinancialConnectionsAccountsOwnersGetService(t *testing.T) {
 	}
 	result := sc.FinancialConnectionsAccounts.ListOwners(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsOwnersGetClient(t *testing.T) {
@@ -3304,7 +3304,7 @@ func TestFinancialConnectionsAccountsOwnersGetClient(t *testing.T) {
 	}
 	result := sc.V1FinancialConnectionsAccounts.ListOwners(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsOwnersGet2(t *testing.T) {
@@ -3315,7 +3315,7 @@ func TestFinancialConnectionsAccountsOwnersGet2(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := financialconnections_account.ListOwners(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsOwnersGet2Service(t *testing.T) {
@@ -3327,7 +3327,7 @@ func TestFinancialConnectionsAccountsOwnersGet2Service(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.FinancialConnectionsAccounts.ListOwners(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsOwnersGet2Client(t *testing.T) {
@@ -3339,7 +3339,7 @@ func TestFinancialConnectionsAccountsOwnersGet2Client(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1FinancialConnectionsAccounts.ListOwners(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsRefreshPost(t *testing.T) {
@@ -3348,7 +3348,7 @@ func TestFinancialConnectionsAccountsRefreshPost(t *testing.T) {
 	}
 	result, err := financialconnections_account.Refresh("fca_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsRefreshPostService(t *testing.T) {
@@ -3358,7 +3358,7 @@ func TestFinancialConnectionsAccountsRefreshPostService(t *testing.T) {
 	}
 	result, err := sc.FinancialConnectionsAccounts.Refresh("fca_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsRefreshPostClient(t *testing.T) {
@@ -3369,7 +3369,7 @@ func TestFinancialConnectionsAccountsRefreshPostClient(t *testing.T) {
 	result, err := sc.V1FinancialConnectionsAccounts.Refresh(
 		context.TODO(), "fca_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsSubscribePost(t *testing.T) {
@@ -3378,7 +3378,7 @@ func TestFinancialConnectionsAccountsSubscribePost(t *testing.T) {
 	}
 	result, err := financialconnections_account.Subscribe("fa_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsSubscribePostService(t *testing.T) {
@@ -3388,7 +3388,7 @@ func TestFinancialConnectionsAccountsSubscribePostService(t *testing.T) {
 	}
 	result, err := sc.FinancialConnectionsAccounts.Subscribe("fa_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsSubscribePostClient(t *testing.T) {
@@ -3399,7 +3399,7 @@ func TestFinancialConnectionsAccountsSubscribePostClient(t *testing.T) {
 	result, err := sc.V1FinancialConnectionsAccounts.Subscribe(
 		context.TODO(), "fa_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsUnsubscribePost(t *testing.T) {
@@ -3408,7 +3408,7 @@ func TestFinancialConnectionsAccountsUnsubscribePost(t *testing.T) {
 	}
 	result, err := financialconnections_account.Unsubscribe("fa_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsUnsubscribePostService(t *testing.T) {
@@ -3418,7 +3418,7 @@ func TestFinancialConnectionsAccountsUnsubscribePostService(t *testing.T) {
 	}
 	result, err := sc.FinancialConnectionsAccounts.Unsubscribe("fa_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsAccountsUnsubscribePostClient(t *testing.T) {
@@ -3429,14 +3429,14 @@ func TestFinancialConnectionsAccountsUnsubscribePostClient(t *testing.T) {
 	result, err := sc.V1FinancialConnectionsAccounts.Unsubscribe(
 		context.TODO(), "fa_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsSessionsGet(t *testing.T) {
 	params := &stripe.FinancialConnectionsSessionParams{}
 	result, err := financialconnections_session.Get("fcsess_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsSessionsGetService(t *testing.T) {
@@ -3444,7 +3444,7 @@ func TestFinancialConnectionsSessionsGetService(t *testing.T) {
 	params := &stripe.FinancialConnectionsSessionParams{}
 	result, err := sc.FinancialConnectionsSessions.Get("fcsess_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsSessionsGetClient(t *testing.T) {
@@ -3453,7 +3453,7 @@ func TestFinancialConnectionsSessionsGetClient(t *testing.T) {
 	result, err := sc.V1FinancialConnectionsSessions.Retrieve(
 		context.TODO(), "fcsess_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsSessionsGet2(t *testing.T) {
@@ -3461,7 +3461,7 @@ func TestFinancialConnectionsSessionsGet2(t *testing.T) {
 	result, err := financialconnections_session.Get(
 		"fcsess_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsSessionsGet2Service(t *testing.T) {
@@ -3470,7 +3470,7 @@ func TestFinancialConnectionsSessionsGet2Service(t *testing.T) {
 	result, err := sc.FinancialConnectionsSessions.Get(
 		"fcsess_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsSessionsGet2Client(t *testing.T) {
@@ -3479,7 +3479,7 @@ func TestFinancialConnectionsSessionsGet2Client(t *testing.T) {
 	result, err := sc.V1FinancialConnectionsSessions.Retrieve(
 		context.TODO(), "fcsess_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsSessionsPost(t *testing.T) {
@@ -3494,7 +3494,7 @@ func TestFinancialConnectionsSessionsPost(t *testing.T) {
 	}
 	result, err := financialconnections_session.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsSessionsPostService(t *testing.T) {
@@ -3510,7 +3510,7 @@ func TestFinancialConnectionsSessionsPostService(t *testing.T) {
 	}
 	result, err := sc.FinancialConnectionsSessions.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsSessionsPostClient(t *testing.T) {
@@ -3527,7 +3527,7 @@ func TestFinancialConnectionsSessionsPostClient(t *testing.T) {
 	result, err := sc.V1FinancialConnectionsSessions.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsSessionsPost2(t *testing.T) {
@@ -3546,7 +3546,7 @@ func TestFinancialConnectionsSessionsPost2(t *testing.T) {
 	}
 	result, err := financialconnections_session.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsSessionsPost2Service(t *testing.T) {
@@ -3566,7 +3566,7 @@ func TestFinancialConnectionsSessionsPost2Service(t *testing.T) {
 	}
 	result, err := sc.FinancialConnectionsSessions.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsSessionsPost2Client(t *testing.T) {
@@ -3587,14 +3587,14 @@ func TestFinancialConnectionsSessionsPost2Client(t *testing.T) {
 	result, err := sc.V1FinancialConnectionsSessions.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsTransactionsGet(t *testing.T) {
 	params := &stripe.FinancialConnectionsTransactionParams{}
 	result, err := financialconnections_transaction.Get("tr_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsTransactionsGetService(t *testing.T) {
@@ -3602,7 +3602,7 @@ func TestFinancialConnectionsTransactionsGetService(t *testing.T) {
 	params := &stripe.FinancialConnectionsTransactionParams{}
 	result, err := sc.FinancialConnectionsTransactions.Get("tr_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsTransactionsGetClient(t *testing.T) {
@@ -3611,7 +3611,7 @@ func TestFinancialConnectionsTransactionsGetClient(t *testing.T) {
 	result, err := sc.V1FinancialConnectionsTransactions.Retrieve(
 		context.TODO(), "tr_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialConnectionsTransactionsGet2(t *testing.T) {
@@ -3620,7 +3620,7 @@ func TestFinancialConnectionsTransactionsGet2(t *testing.T) {
 	}
 	result := financialconnections_transaction.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsTransactionsGet2Service(t *testing.T) {
@@ -3630,7 +3630,7 @@ func TestFinancialConnectionsTransactionsGet2Service(t *testing.T) {
 	}
 	result := sc.FinancialConnectionsTransactions.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestFinancialConnectionsTransactionsGet2Client(t *testing.T) {
@@ -3640,7 +3640,7 @@ func TestFinancialConnectionsTransactionsGet2Client(t *testing.T) {
 	}
 	result := sc.V1FinancialConnectionsTransactions.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIdentityVerificationReportsGet(t *testing.T) {
@@ -3648,7 +3648,7 @@ func TestIdentityVerificationReportsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := identity_verificationreport.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIdentityVerificationReportsGetService(t *testing.T) {
@@ -3657,7 +3657,7 @@ func TestIdentityVerificationReportsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.IdentityVerificationReports.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIdentityVerificationReportsGetClient(t *testing.T) {
@@ -3666,14 +3666,14 @@ func TestIdentityVerificationReportsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1IdentityVerificationReports.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIdentityVerificationReportsGet2(t *testing.T) {
 	params := &stripe.IdentityVerificationReportParams{}
 	result, err := identity_verificationreport.Get("vr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationReportsGet2Service(t *testing.T) {
@@ -3681,7 +3681,7 @@ func TestIdentityVerificationReportsGet2Service(t *testing.T) {
 	params := &stripe.IdentityVerificationReportParams{}
 	result, err := sc.IdentityVerificationReports.Get("vr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationReportsGet2Client(t *testing.T) {
@@ -3690,14 +3690,14 @@ func TestIdentityVerificationReportsGet2Client(t *testing.T) {
 	result, err := sc.V1IdentityVerificationReports.Retrieve(
 		context.TODO(), "vr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsCancelPost(t *testing.T) {
 	params := &stripe.IdentityVerificationSessionCancelParams{}
 	result, err := identity_verificationsession.Cancel("vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsCancelPostService(t *testing.T) {
@@ -3706,7 +3706,7 @@ func TestIdentityVerificationSessionsCancelPostService(t *testing.T) {
 	result, err := sc.IdentityVerificationSessions.Cancel(
 		"vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsCancelPostClient(t *testing.T) {
@@ -3715,7 +3715,7 @@ func TestIdentityVerificationSessionsCancelPostClient(t *testing.T) {
 	result, err := sc.V1IdentityVerificationSessions.Cancel(
 		context.TODO(), "vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsGet(t *testing.T) {
@@ -3723,7 +3723,7 @@ func TestIdentityVerificationSessionsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := identity_verificationsession.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIdentityVerificationSessionsGetService(t *testing.T) {
@@ -3732,7 +3732,7 @@ func TestIdentityVerificationSessionsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.IdentityVerificationSessions.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIdentityVerificationSessionsGetClient(t *testing.T) {
@@ -3741,14 +3741,14 @@ func TestIdentityVerificationSessionsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1IdentityVerificationSessions.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIdentityVerificationSessionsGet2(t *testing.T) {
 	params := &stripe.IdentityVerificationSessionParams{}
 	result, err := identity_verificationsession.Get("vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsGet2Service(t *testing.T) {
@@ -3756,7 +3756,7 @@ func TestIdentityVerificationSessionsGet2Service(t *testing.T) {
 	params := &stripe.IdentityVerificationSessionParams{}
 	result, err := sc.IdentityVerificationSessions.Get("vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsGet2Client(t *testing.T) {
@@ -3765,7 +3765,7 @@ func TestIdentityVerificationSessionsGet2Client(t *testing.T) {
 	result, err := sc.V1IdentityVerificationSessions.Retrieve(
 		context.TODO(), "vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsPost(t *testing.T) {
@@ -3774,7 +3774,7 @@ func TestIdentityVerificationSessionsPost(t *testing.T) {
 	}
 	result, err := identity_verificationsession.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsPostService(t *testing.T) {
@@ -3784,7 +3784,7 @@ func TestIdentityVerificationSessionsPostService(t *testing.T) {
 	}
 	result, err := sc.IdentityVerificationSessions.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsPostClient(t *testing.T) {
@@ -3795,7 +3795,7 @@ func TestIdentityVerificationSessionsPostClient(t *testing.T) {
 	result, err := sc.V1IdentityVerificationSessions.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsPost2(t *testing.T) {
@@ -3804,7 +3804,7 @@ func TestIdentityVerificationSessionsPost2(t *testing.T) {
 	}
 	result, err := identity_verificationsession.Update("vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsPost2Service(t *testing.T) {
@@ -3815,7 +3815,7 @@ func TestIdentityVerificationSessionsPost2Service(t *testing.T) {
 	result, err := sc.IdentityVerificationSessions.Update(
 		"vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsPost2Client(t *testing.T) {
@@ -3826,14 +3826,14 @@ func TestIdentityVerificationSessionsPost2Client(t *testing.T) {
 	result, err := sc.V1IdentityVerificationSessions.Update(
 		context.TODO(), "vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsRedactPost(t *testing.T) {
 	params := &stripe.IdentityVerificationSessionRedactParams{}
 	result, err := identity_verificationsession.Redact("vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsRedactPostService(t *testing.T) {
@@ -3842,7 +3842,7 @@ func TestIdentityVerificationSessionsRedactPostService(t *testing.T) {
 	result, err := sc.IdentityVerificationSessions.Redact(
 		"vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIdentityVerificationSessionsRedactPostClient(t *testing.T) {
@@ -3851,14 +3851,14 @@ func TestIdentityVerificationSessionsRedactPostClient(t *testing.T) {
 	result, err := sc.V1IdentityVerificationSessions.Redact(
 		context.TODO(), "vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoiceitemsDelete(t *testing.T) {
 	params := &stripe.InvoiceItemParams{}
 	result, err := invoiceitem.Del("ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoiceitemsDeleteService(t *testing.T) {
@@ -3866,7 +3866,7 @@ func TestInvoiceitemsDeleteService(t *testing.T) {
 	params := &stripe.InvoiceItemParams{}
 	result, err := sc.InvoiceItems.Del("ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoiceitemsDeleteClient(t *testing.T) {
@@ -3875,7 +3875,7 @@ func TestInvoiceitemsDeleteClient(t *testing.T) {
 	result, err := sc.V1InvoiceItems.Delete(
 		context.TODO(), "ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoiceitemsPost(t *testing.T) {
@@ -3884,7 +3884,7 @@ func TestInvoiceitemsPost(t *testing.T) {
 	}
 	result, err := invoiceitem.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoiceitemsPostService(t *testing.T) {
@@ -3894,7 +3894,7 @@ func TestInvoiceitemsPostService(t *testing.T) {
 	}
 	result, err := sc.InvoiceItems.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoiceitemsPostClient(t *testing.T) {
@@ -3904,7 +3904,7 @@ func TestInvoiceitemsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1InvoiceItems.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoiceitemsPost2(t *testing.T) {
@@ -3912,7 +3912,7 @@ func TestInvoiceitemsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := invoiceitem.Update("ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoiceitemsPost2Service(t *testing.T) {
@@ -3921,7 +3921,7 @@ func TestInvoiceitemsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.InvoiceItems.Update("ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoiceitemsPost2Client(t *testing.T) {
@@ -3931,14 +3931,14 @@ func TestInvoiceitemsPost2Client(t *testing.T) {
 	result, err := sc.V1InvoiceItems.Update(
 		context.TODO(), "ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesDelete(t *testing.T) {
 	params := &stripe.InvoiceParams{}
 	result, err := invoice.Del("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesDeleteService(t *testing.T) {
@@ -3946,7 +3946,7 @@ func TestInvoicesDeleteService(t *testing.T) {
 	params := &stripe.InvoiceParams{}
 	result, err := sc.Invoices.Del("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesDeleteClient(t *testing.T) {
@@ -3955,14 +3955,14 @@ func TestInvoicesDeleteClient(t *testing.T) {
 	result, err := sc.V1Invoices.Delete(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesFinalizePost(t *testing.T) {
 	params := &stripe.InvoiceFinalizeInvoiceParams{}
 	result, err := invoice.FinalizeInvoice("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesFinalizePostService(t *testing.T) {
@@ -3970,7 +3970,7 @@ func TestInvoicesFinalizePostService(t *testing.T) {
 	params := &stripe.InvoiceFinalizeInvoiceParams{}
 	result, err := sc.Invoices.FinalizeInvoice("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesFinalizePostClient(t *testing.T) {
@@ -3979,7 +3979,7 @@ func TestInvoicesFinalizePostClient(t *testing.T) {
 	result, err := sc.V1Invoices.FinalizeInvoice(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesGet(t *testing.T) {
@@ -3987,7 +3987,7 @@ func TestInvoicesGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := invoice.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestInvoicesGetService(t *testing.T) {
@@ -3996,7 +3996,7 @@ func TestInvoicesGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Invoices.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestInvoicesGetClient(t *testing.T) {
@@ -4005,14 +4005,14 @@ func TestInvoicesGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Invoices.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestInvoicesGet2(t *testing.T) {
 	params := &stripe.InvoiceParams{}
 	result, err := invoice.Get("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesGet2Service(t *testing.T) {
@@ -4020,7 +4020,7 @@ func TestInvoicesGet2Service(t *testing.T) {
 	params := &stripe.InvoiceParams{}
 	result, err := sc.Invoices.Get("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesGet2Client(t *testing.T) {
@@ -4029,7 +4029,7 @@ func TestInvoicesGet2Client(t *testing.T) {
 	result, err := sc.V1Invoices.Retrieve(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesGet3(t *testing.T) {
@@ -4037,7 +4037,7 @@ func TestInvoicesGet3(t *testing.T) {
 	params.AddExpand("customer")
 	result, err := invoice.Get("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesGet3Service(t *testing.T) {
@@ -4046,7 +4046,7 @@ func TestInvoicesGet3Service(t *testing.T) {
 	params.AddExpand("customer")
 	result, err := sc.Invoices.Get("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesGet3Client(t *testing.T) {
@@ -4056,14 +4056,14 @@ func TestInvoicesGet3Client(t *testing.T) {
 	result, err := sc.V1Invoices.Retrieve(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesPayPost(t *testing.T) {
 	params := &stripe.InvoicePayParams{}
 	result, err := invoice.Pay("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesPayPostService(t *testing.T) {
@@ -4071,7 +4071,7 @@ func TestInvoicesPayPostService(t *testing.T) {
 	params := &stripe.InvoicePayParams{}
 	result, err := sc.Invoices.Pay("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesPayPostClient(t *testing.T) {
@@ -4079,14 +4079,14 @@ func TestInvoicesPayPostClient(t *testing.T) {
 	params := &stripe.InvoicePayParams{}
 	result, err := sc.V1Invoices.Pay(context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesPost(t *testing.T) {
 	params := &stripe.InvoiceParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := invoice.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesPostService(t *testing.T) {
@@ -4094,7 +4094,7 @@ func TestInvoicesPostService(t *testing.T) {
 	params := &stripe.InvoiceParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.Invoices.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesPostClient(t *testing.T) {
@@ -4104,7 +4104,7 @@ func TestInvoicesPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Invoices.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesPost2(t *testing.T) {
@@ -4112,7 +4112,7 @@ func TestInvoicesPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := invoice.Update("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesPost2Service(t *testing.T) {
@@ -4121,7 +4121,7 @@ func TestInvoicesPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Invoices.Update("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesPost2Client(t *testing.T) {
@@ -4131,7 +4131,7 @@ func TestInvoicesPost2Client(t *testing.T) {
 	result, err := sc.V1Invoices.Update(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesSearchGet(t *testing.T) {
@@ -4142,7 +4142,7 @@ func TestInvoicesSearchGet(t *testing.T) {
 	}
 	result := invoice.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestInvoicesSearchGetService(t *testing.T) {
@@ -4154,7 +4154,7 @@ func TestInvoicesSearchGetService(t *testing.T) {
 	}
 	result := sc.Invoices.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestInvoicesSearchGetClient(t *testing.T) {
@@ -4166,14 +4166,14 @@ func TestInvoicesSearchGetClient(t *testing.T) {
 	}
 	result := sc.V1Invoices.Search(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestInvoicesSendPost(t *testing.T) {
 	params := &stripe.InvoiceSendInvoiceParams{}
 	result, err := invoice.SendInvoice("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesSendPostService(t *testing.T) {
@@ -4181,7 +4181,7 @@ func TestInvoicesSendPostService(t *testing.T) {
 	params := &stripe.InvoiceSendInvoiceParams{}
 	result, err := sc.Invoices.SendInvoice("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesSendPostClient(t *testing.T) {
@@ -4190,14 +4190,14 @@ func TestInvoicesSendPostClient(t *testing.T) {
 	result, err := sc.V1Invoices.SendInvoice(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesVoidPost(t *testing.T) {
 	params := &stripe.InvoiceVoidInvoiceParams{}
 	result, err := invoice.VoidInvoice("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesVoidPostService(t *testing.T) {
@@ -4205,7 +4205,7 @@ func TestInvoicesVoidPostService(t *testing.T) {
 	params := &stripe.InvoiceVoidInvoiceParams{}
 	result, err := sc.Invoices.VoidInvoice("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvoicesVoidPostClient(t *testing.T) {
@@ -4214,14 +4214,14 @@ func TestInvoicesVoidPostClient(t *testing.T) {
 	result, err := sc.V1Invoices.VoidInvoice(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingAuthorizationsApprovePost(t *testing.T) {
 	params := &stripe.IssuingAuthorizationApproveParams{}
 	result, err := issuing_authorization.Approve("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingAuthorizationsApprovePostService(t *testing.T) {
@@ -4229,7 +4229,7 @@ func TestIssuingAuthorizationsApprovePostService(t *testing.T) {
 	params := &stripe.IssuingAuthorizationApproveParams{}
 	result, err := sc.IssuingAuthorizations.Approve("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingAuthorizationsApprovePostClient(t *testing.T) {
@@ -4238,14 +4238,14 @@ func TestIssuingAuthorizationsApprovePostClient(t *testing.T) {
 	result, err := sc.V1IssuingAuthorizations.Approve(
 		context.TODO(), "iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingAuthorizationsDeclinePost(t *testing.T) {
 	params := &stripe.IssuingAuthorizationDeclineParams{}
 	result, err := issuing_authorization.Decline("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingAuthorizationsDeclinePostService(t *testing.T) {
@@ -4253,7 +4253,7 @@ func TestIssuingAuthorizationsDeclinePostService(t *testing.T) {
 	params := &stripe.IssuingAuthorizationDeclineParams{}
 	result, err := sc.IssuingAuthorizations.Decline("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingAuthorizationsDeclinePostClient(t *testing.T) {
@@ -4262,7 +4262,7 @@ func TestIssuingAuthorizationsDeclinePostClient(t *testing.T) {
 	result, err := sc.V1IssuingAuthorizations.Decline(
 		context.TODO(), "iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingAuthorizationsGet(t *testing.T) {
@@ -4270,7 +4270,7 @@ func TestIssuingAuthorizationsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := issuing_authorization.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingAuthorizationsGetService(t *testing.T) {
@@ -4279,7 +4279,7 @@ func TestIssuingAuthorizationsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.IssuingAuthorizations.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingAuthorizationsGetClient(t *testing.T) {
@@ -4288,14 +4288,14 @@ func TestIssuingAuthorizationsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1IssuingAuthorizations.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingAuthorizationsGet2(t *testing.T) {
 	params := &stripe.IssuingAuthorizationParams{}
 	result, err := issuing_authorization.Get("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingAuthorizationsGet2Service(t *testing.T) {
@@ -4303,7 +4303,7 @@ func TestIssuingAuthorizationsGet2Service(t *testing.T) {
 	params := &stripe.IssuingAuthorizationParams{}
 	result, err := sc.IssuingAuthorizations.Get("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingAuthorizationsGet2Client(t *testing.T) {
@@ -4312,7 +4312,7 @@ func TestIssuingAuthorizationsGet2Client(t *testing.T) {
 	result, err := sc.V1IssuingAuthorizations.Retrieve(
 		context.TODO(), "iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingAuthorizationsPost(t *testing.T) {
@@ -4320,7 +4320,7 @@ func TestIssuingAuthorizationsPost(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := issuing_authorization.Update("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingAuthorizationsPostService(t *testing.T) {
@@ -4329,7 +4329,7 @@ func TestIssuingAuthorizationsPostService(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.IssuingAuthorizations.Update("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingAuthorizationsPostClient(t *testing.T) {
@@ -4339,7 +4339,7 @@ func TestIssuingAuthorizationsPostClient(t *testing.T) {
 	result, err := sc.V1IssuingAuthorizations.Update(
 		context.TODO(), "iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardholdersGet(t *testing.T) {
@@ -4347,7 +4347,7 @@ func TestIssuingCardholdersGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := issuing_cardholder.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingCardholdersGetService(t *testing.T) {
@@ -4356,7 +4356,7 @@ func TestIssuingCardholdersGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.IssuingCardholders.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingCardholdersGetClient(t *testing.T) {
@@ -4365,14 +4365,14 @@ func TestIssuingCardholdersGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1IssuingCardholders.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingCardholdersGet2(t *testing.T) {
 	params := &stripe.IssuingCardholderParams{}
 	result, err := issuing_cardholder.Get("ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardholdersGet2Service(t *testing.T) {
@@ -4380,7 +4380,7 @@ func TestIssuingCardholdersGet2Service(t *testing.T) {
 	params := &stripe.IssuingCardholderParams{}
 	result, err := sc.IssuingCardholders.Get("ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardholdersGet2Client(t *testing.T) {
@@ -4389,7 +4389,7 @@ func TestIssuingCardholdersGet2Client(t *testing.T) {
 	result, err := sc.V1IssuingCardholders.Retrieve(
 		context.TODO(), "ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardholdersPost(t *testing.T) {
@@ -4410,7 +4410,7 @@ func TestIssuingCardholdersPost(t *testing.T) {
 	}
 	result, err := issuing_cardholder.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardholdersPostService(t *testing.T) {
@@ -4432,7 +4432,7 @@ func TestIssuingCardholdersPostService(t *testing.T) {
 	}
 	result, err := sc.IssuingCardholders.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardholdersPostClient(t *testing.T) {
@@ -4454,7 +4454,7 @@ func TestIssuingCardholdersPostClient(t *testing.T) {
 	}
 	result, err := sc.V1IssuingCardholders.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardholdersPost2(t *testing.T) {
@@ -4462,7 +4462,7 @@ func TestIssuingCardholdersPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := issuing_cardholder.Update("ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardholdersPost2Service(t *testing.T) {
@@ -4471,7 +4471,7 @@ func TestIssuingCardholdersPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.IssuingCardholders.Update("ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardholdersPost2Client(t *testing.T) {
@@ -4481,7 +4481,7 @@ func TestIssuingCardholdersPost2Client(t *testing.T) {
 	result, err := sc.V1IssuingCardholders.Update(
 		context.TODO(), "ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardsGet(t *testing.T) {
@@ -4489,7 +4489,7 @@ func TestIssuingCardsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := issuing_card.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingCardsGetService(t *testing.T) {
@@ -4498,7 +4498,7 @@ func TestIssuingCardsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.IssuingCards.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingCardsGetClient(t *testing.T) {
@@ -4507,14 +4507,14 @@ func TestIssuingCardsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1IssuingCards.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingCardsGet2(t *testing.T) {
 	params := &stripe.IssuingCardParams{}
 	result, err := issuing_card.Get("ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardsGet2Service(t *testing.T) {
@@ -4522,7 +4522,7 @@ func TestIssuingCardsGet2Service(t *testing.T) {
 	params := &stripe.IssuingCardParams{}
 	result, err := sc.IssuingCards.Get("ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardsGet2Client(t *testing.T) {
@@ -4531,7 +4531,7 @@ func TestIssuingCardsGet2Client(t *testing.T) {
 	result, err := sc.V1IssuingCards.Retrieve(
 		context.TODO(), "ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardsPost(t *testing.T) {
@@ -4542,7 +4542,7 @@ func TestIssuingCardsPost(t *testing.T) {
 	}
 	result, err := issuing_card.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardsPostService(t *testing.T) {
@@ -4554,7 +4554,7 @@ func TestIssuingCardsPostService(t *testing.T) {
 	}
 	result, err := sc.IssuingCards.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardsPostClient(t *testing.T) {
@@ -4566,7 +4566,7 @@ func TestIssuingCardsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1IssuingCards.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardsPost2(t *testing.T) {
@@ -4574,7 +4574,7 @@ func TestIssuingCardsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := issuing_card.Update("ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardsPost2Service(t *testing.T) {
@@ -4583,7 +4583,7 @@ func TestIssuingCardsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.IssuingCards.Update("ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingCardsPost2Client(t *testing.T) {
@@ -4593,7 +4593,7 @@ func TestIssuingCardsPost2Client(t *testing.T) {
 	result, err := sc.V1IssuingCards.Update(
 		context.TODO(), "ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingDisputesGet(t *testing.T) {
@@ -4601,7 +4601,7 @@ func TestIssuingDisputesGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := issuing_dispute.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingDisputesGetService(t *testing.T) {
@@ -4610,7 +4610,7 @@ func TestIssuingDisputesGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.IssuingDisputes.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingDisputesGetClient(t *testing.T) {
@@ -4619,14 +4619,14 @@ func TestIssuingDisputesGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1IssuingDisputes.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingDisputesGet2(t *testing.T) {
 	params := &stripe.IssuingDisputeParams{}
 	result, err := issuing_dispute.Get("idp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingDisputesGet2Service(t *testing.T) {
@@ -4634,7 +4634,7 @@ func TestIssuingDisputesGet2Service(t *testing.T) {
 	params := &stripe.IssuingDisputeParams{}
 	result, err := sc.IssuingDisputes.Get("idp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingDisputesGet2Client(t *testing.T) {
@@ -4643,7 +4643,7 @@ func TestIssuingDisputesGet2Client(t *testing.T) {
 	result, err := sc.V1IssuingDisputes.Retrieve(
 		context.TODO(), "idp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingDisputesPost(t *testing.T) {
@@ -4658,7 +4658,7 @@ func TestIssuingDisputesPost(t *testing.T) {
 	}
 	result, err := issuing_dispute.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingDisputesPostService(t *testing.T) {
@@ -4674,7 +4674,7 @@ func TestIssuingDisputesPostService(t *testing.T) {
 	}
 	result, err := sc.IssuingDisputes.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingDisputesPostClient(t *testing.T) {
@@ -4690,14 +4690,14 @@ func TestIssuingDisputesPostClient(t *testing.T) {
 	}
 	result, err := sc.V1IssuingDisputes.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingDisputesSubmitPost(t *testing.T) {
 	params := &stripe.IssuingDisputeSubmitParams{}
 	result, err := issuing_dispute.Submit("idp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingDisputesSubmitPostService(t *testing.T) {
@@ -4705,7 +4705,7 @@ func TestIssuingDisputesSubmitPostService(t *testing.T) {
 	params := &stripe.IssuingDisputeSubmitParams{}
 	result, err := sc.IssuingDisputes.Submit("idp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingDisputesSubmitPostClient(t *testing.T) {
@@ -4714,14 +4714,14 @@ func TestIssuingDisputesSubmitPostClient(t *testing.T) {
 	result, err := sc.V1IssuingDisputes.Submit(
 		context.TODO(), "idp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingPersonalizationDesignsGet(t *testing.T) {
 	params := &stripe.IssuingPersonalizationDesignListParams{}
 	result := issuing_personalizationdesign.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingPersonalizationDesignsGetService(t *testing.T) {
@@ -4729,7 +4729,7 @@ func TestIssuingPersonalizationDesignsGetService(t *testing.T) {
 	params := &stripe.IssuingPersonalizationDesignListParams{}
 	result := sc.IssuingPersonalizationDesigns.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingPersonalizationDesignsGetClient(t *testing.T) {
@@ -4737,14 +4737,14 @@ func TestIssuingPersonalizationDesignsGetClient(t *testing.T) {
 	params := &stripe.IssuingPersonalizationDesignListParams{}
 	result := sc.V1IssuingPersonalizationDesigns.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingPersonalizationDesignsGet2(t *testing.T) {
 	params := &stripe.IssuingPersonalizationDesignParams{}
 	result, err := issuing_personalizationdesign.Get("pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingPersonalizationDesignsGet2Service(t *testing.T) {
@@ -4752,7 +4752,7 @@ func TestIssuingPersonalizationDesignsGet2Service(t *testing.T) {
 	params := &stripe.IssuingPersonalizationDesignParams{}
 	result, err := sc.IssuingPersonalizationDesigns.Get("pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingPersonalizationDesignsGet2Client(t *testing.T) {
@@ -4761,7 +4761,7 @@ func TestIssuingPersonalizationDesignsGet2Client(t *testing.T) {
 	result, err := sc.V1IssuingPersonalizationDesigns.Retrieve(
 		context.TODO(), "pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingPersonalizationDesignsPost(t *testing.T) {
@@ -4770,7 +4770,7 @@ func TestIssuingPersonalizationDesignsPost(t *testing.T) {
 	}
 	result, err := issuing_personalizationdesign.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingPersonalizationDesignsPostService(t *testing.T) {
@@ -4780,7 +4780,7 @@ func TestIssuingPersonalizationDesignsPostService(t *testing.T) {
 	}
 	result, err := sc.IssuingPersonalizationDesigns.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingPersonalizationDesignsPostClient(t *testing.T) {
@@ -4791,14 +4791,14 @@ func TestIssuingPersonalizationDesignsPostClient(t *testing.T) {
 	result, err := sc.V1IssuingPersonalizationDesigns.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingPersonalizationDesignsPost2(t *testing.T) {
 	params := &stripe.IssuingPersonalizationDesignParams{}
 	result, err := issuing_personalizationdesign.Update("pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingPersonalizationDesignsPost2Service(t *testing.T) {
@@ -4806,7 +4806,7 @@ func TestIssuingPersonalizationDesignsPost2Service(t *testing.T) {
 	params := &stripe.IssuingPersonalizationDesignParams{}
 	result, err := sc.IssuingPersonalizationDesigns.Update("pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingPersonalizationDesignsPost2Client(t *testing.T) {
@@ -4815,14 +4815,14 @@ func TestIssuingPersonalizationDesignsPost2Client(t *testing.T) {
 	result, err := sc.V1IssuingPersonalizationDesigns.Update(
 		context.TODO(), "pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingPhysicalBundlesGet(t *testing.T) {
 	params := &stripe.IssuingPhysicalBundleListParams{}
 	result := issuing_physicalbundle.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingPhysicalBundlesGetService(t *testing.T) {
@@ -4830,7 +4830,7 @@ func TestIssuingPhysicalBundlesGetService(t *testing.T) {
 	params := &stripe.IssuingPhysicalBundleListParams{}
 	result := sc.IssuingPhysicalBundles.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingPhysicalBundlesGetClient(t *testing.T) {
@@ -4838,14 +4838,14 @@ func TestIssuingPhysicalBundlesGetClient(t *testing.T) {
 	params := &stripe.IssuingPhysicalBundleListParams{}
 	result := sc.V1IssuingPhysicalBundles.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingPhysicalBundlesGet2(t *testing.T) {
 	params := &stripe.IssuingPhysicalBundleParams{}
 	result, err := issuing_physicalbundle.Get("pb_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingPhysicalBundlesGet2Service(t *testing.T) {
@@ -4853,7 +4853,7 @@ func TestIssuingPhysicalBundlesGet2Service(t *testing.T) {
 	params := &stripe.IssuingPhysicalBundleParams{}
 	result, err := sc.IssuingPhysicalBundles.Get("pb_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingPhysicalBundlesGet2Client(t *testing.T) {
@@ -4862,7 +4862,7 @@ func TestIssuingPhysicalBundlesGet2Client(t *testing.T) {
 	result, err := sc.V1IssuingPhysicalBundles.Retrieve(
 		context.TODO(), "pb_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingTransactionsGet(t *testing.T) {
@@ -4870,7 +4870,7 @@ func TestIssuingTransactionsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := issuing_transaction.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingTransactionsGetService(t *testing.T) {
@@ -4879,7 +4879,7 @@ func TestIssuingTransactionsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.IssuingTransactions.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingTransactionsGetClient(t *testing.T) {
@@ -4888,14 +4888,14 @@ func TestIssuingTransactionsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1IssuingTransactions.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestIssuingTransactionsGet2(t *testing.T) {
 	params := &stripe.IssuingTransactionParams{}
 	result, err := issuing_transaction.Get("ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingTransactionsGet2Service(t *testing.T) {
@@ -4903,7 +4903,7 @@ func TestIssuingTransactionsGet2Service(t *testing.T) {
 	params := &stripe.IssuingTransactionParams{}
 	result, err := sc.IssuingTransactions.Get("ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingTransactionsGet2Client(t *testing.T) {
@@ -4912,7 +4912,7 @@ func TestIssuingTransactionsGet2Client(t *testing.T) {
 	result, err := sc.V1IssuingTransactions.Retrieve(
 		context.TODO(), "ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingTransactionsPost(t *testing.T) {
@@ -4920,7 +4920,7 @@ func TestIssuingTransactionsPost(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := issuing_transaction.Update("ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingTransactionsPostService(t *testing.T) {
@@ -4929,7 +4929,7 @@ func TestIssuingTransactionsPostService(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.IssuingTransactions.Update("ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestIssuingTransactionsPostClient(t *testing.T) {
@@ -4939,14 +4939,14 @@ func TestIssuingTransactionsPostClient(t *testing.T) {
 	result, err := sc.V1IssuingTransactions.Update(
 		context.TODO(), "ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestMandatesGet(t *testing.T) {
 	params := &stripe.MandateParams{}
 	result, err := mandate.Get("mandate_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestMandatesGetService(t *testing.T) {
@@ -4954,7 +4954,7 @@ func TestMandatesGetService(t *testing.T) {
 	params := &stripe.MandateParams{}
 	result, err := sc.Mandates.Get("mandate_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestMandatesGetClient(t *testing.T) {
@@ -4963,14 +4963,14 @@ func TestMandatesGetClient(t *testing.T) {
 	result, err := sc.V1Mandates.Retrieve(
 		context.TODO(), "mandate_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsApplyCustomerBalancePost(t *testing.T) {
 	params := &stripe.PaymentIntentApplyCustomerBalanceParams{}
 	result, err := paymentintent.ApplyCustomerBalance("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsApplyCustomerBalancePostService(t *testing.T) {
@@ -4979,7 +4979,7 @@ func TestPaymentIntentsApplyCustomerBalancePostService(t *testing.T) {
 	result, err := sc.PaymentIntents.ApplyCustomerBalance(
 		"pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsApplyCustomerBalancePostClient(t *testing.T) {
@@ -4988,14 +4988,14 @@ func TestPaymentIntentsApplyCustomerBalancePostClient(t *testing.T) {
 	result, err := sc.V1PaymentIntents.ApplyCustomerBalance(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsCancelPost(t *testing.T) {
 	params := &stripe.PaymentIntentCancelParams{}
 	result, err := paymentintent.Cancel("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsCancelPostService(t *testing.T) {
@@ -5003,7 +5003,7 @@ func TestPaymentIntentsCancelPostService(t *testing.T) {
 	params := &stripe.PaymentIntentCancelParams{}
 	result, err := sc.PaymentIntents.Cancel("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsCancelPostClient(t *testing.T) {
@@ -5012,14 +5012,14 @@ func TestPaymentIntentsCancelPostClient(t *testing.T) {
 	result, err := sc.V1PaymentIntents.Cancel(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsCapturePost(t *testing.T) {
 	params := &stripe.PaymentIntentCaptureParams{}
 	result, err := paymentintent.Capture("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsCapturePostService(t *testing.T) {
@@ -5027,7 +5027,7 @@ func TestPaymentIntentsCapturePostService(t *testing.T) {
 	params := &stripe.PaymentIntentCaptureParams{}
 	result, err := sc.PaymentIntents.Capture("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsCapturePostClient(t *testing.T) {
@@ -5036,7 +5036,7 @@ func TestPaymentIntentsCapturePostClient(t *testing.T) {
 	result, err := sc.V1PaymentIntents.Capture(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsConfirmPost(t *testing.T) {
@@ -5045,7 +5045,7 @@ func TestPaymentIntentsConfirmPost(t *testing.T) {
 	}
 	result, err := paymentintent.Confirm("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsConfirmPostService(t *testing.T) {
@@ -5055,7 +5055,7 @@ func TestPaymentIntentsConfirmPostService(t *testing.T) {
 	}
 	result, err := sc.PaymentIntents.Confirm("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsConfirmPostClient(t *testing.T) {
@@ -5066,7 +5066,7 @@ func TestPaymentIntentsConfirmPostClient(t *testing.T) {
 	result, err := sc.V1PaymentIntents.Confirm(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsGet(t *testing.T) {
@@ -5074,7 +5074,7 @@ func TestPaymentIntentsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := paymentintent.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentIntentsGetService(t *testing.T) {
@@ -5083,7 +5083,7 @@ func TestPaymentIntentsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.PaymentIntents.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentIntentsGetClient(t *testing.T) {
@@ -5092,14 +5092,14 @@ func TestPaymentIntentsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1PaymentIntents.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentIntentsGet2(t *testing.T) {
 	params := &stripe.PaymentIntentParams{}
 	result, err := paymentintent.Get("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsGet2Service(t *testing.T) {
@@ -5107,7 +5107,7 @@ func TestPaymentIntentsGet2Service(t *testing.T) {
 	params := &stripe.PaymentIntentParams{}
 	result, err := sc.PaymentIntents.Get("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsGet2Client(t *testing.T) {
@@ -5116,7 +5116,7 @@ func TestPaymentIntentsGet2Client(t *testing.T) {
 	result, err := sc.V1PaymentIntents.Retrieve(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsIncrementAuthorizationPost(t *testing.T) {
@@ -5126,7 +5126,7 @@ func TestPaymentIntentsIncrementAuthorizationPost(t *testing.T) {
 	result, err := paymentintent.IncrementAuthorization(
 		"pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsIncrementAuthorizationPostService(t *testing.T) {
@@ -5137,7 +5137,7 @@ func TestPaymentIntentsIncrementAuthorizationPostService(t *testing.T) {
 	result, err := sc.PaymentIntents.IncrementAuthorization(
 		"pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsIncrementAuthorizationPostClient(t *testing.T) {
@@ -5148,7 +5148,7 @@ func TestPaymentIntentsIncrementAuthorizationPostClient(t *testing.T) {
 	result, err := sc.V1PaymentIntents.IncrementAuthorization(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsPost(t *testing.T) {
@@ -5161,7 +5161,7 @@ func TestPaymentIntentsPost(t *testing.T) {
 	}
 	result, err := paymentintent.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsPostService(t *testing.T) {
@@ -5175,7 +5175,7 @@ func TestPaymentIntentsPostService(t *testing.T) {
 	}
 	result, err := sc.PaymentIntents.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsPostClient(t *testing.T) {
@@ -5189,7 +5189,7 @@ func TestPaymentIntentsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1PaymentIntents.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsPost2(t *testing.T) {
@@ -5202,7 +5202,7 @@ func TestPaymentIntentsPost2(t *testing.T) {
 	}
 	result, err := paymentintent.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsPost2Service(t *testing.T) {
@@ -5216,7 +5216,7 @@ func TestPaymentIntentsPost2Service(t *testing.T) {
 	}
 	result, err := sc.PaymentIntents.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsPost2Client(t *testing.T) {
@@ -5230,7 +5230,7 @@ func TestPaymentIntentsPost2Client(t *testing.T) {
 	}
 	result, err := sc.V1PaymentIntents.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsPost3(t *testing.T) {
@@ -5238,7 +5238,7 @@ func TestPaymentIntentsPost3(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := paymentintent.Update("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsPost3Service(t *testing.T) {
@@ -5247,7 +5247,7 @@ func TestPaymentIntentsPost3Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.PaymentIntents.Update("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsPost3Client(t *testing.T) {
@@ -5257,7 +5257,7 @@ func TestPaymentIntentsPost3Client(t *testing.T) {
 	result, err := sc.V1PaymentIntents.Update(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsPost4(t *testing.T) {
@@ -5271,7 +5271,7 @@ func TestPaymentIntentsPost4(t *testing.T) {
 	}
 	result, err := paymentintent.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsPost4Service(t *testing.T) {
@@ -5286,7 +5286,7 @@ func TestPaymentIntentsPost4Service(t *testing.T) {
 	}
 	result, err := sc.PaymentIntents.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsPost4Client(t *testing.T) {
@@ -5301,7 +5301,7 @@ func TestPaymentIntentsPost4Client(t *testing.T) {
 	}
 	result, err := sc.V1PaymentIntents.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsSearchGet(t *testing.T) {
@@ -5312,7 +5312,7 @@ func TestPaymentIntentsSearchGet(t *testing.T) {
 	}
 	result := paymentintent.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentIntentsSearchGetService(t *testing.T) {
@@ -5324,7 +5324,7 @@ func TestPaymentIntentsSearchGetService(t *testing.T) {
 	}
 	result := sc.PaymentIntents.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentIntentsSearchGetClient(t *testing.T) {
@@ -5336,14 +5336,14 @@ func TestPaymentIntentsSearchGetClient(t *testing.T) {
 	}
 	result := sc.V1PaymentIntents.Search(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentIntentsVerifyMicrodepositsPost(t *testing.T) {
 	params := &stripe.PaymentIntentVerifyMicrodepositsParams{}
 	result, err := paymentintent.VerifyMicrodeposits("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsVerifyMicrodepositsPostService(t *testing.T) {
@@ -5352,7 +5352,7 @@ func TestPaymentIntentsVerifyMicrodepositsPostService(t *testing.T) {
 	result, err := sc.PaymentIntents.VerifyMicrodeposits(
 		"pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsVerifyMicrodepositsPostClient(t *testing.T) {
@@ -5361,7 +5361,7 @@ func TestPaymentIntentsVerifyMicrodepositsPostClient(t *testing.T) {
 	result, err := sc.V1PaymentIntents.VerifyMicrodeposits(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsVerifyMicrodepositsPost2(t *testing.T) {
@@ -5370,7 +5370,7 @@ func TestPaymentIntentsVerifyMicrodepositsPost2(t *testing.T) {
 	}
 	result, err := paymentintent.VerifyMicrodeposits("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsVerifyMicrodepositsPost2Service(t *testing.T) {
@@ -5381,7 +5381,7 @@ func TestPaymentIntentsVerifyMicrodepositsPost2Service(t *testing.T) {
 	result, err := sc.PaymentIntents.VerifyMicrodeposits(
 		"pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentIntentsVerifyMicrodepositsPost2Client(t *testing.T) {
@@ -5392,14 +5392,14 @@ func TestPaymentIntentsVerifyMicrodepositsPost2Client(t *testing.T) {
 	result, err := sc.V1PaymentIntents.VerifyMicrodeposits(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksGet(t *testing.T) {
 	params := &stripe.PaymentLinkParams{}
 	result, err := paymentlink.Get("pl_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksGetService(t *testing.T) {
@@ -5407,7 +5407,7 @@ func TestPaymentLinksGetService(t *testing.T) {
 	params := &stripe.PaymentLinkParams{}
 	result, err := sc.PaymentLinks.Get("pl_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksGetClient(t *testing.T) {
@@ -5415,7 +5415,7 @@ func TestPaymentLinksGetClient(t *testing.T) {
 	params := &stripe.PaymentLinkRetrieveParams{}
 	result, err := sc.V1PaymentLinks.Retrieve(context.TODO(), "pl_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksGet2(t *testing.T) {
@@ -5423,7 +5423,7 @@ func TestPaymentLinksGet2(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := paymentlink.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentLinksGet2Service(t *testing.T) {
@@ -5432,7 +5432,7 @@ func TestPaymentLinksGet2Service(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.PaymentLinks.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentLinksGet2Client(t *testing.T) {
@@ -5441,14 +5441,14 @@ func TestPaymentLinksGet2Client(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1PaymentLinks.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentLinksGet3(t *testing.T) {
 	params := &stripe.PaymentLinkParams{}
 	result, err := paymentlink.Get("plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksGet3Service(t *testing.T) {
@@ -5456,7 +5456,7 @@ func TestPaymentLinksGet3Service(t *testing.T) {
 	params := &stripe.PaymentLinkParams{}
 	result, err := sc.PaymentLinks.Get("plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksGet3Client(t *testing.T) {
@@ -5465,7 +5465,7 @@ func TestPaymentLinksGet3Client(t *testing.T) {
 	result, err := sc.V1PaymentLinks.Retrieve(
 		context.TODO(), "plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksLineItemsGet(t *testing.T) {
@@ -5474,7 +5474,7 @@ func TestPaymentLinksLineItemsGet(t *testing.T) {
 	}
 	result := paymentlink.ListLineItems(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentLinksLineItemsGetService(t *testing.T) {
@@ -5484,7 +5484,7 @@ func TestPaymentLinksLineItemsGetService(t *testing.T) {
 	}
 	result := sc.PaymentLinks.ListLineItems(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentLinksLineItemsGetClient(t *testing.T) {
@@ -5494,7 +5494,7 @@ func TestPaymentLinksLineItemsGetClient(t *testing.T) {
 	}
 	result := sc.V1PaymentLinks.ListLineItems(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentLinksPost(t *testing.T) {
@@ -5508,7 +5508,7 @@ func TestPaymentLinksPost(t *testing.T) {
 	}
 	result, err := paymentlink.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksPostService(t *testing.T) {
@@ -5523,7 +5523,7 @@ func TestPaymentLinksPostService(t *testing.T) {
 	}
 	result, err := sc.PaymentLinks.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksPostClient(t *testing.T) {
@@ -5538,7 +5538,7 @@ func TestPaymentLinksPostClient(t *testing.T) {
 	}
 	result, err := sc.V1PaymentLinks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksPost2(t *testing.T) {
@@ -5552,7 +5552,7 @@ func TestPaymentLinksPost2(t *testing.T) {
 	}
 	result, err := paymentlink.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksPost2Service(t *testing.T) {
@@ -5567,7 +5567,7 @@ func TestPaymentLinksPost2Service(t *testing.T) {
 	}
 	result, err := sc.PaymentLinks.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksPost2Client(t *testing.T) {
@@ -5582,14 +5582,14 @@ func TestPaymentLinksPost2Client(t *testing.T) {
 	}
 	result, err := sc.V1PaymentLinks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksPost3(t *testing.T) {
 	params := &stripe.PaymentLinkParams{Active: stripe.Bool(false)}
 	result, err := paymentlink.Update("plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksPost3Service(t *testing.T) {
@@ -5597,7 +5597,7 @@ func TestPaymentLinksPost3Service(t *testing.T) {
 	params := &stripe.PaymentLinkParams{Active: stripe.Bool(false)}
 	result, err := sc.PaymentLinks.Update("plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentLinksPost3Client(t *testing.T) {
@@ -5606,7 +5606,7 @@ func TestPaymentLinksPost3Client(t *testing.T) {
 	result, err := sc.V1PaymentLinks.Update(
 		context.TODO(), "plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodConfigurationsGet(t *testing.T) {
@@ -5615,7 +5615,7 @@ func TestPaymentMethodConfigurationsGet(t *testing.T) {
 	}
 	result := paymentmethodconfiguration.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentMethodConfigurationsGetService(t *testing.T) {
@@ -5625,7 +5625,7 @@ func TestPaymentMethodConfigurationsGetService(t *testing.T) {
 	}
 	result := sc.PaymentMethodConfigurations.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentMethodConfigurationsGetClient(t *testing.T) {
@@ -5635,14 +5635,14 @@ func TestPaymentMethodConfigurationsGetClient(t *testing.T) {
 	}
 	result := sc.V1PaymentMethodConfigurations.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentMethodConfigurationsGet2(t *testing.T) {
 	params := &stripe.PaymentMethodConfigurationParams{}
 	result, err := paymentmethodconfiguration.Get("foo", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodConfigurationsGet2Service(t *testing.T) {
@@ -5650,7 +5650,7 @@ func TestPaymentMethodConfigurationsGet2Service(t *testing.T) {
 	params := &stripe.PaymentMethodConfigurationParams{}
 	result, err := sc.PaymentMethodConfigurations.Get("foo", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodConfigurationsGet2Client(t *testing.T) {
@@ -5659,7 +5659,7 @@ func TestPaymentMethodConfigurationsGet2Client(t *testing.T) {
 	result, err := sc.V1PaymentMethodConfigurations.Retrieve(
 		context.TODO(), "foo", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodConfigurationsPost(t *testing.T) {
@@ -5677,7 +5677,7 @@ func TestPaymentMethodConfigurationsPost(t *testing.T) {
 	}
 	result, err := paymentmethodconfiguration.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodConfigurationsPostService(t *testing.T) {
@@ -5696,7 +5696,7 @@ func TestPaymentMethodConfigurationsPostService(t *testing.T) {
 	}
 	result, err := sc.PaymentMethodConfigurations.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodConfigurationsPostClient(t *testing.T) {
@@ -5715,7 +5715,7 @@ func TestPaymentMethodConfigurationsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1PaymentMethodConfigurations.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodConfigurationsPost2(t *testing.T) {
@@ -5728,7 +5728,7 @@ func TestPaymentMethodConfigurationsPost2(t *testing.T) {
 	}
 	result, err := paymentmethodconfiguration.Update("foo", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodConfigurationsPost2Service(t *testing.T) {
@@ -5742,7 +5742,7 @@ func TestPaymentMethodConfigurationsPost2Service(t *testing.T) {
 	}
 	result, err := sc.PaymentMethodConfigurations.Update("foo", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodConfigurationsPost2Client(t *testing.T) {
@@ -5757,7 +5757,7 @@ func TestPaymentMethodConfigurationsPost2Client(t *testing.T) {
 	result, err := sc.V1PaymentMethodConfigurations.Update(
 		context.TODO(), "foo", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsAttachPost(t *testing.T) {
@@ -5766,7 +5766,7 @@ func TestPaymentMethodsAttachPost(t *testing.T) {
 	}
 	result, err := paymentmethod.Attach("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsAttachPostService(t *testing.T) {
@@ -5776,7 +5776,7 @@ func TestPaymentMethodsAttachPostService(t *testing.T) {
 	}
 	result, err := sc.PaymentMethods.Attach("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsAttachPostClient(t *testing.T) {
@@ -5787,14 +5787,14 @@ func TestPaymentMethodsAttachPostClient(t *testing.T) {
 	result, err := sc.V1PaymentMethods.Attach(
 		context.TODO(), "pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsDetachPost(t *testing.T) {
 	params := &stripe.PaymentMethodDetachParams{}
 	result, err := paymentmethod.Detach("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsDetachPostService(t *testing.T) {
@@ -5802,7 +5802,7 @@ func TestPaymentMethodsDetachPostService(t *testing.T) {
 	params := &stripe.PaymentMethodDetachParams{}
 	result, err := sc.PaymentMethods.Detach("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsDetachPostClient(t *testing.T) {
@@ -5811,7 +5811,7 @@ func TestPaymentMethodsDetachPostClient(t *testing.T) {
 	result, err := sc.V1PaymentMethods.Detach(
 		context.TODO(), "pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsGet(t *testing.T) {
@@ -5821,7 +5821,7 @@ func TestPaymentMethodsGet(t *testing.T) {
 	}
 	result := paymentmethod.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentMethodsGetService(t *testing.T) {
@@ -5832,7 +5832,7 @@ func TestPaymentMethodsGetService(t *testing.T) {
 	}
 	result := sc.PaymentMethods.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentMethodsGetClient(t *testing.T) {
@@ -5843,14 +5843,14 @@ func TestPaymentMethodsGetClient(t *testing.T) {
 	}
 	result := sc.V1PaymentMethods.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPaymentMethodsGet2(t *testing.T) {
 	params := &stripe.PaymentMethodParams{}
 	result, err := paymentmethod.Get("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsGet2Service(t *testing.T) {
@@ -5858,7 +5858,7 @@ func TestPaymentMethodsGet2Service(t *testing.T) {
 	params := &stripe.PaymentMethodParams{}
 	result, err := sc.PaymentMethods.Get("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsGet2Client(t *testing.T) {
@@ -5867,7 +5867,7 @@ func TestPaymentMethodsGet2Client(t *testing.T) {
 	result, err := sc.V1PaymentMethods.Retrieve(
 		context.TODO(), "pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsPost(t *testing.T) {
@@ -5882,7 +5882,7 @@ func TestPaymentMethodsPost(t *testing.T) {
 	}
 	result, err := paymentmethod.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsPostService(t *testing.T) {
@@ -5898,7 +5898,7 @@ func TestPaymentMethodsPostService(t *testing.T) {
 	}
 	result, err := sc.PaymentMethods.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsPostClient(t *testing.T) {
@@ -5914,7 +5914,7 @@ func TestPaymentMethodsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1PaymentMethods.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsPost2(t *testing.T) {
@@ -5922,7 +5922,7 @@ func TestPaymentMethodsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := paymentmethod.Update("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsPost2Service(t *testing.T) {
@@ -5931,7 +5931,7 @@ func TestPaymentMethodsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.PaymentMethods.Update("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPaymentMethodsPost2Client(t *testing.T) {
@@ -5941,14 +5941,14 @@ func TestPaymentMethodsPost2Client(t *testing.T) {
 	result, err := sc.V1PaymentMethods.Update(
 		context.TODO(), "pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsCancelPost(t *testing.T) {
 	params := &stripe.PayoutParams{}
 	result, err := payout.Cancel("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsCancelPostService(t *testing.T) {
@@ -5956,7 +5956,7 @@ func TestPayoutsCancelPostService(t *testing.T) {
 	params := &stripe.PayoutParams{}
 	result, err := sc.Payouts.Cancel("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsCancelPostClient(t *testing.T) {
@@ -5964,7 +5964,7 @@ func TestPayoutsCancelPostClient(t *testing.T) {
 	params := &stripe.PayoutCancelParams{}
 	result, err := sc.V1Payouts.Cancel(context.TODO(), "po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsGet(t *testing.T) {
@@ -5972,7 +5972,7 @@ func TestPayoutsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := payout.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPayoutsGetService(t *testing.T) {
@@ -5981,7 +5981,7 @@ func TestPayoutsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Payouts.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPayoutsGetClient(t *testing.T) {
@@ -5990,14 +5990,14 @@ func TestPayoutsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Payouts.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPayoutsGet2(t *testing.T) {
 	params := &stripe.PayoutParams{}
 	result, err := payout.Get("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsGet2Service(t *testing.T) {
@@ -6005,7 +6005,7 @@ func TestPayoutsGet2Service(t *testing.T) {
 	params := &stripe.PayoutParams{}
 	result, err := sc.Payouts.Get("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsGet2Client(t *testing.T) {
@@ -6014,7 +6014,7 @@ func TestPayoutsGet2Client(t *testing.T) {
 	result, err := sc.V1Payouts.Retrieve(
 		context.TODO(), "po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsPost(t *testing.T) {
@@ -6024,7 +6024,7 @@ func TestPayoutsPost(t *testing.T) {
 	}
 	result, err := payout.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsPostService(t *testing.T) {
@@ -6035,7 +6035,7 @@ func TestPayoutsPostService(t *testing.T) {
 	}
 	result, err := sc.Payouts.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsPostClient(t *testing.T) {
@@ -6046,7 +6046,7 @@ func TestPayoutsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Payouts.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsPost2(t *testing.T) {
@@ -6054,7 +6054,7 @@ func TestPayoutsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := payout.Update("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsPost2Service(t *testing.T) {
@@ -6063,7 +6063,7 @@ func TestPayoutsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Payouts.Update("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsPost2Client(t *testing.T) {
@@ -6072,14 +6072,14 @@ func TestPayoutsPost2Client(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.V1Payouts.Update(context.TODO(), "po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsReversePost(t *testing.T) {
 	params := &stripe.PayoutReverseParams{}
 	result, err := payout.Reverse("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsReversePostService(t *testing.T) {
@@ -6087,7 +6087,7 @@ func TestPayoutsReversePostService(t *testing.T) {
 	params := &stripe.PayoutReverseParams{}
 	result, err := sc.Payouts.Reverse("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPayoutsReversePostClient(t *testing.T) {
@@ -6096,14 +6096,14 @@ func TestPayoutsReversePostClient(t *testing.T) {
 	result, err := sc.V1Payouts.Reverse(
 		context.TODO(), "po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPlansDelete(t *testing.T) {
 	params := &stripe.PlanParams{}
 	result, err := plan.Del("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPlansDeleteService(t *testing.T) {
@@ -6111,7 +6111,7 @@ func TestPlansDeleteService(t *testing.T) {
 	params := &stripe.PlanParams{}
 	result, err := sc.Plans.Del("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPlansDeleteClient(t *testing.T) {
@@ -6120,7 +6120,7 @@ func TestPlansDeleteClient(t *testing.T) {
 	result, err := sc.V1Plans.Delete(
 		context.TODO(), "price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPlansGet(t *testing.T) {
@@ -6128,7 +6128,7 @@ func TestPlansGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := plan.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPlansGetService(t *testing.T) {
@@ -6137,7 +6137,7 @@ func TestPlansGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Plans.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPlansGetClient(t *testing.T) {
@@ -6146,14 +6146,14 @@ func TestPlansGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Plans.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPlansGet2(t *testing.T) {
 	params := &stripe.PlanParams{}
 	result, err := plan.Get("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPlansGet2Service(t *testing.T) {
@@ -6161,7 +6161,7 @@ func TestPlansGet2Service(t *testing.T) {
 	params := &stripe.PlanParams{}
 	result, err := sc.Plans.Get("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPlansGet2Client(t *testing.T) {
@@ -6170,7 +6170,7 @@ func TestPlansGet2Client(t *testing.T) {
 	result, err := sc.V1Plans.Retrieve(
 		context.TODO(), "price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPlansPost(t *testing.T) {
@@ -6182,7 +6182,7 @@ func TestPlansPost(t *testing.T) {
 	}
 	result, err := plan.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPlansPostService(t *testing.T) {
@@ -6195,7 +6195,7 @@ func TestPlansPostService(t *testing.T) {
 	}
 	result, err := sc.Plans.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPlansPostClient(t *testing.T) {
@@ -6208,7 +6208,7 @@ func TestPlansPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Plans.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPlansPost2(t *testing.T) {
@@ -6216,7 +6216,7 @@ func TestPlansPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := plan.Update("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPlansPost2Service(t *testing.T) {
@@ -6225,7 +6225,7 @@ func TestPlansPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Plans.Update("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPlansPost2Client(t *testing.T) {
@@ -6235,7 +6235,7 @@ func TestPlansPost2Client(t *testing.T) {
 	result, err := sc.V1Plans.Update(
 		context.TODO(), "price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPricesGet(t *testing.T) {
@@ -6243,7 +6243,7 @@ func TestPricesGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := price.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPricesGetService(t *testing.T) {
@@ -6252,7 +6252,7 @@ func TestPricesGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Prices.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPricesGetClient(t *testing.T) {
@@ -6261,14 +6261,14 @@ func TestPricesGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Prices.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPricesGet2(t *testing.T) {
 	params := &stripe.PriceParams{}
 	result, err := price.Get("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPricesGet2Service(t *testing.T) {
@@ -6276,7 +6276,7 @@ func TestPricesGet2Service(t *testing.T) {
 	params := &stripe.PriceParams{}
 	result, err := sc.Prices.Get("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPricesGet2Client(t *testing.T) {
@@ -6285,7 +6285,7 @@ func TestPricesGet2Client(t *testing.T) {
 	result, err := sc.V1Prices.Retrieve(
 		context.TODO(), "price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPricesPost(t *testing.T) {
@@ -6303,7 +6303,7 @@ func TestPricesPost(t *testing.T) {
 	}
 	result, err := price.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPricesPostService(t *testing.T) {
@@ -6322,7 +6322,7 @@ func TestPricesPostService(t *testing.T) {
 	}
 	result, err := sc.Prices.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPricesPostClient(t *testing.T) {
@@ -6345,7 +6345,7 @@ func TestPricesPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Prices.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPricesPost2(t *testing.T) {
@@ -6359,7 +6359,7 @@ func TestPricesPost2(t *testing.T) {
 	}
 	result, err := price.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPricesPost2Service(t *testing.T) {
@@ -6374,7 +6374,7 @@ func TestPricesPost2Service(t *testing.T) {
 	}
 	result, err := sc.Prices.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPricesPost2Client(t *testing.T) {
@@ -6389,7 +6389,7 @@ func TestPricesPost2Client(t *testing.T) {
 	}
 	result, err := sc.V1Prices.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPricesPost3(t *testing.T) {
@@ -6397,7 +6397,7 @@ func TestPricesPost3(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := price.Update("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPricesPost3Service(t *testing.T) {
@@ -6406,7 +6406,7 @@ func TestPricesPost3Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Prices.Update("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPricesPost3Client(t *testing.T) {
@@ -6416,7 +6416,7 @@ func TestPricesPost3Client(t *testing.T) {
 	result, err := sc.V1Prices.Update(
 		context.TODO(), "price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPricesSearchGet(t *testing.T) {
@@ -6427,7 +6427,7 @@ func TestPricesSearchGet(t *testing.T) {
 	}
 	result := price.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPricesSearchGetService(t *testing.T) {
@@ -6439,7 +6439,7 @@ func TestPricesSearchGetService(t *testing.T) {
 	}
 	result := sc.Prices.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPricesSearchGetClient(t *testing.T) {
@@ -6451,14 +6451,14 @@ func TestPricesSearchGetClient(t *testing.T) {
 	}
 	result := sc.V1Prices.Search(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestProductsDelete(t *testing.T) {
 	params := &stripe.ProductParams{}
 	result, err := product.Del("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestProductsDeleteService(t *testing.T) {
@@ -6466,7 +6466,7 @@ func TestProductsDeleteService(t *testing.T) {
 	params := &stripe.ProductParams{}
 	result, err := sc.Products.Del("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestProductsDeleteClient(t *testing.T) {
@@ -6475,7 +6475,7 @@ func TestProductsDeleteClient(t *testing.T) {
 	result, err := sc.V1Products.Delete(
 		context.TODO(), "prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestProductsGet(t *testing.T) {
@@ -6483,7 +6483,7 @@ func TestProductsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := product.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestProductsGetService(t *testing.T) {
@@ -6492,7 +6492,7 @@ func TestProductsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Products.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestProductsGetClient(t *testing.T) {
@@ -6501,14 +6501,14 @@ func TestProductsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Products.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestProductsGet2(t *testing.T) {
 	params := &stripe.ProductParams{}
 	result, err := product.Get("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestProductsGet2Service(t *testing.T) {
@@ -6516,7 +6516,7 @@ func TestProductsGet2Service(t *testing.T) {
 	params := &stripe.ProductParams{}
 	result, err := sc.Products.Get("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestProductsGet2Client(t *testing.T) {
@@ -6525,14 +6525,14 @@ func TestProductsGet2Client(t *testing.T) {
 	result, err := sc.V1Products.Retrieve(
 		context.TODO(), "prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestProductsPost(t *testing.T) {
 	params := &stripe.ProductParams{Name: stripe.String("Gold Special")}
 	result, err := product.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestProductsPostService(t *testing.T) {
@@ -6540,7 +6540,7 @@ func TestProductsPostService(t *testing.T) {
 	params := &stripe.ProductParams{Name: stripe.String("Gold Special")}
 	result, err := sc.Products.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestProductsPostClient(t *testing.T) {
@@ -6548,7 +6548,7 @@ func TestProductsPostClient(t *testing.T) {
 	params := &stripe.ProductCreateParams{Name: stripe.String("Gold Special")}
 	result, err := sc.V1Products.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestProductsPost2(t *testing.T) {
@@ -6556,7 +6556,7 @@ func TestProductsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := product.Update("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestProductsPost2Service(t *testing.T) {
@@ -6565,7 +6565,7 @@ func TestProductsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Products.Update("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestProductsPost2Client(t *testing.T) {
@@ -6575,7 +6575,7 @@ func TestProductsPost2Client(t *testing.T) {
 	result, err := sc.V1Products.Update(
 		context.TODO(), "prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestProductsSearchGet(t *testing.T) {
@@ -6586,7 +6586,7 @@ func TestProductsSearchGet(t *testing.T) {
 	}
 	result := product.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestProductsSearchGetService(t *testing.T) {
@@ -6598,7 +6598,7 @@ func TestProductsSearchGetService(t *testing.T) {
 	}
 	result := sc.Products.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestProductsSearchGetClient(t *testing.T) {
@@ -6610,7 +6610,7 @@ func TestProductsSearchGetClient(t *testing.T) {
 	}
 	result := sc.V1Products.Search(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPromotionCodesGet(t *testing.T) {
@@ -6618,7 +6618,7 @@ func TestPromotionCodesGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := promotioncode.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPromotionCodesGetService(t *testing.T) {
@@ -6627,7 +6627,7 @@ func TestPromotionCodesGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.PromotionCodes.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPromotionCodesGetClient(t *testing.T) {
@@ -6636,14 +6636,14 @@ func TestPromotionCodesGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1PromotionCodes.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestPromotionCodesGet2(t *testing.T) {
 	params := &stripe.PromotionCodeParams{}
 	result, err := promotioncode.Get("promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPromotionCodesGet2Service(t *testing.T) {
@@ -6651,7 +6651,7 @@ func TestPromotionCodesGet2Service(t *testing.T) {
 	params := &stripe.PromotionCodeParams{}
 	result, err := sc.PromotionCodes.Get("promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPromotionCodesGet2Client(t *testing.T) {
@@ -6660,7 +6660,7 @@ func TestPromotionCodesGet2Client(t *testing.T) {
 	result, err := sc.V1PromotionCodes.Retrieve(
 		context.TODO(), "promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPromotionCodesPost(t *testing.T) {
@@ -6672,7 +6672,7 @@ func TestPromotionCodesPost(t *testing.T) {
 	}
 	result, err := promotioncode.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPromotionCodesPostService(t *testing.T) {
@@ -6685,7 +6685,7 @@ func TestPromotionCodesPostService(t *testing.T) {
 	}
 	result, err := sc.PromotionCodes.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPromotionCodesPostClient(t *testing.T) {
@@ -6698,7 +6698,7 @@ func TestPromotionCodesPostClient(t *testing.T) {
 	}
 	result, err := sc.V1PromotionCodes.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPromotionCodesPost2(t *testing.T) {
@@ -6706,7 +6706,7 @@ func TestPromotionCodesPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := promotioncode.Update("promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPromotionCodesPost2Service(t *testing.T) {
@@ -6715,7 +6715,7 @@ func TestPromotionCodesPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.PromotionCodes.Update("promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestPromotionCodesPost2Client(t *testing.T) {
@@ -6725,14 +6725,14 @@ func TestPromotionCodesPost2Client(t *testing.T) {
 	result, err := sc.V1PromotionCodes.Update(
 		context.TODO(), "promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesAcceptPost(t *testing.T) {
 	params := &stripe.QuoteAcceptParams{}
 	result, err := quote.Accept("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesAcceptPostService(t *testing.T) {
@@ -6740,7 +6740,7 @@ func TestQuotesAcceptPostService(t *testing.T) {
 	params := &stripe.QuoteAcceptParams{}
 	result, err := sc.Quotes.Accept("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesAcceptPostClient(t *testing.T) {
@@ -6748,14 +6748,14 @@ func TestQuotesAcceptPostClient(t *testing.T) {
 	params := &stripe.QuoteAcceptParams{}
 	result, err := sc.V1Quotes.Accept(context.TODO(), "qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesCancelPost(t *testing.T) {
 	params := &stripe.QuoteCancelParams{}
 	result, err := quote.Cancel("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesCancelPostService(t *testing.T) {
@@ -6763,7 +6763,7 @@ func TestQuotesCancelPostService(t *testing.T) {
 	params := &stripe.QuoteCancelParams{}
 	result, err := sc.Quotes.Cancel("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesCancelPostClient(t *testing.T) {
@@ -6771,14 +6771,14 @@ func TestQuotesCancelPostClient(t *testing.T) {
 	params := &stripe.QuoteCancelParams{}
 	result, err := sc.V1Quotes.Cancel(context.TODO(), "qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesFinalizePost(t *testing.T) {
 	params := &stripe.QuoteFinalizeQuoteParams{}
 	result, err := quote.FinalizeQuote("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesFinalizePostService(t *testing.T) {
@@ -6786,7 +6786,7 @@ func TestQuotesFinalizePostService(t *testing.T) {
 	params := &stripe.QuoteFinalizeQuoteParams{}
 	result, err := sc.Quotes.FinalizeQuote("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesFinalizePostClient(t *testing.T) {
@@ -6795,7 +6795,7 @@ func TestQuotesFinalizePostClient(t *testing.T) {
 	result, err := sc.V1Quotes.FinalizeQuote(
 		context.TODO(), "qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesGet(t *testing.T) {
@@ -6803,7 +6803,7 @@ func TestQuotesGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := quote.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestQuotesGetService(t *testing.T) {
@@ -6812,7 +6812,7 @@ func TestQuotesGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Quotes.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestQuotesGetClient(t *testing.T) {
@@ -6821,14 +6821,14 @@ func TestQuotesGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Quotes.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestQuotesGet2(t *testing.T) {
 	params := &stripe.QuoteParams{}
 	result, err := quote.Get("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesGet2Service(t *testing.T) {
@@ -6836,7 +6836,7 @@ func TestQuotesGet2Service(t *testing.T) {
 	params := &stripe.QuoteParams{}
 	result, err := sc.Quotes.Get("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesGet2Client(t *testing.T) {
@@ -6845,7 +6845,7 @@ func TestQuotesGet2Client(t *testing.T) {
 	result, err := sc.V1Quotes.Retrieve(
 		context.TODO(), "qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesLineItemsGet(t *testing.T) {
@@ -6854,7 +6854,7 @@ func TestQuotesLineItemsGet(t *testing.T) {
 	}
 	result := quote.ListLineItems(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestQuotesLineItemsGetService(t *testing.T) {
@@ -6864,7 +6864,7 @@ func TestQuotesLineItemsGetService(t *testing.T) {
 	}
 	result := sc.Quotes.ListLineItems(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestQuotesLineItemsGetClient(t *testing.T) {
@@ -6874,14 +6874,14 @@ func TestQuotesLineItemsGetClient(t *testing.T) {
 	}
 	result := sc.V1Quotes.ListLineItems(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestQuotesPdfGet(t *testing.T) {
 	params := &stripe.QuotePDFParams{}
 	result, err := quote.PDF("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesPdfGetService(t *testing.T) {
@@ -6889,7 +6889,7 @@ func TestQuotesPdfGetService(t *testing.T) {
 	params := &stripe.QuotePDFParams{}
 	result, err := sc.Quotes.PDF("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesPdfGetClient(t *testing.T) {
@@ -6897,7 +6897,7 @@ func TestQuotesPdfGetClient(t *testing.T) {
 	params := &stripe.QuotePDFParams{}
 	result, err := sc.V1Quotes.PDF(context.TODO(), "qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesPost(t *testing.T) {
@@ -6912,7 +6912,7 @@ func TestQuotesPost(t *testing.T) {
 	}
 	result, err := quote.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesPostService(t *testing.T) {
@@ -6928,7 +6928,7 @@ func TestQuotesPostService(t *testing.T) {
 	}
 	result, err := sc.Quotes.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesPostClient(t *testing.T) {
@@ -6944,7 +6944,7 @@ func TestQuotesPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Quotes.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesPost2(t *testing.T) {
@@ -6952,7 +6952,7 @@ func TestQuotesPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := quote.Update("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesPost2Service(t *testing.T) {
@@ -6961,7 +6961,7 @@ func TestQuotesPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Quotes.Update("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesPost2Client(t *testing.T) {
@@ -6970,7 +6970,7 @@ func TestQuotesPost2Client(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.V1Quotes.Update(context.TODO(), "qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotesPreviewInvoicesLinesGet(t *testing.T) {
@@ -6980,7 +6980,7 @@ func TestQuotesPreviewInvoicesLinesGet(t *testing.T) {
 	}
 	result := quote.ListPreviewInvoiceLines(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestQuotesPreviewInvoicesLinesGetService(t *testing.T) {
@@ -6991,7 +6991,7 @@ func TestQuotesPreviewInvoicesLinesGetService(t *testing.T) {
 	}
 	result := sc.Quotes.ListPreviewInvoiceLines(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestQuotesPreviewInvoicesLinesGetClient(t *testing.T) {
@@ -7002,7 +7002,7 @@ func TestQuotesPreviewInvoicesLinesGetClient(t *testing.T) {
 	}
 	result := sc.V1Quotes.ListPreviewInvoiceLines(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestRadarEarlyFraudWarningsGet(t *testing.T) {
@@ -7010,7 +7010,7 @@ func TestRadarEarlyFraudWarningsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := radar_earlyfraudwarning.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestRadarEarlyFraudWarningsGetService(t *testing.T) {
@@ -7019,7 +7019,7 @@ func TestRadarEarlyFraudWarningsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.RadarEarlyFraudWarnings.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestRadarEarlyFraudWarningsGetClient(t *testing.T) {
@@ -7028,14 +7028,14 @@ func TestRadarEarlyFraudWarningsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1RadarEarlyFraudWarnings.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestRadarEarlyFraudWarningsGet2(t *testing.T) {
 	params := &stripe.RadarEarlyFraudWarningParams{}
 	result, err := radar_earlyfraudwarning.Get("issfr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarEarlyFraudWarningsGet2Service(t *testing.T) {
@@ -7043,7 +7043,7 @@ func TestRadarEarlyFraudWarningsGet2Service(t *testing.T) {
 	params := &stripe.RadarEarlyFraudWarningParams{}
 	result, err := sc.RadarEarlyFraudWarnings.Get("issfr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarEarlyFraudWarningsGet2Client(t *testing.T) {
@@ -7052,14 +7052,14 @@ func TestRadarEarlyFraudWarningsGet2Client(t *testing.T) {
 	result, err := sc.V1RadarEarlyFraudWarnings.Retrieve(
 		context.TODO(), "issfr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListItemsDelete(t *testing.T) {
 	params := &stripe.RadarValueListItemParams{}
 	result, err := radar_valuelistitem.Del("rsli_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListItemsDeleteService(t *testing.T) {
@@ -7067,7 +7067,7 @@ func TestRadarValueListItemsDeleteService(t *testing.T) {
 	params := &stripe.RadarValueListItemParams{}
 	result, err := sc.RadarValueListItems.Del("rsli_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListItemsDeleteClient(t *testing.T) {
@@ -7076,7 +7076,7 @@ func TestRadarValueListItemsDeleteClient(t *testing.T) {
 	result, err := sc.V1RadarValueListItems.Delete(
 		context.TODO(), "rsli_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListItemsGet(t *testing.T) {
@@ -7086,7 +7086,7 @@ func TestRadarValueListItemsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := radar_valuelistitem.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestRadarValueListItemsGetService(t *testing.T) {
@@ -7097,7 +7097,7 @@ func TestRadarValueListItemsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.RadarValueListItems.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestRadarValueListItemsGetClient(t *testing.T) {
@@ -7108,14 +7108,14 @@ func TestRadarValueListItemsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1RadarValueListItems.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestRadarValueListItemsGet2(t *testing.T) {
 	params := &stripe.RadarValueListItemParams{}
 	result, err := radar_valuelistitem.Get("rsli_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListItemsGet2Service(t *testing.T) {
@@ -7123,7 +7123,7 @@ func TestRadarValueListItemsGet2Service(t *testing.T) {
 	params := &stripe.RadarValueListItemParams{}
 	result, err := sc.RadarValueListItems.Get("rsli_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListItemsGet2Client(t *testing.T) {
@@ -7132,7 +7132,7 @@ func TestRadarValueListItemsGet2Client(t *testing.T) {
 	result, err := sc.V1RadarValueListItems.Retrieve(
 		context.TODO(), "rsli_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListItemsPost(t *testing.T) {
@@ -7142,7 +7142,7 @@ func TestRadarValueListItemsPost(t *testing.T) {
 	}
 	result, err := radar_valuelistitem.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListItemsPostService(t *testing.T) {
@@ -7153,7 +7153,7 @@ func TestRadarValueListItemsPostService(t *testing.T) {
 	}
 	result, err := sc.RadarValueListItems.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListItemsPostClient(t *testing.T) {
@@ -7164,14 +7164,14 @@ func TestRadarValueListItemsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1RadarValueListItems.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListsDelete(t *testing.T) {
 	params := &stripe.RadarValueListParams{}
 	result, err := radar_valuelist.Del("rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListsDeleteService(t *testing.T) {
@@ -7179,7 +7179,7 @@ func TestRadarValueListsDeleteService(t *testing.T) {
 	params := &stripe.RadarValueListParams{}
 	result, err := sc.RadarValueLists.Del("rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListsDeleteClient(t *testing.T) {
@@ -7188,7 +7188,7 @@ func TestRadarValueListsDeleteClient(t *testing.T) {
 	result, err := sc.V1RadarValueLists.Delete(
 		context.TODO(), "rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListsGet(t *testing.T) {
@@ -7196,7 +7196,7 @@ func TestRadarValueListsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := radar_valuelist.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestRadarValueListsGetService(t *testing.T) {
@@ -7205,7 +7205,7 @@ func TestRadarValueListsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.RadarValueLists.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestRadarValueListsGetClient(t *testing.T) {
@@ -7214,14 +7214,14 @@ func TestRadarValueListsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1RadarValueLists.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestRadarValueListsGet2(t *testing.T) {
 	params := &stripe.RadarValueListParams{}
 	result, err := radar_valuelist.Get("rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListsGet2Service(t *testing.T) {
@@ -7229,7 +7229,7 @@ func TestRadarValueListsGet2Service(t *testing.T) {
 	params := &stripe.RadarValueListParams{}
 	result, err := sc.RadarValueLists.Get("rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListsGet2Client(t *testing.T) {
@@ -7238,7 +7238,7 @@ func TestRadarValueListsGet2Client(t *testing.T) {
 	result, err := sc.V1RadarValueLists.Retrieve(
 		context.TODO(), "rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListsPost(t *testing.T) {
@@ -7249,7 +7249,7 @@ func TestRadarValueListsPost(t *testing.T) {
 	}
 	result, err := radar_valuelist.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListsPostService(t *testing.T) {
@@ -7261,7 +7261,7 @@ func TestRadarValueListsPostService(t *testing.T) {
 	}
 	result, err := sc.RadarValueLists.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListsPostClient(t *testing.T) {
@@ -7273,7 +7273,7 @@ func TestRadarValueListsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1RadarValueLists.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListsPost2(t *testing.T) {
@@ -7282,7 +7282,7 @@ func TestRadarValueListsPost2(t *testing.T) {
 	}
 	result, err := radar_valuelist.Update("rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListsPost2Service(t *testing.T) {
@@ -7292,7 +7292,7 @@ func TestRadarValueListsPost2Service(t *testing.T) {
 	}
 	result, err := sc.RadarValueLists.Update("rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRadarValueListsPost2Client(t *testing.T) {
@@ -7303,14 +7303,14 @@ func TestRadarValueListsPost2Client(t *testing.T) {
 	result, err := sc.V1RadarValueLists.Update(
 		context.TODO(), "rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRefundsCancelPost(t *testing.T) {
 	params := &stripe.RefundCancelParams{}
 	result, err := refund.Cancel("re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRefundsCancelPostService(t *testing.T) {
@@ -7318,7 +7318,7 @@ func TestRefundsCancelPostService(t *testing.T) {
 	params := &stripe.RefundCancelParams{}
 	result, err := sc.Refunds.Cancel("re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRefundsCancelPostClient(t *testing.T) {
@@ -7326,7 +7326,7 @@ func TestRefundsCancelPostClient(t *testing.T) {
 	params := &stripe.RefundCancelParams{}
 	result, err := sc.V1Refunds.Cancel(context.TODO(), "re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRefundsGet(t *testing.T) {
@@ -7334,7 +7334,7 @@ func TestRefundsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := refund.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestRefundsGetService(t *testing.T) {
@@ -7343,7 +7343,7 @@ func TestRefundsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Refunds.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestRefundsGetClient(t *testing.T) {
@@ -7352,14 +7352,14 @@ func TestRefundsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Refunds.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestRefundsGet2(t *testing.T) {
 	params := &stripe.RefundParams{}
 	result, err := refund.Get("re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRefundsGet2Service(t *testing.T) {
@@ -7367,7 +7367,7 @@ func TestRefundsGet2Service(t *testing.T) {
 	params := &stripe.RefundParams{}
 	result, err := sc.Refunds.Get("re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRefundsGet2Client(t *testing.T) {
@@ -7376,14 +7376,14 @@ func TestRefundsGet2Client(t *testing.T) {
 	result, err := sc.V1Refunds.Retrieve(
 		context.TODO(), "re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRefundsPost(t *testing.T) {
 	params := &stripe.RefundParams{Charge: stripe.String("ch_xxxxxxxxxxxxx")}
 	result, err := refund.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRefundsPostService(t *testing.T) {
@@ -7391,7 +7391,7 @@ func TestRefundsPostService(t *testing.T) {
 	params := &stripe.RefundParams{Charge: stripe.String("ch_xxxxxxxxxxxxx")}
 	result, err := sc.Refunds.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRefundsPostClient(t *testing.T) {
@@ -7401,7 +7401,7 @@ func TestRefundsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Refunds.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRefundsPost2(t *testing.T) {
@@ -7409,7 +7409,7 @@ func TestRefundsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := refund.Update("re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRefundsPost2Service(t *testing.T) {
@@ -7418,7 +7418,7 @@ func TestRefundsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Refunds.Update("re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRefundsPost2Client(t *testing.T) {
@@ -7427,7 +7427,7 @@ func TestRefundsPost2Client(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.V1Refunds.Update(context.TODO(), "re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReportingReportRunsGet(t *testing.T) {
@@ -7435,7 +7435,7 @@ func TestReportingReportRunsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := reporting_reportrun.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestReportingReportRunsGetService(t *testing.T) {
@@ -7444,7 +7444,7 @@ func TestReportingReportRunsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.ReportingReportRuns.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestReportingReportRunsGetClient(t *testing.T) {
@@ -7453,14 +7453,14 @@ func TestReportingReportRunsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1ReportingReportRuns.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestReportingReportRunsGet2(t *testing.T) {
 	params := &stripe.ReportingReportRunParams{}
 	result, err := reporting_reportrun.Get("frr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReportingReportRunsGet2Service(t *testing.T) {
@@ -7468,7 +7468,7 @@ func TestReportingReportRunsGet2Service(t *testing.T) {
 	params := &stripe.ReportingReportRunParams{}
 	result, err := sc.ReportingReportRuns.Get("frr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReportingReportRunsGet2Client(t *testing.T) {
@@ -7477,7 +7477,7 @@ func TestReportingReportRunsGet2Client(t *testing.T) {
 	result, err := sc.V1ReportingReportRuns.Retrieve(
 		context.TODO(), "frr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReportingReportRunsPost(t *testing.T) {
@@ -7490,7 +7490,7 @@ func TestReportingReportRunsPost(t *testing.T) {
 	}
 	result, err := reporting_reportrun.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReportingReportRunsPostService(t *testing.T) {
@@ -7504,7 +7504,7 @@ func TestReportingReportRunsPostService(t *testing.T) {
 	}
 	result, err := sc.ReportingReportRuns.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReportingReportRunsPostClient(t *testing.T) {
@@ -7518,14 +7518,14 @@ func TestReportingReportRunsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1ReportingReportRuns.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReportingReportTypesGet(t *testing.T) {
 	params := &stripe.ReportingReportTypeListParams{}
 	result := reporting_reporttype.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestReportingReportTypesGetService(t *testing.T) {
@@ -7533,7 +7533,7 @@ func TestReportingReportTypesGetService(t *testing.T) {
 	params := &stripe.ReportingReportTypeListParams{}
 	result := sc.ReportingReportTypes.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestReportingReportTypesGetClient(t *testing.T) {
@@ -7541,14 +7541,14 @@ func TestReportingReportTypesGetClient(t *testing.T) {
 	params := &stripe.ReportingReportTypeListParams{}
 	result := sc.V1ReportingReportTypes.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestReportingReportTypesGet2(t *testing.T) {
 	params := &stripe.ReportingReportTypeParams{}
 	result, err := reporting_reporttype.Get("balance.summary.1", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReportingReportTypesGet2Service(t *testing.T) {
@@ -7556,7 +7556,7 @@ func TestReportingReportTypesGet2Service(t *testing.T) {
 	params := &stripe.ReportingReportTypeParams{}
 	result, err := sc.ReportingReportTypes.Get("balance.summary.1", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReportingReportTypesGet2Client(t *testing.T) {
@@ -7565,14 +7565,14 @@ func TestReportingReportTypesGet2Client(t *testing.T) {
 	result, err := sc.V1ReportingReportTypes.Retrieve(
 		context.TODO(), "balance.summary.1", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReviewsApprovePost(t *testing.T) {
 	params := &stripe.ReviewApproveParams{}
 	result, err := review.Approve("prv_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReviewsApprovePostService(t *testing.T) {
@@ -7580,7 +7580,7 @@ func TestReviewsApprovePostService(t *testing.T) {
 	params := &stripe.ReviewApproveParams{}
 	result, err := sc.Reviews.Approve("prv_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReviewsApprovePostClient(t *testing.T) {
@@ -7589,7 +7589,7 @@ func TestReviewsApprovePostClient(t *testing.T) {
 	result, err := sc.V1Reviews.Approve(
 		context.TODO(), "prv_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReviewsGet(t *testing.T) {
@@ -7597,7 +7597,7 @@ func TestReviewsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := review.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestReviewsGetService(t *testing.T) {
@@ -7606,7 +7606,7 @@ func TestReviewsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Reviews.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestReviewsGetClient(t *testing.T) {
@@ -7615,14 +7615,14 @@ func TestReviewsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Reviews.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestReviewsGet2(t *testing.T) {
 	params := &stripe.ReviewParams{}
 	result, err := review.Get("prv_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReviewsGet2Service(t *testing.T) {
@@ -7630,7 +7630,7 @@ func TestReviewsGet2Service(t *testing.T) {
 	params := &stripe.ReviewParams{}
 	result, err := sc.Reviews.Get("prv_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestReviewsGet2Client(t *testing.T) {
@@ -7639,7 +7639,7 @@ func TestReviewsGet2Client(t *testing.T) {
 	result, err := sc.V1Reviews.Retrieve(
 		context.TODO(), "prv_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupAttemptsGet(t *testing.T) {
@@ -7647,7 +7647,7 @@ func TestSetupAttemptsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := setupattempt.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSetupAttemptsGetService(t *testing.T) {
@@ -7656,7 +7656,7 @@ func TestSetupAttemptsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.SetupAttempts.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSetupAttemptsGetClient(t *testing.T) {
@@ -7665,14 +7665,14 @@ func TestSetupAttemptsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1SetupAttempts.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSetupIntentsCancelPost(t *testing.T) {
 	params := &stripe.SetupIntentCancelParams{}
 	result, err := setupintent.Cancel("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsCancelPostService(t *testing.T) {
@@ -7680,7 +7680,7 @@ func TestSetupIntentsCancelPostService(t *testing.T) {
 	params := &stripe.SetupIntentCancelParams{}
 	result, err := sc.SetupIntents.Cancel("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsCancelPostClient(t *testing.T) {
@@ -7689,7 +7689,7 @@ func TestSetupIntentsCancelPostClient(t *testing.T) {
 	result, err := sc.V1SetupIntents.Cancel(
 		context.TODO(), "seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsConfirmPost(t *testing.T) {
@@ -7698,7 +7698,7 @@ func TestSetupIntentsConfirmPost(t *testing.T) {
 	}
 	result, err := setupintent.Confirm("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsConfirmPostService(t *testing.T) {
@@ -7708,7 +7708,7 @@ func TestSetupIntentsConfirmPostService(t *testing.T) {
 	}
 	result, err := sc.SetupIntents.Confirm("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsConfirmPostClient(t *testing.T) {
@@ -7719,7 +7719,7 @@ func TestSetupIntentsConfirmPostClient(t *testing.T) {
 	result, err := sc.V1SetupIntents.Confirm(
 		context.TODO(), "seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsGet(t *testing.T) {
@@ -7727,7 +7727,7 @@ func TestSetupIntentsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := setupintent.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSetupIntentsGetService(t *testing.T) {
@@ -7736,7 +7736,7 @@ func TestSetupIntentsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.SetupIntents.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSetupIntentsGetClient(t *testing.T) {
@@ -7745,14 +7745,14 @@ func TestSetupIntentsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1SetupIntents.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSetupIntentsGet2(t *testing.T) {
 	params := &stripe.SetupIntentParams{}
 	result, err := setupintent.Get("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsGet2Service(t *testing.T) {
@@ -7760,7 +7760,7 @@ func TestSetupIntentsGet2Service(t *testing.T) {
 	params := &stripe.SetupIntentParams{}
 	result, err := sc.SetupIntents.Get("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsGet2Client(t *testing.T) {
@@ -7769,7 +7769,7 @@ func TestSetupIntentsGet2Client(t *testing.T) {
 	result, err := sc.V1SetupIntents.Retrieve(
 		context.TODO(), "seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsPost(t *testing.T) {
@@ -7778,7 +7778,7 @@ func TestSetupIntentsPost(t *testing.T) {
 	}
 	result, err := setupintent.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsPostService(t *testing.T) {
@@ -7788,7 +7788,7 @@ func TestSetupIntentsPostService(t *testing.T) {
 	}
 	result, err := sc.SetupIntents.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsPostClient(t *testing.T) {
@@ -7798,7 +7798,7 @@ func TestSetupIntentsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1SetupIntents.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsPost2(t *testing.T) {
@@ -7806,7 +7806,7 @@ func TestSetupIntentsPost2(t *testing.T) {
 	params.AddMetadata("user_id", "3435453")
 	result, err := setupintent.Update("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsPost2Service(t *testing.T) {
@@ -7815,7 +7815,7 @@ func TestSetupIntentsPost2Service(t *testing.T) {
 	params.AddMetadata("user_id", "3435453")
 	result, err := sc.SetupIntents.Update("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsPost2Client(t *testing.T) {
@@ -7825,14 +7825,14 @@ func TestSetupIntentsPost2Client(t *testing.T) {
 	result, err := sc.V1SetupIntents.Update(
 		context.TODO(), "seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsVerifyMicrodepositsPost(t *testing.T) {
 	params := &stripe.SetupIntentVerifyMicrodepositsParams{}
 	result, err := setupintent.VerifyMicrodeposits("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsVerifyMicrodepositsPostService(t *testing.T) {
@@ -7841,7 +7841,7 @@ func TestSetupIntentsVerifyMicrodepositsPostService(t *testing.T) {
 	result, err := sc.SetupIntents.VerifyMicrodeposits(
 		"seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsVerifyMicrodepositsPostClient(t *testing.T) {
@@ -7850,7 +7850,7 @@ func TestSetupIntentsVerifyMicrodepositsPostClient(t *testing.T) {
 	result, err := sc.V1SetupIntents.VerifyMicrodeposits(
 		context.TODO(), "seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsVerifyMicrodepositsPost2(t *testing.T) {
@@ -7859,7 +7859,7 @@ func TestSetupIntentsVerifyMicrodepositsPost2(t *testing.T) {
 	}
 	result, err := setupintent.VerifyMicrodeposits("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsVerifyMicrodepositsPost2Service(t *testing.T) {
@@ -7870,7 +7870,7 @@ func TestSetupIntentsVerifyMicrodepositsPost2Service(t *testing.T) {
 	result, err := sc.SetupIntents.VerifyMicrodeposits(
 		"seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSetupIntentsVerifyMicrodepositsPost2Client(t *testing.T) {
@@ -7881,14 +7881,14 @@ func TestSetupIntentsVerifyMicrodepositsPost2Client(t *testing.T) {
 	result, err := sc.V1SetupIntents.VerifyMicrodeposits(
 		context.TODO(), "seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestShippingRatesGet(t *testing.T) {
 	params := &stripe.ShippingRateListParams{}
 	result := shippingrate.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestShippingRatesGetService(t *testing.T) {
@@ -7896,7 +7896,7 @@ func TestShippingRatesGetService(t *testing.T) {
 	params := &stripe.ShippingRateListParams{}
 	result := sc.ShippingRates.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestShippingRatesGetClient(t *testing.T) {
@@ -7904,7 +7904,7 @@ func TestShippingRatesGetClient(t *testing.T) {
 	params := &stripe.ShippingRateListParams{}
 	result := sc.V1ShippingRates.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestShippingRatesGet2(t *testing.T) {
@@ -7912,7 +7912,7 @@ func TestShippingRatesGet2(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := shippingrate.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestShippingRatesGet2Service(t *testing.T) {
@@ -7921,7 +7921,7 @@ func TestShippingRatesGet2Service(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.ShippingRates.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestShippingRatesGet2Client(t *testing.T) {
@@ -7930,14 +7930,14 @@ func TestShippingRatesGet2Client(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1ShippingRates.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestShippingRatesGet3(t *testing.T) {
 	params := &stripe.ShippingRateParams{}
 	result, err := shippingrate.Get("shr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestShippingRatesGet3Service(t *testing.T) {
@@ -7945,7 +7945,7 @@ func TestShippingRatesGet3Service(t *testing.T) {
 	params := &stripe.ShippingRateParams{}
 	result, err := sc.ShippingRates.Get("shr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestShippingRatesGet3Client(t *testing.T) {
@@ -7954,7 +7954,7 @@ func TestShippingRatesGet3Client(t *testing.T) {
 	result, err := sc.V1ShippingRates.Retrieve(
 		context.TODO(), "shr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestShippingRatesPost(t *testing.T) {
@@ -7968,7 +7968,7 @@ func TestShippingRatesPost(t *testing.T) {
 	}
 	result, err := shippingrate.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestShippingRatesPostService(t *testing.T) {
@@ -7983,7 +7983,7 @@ func TestShippingRatesPostService(t *testing.T) {
 	}
 	result, err := sc.ShippingRates.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestShippingRatesPostClient(t *testing.T) {
@@ -7998,7 +7998,7 @@ func TestShippingRatesPostClient(t *testing.T) {
 	}
 	result, err := sc.V1ShippingRates.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestShippingRatesPost2(t *testing.T) {
@@ -8012,7 +8012,7 @@ func TestShippingRatesPost2(t *testing.T) {
 	}
 	result, err := shippingrate.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestShippingRatesPost2Service(t *testing.T) {
@@ -8027,7 +8027,7 @@ func TestShippingRatesPost2Service(t *testing.T) {
 	}
 	result, err := sc.ShippingRates.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestShippingRatesPost2Client(t *testing.T) {
@@ -8042,7 +8042,7 @@ func TestShippingRatesPost2Client(t *testing.T) {
 	}
 	result, err := sc.V1ShippingRates.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestShippingRatesPost3(t *testing.T) {
@@ -8050,7 +8050,7 @@ func TestShippingRatesPost3(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := shippingrate.Update("shr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestShippingRatesPost3Service(t *testing.T) {
@@ -8059,7 +8059,7 @@ func TestShippingRatesPost3Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.ShippingRates.Update("shr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestShippingRatesPost3Client(t *testing.T) {
@@ -8069,7 +8069,7 @@ func TestShippingRatesPost3Client(t *testing.T) {
 	result, err := sc.V1ShippingRates.Update(
 		context.TODO(), "shr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSigmaScheduledQueryRunsGet(t *testing.T) {
@@ -8077,7 +8077,7 @@ func TestSigmaScheduledQueryRunsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sigma_scheduledqueryrun.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSigmaScheduledQueryRunsGetService(t *testing.T) {
@@ -8086,7 +8086,7 @@ func TestSigmaScheduledQueryRunsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.SigmaScheduledQueryRuns.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSigmaScheduledQueryRunsGetClient(t *testing.T) {
@@ -8095,14 +8095,14 @@ func TestSigmaScheduledQueryRunsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1SigmaScheduledQueryRuns.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSigmaScheduledQueryRunsGet2(t *testing.T) {
 	params := &stripe.SigmaScheduledQueryRunParams{}
 	result, err := sigma_scheduledqueryrun.Get("sqr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSigmaScheduledQueryRunsGet2Service(t *testing.T) {
@@ -8110,7 +8110,7 @@ func TestSigmaScheduledQueryRunsGet2Service(t *testing.T) {
 	params := &stripe.SigmaScheduledQueryRunParams{}
 	result, err := sc.SigmaScheduledQueryRuns.Get("sqr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSigmaScheduledQueryRunsGet2Client(t *testing.T) {
@@ -8119,14 +8119,14 @@ func TestSigmaScheduledQueryRunsGet2Client(t *testing.T) {
 	result, err := sc.V1SigmaScheduledQueryRuns.Retrieve(
 		context.TODO(), "sqr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSourcesGet(t *testing.T) {
 	params := &stripe.SourceParams{}
 	result, err := source.Get("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSourcesGetService(t *testing.T) {
@@ -8134,7 +8134,7 @@ func TestSourcesGetService(t *testing.T) {
 	params := &stripe.SourceParams{}
 	result, err := sc.Sources.Get("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSourcesGetClient(t *testing.T) {
@@ -8143,14 +8143,14 @@ func TestSourcesGetClient(t *testing.T) {
 	result, err := sc.V1Sources.Retrieve(
 		context.TODO(), "src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSourcesGet2(t *testing.T) {
 	params := &stripe.SourceParams{}
 	result, err := source.Get("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSourcesGet2Service(t *testing.T) {
@@ -8158,7 +8158,7 @@ func TestSourcesGet2Service(t *testing.T) {
 	params := &stripe.SourceParams{}
 	result, err := sc.Sources.Get("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSourcesGet2Client(t *testing.T) {
@@ -8167,7 +8167,7 @@ func TestSourcesGet2Client(t *testing.T) {
 	result, err := sc.V1Sources.Retrieve(
 		context.TODO(), "src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSourcesPost(t *testing.T) {
@@ -8175,7 +8175,7 @@ func TestSourcesPost(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := source.Update("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSourcesPostService(t *testing.T) {
@@ -8184,7 +8184,7 @@ func TestSourcesPostService(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Sources.Update("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSourcesPostClient(t *testing.T) {
@@ -8194,14 +8194,14 @@ func TestSourcesPostClient(t *testing.T) {
 	result, err := sc.V1Sources.Update(
 		context.TODO(), "src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionItemsDelete(t *testing.T) {
 	params := &stripe.SubscriptionItemParams{}
 	result, err := subscriptionitem.Del("si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionItemsDeleteService(t *testing.T) {
@@ -8209,7 +8209,7 @@ func TestSubscriptionItemsDeleteService(t *testing.T) {
 	params := &stripe.SubscriptionItemParams{}
 	result, err := sc.SubscriptionItems.Del("si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionItemsDeleteClient(t *testing.T) {
@@ -8218,7 +8218,7 @@ func TestSubscriptionItemsDeleteClient(t *testing.T) {
 	result, err := sc.V1SubscriptionItems.Delete(
 		context.TODO(), "si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionItemsGet(t *testing.T) {
@@ -8227,7 +8227,7 @@ func TestSubscriptionItemsGet(t *testing.T) {
 	}
 	result := subscriptionitem.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSubscriptionItemsGetService(t *testing.T) {
@@ -8237,7 +8237,7 @@ func TestSubscriptionItemsGetService(t *testing.T) {
 	}
 	result := sc.SubscriptionItems.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSubscriptionItemsGetClient(t *testing.T) {
@@ -8247,14 +8247,14 @@ func TestSubscriptionItemsGetClient(t *testing.T) {
 	}
 	result := sc.V1SubscriptionItems.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSubscriptionItemsGet2(t *testing.T) {
 	params := &stripe.SubscriptionItemParams{}
 	result, err := subscriptionitem.Get("si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionItemsGet2Service(t *testing.T) {
@@ -8262,7 +8262,7 @@ func TestSubscriptionItemsGet2Service(t *testing.T) {
 	params := &stripe.SubscriptionItemParams{}
 	result, err := sc.SubscriptionItems.Get("si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionItemsGet2Client(t *testing.T) {
@@ -8271,7 +8271,7 @@ func TestSubscriptionItemsGet2Client(t *testing.T) {
 	result, err := sc.V1SubscriptionItems.Retrieve(
 		context.TODO(), "si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionItemsPost(t *testing.T) {
@@ -8282,7 +8282,7 @@ func TestSubscriptionItemsPost(t *testing.T) {
 	}
 	result, err := subscriptionitem.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionItemsPostService(t *testing.T) {
@@ -8294,7 +8294,7 @@ func TestSubscriptionItemsPostService(t *testing.T) {
 	}
 	result, err := sc.SubscriptionItems.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionItemsPostClient(t *testing.T) {
@@ -8306,7 +8306,7 @@ func TestSubscriptionItemsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1SubscriptionItems.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionItemsPost2(t *testing.T) {
@@ -8314,7 +8314,7 @@ func TestSubscriptionItemsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := subscriptionitem.Update("si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionItemsPost2Service(t *testing.T) {
@@ -8323,7 +8323,7 @@ func TestSubscriptionItemsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.SubscriptionItems.Update("si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionItemsPost2Client(t *testing.T) {
@@ -8333,14 +8333,14 @@ func TestSubscriptionItemsPost2Client(t *testing.T) {
 	result, err := sc.V1SubscriptionItems.Update(
 		context.TODO(), "si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesCancelPost(t *testing.T) {
 	params := &stripe.SubscriptionScheduleCancelParams{}
 	result, err := subscriptionschedule.Cancel("sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesCancelPostService(t *testing.T) {
@@ -8349,7 +8349,7 @@ func TestSubscriptionSchedulesCancelPostService(t *testing.T) {
 	result, err := sc.SubscriptionSchedules.Cancel(
 		"sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesCancelPostClient(t *testing.T) {
@@ -8358,7 +8358,7 @@ func TestSubscriptionSchedulesCancelPostClient(t *testing.T) {
 	result, err := sc.V1SubscriptionSchedules.Cancel(
 		context.TODO(), "sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesGet(t *testing.T) {
@@ -8366,7 +8366,7 @@ func TestSubscriptionSchedulesGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := subscriptionschedule.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSubscriptionSchedulesGetService(t *testing.T) {
@@ -8375,7 +8375,7 @@ func TestSubscriptionSchedulesGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.SubscriptionSchedules.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSubscriptionSchedulesGetClient(t *testing.T) {
@@ -8384,14 +8384,14 @@ func TestSubscriptionSchedulesGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1SubscriptionSchedules.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSubscriptionSchedulesGet2(t *testing.T) {
 	params := &stripe.SubscriptionScheduleParams{}
 	result, err := subscriptionschedule.Get("sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesGet2Service(t *testing.T) {
@@ -8399,7 +8399,7 @@ func TestSubscriptionSchedulesGet2Service(t *testing.T) {
 	params := &stripe.SubscriptionScheduleParams{}
 	result, err := sc.SubscriptionSchedules.Get("sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesGet2Client(t *testing.T) {
@@ -8408,7 +8408,7 @@ func TestSubscriptionSchedulesGet2Client(t *testing.T) {
 	result, err := sc.V1SubscriptionSchedules.Retrieve(
 		context.TODO(), "sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesPost(t *testing.T) {
@@ -8429,7 +8429,7 @@ func TestSubscriptionSchedulesPost(t *testing.T) {
 	}
 	result, err := subscriptionschedule.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesPostService(t *testing.T) {
@@ -8451,7 +8451,7 @@ func TestSubscriptionSchedulesPostService(t *testing.T) {
 	}
 	result, err := sc.SubscriptionSchedules.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesPostClient(t *testing.T) {
@@ -8473,7 +8473,7 @@ func TestSubscriptionSchedulesPostClient(t *testing.T) {
 	}
 	result, err := sc.V1SubscriptionSchedules.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesPost2(t *testing.T) {
@@ -8482,7 +8482,7 @@ func TestSubscriptionSchedulesPost2(t *testing.T) {
 	}
 	result, err := subscriptionschedule.Update("sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesPost2Service(t *testing.T) {
@@ -8493,7 +8493,7 @@ func TestSubscriptionSchedulesPost2Service(t *testing.T) {
 	result, err := sc.SubscriptionSchedules.Update(
 		"sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesPost2Client(t *testing.T) {
@@ -8504,14 +8504,14 @@ func TestSubscriptionSchedulesPost2Client(t *testing.T) {
 	result, err := sc.V1SubscriptionSchedules.Update(
 		context.TODO(), "sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesReleasePost(t *testing.T) {
 	params := &stripe.SubscriptionScheduleReleaseParams{}
 	result, err := subscriptionschedule.Release("sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesReleasePostService(t *testing.T) {
@@ -8520,7 +8520,7 @@ func TestSubscriptionSchedulesReleasePostService(t *testing.T) {
 	result, err := sc.SubscriptionSchedules.Release(
 		"sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionSchedulesReleasePostClient(t *testing.T) {
@@ -8529,14 +8529,14 @@ func TestSubscriptionSchedulesReleasePostClient(t *testing.T) {
 	result, err := sc.V1SubscriptionSchedules.Release(
 		context.TODO(), "sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsDelete(t *testing.T) {
 	params := &stripe.SubscriptionCancelParams{}
 	result, err := subscription.Cancel("sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsDeleteService(t *testing.T) {
@@ -8544,7 +8544,7 @@ func TestSubscriptionsDeleteService(t *testing.T) {
 	params := &stripe.SubscriptionCancelParams{}
 	result, err := sc.Subscriptions.Cancel("sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsDeleteClient(t *testing.T) {
@@ -8553,14 +8553,14 @@ func TestSubscriptionsDeleteClient(t *testing.T) {
 	result, err := sc.V1Subscriptions.Cancel(
 		context.TODO(), "sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsDiscountDelete(t *testing.T) {
 	params := &stripe.SubscriptionDeleteDiscountParams{}
 	result, err := subscription.DeleteDiscount("sub_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsDiscountDeleteService(t *testing.T) {
@@ -8568,7 +8568,7 @@ func TestSubscriptionsDiscountDeleteService(t *testing.T) {
 	params := &stripe.SubscriptionDeleteDiscountParams{}
 	result, err := sc.Subscriptions.DeleteDiscount("sub_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsDiscountDeleteClient(t *testing.T) {
@@ -8577,7 +8577,7 @@ func TestSubscriptionsDiscountDeleteClient(t *testing.T) {
 	result, err := sc.V1Subscriptions.DeleteDiscount(
 		context.TODO(), "sub_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsGet(t *testing.T) {
@@ -8585,7 +8585,7 @@ func TestSubscriptionsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := subscription.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSubscriptionsGetService(t *testing.T) {
@@ -8594,7 +8594,7 @@ func TestSubscriptionsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Subscriptions.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSubscriptionsGetClient(t *testing.T) {
@@ -8603,14 +8603,14 @@ func TestSubscriptionsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Subscriptions.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSubscriptionsGet2(t *testing.T) {
 	params := &stripe.SubscriptionParams{}
 	result, err := subscription.Get("sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsGet2Service(t *testing.T) {
@@ -8618,7 +8618,7 @@ func TestSubscriptionsGet2Service(t *testing.T) {
 	params := &stripe.SubscriptionParams{}
 	result, err := sc.Subscriptions.Get("sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsGet2Client(t *testing.T) {
@@ -8627,7 +8627,7 @@ func TestSubscriptionsGet2Client(t *testing.T) {
 	result, err := sc.V1Subscriptions.Retrieve(
 		context.TODO(), "sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsPost(t *testing.T) {
@@ -8641,7 +8641,7 @@ func TestSubscriptionsPost(t *testing.T) {
 	}
 	result, err := subscription.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsPostService(t *testing.T) {
@@ -8656,7 +8656,7 @@ func TestSubscriptionsPostService(t *testing.T) {
 	}
 	result, err := sc.Subscriptions.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsPostClient(t *testing.T) {
@@ -8671,7 +8671,7 @@ func TestSubscriptionsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Subscriptions.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsPost2(t *testing.T) {
@@ -8679,7 +8679,7 @@ func TestSubscriptionsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := subscription.Update("sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsPost2Service(t *testing.T) {
@@ -8688,7 +8688,7 @@ func TestSubscriptionsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Subscriptions.Update("sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsPost2Client(t *testing.T) {
@@ -8698,7 +8698,7 @@ func TestSubscriptionsPost2Client(t *testing.T) {
 	result, err := sc.V1Subscriptions.Update(
 		context.TODO(), "sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestSubscriptionsSearchGet(t *testing.T) {
@@ -8709,7 +8709,7 @@ func TestSubscriptionsSearchGet(t *testing.T) {
 	}
 	result := subscription.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSubscriptionsSearchGetService(t *testing.T) {
@@ -8721,7 +8721,7 @@ func TestSubscriptionsSearchGetService(t *testing.T) {
 	}
 	result := sc.Subscriptions.Search(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestSubscriptionsSearchGetClient(t *testing.T) {
@@ -8733,7 +8733,7 @@ func TestSubscriptionsSearchGetClient(t *testing.T) {
 	}
 	result := sc.V1Subscriptions.Search(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTaxCalculationsLineItemsGet(t *testing.T) {
@@ -8742,7 +8742,7 @@ func TestTaxCalculationsLineItemsGet(t *testing.T) {
 	}
 	result := tax_calculation.ListLineItems(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTaxCalculationsLineItemsGetService(t *testing.T) {
@@ -8752,7 +8752,7 @@ func TestTaxCalculationsLineItemsGetService(t *testing.T) {
 	}
 	result := sc.TaxCalculations.ListLineItems(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTaxCalculationsLineItemsGetClient(t *testing.T) {
@@ -8762,7 +8762,7 @@ func TestTaxCalculationsLineItemsGetClient(t *testing.T) {
 	}
 	result := sc.V1TaxCalculations.ListLineItems(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTaxCalculationsPost(t *testing.T) {
@@ -8787,7 +8787,7 @@ func TestTaxCalculationsPost(t *testing.T) {
 	}
 	result, err := tax_calculation.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxCalculationsPostService(t *testing.T) {
@@ -8813,7 +8813,7 @@ func TestTaxCalculationsPostService(t *testing.T) {
 	}
 	result, err := sc.TaxCalculations.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxCalculationsPostClient(t *testing.T) {
@@ -8839,7 +8839,7 @@ func TestTaxCalculationsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TaxCalculations.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxCodesGet(t *testing.T) {
@@ -8847,7 +8847,7 @@ func TestTaxCodesGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := taxcode.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTaxCodesGetService(t *testing.T) {
@@ -8856,7 +8856,7 @@ func TestTaxCodesGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TaxCodes.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTaxCodesGetClient(t *testing.T) {
@@ -8865,14 +8865,14 @@ func TestTaxCodesGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TaxCodes.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTaxCodesGet2(t *testing.T) {
 	params := &stripe.TaxCodeParams{}
 	result, err := taxcode.Get("txcd_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxCodesGet2Service(t *testing.T) {
@@ -8880,7 +8880,7 @@ func TestTaxCodesGet2Service(t *testing.T) {
 	params := &stripe.TaxCodeParams{}
 	result, err := sc.TaxCodes.Get("txcd_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxCodesGet2Client(t *testing.T) {
@@ -8889,14 +8889,14 @@ func TestTaxCodesGet2Client(t *testing.T) {
 	result, err := sc.V1TaxCodes.Retrieve(
 		context.TODO(), "txcd_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxFormsPdfGet(t *testing.T) {
 	params := &stripe.TaxFormPDFParams{}
 	result, err := tax_form.PDF("form_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxFormsPdfGetService(t *testing.T) {
@@ -8904,7 +8904,7 @@ func TestTaxFormsPdfGetService(t *testing.T) {
 	params := &stripe.TaxFormPDFParams{}
 	result, err := sc.TaxForms.PDF("form_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxFormsPdfGetClient(t *testing.T) {
@@ -8912,14 +8912,14 @@ func TestTaxFormsPdfGetClient(t *testing.T) {
 	params := &stripe.TaxFormPDFParams{}
 	result, err := sc.V1TaxForms.PDF(context.TODO(), "form_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxIdsDelete(t *testing.T) {
 	params := &stripe.TaxIDParams{}
 	result, err := taxid.Del("taxid_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxIdsDeleteService(t *testing.T) {
@@ -8927,7 +8927,7 @@ func TestTaxIdsDeleteService(t *testing.T) {
 	params := &stripe.TaxIDParams{}
 	result, err := sc.TaxIDs.Del("taxid_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxIdsDeleteClient(t *testing.T) {
@@ -8935,14 +8935,14 @@ func TestTaxIdsDeleteClient(t *testing.T) {
 	params := &stripe.TaxIDDeleteParams{}
 	result, err := sc.V1TaxIDs.Delete(context.TODO(), "taxid_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxIdsGet(t *testing.T) {
 	params := &stripe.TaxIDListParams{}
 	result := taxid.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTaxIdsGetService(t *testing.T) {
@@ -8950,7 +8950,7 @@ func TestTaxIdsGetService(t *testing.T) {
 	params := &stripe.TaxIDListParams{}
 	result := sc.TaxIDs.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTaxIdsGetClient(t *testing.T) {
@@ -8958,14 +8958,14 @@ func TestTaxIdsGetClient(t *testing.T) {
 	params := &stripe.TaxIDListParams{}
 	result := sc.V1TaxIDs.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTaxIdsGet2(t *testing.T) {
 	params := &stripe.TaxIDParams{}
 	result, err := taxid.Get("taxid_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxIdsGet2Service(t *testing.T) {
@@ -8973,7 +8973,7 @@ func TestTaxIdsGet2Service(t *testing.T) {
 	params := &stripe.TaxIDParams{}
 	result, err := sc.TaxIDs.Get("taxid_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxIdsGet2Client(t *testing.T) {
@@ -8981,7 +8981,7 @@ func TestTaxIdsGet2Client(t *testing.T) {
 	params := &stripe.TaxIDRetrieveParams{}
 	result, err := sc.V1TaxIDs.Retrieve(context.TODO(), "taxid_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxIdsPost(t *testing.T) {
@@ -8991,7 +8991,7 @@ func TestTaxIdsPost(t *testing.T) {
 	}
 	result, err := taxid.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxIdsPostService(t *testing.T) {
@@ -9002,7 +9002,7 @@ func TestTaxIdsPostService(t *testing.T) {
 	}
 	result, err := sc.TaxIDs.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxIdsPostClient(t *testing.T) {
@@ -9013,7 +9013,7 @@ func TestTaxIdsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TaxIDs.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxRatesGet(t *testing.T) {
@@ -9021,7 +9021,7 @@ func TestTaxRatesGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := taxrate.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTaxRatesGetService(t *testing.T) {
@@ -9030,7 +9030,7 @@ func TestTaxRatesGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TaxRates.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTaxRatesGetClient(t *testing.T) {
@@ -9039,14 +9039,14 @@ func TestTaxRatesGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TaxRates.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTaxRatesGet2(t *testing.T) {
 	params := &stripe.TaxRateParams{}
 	result, err := taxrate.Get("txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxRatesGet2Service(t *testing.T) {
@@ -9054,7 +9054,7 @@ func TestTaxRatesGet2Service(t *testing.T) {
 	params := &stripe.TaxRateParams{}
 	result, err := sc.TaxRates.Get("txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxRatesGet2Client(t *testing.T) {
@@ -9063,7 +9063,7 @@ func TestTaxRatesGet2Client(t *testing.T) {
 	result, err := sc.V1TaxRates.Retrieve(
 		context.TODO(), "txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxRatesPost(t *testing.T) {
@@ -9076,7 +9076,7 @@ func TestTaxRatesPost(t *testing.T) {
 	}
 	result, err := taxrate.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxRatesPostService(t *testing.T) {
@@ -9090,7 +9090,7 @@ func TestTaxRatesPostService(t *testing.T) {
 	}
 	result, err := sc.TaxRates.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxRatesPostClient(t *testing.T) {
@@ -9104,14 +9104,14 @@ func TestTaxRatesPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TaxRates.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxRatesPost2(t *testing.T) {
 	params := &stripe.TaxRateParams{Active: stripe.Bool(false)}
 	result, err := taxrate.Update("txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxRatesPost2Service(t *testing.T) {
@@ -9119,7 +9119,7 @@ func TestTaxRatesPost2Service(t *testing.T) {
 	params := &stripe.TaxRateParams{Active: stripe.Bool(false)}
 	result, err := sc.TaxRates.Update("txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxRatesPost2Client(t *testing.T) {
@@ -9128,14 +9128,14 @@ func TestTaxRatesPost2Client(t *testing.T) {
 	result, err := sc.V1TaxRates.Update(
 		context.TODO(), "txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxSettingsGet(t *testing.T) {
 	params := &stripe.TaxSettingsParams{}
 	result, err := tax_settings.Get(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxSettingsGetService(t *testing.T) {
@@ -9143,7 +9143,7 @@ func TestTaxSettingsGetService(t *testing.T) {
 	params := &stripe.TaxSettingsParams{}
 	result, err := sc.TaxSettings.Get(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxSettingsGetClient(t *testing.T) {
@@ -9151,7 +9151,7 @@ func TestTaxSettingsGetClient(t *testing.T) {
 	params := &stripe.TaxSettingsRetrieveParams{}
 	result, err := sc.V1TaxSettings.Retrieve(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxSettingsPost(t *testing.T) {
@@ -9162,7 +9162,7 @@ func TestTaxSettingsPost(t *testing.T) {
 	}
 	result, err := tax_settings.Update(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxSettingsPostService(t *testing.T) {
@@ -9174,7 +9174,7 @@ func TestTaxSettingsPostService(t *testing.T) {
 	}
 	result, err := sc.TaxSettings.Update(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxSettingsPostClient(t *testing.T) {
@@ -9186,7 +9186,7 @@ func TestTaxSettingsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TaxSettings.Update(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxTransactionsCreateFromCalculationPost(t *testing.T) {
@@ -9196,7 +9196,7 @@ func TestTaxTransactionsCreateFromCalculationPost(t *testing.T) {
 	}
 	result, err := tax_transaction.CreateFromCalculation(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxTransactionsCreateFromCalculationPostService(t *testing.T) {
@@ -9207,7 +9207,7 @@ func TestTaxTransactionsCreateFromCalculationPostService(t *testing.T) {
 	}
 	result, err := sc.TaxTransactions.CreateFromCalculation(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTaxTransactionsCreateFromCalculationPostClient(t *testing.T) {
@@ -9219,14 +9219,14 @@ func TestTaxTransactionsCreateFromCalculationPostClient(t *testing.T) {
 	result, err := sc.V1TaxTransactions.CreateFromCalculation(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsDelete(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
 	result, err := terminal_configuration.Del("uc_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsDeleteService(t *testing.T) {
@@ -9234,7 +9234,7 @@ func TestTerminalConfigurationsDeleteService(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
 	result, err := sc.TerminalConfigurations.Del("uc_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsDeleteClient(t *testing.T) {
@@ -9243,14 +9243,14 @@ func TestTerminalConfigurationsDeleteClient(t *testing.T) {
 	result, err := sc.V1TerminalConfigurations.Delete(
 		context.TODO(), "uc_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsDelete2(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
 	result, err := terminal_configuration.Del("tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsDelete2Service(t *testing.T) {
@@ -9258,7 +9258,7 @@ func TestTerminalConfigurationsDelete2Service(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
 	result, err := sc.TerminalConfigurations.Del("tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsDelete2Client(t *testing.T) {
@@ -9267,14 +9267,14 @@ func TestTerminalConfigurationsDelete2Client(t *testing.T) {
 	result, err := sc.V1TerminalConfigurations.Delete(
 		context.TODO(), "tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsGet(t *testing.T) {
 	params := &stripe.TerminalConfigurationListParams{}
 	result := terminal_configuration.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTerminalConfigurationsGetService(t *testing.T) {
@@ -9282,7 +9282,7 @@ func TestTerminalConfigurationsGetService(t *testing.T) {
 	params := &stripe.TerminalConfigurationListParams{}
 	result := sc.TerminalConfigurations.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTerminalConfigurationsGetClient(t *testing.T) {
@@ -9290,14 +9290,14 @@ func TestTerminalConfigurationsGetClient(t *testing.T) {
 	params := &stripe.TerminalConfigurationListParams{}
 	result := sc.V1TerminalConfigurations.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTerminalConfigurationsGet2(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
 	result, err := terminal_configuration.Get("uc_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsGet2Service(t *testing.T) {
@@ -9305,7 +9305,7 @@ func TestTerminalConfigurationsGet2Service(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
 	result, err := sc.TerminalConfigurations.Get("uc_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsGet2Client(t *testing.T) {
@@ -9314,7 +9314,7 @@ func TestTerminalConfigurationsGet2Client(t *testing.T) {
 	result, err := sc.V1TerminalConfigurations.Retrieve(
 		context.TODO(), "uc_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsGet3(t *testing.T) {
@@ -9322,7 +9322,7 @@ func TestTerminalConfigurationsGet3(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := terminal_configuration.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTerminalConfigurationsGet3Service(t *testing.T) {
@@ -9331,7 +9331,7 @@ func TestTerminalConfigurationsGet3Service(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TerminalConfigurations.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTerminalConfigurationsGet3Client(t *testing.T) {
@@ -9340,14 +9340,14 @@ func TestTerminalConfigurationsGet3Client(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TerminalConfigurations.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTerminalConfigurationsGet4(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
 	result, err := terminal_configuration.Get("tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsGet4Service(t *testing.T) {
@@ -9355,7 +9355,7 @@ func TestTerminalConfigurationsGet4Service(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
 	result, err := sc.TerminalConfigurations.Get("tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsGet4Client(t *testing.T) {
@@ -9364,14 +9364,14 @@ func TestTerminalConfigurationsGet4Client(t *testing.T) {
 	result, err := sc.V1TerminalConfigurations.Retrieve(
 		context.TODO(), "tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsPost(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
 	result, err := terminal_configuration.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsPostService(t *testing.T) {
@@ -9379,7 +9379,7 @@ func TestTerminalConfigurationsPostService(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
 	result, err := sc.TerminalConfigurations.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsPostClient(t *testing.T) {
@@ -9387,7 +9387,7 @@ func TestTerminalConfigurationsPostClient(t *testing.T) {
 	params := &stripe.TerminalConfigurationCreateParams{}
 	result, err := sc.V1TerminalConfigurations.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsPost2(t *testing.T) {
@@ -9400,7 +9400,7 @@ func TestTerminalConfigurationsPost2(t *testing.T) {
 	}
 	result, err := terminal_configuration.Update("uc_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsPost2Service(t *testing.T) {
@@ -9414,7 +9414,7 @@ func TestTerminalConfigurationsPost2Service(t *testing.T) {
 	}
 	result, err := sc.TerminalConfigurations.Update("uc_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsPost2Client(t *testing.T) {
@@ -9429,7 +9429,7 @@ func TestTerminalConfigurationsPost2Client(t *testing.T) {
 	result, err := sc.V1TerminalConfigurations.Update(
 		context.TODO(), "uc_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsPost3(t *testing.T) {
@@ -9440,7 +9440,7 @@ func TestTerminalConfigurationsPost3(t *testing.T) {
 	}
 	result, err := terminal_configuration.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsPost3Service(t *testing.T) {
@@ -9452,7 +9452,7 @@ func TestTerminalConfigurationsPost3Service(t *testing.T) {
 	}
 	result, err := sc.TerminalConfigurations.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsPost3Client(t *testing.T) {
@@ -9464,7 +9464,7 @@ func TestTerminalConfigurationsPost3Client(t *testing.T) {
 	}
 	result, err := sc.V1TerminalConfigurations.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsPost4(t *testing.T) {
@@ -9475,7 +9475,7 @@ func TestTerminalConfigurationsPost4(t *testing.T) {
 	}
 	result, err := terminal_configuration.Update("tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsPost4Service(t *testing.T) {
@@ -9487,7 +9487,7 @@ func TestTerminalConfigurationsPost4Service(t *testing.T) {
 	}
 	result, err := sc.TerminalConfigurations.Update("tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConfigurationsPost4Client(t *testing.T) {
@@ -9500,14 +9500,14 @@ func TestTerminalConfigurationsPost4Client(t *testing.T) {
 	result, err := sc.V1TerminalConfigurations.Update(
 		context.TODO(), "tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConnectionTokensPost(t *testing.T) {
 	params := &stripe.TerminalConnectionTokenParams{}
 	result, err := terminal_connectiontoken.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConnectionTokensPostService(t *testing.T) {
@@ -9515,7 +9515,7 @@ func TestTerminalConnectionTokensPostService(t *testing.T) {
 	params := &stripe.TerminalConnectionTokenParams{}
 	result, err := sc.TerminalConnectionTokens.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalConnectionTokensPostClient(t *testing.T) {
@@ -9523,14 +9523,14 @@ func TestTerminalConnectionTokensPostClient(t *testing.T) {
 	params := &stripe.TerminalConnectionTokenCreateParams{}
 	result, err := sc.V1TerminalConnectionTokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalLocationsDelete(t *testing.T) {
 	params := &stripe.TerminalLocationParams{}
 	result, err := terminal_location.Del("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalLocationsDeleteService(t *testing.T) {
@@ -9538,7 +9538,7 @@ func TestTerminalLocationsDeleteService(t *testing.T) {
 	params := &stripe.TerminalLocationParams{}
 	result, err := sc.TerminalLocations.Del("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalLocationsDeleteClient(t *testing.T) {
@@ -9547,7 +9547,7 @@ func TestTerminalLocationsDeleteClient(t *testing.T) {
 	result, err := sc.V1TerminalLocations.Delete(
 		context.TODO(), "tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalLocationsGet(t *testing.T) {
@@ -9555,7 +9555,7 @@ func TestTerminalLocationsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := terminal_location.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTerminalLocationsGetService(t *testing.T) {
@@ -9564,7 +9564,7 @@ func TestTerminalLocationsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TerminalLocations.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTerminalLocationsGetClient(t *testing.T) {
@@ -9573,14 +9573,14 @@ func TestTerminalLocationsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TerminalLocations.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTerminalLocationsGet2(t *testing.T) {
 	params := &stripe.TerminalLocationParams{}
 	result, err := terminal_location.Get("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalLocationsGet2Service(t *testing.T) {
@@ -9588,7 +9588,7 @@ func TestTerminalLocationsGet2Service(t *testing.T) {
 	params := &stripe.TerminalLocationParams{}
 	result, err := sc.TerminalLocations.Get("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalLocationsGet2Client(t *testing.T) {
@@ -9597,7 +9597,7 @@ func TestTerminalLocationsGet2Client(t *testing.T) {
 	result, err := sc.V1TerminalLocations.Retrieve(
 		context.TODO(), "tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalLocationsPost(t *testing.T) {
@@ -9613,7 +9613,7 @@ func TestTerminalLocationsPost(t *testing.T) {
 	}
 	result, err := terminal_location.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalLocationsPostService(t *testing.T) {
@@ -9630,7 +9630,7 @@ func TestTerminalLocationsPostService(t *testing.T) {
 	}
 	result, err := sc.TerminalLocations.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalLocationsPostClient(t *testing.T) {
@@ -9647,7 +9647,7 @@ func TestTerminalLocationsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TerminalLocations.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalLocationsPost2(t *testing.T) {
@@ -9656,7 +9656,7 @@ func TestTerminalLocationsPost2(t *testing.T) {
 	}
 	result, err := terminal_location.Update("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalLocationsPost2Service(t *testing.T) {
@@ -9666,7 +9666,7 @@ func TestTerminalLocationsPost2Service(t *testing.T) {
 	}
 	result, err := sc.TerminalLocations.Update("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalLocationsPost2Client(t *testing.T) {
@@ -9677,14 +9677,14 @@ func TestTerminalLocationsPost2Client(t *testing.T) {
 	result, err := sc.V1TerminalLocations.Update(
 		context.TODO(), "tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersCancelActionPost(t *testing.T) {
 	params := &stripe.TerminalReaderCancelActionParams{}
 	result, err := terminal_reader.CancelAction("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersCancelActionPostService(t *testing.T) {
@@ -9692,7 +9692,7 @@ func TestTerminalReadersCancelActionPostService(t *testing.T) {
 	params := &stripe.TerminalReaderCancelActionParams{}
 	result, err := sc.TerminalReaders.CancelAction("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersCancelActionPostClient(t *testing.T) {
@@ -9701,14 +9701,14 @@ func TestTerminalReadersCancelActionPostClient(t *testing.T) {
 	result, err := sc.V1TerminalReaders.CancelAction(
 		context.TODO(), "tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersDelete(t *testing.T) {
 	params := &stripe.TerminalReaderParams{}
 	result, err := terminal_reader.Del("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersDeleteService(t *testing.T) {
@@ -9716,7 +9716,7 @@ func TestTerminalReadersDeleteService(t *testing.T) {
 	params := &stripe.TerminalReaderParams{}
 	result, err := sc.TerminalReaders.Del("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersDeleteClient(t *testing.T) {
@@ -9725,7 +9725,7 @@ func TestTerminalReadersDeleteClient(t *testing.T) {
 	result, err := sc.V1TerminalReaders.Delete(
 		context.TODO(), "tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersGet(t *testing.T) {
@@ -9733,7 +9733,7 @@ func TestTerminalReadersGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := terminal_reader.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTerminalReadersGetService(t *testing.T) {
@@ -9742,7 +9742,7 @@ func TestTerminalReadersGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TerminalReaders.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTerminalReadersGetClient(t *testing.T) {
@@ -9751,14 +9751,14 @@ func TestTerminalReadersGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TerminalReaders.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTerminalReadersGet2(t *testing.T) {
 	params := &stripe.TerminalReaderParams{}
 	result, err := terminal_reader.Get("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersGet2Service(t *testing.T) {
@@ -9766,7 +9766,7 @@ func TestTerminalReadersGet2Service(t *testing.T) {
 	params := &stripe.TerminalReaderParams{}
 	result, err := sc.TerminalReaders.Get("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersGet2Client(t *testing.T) {
@@ -9775,7 +9775,7 @@ func TestTerminalReadersGet2Client(t *testing.T) {
 	result, err := sc.V1TerminalReaders.Retrieve(
 		context.TODO(), "tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersPost(t *testing.T) {
@@ -9786,7 +9786,7 @@ func TestTerminalReadersPost(t *testing.T) {
 	}
 	result, err := terminal_reader.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersPostService(t *testing.T) {
@@ -9798,7 +9798,7 @@ func TestTerminalReadersPostService(t *testing.T) {
 	}
 	result, err := sc.TerminalReaders.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersPostClient(t *testing.T) {
@@ -9810,14 +9810,14 @@ func TestTerminalReadersPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TerminalReaders.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersPost2(t *testing.T) {
 	params := &stripe.TerminalReaderParams{Label: stripe.String("Blue Rabbit")}
 	result, err := terminal_reader.Update("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersPost2Service(t *testing.T) {
@@ -9825,7 +9825,7 @@ func TestTerminalReadersPost2Service(t *testing.T) {
 	params := &stripe.TerminalReaderParams{Label: stripe.String("Blue Rabbit")}
 	result, err := sc.TerminalReaders.Update("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersPost2Client(t *testing.T) {
@@ -9836,7 +9836,7 @@ func TestTerminalReadersPost2Client(t *testing.T) {
 	result, err := sc.V1TerminalReaders.Update(
 		context.TODO(), "tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersProcessPaymentIntentPost(t *testing.T) {
@@ -9846,7 +9846,7 @@ func TestTerminalReadersProcessPaymentIntentPost(t *testing.T) {
 	result, err := terminal_reader.ProcessPaymentIntent(
 		"tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersProcessPaymentIntentPostService(t *testing.T) {
@@ -9857,7 +9857,7 @@ func TestTerminalReadersProcessPaymentIntentPostService(t *testing.T) {
 	result, err := sc.TerminalReaders.ProcessPaymentIntent(
 		"tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersProcessPaymentIntentPostClient(t *testing.T) {
@@ -9868,7 +9868,7 @@ func TestTerminalReadersProcessPaymentIntentPostClient(t *testing.T) {
 	result, err := sc.V1TerminalReaders.ProcessPaymentIntent(
 		context.TODO(), "tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersProcessSetupIntentPost(t *testing.T) {
@@ -9878,7 +9878,7 @@ func TestTerminalReadersProcessSetupIntentPost(t *testing.T) {
 	}
 	result, err := terminal_reader.ProcessSetupIntent("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersProcessSetupIntentPostService(t *testing.T) {
@@ -9890,7 +9890,7 @@ func TestTerminalReadersProcessSetupIntentPostService(t *testing.T) {
 	result, err := sc.TerminalReaders.ProcessSetupIntent(
 		"tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTerminalReadersProcessSetupIntentPostClient(t *testing.T) {
@@ -9902,7 +9902,7 @@ func TestTerminalReadersProcessSetupIntentPostClient(t *testing.T) {
 	result, err := sc.V1TerminalReaders.ProcessSetupIntent(
 		context.TODO(), "tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersCustomersFundCashBalancePost(t *testing.T) {
@@ -9912,7 +9912,7 @@ func TestTestHelpersCustomersFundCashBalancePost(t *testing.T) {
 	}
 	result, err := testhelpers_customer.FundCashBalance("cus_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersCustomersFundCashBalancePostService(t *testing.T) {
@@ -9923,7 +9923,7 @@ func TestTestHelpersCustomersFundCashBalancePostService(t *testing.T) {
 	}
 	result, err := sc.TestHelpersCustomers.FundCashBalance("cus_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersCustomersFundCashBalancePostClient(t *testing.T) {
@@ -9935,7 +9935,7 @@ func TestTestHelpersCustomersFundCashBalancePostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersCustomers.FundCashBalance(
 		context.TODO(), "cus_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsCapturePost(t *testing.T) {
@@ -9983,7 +9983,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePost(t *testing.T) {
 	result, err := testhelpers_issuing_authorization.Capture(
 		"example_authorization", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsCapturePostService(t *testing.T) {
@@ -10032,7 +10032,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePostService(t *testing.T) {
 	result, err := sc.TestHelpersIssuingAuthorizations.Capture(
 		"example_authorization", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsCapturePostClient(t *testing.T) {
@@ -10081,7 +10081,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersIssuingAuthorizations.Capture(
 		context.TODO(), "example_authorization", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsExpirePost(t *testing.T) {
@@ -10089,7 +10089,7 @@ func TestTestHelpersIssuingAuthorizationsExpirePost(t *testing.T) {
 	result, err := testhelpers_issuing_authorization.Expire(
 		"example_authorization", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsExpirePostService(t *testing.T) {
@@ -10098,7 +10098,7 @@ func TestTestHelpersIssuingAuthorizationsExpirePostService(t *testing.T) {
 	result, err := sc.TestHelpersIssuingAuthorizations.Expire(
 		"example_authorization", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsExpirePostClient(t *testing.T) {
@@ -10107,7 +10107,7 @@ func TestTestHelpersIssuingAuthorizationsExpirePostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersIssuingAuthorizations.Expire(
 		context.TODO(), "example_authorization", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsIncrementPost(t *testing.T) {
@@ -10118,7 +10118,7 @@ func TestTestHelpersIssuingAuthorizationsIncrementPost(t *testing.T) {
 	result, err := testhelpers_issuing_authorization.Increment(
 		"example_authorization", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsIncrementPostService(t *testing.T) {
@@ -10130,7 +10130,7 @@ func TestTestHelpersIssuingAuthorizationsIncrementPostService(t *testing.T) {
 	result, err := sc.TestHelpersIssuingAuthorizations.Increment(
 		"example_authorization", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsIncrementPostClient(t *testing.T) {
@@ -10142,7 +10142,7 @@ func TestTestHelpersIssuingAuthorizationsIncrementPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersIssuingAuthorizations.Increment(
 		context.TODO(), "example_authorization", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsPost(t *testing.T) {
@@ -10179,7 +10179,7 @@ func TestTestHelpersIssuingAuthorizationsPost(t *testing.T) {
 	}
 	result, err := testhelpers_issuing_authorization.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsPostService(t *testing.T) {
@@ -10217,7 +10217,7 @@ func TestTestHelpersIssuingAuthorizationsPostService(t *testing.T) {
 	}
 	result, err := sc.TestHelpersIssuingAuthorizations.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsPostClient(t *testing.T) {
@@ -10256,7 +10256,7 @@ func TestTestHelpersIssuingAuthorizationsPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersIssuingAuthorizations.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsReversePost(t *testing.T) {
@@ -10266,7 +10266,7 @@ func TestTestHelpersIssuingAuthorizationsReversePost(t *testing.T) {
 	result, err := testhelpers_issuing_authorization.Reverse(
 		"example_authorization", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsReversePostService(t *testing.T) {
@@ -10277,7 +10277,7 @@ func TestTestHelpersIssuingAuthorizationsReversePostService(t *testing.T) {
 	result, err := sc.TestHelpersIssuingAuthorizations.Reverse(
 		"example_authorization", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsReversePostClient(t *testing.T) {
@@ -10288,14 +10288,14 @@ func TestTestHelpersIssuingAuthorizationsReversePostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersIssuingAuthorizations.Reverse(
 		context.TODO(), "example_authorization", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingDeliverPost(t *testing.T) {
 	params := &stripe.TestHelpersIssuingCardDeliverCardParams{}
 	result, err := testhelpers_issuing_card.DeliverCard("card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingDeliverPostService(t *testing.T) {
@@ -10303,7 +10303,7 @@ func TestTestHelpersIssuingCardsShippingDeliverPostService(t *testing.T) {
 	params := &stripe.TestHelpersIssuingCardDeliverCardParams{}
 	result, err := sc.TestHelpersIssuingCards.DeliverCard("card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingDeliverPostClient(t *testing.T) {
@@ -10312,14 +10312,14 @@ func TestTestHelpersIssuingCardsShippingDeliverPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersIssuingCards.DeliverCard(
 		context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingFailPost(t *testing.T) {
 	params := &stripe.TestHelpersIssuingCardFailCardParams{}
 	result, err := testhelpers_issuing_card.FailCard("card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingFailPostService(t *testing.T) {
@@ -10327,7 +10327,7 @@ func TestTestHelpersIssuingCardsShippingFailPostService(t *testing.T) {
 	params := &stripe.TestHelpersIssuingCardFailCardParams{}
 	result, err := sc.TestHelpersIssuingCards.FailCard("card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingFailPostClient(t *testing.T) {
@@ -10336,14 +10336,14 @@ func TestTestHelpersIssuingCardsShippingFailPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersIssuingCards.FailCard(
 		context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingReturnPost(t *testing.T) {
 	params := &stripe.TestHelpersIssuingCardReturnCardParams{}
 	result, err := testhelpers_issuing_card.ReturnCard("card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingReturnPostService(t *testing.T) {
@@ -10351,7 +10351,7 @@ func TestTestHelpersIssuingCardsShippingReturnPostService(t *testing.T) {
 	params := &stripe.TestHelpersIssuingCardReturnCardParams{}
 	result, err := sc.TestHelpersIssuingCards.ReturnCard("card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingReturnPostClient(t *testing.T) {
@@ -10360,14 +10360,14 @@ func TestTestHelpersIssuingCardsShippingReturnPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersIssuingCards.ReturnCard(
 		context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingShipPost(t *testing.T) {
 	params := &stripe.TestHelpersIssuingCardShipCardParams{}
 	result, err := testhelpers_issuing_card.ShipCard("card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingShipPostService(t *testing.T) {
@@ -10375,7 +10375,7 @@ func TestTestHelpersIssuingCardsShippingShipPostService(t *testing.T) {
 	params := &stripe.TestHelpersIssuingCardShipCardParams{}
 	result, err := sc.TestHelpersIssuingCards.ShipCard("card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingShipPostClient(t *testing.T) {
@@ -10384,7 +10384,7 @@ func TestTestHelpersIssuingCardsShippingShipPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersIssuingCards.ShipCard(
 		context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingPersonalizationDesignsActivatePost(t *testing.T) {
@@ -10392,7 +10392,7 @@ func TestTestHelpersIssuingPersonalizationDesignsActivatePost(t *testing.T) {
 	result, err := testhelpers_issuing_personalizationdesign.Activate(
 		"pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingPersonalizationDesignsActivatePostService(
@@ -10403,7 +10403,7 @@ func TestTestHelpersIssuingPersonalizationDesignsActivatePostService(
 	result, err := sc.TestHelpersIssuingPersonalizationDesigns.Activate(
 		"pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingPersonalizationDesignsActivatePostClient(
@@ -10414,7 +10414,7 @@ func TestTestHelpersIssuingPersonalizationDesignsActivatePostClient(
 	result, err := sc.V1TestHelpersIssuingPersonalizationDesigns.Activate(
 		context.TODO(), "pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingPersonalizationDesignsDeactivatePost(t *testing.T) {
@@ -10422,7 +10422,7 @@ func TestTestHelpersIssuingPersonalizationDesignsDeactivatePost(t *testing.T) {
 	result, err := testhelpers_issuing_personalizationdesign.Deactivate(
 		"pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingPersonalizationDesignsDeactivatePostService(
@@ -10433,7 +10433,7 @@ func TestTestHelpersIssuingPersonalizationDesignsDeactivatePostService(
 	result, err := sc.TestHelpersIssuingPersonalizationDesigns.Deactivate(
 		"pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingPersonalizationDesignsDeactivatePostClient(
@@ -10444,7 +10444,7 @@ func TestTestHelpersIssuingPersonalizationDesignsDeactivatePostClient(
 	result, err := sc.V1TestHelpersIssuingPersonalizationDesigns.Deactivate(
 		context.TODO(), "pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingPersonalizationDesignsRejectPost(t *testing.T) {
@@ -10458,7 +10458,7 @@ func TestTestHelpersIssuingPersonalizationDesignsRejectPost(t *testing.T) {
 	result, err := testhelpers_issuing_personalizationdesign.Reject(
 		"pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingPersonalizationDesignsRejectPostService(
@@ -10475,7 +10475,7 @@ func TestTestHelpersIssuingPersonalizationDesignsRejectPostService(
 	result, err := sc.TestHelpersIssuingPersonalizationDesigns.Reject(
 		"pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingPersonalizationDesignsRejectPostClient(
@@ -10492,7 +10492,7 @@ func TestTestHelpersIssuingPersonalizationDesignsRejectPostClient(
 	result, err := sc.V1TestHelpersIssuingPersonalizationDesigns.Reject(
 		context.TODO(), "pd_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingTransactionsCreateForceCapturePost(t *testing.T) {
@@ -10550,7 +10550,7 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePost(t *testing.T) {
 	}
 	result, err := testhelpers_issuing_transaction.CreateForceCapture(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingTransactionsCreateForceCapturePostService(
@@ -10611,7 +10611,7 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePostService(
 	}
 	result, err := sc.TestHelpersIssuingTransactions.CreateForceCapture(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingTransactionsCreateForceCapturePostClient(
@@ -10673,7 +10673,7 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePostClient(
 	result, err := sc.V1TestHelpersIssuingTransactions.CreateForceCapture(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPost(t *testing.T) {
@@ -10731,7 +10731,7 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPost(t *testing.T) {
 	}
 	result, err := testhelpers_issuing_transaction.CreateUnlinkedRefund(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPostService(
@@ -10792,7 +10792,7 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPostService(
 	}
 	result, err := sc.TestHelpersIssuingTransactions.CreateUnlinkedRefund(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPostClient(
@@ -10854,7 +10854,7 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPostClient(
 	result, err := sc.V1TestHelpersIssuingTransactions.CreateUnlinkedRefund(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingTransactionsRefundPost(t *testing.T) {
@@ -10864,7 +10864,7 @@ func TestTestHelpersIssuingTransactionsRefundPost(t *testing.T) {
 	result, err := testhelpers_issuing_transaction.Refund(
 		"example_transaction", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingTransactionsRefundPostService(t *testing.T) {
@@ -10875,7 +10875,7 @@ func TestTestHelpersIssuingTransactionsRefundPostService(t *testing.T) {
 	result, err := sc.TestHelpersIssuingTransactions.Refund(
 		"example_transaction", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersIssuingTransactionsRefundPostClient(t *testing.T) {
@@ -10886,14 +10886,14 @@ func TestTestHelpersIssuingTransactionsRefundPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersIssuingTransactions.Refund(
 		context.TODO(), "example_transaction", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersRefundsExpirePost(t *testing.T) {
 	params := &stripe.TestHelpersRefundExpireParams{}
 	result, err := testhelpers_refund.Expire("re_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersRefundsExpirePostService(t *testing.T) {
@@ -10901,7 +10901,7 @@ func TestTestHelpersRefundsExpirePostService(t *testing.T) {
 	params := &stripe.TestHelpersRefundExpireParams{}
 	result, err := sc.TestHelpersRefunds.Expire("re_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersRefundsExpirePostClient(t *testing.T) {
@@ -10910,7 +10910,7 @@ func TestTestHelpersRefundsExpirePostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersRefunds.Expire(
 		context.TODO(), "re_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksAdvancePost(t *testing.T) {
@@ -10919,7 +10919,7 @@ func TestTestHelpersTestClocksAdvancePost(t *testing.T) {
 	}
 	result, err := testhelpers_testclock.Advance("clock_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksAdvancePostService(t *testing.T) {
@@ -10929,7 +10929,7 @@ func TestTestHelpersTestClocksAdvancePostService(t *testing.T) {
 	}
 	result, err := sc.TestHelpersTestClocks.Advance("clock_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksAdvancePostClient(t *testing.T) {
@@ -10940,7 +10940,7 @@ func TestTestHelpersTestClocksAdvancePostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersTestClocks.Advance(
 		context.TODO(), "clock_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksAdvancePost2(t *testing.T) {
@@ -10949,7 +10949,7 @@ func TestTestHelpersTestClocksAdvancePost2(t *testing.T) {
 	}
 	result, err := testhelpers_testclock.Advance("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksAdvancePost2Service(t *testing.T) {
@@ -10959,7 +10959,7 @@ func TestTestHelpersTestClocksAdvancePost2Service(t *testing.T) {
 	}
 	result, err := sc.TestHelpersTestClocks.Advance("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksAdvancePost2Client(t *testing.T) {
@@ -10970,14 +10970,14 @@ func TestTestHelpersTestClocksAdvancePost2Client(t *testing.T) {
 	result, err := sc.V1TestHelpersTestClocks.Advance(
 		context.TODO(), "clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksDelete(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{}
 	result, err := testhelpers_testclock.Del("clock_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksDeleteService(t *testing.T) {
@@ -10985,7 +10985,7 @@ func TestTestHelpersTestClocksDeleteService(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{}
 	result, err := sc.TestHelpersTestClocks.Del("clock_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksDeleteClient(t *testing.T) {
@@ -10994,14 +10994,14 @@ func TestTestHelpersTestClocksDeleteClient(t *testing.T) {
 	result, err := sc.V1TestHelpersTestClocks.Delete(
 		context.TODO(), "clock_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksDelete2(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{}
 	result, err := testhelpers_testclock.Del("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksDelete2Service(t *testing.T) {
@@ -11009,7 +11009,7 @@ func TestTestHelpersTestClocksDelete2Service(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{}
 	result, err := sc.TestHelpersTestClocks.Del("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksDelete2Client(t *testing.T) {
@@ -11018,14 +11018,14 @@ func TestTestHelpersTestClocksDelete2Client(t *testing.T) {
 	result, err := sc.V1TestHelpersTestClocks.Delete(
 		context.TODO(), "clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksGet(t *testing.T) {
 	params := &stripe.TestHelpersTestClockListParams{}
 	result := testhelpers_testclock.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTestHelpersTestClocksGetService(t *testing.T) {
@@ -11033,7 +11033,7 @@ func TestTestHelpersTestClocksGetService(t *testing.T) {
 	params := &stripe.TestHelpersTestClockListParams{}
 	result := sc.TestHelpersTestClocks.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTestHelpersTestClocksGetClient(t *testing.T) {
@@ -11041,14 +11041,14 @@ func TestTestHelpersTestClocksGetClient(t *testing.T) {
 	params := &stripe.TestHelpersTestClockListParams{}
 	result := sc.V1TestHelpersTestClocks.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTestHelpersTestClocksGet2(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{}
 	result, err := testhelpers_testclock.Get("clock_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksGet2Service(t *testing.T) {
@@ -11056,7 +11056,7 @@ func TestTestHelpersTestClocksGet2Service(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{}
 	result, err := sc.TestHelpersTestClocks.Get("clock_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksGet2Client(t *testing.T) {
@@ -11065,7 +11065,7 @@ func TestTestHelpersTestClocksGet2Client(t *testing.T) {
 	result, err := sc.V1TestHelpersTestClocks.Retrieve(
 		context.TODO(), "clock_xyz", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksGet3(t *testing.T) {
@@ -11073,7 +11073,7 @@ func TestTestHelpersTestClocksGet3(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := testhelpers_testclock.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTestHelpersTestClocksGet3Service(t *testing.T) {
@@ -11082,7 +11082,7 @@ func TestTestHelpersTestClocksGet3Service(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TestHelpersTestClocks.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTestHelpersTestClocksGet3Client(t *testing.T) {
@@ -11091,14 +11091,14 @@ func TestTestHelpersTestClocksGet3Client(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TestHelpersTestClocks.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTestHelpersTestClocksGet4(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{}
 	result, err := testhelpers_testclock.Get("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksGet4Service(t *testing.T) {
@@ -11106,7 +11106,7 @@ func TestTestHelpersTestClocksGet4Service(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{}
 	result, err := sc.TestHelpersTestClocks.Get("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksGet4Client(t *testing.T) {
@@ -11115,7 +11115,7 @@ func TestTestHelpersTestClocksGet4Client(t *testing.T) {
 	result, err := sc.V1TestHelpersTestClocks.Retrieve(
 		context.TODO(), "clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksPost(t *testing.T) {
@@ -11125,7 +11125,7 @@ func TestTestHelpersTestClocksPost(t *testing.T) {
 	}
 	result, err := testhelpers_testclock.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksPostService(t *testing.T) {
@@ -11136,7 +11136,7 @@ func TestTestHelpersTestClocksPostService(t *testing.T) {
 	}
 	result, err := sc.TestHelpersTestClocks.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksPostClient(t *testing.T) {
@@ -11147,7 +11147,7 @@ func TestTestHelpersTestClocksPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TestHelpersTestClocks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksPost2(t *testing.T) {
@@ -11156,7 +11156,7 @@ func TestTestHelpersTestClocksPost2(t *testing.T) {
 	}
 	result, err := testhelpers_testclock.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksPost2Service(t *testing.T) {
@@ -11166,7 +11166,7 @@ func TestTestHelpersTestClocksPost2Service(t *testing.T) {
 	}
 	result, err := sc.TestHelpersTestClocks.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTestClocksPost2Client(t *testing.T) {
@@ -11176,7 +11176,7 @@ func TestTestHelpersTestClocksPost2Client(t *testing.T) {
 	}
 	result, err := sc.V1TestHelpersTestClocks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryInboundTransfersFailPost(t *testing.T) {
@@ -11187,7 +11187,7 @@ func TestTestHelpersTreasuryInboundTransfersFailPost(t *testing.T) {
 	}
 	result, err := testhelpers_treasury_inboundtransfer.Fail("ibt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryInboundTransfersFailPostService(t *testing.T) {
@@ -11199,7 +11199,7 @@ func TestTestHelpersTreasuryInboundTransfersFailPostService(t *testing.T) {
 	}
 	result, err := sc.TestHelpersTreasuryInboundTransfers.Fail("ibt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryInboundTransfersFailPostClient(t *testing.T) {
@@ -11212,7 +11212,7 @@ func TestTestHelpersTreasuryInboundTransfersFailPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersTreasuryInboundTransfers.Fail(
 		context.TODO(), "ibt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryInboundTransfersReturnPost(t *testing.T) {
@@ -11220,7 +11220,7 @@ func TestTestHelpersTreasuryInboundTransfersReturnPost(t *testing.T) {
 	result, err := testhelpers_treasury_inboundtransfer.ReturnInboundTransfer(
 		"ibt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryInboundTransfersReturnPostService(t *testing.T) {
@@ -11229,7 +11229,7 @@ func TestTestHelpersTreasuryInboundTransfersReturnPostService(t *testing.T) {
 	result, err := sc.TestHelpersTreasuryInboundTransfers.ReturnInboundTransfer(
 		"ibt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryInboundTransfersReturnPostClient(t *testing.T) {
@@ -11238,14 +11238,14 @@ func TestTestHelpersTreasuryInboundTransfersReturnPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersTreasuryInboundTransfers.ReturnInboundTransfer(
 		context.TODO(), "ibt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryInboundTransfersSucceedPost(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryInboundTransferSucceedParams{}
 	result, err := testhelpers_treasury_inboundtransfer.Succeed("ibt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryInboundTransfersSucceedPostService(t *testing.T) {
@@ -11254,7 +11254,7 @@ func TestTestHelpersTreasuryInboundTransfersSucceedPostService(t *testing.T) {
 	result, err := sc.TestHelpersTreasuryInboundTransfers.Succeed(
 		"ibt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryInboundTransfersSucceedPostClient(t *testing.T) {
@@ -11263,14 +11263,14 @@ func TestTestHelpersTreasuryInboundTransfersSucceedPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersTreasuryInboundTransfers.Succeed(
 		context.TODO(), "ibt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryOutboundTransfersFailPost(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryOutboundTransferFailParams{}
 	result, err := testhelpers_treasury_outboundtransfer.Fail("obt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryOutboundTransfersFailPostService(t *testing.T) {
@@ -11278,7 +11278,7 @@ func TestTestHelpersTreasuryOutboundTransfersFailPostService(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryOutboundTransferFailParams{}
 	result, err := sc.TestHelpersTreasuryOutboundTransfers.Fail("obt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryOutboundTransfersFailPostClient(t *testing.T) {
@@ -11287,14 +11287,14 @@ func TestTestHelpersTreasuryOutboundTransfersFailPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersTreasuryOutboundTransfers.Fail(
 		context.TODO(), "obt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryOutboundTransfersPostPost(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryOutboundTransferPostParams{}
 	result, err := testhelpers_treasury_outboundtransfer.Post("obt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryOutboundTransfersPostPostService(t *testing.T) {
@@ -11302,7 +11302,7 @@ func TestTestHelpersTreasuryOutboundTransfersPostPostService(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryOutboundTransferPostParams{}
 	result, err := sc.TestHelpersTreasuryOutboundTransfers.Post("obt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryOutboundTransfersPostPostClient(t *testing.T) {
@@ -11311,7 +11311,7 @@ func TestTestHelpersTreasuryOutboundTransfersPostPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersTreasuryOutboundTransfers.Post(
 		context.TODO(), "obt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryOutboundTransfersReturnPost(t *testing.T) {
@@ -11323,7 +11323,7 @@ func TestTestHelpersTreasuryOutboundTransfersReturnPost(t *testing.T) {
 	result, err := testhelpers_treasury_outboundtransfer.ReturnOutboundTransfer(
 		"obt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryOutboundTransfersReturnPostService(t *testing.T) {
@@ -11336,7 +11336,7 @@ func TestTestHelpersTreasuryOutboundTransfersReturnPostService(t *testing.T) {
 	result, err := sc.TestHelpersTreasuryOutboundTransfers.ReturnOutboundTransfer(
 		"obt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryOutboundTransfersReturnPostClient(t *testing.T) {
@@ -11349,7 +11349,7 @@ func TestTestHelpersTreasuryOutboundTransfersReturnPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersTreasuryOutboundTransfers.ReturnOutboundTransfer(
 		context.TODO(), "obt_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryReceivedCreditsPost(t *testing.T) {
@@ -11361,7 +11361,7 @@ func TestTestHelpersTreasuryReceivedCreditsPost(t *testing.T) {
 	}
 	result, err := testhelpers_treasury_receivedcredit.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryReceivedCreditsPostService(t *testing.T) {
@@ -11374,7 +11374,7 @@ func TestTestHelpersTreasuryReceivedCreditsPostService(t *testing.T) {
 	}
 	result, err := sc.TestHelpersTreasuryReceivedCredits.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryReceivedCreditsPostClient(t *testing.T) {
@@ -11388,7 +11388,7 @@ func TestTestHelpersTreasuryReceivedCreditsPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersTreasuryReceivedCredits.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryReceivedDebitsPost(t *testing.T) {
@@ -11400,7 +11400,7 @@ func TestTestHelpersTreasuryReceivedDebitsPost(t *testing.T) {
 	}
 	result, err := testhelpers_treasury_receiveddebit.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryReceivedDebitsPostService(t *testing.T) {
@@ -11413,7 +11413,7 @@ func TestTestHelpersTreasuryReceivedDebitsPostService(t *testing.T) {
 	}
 	result, err := sc.TestHelpersTreasuryReceivedDebits.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTestHelpersTreasuryReceivedDebitsPostClient(t *testing.T) {
@@ -11427,14 +11427,14 @@ func TestTestHelpersTreasuryReceivedDebitsPostClient(t *testing.T) {
 	result, err := sc.V1TestHelpersTreasuryReceivedDebits.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensGet(t *testing.T) {
 	params := &stripe.TokenParams{}
 	result, err := token.Get("tok_xxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensGetService(t *testing.T) {
@@ -11442,7 +11442,7 @@ func TestTokensGetService(t *testing.T) {
 	params := &stripe.TokenParams{}
 	result, err := sc.Tokens.Get("tok_xxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensGetClient(t *testing.T) {
@@ -11450,7 +11450,7 @@ func TestTokensGetClient(t *testing.T) {
 	params := &stripe.TokenRetrieveParams{}
 	result, err := sc.V1Tokens.Retrieve(context.TODO(), "tok_xxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost(t *testing.T) {
@@ -11464,7 +11464,7 @@ func TestTokensPost(t *testing.T) {
 	}
 	result, err := token.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPostService(t *testing.T) {
@@ -11479,7 +11479,7 @@ func TestTokensPostService(t *testing.T) {
 	}
 	result, err := sc.Tokens.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPostClient(t *testing.T) {
@@ -11494,7 +11494,7 @@ func TestTokensPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Tokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost2(t *testing.T) {
@@ -11510,7 +11510,7 @@ func TestTokensPost2(t *testing.T) {
 	}
 	result, err := token.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost2Service(t *testing.T) {
@@ -11527,7 +11527,7 @@ func TestTokensPost2Service(t *testing.T) {
 	}
 	result, err := sc.Tokens.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost2Client(t *testing.T) {
@@ -11544,7 +11544,7 @@ func TestTokensPost2Client(t *testing.T) {
 	}
 	result, err := sc.V1Tokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost3(t *testing.T) {
@@ -11553,7 +11553,7 @@ func TestTokensPost3(t *testing.T) {
 	}
 	result, err := token.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost3Service(t *testing.T) {
@@ -11563,7 +11563,7 @@ func TestTokensPost3Service(t *testing.T) {
 	}
 	result, err := sc.Tokens.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost3Client(t *testing.T) {
@@ -11573,7 +11573,7 @@ func TestTokensPost3Client(t *testing.T) {
 	}
 	result, err := sc.V1Tokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost4(t *testing.T) {
@@ -11588,7 +11588,7 @@ func TestTokensPost4(t *testing.T) {
 	}
 	result, err := token.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost4Service(t *testing.T) {
@@ -11604,7 +11604,7 @@ func TestTokensPost4Service(t *testing.T) {
 	}
 	result, err := sc.Tokens.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost4Client(t *testing.T) {
@@ -11620,7 +11620,7 @@ func TestTokensPost4Client(t *testing.T) {
 	}
 	result, err := sc.V1Tokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost5(t *testing.T) {
@@ -11633,7 +11633,7 @@ func TestTokensPost5(t *testing.T) {
 	}
 	result, err := token.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost5Service(t *testing.T) {
@@ -11647,7 +11647,7 @@ func TestTokensPost5Service(t *testing.T) {
 	}
 	result, err := sc.Tokens.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost5Client(t *testing.T) {
@@ -11661,7 +11661,7 @@ func TestTokensPost5Client(t *testing.T) {
 	}
 	result, err := sc.V1Tokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost6(t *testing.T) {
@@ -11670,7 +11670,7 @@ func TestTokensPost6(t *testing.T) {
 	}
 	result, err := token.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost6Service(t *testing.T) {
@@ -11680,7 +11680,7 @@ func TestTokensPost6Service(t *testing.T) {
 	}
 	result, err := sc.Tokens.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTokensPost6Client(t *testing.T) {
@@ -11690,14 +11690,14 @@ func TestTokensPost6Client(t *testing.T) {
 	}
 	result, err := sc.V1Tokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTopupsCancelPost(t *testing.T) {
 	params := &stripe.TopupParams{}
 	result, err := topup.Cancel("tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTopupsCancelPostService(t *testing.T) {
@@ -11705,7 +11705,7 @@ func TestTopupsCancelPostService(t *testing.T) {
 	params := &stripe.TopupParams{}
 	result, err := sc.Topups.Cancel("tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTopupsCancelPostClient(t *testing.T) {
@@ -11713,7 +11713,7 @@ func TestTopupsCancelPostClient(t *testing.T) {
 	params := &stripe.TopupCancelParams{}
 	result, err := sc.V1Topups.Cancel(context.TODO(), "tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTopupsGet(t *testing.T) {
@@ -11721,7 +11721,7 @@ func TestTopupsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := topup.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTopupsGetService(t *testing.T) {
@@ -11730,7 +11730,7 @@ func TestTopupsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Topups.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTopupsGetClient(t *testing.T) {
@@ -11739,14 +11739,14 @@ func TestTopupsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Topups.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTopupsGet2(t *testing.T) {
 	params := &stripe.TopupParams{}
 	result, err := topup.Get("tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTopupsGet2Service(t *testing.T) {
@@ -11754,7 +11754,7 @@ func TestTopupsGet2Service(t *testing.T) {
 	params := &stripe.TopupParams{}
 	result, err := sc.Topups.Get("tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTopupsGet2Client(t *testing.T) {
@@ -11763,7 +11763,7 @@ func TestTopupsGet2Client(t *testing.T) {
 	result, err := sc.V1Topups.Retrieve(
 		context.TODO(), "tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTopupsPost(t *testing.T) {
@@ -11775,7 +11775,7 @@ func TestTopupsPost(t *testing.T) {
 	}
 	result, err := topup.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTopupsPostService(t *testing.T) {
@@ -11788,7 +11788,7 @@ func TestTopupsPostService(t *testing.T) {
 	}
 	result, err := sc.Topups.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTopupsPostClient(t *testing.T) {
@@ -11801,7 +11801,7 @@ func TestTopupsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Topups.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTopupsPost2(t *testing.T) {
@@ -11809,7 +11809,7 @@ func TestTopupsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := topup.Update("tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTopupsPost2Service(t *testing.T) {
@@ -11818,7 +11818,7 @@ func TestTopupsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Topups.Update("tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTopupsPost2Client(t *testing.T) {
@@ -11827,7 +11827,7 @@ func TestTopupsPost2Client(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.V1Topups.Update(context.TODO(), "tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersGet(t *testing.T) {
@@ -11835,7 +11835,7 @@ func TestTransfersGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := transfer.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTransfersGetService(t *testing.T) {
@@ -11844,7 +11844,7 @@ func TestTransfersGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.Transfers.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTransfersGetClient(t *testing.T) {
@@ -11853,14 +11853,14 @@ func TestTransfersGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1Transfers.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTransfersGet2(t *testing.T) {
 	params := &stripe.TransferParams{}
 	result, err := transfer.Get("tr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersGet2Service(t *testing.T) {
@@ -11868,7 +11868,7 @@ func TestTransfersGet2Service(t *testing.T) {
 	params := &stripe.TransferParams{}
 	result, err := sc.Transfers.Get("tr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersGet2Client(t *testing.T) {
@@ -11877,7 +11877,7 @@ func TestTransfersGet2Client(t *testing.T) {
 	result, err := sc.V1Transfers.Retrieve(
 		context.TODO(), "tr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersPost(t *testing.T) {
@@ -11889,7 +11889,7 @@ func TestTransfersPost(t *testing.T) {
 	}
 	result, err := transfer.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersPostService(t *testing.T) {
@@ -11902,7 +11902,7 @@ func TestTransfersPostService(t *testing.T) {
 	}
 	result, err := sc.Transfers.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersPostClient(t *testing.T) {
@@ -11915,7 +11915,7 @@ func TestTransfersPostClient(t *testing.T) {
 	}
 	result, err := sc.V1Transfers.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersPost2(t *testing.T) {
@@ -11923,7 +11923,7 @@ func TestTransfersPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := transfer.Update("tr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersPost2Service(t *testing.T) {
@@ -11932,7 +11932,7 @@ func TestTransfersPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.Transfers.Update("tr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersPost2Client(t *testing.T) {
@@ -11942,7 +11942,7 @@ func TestTransfersPost2Client(t *testing.T) {
 	result, err := sc.V1Transfers.Update(
 		context.TODO(), "tr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersReversalsGet(t *testing.T) {
@@ -11952,7 +11952,7 @@ func TestTransfersReversalsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := transferreversal.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTransfersReversalsGetService(t *testing.T) {
@@ -11963,7 +11963,7 @@ func TestTransfersReversalsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TransferReversals.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTransfersReversalsGetClient(t *testing.T) {
@@ -11974,7 +11974,7 @@ func TestTransfersReversalsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TransferReversals.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTransfersReversalsGet2(t *testing.T) {
@@ -11983,7 +11983,7 @@ func TestTransfersReversalsGet2(t *testing.T) {
 	}
 	result, err := transferreversal.Get("trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersReversalsGet2Service(t *testing.T) {
@@ -11993,7 +11993,7 @@ func TestTransfersReversalsGet2Service(t *testing.T) {
 	}
 	result, err := sc.TransferReversals.Get("trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersReversalsGet2Client(t *testing.T) {
@@ -12004,7 +12004,7 @@ func TestTransfersReversalsGet2Client(t *testing.T) {
 	result, err := sc.V1TransferReversals.Retrieve(
 		context.TODO(), "trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersReversalsPost(t *testing.T) {
@@ -12014,7 +12014,7 @@ func TestTransfersReversalsPost(t *testing.T) {
 	}
 	result, err := transferreversal.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersReversalsPostService(t *testing.T) {
@@ -12025,7 +12025,7 @@ func TestTransfersReversalsPostService(t *testing.T) {
 	}
 	result, err := sc.TransferReversals.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersReversalsPostClient(t *testing.T) {
@@ -12036,7 +12036,7 @@ func TestTransfersReversalsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TransferReversals.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersReversalsPost2(t *testing.T) {
@@ -12046,7 +12046,7 @@ func TestTransfersReversalsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := transferreversal.Update("trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersReversalsPost2Service(t *testing.T) {
@@ -12057,7 +12057,7 @@ func TestTransfersReversalsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.TransferReversals.Update("trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTransfersReversalsPost2Client(t *testing.T) {
@@ -12069,7 +12069,7 @@ func TestTransfersReversalsPost2Client(t *testing.T) {
 	result, err := sc.V1TransferReversals.Update(
 		context.TODO(), "trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryCreditReversalsGet(t *testing.T) {
@@ -12079,7 +12079,7 @@ func TestTreasuryCreditReversalsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := treasury_creditreversal.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryCreditReversalsGetService(t *testing.T) {
@@ -12090,7 +12090,7 @@ func TestTreasuryCreditReversalsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TreasuryCreditReversals.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryCreditReversalsGetClient(t *testing.T) {
@@ -12101,14 +12101,14 @@ func TestTreasuryCreditReversalsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TreasuryCreditReversals.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryCreditReversalsGet2(t *testing.T) {
 	params := &stripe.TreasuryCreditReversalParams{}
 	result, err := treasury_creditreversal.Get("credrev_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryCreditReversalsGet2Service(t *testing.T) {
@@ -12116,7 +12116,7 @@ func TestTreasuryCreditReversalsGet2Service(t *testing.T) {
 	params := &stripe.TreasuryCreditReversalParams{}
 	result, err := sc.TreasuryCreditReversals.Get("credrev_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryCreditReversalsGet2Client(t *testing.T) {
@@ -12125,7 +12125,7 @@ func TestTreasuryCreditReversalsGet2Client(t *testing.T) {
 	result, err := sc.V1TreasuryCreditReversals.Retrieve(
 		context.TODO(), "credrev_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryCreditReversalsPost(t *testing.T) {
@@ -12134,7 +12134,7 @@ func TestTreasuryCreditReversalsPost(t *testing.T) {
 	}
 	result, err := treasury_creditreversal.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryCreditReversalsPostService(t *testing.T) {
@@ -12144,7 +12144,7 @@ func TestTreasuryCreditReversalsPostService(t *testing.T) {
 	}
 	result, err := sc.TreasuryCreditReversals.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryCreditReversalsPostClient(t *testing.T) {
@@ -12154,7 +12154,7 @@ func TestTreasuryCreditReversalsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TreasuryCreditReversals.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryDebitReversalsGet(t *testing.T) {
@@ -12164,7 +12164,7 @@ func TestTreasuryDebitReversalsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := treasury_debitreversal.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryDebitReversalsGetService(t *testing.T) {
@@ -12175,7 +12175,7 @@ func TestTreasuryDebitReversalsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TreasuryDebitReversals.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryDebitReversalsGetClient(t *testing.T) {
@@ -12186,14 +12186,14 @@ func TestTreasuryDebitReversalsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TreasuryDebitReversals.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryDebitReversalsGet2(t *testing.T) {
 	params := &stripe.TreasuryDebitReversalParams{}
 	result, err := treasury_debitreversal.Get("debrev_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryDebitReversalsGet2Service(t *testing.T) {
@@ -12201,7 +12201,7 @@ func TestTreasuryDebitReversalsGet2Service(t *testing.T) {
 	params := &stripe.TreasuryDebitReversalParams{}
 	result, err := sc.TreasuryDebitReversals.Get("debrev_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryDebitReversalsGet2Client(t *testing.T) {
@@ -12210,7 +12210,7 @@ func TestTreasuryDebitReversalsGet2Client(t *testing.T) {
 	result, err := sc.V1TreasuryDebitReversals.Retrieve(
 		context.TODO(), "debrev_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryDebitReversalsPost(t *testing.T) {
@@ -12219,7 +12219,7 @@ func TestTreasuryDebitReversalsPost(t *testing.T) {
 	}
 	result, err := treasury_debitreversal.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryDebitReversalsPostService(t *testing.T) {
@@ -12229,7 +12229,7 @@ func TestTreasuryDebitReversalsPostService(t *testing.T) {
 	}
 	result, err := sc.TreasuryDebitReversals.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryDebitReversalsPostClient(t *testing.T) {
@@ -12239,7 +12239,7 @@ func TestTreasuryDebitReversalsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TreasuryDebitReversals.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryFinancialAccountsFeaturesGet(t *testing.T) {
@@ -12247,7 +12247,7 @@ func TestTreasuryFinancialAccountsFeaturesGet(t *testing.T) {
 	result, err := treasury_financialaccount.RetrieveFeatures(
 		"fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryFinancialAccountsFeaturesGetService(t *testing.T) {
@@ -12256,7 +12256,7 @@ func TestTreasuryFinancialAccountsFeaturesGetService(t *testing.T) {
 	result, err := sc.TreasuryFinancialAccounts.RetrieveFeatures(
 		"fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryFinancialAccountsFeaturesGetClient(t *testing.T) {
@@ -12265,7 +12265,7 @@ func TestTreasuryFinancialAccountsFeaturesGetClient(t *testing.T) {
 	result, err := sc.V1TreasuryFinancialAccounts.RetrieveFeatures(
 		context.TODO(), "fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryFinancialAccountsGet(t *testing.T) {
@@ -12273,7 +12273,7 @@ func TestTreasuryFinancialAccountsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := treasury_financialaccount.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryFinancialAccountsGetService(t *testing.T) {
@@ -12282,7 +12282,7 @@ func TestTreasuryFinancialAccountsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TreasuryFinancialAccounts.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryFinancialAccountsGetClient(t *testing.T) {
@@ -12291,14 +12291,14 @@ func TestTreasuryFinancialAccountsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TreasuryFinancialAccounts.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryFinancialAccountsGet2(t *testing.T) {
 	params := &stripe.TreasuryFinancialAccountParams{}
 	result, err := treasury_financialaccount.Get("fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryFinancialAccountsGet2Service(t *testing.T) {
@@ -12306,7 +12306,7 @@ func TestTreasuryFinancialAccountsGet2Service(t *testing.T) {
 	params := &stripe.TreasuryFinancialAccountParams{}
 	result, err := sc.TreasuryFinancialAccounts.Get("fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryFinancialAccountsGet2Client(t *testing.T) {
@@ -12315,7 +12315,7 @@ func TestTreasuryFinancialAccountsGet2Client(t *testing.T) {
 	result, err := sc.V1TreasuryFinancialAccounts.Retrieve(
 		context.TODO(), "fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryFinancialAccountsPost(t *testing.T) {
@@ -12325,7 +12325,7 @@ func TestTreasuryFinancialAccountsPost(t *testing.T) {
 	}
 	result, err := treasury_financialaccount.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryFinancialAccountsPostService(t *testing.T) {
@@ -12336,7 +12336,7 @@ func TestTreasuryFinancialAccountsPostService(t *testing.T) {
 	}
 	result, err := sc.TreasuryFinancialAccounts.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryFinancialAccountsPostClient(t *testing.T) {
@@ -12347,7 +12347,7 @@ func TestTreasuryFinancialAccountsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TreasuryFinancialAccounts.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryFinancialAccountsPost2(t *testing.T) {
@@ -12355,7 +12355,7 @@ func TestTreasuryFinancialAccountsPost2(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := treasury_financialaccount.Update("fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryFinancialAccountsPost2Service(t *testing.T) {
@@ -12364,7 +12364,7 @@ func TestTreasuryFinancialAccountsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	result, err := sc.TreasuryFinancialAccounts.Update("fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryFinancialAccountsPost2Client(t *testing.T) {
@@ -12374,14 +12374,14 @@ func TestTreasuryFinancialAccountsPost2Client(t *testing.T) {
 	result, err := sc.V1TreasuryFinancialAccounts.Update(
 		context.TODO(), "fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryInboundTransfersCancelPost(t *testing.T) {
 	params := &stripe.TreasuryInboundTransferCancelParams{}
 	result, err := treasury_inboundtransfer.Cancel("ibt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryInboundTransfersCancelPostService(t *testing.T) {
@@ -12389,7 +12389,7 @@ func TestTreasuryInboundTransfersCancelPostService(t *testing.T) {
 	params := &stripe.TreasuryInboundTransferCancelParams{}
 	result, err := sc.TreasuryInboundTransfers.Cancel("ibt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryInboundTransfersCancelPostClient(t *testing.T) {
@@ -12398,7 +12398,7 @@ func TestTreasuryInboundTransfersCancelPostClient(t *testing.T) {
 	result, err := sc.V1TreasuryInboundTransfers.Cancel(
 		context.TODO(), "ibt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryInboundTransfersGet(t *testing.T) {
@@ -12408,7 +12408,7 @@ func TestTreasuryInboundTransfersGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := treasury_inboundtransfer.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryInboundTransfersGetService(t *testing.T) {
@@ -12419,7 +12419,7 @@ func TestTreasuryInboundTransfersGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TreasuryInboundTransfers.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryInboundTransfersGetClient(t *testing.T) {
@@ -12430,14 +12430,14 @@ func TestTreasuryInboundTransfersGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TreasuryInboundTransfers.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryInboundTransfersGet2(t *testing.T) {
 	params := &stripe.TreasuryInboundTransferParams{}
 	result, err := treasury_inboundtransfer.Get("ibt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryInboundTransfersGet2Service(t *testing.T) {
@@ -12445,7 +12445,7 @@ func TestTreasuryInboundTransfersGet2Service(t *testing.T) {
 	params := &stripe.TreasuryInboundTransferParams{}
 	result, err := sc.TreasuryInboundTransfers.Get("ibt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryInboundTransfersGet2Client(t *testing.T) {
@@ -12454,7 +12454,7 @@ func TestTreasuryInboundTransfersGet2Client(t *testing.T) {
 	result, err := sc.V1TreasuryInboundTransfers.Retrieve(
 		context.TODO(), "ibt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryInboundTransfersPost(t *testing.T) {
@@ -12467,7 +12467,7 @@ func TestTreasuryInboundTransfersPost(t *testing.T) {
 	}
 	result, err := treasury_inboundtransfer.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryInboundTransfersPostService(t *testing.T) {
@@ -12481,7 +12481,7 @@ func TestTreasuryInboundTransfersPostService(t *testing.T) {
 	}
 	result, err := sc.TreasuryInboundTransfers.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryInboundTransfersPostClient(t *testing.T) {
@@ -12495,14 +12495,14 @@ func TestTreasuryInboundTransfersPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TreasuryInboundTransfers.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundPaymentsCancelPost(t *testing.T) {
 	params := &stripe.TreasuryOutboundPaymentCancelParams{}
 	result, err := treasury_outboundpayment.Cancel("bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundPaymentsCancelPostService(t *testing.T) {
@@ -12510,7 +12510,7 @@ func TestTreasuryOutboundPaymentsCancelPostService(t *testing.T) {
 	params := &stripe.TreasuryOutboundPaymentCancelParams{}
 	result, err := sc.TreasuryOutboundPayments.Cancel("bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundPaymentsCancelPostClient(t *testing.T) {
@@ -12519,7 +12519,7 @@ func TestTreasuryOutboundPaymentsCancelPostClient(t *testing.T) {
 	result, err := sc.V1TreasuryOutboundPayments.Cancel(
 		context.TODO(), "bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundPaymentsGet(t *testing.T) {
@@ -12529,7 +12529,7 @@ func TestTreasuryOutboundPaymentsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := treasury_outboundpayment.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryOutboundPaymentsGetService(t *testing.T) {
@@ -12540,7 +12540,7 @@ func TestTreasuryOutboundPaymentsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TreasuryOutboundPayments.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryOutboundPaymentsGetClient(t *testing.T) {
@@ -12551,14 +12551,14 @@ func TestTreasuryOutboundPaymentsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TreasuryOutboundPayments.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryOutboundPaymentsGet2(t *testing.T) {
 	params := &stripe.TreasuryOutboundPaymentParams{}
 	result, err := treasury_outboundpayment.Get("bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundPaymentsGet2Service(t *testing.T) {
@@ -12566,7 +12566,7 @@ func TestTreasuryOutboundPaymentsGet2Service(t *testing.T) {
 	params := &stripe.TreasuryOutboundPaymentParams{}
 	result, err := sc.TreasuryOutboundPayments.Get("bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundPaymentsGet2Client(t *testing.T) {
@@ -12575,7 +12575,7 @@ func TestTreasuryOutboundPaymentsGet2Client(t *testing.T) {
 	result, err := sc.V1TreasuryOutboundPayments.Retrieve(
 		context.TODO(), "bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundPaymentsPost(t *testing.T) {
@@ -12589,7 +12589,7 @@ func TestTreasuryOutboundPaymentsPost(t *testing.T) {
 	}
 	result, err := treasury_outboundpayment.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundPaymentsPostService(t *testing.T) {
@@ -12604,7 +12604,7 @@ func TestTreasuryOutboundPaymentsPostService(t *testing.T) {
 	}
 	result, err := sc.TreasuryOutboundPayments.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundPaymentsPostClient(t *testing.T) {
@@ -12619,14 +12619,14 @@ func TestTreasuryOutboundPaymentsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TreasuryOutboundPayments.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundTransfersCancelPost(t *testing.T) {
 	params := &stripe.TreasuryOutboundTransferCancelParams{}
 	result, err := treasury_outboundtransfer.Cancel("obt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundTransfersCancelPostService(t *testing.T) {
@@ -12635,7 +12635,7 @@ func TestTreasuryOutboundTransfersCancelPostService(t *testing.T) {
 	result, err := sc.TreasuryOutboundTransfers.Cancel(
 		"obt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundTransfersCancelPostClient(t *testing.T) {
@@ -12644,7 +12644,7 @@ func TestTreasuryOutboundTransfersCancelPostClient(t *testing.T) {
 	result, err := sc.V1TreasuryOutboundTransfers.Cancel(
 		context.TODO(), "obt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundTransfersGet(t *testing.T) {
@@ -12654,7 +12654,7 @@ func TestTreasuryOutboundTransfersGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := treasury_outboundtransfer.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryOutboundTransfersGetService(t *testing.T) {
@@ -12665,7 +12665,7 @@ func TestTreasuryOutboundTransfersGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TreasuryOutboundTransfers.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryOutboundTransfersGetClient(t *testing.T) {
@@ -12676,14 +12676,14 @@ func TestTreasuryOutboundTransfersGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TreasuryOutboundTransfers.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryOutboundTransfersGet2(t *testing.T) {
 	params := &stripe.TreasuryOutboundTransferParams{}
 	result, err := treasury_outboundtransfer.Get("obt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundTransfersGet2Service(t *testing.T) {
@@ -12691,7 +12691,7 @@ func TestTreasuryOutboundTransfersGet2Service(t *testing.T) {
 	params := &stripe.TreasuryOutboundTransferParams{}
 	result, err := sc.TreasuryOutboundTransfers.Get("obt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundTransfersGet2Client(t *testing.T) {
@@ -12700,7 +12700,7 @@ func TestTreasuryOutboundTransfersGet2Client(t *testing.T) {
 	result, err := sc.V1TreasuryOutboundTransfers.Retrieve(
 		context.TODO(), "obt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundTransfersPost(t *testing.T) {
@@ -12713,7 +12713,7 @@ func TestTreasuryOutboundTransfersPost(t *testing.T) {
 	}
 	result, err := treasury_outboundtransfer.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundTransfersPostService(t *testing.T) {
@@ -12727,7 +12727,7 @@ func TestTreasuryOutboundTransfersPostService(t *testing.T) {
 	}
 	result, err := sc.TreasuryOutboundTransfers.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryOutboundTransfersPostClient(t *testing.T) {
@@ -12741,7 +12741,7 @@ func TestTreasuryOutboundTransfersPostClient(t *testing.T) {
 	}
 	result, err := sc.V1TreasuryOutboundTransfers.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryReceivedCreditsGet(t *testing.T) {
@@ -12751,7 +12751,7 @@ func TestTreasuryReceivedCreditsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := treasury_receivedcredit.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryReceivedCreditsGetService(t *testing.T) {
@@ -12762,7 +12762,7 @@ func TestTreasuryReceivedCreditsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TreasuryReceivedCredits.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryReceivedCreditsGetClient(t *testing.T) {
@@ -12773,14 +12773,14 @@ func TestTreasuryReceivedCreditsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TreasuryReceivedCredits.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryReceivedCreditsGet2(t *testing.T) {
 	params := &stripe.TreasuryReceivedCreditParams{}
 	result, err := treasury_receivedcredit.Get("rc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryReceivedCreditsGet2Service(t *testing.T) {
@@ -12788,7 +12788,7 @@ func TestTreasuryReceivedCreditsGet2Service(t *testing.T) {
 	params := &stripe.TreasuryReceivedCreditParams{}
 	result, err := sc.TreasuryReceivedCredits.Get("rc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryReceivedCreditsGet2Client(t *testing.T) {
@@ -12797,7 +12797,7 @@ func TestTreasuryReceivedCreditsGet2Client(t *testing.T) {
 	result, err := sc.V1TreasuryReceivedCredits.Retrieve(
 		context.TODO(), "rc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryReceivedDebitsGet(t *testing.T) {
@@ -12807,7 +12807,7 @@ func TestTreasuryReceivedDebitsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := treasury_receiveddebit.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryReceivedDebitsGetService(t *testing.T) {
@@ -12818,7 +12818,7 @@ func TestTreasuryReceivedDebitsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TreasuryReceivedDebits.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryReceivedDebitsGetClient(t *testing.T) {
@@ -12829,14 +12829,14 @@ func TestTreasuryReceivedDebitsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TreasuryReceivedDebits.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryReceivedDebitsGet2(t *testing.T) {
 	params := &stripe.TreasuryReceivedDebitParams{}
 	result, err := treasury_receiveddebit.Get("rd_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryReceivedDebitsGet2Service(t *testing.T) {
@@ -12844,7 +12844,7 @@ func TestTreasuryReceivedDebitsGet2Service(t *testing.T) {
 	params := &stripe.TreasuryReceivedDebitParams{}
 	result, err := sc.TreasuryReceivedDebits.Get("rd_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryReceivedDebitsGet2Client(t *testing.T) {
@@ -12853,7 +12853,7 @@ func TestTreasuryReceivedDebitsGet2Client(t *testing.T) {
 	result, err := sc.V1TreasuryReceivedDebits.Retrieve(
 		context.TODO(), "rd_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryTransactionEntriesGet(t *testing.T) {
@@ -12863,7 +12863,7 @@ func TestTreasuryTransactionEntriesGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := treasury_transactionentry.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryTransactionEntriesGetService(t *testing.T) {
@@ -12874,7 +12874,7 @@ func TestTreasuryTransactionEntriesGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TreasuryTransactionEntries.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryTransactionEntriesGetClient(t *testing.T) {
@@ -12885,14 +12885,14 @@ func TestTreasuryTransactionEntriesGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TreasuryTransactionEntries.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryTransactionEntriesGet2(t *testing.T) {
 	params := &stripe.TreasuryTransactionEntryParams{}
 	result, err := treasury_transactionentry.Get("trxne_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryTransactionEntriesGet2Service(t *testing.T) {
@@ -12901,7 +12901,7 @@ func TestTreasuryTransactionEntriesGet2Service(t *testing.T) {
 	result, err := sc.TreasuryTransactionEntries.Get(
 		"trxne_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryTransactionEntriesGet2Client(t *testing.T) {
@@ -12910,7 +12910,7 @@ func TestTreasuryTransactionEntriesGet2Client(t *testing.T) {
 	result, err := sc.V1TreasuryTransactionEntries.Retrieve(
 		context.TODO(), "trxne_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryTransactionsGet(t *testing.T) {
@@ -12920,7 +12920,7 @@ func TestTreasuryTransactionsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := treasury_transaction.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryTransactionsGetService(t *testing.T) {
@@ -12931,7 +12931,7 @@ func TestTreasuryTransactionsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.TreasuryTransactions.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryTransactionsGetClient(t *testing.T) {
@@ -12942,14 +12942,14 @@ func TestTreasuryTransactionsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1TreasuryTransactions.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestTreasuryTransactionsGet2(t *testing.T) {
 	params := &stripe.TreasuryTransactionParams{}
 	result, err := treasury_transaction.Get("trxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryTransactionsGet2Service(t *testing.T) {
@@ -12957,7 +12957,7 @@ func TestTreasuryTransactionsGet2Service(t *testing.T) {
 	params := &stripe.TreasuryTransactionParams{}
 	result, err := sc.TreasuryTransactions.Get("trxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTreasuryTransactionsGet2Client(t *testing.T) {
@@ -12966,14 +12966,14 @@ func TestTreasuryTransactionsGet2Client(t *testing.T) {
 	result, err := sc.V1TreasuryTransactions.Retrieve(
 		context.TODO(), "trxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestWebhookEndpointsDelete(t *testing.T) {
 	params := &stripe.WebhookEndpointParams{}
 	result, err := webhookendpoint.Del("we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestWebhookEndpointsDeleteService(t *testing.T) {
@@ -12981,7 +12981,7 @@ func TestWebhookEndpointsDeleteService(t *testing.T) {
 	params := &stripe.WebhookEndpointParams{}
 	result, err := sc.WebhookEndpoints.Del("we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestWebhookEndpointsDeleteClient(t *testing.T) {
@@ -12990,7 +12990,7 @@ func TestWebhookEndpointsDeleteClient(t *testing.T) {
 	result, err := sc.V1WebhookEndpoints.Delete(
 		context.TODO(), "we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestWebhookEndpointsGet(t *testing.T) {
@@ -12998,7 +12998,7 @@ func TestWebhookEndpointsGet(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := webhookendpoint.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestWebhookEndpointsGetService(t *testing.T) {
@@ -13007,7 +13007,7 @@ func TestWebhookEndpointsGetService(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.WebhookEndpoints.List(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestWebhookEndpointsGetClient(t *testing.T) {
@@ -13016,14 +13016,14 @@ func TestWebhookEndpointsGetClient(t *testing.T) {
 	params.Limit = stripe.Int64(3)
 	result := sc.V1WebhookEndpoints.List(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
+	assert.NoError(t, result.Err())
 }
 
 func TestWebhookEndpointsGet2(t *testing.T) {
 	params := &stripe.WebhookEndpointParams{}
 	result, err := webhookendpoint.Get("we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestWebhookEndpointsGet2Service(t *testing.T) {
@@ -13031,7 +13031,7 @@ func TestWebhookEndpointsGet2Service(t *testing.T) {
 	params := &stripe.WebhookEndpointParams{}
 	result, err := sc.WebhookEndpoints.Get("we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestWebhookEndpointsGet2Client(t *testing.T) {
@@ -13040,7 +13040,7 @@ func TestWebhookEndpointsGet2Client(t *testing.T) {
 	result, err := sc.V1WebhookEndpoints.Retrieve(
 		context.TODO(), "we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestWebhookEndpointsPost(t *testing.T) {
@@ -13053,7 +13053,7 @@ func TestWebhookEndpointsPost(t *testing.T) {
 	}
 	result, err := webhookendpoint.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestWebhookEndpointsPostService(t *testing.T) {
@@ -13067,7 +13067,7 @@ func TestWebhookEndpointsPostService(t *testing.T) {
 	}
 	result, err := sc.WebhookEndpoints.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestWebhookEndpointsPostClient(t *testing.T) {
@@ -13081,7 +13081,7 @@ func TestWebhookEndpointsPostClient(t *testing.T) {
 	}
 	result, err := sc.V1WebhookEndpoints.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestWebhookEndpointsPost2(t *testing.T) {
@@ -13090,7 +13090,7 @@ func TestWebhookEndpointsPost2(t *testing.T) {
 	}
 	result, err := webhookendpoint.Update("we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestWebhookEndpointsPost2Service(t *testing.T) {
@@ -13100,7 +13100,7 @@ func TestWebhookEndpointsPost2Service(t *testing.T) {
 	}
 	result, err := sc.WebhookEndpoints.Update("we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestWebhookEndpointsPost2Client(t *testing.T) {
@@ -13111,7 +13111,7 @@ func TestWebhookEndpointsPost2Client(t *testing.T) {
 	result, err := sc.V1WebhookEndpoints.Update(
 		context.TODO(), "we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCoreEventsGetService(t *testing.T) {
@@ -13124,7 +13124,7 @@ func TestCoreEventsGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreEvents.Get("ll_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCoreEventsGetClient(t *testing.T) {
@@ -13137,7 +13137,7 @@ func TestCoreEventsGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreEvents.Retrieve(context.TODO(), "ll_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingBillSettingGetService(t *testing.T) {
@@ -13174,7 +13174,7 @@ func TestV2BillingBillSettingPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingBillSettings.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingBillSettingPostClient(t *testing.T) {
@@ -13187,7 +13187,7 @@ func TestV2BillingBillSettingPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2BillingBillSettings.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingBillSettingGet2Service(t *testing.T) {
@@ -13200,7 +13200,7 @@ func TestV2BillingBillSettingGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingBillSettings.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingBillSettingGet2Client(t *testing.T) {
@@ -13214,7 +13214,7 @@ func TestV2BillingBillSettingGet2Client(t *testing.T) {
 	result, err := sc.V2BillingBillSettings.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingBillSettingPost2Service(t *testing.T) {
@@ -13227,7 +13227,7 @@ func TestV2BillingBillSettingPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingBillSettings.Update("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingBillSettingPost2Client(t *testing.T) {
@@ -13241,7 +13241,7 @@ func TestV2BillingBillSettingPost2Client(t *testing.T) {
 	result, err := sc.V2BillingBillSettings.Update(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingBillSettingsVersionGetService(t *testing.T) {
@@ -13284,7 +13284,7 @@ func TestV2BillingBillSettingsVersionGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingBillSettingsVersions.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingBillSettingsVersionGet2Client(t *testing.T) {
@@ -13300,7 +13300,7 @@ func TestV2BillingBillSettingsVersionGet2Client(t *testing.T) {
 	result, err := sc.V2BillingBillSettingsVersions.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCadenceGetService(t *testing.T) {
@@ -13378,7 +13378,7 @@ func TestV2BillingCadencePostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingCadences.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCadencePostClient(t *testing.T) {
@@ -13432,7 +13432,7 @@ func TestV2BillingCadencePostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2BillingCadences.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCadenceGet2Service(t *testing.T) {
@@ -13445,7 +13445,7 @@ func TestV2BillingCadenceGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingCadences.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCadenceGet2Client(t *testing.T) {
@@ -13458,7 +13458,7 @@ func TestV2BillingCadenceGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2BillingCadences.Retrieve(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCadencePost2Service(t *testing.T) {
@@ -13471,7 +13471,7 @@ func TestV2BillingCadencePost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingCadences.Update("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCadencePost2Client(t *testing.T) {
@@ -13484,7 +13484,7 @@ func TestV2BillingCadencePost2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2BillingCadences.Update(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCadencePost3Service(t *testing.T) {
@@ -13497,7 +13497,7 @@ func TestV2BillingCadencePost3Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingCadences.Cancel("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCadencePost3Client(t *testing.T) {
@@ -13510,7 +13510,7 @@ func TestV2BillingCadencePost3Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2BillingCadences.Cancel(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCollectionSettingGetService(t *testing.T) {
@@ -13547,7 +13547,7 @@ func TestV2BillingCollectionSettingPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingCollectionSettings.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCollectionSettingPostClient(t *testing.T) {
@@ -13560,7 +13560,7 @@ func TestV2BillingCollectionSettingPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2BillingCollectionSettings.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCollectionSettingGet2Service(t *testing.T) {
@@ -13573,7 +13573,7 @@ func TestV2BillingCollectionSettingGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingCollectionSettings.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCollectionSettingGet2Client(t *testing.T) {
@@ -13587,7 +13587,7 @@ func TestV2BillingCollectionSettingGet2Client(t *testing.T) {
 	result, err := sc.V2BillingCollectionSettings.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCollectionSettingPost2Service(t *testing.T) {
@@ -13600,7 +13600,7 @@ func TestV2BillingCollectionSettingPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingCollectionSettings.Update("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCollectionSettingPost2Client(t *testing.T) {
@@ -13614,7 +13614,7 @@ func TestV2BillingCollectionSettingPost2Client(t *testing.T) {
 	result, err := sc.V2BillingCollectionSettings.Update(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCollectionSettingsVersionGetService(t *testing.T) {
@@ -13657,7 +13657,7 @@ func TestV2BillingCollectionSettingsVersionGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingCollectionSettingsVersions.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingCollectionSettingsVersionGet2Client(t *testing.T) {
@@ -13673,7 +13673,7 @@ func TestV2BillingCollectionSettingsVersionGet2Client(t *testing.T) {
 	result, err := sc.V2BillingCollectionSettingsVersions.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingMeterEventPostService(t *testing.T) {
@@ -13689,7 +13689,7 @@ func TestV2BillingMeterEventPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingMeterEvents.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingMeterEventPostClient(t *testing.T) {
@@ -13705,7 +13705,7 @@ func TestV2BillingMeterEventPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2BillingMeterEvents.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingMeterEventAdjustmentPostService(t *testing.T) {
@@ -13724,7 +13724,7 @@ func TestV2BillingMeterEventAdjustmentPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingMeterEventAdjustments.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingMeterEventAdjustmentPostClient(t *testing.T) {
@@ -13744,7 +13744,7 @@ func TestV2BillingMeterEventAdjustmentPostClient(t *testing.T) {
 	result, err := sc.V2BillingMeterEventAdjustments.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingMeterEventSessionPostService(t *testing.T) {
@@ -13757,7 +13757,7 @@ func TestV2BillingMeterEventSessionPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingMeterEventSessions.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingMeterEventSessionPostClient(t *testing.T) {
@@ -13770,7 +13770,7 @@ func TestV2BillingMeterEventSessionPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2BillingMeterEventSessions.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingMeterEventStreamPostService(t *testing.T) {
@@ -13790,7 +13790,8 @@ func TestV2BillingMeterEventStreamPostService(t *testing.T) {
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := client.New(TestAPIKey, backends)
-	sc.V2BillingMeterEventStreams.New(params)
+	err := sc.V2BillingMeterEventStreams.New(params)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingMeterEventStreamPostClient(t *testing.T) {
@@ -13810,7 +13811,8 @@ func TestV2BillingMeterEventStreamPostClient(t *testing.T) {
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	sc.V2BillingMeterEventStreams.Create(context.TODO(), params)
+	err := sc.V2BillingMeterEventStreams.Create(context.TODO(), params)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingProfileGetService(t *testing.T) {
@@ -13851,7 +13853,7 @@ func TestV2BillingProfilePostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingProfiles.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingProfilePostClient(t *testing.T) {
@@ -13866,7 +13868,7 @@ func TestV2BillingProfilePostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2BillingProfiles.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingProfileGet2Service(t *testing.T) {
@@ -13879,7 +13881,7 @@ func TestV2BillingProfileGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingProfiles.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingProfileGet2Client(t *testing.T) {
@@ -13892,7 +13894,7 @@ func TestV2BillingProfileGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2BillingProfiles.Retrieve(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingProfilePost2Service(t *testing.T) {
@@ -13905,7 +13907,7 @@ func TestV2BillingProfilePost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2BillingProfiles.Update("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2BillingProfilePost2Client(t *testing.T) {
@@ -13918,7 +13920,7 @@ func TestV2BillingProfilePost2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2BillingProfiles.Update(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountGetService(t *testing.T) {
@@ -13955,7 +13957,7 @@ func TestV2CoreAccountPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreAccounts.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountPostClient(t *testing.T) {
@@ -13968,7 +13970,7 @@ func TestV2CoreAccountPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreAccounts.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountGet2Service(t *testing.T) {
@@ -13981,7 +13983,7 @@ func TestV2CoreAccountGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreAccounts.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountGet2Client(t *testing.T) {
@@ -13994,7 +13996,7 @@ func TestV2CoreAccountGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreAccounts.Retrieve(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountPost2Service(t *testing.T) {
@@ -14007,7 +14009,7 @@ func TestV2CoreAccountPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreAccounts.Update("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountPost2Client(t *testing.T) {
@@ -14020,7 +14022,7 @@ func TestV2CoreAccountPost2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreAccounts.Update(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountPost3Service(t *testing.T) {
@@ -14033,7 +14035,7 @@ func TestV2CoreAccountPost3Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreAccounts.Close("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountPost3Client(t *testing.T) {
@@ -14046,7 +14048,7 @@ func TestV2CoreAccountPost3Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreAccounts.Close(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountsPersonGetService(t *testing.T) {
@@ -14089,7 +14091,7 @@ func TestV2CoreAccountsPersonPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreAccountsPersons.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountsPersonPostClient(t *testing.T) {
@@ -14104,7 +14106,7 @@ func TestV2CoreAccountsPersonPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreAccountsPersons.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountsPersonDeleteService(t *testing.T) {
@@ -14119,7 +14121,7 @@ func TestV2CoreAccountsPersonDeleteService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreAccountsPersons.Del("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountsPersonDeleteClient(t *testing.T) {
@@ -14135,7 +14137,7 @@ func TestV2CoreAccountsPersonDeleteClient(t *testing.T) {
 	result, err := sc.V2CoreAccountsPersons.Delete(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountsPersonGet2Service(t *testing.T) {
@@ -14150,7 +14152,7 @@ func TestV2CoreAccountsPersonGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreAccountsPersons.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountsPersonGet2Client(t *testing.T) {
@@ -14166,7 +14168,7 @@ func TestV2CoreAccountsPersonGet2Client(t *testing.T) {
 	result, err := sc.V2CoreAccountsPersons.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountsPersonPost2Service(t *testing.T) {
@@ -14181,7 +14183,7 @@ func TestV2CoreAccountsPersonPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreAccountsPersons.Update("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountsPersonPost2Client(t *testing.T) {
@@ -14197,7 +14199,7 @@ func TestV2CoreAccountsPersonPost2Client(t *testing.T) {
 	result, err := sc.V2CoreAccountsPersons.Update(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountsPersonTokenPostService(t *testing.T) {
@@ -14212,7 +14214,7 @@ func TestV2CoreAccountsPersonTokenPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreAccountsPersonTokens.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountsPersonTokenPostClient(t *testing.T) {
@@ -14227,7 +14229,7 @@ func TestV2CoreAccountsPersonTokenPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreAccountsPersonTokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountsPersonTokenGetService(t *testing.T) {
@@ -14242,7 +14244,7 @@ func TestV2CoreAccountsPersonTokenGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreAccountsPersonTokens.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountsPersonTokenGetClient(t *testing.T) {
@@ -14258,7 +14260,7 @@ func TestV2CoreAccountsPersonTokenGetClient(t *testing.T) {
 	result, err := sc.V2CoreAccountsPersonTokens.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountLinkPostService(t *testing.T) {
@@ -14294,7 +14296,7 @@ func TestV2CoreAccountLinkPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreAccountLinks.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountLinkPostClient(t *testing.T) {
@@ -14330,7 +14332,7 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreAccountLinks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountTokenPostService(t *testing.T) {
@@ -14343,7 +14345,7 @@ func TestV2CoreAccountTokenPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreAccountTokens.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountTokenPostClient(t *testing.T) {
@@ -14356,7 +14358,7 @@ func TestV2CoreAccountTokenPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreAccountTokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountTokenGetService(t *testing.T) {
@@ -14369,7 +14371,7 @@ func TestV2CoreAccountTokenGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreAccountTokens.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreAccountTokenGetClient(t *testing.T) {
@@ -14383,7 +14385,7 @@ func TestV2CoreAccountTokenGetClient(t *testing.T) {
 	result, err := sc.V2CoreAccountTokens.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreBatchJobPostService(t *testing.T) {
@@ -14403,7 +14405,7 @@ func TestV2CoreBatchJobPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreBatchJobs.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreBatchJobPostClient(t *testing.T) {
@@ -14423,7 +14425,7 @@ func TestV2CoreBatchJobPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreBatchJobs.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreBatchJobGetService(t *testing.T) {
@@ -14436,7 +14438,7 @@ func TestV2CoreBatchJobGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreBatchJobs.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreBatchJobGetClient(t *testing.T) {
@@ -14449,7 +14451,7 @@ func TestV2CoreBatchJobGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreBatchJobs.Retrieve(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreBatchJobPost2Service(t *testing.T) {
@@ -14462,7 +14464,7 @@ func TestV2CoreBatchJobPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreBatchJobs.Cancel("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreBatchJobPost2Client(t *testing.T) {
@@ -14475,7 +14477,7 @@ func TestV2CoreBatchJobPost2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreBatchJobs.Cancel(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventGetService(t *testing.T) {
@@ -14512,7 +14514,7 @@ func TestV2CoreEventGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreEvents.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventGet2Client(t *testing.T) {
@@ -14525,7 +14527,7 @@ func TestV2CoreEventGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreEvents.Retrieve(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationGetService(t *testing.T) {
@@ -14567,7 +14569,7 @@ func TestV2CoreEventDestinationPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreEventDestinations.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationPostClient(t *testing.T) {
@@ -14585,7 +14587,7 @@ func TestV2CoreEventDestinationPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreEventDestinations.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationDeleteService(t *testing.T) {
@@ -14598,7 +14600,7 @@ func TestV2CoreEventDestinationDeleteService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreEventDestinations.Del("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationDeleteClient(t *testing.T) {
@@ -14612,7 +14614,7 @@ func TestV2CoreEventDestinationDeleteClient(t *testing.T) {
 	result, err := sc.V2CoreEventDestinations.Delete(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationGet2Service(t *testing.T) {
@@ -14625,7 +14627,7 @@ func TestV2CoreEventDestinationGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreEventDestinations.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationGet2Client(t *testing.T) {
@@ -14639,7 +14641,7 @@ func TestV2CoreEventDestinationGet2Client(t *testing.T) {
 	result, err := sc.V2CoreEventDestinations.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationPost2Service(t *testing.T) {
@@ -14652,7 +14654,7 @@ func TestV2CoreEventDestinationPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreEventDestinations.Update("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationPost2Client(t *testing.T) {
@@ -14666,7 +14668,7 @@ func TestV2CoreEventDestinationPost2Client(t *testing.T) {
 	result, err := sc.V2CoreEventDestinations.Update(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationPost3Service(t *testing.T) {
@@ -14679,7 +14681,7 @@ func TestV2CoreEventDestinationPost3Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreEventDestinations.Disable("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationPost3Client(t *testing.T) {
@@ -14693,7 +14695,7 @@ func TestV2CoreEventDestinationPost3Client(t *testing.T) {
 	result, err := sc.V2CoreEventDestinations.Disable(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationPost4Service(t *testing.T) {
@@ -14706,7 +14708,7 @@ func TestV2CoreEventDestinationPost4Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreEventDestinations.Enable("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationPost4Client(t *testing.T) {
@@ -14720,7 +14722,7 @@ func TestV2CoreEventDestinationPost4Client(t *testing.T) {
 	result, err := sc.V2CoreEventDestinations.Enable(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationPost5Service(t *testing.T) {
@@ -14733,7 +14735,7 @@ func TestV2CoreEventDestinationPost5Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreEventDestinations.Ping("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreEventDestinationPost5Client(t *testing.T) {
@@ -14747,7 +14749,7 @@ func TestV2CoreEventDestinationPost5Client(t *testing.T) {
 	result, err := sc.V2CoreEventDestinations.Ping(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultGbBankAccountGetService(t *testing.T) {
@@ -14786,7 +14788,7 @@ func TestV2CoreVaultGbBankAccountPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreVaultGBBankAccounts.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultGbBankAccountPostClient(t *testing.T) {
@@ -14801,7 +14803,7 @@ func TestV2CoreVaultGbBankAccountPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreVaultGBBankAccounts.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultGbBankAccountGet2Service(t *testing.T) {
@@ -14814,7 +14816,7 @@ func TestV2CoreVaultGbBankAccountGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreVaultGBBankAccounts.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultGbBankAccountGet2Client(t *testing.T) {
@@ -14828,7 +14830,7 @@ func TestV2CoreVaultGbBankAccountGet2Client(t *testing.T) {
 	result, err := sc.V2CoreVaultGBBankAccounts.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultGbBankAccountPost2Service(t *testing.T) {
@@ -14842,7 +14844,7 @@ func TestV2CoreVaultGbBankAccountPost2Service(t *testing.T) {
 	result, err := sc.V2CoreVaultGBBankAccounts.AcknowledgeConfirmationOfPayee(
 		"id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultGbBankAccountPost2Client(t *testing.T) {
@@ -14856,7 +14858,7 @@ func TestV2CoreVaultGbBankAccountPost2Client(t *testing.T) {
 	result, err := sc.V2CoreVaultGBBankAccounts.AcknowledgeConfirmationOfPayee(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultGbBankAccountPost3Service(t *testing.T) {
@@ -14869,7 +14871,7 @@ func TestV2CoreVaultGbBankAccountPost3Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreVaultGBBankAccounts.Archive("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultGbBankAccountPost3Client(t *testing.T) {
@@ -14883,7 +14885,7 @@ func TestV2CoreVaultGbBankAccountPost3Client(t *testing.T) {
 	result, err := sc.V2CoreVaultGBBankAccounts.Archive(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultGbBankAccountPost4Service(t *testing.T) {
@@ -14897,7 +14899,7 @@ func TestV2CoreVaultGbBankAccountPost4Service(t *testing.T) {
 	result, err := sc.V2CoreVaultGBBankAccounts.InitiateConfirmationOfPayee(
 		"id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultGbBankAccountPost4Client(t *testing.T) {
@@ -14911,7 +14913,7 @@ func TestV2CoreVaultGbBankAccountPost4Client(t *testing.T) {
 	result, err := sc.V2CoreVaultGBBankAccounts.InitiateConfirmationOfPayee(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultUsBankAccountGetService(t *testing.T) {
@@ -14951,7 +14953,7 @@ func TestV2CoreVaultUsBankAccountPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreVaultUSBankAccounts.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultUsBankAccountPostClient(t *testing.T) {
@@ -14967,7 +14969,7 @@ func TestV2CoreVaultUsBankAccountPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreVaultUSBankAccounts.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultUsBankAccountGet2Service(t *testing.T) {
@@ -14980,7 +14982,7 @@ func TestV2CoreVaultUsBankAccountGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreVaultUSBankAccounts.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultUsBankAccountGet2Client(t *testing.T) {
@@ -14994,7 +14996,7 @@ func TestV2CoreVaultUsBankAccountGet2Client(t *testing.T) {
 	result, err := sc.V2CoreVaultUSBankAccounts.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultUsBankAccountPost2Service(t *testing.T) {
@@ -15007,7 +15009,7 @@ func TestV2CoreVaultUsBankAccountPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreVaultUSBankAccounts.Update("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultUsBankAccountPost2Client(t *testing.T) {
@@ -15021,7 +15023,7 @@ func TestV2CoreVaultUsBankAccountPost2Client(t *testing.T) {
 	result, err := sc.V2CoreVaultUSBankAccounts.Update(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultUsBankAccountPost3Service(t *testing.T) {
@@ -15034,7 +15036,7 @@ func TestV2CoreVaultUsBankAccountPost3Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreVaultUSBankAccounts.Archive("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultUsBankAccountPost3Client(t *testing.T) {
@@ -15048,7 +15050,7 @@ func TestV2CoreVaultUsBankAccountPost3Client(t *testing.T) {
 	result, err := sc.V2CoreVaultUSBankAccounts.Archive(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultUsBankAccountPost4Service(t *testing.T) {
@@ -15062,7 +15064,7 @@ func TestV2CoreVaultUsBankAccountPost4Service(t *testing.T) {
 	result, err := sc.V2CoreVaultUSBankAccounts.ConfirmMicrodeposits(
 		"id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultUsBankAccountPost4Client(t *testing.T) {
@@ -15076,7 +15078,7 @@ func TestV2CoreVaultUsBankAccountPost4Client(t *testing.T) {
 	result, err := sc.V2CoreVaultUSBankAccounts.ConfirmMicrodeposits(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultUsBankAccountPost5Service(t *testing.T) {
@@ -15090,7 +15092,7 @@ func TestV2CoreVaultUsBankAccountPost5Service(t *testing.T) {
 	result, err := sc.V2CoreVaultUSBankAccounts.SendMicrodeposits(
 		"id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2CoreVaultUsBankAccountPost5Client(t *testing.T) {
@@ -15104,7 +15106,7 @@ func TestV2CoreVaultUsBankAccountPost5Client(t *testing.T) {
 	result, err := sc.V2CoreVaultUSBankAccounts.SendMicrodeposits(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2DataReportingQueryRunPostService(t *testing.T) {
@@ -15117,7 +15119,7 @@ func TestV2DataReportingQueryRunPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2DataReportingQueryRuns.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2DataReportingQueryRunPostClient(t *testing.T) {
@@ -15132,7 +15134,7 @@ func TestV2DataReportingQueryRunPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2DataReportingQueryRuns.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2DataReportingQueryRunGetService(t *testing.T) {
@@ -15145,7 +15147,7 @@ func TestV2DataReportingQueryRunGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2DataReportingQueryRuns.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2DataReportingQueryRunGetClient(t *testing.T) {
@@ -15159,7 +15161,7 @@ func TestV2DataReportingQueryRunGetClient(t *testing.T) {
 	result, err := sc.V2DataReportingQueryRuns.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2ExtendWorkflowGetService(t *testing.T) {
@@ -15196,7 +15198,7 @@ func TestV2ExtendWorkflowGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2ExtendWorkflows.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2ExtendWorkflowGet2Client(t *testing.T) {
@@ -15209,7 +15211,7 @@ func TestV2ExtendWorkflowGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2ExtendWorkflows.Retrieve(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2ExtendWorkflowPostService(t *testing.T) {
@@ -15234,7 +15236,7 @@ func TestV2ExtendWorkflowPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2ExtendWorkflows.Invoke("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2ExtendWorkflowPostClient(t *testing.T) {
@@ -15259,7 +15261,7 @@ func TestV2ExtendWorkflowPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2ExtendWorkflows.Invoke(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2ExtendWorkflowRunGetService(t *testing.T) {
@@ -15296,7 +15298,7 @@ func TestV2ExtendWorkflowRunGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2ExtendWorkflowRuns.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2ExtendWorkflowRunGet2Client(t *testing.T) {
@@ -15310,7 +15312,7 @@ func TestV2ExtendWorkflowRunGet2Client(t *testing.T) {
 	result, err := sc.V2ExtendWorkflowRuns.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2IamActivityLogGetService(t *testing.T) {
@@ -15347,7 +15349,7 @@ func TestV2IamActivityLogGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2IamActivityLogs.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2IamActivityLogGet2Client(t *testing.T) {
@@ -15360,7 +15362,7 @@ func TestV2IamActivityLogGet2Client(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2IamActivityLogs.Retrieve(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementAdjustmentGetService(t *testing.T) {
@@ -15397,7 +15399,7 @@ func TestV2MoneyManagementAdjustmentGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementAdjustments.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementAdjustmentGet2Client(t *testing.T) {
@@ -15411,7 +15413,7 @@ func TestV2MoneyManagementAdjustmentGet2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementAdjustments.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementFinancialAccountGetService(t *testing.T) {
@@ -15450,7 +15452,7 @@ func TestV2MoneyManagementFinancialAccountPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementFinancialAccounts.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementFinancialAccountPostClient(t *testing.T) {
@@ -15466,7 +15468,7 @@ func TestV2MoneyManagementFinancialAccountPostClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementFinancialAccounts.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementFinancialAccountGet2Service(t *testing.T) {
@@ -15479,7 +15481,7 @@ func TestV2MoneyManagementFinancialAccountGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementFinancialAccounts.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementFinancialAccountGet2Client(t *testing.T) {
@@ -15493,7 +15495,7 @@ func TestV2MoneyManagementFinancialAccountGet2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementFinancialAccounts.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementFinancialAccountPost2Service(t *testing.T) {
@@ -15506,7 +15508,7 @@ func TestV2MoneyManagementFinancialAccountPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementFinancialAccounts.Update("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementFinancialAccountPost2Client(t *testing.T) {
@@ -15520,7 +15522,7 @@ func TestV2MoneyManagementFinancialAccountPost2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementFinancialAccounts.Update(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementFinancialAccountPost3Service(t *testing.T) {
@@ -15533,7 +15535,7 @@ func TestV2MoneyManagementFinancialAccountPost3Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementFinancialAccounts.Close("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementFinancialAccountPost3Client(t *testing.T) {
@@ -15547,7 +15549,7 @@ func TestV2MoneyManagementFinancialAccountPost3Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementFinancialAccounts.Close(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementFinancialAddressGetService(t *testing.T) {
@@ -15587,7 +15589,7 @@ func TestV2MoneyManagementFinancialAddressPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementFinancialAddresses.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementFinancialAddressPostClient(t *testing.T) {
@@ -15604,7 +15606,7 @@ func TestV2MoneyManagementFinancialAddressPostClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementFinancialAddresses.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementFinancialAddressGet2Service(t *testing.T) {
@@ -15617,7 +15619,7 @@ func TestV2MoneyManagementFinancialAddressGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementFinancialAddresses.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementFinancialAddressGet2Client(t *testing.T) {
@@ -15631,7 +15633,7 @@ func TestV2MoneyManagementFinancialAddressGet2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementFinancialAddresses.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementInboundTransferGetService(t *testing.T) {
@@ -15678,7 +15680,7 @@ func TestV2MoneyManagementInboundTransferPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementInboundTransfers.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementInboundTransferPostClient(t *testing.T) {
@@ -15702,7 +15704,7 @@ func TestV2MoneyManagementInboundTransferPostClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementInboundTransfers.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementInboundTransferGet2Service(t *testing.T) {
@@ -15715,7 +15717,7 @@ func TestV2MoneyManagementInboundTransferGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementInboundTransfers.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementInboundTransferGet2Client(t *testing.T) {
@@ -15729,7 +15731,7 @@ func TestV2MoneyManagementInboundTransferGet2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementInboundTransfers.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundPaymentGetService(t *testing.T) {
@@ -15777,7 +15779,7 @@ func TestV2MoneyManagementOutboundPaymentPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundPayments.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundPaymentPostClient(t *testing.T) {
@@ -15802,7 +15804,7 @@ func TestV2MoneyManagementOutboundPaymentPostClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundPayments.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundPaymentGet2Service(t *testing.T) {
@@ -15815,7 +15817,7 @@ func TestV2MoneyManagementOutboundPaymentGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundPayments.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundPaymentGet2Client(t *testing.T) {
@@ -15829,7 +15831,7 @@ func TestV2MoneyManagementOutboundPaymentGet2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundPayments.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundPaymentPost2Service(t *testing.T) {
@@ -15842,7 +15844,7 @@ func TestV2MoneyManagementOutboundPaymentPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundPayments.Cancel("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundPaymentPost2Client(t *testing.T) {
@@ -15856,7 +15858,7 @@ func TestV2MoneyManagementOutboundPaymentPost2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundPayments.Cancel(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundPaymentQuotePostService(t *testing.T) {
@@ -15880,7 +15882,7 @@ func TestV2MoneyManagementOutboundPaymentQuotePostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundPaymentQuotes.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundPaymentQuotePostClient(t *testing.T) {
@@ -15905,7 +15907,7 @@ func TestV2MoneyManagementOutboundPaymentQuotePostClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundPaymentQuotes.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundPaymentQuoteGetService(t *testing.T) {
@@ -15918,7 +15920,7 @@ func TestV2MoneyManagementOutboundPaymentQuoteGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundPaymentQuotes.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundPaymentQuoteGetClient(t *testing.T) {
@@ -15932,7 +15934,7 @@ func TestV2MoneyManagementOutboundPaymentQuoteGetClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundPaymentQuotes.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundSetupIntentGetService(t *testing.T) {
@@ -15970,7 +15972,7 @@ func TestV2MoneyManagementOutboundSetupIntentPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundSetupIntents.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundSetupIntentPostClient(t *testing.T) {
@@ -15984,7 +15986,7 @@ func TestV2MoneyManagementOutboundSetupIntentPostClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundSetupIntents.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundSetupIntentGet2Service(t *testing.T) {
@@ -15997,7 +15999,7 @@ func TestV2MoneyManagementOutboundSetupIntentGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundSetupIntents.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundSetupIntentGet2Client(t *testing.T) {
@@ -16011,7 +16013,7 @@ func TestV2MoneyManagementOutboundSetupIntentGet2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundSetupIntents.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundSetupIntentPost2Service(t *testing.T) {
@@ -16025,7 +16027,7 @@ func TestV2MoneyManagementOutboundSetupIntentPost2Service(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundSetupIntents.Update(
 		"id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundSetupIntentPost2Client(t *testing.T) {
@@ -16039,7 +16041,7 @@ func TestV2MoneyManagementOutboundSetupIntentPost2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundSetupIntents.Update(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundSetupIntentPost3Service(t *testing.T) {
@@ -16053,7 +16055,7 @@ func TestV2MoneyManagementOutboundSetupIntentPost3Service(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundSetupIntents.Cancel(
 		"id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundSetupIntentPost3Client(t *testing.T) {
@@ -16067,7 +16069,7 @@ func TestV2MoneyManagementOutboundSetupIntentPost3Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundSetupIntents.Cancel(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundTransferGetService(t *testing.T) {
@@ -16114,7 +16116,7 @@ func TestV2MoneyManagementOutboundTransferPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundTransfers.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundTransferPostClient(t *testing.T) {
@@ -16138,7 +16140,7 @@ func TestV2MoneyManagementOutboundTransferPostClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundTransfers.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundTransferGet2Service(t *testing.T) {
@@ -16151,7 +16153,7 @@ func TestV2MoneyManagementOutboundTransferGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundTransfers.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundTransferGet2Client(t *testing.T) {
@@ -16165,7 +16167,7 @@ func TestV2MoneyManagementOutboundTransferGet2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundTransfers.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundTransferPost2Service(t *testing.T) {
@@ -16178,7 +16180,7 @@ func TestV2MoneyManagementOutboundTransferPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundTransfers.Cancel("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementOutboundTransferPost2Client(t *testing.T) {
@@ -16192,7 +16194,7 @@ func TestV2MoneyManagementOutboundTransferPost2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundTransfers.Cancel(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementPayoutMethodGetService(t *testing.T) {
@@ -16229,7 +16231,7 @@ func TestV2MoneyManagementPayoutMethodGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementPayoutMethods.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementPayoutMethodGet2Client(t *testing.T) {
@@ -16243,7 +16245,7 @@ func TestV2MoneyManagementPayoutMethodGet2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementPayoutMethods.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementPayoutMethodPostService(t *testing.T) {
@@ -16256,7 +16258,7 @@ func TestV2MoneyManagementPayoutMethodPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementPayoutMethods.Archive("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementPayoutMethodPostClient(t *testing.T) {
@@ -16270,7 +16272,7 @@ func TestV2MoneyManagementPayoutMethodPostClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementPayoutMethods.Archive(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementPayoutMethodPost2Service(t *testing.T) {
@@ -16283,7 +16285,7 @@ func TestV2MoneyManagementPayoutMethodPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementPayoutMethods.Unarchive("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementPayoutMethodPost2Client(t *testing.T) {
@@ -16297,7 +16299,7 @@ func TestV2MoneyManagementPayoutMethodPost2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementPayoutMethods.Unarchive(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementPayoutMethodsBankAccountSpecGetService(t *testing.T) {
@@ -16310,7 +16312,7 @@ func TestV2MoneyManagementPayoutMethodsBankAccountSpecGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementPayoutMethodsBankAccountSpecs.Get(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementPayoutMethodsBankAccountSpecGetClient(t *testing.T) {
@@ -16324,7 +16326,7 @@ func TestV2MoneyManagementPayoutMethodsBankAccountSpecGetClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementPayoutMethodsBankAccountSpecs.Retrieve(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementReceivedCreditGetService(t *testing.T) {
@@ -16361,7 +16363,7 @@ func TestV2MoneyManagementReceivedCreditGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementReceivedCredits.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementReceivedCreditGet2Client(t *testing.T) {
@@ -16375,7 +16377,7 @@ func TestV2MoneyManagementReceivedCreditGet2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementReceivedCredits.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementReceivedDebitGetService(t *testing.T) {
@@ -16412,7 +16414,7 @@ func TestV2MoneyManagementReceivedDebitGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementReceivedDebits.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementReceivedDebitGet2Client(t *testing.T) {
@@ -16426,7 +16428,7 @@ func TestV2MoneyManagementReceivedDebitGet2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementReceivedDebits.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementTransactionGetService(t *testing.T) {
@@ -16463,7 +16465,7 @@ func TestV2MoneyManagementTransactionGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementTransactions.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementTransactionGet2Client(t *testing.T) {
@@ -16477,7 +16479,7 @@ func TestV2MoneyManagementTransactionGet2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementTransactions.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementTransactionEntryGetService(t *testing.T) {
@@ -16514,7 +16516,7 @@ func TestV2MoneyManagementTransactionEntryGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementTransactionEntries.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2MoneyManagementTransactionEntryGet2Client(t *testing.T) {
@@ -16528,7 +16530,7 @@ func TestV2MoneyManagementTransactionEntryGet2Client(t *testing.T) {
 	result, err := sc.V2MoneyManagementTransactionEntries.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2NetworkBusinessProfileGetService(t *testing.T) {
@@ -16541,7 +16543,7 @@ func TestV2NetworkBusinessProfileGetService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2NetworkBusinessProfiles.Me(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2NetworkBusinessProfileGetClient(t *testing.T) {
@@ -16554,7 +16556,7 @@ func TestV2NetworkBusinessProfileGetClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2NetworkBusinessProfiles.Me(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2NetworkBusinessProfileGet2Service(t *testing.T) {
@@ -16567,7 +16569,7 @@ func TestV2NetworkBusinessProfileGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2NetworkBusinessProfiles.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2NetworkBusinessProfileGet2Client(t *testing.T) {
@@ -16581,7 +16583,7 @@ func TestV2NetworkBusinessProfileGet2Client(t *testing.T) {
 	result, err := sc.V2NetworkBusinessProfiles.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2OrchestratedCommerceAgreementGetService(t *testing.T) {
@@ -16620,7 +16622,7 @@ func TestV2OrchestratedCommerceAgreementPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2OrchestratedCommerceAgreements.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2OrchestratedCommerceAgreementPostClient(t *testing.T) {
@@ -16636,7 +16638,7 @@ func TestV2OrchestratedCommerceAgreementPostClient(t *testing.T) {
 	result, err := sc.V2OrchestratedCommerceAgreements.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2OrchestratedCommerceAgreementGet2Service(t *testing.T) {
@@ -16649,7 +16651,7 @@ func TestV2OrchestratedCommerceAgreementGet2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2OrchestratedCommerceAgreements.Get("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2OrchestratedCommerceAgreementGet2Client(t *testing.T) {
@@ -16663,7 +16665,7 @@ func TestV2OrchestratedCommerceAgreementGet2Client(t *testing.T) {
 	result, err := sc.V2OrchestratedCommerceAgreements.Retrieve(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2OrchestratedCommerceAgreementPost2Service(t *testing.T) {
@@ -16676,7 +16678,7 @@ func TestV2OrchestratedCommerceAgreementPost2Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2OrchestratedCommerceAgreements.Confirm("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2OrchestratedCommerceAgreementPost2Client(t *testing.T) {
@@ -16690,7 +16692,7 @@ func TestV2OrchestratedCommerceAgreementPost2Client(t *testing.T) {
 	result, err := sc.V2OrchestratedCommerceAgreements.Confirm(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2OrchestratedCommerceAgreementPost3Service(t *testing.T) {
@@ -16703,7 +16705,7 @@ func TestV2OrchestratedCommerceAgreementPost3Service(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2OrchestratedCommerceAgreements.Terminate("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2OrchestratedCommerceAgreementPost3Client(t *testing.T) {
@@ -16717,7 +16719,7 @@ func TestV2OrchestratedCommerceAgreementPost3Client(t *testing.T) {
 	result, err := sc.V2OrchestratedCommerceAgreements.Terminate(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2TestHelpersFinancialAddressPostService(t *testing.T) {
@@ -16733,7 +16735,7 @@ func TestV2TestHelpersFinancialAddressPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2TestHelpersFinancialAddresses.Credit("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2TestHelpersFinancialAddressPostClient(t *testing.T) {
@@ -16750,7 +16752,7 @@ func TestV2TestHelpersFinancialAddressPostClient(t *testing.T) {
 	result, err := sc.V2TestHelpersFinancialAddresses.Credit(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2TestHelpersFinancialAddressPost2Service(t *testing.T) {
@@ -16764,7 +16766,7 @@ func TestV2TestHelpersFinancialAddressPost2Service(t *testing.T) {
 	result, err := sc.V2TestHelpersFinancialAddresses.GenerateMicrodeposits(
 		"id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestV2TestHelpersFinancialAddressPost2Client(t *testing.T) {
@@ -16778,7 +16780,7 @@ func TestV2TestHelpersFinancialAddressPost2Client(t *testing.T) {
 	result, err := sc.V2TestHelpersFinancialAddresses.GenerateMicrodeposits(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAlreadyCanceledErrorService(t *testing.T) {
@@ -16791,7 +16793,7 @@ func TestAlreadyCanceledErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundPayments.Cancel("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAlreadyCanceledErrorClient(t *testing.T) {
@@ -16805,7 +16807,7 @@ func TestAlreadyCanceledErrorClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundPayments.Cancel(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAlreadyExistsErrorService(t *testing.T) {
@@ -16820,7 +16822,7 @@ func TestAlreadyExistsErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementFinancialAccounts.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestAlreadyExistsErrorClient(t *testing.T) {
@@ -16836,7 +16838,7 @@ func TestAlreadyExistsErrorClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementFinancialAccounts.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBlockedByStripeErrorService(t *testing.T) {
@@ -16852,7 +16854,7 @@ func TestBlockedByStripeErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreVaultUSBankAccounts.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestBlockedByStripeErrorClient(t *testing.T) {
@@ -16868,7 +16870,7 @@ func TestBlockedByStripeErrorClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreVaultUSBankAccounts.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCannotProceedErrorService(t *testing.T) {
@@ -16893,7 +16895,7 @@ func TestCannotProceedErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2ExtendWorkflows.Invoke("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestCannotProceedErrorClient(t *testing.T) {
@@ -16918,7 +16920,7 @@ func TestCannotProceedErrorClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2ExtendWorkflows.Invoke(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestControlledByAlternateResourceErrorService(t *testing.T) {
@@ -16931,7 +16933,7 @@ func TestControlledByAlternateResourceErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundSetupIntents.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestControlledByAlternateResourceErrorClient(t *testing.T) {
@@ -16945,7 +16947,7 @@ func TestControlledByAlternateResourceErrorClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundSetupIntents.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestControlledByDashboardErrorService(t *testing.T) {
@@ -16958,7 +16960,7 @@ func TestControlledByDashboardErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreVaultUSBankAccounts.Archive("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestControlledByDashboardErrorClient(t *testing.T) {
@@ -16972,7 +16974,7 @@ func TestControlledByDashboardErrorClient(t *testing.T) {
 	result, err := sc.V2CoreVaultUSBankAccounts.Archive(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFeatureNotEnabledErrorService(t *testing.T) {
@@ -16987,7 +16989,7 @@ func TestFeatureNotEnabledErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementFinancialAccounts.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFeatureNotEnabledErrorClient(t *testing.T) {
@@ -17003,7 +17005,7 @@ func TestFeatureNotEnabledErrorClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementFinancialAccounts.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialAccountNotOpenErrorService(t *testing.T) {
@@ -17019,7 +17021,7 @@ func TestFinancialAccountNotOpenErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementFinancialAddresses.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestFinancialAccountNotOpenErrorClient(t *testing.T) {
@@ -17036,7 +17038,7 @@ func TestFinancialAccountNotOpenErrorClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementFinancialAddresses.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInsufficientFundsErrorService(t *testing.T) {
@@ -17058,7 +17060,7 @@ func TestInsufficientFundsErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundPayments.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInsufficientFundsErrorClient(t *testing.T) {
@@ -17081,7 +17083,7 @@ func TestInsufficientFundsErrorClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundPayments.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvalidPaymentMethodErrorService(t *testing.T) {
@@ -17097,7 +17099,7 @@ func TestInvalidPaymentMethodErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreVaultUSBankAccounts.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvalidPaymentMethodErrorClient(t *testing.T) {
@@ -17113,7 +17115,7 @@ func TestInvalidPaymentMethodErrorClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreVaultUSBankAccounts.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvalidPayoutMethodErrorService(t *testing.T) {
@@ -17126,7 +17128,7 @@ func TestInvalidPayoutMethodErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundSetupIntents.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestInvalidPayoutMethodErrorClient(t *testing.T) {
@@ -17140,7 +17142,7 @@ func TestInvalidPayoutMethodErrorClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundSetupIntents.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestNonZeroBalanceErrorService(t *testing.T) {
@@ -17153,7 +17155,7 @@ func TestNonZeroBalanceErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementFinancialAccounts.Close("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestNonZeroBalanceErrorClient(t *testing.T) {
@@ -17167,7 +17169,7 @@ func TestNonZeroBalanceErrorClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementFinancialAccounts.Close(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestNotCancelableErrorService(t *testing.T) {
@@ -17180,7 +17182,7 @@ func TestNotCancelableErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundPayments.Cancel("id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestNotCancelableErrorClient(t *testing.T) {
@@ -17194,7 +17196,7 @@ func TestNotCancelableErrorClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundPayments.Cancel(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotaExceededErrorService(t *testing.T) {
@@ -17210,7 +17212,7 @@ func TestQuotaExceededErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2CoreVaultUSBankAccounts.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestQuotaExceededErrorClient(t *testing.T) {
@@ -17226,7 +17228,7 @@ func TestQuotaExceededErrorClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreVaultUSBankAccounts.Create(context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRateLimitErrorService(t *testing.T) {
@@ -17272,7 +17274,7 @@ func TestRecipientNotNotifiableErrorService(t *testing.T) {
 	sc := client.New(TestAPIKey, backends)
 	result, err := sc.V2MoneyManagementOutboundPayments.New(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestRecipientNotNotifiableErrorClient(t *testing.T) {
@@ -17295,7 +17297,7 @@ func TestRecipientNotNotifiableErrorClient(t *testing.T) {
 	result, err := sc.V2MoneyManagementOutboundPayments.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestTemporarySessionExpiredErrorService(t *testing.T) {
@@ -17313,7 +17315,8 @@ func TestTemporarySessionExpiredErrorService(t *testing.T) {
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := client.New(TestAPIKey, backends)
-	sc.V2BillingMeterEventStreams.New(params)
+	err := sc.V2BillingMeterEventStreams.New(params)
+	assert.NoError(t, err)
 }
 
 func TestTemporarySessionExpiredErrorClient(t *testing.T) {
@@ -17331,5 +17334,6 @@ func TestTemporarySessionExpiredErrorClient(t *testing.T) {
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	sc.V2BillingMeterEventStreams.Create(context.TODO(), params)
+	err := sc.V2BillingMeterEventStreams.Create(context.TODO(), params)
+	assert.NoError(t, err)
 }
