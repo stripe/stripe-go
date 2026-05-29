@@ -1,6 +1,7 @@
 package eventdestination_test
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -11,25 +12,24 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go/v85"
-	"github.com/stripe/stripe-go/v85/client"
 	"github.com/stripe/stripe-go/v85/mock"
 	. "github.com/stripe/stripe-go/v85/testing"
 )
 
 func TestEventDestinationNew(t *testing.T) {
 	timeNow := time.Now()
-	params := &stripe.V2CoreEventDestinationParams{
+	params := &stripe.V2CoreEventDestinationCreateParams{
 		Name:          stripe.String("My Event Destination"),
 		Description:   stripe.String("This is my event destination, I like it a lot"),
 		EnabledEvents: stripe.StringSlice([]string{"v1.billing.meter.error_report_triggered"}),
 		Type:          stripe.String(string(stripe.V2CoreEventDestinationTypeWebhookEndpoint)),
-		WebhookEndpoint: &stripe.V2CoreEventDestinationWebhookEndpointParams{
+		WebhookEndpoint: &stripe.V2CoreEventDestinationCreateWebhookEndpointParams{
 			URL: stripe.String("https://example.com/my/webhook/endpoint"),
 		},
 		EventPayload: stripe.String(string(stripe.V2CoreEventDestinationEventPayloadThin)),
 		Include:      stripe.StringSlice([]string{"webhook_endpoint.url"}),
 	}
-	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations", params, func(p *stripe.V2CoreEventDestinationParams) []byte {
+	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations", params, func(p *stripe.V2CoreEventDestinationCreateParams) []byte {
 		var enabledEvents []string
 		for _, event := range params.EnabledEvents {
 			enabledEvents = append(enabledEvents, *event)
@@ -53,7 +53,7 @@ func TestEventDestinationNew(t *testing.T) {
 	})
 	defer testServer.Close()
 
-	dest, err := sc.V2CoreEventDestinations.New(params)
+	dest, err := sc.V2CoreEventDestinations.Create(context.Background(), params)
 	assert.Nil(t, err)
 	assert.Equal(t, dest.Name, *params.Name)
 	assert.Equal(t, dest.Description, *params.Description)
@@ -71,10 +71,10 @@ func TestEventDestinationNew(t *testing.T) {
 
 func TestEventDestinationGet(t *testing.T) {
 	timeNow := time.Now()
-	params := stripe.V2CoreEventDestinationParams{
+	params := stripe.V2CoreEventDestinationRetrieveParams{
 		Include: stripe.StringSlice([]string{"webhook_endpoint.url"}),
 	}
-	testServer, sc := mock.Server(t, string(http.MethodGet), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", nil, func(p *stripe.V2CoreEventDestinationParams) []byte {
+	testServer, sc := mock.Server(t, string(http.MethodGet), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", nil, func(p *stripe.V2CoreEventDestinationRetrieveParams) []byte {
 		data, err := json.Marshal(stripe.V2CoreEventDestination{
 			Created:       timeNow,
 			Description:   "This is my event destination, I like it a lot",
@@ -94,7 +94,7 @@ func TestEventDestinationGet(t *testing.T) {
 	})
 	defer testServer.Close()
 
-	dest, err := sc.V2CoreEventDestinations.Get("ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", &params)
+	dest, err := sc.V2CoreEventDestinations.Retrieve(context.Background(), "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", &params)
 	assert.Nil(t, err)
 	assert.Equal(t, dest.Name, "My Event Destination")
 	assert.Equal(t, dest.Description, "This is my event destination, I like it a lot")
@@ -110,10 +110,10 @@ func TestEventDestinationGet(t *testing.T) {
 
 func TestEventDestinationUpdate(t *testing.T) {
 	timeNow := time.Now()
-	params := stripe.V2CoreEventDestinationParams{
+	params := stripe.V2CoreEventDestinationUpdateParams{
 		Description: stripe.String("Better description"),
 	}
-	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", &params, func(p *stripe.V2CoreEventDestinationParams) []byte {
+	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", &params, func(p *stripe.V2CoreEventDestinationUpdateParams) []byte {
 		data, err := json.Marshal(stripe.V2CoreEventDestination{
 			Created:       timeNow,
 			Description:   "Better description",
@@ -131,7 +131,7 @@ func TestEventDestinationUpdate(t *testing.T) {
 	})
 	defer testServer.Close()
 
-	dest, err := sc.V2CoreEventDestinations.Update("ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", &params)
+	dest, err := sc.V2CoreEventDestinations.Update(context.Background(), "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", &params)
 	assert.Nil(t, err)
 	assert.Equal(t, dest.Name, "My Event Destination")
 	assert.Equal(t, dest.Description, *params.Description)
@@ -146,22 +146,22 @@ func TestEventDestinationUpdate(t *testing.T) {
 }
 
 func TestEventDestinationDel(t *testing.T) {
-	testServer, sc := mock.Server(t, string(http.MethodDelete), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", nil, func(p *stripe.V2CoreEventDestinationParams) []byte {
-		data, err := json.Marshal(stripe.V2CoreEventDestination{
+	testServer, sc := mock.Server(t, string(http.MethodDelete), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", &stripe.V2CoreEventDestinationDeleteParams{}, func(p *stripe.V2CoreEventDestinationDeleteParams) []byte {
+		data, err := json.Marshal(stripe.V2DeletedObject{
 			ID: "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6",
 		})
 		assert.NoError(t, err)
 		return data
 	})
 	defer testServer.Close()
-	dest, err := sc.V2CoreEventDestinations.Del("ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", nil)
+	dest, err := sc.V2CoreEventDestinations.Delete(context.Background(), "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", nil)
 	assert.Nil(t, err)
 	assert.Equal(t, dest.ID, "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6")
 }
 
 func TestEventDestinationDisable(t *testing.T) {
 	timeNow := time.Now()
-	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6/disable", nil, func(p *stripe.V2CoreEventDestinationParams) []byte {
+	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6/disable", &stripe.V2CoreEventDestinationDisableParams{}, func(p *stripe.V2CoreEventDestinationDisableParams) []byte {
 		data, err := json.Marshal(stripe.V2CoreEventDestination{
 			Created:       timeNow,
 			Description:   "This is my event destination, I like it a lot",
@@ -178,7 +178,7 @@ func TestEventDestinationDisable(t *testing.T) {
 		return data
 	})
 	defer testServer.Close()
-	dest, err := sc.V2CoreEventDestinations.Disable("ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", nil)
+	dest, err := sc.V2CoreEventDestinations.Disable(context.Background(), "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", nil)
 	assert.Nil(t, err)
 	assert.Equal(t, dest.ID, "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6")
 	assert.Equal(t, dest.Status, stripe.V2CoreEventDestinationStatusDisabled)
@@ -186,7 +186,7 @@ func TestEventDestinationDisable(t *testing.T) {
 
 func TestEventDestinationEnable(t *testing.T) {
 	timeNow := time.Now()
-	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6/enable", nil, func(p *stripe.V2CoreEventDestinationParams) []byte {
+	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations/ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6/enable", &stripe.V2CoreEventDestinationEnableParams{}, func(p *stripe.V2CoreEventDestinationEnableParams) []byte {
 		data, err := json.Marshal(stripe.V2CoreEventDestination{
 			Created:       timeNow,
 			Description:   "This is my event destination, I like it a lot",
@@ -203,7 +203,7 @@ func TestEventDestinationEnable(t *testing.T) {
 		return data
 	})
 	defer testServer.Close()
-	dest, err := sc.V2CoreEventDestinations.Enable("ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", nil)
+	dest, err := sc.V2CoreEventDestinations.Enable(context.Background(), "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6", nil)
 	assert.Nil(t, err)
 	assert.Equal(t, dest.ID, "ed_test_61RM8ltWcTW4mbsxf16RJyfa2xSQLHJJh1sxm7H0KVT6")
 	assert.Equal(t, dest.Status, stripe.V2CoreEventDestinationStatusEnabled)
@@ -211,7 +211,7 @@ func TestEventDestinationEnable(t *testing.T) {
 
 func TestEventDestinationPing(t *testing.T) {
 	timeNow := time.Now()
-	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations/evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92/ping", nil, func(p *stripe.V2CoreEventDestinationParams) []byte {
+	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations/evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92/ping", &stripe.V2CoreEventDestinationPingParams{}, func(p *stripe.V2CoreEventDestinationPingParams) []byte {
 		data, err := json.Marshal(stripe.V2CoreRawEvent{
 			V2BaseEvent: stripe.V2BaseEvent{
 				ID:      "evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92",
@@ -227,7 +227,7 @@ func TestEventDestinationPing(t *testing.T) {
 		return data
 	})
 	defer testServer.Close()
-	event, err := sc.V2CoreEventDestinations.Ping("evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92", nil)
+	event, err := sc.V2CoreEventDestinations.Ping(context.Background(), "evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92", nil)
 	assert.Nil(t, err)
 	ping, ok := event.(*stripe.V2CoreEventDestinationPingEvent)
 	assert.True(t, ok)
@@ -268,7 +268,7 @@ func TestEventDestinationList_SinglePage(t *testing.T) {
 	})
 	defer testServer.Close()
 	cnt := 1
-	sc.V2CoreEventDestinations.All(params)(func(dest *stripe.V2CoreEventDestination, err error) bool {
+	sc.V2CoreEventDestinations.List(context.Background(), params).All(context.Background())(func(dest *stripe.V2CoreEventDestination, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, dest)
 		assert.Equal(t, dest.Description, fmt.Sprintf("Event destination %d", cnt))
@@ -319,6 +319,7 @@ func TestEventDestinationList_MultiplePages(t *testing.T) {
 		default:
 			assert.Fail(t, fmt.Sprintf("unexpected page: %s", page))
 		}
+		assert.NoError(t, err)
 		_, err = w.Write(data)
 		assert.NoError(t, err)
 	}))
@@ -329,9 +330,9 @@ func TestEventDestinationList_MultiplePages(t *testing.T) {
 			URL: stripe.String(testServer.URL),
 		},
 	)
-	sc := client.New(TestAPIKey, backends)
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 
-	sc.V2CoreEventDestinations.All(params)(func(dest *stripe.V2CoreEventDestination, err error) bool {
+	sc.V2CoreEventDestinations.List(context.Background(), params).All(context.Background())(func(dest *stripe.V2CoreEventDestination, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, dest)
 		assert.Equal(t, dest.Description, fmt.Sprintf("Event destination %d", cnt))

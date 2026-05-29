@@ -1,3 +1,6 @@
+// Package testing provides shared test fixtures and helpers used across all
+// packages in the Stripe Go SDK, including test API keys and connectivity
+// checks for stripe-mock.
 package testing
 
 import (

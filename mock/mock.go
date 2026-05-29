@@ -1,3 +1,6 @@
+// Package mock provides a test helper for spinning up a local HTTP server that
+// simulates the Stripe API, for use in unit tests that don't require
+// stripe-mock.
 package mock
 
 import (
@@ -9,20 +12,19 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stripe/stripe-go/v85"
-	"github.com/stripe/stripe-go/v85/client"
-	. "github.com/stripe/stripe-go/v85/testing"
+	stripetest "github.com/stripe/stripe-go/v85/testing"
 )
 
 type Assertion func(*testing.T, *http.Request)
 
-func Server[T any](t *testing.T, method, path string, req T, resp func(T) []byte, asserts ...Assertion) (*httptest.Server, *client.API) {
+func Server[T any](t *testing.T, method, path string, req T, resp func(T) []byte, asserts ...Assertion) (*httptest.Server, *stripe.Client) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		for _, assert := range asserts {
 			assert(t, r)
 		}
 		assert.Equal(t, r.Method, method)
 		assert.Equal(t, r.URL.Path, path)
-		assert.Equal(t, r.Header.Get("Authorization"), "Bearer "+TestAPIKey)
+		assert.Equal(t, r.Header.Get("Authorization"), "Bearer "+stripetest.TestAPIKey)
 
 		body, err := io.ReadAll(r.Body)
 		assert.NoError(t, err)
@@ -38,6 +40,6 @@ func Server[T any](t *testing.T, method, path string, req T, resp func(T) []byte
 			URL: stripe.String(server.URL),
 		},
 	)
-	sc := client.New(TestAPIKey, backends)
+	sc := stripe.NewClient(stripetest.TestAPIKey, stripe.WithBackends(backends))
 	return server, sc
 }

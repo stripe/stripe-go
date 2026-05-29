@@ -45,7 +45,8 @@ var (
 // See https://stripe.com/docs/webhooks#signatures for more information.
 func ComputeSignature(t time.Time, payload []byte, secret string) []byte {
 	mac := hmac.New(sha256.New, []byte(secret))
-	mac.Write([]byte(fmt.Sprintf("%d", t.Unix())))
+	// hmac.Hash.Write never returns a non-nil error per the hash.Hash interface contract.
+	_, _ = fmt.Fprintf(mac, "%d", t.Unix())
 	mac.Write([]byte("."))
 	mac.Write(payload)
 	return mac.Sum(nil)
@@ -173,11 +174,11 @@ func constructEvent(payload []byte, sigHeader string, secret string, cfg webhook
 	}
 
 	if err := json.Unmarshal(payload, &e); err != nil {
-		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
+		return e, fmt.Errorf("failed to parse webhook body json: %s", err.Error())
 	}
 
 	if !cfg.IgnoreAPIVersionMismatch && !isCompatibleAPIVersion(APIVersion, e.APIVersion) {
-		return e, fmt.Errorf("Received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized.", e.APIVersion, ClientVersion, APIVersion)
+		return e, fmt.Errorf("received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized", e.APIVersion, ClientVersion, APIVersion)
 	}
 
 	return e, nil
@@ -188,11 +189,11 @@ func checkEventNotification(payload []byte) error {
 		Object string `json:"object"`
 	}{}
 	if err := json.Unmarshal(payload, &e); err != nil {
-		return fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
+		return fmt.Errorf("failed to parse webhook body json: %s", err.Error())
 	}
 
 	if e.Object != "event" {
-		return fmt.Errorf("Did you use ConstructEvent to parse a thin event notification? If so, use ParseEventNotification instead.")
+		return fmt.Errorf("did you use ConstructEvent to parse a thin event notification? If so, use ParseEventNotification instead")
 	}
 
 	return nil
@@ -282,7 +283,7 @@ type SignedPayload struct {
 func GenerateTestSignedPayload(options *UnsignedPayload) *SignedPayload {
 	signedPayload := &SignedPayload{UnsignedPayload: *options}
 
-	if signedPayload.Timestamp == (time.Time{}) {
+	if signedPayload.Timestamp.IsZero() {
 		signedPayload.Timestamp = time.Now()
 	}
 

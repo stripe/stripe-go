@@ -2,7 +2,7 @@ package oauth
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 
@@ -134,7 +134,8 @@ func TestNewOAuthToken(t *testing.T) {
 	// stripe-mock doesn't support connect URLs so this stubs out the server.
 	httpClient := newTestClient(func(req *http.Request) *http.Response {
 		buf := new(bytes.Buffer)
-		buf.ReadFrom(req.Body)
+		_, err := buf.ReadFrom(req.Body)
+		assert.NoError(t, err)
 		reqBody := buf.String()
 
 		assert.Contains(t, req.URL.String(), "https://localhost:12113/oauth/token")
@@ -154,7 +155,7 @@ func TestNewOAuthToken(t *testing.T) {
     }`
 		return &http.Response{
 			StatusCode: 200,
-			Body:       ioutil.NopCloser(bytes.NewBufferString(responseBody)),
+			Body:       io.NopCloser(bytes.NewBufferString(responseBody)),
 			Header:     make(http.Header),
 		}
 	})
@@ -181,13 +182,14 @@ func TestNewOAuthTokenWithCustomKey(t *testing.T) {
 	// stripe-mock doesn't support connect URLs so this stubs out the server.
 	httpClient := newTestClient(func(req *http.Request) *http.Response {
 		buf := new(bytes.Buffer)
-		buf.ReadFrom(req.Body)
+		_, err := buf.ReadFrom(req.Body)
+		assert.NoError(t, err)
 		reqBody := buf.String()
 		assert.Contains(t, reqBody, "client_secret=sk_999")
 
 		return &http.Response{
 			StatusCode: 200,
-			Body:       ioutil.NopCloser(bytes.NewBufferString(`{}`)),
+			Body:       io.NopCloser(bytes.NewBufferString(`{}`)),
 			Header:     make(http.Header),
 		}
 	})
@@ -207,13 +209,14 @@ func TestNewOAuthTokenWithError(t *testing.T) {
 	responseBody := `{"error":"invalid_grant","error_description": "Authorization code does not exist"}`
 	httpClient := newTestClient(func(req *http.Request) *http.Response {
 		buf := new(bytes.Buffer)
-		buf.ReadFrom(req.Body)
+		_, err := buf.ReadFrom(req.Body)
+		assert.NoError(t, err)
 		reqBody := buf.String()
 		assert.Contains(t, reqBody, "client_secret=sk_999")
 
 		return &http.Response{
 			StatusCode: 400,
-			Body:       ioutil.NopCloser(bytes.NewBufferString(responseBody)),
+			Body:       io.NopCloser(bytes.NewBufferString(responseBody)),
 			Header:     make(http.Header),
 		}
 	})
@@ -238,7 +241,8 @@ func TestDeauthorize(t *testing.T) {
 	// stripe-mock doesn't support connect URLs so this stubs out the server.
 	httpClient := newTestClient(func(req *http.Request) *http.Response {
 		buf := new(bytes.Buffer)
-		buf.ReadFrom(req.Body)
+		_, err := buf.ReadFrom(req.Body)
+		assert.NoError(t, err)
 		reqBody := buf.String()
 		assert.Contains(t, req.URL.String(), "https://localhost:12113/oauth/deauthorize")
 		assert.Contains(t, reqBody, "client_id=sk_999")
@@ -247,7 +251,7 @@ func TestDeauthorize(t *testing.T) {
 		resBody := `{"stripe_user_id": "acct_123"}`
 		return &http.Response{
 			StatusCode: 200,
-			Body:       ioutil.NopCloser(bytes.NewBufferString(resBody)),
+			Body:       io.NopCloser(bytes.NewBufferString(resBody)),
 			Header:     make(http.Header),
 		}
 	})
