@@ -774,7 +774,7 @@ type V1AccountApplicationAuthorizedEventNotification struct {
 
 // FetchEvent retrieves the V1AccountApplicationAuthorizedEvent that created this Notification
 func (n *V1AccountApplicationAuthorizedEventNotification) FetchEvent(ctx context.Context) (*V1AccountApplicationAuthorizedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -793,7 +793,7 @@ type V1AccountApplicationDeauthorizedEventNotification struct {
 
 // FetchEvent retrieves the V1AccountApplicationDeauthorizedEvent that created this Notification
 func (n *V1AccountApplicationDeauthorizedEventNotification) FetchEvent(ctx context.Context) (*V1AccountApplicationDeauthorizedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -812,7 +812,7 @@ type V1AccountExternalAccountCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1AccountExternalAccountCreatedEvent that created this Notification
 func (n *V1AccountExternalAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V1AccountExternalAccountCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -831,7 +831,7 @@ type V1AccountExternalAccountDeletedEventNotification struct {
 
 // FetchEvent retrieves the V1AccountExternalAccountDeletedEvent that created this Notification
 func (n *V1AccountExternalAccountDeletedEventNotification) FetchEvent(ctx context.Context) (*V1AccountExternalAccountDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -850,7 +850,7 @@ type V1AccountExternalAccountUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1AccountExternalAccountUpdatedEvent that created this Notification
 func (n *V1AccountExternalAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1AccountExternalAccountUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -879,7 +879,7 @@ type V1AccountUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1AccountUpdatedEvent that created this Notification
 func (n *V1AccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1AccountUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -913,7 +913,7 @@ type V1AccountSignalsIncludingDelinquencyCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1AccountSignalsIncludingDelinquencyCreatedEvent that created this Notification
 func (n *V1AccountSignalsIncludingDelinquencyCreatedEventNotification) FetchEvent(ctx context.Context) (*V1AccountSignalsIncludingDelinquencyCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -942,7 +942,7 @@ type V1ApplicationFeeCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1ApplicationFeeCreatedEvent that created this Notification
 func (n *V1ApplicationFeeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ApplicationFeeCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -983,7 +983,7 @@ type V1ApplicationFeeRefundUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1ApplicationFeeRefundUpdatedEvent that created this Notification
 func (n *V1ApplicationFeeRefundUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ApplicationFeeRefundUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1024,7 +1024,7 @@ type V1ApplicationFeeRefundedEventNotification struct {
 
 // FetchEvent retrieves the V1ApplicationFeeRefundedEvent that created this Notification
 func (n *V1ApplicationFeeRefundedEventNotification) FetchEvent(ctx context.Context) (*V1ApplicationFeeRefundedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1065,7 +1065,7 @@ type V1BalanceAvailableEventNotification struct {
 
 // FetchEvent retrieves the V1BalanceAvailableEvent that created this Notification
 func (n *V1BalanceAvailableEventNotification) FetchEvent(ctx context.Context) (*V1BalanceAvailableEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1106,7 +1106,7 @@ type V1BillingAlertTriggeredEventNotification struct {
 
 // FetchEvent retrieves the V1BillingAlertTriggeredEvent that created this Notification
 func (n *V1BillingAlertTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingAlertTriggeredEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1148,7 +1148,7 @@ type V1BillingMeterErrorReportTriggeredEventNotification struct {
 
 // FetchEvent retrieves the V1BillingMeterErrorReportTriggeredEvent that created this Notification
 func (n *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterErrorReportTriggeredEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1182,7 +1182,7 @@ type V1BillingMeterNoMeterFoundEventNotification struct {
 
 // FetchEvent retrieves the V1BillingMeterNoMeterFoundEvent that created this Notification
 func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1211,7 +1211,7 @@ type V1BillingPortalConfigurationCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1BillingPortalConfigurationCreatedEvent that created this Notification
 func (n *V1BillingPortalConfigurationCreatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingPortalConfigurationCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1252,7 +1252,7 @@ type V1BillingPortalConfigurationUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1BillingPortalConfigurationUpdatedEvent that created this Notification
 func (n *V1BillingPortalConfigurationUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingPortalConfigurationUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1283,7 +1283,7 @@ type V1BillingPortalSessionCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1BillingPortalSessionCreatedEvent that created this Notification
 func (n *V1BillingPortalSessionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingPortalSessionCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1312,7 +1312,7 @@ type V1CapabilityUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1CapabilityUpdatedEvent that created this Notification
 func (n *V1CapabilityUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CapabilityUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1353,7 +1353,7 @@ type V1CashBalanceFundsAvailableEventNotification struct {
 
 // FetchEvent retrieves the V1CashBalanceFundsAvailableEvent that created this Notification
 func (n *V1CashBalanceFundsAvailableEventNotification) FetchEvent(ctx context.Context) (*V1CashBalanceFundsAvailableEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1394,7 +1394,7 @@ type V1ChargeCapturedEventNotification struct {
 
 // FetchEvent retrieves the V1ChargeCapturedEvent that created this Notification
 func (n *V1ChargeCapturedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeCapturedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1435,7 +1435,7 @@ type V1ChargeDisputeClosedEventNotification struct {
 
 // FetchEvent retrieves the V1ChargeDisputeClosedEvent that created this Notification
 func (n *V1ChargeDisputeClosedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeClosedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1476,7 +1476,7 @@ type V1ChargeDisputeCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1ChargeDisputeCreatedEvent that created this Notification
 func (n *V1ChargeDisputeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1517,7 +1517,7 @@ type V1ChargeDisputeFundsReinstatedEventNotification struct {
 
 // FetchEvent retrieves the V1ChargeDisputeFundsReinstatedEvent that created this Notification
 func (n *V1ChargeDisputeFundsReinstatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeFundsReinstatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1558,7 +1558,7 @@ type V1ChargeDisputeFundsWithdrawnEventNotification struct {
 
 // FetchEvent retrieves the V1ChargeDisputeFundsWithdrawnEvent that created this Notification
 func (n *V1ChargeDisputeFundsWithdrawnEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeFundsWithdrawnEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1599,7 +1599,7 @@ type V1ChargeDisputeUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1ChargeDisputeUpdatedEvent that created this Notification
 func (n *V1ChargeDisputeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeDisputeUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1640,7 +1640,7 @@ type V1ChargeExpiredEventNotification struct {
 
 // FetchEvent retrieves the V1ChargeExpiredEvent that created this Notification
 func (n *V1ChargeExpiredEventNotification) FetchEvent(ctx context.Context) (*V1ChargeExpiredEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1681,7 +1681,7 @@ type V1ChargeFailedEventNotification struct {
 
 // FetchEvent retrieves the V1ChargeFailedEvent that created this Notification
 func (n *V1ChargeFailedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1722,7 +1722,7 @@ type V1ChargePendingEventNotification struct {
 
 // FetchEvent retrieves the V1ChargePendingEvent that created this Notification
 func (n *V1ChargePendingEventNotification) FetchEvent(ctx context.Context) (*V1ChargePendingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1763,7 +1763,7 @@ type V1ChargeRefundUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1ChargeRefundUpdatedEvent that created this Notification
 func (n *V1ChargeRefundUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeRefundUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1804,7 +1804,7 @@ type V1ChargeRefundedEventNotification struct {
 
 // FetchEvent retrieves the V1ChargeRefundedEvent that created this Notification
 func (n *V1ChargeRefundedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeRefundedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1845,7 +1845,7 @@ type V1ChargeSucceededEventNotification struct {
 
 // FetchEvent retrieves the V1ChargeSucceededEvent that created this Notification
 func (n *V1ChargeSucceededEventNotification) FetchEvent(ctx context.Context) (*V1ChargeSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1886,7 +1886,7 @@ type V1ChargeUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1ChargeUpdatedEvent that created this Notification
 func (n *V1ChargeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ChargeUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1927,7 +1927,7 @@ type V1CheckoutSessionAsyncPaymentFailedEventNotification struct {
 
 // FetchEvent retrieves the V1CheckoutSessionAsyncPaymentFailedEvent that created this Notification
 func (n *V1CheckoutSessionAsyncPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionAsyncPaymentFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1968,7 +1968,7 @@ type V1CheckoutSessionAsyncPaymentSucceededEventNotification struct {
 
 // FetchEvent retrieves the V1CheckoutSessionAsyncPaymentSucceededEvent that created this Notification
 func (n *V1CheckoutSessionAsyncPaymentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionAsyncPaymentSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2009,7 +2009,7 @@ type V1CheckoutSessionCompletedEventNotification struct {
 
 // FetchEvent retrieves the V1CheckoutSessionCompletedEvent that created this Notification
 func (n *V1CheckoutSessionCompletedEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionCompletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2050,7 +2050,7 @@ type V1CheckoutSessionExpiredEventNotification struct {
 
 // FetchEvent retrieves the V1CheckoutSessionExpiredEvent that created this Notification
 func (n *V1CheckoutSessionExpiredEventNotification) FetchEvent(ctx context.Context) (*V1CheckoutSessionExpiredEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2091,7 +2091,7 @@ type V1ClimateOrderCanceledEventNotification struct {
 
 // FetchEvent retrieves the V1ClimateOrderCanceledEvent that created this Notification
 func (n *V1ClimateOrderCanceledEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2132,7 +2132,7 @@ type V1ClimateOrderCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1ClimateOrderCreatedEvent that created this Notification
 func (n *V1ClimateOrderCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2173,7 +2173,7 @@ type V1ClimateOrderDelayedEventNotification struct {
 
 // FetchEvent retrieves the V1ClimateOrderDelayedEvent that created this Notification
 func (n *V1ClimateOrderDelayedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderDelayedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2214,7 +2214,7 @@ type V1ClimateOrderDeliveredEventNotification struct {
 
 // FetchEvent retrieves the V1ClimateOrderDeliveredEvent that created this Notification
 func (n *V1ClimateOrderDeliveredEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderDeliveredEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2255,7 +2255,7 @@ type V1ClimateOrderProductSubstitutedEventNotification struct {
 
 // FetchEvent retrieves the V1ClimateOrderProductSubstitutedEvent that created this Notification
 func (n *V1ClimateOrderProductSubstitutedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateOrderProductSubstitutedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2296,7 +2296,7 @@ type V1ClimateProductCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1ClimateProductCreatedEvent that created this Notification
 func (n *V1ClimateProductCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateProductCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2337,7 +2337,7 @@ type V1ClimateProductPricingUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1ClimateProductPricingUpdatedEvent that created this Notification
 func (n *V1ClimateProductPricingUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ClimateProductPricingUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2378,7 +2378,7 @@ type V1CouponCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1CouponCreatedEvent that created this Notification
 func (n *V1CouponCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CouponCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2419,7 +2419,7 @@ type V1CouponDeletedEventNotification struct {
 
 // FetchEvent retrieves the V1CouponDeletedEvent that created this Notification
 func (n *V1CouponDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CouponDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2460,7 +2460,7 @@ type V1CouponUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1CouponUpdatedEvent that created this Notification
 func (n *V1CouponUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CouponUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2501,7 +2501,7 @@ type V1CreditNoteCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1CreditNoteCreatedEvent that created this Notification
 func (n *V1CreditNoteCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CreditNoteCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2542,7 +2542,7 @@ type V1CreditNoteUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1CreditNoteUpdatedEvent that created this Notification
 func (n *V1CreditNoteUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CreditNoteUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2583,7 +2583,7 @@ type V1CreditNoteVoidedEventNotification struct {
 
 // FetchEvent retrieves the V1CreditNoteVoidedEvent that created this Notification
 func (n *V1CreditNoteVoidedEventNotification) FetchEvent(ctx context.Context) (*V1CreditNoteVoidedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2624,7 +2624,7 @@ type V1CustomerCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerCreatedEvent that created this Notification
 func (n *V1CustomerCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2665,7 +2665,7 @@ type V1CustomerDeletedEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerDeletedEvent that created this Notification
 func (n *V1CustomerDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2706,7 +2706,7 @@ type V1CustomerSubscriptionCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerSubscriptionCreatedEvent that created this Notification
 func (n *V1CustomerSubscriptionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2747,7 +2747,7 @@ type V1CustomerSubscriptionDeletedEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerSubscriptionDeletedEvent that created this Notification
 func (n *V1CustomerSubscriptionDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2788,7 +2788,7 @@ type V1CustomerSubscriptionPausedEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerSubscriptionPausedEvent that created this Notification
 func (n *V1CustomerSubscriptionPausedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPausedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2829,7 +2829,7 @@ type V1CustomerSubscriptionPendingUpdateAppliedEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerSubscriptionPendingUpdateAppliedEvent that created this Notification
 func (n *V1CustomerSubscriptionPendingUpdateAppliedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPendingUpdateAppliedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2870,7 +2870,7 @@ type V1CustomerSubscriptionPendingUpdateExpiredEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerSubscriptionPendingUpdateExpiredEvent that created this Notification
 func (n *V1CustomerSubscriptionPendingUpdateExpiredEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionPendingUpdateExpiredEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2911,7 +2911,7 @@ type V1CustomerSubscriptionResumedEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerSubscriptionResumedEvent that created this Notification
 func (n *V1CustomerSubscriptionResumedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionResumedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2952,7 +2952,7 @@ type V1CustomerSubscriptionTrialWillEndEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerSubscriptionTrialWillEndEvent that created this Notification
 func (n *V1CustomerSubscriptionTrialWillEndEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionTrialWillEndEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2993,7 +2993,7 @@ type V1CustomerSubscriptionUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerSubscriptionUpdatedEvent that created this Notification
 func (n *V1CustomerSubscriptionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerSubscriptionUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3034,7 +3034,7 @@ type V1CustomerTaxIDCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerTaxIDCreatedEvent that created this Notification
 func (n *V1CustomerTaxIDCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerTaxIDCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3075,7 +3075,7 @@ type V1CustomerTaxIDDeletedEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerTaxIDDeletedEvent that created this Notification
 func (n *V1CustomerTaxIDDeletedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerTaxIDDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3116,7 +3116,7 @@ type V1CustomerTaxIDUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerTaxIDUpdatedEvent that created this Notification
 func (n *V1CustomerTaxIDUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerTaxIDUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3157,7 +3157,7 @@ type V1CustomerUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerUpdatedEvent that created this Notification
 func (n *V1CustomerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3198,7 +3198,7 @@ type V1CustomerCashBalanceTransactionCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1CustomerCashBalanceTransactionCreatedEvent that created this Notification
 func (n *V1CustomerCashBalanceTransactionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1CustomerCashBalanceTransactionCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3229,7 +3229,7 @@ type V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1EntitlementsActiveEntitlementSummaryUpdatedEvent that created this Notification
 func (n *V1EntitlementsActiveEntitlementSummaryUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1EntitlementsActiveEntitlementSummaryUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3258,7 +3258,7 @@ type V1FileCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1FileCreatedEvent that created this Notification
 func (n *V1FileCreatedEventNotification) FetchEvent(ctx context.Context) (*V1FileCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3299,7 +3299,7 @@ type V1FinancialConnectionsAccountCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountCreatedEvent that created this Notification
 func (n *V1FinancialConnectionsAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3340,7 +3340,7 @@ type V1FinancialConnectionsAccountDeactivatedEventNotification struct {
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountDeactivatedEvent that created this Notification
 func (n *V1FinancialConnectionsAccountDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountDeactivatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3381,7 +3381,7 @@ type V1FinancialConnectionsAccountDisconnectedEventNotification struct {
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountDisconnectedEvent that created this Notification
 func (n *V1FinancialConnectionsAccountDisconnectedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountDisconnectedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3422,7 +3422,7 @@ type V1FinancialConnectionsAccountReactivatedEventNotification struct {
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountReactivatedEvent that created this Notification
 func (n *V1FinancialConnectionsAccountReactivatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountReactivatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3463,7 +3463,7 @@ type V1FinancialConnectionsAccountRefreshedBalanceEventNotification struct {
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountRefreshedBalanceEvent that created this Notification
 func (n *V1FinancialConnectionsAccountRefreshedBalanceEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRefreshedBalanceEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3504,7 +3504,7 @@ type V1FinancialConnectionsAccountRefreshedOwnershipEventNotification struct {
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountRefreshedOwnershipEvent that created this Notification
 func (n *V1FinancialConnectionsAccountRefreshedOwnershipEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRefreshedOwnershipEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3545,7 +3545,7 @@ type V1FinancialConnectionsAccountRefreshedTransactionsEventNotification struct 
 
 // FetchEvent retrieves the V1FinancialConnectionsAccountRefreshedTransactionsEvent that created this Notification
 func (n *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountRefreshedTransactionsEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3586,7 +3586,7 @@ type V1IdentityVerificationSessionCanceledEventNotification struct {
 
 // FetchEvent retrieves the V1IdentityVerificationSessionCanceledEvent that created this Notification
 func (n *V1IdentityVerificationSessionCanceledEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3627,7 +3627,7 @@ type V1IdentityVerificationSessionCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1IdentityVerificationSessionCreatedEvent that created this Notification
 func (n *V1IdentityVerificationSessionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3668,7 +3668,7 @@ type V1IdentityVerificationSessionProcessingEventNotification struct {
 
 // FetchEvent retrieves the V1IdentityVerificationSessionProcessingEvent that created this Notification
 func (n *V1IdentityVerificationSessionProcessingEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionProcessingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3709,7 +3709,7 @@ type V1IdentityVerificationSessionRedactedEventNotification struct {
 
 // FetchEvent retrieves the V1IdentityVerificationSessionRedactedEvent that created this Notification
 func (n *V1IdentityVerificationSessionRedactedEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionRedactedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3750,7 +3750,7 @@ type V1IdentityVerificationSessionRequiresInputEventNotification struct {
 
 // FetchEvent retrieves the V1IdentityVerificationSessionRequiresInputEvent that created this Notification
 func (n *V1IdentityVerificationSessionRequiresInputEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionRequiresInputEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3791,7 +3791,7 @@ type V1IdentityVerificationSessionVerifiedEventNotification struct {
 
 // FetchEvent retrieves the V1IdentityVerificationSessionVerifiedEvent that created this Notification
 func (n *V1IdentityVerificationSessionVerifiedEventNotification) FetchEvent(ctx context.Context) (*V1IdentityVerificationSessionVerifiedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3832,7 +3832,7 @@ type V1InvoiceCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceCreatedEvent that created this Notification
 func (n *V1InvoiceCreatedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3873,7 +3873,7 @@ type V1InvoiceDeletedEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceDeletedEvent that created this Notification
 func (n *V1InvoiceDeletedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3914,7 +3914,7 @@ type V1InvoiceFinalizationFailedEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceFinalizationFailedEvent that created this Notification
 func (n *V1InvoiceFinalizationFailedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceFinalizationFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3955,7 +3955,7 @@ type V1InvoiceFinalizedEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceFinalizedEvent that created this Notification
 func (n *V1InvoiceFinalizedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceFinalizedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3996,7 +3996,7 @@ type V1InvoiceMarkedUncollectibleEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceMarkedUncollectibleEvent that created this Notification
 func (n *V1InvoiceMarkedUncollectibleEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceMarkedUncollectibleEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4037,7 +4037,7 @@ type V1InvoiceOverdueEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceOverdueEvent that created this Notification
 func (n *V1InvoiceOverdueEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceOverdueEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4078,7 +4078,7 @@ type V1InvoiceOverpaidEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceOverpaidEvent that created this Notification
 func (n *V1InvoiceOverpaidEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceOverpaidEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4119,7 +4119,7 @@ type V1InvoicePaidEventNotification struct {
 
 // FetchEvent retrieves the V1InvoicePaidEvent that created this Notification
 func (n *V1InvoicePaidEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaidEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4160,7 +4160,7 @@ type V1InvoicePaymentActionRequiredEventNotification struct {
 
 // FetchEvent retrieves the V1InvoicePaymentActionRequiredEvent that created this Notification
 func (n *V1InvoicePaymentActionRequiredEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentActionRequiredEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4201,7 +4201,7 @@ type V1InvoicePaymentFailedEventNotification struct {
 
 // FetchEvent retrieves the V1InvoicePaymentFailedEvent that created this Notification
 func (n *V1InvoicePaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4242,7 +4242,7 @@ type V1InvoicePaymentSucceededEventNotification struct {
 
 // FetchEvent retrieves the V1InvoicePaymentSucceededEvent that created this Notification
 func (n *V1InvoicePaymentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4283,7 +4283,7 @@ type V1InvoiceSentEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceSentEvent that created this Notification
 func (n *V1InvoiceSentEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceSentEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4324,7 +4324,7 @@ type V1InvoiceUpcomingEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceUpcomingEvent that created this Notification
 func (n *V1InvoiceUpcomingEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceUpcomingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4365,7 +4365,7 @@ type V1InvoiceUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceUpdatedEvent that created this Notification
 func (n *V1InvoiceUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4406,7 +4406,7 @@ type V1InvoiceVoidedEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceVoidedEvent that created this Notification
 func (n *V1InvoiceVoidedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceVoidedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4447,7 +4447,7 @@ type V1InvoiceWillBeDueEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceWillBeDueEvent that created this Notification
 func (n *V1InvoiceWillBeDueEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceWillBeDueEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4488,7 +4488,7 @@ type V1InvoicePaymentPaidEventNotification struct {
 
 // FetchEvent retrieves the V1InvoicePaymentPaidEvent that created this Notification
 func (n *V1InvoicePaymentPaidEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentPaidEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4529,7 +4529,7 @@ type V1InvoiceitemCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceitemCreatedEvent that created this Notification
 func (n *V1InvoiceitemCreatedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4570,7 +4570,7 @@ type V1InvoiceitemDeletedEventNotification struct {
 
 // FetchEvent retrieves the V1InvoiceitemDeletedEvent that created this Notification
 func (n *V1InvoiceitemDeletedEventNotification) FetchEvent(ctx context.Context) (*V1InvoiceitemDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4611,7 +4611,7 @@ type V1IssuingAuthorizationCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingAuthorizationCreatedEvent that created this Notification
 func (n *V1IssuingAuthorizationCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4652,7 +4652,7 @@ type V1IssuingAuthorizationRequestEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingAuthorizationRequestEvent that created this Notification
 func (n *V1IssuingAuthorizationRequestEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationRequestEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4693,7 +4693,7 @@ type V1IssuingAuthorizationUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingAuthorizationUpdatedEvent that created this Notification
 func (n *V1IssuingAuthorizationUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingAuthorizationUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4734,7 +4734,7 @@ type V1IssuingCardCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingCardCreatedEvent that created this Notification
 func (n *V1IssuingCardCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4775,7 +4775,7 @@ type V1IssuingCardUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingCardUpdatedEvent that created this Notification
 func (n *V1IssuingCardUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4816,7 +4816,7 @@ type V1IssuingCardholderCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingCardholderCreatedEvent that created this Notification
 func (n *V1IssuingCardholderCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardholderCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4857,7 +4857,7 @@ type V1IssuingCardholderUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingCardholderUpdatedEvent that created this Notification
 func (n *V1IssuingCardholderUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingCardholderUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4898,7 +4898,7 @@ type V1IssuingDisputeClosedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingDisputeClosedEvent that created this Notification
 func (n *V1IssuingDisputeClosedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeClosedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4939,7 +4939,7 @@ type V1IssuingDisputeCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingDisputeCreatedEvent that created this Notification
 func (n *V1IssuingDisputeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4980,7 +4980,7 @@ type V1IssuingDisputeFundsReinstatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingDisputeFundsReinstatedEvent that created this Notification
 func (n *V1IssuingDisputeFundsReinstatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeFundsReinstatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5021,7 +5021,7 @@ type V1IssuingDisputeFundsRescindedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingDisputeFundsRescindedEvent that created this Notification
 func (n *V1IssuingDisputeFundsRescindedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeFundsRescindedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5062,7 +5062,7 @@ type V1IssuingDisputeSubmittedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingDisputeSubmittedEvent that created this Notification
 func (n *V1IssuingDisputeSubmittedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeSubmittedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5103,7 +5103,7 @@ type V1IssuingDisputeUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingDisputeUpdatedEvent that created this Notification
 func (n *V1IssuingDisputeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingDisputeUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5144,7 +5144,7 @@ type V1IssuingPersonalizationDesignActivatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingPersonalizationDesignActivatedEvent that created this Notification
 func (n *V1IssuingPersonalizationDesignActivatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignActivatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5185,7 +5185,7 @@ type V1IssuingPersonalizationDesignDeactivatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingPersonalizationDesignDeactivatedEvent that created this Notification
 func (n *V1IssuingPersonalizationDesignDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignDeactivatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5226,7 +5226,7 @@ type V1IssuingPersonalizationDesignRejectedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingPersonalizationDesignRejectedEvent that created this Notification
 func (n *V1IssuingPersonalizationDesignRejectedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignRejectedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5267,7 +5267,7 @@ type V1IssuingPersonalizationDesignUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingPersonalizationDesignUpdatedEvent that created this Notification
 func (n *V1IssuingPersonalizationDesignUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingPersonalizationDesignUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5308,7 +5308,7 @@ type V1IssuingTokenCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingTokenCreatedEvent that created this Notification
 func (n *V1IssuingTokenCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTokenCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5349,7 +5349,7 @@ type V1IssuingTokenUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingTokenUpdatedEvent that created this Notification
 func (n *V1IssuingTokenUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTokenUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5390,7 +5390,7 @@ type V1IssuingTransactionCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingTransactionCreatedEvent that created this Notification
 func (n *V1IssuingTransactionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTransactionCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5431,7 +5431,7 @@ type V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent that created this Notification
 func (n *V1IssuingTransactionPurchaseDetailsReceiptUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTransactionPurchaseDetailsReceiptUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5472,7 +5472,7 @@ type V1IssuingTransactionUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1IssuingTransactionUpdatedEvent that created this Notification
 func (n *V1IssuingTransactionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1IssuingTransactionUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5513,7 +5513,7 @@ type V1MandateUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1MandateUpdatedEvent that created this Notification
 func (n *V1MandateUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1MandateUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5554,7 +5554,7 @@ type V1PaymentIntentAmountCapturableUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentIntentAmountCapturableUpdatedEvent that created this Notification
 func (n *V1PaymentIntentAmountCapturableUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentAmountCapturableUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5595,7 +5595,7 @@ type V1PaymentIntentCanceledEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentIntentCanceledEvent that created this Notification
 func (n *V1PaymentIntentCanceledEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5636,7 +5636,7 @@ type V1PaymentIntentCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentIntentCreatedEvent that created this Notification
 func (n *V1PaymentIntentCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5677,7 +5677,7 @@ type V1PaymentIntentPartiallyFundedEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentIntentPartiallyFundedEvent that created this Notification
 func (n *V1PaymentIntentPartiallyFundedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentPartiallyFundedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5718,7 +5718,7 @@ type V1PaymentIntentPaymentFailedEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentIntentPaymentFailedEvent that created this Notification
 func (n *V1PaymentIntentPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentPaymentFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5759,7 +5759,7 @@ type V1PaymentIntentProcessingEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentIntentProcessingEvent that created this Notification
 func (n *V1PaymentIntentProcessingEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentProcessingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5800,7 +5800,7 @@ type V1PaymentIntentRequiresActionEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentIntentRequiresActionEvent that created this Notification
 func (n *V1PaymentIntentRequiresActionEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentRequiresActionEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5841,7 +5841,7 @@ type V1PaymentIntentSucceededEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentIntentSucceededEvent that created this Notification
 func (n *V1PaymentIntentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1PaymentIntentSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5882,7 +5882,7 @@ type V1PaymentLinkCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentLinkCreatedEvent that created this Notification
 func (n *V1PaymentLinkCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentLinkCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5923,7 +5923,7 @@ type V1PaymentLinkUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentLinkUpdatedEvent that created this Notification
 func (n *V1PaymentLinkUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentLinkUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5964,7 +5964,7 @@ type V1PaymentMethodAttachedEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentMethodAttachedEvent that created this Notification
 func (n *V1PaymentMethodAttachedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodAttachedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6005,7 +6005,7 @@ type V1PaymentMethodAutomaticallyUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentMethodAutomaticallyUpdatedEvent that created this Notification
 func (n *V1PaymentMethodAutomaticallyUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodAutomaticallyUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6046,7 +6046,7 @@ type V1PaymentMethodDetachedEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentMethodDetachedEvent that created this Notification
 func (n *V1PaymentMethodDetachedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodDetachedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6087,7 +6087,7 @@ type V1PaymentMethodUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1PaymentMethodUpdatedEvent that created this Notification
 func (n *V1PaymentMethodUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PaymentMethodUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6128,7 +6128,7 @@ type V1PayoutCanceledEventNotification struct {
 
 // FetchEvent retrieves the V1PayoutCanceledEvent that created this Notification
 func (n *V1PayoutCanceledEventNotification) FetchEvent(ctx context.Context) (*V1PayoutCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6169,7 +6169,7 @@ type V1PayoutCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1PayoutCreatedEvent that created this Notification
 func (n *V1PayoutCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6210,7 +6210,7 @@ type V1PayoutFailedEventNotification struct {
 
 // FetchEvent retrieves the V1PayoutFailedEvent that created this Notification
 func (n *V1PayoutFailedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6251,7 +6251,7 @@ type V1PayoutPaidEventNotification struct {
 
 // FetchEvent retrieves the V1PayoutPaidEvent that created this Notification
 func (n *V1PayoutPaidEventNotification) FetchEvent(ctx context.Context) (*V1PayoutPaidEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6292,7 +6292,7 @@ type V1PayoutReconciliationCompletedEventNotification struct {
 
 // FetchEvent retrieves the V1PayoutReconciliationCompletedEvent that created this Notification
 func (n *V1PayoutReconciliationCompletedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutReconciliationCompletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6333,7 +6333,7 @@ type V1PayoutUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1PayoutUpdatedEvent that created this Notification
 func (n *V1PayoutUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PayoutUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6374,7 +6374,7 @@ type V1PersonCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1PersonCreatedEvent that created this Notification
 func (n *V1PersonCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PersonCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6415,7 +6415,7 @@ type V1PersonDeletedEventNotification struct {
 
 // FetchEvent retrieves the V1PersonDeletedEvent that created this Notification
 func (n *V1PersonDeletedEventNotification) FetchEvent(ctx context.Context) (*V1PersonDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6456,7 +6456,7 @@ type V1PersonUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1PersonUpdatedEvent that created this Notification
 func (n *V1PersonUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PersonUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6497,7 +6497,7 @@ type V1PlanCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1PlanCreatedEvent that created this Notification
 func (n *V1PlanCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PlanCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6538,7 +6538,7 @@ type V1PlanDeletedEventNotification struct {
 
 // FetchEvent retrieves the V1PlanDeletedEvent that created this Notification
 func (n *V1PlanDeletedEventNotification) FetchEvent(ctx context.Context) (*V1PlanDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6579,7 +6579,7 @@ type V1PlanUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1PlanUpdatedEvent that created this Notification
 func (n *V1PlanUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PlanUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6620,7 +6620,7 @@ type V1PriceCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1PriceCreatedEvent that created this Notification
 func (n *V1PriceCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PriceCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6661,7 +6661,7 @@ type V1PriceDeletedEventNotification struct {
 
 // FetchEvent retrieves the V1PriceDeletedEvent that created this Notification
 func (n *V1PriceDeletedEventNotification) FetchEvent(ctx context.Context) (*V1PriceDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6702,7 +6702,7 @@ type V1PriceUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1PriceUpdatedEvent that created this Notification
 func (n *V1PriceUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PriceUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6743,7 +6743,7 @@ type V1ProductCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1ProductCreatedEvent that created this Notification
 func (n *V1ProductCreatedEventNotification) FetchEvent(ctx context.Context) (*V1ProductCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6784,7 +6784,7 @@ type V1ProductDeletedEventNotification struct {
 
 // FetchEvent retrieves the V1ProductDeletedEvent that created this Notification
 func (n *V1ProductDeletedEventNotification) FetchEvent(ctx context.Context) (*V1ProductDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6825,7 +6825,7 @@ type V1ProductUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1ProductUpdatedEvent that created this Notification
 func (n *V1ProductUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1ProductUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6866,7 +6866,7 @@ type V1PromotionCodeCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1PromotionCodeCreatedEvent that created this Notification
 func (n *V1PromotionCodeCreatedEventNotification) FetchEvent(ctx context.Context) (*V1PromotionCodeCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6907,7 +6907,7 @@ type V1PromotionCodeUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1PromotionCodeUpdatedEvent that created this Notification
 func (n *V1PromotionCodeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1PromotionCodeUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6948,7 +6948,7 @@ type V1QuoteAcceptedEventNotification struct {
 
 // FetchEvent retrieves the V1QuoteAcceptedEvent that created this Notification
 func (n *V1QuoteAcceptedEventNotification) FetchEvent(ctx context.Context) (*V1QuoteAcceptedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6989,7 +6989,7 @@ type V1QuoteCanceledEventNotification struct {
 
 // FetchEvent retrieves the V1QuoteCanceledEvent that created this Notification
 func (n *V1QuoteCanceledEventNotification) FetchEvent(ctx context.Context) (*V1QuoteCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7030,7 +7030,7 @@ type V1QuoteCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1QuoteCreatedEvent that created this Notification
 func (n *V1QuoteCreatedEventNotification) FetchEvent(ctx context.Context) (*V1QuoteCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7071,7 +7071,7 @@ type V1QuoteFinalizedEventNotification struct {
 
 // FetchEvent retrieves the V1QuoteFinalizedEvent that created this Notification
 func (n *V1QuoteFinalizedEventNotification) FetchEvent(ctx context.Context) (*V1QuoteFinalizedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7112,7 +7112,7 @@ type V1RadarEarlyFraudWarningCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1RadarEarlyFraudWarningCreatedEvent that created this Notification
 func (n *V1RadarEarlyFraudWarningCreatedEventNotification) FetchEvent(ctx context.Context) (*V1RadarEarlyFraudWarningCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7153,7 +7153,7 @@ type V1RadarEarlyFraudWarningUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1RadarEarlyFraudWarningUpdatedEvent that created this Notification
 func (n *V1RadarEarlyFraudWarningUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1RadarEarlyFraudWarningUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7194,7 +7194,7 @@ type V1RefundCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1RefundCreatedEvent that created this Notification
 func (n *V1RefundCreatedEventNotification) FetchEvent(ctx context.Context) (*V1RefundCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7235,7 +7235,7 @@ type V1RefundFailedEventNotification struct {
 
 // FetchEvent retrieves the V1RefundFailedEvent that created this Notification
 func (n *V1RefundFailedEventNotification) FetchEvent(ctx context.Context) (*V1RefundFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7276,7 +7276,7 @@ type V1RefundUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1RefundUpdatedEvent that created this Notification
 func (n *V1RefundUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1RefundUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7317,7 +7317,7 @@ type V1ReviewClosedEventNotification struct {
 
 // FetchEvent retrieves the V1ReviewClosedEvent that created this Notification
 func (n *V1ReviewClosedEventNotification) FetchEvent(ctx context.Context) (*V1ReviewClosedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7358,7 +7358,7 @@ type V1ReviewOpenedEventNotification struct {
 
 // FetchEvent retrieves the V1ReviewOpenedEvent that created this Notification
 func (n *V1ReviewOpenedEventNotification) FetchEvent(ctx context.Context) (*V1ReviewOpenedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7399,7 +7399,7 @@ type V1SetupIntentCanceledEventNotification struct {
 
 // FetchEvent retrieves the V1SetupIntentCanceledEvent that created this Notification
 func (n *V1SetupIntentCanceledEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7440,7 +7440,7 @@ type V1SetupIntentCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1SetupIntentCreatedEvent that created this Notification
 func (n *V1SetupIntentCreatedEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7481,7 +7481,7 @@ type V1SetupIntentRequiresActionEventNotification struct {
 
 // FetchEvent retrieves the V1SetupIntentRequiresActionEvent that created this Notification
 func (n *V1SetupIntentRequiresActionEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentRequiresActionEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7522,7 +7522,7 @@ type V1SetupIntentSetupFailedEventNotification struct {
 
 // FetchEvent retrieves the V1SetupIntentSetupFailedEvent that created this Notification
 func (n *V1SetupIntentSetupFailedEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentSetupFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7563,7 +7563,7 @@ type V1SetupIntentSucceededEventNotification struct {
 
 // FetchEvent retrieves the V1SetupIntentSucceededEvent that created this Notification
 func (n *V1SetupIntentSucceededEventNotification) FetchEvent(ctx context.Context) (*V1SetupIntentSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7604,7 +7604,7 @@ type V1SigmaScheduledQueryRunCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1SigmaScheduledQueryRunCreatedEvent that created this Notification
 func (n *V1SigmaScheduledQueryRunCreatedEventNotification) FetchEvent(ctx context.Context) (*V1SigmaScheduledQueryRunCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7645,7 +7645,7 @@ type V1SourceCanceledEventNotification struct {
 
 // FetchEvent retrieves the V1SourceCanceledEvent that created this Notification
 func (n *V1SourceCanceledEventNotification) FetchEvent(ctx context.Context) (*V1SourceCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7686,7 +7686,7 @@ type V1SourceChargeableEventNotification struct {
 
 // FetchEvent retrieves the V1SourceChargeableEvent that created this Notification
 func (n *V1SourceChargeableEventNotification) FetchEvent(ctx context.Context) (*V1SourceChargeableEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7727,7 +7727,7 @@ type V1SourceFailedEventNotification struct {
 
 // FetchEvent retrieves the V1SourceFailedEvent that created this Notification
 func (n *V1SourceFailedEventNotification) FetchEvent(ctx context.Context) (*V1SourceFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7768,7 +7768,7 @@ type V1SourceRefundAttributesRequiredEventNotification struct {
 
 // FetchEvent retrieves the V1SourceRefundAttributesRequiredEvent that created this Notification
 func (n *V1SourceRefundAttributesRequiredEventNotification) FetchEvent(ctx context.Context) (*V1SourceRefundAttributesRequiredEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7809,7 +7809,7 @@ type V1SubscriptionScheduleAbortedEventNotification struct {
 
 // FetchEvent retrieves the V1SubscriptionScheduleAbortedEvent that created this Notification
 func (n *V1SubscriptionScheduleAbortedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleAbortedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7850,7 +7850,7 @@ type V1SubscriptionScheduleCanceledEventNotification struct {
 
 // FetchEvent retrieves the V1SubscriptionScheduleCanceledEvent that created this Notification
 func (n *V1SubscriptionScheduleCanceledEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7891,7 +7891,7 @@ type V1SubscriptionScheduleCompletedEventNotification struct {
 
 // FetchEvent retrieves the V1SubscriptionScheduleCompletedEvent that created this Notification
 func (n *V1SubscriptionScheduleCompletedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleCompletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7932,7 +7932,7 @@ type V1SubscriptionScheduleCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1SubscriptionScheduleCreatedEvent that created this Notification
 func (n *V1SubscriptionScheduleCreatedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7973,7 +7973,7 @@ type V1SubscriptionScheduleExpiringEventNotification struct {
 
 // FetchEvent retrieves the V1SubscriptionScheduleExpiringEvent that created this Notification
 func (n *V1SubscriptionScheduleExpiringEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleExpiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8014,7 +8014,7 @@ type V1SubscriptionScheduleReleasedEventNotification struct {
 
 // FetchEvent retrieves the V1SubscriptionScheduleReleasedEvent that created this Notification
 func (n *V1SubscriptionScheduleReleasedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleReleasedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8055,7 +8055,7 @@ type V1SubscriptionScheduleUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1SubscriptionScheduleUpdatedEvent that created this Notification
 func (n *V1SubscriptionScheduleUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1SubscriptionScheduleUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8096,7 +8096,7 @@ type V1TaxSettingsUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1TaxSettingsUpdatedEvent that created this Notification
 func (n *V1TaxSettingsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1TaxSettingsUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8137,7 +8137,7 @@ type V1TaxRateCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1TaxRateCreatedEvent that created this Notification
 func (n *V1TaxRateCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TaxRateCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8178,7 +8178,7 @@ type V1TaxRateUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1TaxRateUpdatedEvent that created this Notification
 func (n *V1TaxRateUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1TaxRateUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8219,7 +8219,7 @@ type V1TerminalReaderActionFailedEventNotification struct {
 
 // FetchEvent retrieves the V1TerminalReaderActionFailedEvent that created this Notification
 func (n *V1TerminalReaderActionFailedEventNotification) FetchEvent(ctx context.Context) (*V1TerminalReaderActionFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8260,7 +8260,7 @@ type V1TerminalReaderActionSucceededEventNotification struct {
 
 // FetchEvent retrieves the V1TerminalReaderActionSucceededEvent that created this Notification
 func (n *V1TerminalReaderActionSucceededEventNotification) FetchEvent(ctx context.Context) (*V1TerminalReaderActionSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8301,7 +8301,7 @@ type V1TerminalReaderActionUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1TerminalReaderActionUpdatedEvent that created this Notification
 func (n *V1TerminalReaderActionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1TerminalReaderActionUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8342,7 +8342,7 @@ type V1TestHelpersTestClockAdvancingEventNotification struct {
 
 // FetchEvent retrieves the V1TestHelpersTestClockAdvancingEvent that created this Notification
 func (n *V1TestHelpersTestClockAdvancingEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockAdvancingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8383,7 +8383,7 @@ type V1TestHelpersTestClockCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1TestHelpersTestClockCreatedEvent that created this Notification
 func (n *V1TestHelpersTestClockCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8424,7 +8424,7 @@ type V1TestHelpersTestClockDeletedEventNotification struct {
 
 // FetchEvent retrieves the V1TestHelpersTestClockDeletedEvent that created this Notification
 func (n *V1TestHelpersTestClockDeletedEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8465,7 +8465,7 @@ type V1TestHelpersTestClockInternalFailureEventNotification struct {
 
 // FetchEvent retrieves the V1TestHelpersTestClockInternalFailureEvent that created this Notification
 func (n *V1TestHelpersTestClockInternalFailureEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockInternalFailureEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8506,7 +8506,7 @@ type V1TestHelpersTestClockReadyEventNotification struct {
 
 // FetchEvent retrieves the V1TestHelpersTestClockReadyEvent that created this Notification
 func (n *V1TestHelpersTestClockReadyEventNotification) FetchEvent(ctx context.Context) (*V1TestHelpersTestClockReadyEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8547,7 +8547,7 @@ type V1TopupCanceledEventNotification struct {
 
 // FetchEvent retrieves the V1TopupCanceledEvent that created this Notification
 func (n *V1TopupCanceledEventNotification) FetchEvent(ctx context.Context) (*V1TopupCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8588,7 +8588,7 @@ type V1TopupCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1TopupCreatedEvent that created this Notification
 func (n *V1TopupCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TopupCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8629,7 +8629,7 @@ type V1TopupFailedEventNotification struct {
 
 // FetchEvent retrieves the V1TopupFailedEvent that created this Notification
 func (n *V1TopupFailedEventNotification) FetchEvent(ctx context.Context) (*V1TopupFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8670,7 +8670,7 @@ type V1TopupReversedEventNotification struct {
 
 // FetchEvent retrieves the V1TopupReversedEvent that created this Notification
 func (n *V1TopupReversedEventNotification) FetchEvent(ctx context.Context) (*V1TopupReversedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8711,7 +8711,7 @@ type V1TopupSucceededEventNotification struct {
 
 // FetchEvent retrieves the V1TopupSucceededEvent that created this Notification
 func (n *V1TopupSucceededEventNotification) FetchEvent(ctx context.Context) (*V1TopupSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8752,7 +8752,7 @@ type V1TransferCreatedEventNotification struct {
 
 // FetchEvent retrieves the V1TransferCreatedEvent that created this Notification
 func (n *V1TransferCreatedEventNotification) FetchEvent(ctx context.Context) (*V1TransferCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8793,7 +8793,7 @@ type V1TransferReversedEventNotification struct {
 
 // FetchEvent retrieves the V1TransferReversedEvent that created this Notification
 func (n *V1TransferReversedEventNotification) FetchEvent(ctx context.Context) (*V1TransferReversedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8834,7 +8834,7 @@ type V1TransferUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V1TransferUpdatedEvent that created this Notification
 func (n *V1TransferUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1TransferUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8876,7 +8876,7 @@ type V2BillingCadenceBilledEventNotification struct {
 
 // FetchEvent retrieves the V2BillingCadenceBilledEvent that created this Notification
 func (n *V2BillingCadenceBilledEventNotification) FetchEvent(ctx context.Context) (*V2BillingCadenceBilledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8917,7 +8917,7 @@ type V2BillingCadenceCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2BillingCadenceCanceledEvent that created this Notification
 func (n *V2BillingCadenceCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingCadenceCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8959,7 +8959,7 @@ type V2BillingCadenceCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingCadenceCreatedEvent that created this Notification
 func (n *V2BillingCadenceCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingCadenceCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9000,7 +9000,7 @@ type V2BillingLicenseFeeCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingLicenseFeeCreatedEvent that created this Notification
 func (n *V2BillingLicenseFeeCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicenseFeeCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9041,7 +9041,7 @@ type V2BillingLicenseFeeUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingLicenseFeeUpdatedEvent that created this Notification
 func (n *V2BillingLicenseFeeUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicenseFeeUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9083,7 +9083,7 @@ type V2BillingLicenseFeeVersionCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingLicenseFeeVersionCreatedEvent that created this Notification
 func (n *V2BillingLicenseFeeVersionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicenseFeeVersionCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9124,7 +9124,7 @@ type V2BillingLicensedItemCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingLicensedItemCreatedEvent that created this Notification
 func (n *V2BillingLicensedItemCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicensedItemCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9165,7 +9165,7 @@ type V2BillingLicensedItemUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingLicensedItemUpdatedEvent that created this Notification
 func (n *V2BillingLicensedItemUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingLicensedItemUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9206,7 +9206,7 @@ type V2BillingMeteredItemCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingMeteredItemCreatedEvent that created this Notification
 func (n *V2BillingMeteredItemCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingMeteredItemCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9247,7 +9247,7 @@ type V2BillingMeteredItemUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingMeteredItemUpdatedEvent that created this Notification
 func (n *V2BillingMeteredItemUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingMeteredItemUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9288,7 +9288,7 @@ type V2BillingPricingPlanCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingPricingPlanCreatedEvent that created this Notification
 func (n *V2BillingPricingPlanCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9329,7 +9329,7 @@ type V2BillingPricingPlanUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingPricingPlanUpdatedEvent that created this Notification
 func (n *V2BillingPricingPlanUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9371,7 +9371,7 @@ type V2BillingPricingPlanComponentCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingPricingPlanComponentCreatedEvent that created this Notification
 func (n *V2BillingPricingPlanComponentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanComponentCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9413,7 +9413,7 @@ type V2BillingPricingPlanComponentUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingPricingPlanComponentUpdatedEvent that created this Notification
 func (n *V2BillingPricingPlanComponentUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanComponentUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9454,7 +9454,7 @@ type V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotifi
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9495,7 +9495,7 @@ type V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification struct {
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionCurrentEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionCollectionCurrentEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionCurrentEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9536,7 +9536,7 @@ type V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification struct {
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionPastDueEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionCollectionPastDueEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionPastDueEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9577,7 +9577,7 @@ type V2BillingPricingPlanSubscriptionCollectionPausedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionPausedEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionCollectionPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionPausedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9618,7 +9618,7 @@ type V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification struct {
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionCollectionUnpaidEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionCollectionUnpaidEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionCollectionUnpaidEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9659,7 +9659,7 @@ type V2BillingPricingPlanSubscriptionServicingActivatedEventNotification struct 
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionServicingActivatedEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionServicingActivatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionServicingActivatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9700,7 +9700,7 @@ type V2BillingPricingPlanSubscriptionServicingCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionServicingCanceledEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionServicingCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionServicingCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9741,7 +9741,7 @@ type V2BillingPricingPlanSubscriptionServicingPausedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingPricingPlanSubscriptionServicingPausedEvent that created this Notification
 func (n *V2BillingPricingPlanSubscriptionServicingPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanSubscriptionServicingPausedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9783,7 +9783,7 @@ type V2BillingPricingPlanVersionCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingPricingPlanVersionCreatedEvent that created this Notification
 func (n *V2BillingPricingPlanVersionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingPricingPlanVersionCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9825,7 +9825,7 @@ type V2BillingRateCardCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingRateCardCreatedEvent that created this Notification
 func (n *V2BillingRateCardCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9866,7 +9866,7 @@ type V2BillingRateCardUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingRateCardUpdatedEvent that created this Notification
 func (n *V2BillingRateCardUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9908,7 +9908,7 @@ type V2BillingRateCardCustomPricingUnitOverageRateCreatedEventNotification struc
 
 // FetchEvent retrieves the V2BillingRateCardCustomPricingUnitOverageRateCreatedEvent that created this Notification
 func (n *V2BillingRateCardCustomPricingUnitOverageRateCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardCustomPricingUnitOverageRateCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9950,7 +9950,7 @@ type V2BillingRateCardRateCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingRateCardRateCreatedEvent that created this Notification
 func (n *V2BillingRateCardRateCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardRateCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9991,7 +9991,7 @@ type V2BillingRateCardSubscriptionActivatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionActivatedEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionActivatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionActivatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10032,7 +10032,7 @@ type V2BillingRateCardSubscriptionCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCanceledEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10073,7 +10073,7 @@ type V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotificat
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10114,7 +10114,7 @@ type V2BillingRateCardSubscriptionCollectionCurrentEventNotification struct {
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionCurrentEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionCollectionCurrentEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionCurrentEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10155,7 +10155,7 @@ type V2BillingRateCardSubscriptionCollectionPastDueEventNotification struct {
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionPastDueEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionCollectionPastDueEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionPastDueEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10196,7 +10196,7 @@ type V2BillingRateCardSubscriptionCollectionPausedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionPausedEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionCollectionPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionPausedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10237,7 +10237,7 @@ type V2BillingRateCardSubscriptionCollectionUnpaidEventNotification struct {
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionCollectionUnpaidEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionCollectionUnpaidEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionCollectionUnpaidEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10278,7 +10278,7 @@ type V2BillingRateCardSubscriptionServicingActivatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionServicingActivatedEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionServicingActivatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionServicingActivatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10319,7 +10319,7 @@ type V2BillingRateCardSubscriptionServicingCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionServicingCanceledEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionServicingCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionServicingCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10360,7 +10360,7 @@ type V2BillingRateCardSubscriptionServicingPausedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingRateCardSubscriptionServicingPausedEvent that created this Notification
 func (n *V2BillingRateCardSubscriptionServicingPausedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardSubscriptionServicingPausedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10402,7 +10402,7 @@ type V2BillingRateCardVersionCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2BillingRateCardVersionCreatedEvent that created this Notification
 func (n *V2BillingRateCardVersionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingRateCardVersionCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10443,7 +10443,7 @@ type V2CommerceProductCatalogImportsFailedEventNotification struct {
 
 // FetchEvent retrieves the V2CommerceProductCatalogImportsFailedEvent that created this Notification
 func (n *V2CommerceProductCatalogImportsFailedEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10484,7 +10484,7 @@ type V2CommerceProductCatalogImportsProcessingEventNotification struct {
 
 // FetchEvent retrieves the V2CommerceProductCatalogImportsProcessingEvent that created this Notification
 func (n *V2CommerceProductCatalogImportsProcessingEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsProcessingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10525,7 +10525,7 @@ type V2CommerceProductCatalogImportsSucceededEventNotification struct {
 
 // FetchEvent retrieves the V2CommerceProductCatalogImportsSucceededEvent that created this Notification
 func (n *V2CommerceProductCatalogImportsSucceededEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10566,7 +10566,7 @@ type V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification struct 
 
 // FetchEvent retrieves the V2CommerceProductCatalogImportsSucceededWithErrorsEvent that created this Notification
 func (n *V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsSucceededWithErrorsEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10607,7 +10607,7 @@ type V2CoreAccountClosedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountClosedEvent that created this Notification
 func (n *V2CoreAccountClosedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountClosedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10648,7 +10648,7 @@ type V2CoreAccountCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountCreatedEvent that created this Notification
 func (n *V2CoreAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10689,7 +10689,7 @@ type V2CoreAccountUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountUpdatedEvent that created this Notification
 func (n *V2CoreAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10731,7 +10731,7 @@ type V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventN
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCardCreatorCapabilityStatusUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10772,7 +10772,7 @@ type V2CoreAccountIncludingConfigurationCardCreatorUpdatedEventNotification stru
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationCardCreatorUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationCardCreatorUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCardCreatorUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10814,7 +10814,7 @@ type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNoti
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10855,7 +10855,7 @@ type V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification struct 
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationCustomerUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCustomerUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10897,7 +10897,7 @@ type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNoti
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10938,7 +10938,7 @@ type V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification struct 
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationMerchantUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMerchantUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10980,7 +10980,7 @@ type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNot
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11021,7 +11021,7 @@ type V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification struct
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationRecipientUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationRecipientUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11063,7 +11063,7 @@ type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotifi
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11104,7 +11104,7 @@ type V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationStorerUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationStorerUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11145,7 +11145,7 @@ type V2CoreAccountIncludingDefaultsUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountIncludingDefaultsUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingDefaultsUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11186,7 +11186,7 @@ type V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountIncludingFutureRequirementsUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingFutureRequirementsUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11227,7 +11227,7 @@ type V2CoreAccountIncludingIdentityUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountIncludingIdentityUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingIdentityUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11268,7 +11268,7 @@ type V2CoreAccountIncludingRequirementsUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountIncludingRequirementsUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingRequirementsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingRequirementsUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11302,7 +11302,7 @@ type V2CoreAccountLinkReturnedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountLinkReturnedEvent that created this Notification
 func (n *V2CoreAccountLinkReturnedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountLinkReturnedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11332,7 +11332,7 @@ type V2CoreAccountPersonCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountPersonCreatedEvent that created this Notification
 func (n *V2CoreAccountPersonCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11374,7 +11374,7 @@ type V2CoreAccountPersonDeletedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountPersonDeletedEvent that created this Notification
 func (n *V2CoreAccountPersonDeletedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11416,7 +11416,7 @@ type V2CoreAccountPersonUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountPersonUpdatedEvent that created this Notification
 func (n *V2CoreAccountPersonUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11450,7 +11450,7 @@ type V2CoreAccountSignalsFraudulentWebsiteReadyEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountSignalsFraudulentWebsiteReadyEvent that created this Notification
 func (n *V2CoreAccountSignalsFraudulentWebsiteReadyEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountSignalsFraudulentWebsiteReadyEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11479,7 +11479,7 @@ type V2CoreApprovalRequestApprovedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreApprovalRequestApprovedEvent that created this Notification
 func (n *V2CoreApprovalRequestApprovedEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestApprovedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11520,7 +11520,7 @@ type V2CoreApprovalRequestCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2CoreApprovalRequestCanceledEvent that created this Notification
 func (n *V2CoreApprovalRequestCanceledEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11561,7 +11561,7 @@ type V2CoreApprovalRequestCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreApprovalRequestCreatedEvent that created this Notification
 func (n *V2CoreApprovalRequestCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11602,7 +11602,7 @@ type V2CoreApprovalRequestExpiredEventNotification struct {
 
 // FetchEvent retrieves the V2CoreApprovalRequestExpiredEvent that created this Notification
 func (n *V2CoreApprovalRequestExpiredEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestExpiredEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11643,7 +11643,7 @@ type V2CoreApprovalRequestFailedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreApprovalRequestFailedEvent that created this Notification
 func (n *V2CoreApprovalRequestFailedEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11684,7 +11684,7 @@ type V2CoreApprovalRequestRejectedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreApprovalRequestRejectedEvent that created this Notification
 func (n *V2CoreApprovalRequestRejectedEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestRejectedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11725,7 +11725,7 @@ type V2CoreApprovalRequestSucceededEventNotification struct {
 
 // FetchEvent retrieves the V2CoreApprovalRequestSucceededEvent that created this Notification
 func (n *V2CoreApprovalRequestSucceededEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11766,7 +11766,7 @@ type V2CoreBatchJobBatchFailedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobBatchFailedEvent that created this Notification
 func (n *V2CoreBatchJobBatchFailedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobBatchFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11807,7 +11807,7 @@ type V2CoreBatchJobCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobCanceledEvent that created this Notification
 func (n *V2CoreBatchJobCanceledEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11848,7 +11848,7 @@ type V2CoreBatchJobCompletedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobCompletedEvent that created this Notification
 func (n *V2CoreBatchJobCompletedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobCompletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11889,7 +11889,7 @@ type V2CoreBatchJobCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobCreatedEvent that created this Notification
 func (n *V2CoreBatchJobCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11930,7 +11930,7 @@ type V2CoreBatchJobReadyForUploadEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobReadyForUploadEvent that created this Notification
 func (n *V2CoreBatchJobReadyForUploadEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobReadyForUploadEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11971,7 +11971,7 @@ type V2CoreBatchJobTimeoutEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobTimeoutEvent that created this Notification
 func (n *V2CoreBatchJobTimeoutEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobTimeoutEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12012,7 +12012,7 @@ type V2CoreBatchJobUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobUpdatedEvent that created this Notification
 func (n *V2CoreBatchJobUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12053,7 +12053,7 @@ type V2CoreBatchJobUploadTimeoutEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobUploadTimeoutEvent that created this Notification
 func (n *V2CoreBatchJobUploadTimeoutEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobUploadTimeoutEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12094,7 +12094,7 @@ type V2CoreBatchJobValidatingEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobValidatingEvent that created this Notification
 func (n *V2CoreBatchJobValidatingEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobValidatingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12135,7 +12135,7 @@ type V2CoreBatchJobValidationFailedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobValidationFailedEvent that created this Notification
 func (n *V2CoreBatchJobValidationFailedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobValidationFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12176,7 +12176,7 @@ type V2CoreClaimableSandboxClaimedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreClaimableSandboxClaimedEvent that created this Notification
 func (n *V2CoreClaimableSandboxClaimedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxClaimedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12217,7 +12217,7 @@ type V2CoreClaimableSandboxCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreClaimableSandboxCreatedEvent that created this Notification
 func (n *V2CoreClaimableSandboxCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12258,7 +12258,7 @@ type V2CoreClaimableSandboxExpiredEventNotification struct {
 
 // FetchEvent retrieves the V2CoreClaimableSandboxExpiredEvent that created this Notification
 func (n *V2CoreClaimableSandboxExpiredEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxExpiredEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12299,7 +12299,7 @@ type V2CoreClaimableSandboxExpiringEventNotification struct {
 
 // FetchEvent retrieves the V2CoreClaimableSandboxExpiringEvent that created this Notification
 func (n *V2CoreClaimableSandboxExpiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxExpiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12340,7 +12340,7 @@ type V2CoreClaimableSandboxUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreClaimableSandboxUpdatedEvent that created this Notification
 func (n *V2CoreClaimableSandboxUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreClaimableSandboxUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12381,7 +12381,7 @@ type V2CoreEventDestinationPingEventNotification struct {
 
 // FetchEvent retrieves the V2CoreEventDestinationPingEvent that created this Notification
 func (n *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Context) (*V2CoreEventDestinationPingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12415,7 +12415,7 @@ type V2CoreHealthAPIErrorFiringEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthAPIErrorFiringEvent that created this Notification
 func (n *V2CoreHealthAPIErrorFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPIErrorFiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12437,7 +12437,7 @@ type V2CoreHealthAPIErrorResolvedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthAPIErrorResolvedEvent that created this Notification
 func (n *V2CoreHealthAPIErrorResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPIErrorResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12459,7 +12459,7 @@ type V2CoreHealthAPILatencyFiringEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthAPILatencyFiringEvent that created this Notification
 func (n *V2CoreHealthAPILatencyFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPILatencyFiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12481,7 +12481,7 @@ type V2CoreHealthAPILatencyResolvedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthAPILatencyResolvedEvent that created this Notification
 func (n *V2CoreHealthAPILatencyResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAPILatencyResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12503,7 +12503,7 @@ type V2CoreHealthAuthorizationRateDropFiringEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthAuthorizationRateDropFiringEvent that created this Notification
 func (n *V2CoreHealthAuthorizationRateDropFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAuthorizationRateDropFiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12525,7 +12525,7 @@ type V2CoreHealthAuthorizationRateDropResolvedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthAuthorizationRateDropResolvedEvent that created this Notification
 func (n *V2CoreHealthAuthorizationRateDropResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthAuthorizationRateDropResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12547,7 +12547,7 @@ type V2CoreHealthElementsErrorFiringEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthElementsErrorFiringEvent that created this Notification
 func (n *V2CoreHealthElementsErrorFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthElementsErrorFiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12569,7 +12569,7 @@ type V2CoreHealthElementsErrorResolvedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthElementsErrorResolvedEvent that created this Notification
 func (n *V2CoreHealthElementsErrorResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthElementsErrorResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12591,7 +12591,7 @@ type V2CoreHealthEventGenerationFailureResolvedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthEventGenerationFailureResolvedEvent that created this Notification
 func (n *V2CoreHealthEventGenerationFailureResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthEventGenerationFailureResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12613,7 +12613,7 @@ type V2CoreHealthFraudRateIncreasedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthFraudRateIncreasedEvent that created this Notification
 func (n *V2CoreHealthFraudRateIncreasedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthFraudRateIncreasedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12635,7 +12635,7 @@ type V2CoreHealthInvoiceCountDroppedFiringEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthInvoiceCountDroppedFiringEvent that created this Notification
 func (n *V2CoreHealthInvoiceCountDroppedFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthInvoiceCountDroppedFiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12657,7 +12657,7 @@ type V2CoreHealthInvoiceCountDroppedResolvedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthInvoiceCountDroppedResolvedEvent that created this Notification
 func (n *V2CoreHealthInvoiceCountDroppedResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthInvoiceCountDroppedResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12679,7 +12679,7 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventNotification struct
 
 // FetchEvent retrieves the V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent that created this Notification
 func (n *V2CoreHealthIssuingAuthorizationRequestErrorsFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestErrorsFiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12701,7 +12701,7 @@ type V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventNotification stru
 
 // FetchEvent retrieves the V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent that created this Notification
 func (n *V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestErrorsResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12723,7 +12723,7 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventNotification struc
 
 // FetchEvent retrieves the V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent that created this Notification
 func (n *V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestTimeoutFiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12745,7 +12745,7 @@ type V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventNotification str
 
 // FetchEvent retrieves the V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent that created this Notification
 func (n *V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthIssuingAuthorizationRequestTimeoutResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12767,7 +12767,7 @@ type V2CoreHealthMeterEventSummariesDelayedFiringEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthMeterEventSummariesDelayedFiringEvent that created this Notification
 func (n *V2CoreHealthMeterEventSummariesDelayedFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthMeterEventSummariesDelayedFiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12789,7 +12789,7 @@ type V2CoreHealthMeterEventSummariesDelayedResolvedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthMeterEventSummariesDelayedResolvedEvent that created this Notification
 func (n *V2CoreHealthMeterEventSummariesDelayedResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthMeterEventSummariesDelayedResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12811,7 +12811,7 @@ type V2CoreHealthPaymentMethodErrorFiringEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthPaymentMethodErrorFiringEvent that created this Notification
 func (n *V2CoreHealthPaymentMethodErrorFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthPaymentMethodErrorFiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12833,7 +12833,7 @@ type V2CoreHealthPaymentMethodErrorResolvedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthPaymentMethodErrorResolvedEvent that created this Notification
 func (n *V2CoreHealthPaymentMethodErrorResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthPaymentMethodErrorResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12855,7 +12855,7 @@ type V2CoreHealthSEPADebitDelayedFiringEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthSEPADebitDelayedFiringEvent that created this Notification
 func (n *V2CoreHealthSEPADebitDelayedFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthSEPADebitDelayedFiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12877,7 +12877,7 @@ type V2CoreHealthSEPADebitDelayedResolvedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthSEPADebitDelayedResolvedEvent that created this Notification
 func (n *V2CoreHealthSEPADebitDelayedResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthSEPADebitDelayedResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12899,7 +12899,7 @@ type V2CoreHealthTrafficVolumeDropFiringEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthTrafficVolumeDropFiringEvent that created this Notification
 func (n *V2CoreHealthTrafficVolumeDropFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthTrafficVolumeDropFiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12921,7 +12921,7 @@ type V2CoreHealthTrafficVolumeDropResolvedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthTrafficVolumeDropResolvedEvent that created this Notification
 func (n *V2CoreHealthTrafficVolumeDropResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthTrafficVolumeDropResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12943,7 +12943,7 @@ type V2CoreHealthWebhookLatencyFiringEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthWebhookLatencyFiringEvent that created this Notification
 func (n *V2CoreHealthWebhookLatencyFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthWebhookLatencyFiringEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12965,7 +12965,7 @@ type V2CoreHealthWebhookLatencyResolvedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthWebhookLatencyResolvedEvent that created this Notification
 func (n *V2CoreHealthWebhookLatencyResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthWebhookLatencyResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12994,7 +12994,7 @@ type V2DataReportingQueryRunCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2DataReportingQueryRunCreatedEvent that created this Notification
 func (n *V2DataReportingQueryRunCreatedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13035,7 +13035,7 @@ type V2DataReportingQueryRunFailedEventNotification struct {
 
 // FetchEvent retrieves the V2DataReportingQueryRunFailedEvent that created this Notification
 func (n *V2DataReportingQueryRunFailedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13076,7 +13076,7 @@ type V2DataReportingQueryRunSucceededEventNotification struct {
 
 // FetchEvent retrieves the V2DataReportingQueryRunSucceededEvent that created this Notification
 func (n *V2DataReportingQueryRunSucceededEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13117,7 +13117,7 @@ type V2DataReportingQueryRunUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2DataReportingQueryRunUpdatedEvent that created this Notification
 func (n *V2DataReportingQueryRunUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13151,7 +13151,7 @@ type V2ExtendExtensionRunFailedEventNotification struct {
 
 // FetchEvent retrieves the V2ExtendExtensionRunFailedEvent that created this Notification
 func (n *V2ExtendExtensionRunFailedEventNotification) FetchEvent(ctx context.Context) (*V2ExtendExtensionRunFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13181,7 +13181,7 @@ type V2ExtendWorkflowRunFailedEventNotification struct {
 
 // FetchEvent retrieves the V2ExtendWorkflowRunFailedEvent that created this Notification
 func (n *V2ExtendWorkflowRunFailedEventNotification) FetchEvent(ctx context.Context) (*V2ExtendWorkflowRunFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13222,7 +13222,7 @@ type V2ExtendWorkflowRunStartedEventNotification struct {
 
 // FetchEvent retrieves the V2ExtendWorkflowRunStartedEvent that created this Notification
 func (n *V2ExtendWorkflowRunStartedEventNotification) FetchEvent(ctx context.Context) (*V2ExtendWorkflowRunStartedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13263,7 +13263,7 @@ type V2ExtendWorkflowRunSucceededEventNotification struct {
 
 // FetchEvent retrieves the V2ExtendWorkflowRunSucceededEvent that created this Notification
 func (n *V2ExtendWorkflowRunSucceededEventNotification) FetchEvent(ctx context.Context) (*V2ExtendWorkflowRunSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13295,7 +13295,7 @@ type V2IamAPIKeyCreatedEventNotification struct{ V2CoreEventNotification }
 
 // FetchEvent retrieves the V2IamAPIKeyCreatedEvent that created this Notification
 func (n *V2IamAPIKeyCreatedEventNotification) FetchEvent(ctx context.Context) (*V2IamAPIKeyCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13317,7 +13317,7 @@ type V2IamAPIKeyDefaultSecretRevealedEventNotification struct {
 
 // FetchEvent retrieves the V2IamAPIKeyDefaultSecretRevealedEvent that created this Notification
 func (n *V2IamAPIKeyDefaultSecretRevealedEventNotification) FetchEvent(ctx context.Context) (*V2IamAPIKeyDefaultSecretRevealedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13337,7 +13337,7 @@ type V2IamAPIKeyExpiredEventNotification struct{ V2CoreEventNotification }
 
 // FetchEvent retrieves the V2IamAPIKeyExpiredEvent that created this Notification
 func (n *V2IamAPIKeyExpiredEventNotification) FetchEvent(ctx context.Context) (*V2IamAPIKeyExpiredEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13359,7 +13359,7 @@ type V2IamAPIKeyPermissionsUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2IamAPIKeyPermissionsUpdatedEvent that created this Notification
 func (n *V2IamAPIKeyPermissionsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2IamAPIKeyPermissionsUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13379,7 +13379,7 @@ type V2IamAPIKeyRotatedEventNotification struct{ V2CoreEventNotification }
 
 // FetchEvent retrieves the V2IamAPIKeyRotatedEvent that created this Notification
 func (n *V2IamAPIKeyRotatedEventNotification) FetchEvent(ctx context.Context) (*V2IamAPIKeyRotatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13399,7 +13399,7 @@ type V2IamAPIKeyUpdatedEventNotification struct{ V2CoreEventNotification }
 
 // FetchEvent retrieves the V2IamAPIKeyUpdatedEvent that created this Notification
 func (n *V2IamAPIKeyUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2IamAPIKeyUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13421,7 +13421,7 @@ type V2IamStripeAccessGrantApprovedEventNotification struct {
 
 // FetchEvent retrieves the V2IamStripeAccessGrantApprovedEvent that created this Notification
 func (n *V2IamStripeAccessGrantApprovedEventNotification) FetchEvent(ctx context.Context) (*V2IamStripeAccessGrantApprovedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13443,7 +13443,7 @@ type V2IamStripeAccessGrantCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2IamStripeAccessGrantCanceledEvent that created this Notification
 func (n *V2IamStripeAccessGrantCanceledEventNotification) FetchEvent(ctx context.Context) (*V2IamStripeAccessGrantCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13465,7 +13465,7 @@ type V2IamStripeAccessGrantDeniedEventNotification struct {
 
 // FetchEvent retrieves the V2IamStripeAccessGrantDeniedEvent that created this Notification
 func (n *V2IamStripeAccessGrantDeniedEventNotification) FetchEvent(ctx context.Context) (*V2IamStripeAccessGrantDeniedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13487,7 +13487,7 @@ type V2IamStripeAccessGrantRemovedEventNotification struct {
 
 // FetchEvent retrieves the V2IamStripeAccessGrantRemovedEvent that created this Notification
 func (n *V2IamStripeAccessGrantRemovedEventNotification) FetchEvent(ctx context.Context) (*V2IamStripeAccessGrantRemovedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13509,7 +13509,7 @@ type V2IamStripeAccessGrantRequestedEventNotification struct {
 
 // FetchEvent retrieves the V2IamStripeAccessGrantRequestedEvent that created this Notification
 func (n *V2IamStripeAccessGrantRequestedEventNotification) FetchEvent(ctx context.Context) (*V2IamStripeAccessGrantRequestedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13531,7 +13531,7 @@ type V2IamStripeAccessGrantUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2IamStripeAccessGrantUpdatedEvent that created this Notification
 func (n *V2IamStripeAccessGrantUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2IamStripeAccessGrantUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13560,7 +13560,7 @@ type V2MoneyManagementAdjustmentCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementAdjustmentCreatedEvent that created this Notification
 func (n *V2MoneyManagementAdjustmentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementAdjustmentCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13601,7 +13601,7 @@ type V2MoneyManagementFinancialAccountCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAccountCreatedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13642,7 +13642,7 @@ type V2MoneyManagementFinancialAccountUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAccountUpdatedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13684,7 +13684,7 @@ type V2MoneyManagementFinancialAccountStatementCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAccountStatementCreatedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAccountStatementCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountStatementCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13734,7 +13734,7 @@ type V2MoneyManagementFinancialAccountStatementRestatedEventNotification struct 
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAccountStatementRestatedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAccountStatementRestatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountStatementRestatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13775,7 +13775,7 @@ type V2MoneyManagementFinancialAddressActivatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAddressActivatedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAddressActivatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13816,7 +13816,7 @@ type V2MoneyManagementFinancialAddressFailedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAddressFailedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAddressFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAddressFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13858,7 +13858,7 @@ type V2MoneyManagementInboundTransferAvailableEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferAvailableEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferAvailableEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferAvailableEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13899,7 +13899,7 @@ type V2MoneyManagementInboundTransferBankDebitFailedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitFailedEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13940,7 +13940,7 @@ type V2MoneyManagementInboundTransferBankDebitProcessingEventNotification struct
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitProcessingEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitProcessingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13981,7 +13981,7 @@ type V2MoneyManagementInboundTransferBankDebitQueuedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitQueuedEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitQueuedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14022,7 +14022,7 @@ type V2MoneyManagementInboundTransferBankDebitReturnedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitReturnedEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitReturnedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14063,7 +14063,7 @@ type V2MoneyManagementInboundTransferBankDebitSucceededEventNotification struct 
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitSucceededEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14104,7 +14104,7 @@ type V2MoneyManagementOutboundPaymentCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentCanceledEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14145,7 +14145,7 @@ type V2MoneyManagementOutboundPaymentCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentCreatedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14186,7 +14186,7 @@ type V2MoneyManagementOutboundPaymentFailedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentFailedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14227,7 +14227,7 @@ type V2MoneyManagementOutboundPaymentPostedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentPostedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentPostedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14268,7 +14268,7 @@ type V2MoneyManagementOutboundPaymentReturnedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentReturnedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentReturnedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14309,7 +14309,7 @@ type V2MoneyManagementOutboundPaymentUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentUpdatedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14350,7 +14350,7 @@ type V2MoneyManagementOutboundTransferCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferCanceledEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14391,7 +14391,7 @@ type V2MoneyManagementOutboundTransferCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferCreatedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14432,7 +14432,7 @@ type V2MoneyManagementOutboundTransferFailedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferFailedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14473,7 +14473,7 @@ type V2MoneyManagementOutboundTransferPostedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferPostedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferPostedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferPostedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14514,7 +14514,7 @@ type V2MoneyManagementOutboundTransferReturnedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferReturnedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferReturnedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14555,7 +14555,7 @@ type V2MoneyManagementOutboundTransferUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferUpdatedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14596,7 +14596,7 @@ type V2MoneyManagementPayoutMethodCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementPayoutMethodCreatedEvent that created this Notification
 func (n *V2MoneyManagementPayoutMethodCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutMethodCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14637,7 +14637,7 @@ type V2MoneyManagementPayoutMethodUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementPayoutMethodUpdatedEvent that created this Notification
 func (n *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutMethodUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14679,7 +14679,7 @@ type V2MoneyManagementReceivedCreditAvailableEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditAvailableEvent that created this Notification
 func (n *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditAvailableEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14720,7 +14720,7 @@ type V2MoneyManagementReceivedCreditFailedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditFailedEvent that created this Notification
 func (n *V2MoneyManagementReceivedCreditFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14761,7 +14761,7 @@ type V2MoneyManagementReceivedCreditReturnedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditReturnedEvent that created this Notification
 func (n *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditReturnedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14802,7 +14802,7 @@ type V2MoneyManagementReceivedCreditSucceededEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditSucceededEvent that created this Notification
 func (n *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14843,7 +14843,7 @@ type V2MoneyManagementReceivedDebitCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitCanceledEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14884,7 +14884,7 @@ type V2MoneyManagementReceivedDebitFailedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitFailedEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14925,7 +14925,7 @@ type V2MoneyManagementReceivedDebitPendingEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitPendingEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitPendingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitPendingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14966,7 +14966,7 @@ type V2MoneyManagementReceivedDebitSucceededEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitSucceededEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15007,7 +15007,7 @@ type V2MoneyManagementReceivedDebitUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitUpdatedEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15048,7 +15048,7 @@ type V2MoneyManagementRecipientVerificationCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementRecipientVerificationCreatedEvent that created this Notification
 func (n *V2MoneyManagementRecipientVerificationCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementRecipientVerificationCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15089,7 +15089,7 @@ type V2MoneyManagementRecipientVerificationUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementRecipientVerificationUpdatedEvent that created this Notification
 func (n *V2MoneyManagementRecipientVerificationUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementRecipientVerificationUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15131,7 +15131,7 @@ type V2MoneyManagementTransactionCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementTransactionCreatedEvent that created this Notification
 func (n *V2MoneyManagementTransactionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementTransactionCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15172,7 +15172,7 @@ type V2MoneyManagementTransactionUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementTransactionUpdatedEvent that created this Notification
 func (n *V2MoneyManagementTransactionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementTransactionUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15214,7 +15214,7 @@ type V2OrchestratedCommerceAgreementConfirmedEventNotification struct {
 
 // FetchEvent retrieves the V2OrchestratedCommerceAgreementConfirmedEvent that created this Notification
 func (n *V2OrchestratedCommerceAgreementConfirmedEventNotification) FetchEvent(ctx context.Context) (*V2OrchestratedCommerceAgreementConfirmedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15256,7 +15256,7 @@ type V2OrchestratedCommerceAgreementCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2OrchestratedCommerceAgreementCreatedEvent that created this Notification
 func (n *V2OrchestratedCommerceAgreementCreatedEventNotification) FetchEvent(ctx context.Context) (*V2OrchestratedCommerceAgreementCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15298,7 +15298,7 @@ type V2OrchestratedCommerceAgreementPartiallyConfirmedEventNotification struct {
 
 // FetchEvent retrieves the V2OrchestratedCommerceAgreementPartiallyConfirmedEvent that created this Notification
 func (n *V2OrchestratedCommerceAgreementPartiallyConfirmedEventNotification) FetchEvent(ctx context.Context) (*V2OrchestratedCommerceAgreementPartiallyConfirmedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15340,7 +15340,7 @@ type V2OrchestratedCommerceAgreementTerminatedEventNotification struct {
 
 // FetchEvent retrieves the V2OrchestratedCommerceAgreementTerminatedEvent that created this Notification
 func (n *V2OrchestratedCommerceAgreementTerminatedEventNotification) FetchEvent(ctx context.Context) (*V2OrchestratedCommerceAgreementTerminatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15382,7 +15382,7 @@ type V2PaymentsOffSessionPaymentAttemptFailedEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentAttemptFailedEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentAttemptFailedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAttemptFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15425,7 +15425,7 @@ type V2PaymentsOffSessionPaymentAttemptStartedEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentAttemptStartedEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentAttemptStartedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAttemptStartedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15468,7 +15468,7 @@ type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification stru
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15513,7 +15513,7 @@ type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification str
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15554,7 +15554,7 @@ type V2PaymentsOffSessionPaymentCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentCanceledEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15595,7 +15595,7 @@ type V2PaymentsOffSessionPaymentCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentCreatedEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15637,7 +15637,7 @@ type V2PaymentsOffSessionPaymentFailedEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentFailedEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15678,7 +15678,7 @@ type V2PaymentsOffSessionPaymentPausedEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentPausedEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentPausedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentPausedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15719,7 +15719,7 @@ type V2PaymentsOffSessionPaymentRequiresCaptureEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentRequiresCaptureEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentRequiresCaptureEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentRequiresCaptureEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15760,7 +15760,7 @@ type V2PaymentsOffSessionPaymentResumedEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentResumedEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentResumedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentResumedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15801,7 +15801,7 @@ type V2PaymentsOffSessionPaymentSucceededEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsOffSessionPaymentSucceededEvent that created this Notification
 func (n *V2PaymentsOffSessionPaymentSucceededEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsOffSessionPaymentSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15842,7 +15842,7 @@ type V2PaymentsSettlementAllocationIntentCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsSettlementAllocationIntentCanceledEvent that created this Notification
 func (n *V2PaymentsSettlementAllocationIntentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15883,7 +15883,7 @@ type V2PaymentsSettlementAllocationIntentCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsSettlementAllocationIntentCreatedEvent that created this Notification
 func (n *V2PaymentsSettlementAllocationIntentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15925,7 +15925,7 @@ type V2PaymentsSettlementAllocationIntentErroredEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsSettlementAllocationIntentErroredEvent that created this Notification
 func (n *V2PaymentsSettlementAllocationIntentErroredEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentErroredEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15966,7 +15966,7 @@ type V2PaymentsSettlementAllocationIntentFundsNotReceivedEventNotification struc
 
 // FetchEvent retrieves the V2PaymentsSettlementAllocationIntentFundsNotReceivedEvent that created this Notification
 func (n *V2PaymentsSettlementAllocationIntentFundsNotReceivedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentFundsNotReceivedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16007,7 +16007,7 @@ type V2PaymentsSettlementAllocationIntentMatchedEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsSettlementAllocationIntentMatchedEvent that created this Notification
 func (n *V2PaymentsSettlementAllocationIntentMatchedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentMatchedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16041,7 +16041,7 @@ type V2PaymentsSettlementAllocationIntentNotFoundEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsSettlementAllocationIntentNotFoundEvent that created this Notification
 func (n *V2PaymentsSettlementAllocationIntentNotFoundEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentNotFoundEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16070,7 +16070,7 @@ type V2PaymentsSettlementAllocationIntentSettledEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsSettlementAllocationIntentSettledEvent that created this Notification
 func (n *V2PaymentsSettlementAllocationIntentSettledEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSettledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16111,7 +16111,7 @@ type V2PaymentsSettlementAllocationIntentSubmittedEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsSettlementAllocationIntentSubmittedEvent that created this Notification
 func (n *V2PaymentsSettlementAllocationIntentSubmittedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSubmittedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16153,7 +16153,7 @@ type V2PaymentsSettlementAllocationIntentSplitCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsSettlementAllocationIntentSplitCanceledEvent that created this Notification
 func (n *V2PaymentsSettlementAllocationIntentSplitCanceledEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSplitCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16195,7 +16195,7 @@ type V2PaymentsSettlementAllocationIntentSplitCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsSettlementAllocationIntentSplitCreatedEvent that created this Notification
 func (n *V2PaymentsSettlementAllocationIntentSplitCreatedEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSplitCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16237,7 +16237,7 @@ type V2PaymentsSettlementAllocationIntentSplitSettledEventNotification struct {
 
 // FetchEvent retrieves the V2PaymentsSettlementAllocationIntentSplitSettledEvent that created this Notification
 func (n *V2PaymentsSettlementAllocationIntentSplitSettledEventNotification) FetchEvent(ctx context.Context) (*V2PaymentsSettlementAllocationIntentSplitSettledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16278,7 +16278,7 @@ type V2ReportingReportRunCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2ReportingReportRunCreatedEvent that created this Notification
 func (n *V2ReportingReportRunCreatedEventNotification) FetchEvent(ctx context.Context) (*V2ReportingReportRunCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16319,7 +16319,7 @@ type V2ReportingReportRunFailedEventNotification struct {
 
 // FetchEvent retrieves the V2ReportingReportRunFailedEvent that created this Notification
 func (n *V2ReportingReportRunFailedEventNotification) FetchEvent(ctx context.Context) (*V2ReportingReportRunFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16360,7 +16360,7 @@ type V2ReportingReportRunSucceededEventNotification struct {
 
 // FetchEvent retrieves the V2ReportingReportRunSucceededEvent that created this Notification
 func (n *V2ReportingReportRunSucceededEventNotification) FetchEvent(ctx context.Context) (*V2ReportingReportRunSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16401,7 +16401,7 @@ type V2ReportingReportRunUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2ReportingReportRunUpdatedEvent that created this Notification
 func (n *V2ReportingReportRunUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2ReportingReportRunUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16435,7 +16435,7 @@ type V2SignalsAccountSignalFraudulentMerchantReadyEventNotification struct {
 
 // FetchEvent retrieves the V2SignalsAccountSignalFraudulentMerchantReadyEvent that created this Notification
 func (n *V2SignalsAccountSignalFraudulentMerchantReadyEventNotification) FetchEvent(ctx context.Context) (*V2SignalsAccountSignalFraudulentMerchantReadyEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
