@@ -27,11 +27,11 @@ func Example() {
 
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest) // Return a 400 error on a bad signature
-			fmt.Fprintf(w, "%v", err)
+			_, _ = fmt.Fprintf(w, "%v", err)
 			return
 		}
 
-		fmt.Fprintf(w, "Received signed event: %v", event)
+		_, _ = fmt.Fprintf(w, "Received signed event: %v", event)
 	})
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

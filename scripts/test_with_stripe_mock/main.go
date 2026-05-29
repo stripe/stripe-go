@@ -114,7 +114,7 @@ func runTests(port string) error {
 
 	err := cmd.Run()
 	if err != nil {
-		return fmt.Errorf("Error running tests: %v", err)
+		return fmt.Errorf("error running tests: %v", err)
 	}
 
 	return nil
@@ -134,12 +134,12 @@ func startStripeMock() (string, *os.Process, error) {
 
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
-		return "", nil, fmt.Errorf("Error starting stripe-mock: %v", err)
+		return "", nil, fmt.Errorf("error starting stripe-mock: %v", err)
 	}
 
 	err = cmd.Start()
 	if err != nil {
-		return "", nil, fmt.Errorf("Error starting stripe-mock: %v", err)
+		return "", nil, fmt.Errorf("error starting stripe-mock: %v", err)
 	}
 
 	b := make([]byte, 1024)
@@ -176,7 +176,7 @@ func stopStripeMock(process *os.Process) {
 	}
 
 	fmt.Printf("Stopping stripe-mock...\n")
-	process.Signal(os.Interrupt)
-	process.Wait()
+	_ = process.Signal(os.Interrupt) // best-effort; process may have already exited
+	_, _ = process.Wait()            // wait for process cleanup; exit status is irrelevant
 	fmt.Printf("Stopped stripe-mock\n")
 }
