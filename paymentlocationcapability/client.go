@@ -23,12 +23,12 @@ type Client struct {
 	Key string
 }
 
-// Retrieves information about the specified Payment Location Capability.
+// Retrieves a payment_location capability
 func Get(id string, params *stripe.PaymentLocationCapabilityParams) (*stripe.PaymentLocationCapability, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieves information about the specified Payment Location Capability.
+// Retrieves a payment_location capability
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -41,12 +41,12 @@ func (c Client) Get(id string, params *stripe.PaymentLocationCapabilityParams) (
 	return paymentlocationcapability, err
 }
 
-// Updates a specified Payment Location Capability. Request or remove a payment location capability by updating its requested parameter.
+// Updates a payment_location capability. Request or remove a payment_location capability by updating its requested parameter.
 func Update(id string, params *stripe.PaymentLocationCapabilityParams) (*stripe.PaymentLocationCapability, error) {
 	return getC().Update(id, params)
 }
 
-// Updates a specified Payment Location Capability. Request or remove a payment location capability by updating its requested parameter.
+// Updates a payment_location capability. Request or remove a payment_location capability by updating its requested parameter.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -59,12 +59,12 @@ func (c Client) Update(id string, params *stripe.PaymentLocationCapabilityParams
 	return paymentlocationcapability, err
 }
 
-// Returns a list of PaymentLocationCapability objects associated with the location.
+// List all payment location capabilities associated with the payment location.
 func List(params *stripe.PaymentLocationCapabilityListParams) *Iter {
 	return getC().List(params)
 }
 
-// Returns a list of PaymentLocationCapability objects associated with the location.
+// List all payment location capabilities associated with the payment location.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

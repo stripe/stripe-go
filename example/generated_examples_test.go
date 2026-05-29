@@ -13679,6 +13679,540 @@ func TestV2BillingCollectionSettingsVersionGet2Client(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestV2BillingContractGetService(t *testing.T) {
+	params := &stripe.V2BillingContractListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/billing/contracts", params, "{\"data\":[{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2BillingContracts.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2BillingContractGetClient(t *testing.T) {
+	params := &stripe.V2BillingContractListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/billing/contracts", params, "{\"data\":[{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2BillingContracts.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2BillingContractPostService(t *testing.T) {
+	params := &stripe.V2BillingContractParams{
+		ContractLines: []*stripe.V2BillingContractContractLineParams{
+			{
+				EndsAt: &stripe.V2BillingContractContractLineEndsAtParams{
+					Timestamp: stripe.Time(time.Now()),
+				},
+				Metadata: map[string]string{"key": "metadata"},
+				Overrides: []*stripe.V2BillingContractContractLineOverrideParams{
+					{
+						EndsAt: &stripe.V2BillingContractContractLineOverrideEndsAtParams{
+							Timestamp: stripe.Time(time.Now()),
+						},
+						ServiceAction: &stripe.V2BillingContractContractLineOverrideServiceActionParams{
+							Add: &stripe.V2BillingContractContractLineOverrideServiceActionAddParams{
+								CreditGrant: &stripe.V2BillingContractContractLineOverrideServiceActionAddCreditGrantParams{
+									Amount: &stripe.V2BillingContractContractLineOverrideServiceActionAddCreditGrantAmountParams{
+										Monetary: &stripe.Amount{
+											Value:    63,
+											Currency: stripe.CurrencyUSD,
+										},
+										Type: stripe.String("monetary"),
+									},
+									ApplicabilityConfig: &stripe.V2BillingContractContractLineOverrideServiceActionAddCreditGrantApplicabilityConfigParams{
+										Scope: &stripe.V2BillingContractContractLineOverrideServiceActionAddCreditGrantApplicabilityConfigScopeParams{
+											BillableItems: []*string{stripe.String("billable_items")},
+											PriceType:     stripe.String("metered"),
+										},
+									},
+									Category: stripe.String("paid"),
+									ExpiryConfig: &stripe.V2BillingContractContractLineOverrideServiceActionAddCreditGrantExpiryConfigParams{
+										Type: stripe.String("end_of_service_period"),
+									},
+									Name:     stripe.String("name"),
+									Priority: stripe.Int64(1165461084),
+								},
+								ServiceInterval:      stripe.String("month"),
+								ServiceIntervalCount: stripe.Int64(1375336415),
+								Type:                 stripe.String("credit_grant"),
+							},
+							Replace: &stripe.V2BillingContractContractLineOverrideServiceActionReplaceParams{
+								CreditGrant: &stripe.V2BillingContractContractLineOverrideServiceActionReplaceCreditGrantParams{
+									Amount: &stripe.V2BillingContractContractLineOverrideServiceActionReplaceCreditGrantAmountParams{
+										Monetary: &stripe.Amount{
+											Value:    63,
+											Currency: stripe.CurrencyUSD,
+										},
+										Type: stripe.String("monetary"),
+									},
+									ApplicabilityConfig: &stripe.V2BillingContractContractLineOverrideServiceActionReplaceCreditGrantApplicabilityConfigParams{
+										Scope: &stripe.V2BillingContractContractLineOverrideServiceActionReplaceCreditGrantApplicabilityConfigScopeParams{
+											BillableItems: []*string{stripe.String("billable_items")},
+											PriceType:     stripe.String("metered"),
+										},
+									},
+									Category: stripe.String("paid"),
+									ExpiryConfig: &stripe.V2BillingContractContractLineOverrideServiceActionReplaceCreditGrantExpiryConfigParams{
+										Type: stripe.String("end_of_service_period"),
+									},
+									Name:     stripe.String("name"),
+									Priority: stripe.Int64(1165461084),
+								},
+								ID:                   stripe.String("obj_123"),
+								LookupKey:            stripe.String("lookup_key"),
+								ServiceInterval:      stripe.String("month"),
+								ServiceIntervalCount: stripe.Int64(1375336415),
+								Type:                 stripe.String("credit_grant"),
+							},
+							Type: stripe.String("add"),
+						},
+						StartsAt: &stripe.V2BillingContractContractLineOverrideStartsAtParams{
+							Timestamp: stripe.Time(time.Now()),
+						},
+						Type: stripe.String("service_action"),
+					},
+				},
+				Pricing: &stripe.V2BillingContractContractLinePricingParams{},
+				StartsAt: &stripe.V2BillingContractContractLineStartsAtParams{
+					Timestamp: stripe.Time(time.Now()),
+				},
+			},
+		},
+		ContractNumber: stripe.String("contract_number"),
+		Currency:       stripe.String(stripe.CurrencyUSD),
+		LicenseQuantityActions: []*stripe.V2BillingContractLicenseQuantityActionParams{
+			{
+				EffectiveAt: &stripe.V2BillingContractLicenseQuantityActionEffectiveAtParams{
+					Timestamp: stripe.Time(time.Now()),
+					Type:      stripe.String("timestamp"),
+				},
+				LicensePricingID:        stripe.String("license_pricing_id"),
+				LicensePricingLookupKey: stripe.String("license_pricing_lookup_key"),
+				LicensePricingType:      stripe.String("price"),
+				PricingLine:             stripe.String("pricing_line"),
+				Set: &stripe.V2BillingContractLicenseQuantityActionSetParams{
+					Quantity: stripe.Int64(1285004149),
+				},
+				Type: stripe.String("set"),
+			},
+		},
+		PricingLines: []*stripe.V2BillingContractPricingLineParams{
+			{
+				EndsAt: &stripe.V2BillingContractPricingLineEndsAtParams{
+					Timestamp: stripe.Time(time.Now()),
+					Type:      stripe.String("contract_end"),
+				},
+				LookupKey: stripe.String("lookup_key"),
+				Metadata:  map[string]string{"key": "metadata"},
+				Pricing: &stripe.V2BillingContractPricingLinePricingParams{
+					PriceDetails: &stripe.V2BillingContractPricingLinePricingPriceDetailsParams{
+						Price:    stripe.String("price"),
+						Quantity: stripe.Int64(1285004149),
+					},
+					Type: stripe.String("price"),
+				},
+				StartsAt: &stripe.V2BillingContractPricingLineStartsAtParams{
+					Timestamp: stripe.Time(time.Now()),
+					Type:      stripe.String("contract_start"),
+				},
+			},
+		},
+		PricingOverrides: []*stripe.V2BillingContractPricingOverrideParams{
+			{
+				EndsAt: &stripe.V2BillingContractPricingOverrideEndsAtParams{
+					Timestamp: stripe.Time(time.Now()),
+					Type:      stripe.String("contract_end"),
+				},
+				LookupKey: stripe.String("lookup_key"),
+				Multiplier: &stripe.V2BillingContractPricingOverrideMultiplierParams{
+					Criteria: []*stripe.V2BillingContractPricingOverrideMultiplierCriterionParams{
+						{
+							BillableItemIDs: []*string{stripe.String("billable_item_ids")},
+							BillableItemLookupKeys: []*string{
+								stripe.String("billable_item_lookup_keys"),
+							},
+							BillableItemTypes: []*string{stripe.String("metered")},
+							MetadataConditions: []*stripe.V2BillingContractPricingOverrideMultiplierCriterionMetadataConditionParams{
+								{
+									AllOf: []*stripe.V2BillingContractPricingOverrideMultiplierCriterionMetadataConditionAllOfParams{
+										{
+											Key:   stripe.String("key"),
+											Value: stripe.String("value"),
+										},
+									},
+								},
+							},
+							RateCardIDs: []*string{stripe.String("rate_card_ids")},
+							Type:        stripe.String("exclude"),
+						},
+					},
+					Factor: stripe.String("factor"),
+				},
+				OverwritePrice: &stripe.V2BillingContractPricingOverrideOverwritePriceParams{
+					Price:       stripe.String("price"),
+					TieringMode: stripe.String("graduated"),
+					Tiers: []*stripe.V2BillingContractPricingOverrideOverwritePriceTierParams{
+						{
+							FlatAmount:  stripe.String("flat_amount"),
+							UnitAmount:  stripe.String("unit_amount"),
+							UpToDecimal: stripe.Float64(1387931359.3333333),
+							UpToInf:     stripe.String("inf"),
+						},
+					},
+					UnitAmount: stripe.String("unit_amount"),
+				},
+				Priority: stripe.Int64(1165461084),
+				StartsAt: &stripe.V2BillingContractPricingOverrideStartsAtParams{
+					Timestamp: stripe.Time(time.Now()),
+					Type:      stripe.String("contract_start"),
+				},
+				Type: stripe.String("multiplier"),
+			},
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/billing/contracts", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2BillingContracts.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2BillingContractPostClient(t *testing.T) {
+	params := &stripe.V2BillingContractCreateParams{
+		ContractLines: []*stripe.V2BillingContractCreateContractLineParams{
+			{
+				EndsAt: &stripe.V2BillingContractCreateContractLineEndsAtParams{
+					Timestamp: stripe.Time(time.Now()),
+				},
+				Metadata: map[string]string{"key": "metadata"},
+				Overrides: []*stripe.V2BillingContractCreateContractLineOverrideParams{
+					{
+						EndsAt: &stripe.V2BillingContractCreateContractLineOverrideEndsAtParams{
+							Timestamp: stripe.Time(time.Now()),
+						},
+						ServiceAction: &stripe.V2BillingContractCreateContractLineOverrideServiceActionParams{
+							Add: &stripe.V2BillingContractCreateContractLineOverrideServiceActionAddParams{
+								CreditGrant: &stripe.V2BillingContractCreateContractLineOverrideServiceActionAddCreditGrantParams{
+									Amount: &stripe.V2BillingContractCreateContractLineOverrideServiceActionAddCreditGrantAmountParams{
+										Monetary: &stripe.Amount{
+											Value:    63,
+											Currency: stripe.CurrencyUSD,
+										},
+										Type: stripe.String("monetary"),
+									},
+									ApplicabilityConfig: &stripe.V2BillingContractCreateContractLineOverrideServiceActionAddCreditGrantApplicabilityConfigParams{
+										Scope: &stripe.V2BillingContractCreateContractLineOverrideServiceActionAddCreditGrantApplicabilityConfigScopeParams{
+											BillableItems: []*string{stripe.String("billable_items")},
+											PriceType:     stripe.String("metered"),
+										},
+									},
+									Category: stripe.String("paid"),
+									ExpiryConfig: &stripe.V2BillingContractCreateContractLineOverrideServiceActionAddCreditGrantExpiryConfigParams{
+										Type: stripe.String("end_of_service_period"),
+									},
+									Name:     stripe.String("name"),
+									Priority: stripe.Int64(1165461084),
+								},
+								ServiceInterval:      stripe.String("month"),
+								ServiceIntervalCount: stripe.Int64(1375336415),
+								Type:                 stripe.String("credit_grant"),
+							},
+							Replace: &stripe.V2BillingContractCreateContractLineOverrideServiceActionReplaceParams{
+								CreditGrant: &stripe.V2BillingContractCreateContractLineOverrideServiceActionReplaceCreditGrantParams{
+									Amount: &stripe.V2BillingContractCreateContractLineOverrideServiceActionReplaceCreditGrantAmountParams{
+										Monetary: &stripe.Amount{
+											Value:    63,
+											Currency: stripe.CurrencyUSD,
+										},
+										Type: stripe.String("monetary"),
+									},
+									ApplicabilityConfig: &stripe.V2BillingContractCreateContractLineOverrideServiceActionReplaceCreditGrantApplicabilityConfigParams{
+										Scope: &stripe.V2BillingContractCreateContractLineOverrideServiceActionReplaceCreditGrantApplicabilityConfigScopeParams{
+											BillableItems: []*string{stripe.String("billable_items")},
+											PriceType:     stripe.String("metered"),
+										},
+									},
+									Category: stripe.String("paid"),
+									ExpiryConfig: &stripe.V2BillingContractCreateContractLineOverrideServiceActionReplaceCreditGrantExpiryConfigParams{
+										Type: stripe.String("end_of_service_period"),
+									},
+									Name:     stripe.String("name"),
+									Priority: stripe.Int64(1165461084),
+								},
+								ID:                   stripe.String("obj_123"),
+								LookupKey:            stripe.String("lookup_key"),
+								ServiceInterval:      stripe.String("month"),
+								ServiceIntervalCount: stripe.Int64(1375336415),
+								Type:                 stripe.String("credit_grant"),
+							},
+							Type: stripe.String("add"),
+						},
+						StartsAt: &stripe.V2BillingContractCreateContractLineOverrideStartsAtParams{
+							Timestamp: stripe.Time(time.Now()),
+						},
+						Type: stripe.String("service_action"),
+					},
+				},
+				Pricing: &stripe.V2BillingContractCreateContractLinePricingParams{},
+				StartsAt: &stripe.V2BillingContractCreateContractLineStartsAtParams{
+					Timestamp: stripe.Time(time.Now()),
+				},
+			},
+		},
+		ContractNumber: stripe.String("contract_number"),
+		Currency:       stripe.String(stripe.CurrencyUSD),
+		LicenseQuantityActions: []*stripe.V2BillingContractCreateLicenseQuantityActionParams{
+			{
+				EffectiveAt: &stripe.V2BillingContractCreateLicenseQuantityActionEffectiveAtParams{
+					Timestamp: stripe.Time(time.Now()),
+					Type:      stripe.String("timestamp"),
+				},
+				LicensePricingID:        stripe.String("license_pricing_id"),
+				LicensePricingLookupKey: stripe.String("license_pricing_lookup_key"),
+				LicensePricingType:      stripe.String("price"),
+				PricingLine:             stripe.String("pricing_line"),
+				Set: &stripe.V2BillingContractCreateLicenseQuantityActionSetParams{
+					Quantity: stripe.Int64(1285004149),
+				},
+				Type: stripe.String("set"),
+			},
+		},
+		PricingLines: []*stripe.V2BillingContractCreatePricingLineParams{
+			{
+				EndsAt: &stripe.V2BillingContractCreatePricingLineEndsAtParams{
+					Timestamp: stripe.Time(time.Now()),
+					Type:      stripe.String("contract_end"),
+				},
+				LookupKey: stripe.String("lookup_key"),
+				Metadata:  map[string]string{"key": "metadata"},
+				Pricing: &stripe.V2BillingContractCreatePricingLinePricingParams{
+					PriceDetails: &stripe.V2BillingContractCreatePricingLinePricingPriceDetailsParams{
+						Price:    stripe.String("price"),
+						Quantity: stripe.Int64(1285004149),
+					},
+					Type: stripe.String("price"),
+				},
+				StartsAt: &stripe.V2BillingContractCreatePricingLineStartsAtParams{
+					Timestamp: stripe.Time(time.Now()),
+					Type:      stripe.String("contract_start"),
+				},
+			},
+		},
+		PricingOverrides: []*stripe.V2BillingContractCreatePricingOverrideParams{
+			{
+				EndsAt: &stripe.V2BillingContractCreatePricingOverrideEndsAtParams{
+					Timestamp: stripe.Time(time.Now()),
+					Type:      stripe.String("contract_end"),
+				},
+				LookupKey: stripe.String("lookup_key"),
+				Multiplier: &stripe.V2BillingContractCreatePricingOverrideMultiplierParams{
+					Criteria: []*stripe.V2BillingContractCreatePricingOverrideMultiplierCriterionParams{
+						{
+							BillableItemIDs: []*string{stripe.String("billable_item_ids")},
+							BillableItemLookupKeys: []*string{
+								stripe.String("billable_item_lookup_keys"),
+							},
+							BillableItemTypes: []*string{stripe.String("metered")},
+							MetadataConditions: []*stripe.V2BillingContractCreatePricingOverrideMultiplierCriterionMetadataConditionParams{
+								{
+									AllOf: []*stripe.V2BillingContractCreatePricingOverrideMultiplierCriterionMetadataConditionAllOfParams{
+										{
+											Key:   stripe.String("key"),
+											Value: stripe.String("value"),
+										},
+									},
+								},
+							},
+							RateCardIDs: []*string{stripe.String("rate_card_ids")},
+							Type:        stripe.String("exclude"),
+						},
+					},
+					Factor: stripe.String("factor"),
+				},
+				OverwritePrice: &stripe.V2BillingContractCreatePricingOverrideOverwritePriceParams{
+					Price:       stripe.String("price"),
+					TieringMode: stripe.String("graduated"),
+					Tiers: []*stripe.V2BillingContractCreatePricingOverrideOverwritePriceTierParams{
+						{
+							FlatAmount:  stripe.String("flat_amount"),
+							UnitAmount:  stripe.String("unit_amount"),
+							UpToDecimal: stripe.Float64(1387931359.3333333),
+							UpToInf:     stripe.String("inf"),
+						},
+					},
+					UnitAmount: stripe.String("unit_amount"),
+				},
+				Priority: stripe.Int64(1165461084),
+				StartsAt: &stripe.V2BillingContractCreatePricingOverrideStartsAtParams{
+					Timestamp: stripe.Time(time.Now()),
+					Type:      stripe.String("contract_start"),
+				},
+				Type: stripe.String("multiplier"),
+			},
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/billing/contracts", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2BillingContracts.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2BillingContractGet2Service(t *testing.T) {
+	params := &stripe.V2BillingContractParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2BillingContracts.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2BillingContractGet2Client(t *testing.T) {
+	params := &stripe.V2BillingContractRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2BillingContracts.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2BillingContractPost2Service(t *testing.T) {
+	params := &stripe.V2BillingContractParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2BillingContracts.Update("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2BillingContractPost2Client(t *testing.T) {
+	params := &stripe.V2BillingContractUpdateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2BillingContracts.Update(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2BillingContractPost3Service(t *testing.T) {
+	params := &stripe.V2BillingContractActivateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/billing/contracts/id_123/activate", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2BillingContracts.Activate("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2BillingContractPost3Client(t *testing.T) {
+	params := &stripe.V2BillingContractActivateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/billing/contracts/id_123/activate", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2BillingContracts.Activate(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2BillingContractPost4Service(t *testing.T) {
+	params := &stripe.V2BillingContractCancelParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/billing/contracts/id_123/cancel", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2BillingContracts.Cancel("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2BillingContractPost4Client(t *testing.T) {
+	params := &stripe.V2BillingContractCancelParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/billing/contracts/id_123/cancel", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2BillingContracts.Cancel(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2BillingContractsLicensePricingQuantityChangeGetService(
+	t *testing.T,
+) {
+	params := &stripe.V2BillingContractsLicensePricingQuantityChangeListQuantityChangesParams{
+		ContractID:       stripe.String("contract_id_123"),
+		LicensePricingID: stripe.String("license_pricing_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/billing/contracts/contract_id_123/license_pricing/license_pricing_id_123/quantity_changes", params, "{\"data\":[{\"object\":\"v2.billing.contract_license_pricing_quantity_change\",\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"livemode\":true,\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2BillingContractsLicensePricingQuantityChanges.ListQuantityChanges(
+		params)
+	assert.NotNil(t, result)
+}
+
+func TestV2BillingContractsLicensePricingQuantityChangeGetClient(t *testing.T) {
+	params := &stripe.V2BillingContractsLicensePricingQuantityChangeListQuantityChangesParams{
+		ContractID:       stripe.String("contract_id_123"),
+		LicensePricingID: stripe.String("license_pricing_id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/billing/contracts/contract_id_123/license_pricing/license_pricing_id_123/quantity_changes", params, "{\"data\":[{\"object\":\"v2.billing.contract_license_pricing_quantity_change\",\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"livemode\":true,\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2BillingContractsLicensePricingQuantityChanges.ListQuantityChanges(
+		context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
 func TestV2BillingCustomPricingUnitGetService(t *testing.T) {
 	params := &stripe.V2BillingCustomPricingUnitListParams{}
 	testServer := MockServer(

@@ -237,17 +237,6 @@ const (
 	InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
 )
 
-// The client type that the end customer will pay from.
-type InvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient string
-
-// List of values that InvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient can take
-const (
-	InvoicePaymentSettingsPaymentMethodOptionsWeChatPayClientAndroid   InvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient = "android"
-	InvoicePaymentSettingsPaymentMethodOptionsWeChatPayClientIOS       InvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient = "ios"
-	InvoicePaymentSettingsPaymentMethodOptionsWeChatPayClientMobileWeb InvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient = "mobile_web"
-	InvoicePaymentSettingsPaymentMethodOptionsWeChatPayClientWeb       InvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient = "web"
-)
-
 // The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 type InvoicePaymentSettingsPaymentMethodType string
 
@@ -760,14 +749,6 @@ type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountParams struct {
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
-// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
-	// The app ID registered with WeChat Pay. Only required when client is `ios` or `android`.
-	AppID *string `form:"app_id" json:"app_id,omitempty"`
-	// The client type that the end customer will pay from.
-	Client *string `form:"client" json:"client,omitempty"`
-}
-
 // Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -798,9 +779,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	Upi *InvoicePaymentSettingsPaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
-	// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
-	WeChatPay   *InvoicePaymentSettingsPaymentMethodOptionsWeChatPayParams   `form:"wechat_pay" json:"wechat_pay,omitempty"`
-	UnsetFields []InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
+	UnsetFields   []InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
 }
 
 // InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on InvoicePaymentSettingsPaymentMethodOptionsParams.
@@ -821,7 +800,6 @@ const (
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
-	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldWeChatPay       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "wechat_pay"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3722,14 +3700,6 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams struct 
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
-// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
-type InvoiceUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
-	// The app ID registered with WeChat Pay. Only required when client is `ios` or `android`.
-	AppID *string `form:"app_id" json:"app_id,omitempty"`
-	// The client type that the end customer will pay from.
-	Client *string `form:"client" json:"client,omitempty"`
-}
-
 // Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -3760,9 +3730,7 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	Upi *InvoiceUpdatePaymentSettingsPaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *InvoiceUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
-	// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
-	WeChatPay   *InvoiceUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams   `form:"wechat_pay" json:"wechat_pay,omitempty"`
-	UnsetFields []InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
+	UnsetFields   []InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
 }
 
 // InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams.
@@ -3783,7 +3751,6 @@ const (
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
-	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldWeChatPay       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "wechat_pay"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -4318,14 +4285,6 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams struct 
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
-// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
-type InvoiceCreatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
-	// The app ID registered with WeChat Pay. Only required when client is `ios` or `android`.
-	AppID *string `form:"app_id" json:"app_id,omitempty"`
-	// The client type that the end customer will pay from.
-	Client *string `form:"client" json:"client,omitempty"`
-}
-
 // Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -4356,9 +4315,7 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	Upi *InvoiceCreatePaymentSettingsPaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *InvoiceCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
-	// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
-	WeChatPay   *InvoiceCreatePaymentSettingsPaymentMethodOptionsWeChatPayParams   `form:"wechat_pay" json:"wechat_pay,omitempty"`
-	UnsetFields []InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
+	UnsetFields   []InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
 }
 
 // InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceCreatePaymentSettingsPaymentMethodOptionsParams.
@@ -4379,7 +4336,6 @@ const (
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
-	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldWeChatPay       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "wechat_pay"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -4910,14 +4866,6 @@ type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccount struct {
 	VerificationMethod InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
 
-// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsWeChatPay struct {
-	// The app ID registered with WeChat Pay. Only required when client is `ios` or `android`.
-	AppID string `json:"app_id,omitempty"`
-	// The client type that the end customer will pay from.
-	Client InvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient `json:"client,omitempty"`
-}
-
 // Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptions struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -4948,8 +4896,6 @@ type InvoicePaymentSettingsPaymentMethodOptions struct {
 	Upi *InvoicePaymentSettingsPaymentMethodOptionsUpi `json:"upi"`
 	// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *InvoicePaymentSettingsPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
-	// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
-	WeChatPay *InvoicePaymentSettingsPaymentMethodOptionsWeChatPay `json:"wechat_pay,omitempty"`
 }
 type InvoicePaymentSettings struct {
 	// ID of the mandate to be used for this invoice. It must correspond to the payment method used to pay the invoice, including the invoice's default_payment_method or default_source, if set.

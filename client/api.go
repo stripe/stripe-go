@@ -204,6 +204,8 @@ import (
 	v2billingcadencesspendmodifierrule "github.com/stripe/stripe-go/v85/v2/billing/cadences/spendmodifierrule"
 	v2billingcollectionsetting "github.com/stripe/stripe-go/v85/v2/billing/collectionsetting"
 	v2billingcollectionsettingsversion "github.com/stripe/stripe-go/v85/v2/billing/collectionsettings/version"
+	v2billingcontract "github.com/stripe/stripe-go/v85/v2/billing/contract"
+	v2billingcontractslicensepricingquantitychange "github.com/stripe/stripe-go/v85/v2/billing/contracts/licensepricing/quantitychange"
 	v2billingcustompricingunit "github.com/stripe/stripe-go/v85/v2/billing/custompricingunit"
 	v2billingintent "github.com/stripe/stripe-go/v85/v2/billing/intent"
 	v2billingintentsaction "github.com/stripe/stripe-go/v85/v2/billing/intents/action"
@@ -668,6 +670,10 @@ type API struct {
 	V2BillingCollectionSettings *v2billingcollectionsetting.Client
 	// V2BillingCollectionSettingsVersions is the client used to invoke /v2/billing/collection_settings/{collection_setting_id}/versions APIs.
 	V2BillingCollectionSettingsVersions *v2billingcollectionsettingsversion.Client
+	// V2BillingContracts is the client used to invoke /v2/billing/contracts APIs.
+	V2BillingContracts *v2billingcontract.Client
+	// V2BillingContractsLicensePricingQuantityChanges is the client used to invoke quantitychange related APIs.
+	V2BillingContractsLicensePricingQuantityChanges *v2billingcontractslicensepricingquantitychange.Client
 	// V2BillingCustomPricingUnits is the client used to invoke /v2/billing/custom_pricing_units APIs.
 	V2BillingCustomPricingUnits *v2billingcustompricingunit.Client
 	// V2BillingIntents is the client used to invoke /v2/billing/intents APIs.
@@ -1023,6 +1029,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2BillingCadencesSpendModifierRules = &v2billingcadencesspendmodifierrule.Client{B: backends.API, Key: key}
 	a.V2BillingCollectionSettings = &v2billingcollectionsetting.Client{B: backends.API, Key: key}
 	a.V2BillingCollectionSettingsVersions = &v2billingcollectionsettingsversion.Client{B: backends.API, Key: key}
+	a.V2BillingContracts = &v2billingcontract.Client{B: backends.API, Key: key}
+	a.V2BillingContractsLicensePricingQuantityChanges = &v2billingcontractslicensepricingquantitychange.Client{B: backends.API, Key: key}
 	a.V2BillingCustomPricingUnits = &v2billingcustompricingunit.Client{B: backends.API, Key: key}
 	a.V2BillingIntents = &v2billingintent.Client{B: backends.API, Key: key}
 	a.V2BillingIntentsActions = &v2billingintentsaction.Client{B: backends.API, Key: key}

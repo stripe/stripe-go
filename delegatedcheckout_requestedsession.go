@@ -350,6 +350,20 @@ type DelegatedCheckoutRequestedSessionPaymentMethodOptionsParams struct {
 	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types" json:"excluded_payment_method_types,omitempty"`
 }
 
+// Lists orders for a delegated checkout requested session.
+type DelegatedCheckoutRequestedSessionListOrdersParams struct {
+	ListParams `form:"*"`
+	// The requested session whose orders should be listed.
+	RequestedSession *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *DelegatedCheckoutRequestedSessionListOrdersParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Context about where the attribution originated.
 type DelegatedCheckoutRequestedSessionAffiliateAttributionSourceParams struct {
 	// The platform where the attribution originated.

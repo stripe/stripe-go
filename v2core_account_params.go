@@ -1121,6 +1121,8 @@ type V2CoreAccountDefaultsResponsibilitiesParams struct {
 	FeesCollector *string `form:"fees_collector" json:"fees_collector"`
 	// A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
 	LossesCollector *string `form:"losses_collector" json:"losses_collector"`
+	// A value indicating the party responsible for collecting requirements on this account.
+	RequirementsCollector *string `form:"requirements_collector" json:"requirements_collector,omitempty"`
 }
 
 // Default values to be used on Account Configurations.
@@ -3533,6 +3535,8 @@ type V2CoreAccountCreateDefaultsResponsibilitiesParams struct {
 	FeesCollector *string `form:"fees_collector" json:"fees_collector"`
 	// A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
 	LossesCollector *string `form:"losses_collector" json:"losses_collector"`
+	// A value indicating the party responsible for collecting requirements on this account.
+	RequirementsCollector *string `form:"requirements_collector" json:"requirements_collector,omitempty"`
 }
 
 // Default values to be used on Account Configurations.
@@ -5949,6 +5953,8 @@ type V2CoreAccountUpdateDefaultsResponsibilitiesParams struct {
 	FeesCollector *string `form:"fees_collector" json:"fees_collector"`
 	// A value indicating who is responsible for losses when this Account can't pay back negative balances from payments.
 	LossesCollector *string `form:"losses_collector" json:"losses_collector"`
+	// A value indicating the party responsible for collecting requirements on this account.
+	RequirementsCollector *string `form:"requirements_collector" json:"requirements_collector,omitempty"`
 }
 
 // Default values to be used on Account Configurations.

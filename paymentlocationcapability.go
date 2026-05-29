@@ -47,12 +47,12 @@ const (
 	PaymentLocationCapabilityStatusUnrequested PaymentLocationCapabilityStatus = "unrequested"
 )
 
-// Returns a list of PaymentLocationCapability objects associated with the location.
+// List all payment location capabilities associated with the payment location.
 type PaymentLocationCapabilityListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// The location for which the capabilities enable functionality.
+	// The payment location that the capabilities enable functionality for.
 	Location *string `form:"location" json:"location"`
 }
 
@@ -61,12 +61,12 @@ func (p *PaymentLocationCapabilityListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves information about the specified Payment Location Capability.
+// Retrieves a payment_location capability
 type PaymentLocationCapabilityParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// The payment location for which the capability enables functionality.
+	// The payment location that the capability enables functionality for.
 	Location *string `form:"location" json:"location"`
 	// To request a new capability for the location, set this to `true`. You can remove it from the location by passing `false`.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
@@ -77,12 +77,12 @@ func (p *PaymentLocationCapabilityParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves information about the specified Payment Location Capability.
+// Retrieves a payment_location capability
 type PaymentLocationCapabilityRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// The payment location for which the capability enables functionality.
+	// The payment location that the capability enables functionality for.
 	Location *string `form:"location" json:"location"`
 }
 
@@ -91,12 +91,12 @@ func (p *PaymentLocationCapabilityRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Updates a specified Payment Location Capability. Request or remove a payment location capability by updating its requested parameter.
+// Updates a payment_location capability. Request or remove a payment_location capability by updating its requested parameter.
 type PaymentLocationCapabilityUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// The location for which the capability enables functionality.
+	// The location that the capability enables functionality for.
 	Location *string `form:"location" json:"location"`
 	// To request a new capability for the location, set this to `true`. You can remove it from the location by passing `false`.
 	Requested *bool `form:"requested" json:"requested"`
@@ -125,22 +125,22 @@ type PaymentLocationCapabilityRequirements struct {
 	Errors []*PaymentLocationCapabilityRequirementsError `json:"errors"`
 }
 
-// A Payment Location Capability represents a capability for a Stripe account at a Payment Location.
+// A `payment_location` capability represents a capability for a Stripe account at a payment location.
 type PaymentLocationCapability struct {
 	APIResource
-	// The account for which the capability enables functionality.
+	// The account that the capability enables functionality for.
 	Account string `json:"account"`
 	// The identifier for the capability.
 	Capability PaymentLocationCapabilityCapability `json:"capability"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
-	// The payment location for which the capability enables functionality.
+	// The payment location that the capability enables functionality for.
 	Location string `json:"location"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Whether the capability has been requested.
 	Requested bool `json:"requested"`
-	// Time at which the capability was requested. Measured in seconds since the Unix epoch.
+	// Time when the capability was requested. Measured in seconds since the Unix epoch.
 	RequestedAt  int64                                  `json:"requested_at"`
 	Requirements *PaymentLocationCapabilityRequirements `json:"requirements"`
 	// The status of the capability.
