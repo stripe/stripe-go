@@ -125,6 +125,8 @@ type PersonParams struct {
 	AddressKana *PersonAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the person's address (Japan only).
 	AddressKanji *PersonAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
+	// The person's place of birth.
+	BirthAddress *AddressParams `form:"birth_address" json:"birth_address,omitempty"`
 	// The person's date of birth.
 	DOB *PersonDOBParams `form:"dob" json:"dob,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
@@ -668,6 +670,8 @@ type PersonUpdateParams struct {
 	AddressKana *PersonUpdateAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the person's address (Japan only).
 	AddressKanji *PersonUpdateAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
+	// The person's place of birth.
+	BirthAddress *AddressParams `form:"birth_address" json:"birth_address,omitempty"`
 	// The person's date of birth.
 	DOB *PersonUpdateDOBParams `form:"dob" json:"dob,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
@@ -967,6 +971,8 @@ type PersonCreateParams struct {
 	AddressKana *PersonCreateAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the person's address (Japan only).
 	AddressKanji *PersonCreateAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
+	// The person's place of birth.
+	BirthAddress *AddressParams `form:"birth_address" json:"birth_address,omitempty"`
 	// The person's date of birth.
 	DOB *PersonCreateDOBParams `form:"dob" json:"dob,omitempty"`
 	// Documents that may be submitted to satisfy various informational requests.
@@ -1262,6 +1268,7 @@ type Person struct {
 	AddressKana *PersonAddressKana `json:"address_kana,omitempty"`
 	// The Kanji variation of the person's address (Japan only).
 	AddressKanji *PersonAddressKanji `json:"address_kanji,omitempty"`
+	BirthAddress *Address            `json:"birth_address,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64      `json:"created"`
 	Deleted bool       `json:"deleted,omitempty"`
