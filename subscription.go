@@ -310,6 +310,17 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
 )
 
+// The client type that the end customer will pay from.
+type SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayClient string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayClient can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayClientAndroid   SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayClient = "android"
+	SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayClientIOS       SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayClient = "ios"
+	SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayClientMobileWeb SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayClient = "mobile_web"
+	SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayClientWeb       SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayClient = "web"
+)
+
 // The list of payment method types to provide to every invoice created by the subscription. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 type SubscriptionPaymentSettingsPaymentMethodType string
 
@@ -1168,6 +1179,14 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams struct {
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// This sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
+	// The app ID registered with WeChat Pay. Only required when client is `ios` or `android`.
+	AppID *string `form:"app_id" json:"app_id,omitempty"`
+	// The client type that the end customer will pay from.
+	Client *string `form:"client" json:"client,omitempty"`
+}
+
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -1198,7 +1217,9 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	Upi *SubscriptionPaymentSettingsPaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
-	UnsetFields   []SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
+	// This sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
+	WeChatPay   *SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayParams   `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	UnsetFields []SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionPaymentSettingsPaymentMethodOptionsParams.
@@ -1219,6 +1240,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldWeChatPay       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "wechat_pay"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -2105,6 +2127,14 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams st
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// This sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
+	// The app ID registered with WeChat Pay. Only required when client is `ios` or `android`.
+	AppID *string `form:"app_id" json:"app_id,omitempty"`
+	// The client type that the end customer will pay from.
+	Client *string `form:"client" json:"client,omitempty"`
+}
+
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -2135,7 +2165,9 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	Upi *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
-	UnsetFields   []SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
+	// This sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
+	WeChatPay   *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams   `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	UnsetFields []SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams.
@@ -2156,6 +2188,7 @@ const (
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldWeChatPay       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "wechat_pay"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -2991,6 +3024,14 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams st
 	VerificationMethod *string `form:"verification_method" json:"verification_method,omitempty"`
 }
 
+// This sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
+	// The app ID registered with WeChat Pay. Only required when client is `ios` or `android`.
+	AppID *string `form:"app_id" json:"app_id,omitempty"`
+	// The client type that the end customer will pay from.
+	Client *string `form:"client" json:"client,omitempty"`
+}
+
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -3021,7 +3062,9 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	Upi *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
-	UnsetFields   []SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField   `form:"-" json:"-"`
+	// This sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
+	WeChatPay   *SubscriptionCreatePaymentSettingsPaymentMethodOptionsWeChatPayParams   `form:"wechat_pay" json:"wechat_pay,omitempty"`
+	UnsetFields []SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams.
@@ -3042,6 +3085,7 @@ const (
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldSEPADebit       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "sepa_debit"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUpi             SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "upi"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldUSBankAccount   SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldWeChatPay       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "wechat_pay"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3550,6 +3594,14 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount struct {
 	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
 
+// This sub-hash contains details about the WeChat Pay payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPay struct {
+	// The app ID registered with WeChat Pay. Only required when client is `ios` or `android`.
+	AppID string `json:"app_id,omitempty"`
+	// The client type that the end customer will pay from.
+	Client SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPayClient `json:"client,omitempty"`
+}
+
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to invoices created by the subscription.
@@ -3580,6 +3632,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	Upi *SubscriptionPaymentSettingsPaymentMethodOptionsUpi `json:"upi"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription.
 	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
+	// This sub-hash contains details about the WeChat Pay payment method options to pass to invoices created by the subscription.
+	WeChatPay *SubscriptionPaymentSettingsPaymentMethodOptionsWeChatPay `json:"wechat_pay,omitempty"`
 }
 
 // Payment settings passed on to invoices created by the subscription.

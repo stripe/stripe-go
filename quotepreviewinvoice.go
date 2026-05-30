@@ -399,6 +399,17 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
 )
 
+// The client type that the end customer will pay from.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient string
+
+// List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient can take
+const (
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPayClientAndroid   QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient = "android"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPayClientIOS       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient = "ios"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPayClientMobileWeb QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient = "mobile_web"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPayClientWeb       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient = "web"
+)
+
 // The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 type QuotePreviewInvoicePaymentSettingsPaymentMethodType string
 
@@ -823,6 +834,14 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccount struct 
 	VerificationMethod QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
 
+// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPay struct {
+	// The app ID registered with WeChat Pay. Only required when client is `ios` or `android`.
+	AppID string `json:"app_id,omitempty"`
+	// The client type that the end customer will pay from.
+	Client QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPayClient `json:"client,omitempty"`
+}
+
 // Payment-method-specific configuration to provide to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	// If paying by `acss_debit`, this sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -853,6 +872,8 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	Upi *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpi `json:"upi"`
 	// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
+	// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the invoice's PaymentIntent.
+	WeChatPay *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsWeChatPay `json:"wechat_pay,omitempty"`
 }
 type QuotePreviewInvoicePaymentSettings struct {
 	// ID of the mandate to be used for this invoice. It must correspond to the payment method used to pay the invoice, including the invoice's default_payment_method or default_source, if set.
