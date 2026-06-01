@@ -78,6 +78,7 @@ const (
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPaperCheckAttachmentTooLarge            V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "paper_check_attachment_too_large"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPaperCheckExpired                       V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "paper_check_expired"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPaperCheckUndeliverable                 V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "paper_check_undeliverable"
+	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodAmountLimitExceeded         V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_amount_limit_exceeded"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodDeclined                    V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_declined"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodDoesNotExist                V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_does_not_exist"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodExpired                     V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_expired"
