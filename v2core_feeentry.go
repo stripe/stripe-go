@@ -41,6 +41,16 @@ const (
 	V2CoreFeeEntryTypeStripeFee      V2CoreFeeEntryType = "stripe_fee"
 )
 
+// The fee amount.
+type V2CoreFeeEntryAmount struct {
+	// A lowercase alpha3 currency code like "usd"
+	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	Currency Currency `json:"currency"`
+	// In major units like "1.23" for 1.23 USD
+	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	Value string `json:"value"`
+}
+
 // Details for a fee charged by a Connect application.
 type V2CoreFeeEntryChargedByApplication struct {
 	// Human-readable product name, e.g. "Card payments - Stripe fee".
@@ -83,17 +93,27 @@ type V2CoreFeeEntryIncurredBy struct {
 	Type string `json:"type"`
 }
 
+// The tax amount calculated for this fee.
+type V2CoreFeeEntryTaxAmount struct {
+	// A lowercase alpha3 currency code like "usd"
+	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	Currency Currency `json:"currency"`
+	// In major units like "1.23" for 1.23 USD
+	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
+	Value string `json:"value"`
+}
+
 // The tax portion of the fee, if applicable.
 type V2CoreFeeEntryTax struct {
 	// The tax amount calculated for this fee.
-	Amount Amount `json:"amount"`
+	Amount *V2CoreFeeEntryTaxAmount `json:"amount"`
 }
 
 // A FeeEntry is the atomic, append-only record of an assessed fee.
 type V2CoreFeeEntry struct {
 	APIResource
 	// The fee amount.
-	Amount Amount `json:"amount"`
+	Amount *V2CoreFeeEntryAmount `json:"amount"`
 	// The entity that assessed this fee.
 	ChargedBy *V2CoreFeeEntryChargedBy `json:"charged_by"`
 	// Timestamp of when this fee entry was created.

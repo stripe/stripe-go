@@ -6,6 +6,30 @@
 
 package stripe
 
+// Retrieves a delegated checkout order.
+type DelegatedCheckoutOrderParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *DelegatedCheckoutOrderParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves a delegated checkout order.
+type DelegatedCheckoutOrderRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *DelegatedCheckoutOrderRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type DelegatedCheckoutOrderLineItemProductDetails struct {
 	// The item description.
 	Description string `json:"description"`
@@ -67,6 +91,7 @@ type DelegatedCheckoutOrderTotals struct {
 
 // An order represents the post-checkout lifecycle of a delegated checkout purchase.
 type DelegatedCheckoutOrder struct {
+	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).

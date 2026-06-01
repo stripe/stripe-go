@@ -92,6 +92,8 @@ type Client struct {
 	V1Customers *v1CustomerService
 	// V1CustomerSessions is the service used to invoke /v1/customer_sessions APIs.
 	V1CustomerSessions *v1CustomerSessionService
+	// V1DelegatedCheckoutOrders is the service used to invoke /v1/delegated_checkout/orders APIs.
+	V1DelegatedCheckoutOrders *v1DelegatedCheckoutOrderService
 	// V1DelegatedCheckoutRequestedSessions is the service used to invoke /v1/delegated_checkout/requested_sessions APIs.
 	V1DelegatedCheckoutRequestedSessions *v1DelegatedCheckoutRequestedSessionService
 	// V1Disputes is the service used to invoke /v1/disputes APIs.
@@ -534,6 +536,8 @@ type Client struct {
 	V2ReportingReportRuns *v2ReportingReportRunService
 	// V2ReportingReports is the service used to invoke report related APIs.
 	V2ReportingReports *v2ReportingReportService
+	// V2SignalsAccountSignals is the service used to invoke /v2/signals/account_signals APIs.
+	V2SignalsAccountSignals *v2SignalsAccountSignalService
 	// V2TaxManualRules is the service used to invoke /v2/tax/manual_rules APIs.
 	V2TaxManualRules *v2TaxManualRuleService
 	// V2TestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
@@ -621,6 +625,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1CustomerCashBalanceTransactions = &v1CustomerCashBalanceTransactionService{B: backends.API, Key: key}
 	client.V1Customers = &v1CustomerService{B: backends.API, Key: key}
 	client.V1CustomerSessions = &v1CustomerSessionService{B: backends.API, Key: key}
+	client.V1DelegatedCheckoutOrders = &v1DelegatedCheckoutOrderService{B: backends.API, Key: key}
 	client.V1DelegatedCheckoutRequestedSessions = &v1DelegatedCheckoutRequestedSessionService{B: backends.API, Key: key}
 	client.V1Disputes = &v1DisputeService{B: backends.API, Key: key}
 	client.V1EntitlementsActiveEntitlements = &v1EntitlementsActiveEntitlementService{B: backends.API, Key: key}
@@ -842,6 +847,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2PaymentsSettlementAllocationIntentsSplits = &v2PaymentsSettlementAllocationIntentsSplitService{B: backends.API, Key: key}
 	client.V2ReportingReportRuns = &v2ReportingReportRunService{B: backends.API, Key: key}
 	client.V2ReportingReports = &v2ReportingReportService{B: backends.API, Key: key}
+	client.V2SignalsAccountSignals = &v2SignalsAccountSignalService{B: backends.API, Key: key}
 	client.V2TaxManualRules = &v2TaxManualRuleService{B: backends.API, Key: key}
 	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}
 	client.V2TestHelpersMoneyManagements = &v2TestHelpersMoneyManagementService{B: backends.API, Key: key}
