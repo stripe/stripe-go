@@ -535,6 +535,7 @@ type PaymentIntentPaymentDetailsMoneyServicesTransactionType string
 // List of values that PaymentIntentPaymentDetailsMoneyServicesTransactionType can take
 const (
 	PaymentIntentPaymentDetailsMoneyServicesTransactionTypeAccountFunding PaymentIntentPaymentDetailsMoneyServicesTransactionType = "account_funding"
+	PaymentIntentPaymentDetailsMoneyServicesTransactionTypeDebtRepayment  PaymentIntentPaymentDetailsMoneyServicesTransactionType = "debt_repayment"
 )
 
 // Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
