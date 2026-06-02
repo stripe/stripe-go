@@ -75,12 +75,18 @@ func List(params *stripe.CapabilityListParams) *Iter {
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.CapabilityListParams) *Iter {
+	if listParams == nil {
+		listParams = &stripe.CapabilityListParams{}
+	}
+	p := listParams.GetParams()
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/capabilities", stripe.StringValue(listParams.Account))
+	queryParams := &form.Values{}
+	form.AppendTo(queryParams, listParams)
 	return &Iter{
-		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+		Iter: stripe.GetIter(nil, func(_ *stripe.Params, _ *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CapabilityList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(queryParams.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

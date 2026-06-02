@@ -53,8 +53,8 @@ const (
 
 // Returns a list of capabilities associated with the account. The capabilities are returned sorted by creation date, with the most recent capability appearing first.
 type CapabilityListParams struct {
-	ListParams `form:"*"`
-	Account    *string `form:"-"` // Included in URL
+	Params  `form:"*"`
+	Account *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }
