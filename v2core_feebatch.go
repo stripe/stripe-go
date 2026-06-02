@@ -38,30 +38,10 @@ const (
 	V2CoreFeeBatchStatusPending V2CoreFeeBatchStatus = "pending"
 )
 
-// The amount of tax adjusted for this batch.
-type V2CoreFeeBatchAdjustmentsTaxAdjustment struct {
-	// A lowercase alpha3 currency code like "usd"
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
-	Currency Currency `json:"currency"`
-	// In major units like "1.23" for 1.23 USD
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
-	Value string `json:"value"`
-}
-
 // Adjustments applied to this batch.
 type V2CoreFeeBatchAdjustments struct {
 	// The amount of tax adjusted for this batch.
-	TaxAdjustment *V2CoreFeeBatchAdjustmentsTaxAdjustment `json:"tax_adjustment,omitempty"`
-}
-
-// The total fee amount billed in this batch.
-type V2CoreFeeBatchAmount struct {
-	// A lowercase alpha3 currency code like "usd"
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
-	Currency Currency `json:"currency"`
-	// In major units like "1.23" for 1.23 USD
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
-	Value string `json:"value"`
+	TaxAdjustment Amount `json:"tax_adjustment,omitempty"`
 }
 
 // The entity that collected this batch.
@@ -70,36 +50,16 @@ type V2CoreFeeBatchCollectedBy struct {
 	Type V2CoreFeeBatchCollectedByType `json:"type"`
 }
 
-// The fee amount collected via this record.
-type V2CoreFeeBatchCollectionRecordAmount struct {
-	// A lowercase alpha3 currency code like "usd"
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
-	Currency Currency `json:"currency"`
-	// In major units like "1.23" for 1.23 USD
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
-	Value string `json:"value"`
-}
-
-// The tax amount collected via this record.
-type V2CoreFeeBatchCollectionRecordTaxAmount struct {
-	// A lowercase alpha3 currency code like "usd"
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
-	Currency Currency `json:"currency"`
-	// In major units like "1.23" for 1.23 USD
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
-	Value string `json:"value"`
-}
-
 // The tax amount collected via this record.
 type V2CoreFeeBatchCollectionRecordTax struct {
 	// The tax amount collected via this record.
-	Amount *V2CoreFeeBatchCollectionRecordTaxAmount `json:"amount"`
+	Amount Amount `json:"amount"`
 }
 
 // The money movement records associated with collecting this batch.
 type V2CoreFeeBatchCollectionRecord struct {
 	// The fee amount collected via this record.
-	Amount *V2CoreFeeBatchCollectionRecordAmount `json:"amount"`
+	Amount Amount `json:"amount"`
 	// The ID of the associated v1 balance transaction.
 	BalanceTransaction string `json:"balance_transaction,omitempty"`
 	// The ID of the associated credit transaction.
@@ -121,19 +81,9 @@ type V2CoreFeeBatchStatusTransitions struct {
 }
 
 // The tax amount included in this batch.
-type V2CoreFeeBatchTaxAmount struct {
-	// A lowercase alpha3 currency code like "usd"
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
-	Currency Currency `json:"currency"`
-	// In major units like "1.23" for 1.23 USD
-	// For the taxonomy label choice, see SECURE_FRAMEWORKS-2849.
-	Value string `json:"value"`
-}
-
-// The tax amount included in this batch.
 type V2CoreFeeBatchTax struct {
 	// The tax amount included in this batch.
-	Amount *V2CoreFeeBatchTaxAmount `json:"amount"`
+	Amount Amount `json:"amount"`
 }
 
 // A FeeBatch represents a settlement grouping of fees.
@@ -143,7 +93,7 @@ type V2CoreFeeBatch struct {
 	// Adjustments applied to this batch.
 	Adjustments *V2CoreFeeBatchAdjustments `json:"adjustments,omitempty"`
 	// The total fee amount billed in this batch.
-	Amount *V2CoreFeeBatchAmount `json:"amount"`
+	Amount Amount `json:"amount"`
 	// The entity that collected this batch.
 	CollectedBy *V2CoreFeeBatchCollectedBy `json:"collected_by"`
 	// The money movement records associated with collecting this batch.
