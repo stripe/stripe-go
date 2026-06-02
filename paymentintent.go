@@ -769,6 +769,18 @@ const (
 	PaymentIntentPaymentMethodOptionsBoletoSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsBoletoSetupFutureUsage = "on_session"
 )
 
+// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+//
+// If omitted, funds are captured before the authorization expires.
+type PaymentIntentPaymentMethodOptionsCardCaptureBy string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardCaptureBy can take
+const (
+	PaymentIntentPaymentMethodOptionsCardCaptureByAuthExpiry  PaymentIntentPaymentMethodOptionsCardCaptureBy = "auth_expiry"
+	PaymentIntentPaymentMethodOptionsCardCaptureByEndOfDay    PaymentIntentPaymentMethodOptionsCardCaptureBy = "end_of_day"
+	PaymentIntentPaymentMethodOptionsCardCaptureByTargetDelay PaymentIntentPaymentMethodOptionsCardCaptureBy = "target_delay"
+)
+
 // Controls when the funds will be captured from the customer's account.
 type PaymentIntentPaymentMethodOptionsCardCaptureMethod string
 
@@ -932,6 +944,18 @@ const (
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "off_session"
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "on_session"
+)
+
+// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+//
+// If omitted, funds are captured before the authorization expires.
+type PaymentIntentPaymentMethodOptionsCardPresentCaptureBy string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPresentCaptureBy can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentCaptureByAuthExpiry  PaymentIntentPaymentMethodOptionsCardPresentCaptureBy = "auth_expiry"
+	PaymentIntentPaymentMethodOptionsCardPresentCaptureByEndOfDay    PaymentIntentPaymentMethodOptionsCardPresentCaptureBy = "end_of_day"
+	PaymentIntentPaymentMethodOptionsCardPresentCaptureByTargetDelay PaymentIntentPaymentMethodOptionsCardPresentCaptureBy = "target_delay"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -3822,6 +3846,14 @@ func (p *PaymentIntentPaymentMethodOptionsBoletoParams) AddUnsetField(field Paym
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+//
+// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+type PaymentIntentPaymentMethodOptionsCardCaptureDelayParams struct {
+	Days  *int64 `form:"days" json:"days,omitempty"`
+	Hours *int64 `form:"hours" json:"hours,omitempty"`
+}
+
 // The selected installment plan to use for this payment attempt.
 // This parameter can only be provided during confirmation.
 type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams struct {
@@ -4033,6 +4065,14 @@ type PaymentIntentPaymentMethodOptionsCardThreeDSecureParams struct {
 
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardParams struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy *string `form:"capture_by" json:"capture_by,omitempty"`
+	// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	CaptureDelay *PaymentIntentPaymentMethodOptionsCardCaptureDelayParams `form:"capture_delay" json:"capture_delay,omitempty"`
 	// Controls when the funds are captured from the customer's account.
 	//
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
@@ -4109,6 +4149,14 @@ const (
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentPaymentMethodOptionsCardParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+//
+// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+type PaymentIntentPaymentMethodOptionsCardPresentCaptureDelayParams struct {
+	Days  *int64 `form:"days" json:"days,omitempty"`
+	Hours *int64 `form:"hours" json:"hours,omitempty"`
 }
 
 // Details for a cryptocurrency liquid asset funding transaction.
@@ -4207,6 +4255,14 @@ type PaymentIntentPaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy *string `form:"capture_by" json:"capture_by,omitempty"`
+	// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	CaptureDelay *PaymentIntentPaymentMethodOptionsCardPresentCaptureDelayParams `form:"capture_delay" json:"capture_delay,omitempty"`
 	// Controls when the funds are captured from the customer's account.
 	//
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
@@ -11726,6 +11782,14 @@ func (p *PaymentIntentCreatePaymentMethodOptionsBoletoParams) AddUnsetField(fiel
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+//
+// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+type PaymentIntentCreatePaymentMethodOptionsCardCaptureDelayParams struct {
+	Days  *int64 `form:"days" json:"days,omitempty"`
+	Hours *int64 `form:"hours" json:"hours,omitempty"`
+}
+
 // The selected installment plan to use for this payment attempt.
 // This parameter can only be provided during confirmation.
 type PaymentIntentCreatePaymentMethodOptionsCardInstallmentsPlanParams struct {
@@ -11937,6 +12001,14 @@ type PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureParams struct {
 
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentCreatePaymentMethodOptionsCardParams struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy *string `form:"capture_by" json:"capture_by,omitempty"`
+	// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	CaptureDelay *PaymentIntentCreatePaymentMethodOptionsCardCaptureDelayParams `form:"capture_delay" json:"capture_delay,omitempty"`
 	// Controls when the funds are captured from the customer's account.
 	//
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
@@ -12013,6 +12085,14 @@ const (
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentCreatePaymentMethodOptionsCardParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+//
+// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentCaptureDelayParams struct {
+	Days  *int64 `form:"days" json:"days,omitempty"`
+	Hours *int64 `form:"hours" json:"hours,omitempty"`
 }
 
 // Details for a cryptocurrency liquid asset funding transaction.
@@ -12111,6 +12191,14 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentCreatePaymentMethodOptionsCardPresentParams struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy *string `form:"capture_by" json:"capture_by,omitempty"`
+	// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	CaptureDelay *PaymentIntentCreatePaymentMethodOptionsCardPresentCaptureDelayParams `form:"capture_delay" json:"capture_delay,omitempty"`
 	// Controls when the funds are captured from the customer's account.
 	//
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
@@ -16253,6 +16341,14 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsBoletoParams) AddUnsetField(fiel
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+//
+// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+type PaymentIntentUpdatePaymentMethodOptionsCardCaptureDelayParams struct {
+	Days  *int64 `form:"days" json:"days,omitempty"`
+	Hours *int64 `form:"hours" json:"hours,omitempty"`
+}
+
 // The selected installment plan to use for this payment attempt.
 // This parameter can only be provided during confirmation.
 type PaymentIntentUpdatePaymentMethodOptionsCardInstallmentsPlanParams struct {
@@ -16464,6 +16560,14 @@ type PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureParams struct {
 
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentUpdatePaymentMethodOptionsCardParams struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy *string `form:"capture_by" json:"capture_by,omitempty"`
+	// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	CaptureDelay *PaymentIntentUpdatePaymentMethodOptionsCardCaptureDelayParams `form:"capture_delay" json:"capture_delay,omitempty"`
 	// Controls when the funds are captured from the customer's account.
 	//
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
@@ -16540,6 +16644,14 @@ const (
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *PaymentIntentUpdatePaymentMethodOptionsCardParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+//
+// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentCaptureDelayParams struct {
+	Days  *int64 `form:"days" json:"days,omitempty"`
+	Hours *int64 `form:"hours" json:"hours,omitempty"`
 }
 
 // Details for a cryptocurrency liquid asset funding transaction.
@@ -16638,6 +16750,14 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentParams struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy *string `form:"capture_by" json:"capture_by,omitempty"`
+	// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	CaptureDelay *PaymentIntentUpdatePaymentMethodOptionsCardPresentCaptureDelayParams `form:"capture_delay" json:"capture_delay,omitempty"`
 	// Controls when the funds are captured from the customer's account.
 	//
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
@@ -20228,6 +20348,16 @@ type PaymentIntentPaymentMethodOptionsBoleto struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsBoletoSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsCardCaptureDelay struct {
+	// The number of days to delay the capture of the funds.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	Days int64 `json:"days,omitempty"`
+	// The number of hours to delay the capture of the funds.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	Hours int64 `json:"hours,omitempty"`
+}
 
 // Installment plan selected for this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardInstallmentsPlan struct {
@@ -20279,6 +20409,11 @@ type PaymentIntentPaymentMethodOptionsCardStatementDetails struct {
 	Phone string `json:"phone,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsCard struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy    PaymentIntentPaymentMethodOptionsCardCaptureBy     `json:"capture_by,omitempty"`
+	CaptureDelay *PaymentIntentPaymentMethodOptionsCardCaptureDelay `json:"capture_delay,omitempty"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsCardCaptureMethod `json:"capture_method,omitempty"`
 	// Installment details for this payment.
@@ -20321,11 +20456,26 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	StatementDescriptorSuffixKanji string                                                 `json:"statement_descriptor_suffix_kanji,omitempty"`
 	StatementDetails               *PaymentIntentPaymentMethodOptionsCardStatementDetails `json:"statement_details,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsCardPresentCaptureDelay struct {
+	// The number of days to delay the capture of the funds.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	Days int64 `json:"days,omitempty"`
+	// The number of hours to delay the capture of the funds.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	Hours int64 `json:"hours,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsCardPresentRouting struct {
 	// Requested routing priority
 	RequestedPriority PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority `json:"requested_priority"`
 }
 type PaymentIntentPaymentMethodOptionsCardPresent struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy    PaymentIntentPaymentMethodOptionsCardPresentCaptureBy     `json:"capture_by,omitempty"`
+	CaptureDelay *PaymentIntentPaymentMethodOptionsCardPresentCaptureDelay `json:"capture_delay,omitempty"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod `json:"capture_method,omitempty"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
