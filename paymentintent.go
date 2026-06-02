@@ -4263,6 +4263,8 @@ func (p *PaymentIntentPaymentMethodOptionsCashAppParams) AddUnsetField(field Pay
 type PaymentIntentPaymentMethodOptionsCryptoDepositOptionsParams struct {
 	// The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
 	Networks []*string `form:"networks" json:"networks"`
+	// If true, provisions a permanent per-customer deposit address reused across PaymentIntents.
+	StaticAddress *bool `form:"static_address" json:"static_address,omitempty"`
 }
 
 // If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
@@ -12165,6 +12167,8 @@ func (p *PaymentIntentCreatePaymentMethodOptionsCashAppParams) AddUnsetField(fie
 type PaymentIntentCreatePaymentMethodOptionsCryptoDepositOptionsParams struct {
 	// The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
 	Networks []*string `form:"networks" json:"networks"`
+	// If true, provisions a permanent per-customer deposit address reused across PaymentIntents.
+	StaticAddress *bool `form:"static_address" json:"static_address,omitempty"`
 }
 
 // If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
@@ -16690,6 +16694,8 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsCashAppParams) AddUnsetField(fie
 type PaymentIntentUpdatePaymentMethodOptionsCryptoDepositOptionsParams struct {
 	// The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
 	Networks []*string `form:"networks" json:"networks"`
+	// If true, provisions a permanent per-customer deposit address reused across PaymentIntents.
+	StaticAddress *bool `form:"static_address" json:"static_address,omitempty"`
 }
 
 // If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
@@ -20345,6 +20351,8 @@ type PaymentIntentPaymentMethodOptionsCashApp struct {
 type PaymentIntentPaymentMethodOptionsCryptoDepositOptions struct {
 	// The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
 	Networks []PaymentIntentPaymentMethodOptionsCryptoDepositOptionsNetwork `json:"networks,omitempty"`
+	// If true, provisions a permanent per-customer deposit address reused across PaymentIntents.
+	StaticAddress bool `json:"static_address,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsCrypto struct {
 	DepositOptions *PaymentIntentPaymentMethodOptionsCryptoDepositOptions `json:"deposit_options,omitempty"`
