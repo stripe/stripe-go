@@ -36,14 +36,13 @@ func (c v1ReportingReportTypeService) List(ctx context.Context, listParams *Repo
 	if listParams == nil {
 		listParams = &ReportingReportTypeListParams{}
 	}
-	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*ReportingReportType], error) {
+	p := listParams.GetParams()
+	p.Context = ctx
+	queryParams := &form.Values{}
+	form.AppendTo(queryParams, listParams)
+	return newV1List(ctx, nil, func(ctx context.Context, _ *Params, _ *form.Values) (*v1Page[*ReportingReportType], error) {
 		list := &v1Page[*ReportingReportType]{}
-		if p == nil {
-			p = &Params{}
-		}
-		p.Context = ctx
-		err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_types", c.Key, []byte(b.Encode()), p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_types", c.Key, []byte(queryParams.Encode()), p, list)
 		return list, err
 	})
 }
