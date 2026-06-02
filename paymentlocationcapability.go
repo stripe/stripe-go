@@ -49,7 +49,7 @@ const (
 
 // List all payment location capabilities associated with the payment location.
 type PaymentLocationCapabilityListParams struct {
-	ListParams `form:"*"`
+	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The payment location that the capabilities enable functionality for.
