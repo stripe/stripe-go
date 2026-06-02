@@ -50,14 +50,13 @@ func (c v1PaymentLocationCapabilityService) List(ctx context.Context, listParams
 	if listParams == nil {
 		listParams = &PaymentLocationCapabilityListParams{}
 	}
-	listParams.Context = ctx
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentLocationCapability], error) {
+	p := listParams.GetParams()
+	p.Context = ctx
+	queryParams := &form.Values{}
+	form.AppendTo(queryParams, listParams)
+	return newV1List(ctx, nil, func(ctx context.Context, _ *Params, _ *form.Values) (*v1Page[*PaymentLocationCapability], error) {
 		list := &v1Page[*PaymentLocationCapability]{}
-		if p == nil {
-			p = &Params{}
-		}
-		p.Context = ctx
-		err := c.B.CallRaw(http.MethodGet, "/v1/payment_location_capabilities", c.Key, []byte(b.Encode()), p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/payment_location_capabilities", c.Key, []byte(queryParams.Encode()), p, list)
 		return list, err
 	})
 }
