@@ -4,7 +4,9 @@ package stripe
 import (
 	"bytes"
 	"context"
+	"crypto/md5"
 	"crypto/x509"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -13,6 +15,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"os/exec"
 	"reflect"
 	"regexp"
 	"runtime"
@@ -1810,6 +1813,7 @@ type stripeClientUserAgent struct {
 	Language        string   `json:"lang"`
 	LanguageVersion string   `json:"lang_version"`
 	Platform        string   `json:"platform,omitempty"`
+	Source          string   `json:"source,omitempty"`
 }
 
 // requestMetrics contains the id and duration of the last request sent
@@ -1888,6 +1892,16 @@ func initUserAgent() {
 	encodedStripeUserAgentReady = &sync.Once{}
 }
 
+func getMachineSigHash() string {
+	cmd := exec.Command("uname", "-a")
+	output, err := cmd.Output()
+	if err != nil {
+		output = []byte(runtime.GOOS + " " + runtime.GOARCH)
+	}
+	hash := md5.Sum(output)
+	return hex.EncodeToString(hash[:])
+}
+
 func getEncodedStripeUserAgent(enableTelemetry bool) string {
 	encodedStripeUserAgentReady.Do(func() {
 		stripeUserAgent := &stripeClientUserAgent{
@@ -1898,6 +1912,7 @@ func getEncodedStripeUserAgent(enableTelemetry bool) string {
 		}
 		if enableTelemetry {
 			stripeUserAgent.Platform = runtime.GOOS + " " + runtime.GOARCH
+			stripeUserAgent.Source = getMachineSigHash()
 		}
 		if agent, ok := detectAIAgent(os.LookupEnv); ok {
 			stripeUserAgent.AIAgent = agent

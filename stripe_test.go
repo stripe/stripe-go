@@ -2091,6 +2091,47 @@ func TestStripeClientUserAgentOmitsPlatformWithoutTelemetry(t *testing.T) {
 	assert.Empty(t, userAgent["platform"])
 }
 
+func TestStripeClientUserAgentIncludesSourceWithTelemetry(t *testing.T) {
+	originalEncoded := encodedStripeUserAgent
+	originalReady := encodedStripeUserAgentReady
+	defer func() {
+		encodedStripeUserAgent = originalEncoded
+		encodedStripeUserAgentReady = originalReady
+	}()
+
+	encodedStripeUserAgentReady = &sync.Once{}
+
+	encoded := getEncodedStripeUserAgent(true)
+	var userAgent map[string]interface{}
+	err := json.Unmarshal([]byte(encoded), &userAgent)
+	assert.NoError(t, err)
+
+	source, ok := userAgent["source"].(string)
+	assert.True(t, ok, "source field should be a string")
+	assert.Equal(t, 32, len(source), "source should be a 32-character MD5 hex string")
+	for _, c := range source {
+		assert.True(t, (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'), "source should contain only hex characters")
+	}
+}
+
+func TestStripeClientUserAgentOmitsSourceWithoutTelemetry(t *testing.T) {
+	originalEncoded := encodedStripeUserAgent
+	originalReady := encodedStripeUserAgentReady
+	defer func() {
+		encodedStripeUserAgent = originalEncoded
+		encodedStripeUserAgentReady = originalReady
+	}()
+
+	encodedStripeUserAgentReady = &sync.Once{}
+
+	encoded := getEncodedStripeUserAgent(false)
+	var userAgent map[string]string
+	err := json.Unmarshal([]byte(encoded), &userAgent)
+	assert.NoError(t, err)
+
+	assert.Empty(t, userAgent["source"])
+}
+
 func TestResponseToError(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
