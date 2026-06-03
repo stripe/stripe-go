@@ -1,5 +1,33 @@
 # Changelog
 
+## 85.3.0-alpha.2 - 2026-06-03
+* [#2365](https://github.com/stripe/stripe-go/pull/2365) Update generated code for private-preview
+  * Add support for new resources `DelegatedCheckoutOrderEvent`, `DelegatedCheckoutOrder`, `V2BillingContractLicensePricingQuantityChange`, `V2BillingContract`, and `V2SignalsAccountSignal`
+  * Add support for `Get` method on resource `DelegatedCheckoutOrder`
+  * Add support for `ListOrders` method on resource `DelegatedCheckoutRequestedSession`
+  * Add support for `Get` and `List` methods on resource `V2SignalsAccountSignal`
+  * Add support for `Activate`, `Cancel`, `Get`, `List`, `New`, and `Update` methods on resource `V2BillingContract`
+  * Add support for `BirthAddress` on `AccountIndividualParams`, `AccountPersonParams`, `Person`, `TokenAccountIndividualParams`, and `TokenPersonParams`
+  * Change type of `ChargeCapturePaymentDetailsMoneyServicesParams.TransactionType`, `ChargePaymentDetailsMoneyServicesParams.TransactionType`, `PaymentIntentCapturePaymentDetailsMoneyServicesParams.TransactionType`, `PaymentIntentConfirmPaymentDetailsMoneyServicesParams.TransactionType`, and `PaymentIntentPaymentDetailsMoneyServicesParams.TransactionType` from `literal('account_funding')` to `enum('account_funding'|'debt_repayment')`
+  * Add support for new value `proserv` on enums `CheckoutSessionAutomaticSurcharge.Provider` and `PaymentLinkAutomaticSurcharge.Provider`
+  * Add support for `ProvisioningDecision` and `TokenType` on `IssuingAuthorizationTokenDetails` and `IssuingToken`
+  * Add support for `TokenDecisionRecommendation` on `IssuingAuthorizationTokenDetailsNetworkDataVisa` and `IssuingTokenNetworkDataVisa`
+  * Add support for `Language` on `IssuingTokenNetworkDataDevice`
+  * Add support for `DigitalAssetCategory` on `PaymentIntentConfirmPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams`, `PaymentIntentConfirmPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams`, `PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams`, and `PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams`
+  * Add support for `StaticAddress` on `PaymentIntentConfirmPaymentMethodOptionsCryptoDepositOptionsParams`, `PaymentIntentPaymentMethodOptionsCryptoDepositOptionsParams`, and `PaymentIntentPaymentMethodOptionsCryptoDepositOptions`
+  * Add support for `PaymentReference` on `PaymentIntentPaymentsOrchestrationParams`
+  * ⚠️ Remove support for `PaymentDetails` on `PaymentIntentPaymentsOrchestrationParams`
+  * ⚠️ Change type of `PaymentIntentPaymentDetailsMoneyServices.TransactionType` from `literal('account_funding')` to `enum('account_funding'|'debt_repayment')`
+  * ⚠️ Add support for `EndingBefore`, `Limit`, and `StartingAfter` on `PaymentLocationListParams`
+  * Add support for `Schema` on `V2DataReportingQueryRunResultFile` and `V2ReportingReportRunResultFile`
+  * Add support for new value `payout_method_amount_limit_exceeded` on enum `V2MoneyManagementOutboundPaymentStatusDetailsFailed.Reason`
+  * Add support for `Include` on `V2DataReportingQueryRunParams` and `V2ReportingReportRunParams`
+  * Add support for `RequirementsCollector` on `V2CoreAccountDefaultsResponsibilitiesParams`
+  * Add support for event notification `V2SignalsAccountSignalMerchantDelinquencyReadyEvent` with related object `V2SignalsAccountSignal`
+* [#2368](https://github.com/stripe/stripe-go/pull/2368) Remove `Limit`, `StartingAfter`, and `EndingBefore` fields for `List` methods that do not accept those fields
+  <!-- Include any links or additional information that help explain this change. -->
+  - Fixes a bug where `Limit`, `StartingAfter`, and `EndingBefore` were embedded in `CapabilityListParams`, `PaymentLocationCapabilityListParams`, and `ReportingReportTypeListParams` even though they are not valid parameters and would have always resulted in a 400 from the Stripe API if set. If you were including them before in any of those 3 structs, you can safely remove them.
+
 ## 85.3.0-alpha.1 - 2026-05-27
 This release changes the pinned API version to 2026-05-27.private.
 
