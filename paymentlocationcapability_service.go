@@ -19,7 +19,7 @@ type v1PaymentLocationCapabilityService struct {
 	Key string
 }
 
-// Retrieves information about the specified Payment Location Capability.
+// Retrieves a payment_location capability
 func (c v1PaymentLocationCapabilityService) Retrieve(ctx context.Context, id string, params *PaymentLocationCapabilityRetrieveParams) (*PaymentLocationCapability, error) {
 	if params == nil {
 		params = &PaymentLocationCapabilityRetrieveParams{}
@@ -32,7 +32,7 @@ func (c v1PaymentLocationCapabilityService) Retrieve(ctx context.Context, id str
 	return paymentlocationcapability, err
 }
 
-// Updates a specified Payment Location Capability. Request or remove a payment location capability by updating its requested parameter.
+// Updates a payment_location capability. Request or remove a payment_location capability by updating its requested parameter.
 func (c v1PaymentLocationCapabilityService) Update(ctx context.Context, id string, params *PaymentLocationCapabilityUpdateParams) (*PaymentLocationCapability, error) {
 	if params == nil {
 		params = &PaymentLocationCapabilityUpdateParams{}
@@ -45,7 +45,7 @@ func (c v1PaymentLocationCapabilityService) Update(ctx context.Context, id strin
 	return paymentlocationcapability, err
 }
 
-// Returns a list of PaymentLocationCapability objects associated with the location.
+// List all payment location capabilities associated with the payment location.
 func (c v1PaymentLocationCapabilityService) List(ctx context.Context, listParams *PaymentLocationCapabilityListParams) *V1List[*PaymentLocationCapability] {
 	if listParams == nil {
 		listParams = &PaymentLocationCapabilityListParams{}

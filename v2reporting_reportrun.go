@@ -17,6 +17,18 @@ const (
 	V2ReportingReportRunResultFileContentTypeZip V2ReportingReportRunResultFileContentType = "zip"
 )
 
+// The type of the column.
+type V2ReportingReportRunResultFileSchemaType string
+
+// List of values that V2ReportingReportRunResultFileSchemaType can take
+const (
+	V2ReportingReportRunResultFileSchemaTypeBoolean   V2ReportingReportRunResultFileSchemaType = "boolean"
+	V2ReportingReportRunResultFileSchemaTypeDouble    V2ReportingReportRunResultFileSchemaType = "double"
+	V2ReportingReportRunResultFileSchemaTypeBigint    V2ReportingReportRunResultFileSchemaType = "bigint"
+	V2ReportingReportRunResultFileSchemaTypeVarchar   V2ReportingReportRunResultFileSchemaType = "varchar"
+	V2ReportingReportRunResultFileSchemaTypeTimestamp V2ReportingReportRunResultFileSchemaType = "timestamp"
+)
+
 // The type of the `ReportRun` or `QueryRun` result.
 type V2ReportingReportRunResultType string
 
@@ -52,6 +64,14 @@ type V2ReportingReportRunResultFileDownloadURL struct {
 	URL string `json:"url"`
 }
 
+// The columns of the schema.
+type V2ReportingReportRunResultFileSchema struct {
+	// The name of the column.
+	Name string `json:"name"`
+	// The type of the column.
+	Type V2ReportingReportRunResultFileSchemaType `json:"type"`
+}
+
 // Contains metadata about the file produced by the `ReportRun` or `QueryRun`, including
 // its content type, size, and a URL to download its contents.
 type V2ReportingReportRunResultFile struct {
@@ -59,6 +79,8 @@ type V2ReportingReportRunResultFile struct {
 	ContentType V2ReportingReportRunResultFileContentType `json:"content_type"`
 	// A pre-signed URL that allows secure, time-limited access to download the file.
 	DownloadURL *V2ReportingReportRunResultFileDownloadURL `json:"download_url"`
+	// The columns of the schema.
+	Schema []*V2ReportingReportRunResultFileSchema `json:"schema"`
 	// The total size of the file in bytes.
 	Size int64 `json:"size,string"`
 }

@@ -355,6 +355,16 @@ const (
 	IssuingAuthorizationTokenDetailsNetworkDataTypeVisa       IssuingAuthorizationTokenDetailsNetworkDataType = "visa"
 )
 
+// Stripe's recommendation to the network for this token activation request, derived from the same risk signals used for the activation decision.
+type IssuingAuthorizationTokenDetailsNetworkDataVisaTokenDecisionRecommendation string
+
+// List of values that IssuingAuthorizationTokenDetailsNetworkDataVisaTokenDecisionRecommendation can take
+const (
+	IssuingAuthorizationTokenDetailsNetworkDataVisaTokenDecisionRecommendationApprove         IssuingAuthorizationTokenDetailsNetworkDataVisaTokenDecisionRecommendation = "approve"
+	IssuingAuthorizationTokenDetailsNetworkDataVisaTokenDecisionRecommendationDecline         IssuingAuthorizationTokenDetailsNetworkDataVisaTokenDecisionRecommendation = "decline"
+	IssuingAuthorizationTokenDetailsNetworkDataVisaTokenDecisionRecommendationRecommendIDAndV IssuingAuthorizationTokenDetailsNetworkDataVisaTokenDecisionRecommendation = "recommend_id_and_v"
+)
+
 // The method used for tokenizing a card.
 type IssuingAuthorizationTokenDetailsNetworkDataWalletProviderCardNumberSource string
 
@@ -409,6 +419,29 @@ const (
 	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecisionApprove     IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision = "approve"
 	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecisionDecline     IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision = "decline"
 	IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecisionRequireAuth IssuingAuthorizationTokenDetailsNetworkDataWalletProviderSuggestedDecision = "require_auth"
+)
+
+// The decision made during token provisioning.
+type IssuingAuthorizationTokenDetailsProvisioningDecision string
+
+// List of values that IssuingAuthorizationTokenDetailsProvisioningDecision can take
+const (
+	IssuingAuthorizationTokenDetailsProvisioningDecisionApprove              IssuingAuthorizationTokenDetailsProvisioningDecision = "approve"
+	IssuingAuthorizationTokenDetailsProvisioningDecisionApprovePendingIDAndV IssuingAuthorizationTokenDetailsProvisioningDecision = "approve_pending_id_and_v"
+	IssuingAuthorizationTokenDetailsProvisioningDecisionDecline              IssuingAuthorizationTokenDetailsProvisioningDecision = "decline"
+)
+
+// The type of the token, indicating how it is used.
+type IssuingAuthorizationTokenDetailsTokenType string
+
+// List of values that IssuingAuthorizationTokenDetailsTokenType can take
+const (
+	IssuingAuthorizationTokenDetailsTokenTypeCardOnFile               IssuingAuthorizationTokenDetailsTokenType = "card_on_file"
+	IssuingAuthorizationTokenDetailsTokenTypeCloudBased               IssuingAuthorizationTokenDetailsTokenType = "cloud_based"
+	IssuingAuthorizationTokenDetailsTokenTypeCommercePlatform         IssuingAuthorizationTokenDetailsTokenType = "commerce_platform"
+	IssuingAuthorizationTokenDetailsTokenTypeCommercialVirtualAccount IssuingAuthorizationTokenDetailsTokenType = "commercial_virtual_account"
+	IssuingAuthorizationTokenDetailsTokenTypeSecureElement            IssuingAuthorizationTokenDetailsTokenType = "secure_element"
+	IssuingAuthorizationTokenDetailsTokenTypeStaticCredential         IssuingAuthorizationTokenDetailsTokenType = "static_credential"
 )
 
 // Whether the cardholder provided an address first line and if it matched the cardholder's `billing.address.line1`.
@@ -924,6 +957,8 @@ type IssuingAuthorizationTokenDetailsNetworkDataMastercard struct {
 type IssuingAuthorizationTokenDetailsNetworkDataVisa struct {
 	// A unique reference ID from the network to represent the card account number.
 	CardReferenceID string `json:"card_reference_id,omitempty"`
+	// Stripe's recommendation to the network for this token activation request, derived from the same risk signals used for the activation decision.
+	TokenDecisionRecommendation IssuingAuthorizationTokenDetailsNetworkDataVisaTokenDecisionRecommendation `json:"token_decision_recommendation,omitempty"`
 	// The network-unique identifier for the token.
 	TokenReferenceID string `json:"token_reference_id"`
 	// The ID of the entity requesting tokenization.
@@ -959,6 +994,10 @@ type IssuingAuthorizationTokenDetails struct {
 	// The hashed ID derived from the device ID from the card network associated with the token.
 	DeviceFingerprint string                                       `json:"device_fingerprint,omitempty"`
 	NetworkData       *IssuingAuthorizationTokenDetailsNetworkData `json:"network_data,omitempty"`
+	// The decision made during token provisioning.
+	ProvisioningDecision IssuingAuthorizationTokenDetailsProvisioningDecision `json:"provisioning_decision,omitempty"`
+	// The type of the token, indicating how it is used.
+	TokenType IssuingAuthorizationTokenDetailsTokenType `json:"token_type,omitempty"`
 }
 
 // [Treasury](https://docs.stripe.com/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://docs.stripe.com/api/treasury/financial_accounts).

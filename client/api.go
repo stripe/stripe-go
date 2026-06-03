@@ -56,6 +56,7 @@ import (
 	"github.com/stripe/stripe-go/v85/customerbalancetransaction"
 	"github.com/stripe/stripe-go/v85/customercashbalancetransaction"
 	"github.com/stripe/stripe-go/v85/customersession"
+	delegatedcheckoutorder "github.com/stripe/stripe-go/v85/delegatedcheckout/order"
 	delegatedcheckoutrequestedsession "github.com/stripe/stripe-go/v85/delegatedcheckout/requestedsession"
 	"github.com/stripe/stripe-go/v85/dispute"
 	entitlementsactiveentitlement "github.com/stripe/stripe-go/v85/entitlements/activeentitlement"
@@ -204,6 +205,8 @@ import (
 	v2billingcadencesspendmodifierrule "github.com/stripe/stripe-go/v85/v2/billing/cadences/spendmodifierrule"
 	v2billingcollectionsetting "github.com/stripe/stripe-go/v85/v2/billing/collectionsetting"
 	v2billingcollectionsettingsversion "github.com/stripe/stripe-go/v85/v2/billing/collectionsettings/version"
+	v2billingcontract "github.com/stripe/stripe-go/v85/v2/billing/contract"
+	v2billingcontractslicensepricingquantitychange "github.com/stripe/stripe-go/v85/v2/billing/contracts/licensepricing/quantitychange"
 	v2billingcustompricingunit "github.com/stripe/stripe-go/v85/v2/billing/custompricingunit"
 	v2billingintent "github.com/stripe/stripe-go/v85/v2/billing/intent"
 	v2billingintentsaction "github.com/stripe/stripe-go/v85/v2/billing/intents/action"
@@ -274,6 +277,7 @@ import (
 	v2paymentssettlementallocationintentssplit "github.com/stripe/stripe-go/v85/v2/payments/settlementallocationintents/split"
 	v2reportingreport "github.com/stripe/stripe-go/v85/v2/reporting/report"
 	v2reportingreportrun "github.com/stripe/stripe-go/v85/v2/reporting/reportrun"
+	v2signalsaccountsignal "github.com/stripe/stripe-go/v85/v2/signals/accountsignal"
 	v2taxmanualrule "github.com/stripe/stripe-go/v85/v2/tax/manualrule"
 	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v85/v2/testhelpers/financialaddress"
 	v2testhelpersmoneymanagement "github.com/stripe/stripe-go/v85/v2/testhelpers/moneymanagement"
@@ -372,6 +376,8 @@ type API struct {
 	Customers *customer.Client
 	// CustomerSessions is the client used to invoke /v1/customer_sessions APIs.
 	CustomerSessions *customersession.Client
+	// DelegatedCheckoutOrders is the client used to invoke /v1/delegated_checkout/orders APIs.
+	DelegatedCheckoutOrders *delegatedcheckoutorder.Client
 	// DelegatedCheckoutRequestedSessions is the client used to invoke /v1/delegated_checkout/requested_sessions APIs.
 	DelegatedCheckoutRequestedSessions *delegatedcheckoutrequestedsession.Client
 	// Disputes is the client used to invoke /v1/disputes APIs.
@@ -668,6 +674,10 @@ type API struct {
 	V2BillingCollectionSettings *v2billingcollectionsetting.Client
 	// V2BillingCollectionSettingsVersions is the client used to invoke /v2/billing/collection_settings/{collection_setting_id}/versions APIs.
 	V2BillingCollectionSettingsVersions *v2billingcollectionsettingsversion.Client
+	// V2BillingContracts is the client used to invoke /v2/billing/contracts APIs.
+	V2BillingContracts *v2billingcontract.Client
+	// V2BillingContractsLicensePricingQuantityChanges is the client used to invoke quantitychange related APIs.
+	V2BillingContractsLicensePricingQuantityChanges *v2billingcontractslicensepricingquantitychange.Client
 	// V2BillingCustomPricingUnits is the client used to invoke /v2/billing/custom_pricing_units APIs.
 	V2BillingCustomPricingUnits *v2billingcustompricingunit.Client
 	// V2BillingIntents is the client used to invoke /v2/billing/intents APIs.
@@ -808,6 +818,8 @@ type API struct {
 	V2ReportingReportRuns *v2reportingreportrun.Client
 	// V2ReportingReports is the client used to invoke report related APIs.
 	V2ReportingReports *v2reportingreport.Client
+	// V2SignalsAccountSignals is the client used to invoke /v2/signals/account_signals APIs.
+	V2SignalsAccountSignals *v2signalsaccountsignal.Client
 	// V2TaxManualRules is the client used to invoke /v2/tax/manual_rules APIs.
 	V2TaxManualRules *v2taxmanualrule.Client
 	// V2TestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
@@ -875,6 +887,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.CustomerCashBalanceTransactions = &customercashbalancetransaction.Client{B: backends.API, Key: key}
 	a.Customers = &customer.Client{B: backends.API, Key: key}
 	a.CustomerSessions = &customersession.Client{B: backends.API, Key: key}
+	a.DelegatedCheckoutOrders = &delegatedcheckoutorder.Client{B: backends.API, Key: key}
 	a.DelegatedCheckoutRequestedSessions = &delegatedcheckoutrequestedsession.Client{B: backends.API, Key: key}
 	a.Disputes = &dispute.Client{B: backends.API, Key: key}
 	a.EntitlementsActiveEntitlements = &entitlementsactiveentitlement.Client{B: backends.API, Key: key}
@@ -1023,6 +1036,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2BillingCadencesSpendModifierRules = &v2billingcadencesspendmodifierrule.Client{B: backends.API, Key: key}
 	a.V2BillingCollectionSettings = &v2billingcollectionsetting.Client{B: backends.API, Key: key}
 	a.V2BillingCollectionSettingsVersions = &v2billingcollectionsettingsversion.Client{B: backends.API, Key: key}
+	a.V2BillingContracts = &v2billingcontract.Client{B: backends.API, Key: key}
+	a.V2BillingContractsLicensePricingQuantityChanges = &v2billingcontractslicensepricingquantitychange.Client{B: backends.API, Key: key}
 	a.V2BillingCustomPricingUnits = &v2billingcustompricingunit.Client{B: backends.API, Key: key}
 	a.V2BillingIntents = &v2billingintent.Client{B: backends.API, Key: key}
 	a.V2BillingIntentsActions = &v2billingintentsaction.Client{B: backends.API, Key: key}
@@ -1093,6 +1108,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2PaymentsSettlementAllocationIntentsSplits = &v2paymentssettlementallocationintentssplit.Client{B: backends.API, Key: key}
 	a.V2ReportingReportRuns = &v2reportingreportrun.Client{B: backends.API, Key: key}
 	a.V2ReportingReports = &v2reportingreport.Client{B: backends.API, Key: key}
+	a.V2SignalsAccountSignals = &v2signalsaccountsignal.Client{B: backends.API, Key: key}
 	a.V2TaxManualRules = &v2taxmanualrule.Client{B: backends.API, Key: key}
 	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2TestHelpersMoneyManagements = &v2testhelpersmoneymanagement.Client{B: backends.API, Key: key}

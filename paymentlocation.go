@@ -39,7 +39,7 @@ type PaymentLocationParams struct {
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Pass true when updating location fields that will trigger onboarding review for any of the location's active location capabilities. If this parameter is not set to true, updates that would trigger onboarding review will fail. Only applicable for locations with active location capabilities.
+	// Pass true when updating location fields that trigger onboarding review for any of the location's active location capabilities. If this parameter isn't set to true, updates that would trigger onboarding review fail. Only applicable for locations with active location capabilities.
 	OnboardingDataUpdateAcknowledged *bool `form:"onboarding_data_update_acknowledged" json:"onboarding_data_update_acknowledged,omitempty"`
 }
 
@@ -100,7 +100,7 @@ type PaymentLocationUpdateParams struct {
 	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Pass true when updating location fields that will trigger onboarding review for any of the location's active location capabilities. If this parameter is not set to true, updates that would trigger onboarding review will fail. Only applicable for locations with active location capabilities.
+	// Pass true when updating location fields that trigger onboarding review for any of the location's active location capabilities. If this parameter isn't set to true, updates that would trigger onboarding review fail. Only applicable for locations with active location capabilities.
 	OnboardingDataUpdateAcknowledged *bool `form:"onboarding_data_update_acknowledged" json:"onboarding_data_update_acknowledged,omitempty"`
 }
 
@@ -153,7 +153,7 @@ type PaymentLocationCapabilitySettingsFRMealVouchersConecsPayments struct {
 	SupportedIssuers *PaymentLocationCapabilitySettingsFRMealVouchersConecsPaymentsSupportedIssuers `json:"supported_issuers"`
 }
 
-// The capability settings for the location. Only applicable for locations with requested Payment Location Capabilities.
+// The capability settings for the location. Only applicable for locations with requested payment location capabilities.
 type PaymentLocationCapabilitySettings struct {
 	// Settings for Conecs French meal voucher capability.
 	FRMealVouchersConecsPayments *PaymentLocationCapabilitySettingsFRMealVouchersConecsPayments `json:"fr_meal_vouchers_conecs_payments"`
@@ -165,7 +165,7 @@ type PaymentLocation struct {
 	Address *Address `json:"address"`
 	// Identification numbers associated with the location.
 	BusinessRegistration *PaymentLocationBusinessRegistration `json:"business_registration"`
-	// The capability settings for the location. Only applicable for locations with requested Payment Location Capabilities.
+	// The capability settings for the location. Only applicable for locations with requested payment location capabilities.
 	CapabilitySettings *PaymentLocationCapabilitySettings `json:"capability_settings"`
 	Deleted            bool                               `json:"deleted,omitempty"`
 	// The display name of the location.

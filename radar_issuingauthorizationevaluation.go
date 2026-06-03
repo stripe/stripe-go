@@ -151,7 +151,7 @@ type RadarIssuingAuthorizationEvaluationCardDetailsParams struct {
 	// The timestamp when the card was created, as a Unix timestamp in seconds.
 	CreatedAt *int64 `form:"created_at" json:"created_at"`
 	// The last 4 digits of the card number.
-	Last4 *string `form:"last4" json:"last4,omitempty"`
+	Last4 *string `form:"last4" json:"last4"`
 	// User's specified unique ID of the card for this authorization attempt (e.g., RRN or internal reference).
 	Reference *string `form:"reference" json:"reference"`
 }
@@ -272,7 +272,7 @@ type RadarIssuingAuthorizationEvaluationCreateCardDetailsParams struct {
 	// The timestamp when the card was created, as a Unix timestamp in seconds.
 	CreatedAt *int64 `form:"created_at" json:"created_at"`
 	// The last 4 digits of the card number.
-	Last4 *string `form:"last4" json:"last4,omitempty"`
+	Last4 *string `form:"last4" json:"last4"`
 	// User's specified unique ID of the card for this authorization attempt (e.g., RRN or internal reference).
 	Reference *string `form:"reference" json:"reference"`
 }

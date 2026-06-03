@@ -35,13 +35,14 @@ func TestV2PostRequest(t *testing.T) {
 	var contentType string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req, _ := io.ReadAll(r.Body)
-		r.Body.Close()
+		assert.NoError(t, r.Body.Close())
 		body = string(req)
 		path = r.URL.RequestURI()
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		_, err := w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		assert.NoError(t, err)
 	}))
 
 	client := createTestClient(testServer)
@@ -67,13 +68,14 @@ func TestRawV1PostRequest(t *testing.T) {
 	var contentType string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req, _ := io.ReadAll(r.Body)
-		r.Body.Close()
+		assert.NoError(t, r.Body.Close())
 		body = string(req)
 		path = r.URL.RequestURI()
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		_, err := w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		assert.NoError(t, err)
 	}))
 
 	client := createTestClient(testServer)
@@ -101,7 +103,7 @@ func TestV2GetRequestWithAdditionalHeaders(t *testing.T) {
 	var stripeContext string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req, _ := io.ReadAll(r.Body)
-		r.Body.Close()
+		assert.NoError(t, r.Body.Close())
 		body = string(req)
 		path = r.URL.RequestURI()
 		method = r.Method
@@ -109,7 +111,8 @@ func TestV2GetRequestWithAdditionalHeaders(t *testing.T) {
 		fooHeader = r.Header.Get("foo")
 		stripeContext = r.Header.Get("Stripe-Context")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		_, err := w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		assert.NoError(t, err)
 	}))
 
 	client := createTestClient(testServer)

@@ -535,6 +535,7 @@ type PaymentIntentPaymentDetailsMoneyServicesTransactionType string
 // List of values that PaymentIntentPaymentDetailsMoneyServicesTransactionType can take
 const (
 	PaymentIntentPaymentDetailsMoneyServicesTransactionTypeAccountFunding PaymentIntentPaymentDetailsMoneyServicesTransactionType = "account_funding"
+	PaymentIntentPaymentDetailsMoneyServicesTransactionTypeDebtRepayment  PaymentIntentPaymentDetailsMoneyServicesTransactionType = "debt_repayment"
 )
 
 // Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -3936,6 +3937,8 @@ func (p *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccount
 
 // Payment method specific account funding transaction details.
 type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// The category of digital asset being acquired through this account funding transaction.
+	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
 	// Details for a liquid asset (crypto or security) funding transaction.
 	LiquidAsset *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
 	// Details for a wallet funding transaction.
@@ -4163,6 +4166,8 @@ func (p *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServices
 
 // Payment method specific account funding transaction details.
 type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// The category of digital asset being acquired through this account funding transaction.
+	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
 	// Details for a liquid asset (crypto or security) funding transaction.
 	LiquidAsset *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
 	// Details for a wallet funding transaction.
@@ -4258,6 +4263,8 @@ func (p *PaymentIntentPaymentMethodOptionsCashAppParams) AddUnsetField(field Pay
 type PaymentIntentPaymentMethodOptionsCryptoDepositOptionsParams struct {
 	// The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
 	Networks []*string `form:"networks" json:"networks"`
+	// If true, provisions a permanent per-customer deposit address reused across PaymentIntents.
+	StaticAddress *bool `form:"static_address" json:"static_address,omitempty"`
 }
 
 // If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
@@ -6241,18 +6248,12 @@ func (p *PaymentIntentPaymentMethodOptionsParams) AddUnsetField(field PaymentInt
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// Payment-level details for the orchestrated payment.
-type PaymentIntentPaymentsOrchestrationPaymentDetailsParams struct {
-	// Merchant-provided reference for this payment, used for reconciliation.
-	Reference *string `form:"reference" json:"reference,omitempty"`
-}
-
 // When you enable this parameter, this PaymentIntent will route your payment to processors that you configure in the dashboard.
 type PaymentIntentPaymentsOrchestrationParams struct {
 	// Whether this feature is enabled.
 	Enabled *bool `form:"enabled" json:"enabled"`
-	// Payment-level details for the orchestrated payment.
-	PaymentDetails *PaymentIntentPaymentsOrchestrationPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
+	// Merchant-provided reference for this payment, used for reconciliation.
+	PaymentReference *string `form:"payment_reference" json:"payment_reference,omitempty"`
 }
 
 // Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
@@ -11840,6 +11841,8 @@ func (p *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesA
 
 // Payment method specific account funding transaction details.
 type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// The category of digital asset being acquired through this account funding transaction.
+	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
 	// Details for a liquid asset (crypto or security) funding transaction.
 	LiquidAsset *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
 	// Details for a wallet funding transaction.
@@ -12067,6 +12070,8 @@ func (p *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneySe
 
 // Payment method specific account funding transaction details.
 type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// The category of digital asset being acquired through this account funding transaction.
+	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
 	// Details for a liquid asset (crypto or security) funding transaction.
 	LiquidAsset *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
 	// Details for a wallet funding transaction.
@@ -12162,6 +12167,8 @@ func (p *PaymentIntentCreatePaymentMethodOptionsCashAppParams) AddUnsetField(fie
 type PaymentIntentCreatePaymentMethodOptionsCryptoDepositOptionsParams struct {
 	// The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
 	Networks []*string `form:"networks" json:"networks"`
+	// If true, provisions a permanent per-customer deposit address reused across PaymentIntents.
+	StaticAddress *bool `form:"static_address" json:"static_address,omitempty"`
 }
 
 // If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
@@ -14145,18 +14152,12 @@ func (p *PaymentIntentCreatePaymentMethodOptionsParams) AddUnsetField(field Paym
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// Payment-level details for the orchestrated payment.
-type PaymentIntentCreatePaymentsOrchestrationPaymentDetailsParams struct {
-	// Merchant-provided reference for this payment, used for reconciliation.
-	Reference *string `form:"reference" json:"reference,omitempty"`
-}
-
 // When you enable this parameter, this PaymentIntent will route your payment to processors that you configure in the dashboard.
 type PaymentIntentCreatePaymentsOrchestrationParams struct {
 	// Whether this feature is enabled.
 	Enabled *bool `form:"enabled" json:"enabled"`
-	// Payment-level details for the orchestrated payment.
-	PaymentDetails *PaymentIntentCreatePaymentsOrchestrationPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
+	// Merchant-provided reference for this payment, used for reconciliation.
+	PaymentReference *string `form:"payment_reference" json:"payment_reference,omitempty"`
 }
 
 // Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
@@ -16367,6 +16368,8 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesA
 
 // Payment method specific account funding transaction details.
 type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// The category of digital asset being acquired through this account funding transaction.
+	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
 	// Details for a liquid asset (crypto or security) funding transaction.
 	LiquidAsset *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
 	// Details for a wallet funding transaction.
@@ -16594,6 +16597,8 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneySe
 
 // Payment method specific account funding transaction details.
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// The category of digital asset being acquired through this account funding transaction.
+	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
 	// Details for a liquid asset (crypto or security) funding transaction.
 	LiquidAsset *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
 	// Details for a wallet funding transaction.
@@ -16689,6 +16694,8 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsCashAppParams) AddUnsetField(fie
 type PaymentIntentUpdatePaymentMethodOptionsCryptoDepositOptionsParams struct {
 	// The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
 	Networks []*string `form:"networks" json:"networks"`
+	// If true, provisions a permanent per-customer deposit address reused across PaymentIntents.
+	StaticAddress *bool `form:"static_address" json:"static_address,omitempty"`
 }
 
 // If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
@@ -20344,6 +20351,8 @@ type PaymentIntentPaymentMethodOptionsCashApp struct {
 type PaymentIntentPaymentMethodOptionsCryptoDepositOptions struct {
 	// The blockchain networks to support for deposits. Learn more about [supported networks and tokens](https://docs.stripe.com/payments/deposit-mode-stablecoin-payments#token-and-network-support).
 	Networks []PaymentIntentPaymentMethodOptionsCryptoDepositOptionsNetwork `json:"networks,omitempty"`
+	// If true, provisions a permanent per-customer deposit address reused across PaymentIntents.
+	StaticAddress bool `json:"static_address,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsCrypto struct {
 	DepositOptions *PaymentIntentPaymentMethodOptionsCryptoDepositOptions `json:"deposit_options,omitempty"`

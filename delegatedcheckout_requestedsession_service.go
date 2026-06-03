@@ -9,6 +9,8 @@ package stripe
 import (
 	"context"
 	"net/http"
+
+	"github.com/stripe/stripe-go/v85/form"
 )
 
 // v1DelegatedCheckoutRequestedSessionService is used to invoke /v1/delegated_checkout/requested_sessions APIs.
@@ -77,4 +79,24 @@ func (c v1DelegatedCheckoutRequestedSessionService) Expire(ctx context.Context, 
 	requestedsession := &DelegatedCheckoutRequestedSession{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, requestedsession)
 	return requestedsession, err
+}
+
+// Lists orders for a delegated checkout requested session.
+func (c v1DelegatedCheckoutRequestedSessionService) ListOrders(ctx context.Context, listParams *DelegatedCheckoutRequestedSessionListOrdersParams) *V1List[*DelegatedCheckoutOrder] {
+	if listParams == nil {
+		listParams = &DelegatedCheckoutRequestedSessionListOrdersParams{}
+	}
+	listParams.Context = ctx
+	path := FormatURLPath(
+		"/v1/delegated_checkout/requested_sessions/%s/orders", StringValue(
+			listParams.RequestedSession))
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*DelegatedCheckoutOrder], error) {
+		list := &v1Page[*DelegatedCheckoutOrder]{}
+		if p == nil {
+			p = &Params{}
+		}
+		p.Context = ctx
+		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
+		return list, err
+	})
 }

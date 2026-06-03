@@ -2299,6 +2299,12 @@ func (h *EventNotificationHandler) OnV2SignalsAccountSignalFraudulentMerchantRea
 		h, "v2.signals.account_signal.fraudulent_merchant_ready", callback)
 }
 
+// OnV2SignalsAccountSignalMerchantDelinquencyReady registers a callback to handle notifications about the "v2.signals.account_signal.merchant_delinquency_ready" event.
+func (h *EventNotificationHandler) OnV2SignalsAccountSignalMerchantDelinquencyReady(callback func(ctx context.Context, notif *V2SignalsAccountSignalMerchantDelinquencyReadyEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.signals.account_signal.merchant_delinquency_ready", callback)
+}
+
 // event-handler-methods: The end of the section generated from our OpenAPI spec
 
 // createClientWithContext creates a new Client with a custom stripe_context.

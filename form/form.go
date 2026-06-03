@@ -1,3 +1,6 @@
+// Package form encodes Go structs into URL-encoded form values for Stripe API
+// requests. It uses struct field tags (e.g. `form:"name"`) to control encoding
+// behavior.
 package form
 
 import (
@@ -576,8 +579,8 @@ func (f *Values) Encode() string {
 			buf.WriteByte('&')
 		}
 		key := url.QueryEscape(v.Key)
-		key = strings.Replace(key, "%5B", "[", -1)
-		key = strings.Replace(key, "%5D", "]", -1)
+		key = strings.ReplaceAll(key, "%5B", "[")
+		key = strings.ReplaceAll(key, "%5D", "]")
 		buf.WriteString(key)
 		buf.WriteString("=")
 		buf.WriteString(url.QueryEscape(v.Value))

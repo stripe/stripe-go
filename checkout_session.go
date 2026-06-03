@@ -36,6 +36,7 @@ type CheckoutSessionAutomaticSurchargeProvider string
 // List of values that CheckoutSessionAutomaticSurchargeProvider can take
 const (
 	CheckoutSessionAutomaticSurchargeProviderInterpayments CheckoutSessionAutomaticSurchargeProvider = "interpayments"
+	CheckoutSessionAutomaticSurchargeProviderProserv       CheckoutSessionAutomaticSurchargeProvider = "proserv"
 	CheckoutSessionAutomaticSurchargeProviderYeeld         CheckoutSessionAutomaticSurchargeProvider = "yeeld"
 )
 

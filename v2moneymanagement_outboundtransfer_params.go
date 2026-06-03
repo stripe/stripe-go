@@ -75,7 +75,7 @@ type V2MoneyManagementOutboundTransferParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The recipient verification id for this OutboundTransfer. Only required for countries with regulatory mandates to verify recipient names before OutboundTransfer creation.
 	RecipientVerification *string `form:"recipient_verification" json:"recipient_verification,omitempty"`
-	// The description that appears on the receiving end for an OutboundTransfer (for example, on a bank statement). Must be between 3 and 22 characters long, and not contain profanity.
+	// The description that appears on the receiving end for an OutboundTransfer (for example, on a bank statement). Must be between 3 and 22 characters long for most destinations (500 for FinancialAccount destinations), and not contain profanity.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// To which payout method to send the OutboundTransfer.
 	To *V2MoneyManagementOutboundTransferToParams `form:"to" json:"to,omitempty"`
@@ -138,7 +138,7 @@ type V2MoneyManagementOutboundTransferCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The recipient verification id for this OutboundTransfer. Only required for countries with regulatory mandates to verify recipient names before OutboundTransfer creation.
 	RecipientVerification *string `form:"recipient_verification" json:"recipient_verification,omitempty"`
-	// The description that appears on the receiving end for an OutboundTransfer (for example, on a bank statement). Must be between 3 and 22 characters long, and not contain profanity.
+	// The description that appears on the receiving end for an OutboundTransfer (for example, on a bank statement). Must be between 3 and 22 characters long for most destinations (500 for FinancialAccount destinations), and not contain profanity.
 	StatementDescriptor *string `form:"statement_descriptor" json:"statement_descriptor,omitempty"`
 	// To which payout method to send the OutboundTransfer.
 	To *V2MoneyManagementOutboundTransferCreateToParams `form:"to" json:"to"`
