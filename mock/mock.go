@@ -11,8 +11,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stripe/stripe-go/v85"
-	stripetest "github.com/stripe/stripe-go/v85/testing"
+	"github.com/stripe/stripe-go/v86"
+	stripetest "github.com/stripe/stripe-go/v86/testing"
 )
 
 type Assertion func(*testing.T, *http.Request)

@@ -11,8 +11,8 @@ package setupattempt
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v85"
-	"github.com/stripe/stripe-go/v85/form"
+	stripe "github.com/stripe/stripe-go/v86"
+	"github.com/stripe/stripe-go/v86/form"
 )
 
 // Client is used to invoke /v1/setup_attempts APIs.
