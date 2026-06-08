@@ -16,6 +16,7 @@ const (
 	V2CommerceProductCatalogImportFeedTypeInventory V2CommerceProductCatalogImportFeedType = "inventory"
 	V2CommerceProductCatalogImportFeedTypePricing   V2CommerceProductCatalogImportFeedType = "pricing"
 	V2CommerceProductCatalogImportFeedTypeProduct   V2CommerceProductCatalogImportFeedType = "product"
+	V2CommerceProductCatalogImportFeedTypePromotion V2CommerceProductCatalogImportFeedType = "promotion"
 )
 
 // The current status of this ProductCatalogImport.
