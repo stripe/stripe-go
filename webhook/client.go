@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/stripe/stripe-go/v85"
+	"github.com/stripe/stripe-go/v86"
 )
 
 //

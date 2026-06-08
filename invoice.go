@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v85/form"
+	"github.com/stripe/stripe-go/v86/form"
 )
 
 // If Stripe disabled automatic tax, this enum describes why.
@@ -3677,7 +3677,7 @@ type InvoiceTotalPretaxCreditAmount struct {
 // Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
 type InvoiceTotalTaxTaxRateDetails struct {
 	// ID of the tax rate
-	TaxRate string `json:"tax_rate"`
+	TaxRate *TaxRate `json:"tax_rate"`
 }
 
 // The aggregate tax information of all line items.
