@@ -88,6 +88,10 @@ const (
 	TaxCalculationLineItemTaxBreakdownTaxabilityReasonZeroRated            TaxCalculationLineItemTaxBreakdownTaxabilityReason = "zero_rated"
 )
 
+// The address of the location where this line item's event or service takes place. Depending on the [tax code](https://docs.stripe.com/tax/tax-codes), providing a performance location is required, optional, or not supported. Use this to provide the address inline without pre-creating a [TaxLocation](https://docs.stripe.com/api/tax/location) object. Can't be used with `performance_location`.
+type TaxCalculationLineItemPerformanceLocationDetails struct {
+	Address *Address `json:"address"`
+}
 type TaxCalculationLineItemTaxBreakdownJurisdiction struct {
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country string `json:"country"`
@@ -138,6 +142,8 @@ type TaxCalculationLineItem struct {
 	Object string `json:"object"`
 	// Indicates the line item represents a performance where the venue location might determine the tax, not the customer address. Leave empty if the tax code doesn't require a tax location. If you provide this value for tax codes with an `optional` location requirement, it overrides the customer address.
 	PerformanceLocation string `json:"performance_location,omitempty"`
+	// The address of the location where this line item's event or service takes place. Depending on the [tax code](https://docs.stripe.com/tax/tax-codes), providing a performance location is required, optional, or not supported. Use this to provide the address inline without pre-creating a [TaxLocation](https://docs.stripe.com/api/tax/location) object. Can't be used with `performance_location`.
+	PerformanceLocationDetails *TaxCalculationLineItemPerformanceLocationDetails `json:"performance_location_details,omitempty"`
 	// The ID of an existing [Product](https://docs.stripe.com/api/products/object).
 	Product string `json:"product"`
 	// The number of units of the item being purchased. For reversals, this is the quantity reversed.

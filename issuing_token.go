@@ -226,7 +226,7 @@ const (
 	IssuingTokenNetworkDataTypeVisa       IssuingTokenNetworkDataType = "visa"
 )
 
-// Stripe's recommendation to the network for this token activation request, derived from the same risk signals used for the activation decision.
+// The network's recommendation to Stripe for this token activation request.
 type IssuingTokenNetworkDataVisaTokenDecisionRecommendation string
 
 // List of values that IssuingTokenNetworkDataVisaTokenDecisionRecommendation can take
@@ -425,7 +425,7 @@ type IssuingTokenNetworkDataMastercard struct {
 type IssuingTokenNetworkDataVisa struct {
 	// A unique reference ID from Visa to represent the card account number.
 	CardReferenceID string `json:"card_reference_id"`
-	// Stripe's recommendation to the network for this token activation request, derived from the same risk signals used for the activation decision.
+	// The network's recommendation to Stripe for this token activation request.
 	TokenDecisionRecommendation IssuingTokenNetworkDataVisaTokenDecisionRecommendation `json:"token_decision_recommendation,omitempty"`
 	// The network-unique identifier for the token.
 	TokenReferenceID string `json:"token_reference_id"`

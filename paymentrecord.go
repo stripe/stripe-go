@@ -223,6 +223,15 @@ const (
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion220 PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.2.0"
 )
 
+// Indicates whether or not multiple captures are supported.
+type PaymentRecordPaymentMethodDetailsCardPresentMulticaptureStatus string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardPresentMulticaptureStatus can take
+const (
+	PaymentRecordPaymentMethodDetailsCardPresentMulticaptureStatusAvailable   PaymentRecordPaymentMethodDetailsCardPresentMulticaptureStatus = "available"
+	PaymentRecordPaymentMethodDetailsCardPresentMulticaptureStatusUnavailable PaymentRecordPaymentMethodDetailsCardPresentMulticaptureStatus = "unavailable"
+)
+
 // The method used to process this payment method offline. Only deferred is allowed.
 type PaymentRecordPaymentMethodDetailsCardPresentOfflineType string
 
@@ -607,7 +616,10 @@ type PaymentRecordProcessorDetailsType string
 
 // List of values that PaymentRecordProcessorDetailsType can take
 const (
-	PaymentRecordProcessorDetailsTypeCustom PaymentRecordProcessorDetailsType = "custom"
+	PaymentRecordProcessorDetailsTypeCustom          PaymentRecordProcessorDetailsType = "custom"
+	PaymentRecordProcessorDetailsTypeFiservValuelink PaymentRecordProcessorDetailsType = "fiserv_valuelink"
+	PaymentRecordProcessorDetailsTypeGivex           PaymentRecordProcessorDetailsType = "givex"
+	PaymentRecordProcessorDetailsTypeSvs             PaymentRecordProcessorDetailsType = "svs"
 )
 
 // Indicates who reported the payment.
@@ -851,8 +863,10 @@ type PaymentRecordReportPaymentAttemptCanceledParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Payment evaluations associated with this reported payment.
-	PaymentEvaluations []*string                                                   `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
-	UnsetFields        []PaymentRecordReportPaymentAttemptCanceledParamsUnsetField `form:"-" json:"-"`
+	PaymentEvaluations []*string `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
+	// The reason the payment attempt was canceled.
+	Reason      *string                                                     `form:"reason" json:"reason,omitempty"`
+	UnsetFields []PaymentRecordReportPaymentAttemptCanceledParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentRecordReportPaymentAttemptCanceledParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportPaymentAttemptCanceledParams.
@@ -1575,6 +1589,10 @@ type PaymentRecordPaymentMethodDetailsCard struct {
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
 	Wallet *PaymentRecordPaymentMethodDetailsCardWallet `json:"wallet"`
 }
+type PaymentRecordPaymentMethodDetailsCardPresentMulticapture struct {
+	// Indicates whether or not multiple captures are supported.
+	Status PaymentRecordPaymentMethodDetailsCardPresentMulticaptureStatus `json:"status"`
+}
 
 // Details about payments collected offline.
 type PaymentRecordPaymentMethodDetailsCardPresentOffline struct {
@@ -1653,7 +1671,8 @@ type PaymentRecordPaymentMethodDetailsCardPresent struct {
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location,omitempty"`
+	Location     string                                                    `json:"location,omitempty"`
+	Multicapture *PaymentRecordPaymentMethodDetailsCardPresentMulticapture `json:"multicapture,omitempty"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
@@ -2281,12 +2300,36 @@ type PaymentRecordProcessorDetailsCustom struct {
 	PaymentReference string `json:"payment_reference"`
 }
 
+// Represents the Fiserv ValueLink gift card processor.
+type PaymentRecordProcessorDetailsFiservValuelink struct {
+	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
+	PaymentReference string `json:"payment_reference"`
+}
+
+// Represents the Givex gift card processor.
+type PaymentRecordProcessorDetailsGivex struct {
+	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
+	PaymentReference string `json:"payment_reference"`
+}
+
+// Represents the SVS gift card processor.
+type PaymentRecordProcessorDetailsSvs struct {
+	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
+	PaymentReference string `json:"payment_reference"`
+}
+
 // Processor information associated with this payment.
 type PaymentRecordProcessorDetails struct {
 	// Custom processors represent payment processors not modeled directly in
 	// the Stripe API. This resource consists of details about the custom processor
 	// used for this payment attempt.
 	Custom *PaymentRecordProcessorDetailsCustom `json:"custom,omitempty"`
+	// Represents the Fiserv ValueLink gift card processor.
+	FiservValuelink *PaymentRecordProcessorDetailsFiservValuelink `json:"fiserv_valuelink,omitempty"`
+	// Represents the Givex gift card processor.
+	Givex *PaymentRecordProcessorDetailsGivex `json:"givex,omitempty"`
+	// Represents the SVS gift card processor.
+	Svs *PaymentRecordProcessorDetailsSvs `json:"svs,omitempty"`
 	// The processor used for this payment attempt.
 	Type PaymentRecordProcessorDetailsType `json:"type"`
 }

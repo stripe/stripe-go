@@ -236,6 +236,15 @@ const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonRejected            ChargePaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
 )
 
+// Indicates whether or not multiple captures are supported.
+type ChargePaymentMethodDetailsCardPresentMulticaptureStatus string
+
+// List of values that ChargePaymentMethodDetailsCardPresentMulticaptureStatus can take
+const (
+	ChargePaymentMethodDetailsCardPresentMulticaptureStatusAvailable   ChargePaymentMethodDetailsCardPresentMulticaptureStatus = "available"
+	ChargePaymentMethodDetailsCardPresentMulticaptureStatusUnavailable ChargePaymentMethodDetailsCardPresentMulticaptureStatus = "unavailable"
+)
+
 // Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 type ChargePaymentMethodDetailsCardPresentNetwork string
 
@@ -1443,102 +1452,6 @@ type ChargePaymentDetailsLodgingDatumParams struct {
 	Total *ChargePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
-// Date of birth.
-type ChargePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
-	// Day of birth, between 1 and 31.
-	Day *int64 `form:"day" json:"day"`
-	// Month of birth, between 1 and 12.
-	Month *int64 `form:"month" json:"month"`
-	// Four-digit year of birth.
-	Year *int64 `form:"year" json:"year"`
-}
-
-// Inline identity details for the beneficiary of this account funding transaction.
-type ChargePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
-	// Address.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Date of birth.
-	DateOfBirth *ChargePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
-	// Email address.
-	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
-	// Phone number.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Date of birth.
-type ChargePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
-	// Day of birth, between 1 and 31.
-	Day *int64 `form:"day" json:"day"`
-	// Month of birth, between 1 and 12.
-	Month *int64 `form:"month" json:"month"`
-	// Four-digit year of birth.
-	Year *int64 `form:"year" json:"year"`
-}
-
-// Inline identity details for the sender of this account funding transaction.
-type ChargePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
-	// Address.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Date of birth.
-	DateOfBirth *ChargePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
-	// Email address.
-	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
-	// Phone number.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Account funding transaction details including sender and beneficiary information.
-type ChargePaymentDetailsMoneyServicesAccountFundingParams struct {
-	// ID of the Account representing the beneficiary in this account funding transaction.
-	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
-	// Inline identity details for the beneficiary of this account funding transaction.
-	BeneficiaryDetails *ChargePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
-	// ID of the Account representing the sender in this account funding transaction.
-	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
-	// Inline identity details for the sender of this account funding transaction.
-	SenderDetails *ChargePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
-	UnsetFields   []ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
-}
-
-// ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on ChargePaymentDetailsMoneyServicesAccountFundingParams.
-type ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
-
-const (
-	ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
-	ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *ChargePaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field ChargePaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
-// Money services details for this PaymentIntent.
-type ChargePaymentDetailsMoneyServicesParams struct {
-	// Account funding transaction details including sender and beneficiary information.
-	AccountFunding *ChargePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
-	// The type of money services transaction.
-	TransactionType *string                                             `form:"transaction_type" json:"transaction_type,omitempty"`
-	UnsetFields     []ChargePaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
-}
-
-// ChargePaymentDetailsMoneyServicesParamsUnsetField is the list of fields that can be cleared/unset on ChargePaymentDetailsMoneyServicesParams.
-type ChargePaymentDetailsMoneyServicesParamsUnsetField string
-
-const (
-	ChargePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  ChargePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
-	ChargePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType ChargePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *ChargePaymentDetailsMoneyServicesParams) AddUnsetField(field ChargePaymentDetailsMoneyServicesParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
 // Affiliate details for this purchase.
 type ChargePaymentDetailsSubscriptionAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -1591,8 +1504,6 @@ type ChargePaymentDetailsParams struct {
 	Lodging *ChargePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
 	LodgingData []*ChargePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
-	// Money services details for this PaymentIntent.
-	MoneyServices *ChargePaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -1611,7 +1522,6 @@ const (
 	ChargePaymentDetailsParamsUnsetFieldFleetData         ChargePaymentDetailsParamsUnsetField = "fleet_data"
 	ChargePaymentDetailsParamsUnsetFieldFlightData        ChargePaymentDetailsParamsUnsetField = "flight_data"
 	ChargePaymentDetailsParamsUnsetFieldLodgingData       ChargePaymentDetailsParamsUnsetField = "lodging_data"
-	ChargePaymentDetailsParamsUnsetFieldMoneyServices     ChargePaymentDetailsParamsUnsetField = "money_services"
 	ChargePaymentDetailsParamsUnsetFieldOrderReference    ChargePaymentDetailsParamsUnsetField = "order_reference"
 )
 
@@ -2437,102 +2347,6 @@ type ChargeCapturePaymentDetailsLodgingDatumParams struct {
 	Total *ChargeCapturePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
-// Date of birth.
-type ChargeCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
-	// Day of birth, between 1 and 31.
-	Day *int64 `form:"day" json:"day"`
-	// Month of birth, between 1 and 12.
-	Month *int64 `form:"month" json:"month"`
-	// Four-digit year of birth.
-	Year *int64 `form:"year" json:"year"`
-}
-
-// Inline identity details for the beneficiary of this account funding transaction.
-type ChargeCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
-	// Address.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Date of birth.
-	DateOfBirth *ChargeCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
-	// Email address.
-	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
-	// Phone number.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Date of birth.
-type ChargeCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
-	// Day of birth, between 1 and 31.
-	Day *int64 `form:"day" json:"day"`
-	// Month of birth, between 1 and 12.
-	Month *int64 `form:"month" json:"month"`
-	// Four-digit year of birth.
-	Year *int64 `form:"year" json:"year"`
-}
-
-// Inline identity details for the sender of this account funding transaction.
-type ChargeCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
-	// Address.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Date of birth.
-	DateOfBirth *ChargeCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
-	// Email address.
-	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
-	// Phone number.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Account funding transaction details including sender and beneficiary information.
-type ChargeCapturePaymentDetailsMoneyServicesAccountFundingParams struct {
-	// ID of the Account representing the beneficiary in this account funding transaction.
-	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
-	// Inline identity details for the beneficiary of this account funding transaction.
-	BeneficiaryDetails *ChargeCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
-	// ID of the Account representing the sender in this account funding transaction.
-	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
-	// Inline identity details for the sender of this account funding transaction.
-	SenderDetails *ChargeCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
-	UnsetFields   []ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
-}
-
-// ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on ChargeCapturePaymentDetailsMoneyServicesAccountFundingParams.
-type ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
-
-const (
-	ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
-	ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *ChargeCapturePaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field ChargeCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
-// Money services details for this PaymentIntent.
-type ChargeCapturePaymentDetailsMoneyServicesParams struct {
-	// Account funding transaction details including sender and beneficiary information.
-	AccountFunding *ChargeCapturePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
-	// The type of money services transaction.
-	TransactionType *string                                                    `form:"transaction_type" json:"transaction_type,omitempty"`
-	UnsetFields     []ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
-}
-
-// ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField is the list of fields that can be cleared/unset on ChargeCapturePaymentDetailsMoneyServicesParams.
-type ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField string
-
-const (
-	ChargeCapturePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
-	ChargeCapturePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *ChargeCapturePaymentDetailsMoneyServicesParams) AddUnsetField(field ChargeCapturePaymentDetailsMoneyServicesParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
 // Affiliate details for this purchase.
 type ChargeCapturePaymentDetailsSubscriptionAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -2585,8 +2399,6 @@ type ChargeCapturePaymentDetailsParams struct {
 	Lodging *ChargeCapturePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
 	LodgingData []*ChargeCapturePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
-	// Money services details for this PaymentIntent.
-	MoneyServices *ChargeCapturePaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -2605,7 +2417,6 @@ const (
 	ChargeCapturePaymentDetailsParamsUnsetFieldFleetData         ChargeCapturePaymentDetailsParamsUnsetField = "fleet_data"
 	ChargeCapturePaymentDetailsParamsUnsetFieldFlightData        ChargeCapturePaymentDetailsParamsUnsetField = "flight_data"
 	ChargeCapturePaymentDetailsParamsUnsetFieldLodgingData       ChargeCapturePaymentDetailsParamsUnsetField = "lodging_data"
-	ChargeCapturePaymentDetailsParamsUnsetFieldMoneyServices     ChargeCapturePaymentDetailsParamsUnsetField = "money_services"
 	ChargeCapturePaymentDetailsParamsUnsetFieldOrderReference    ChargeCapturePaymentDetailsParamsUnsetField = "order_reference"
 )
 
@@ -3608,102 +3419,6 @@ type ChargeUpdatePaymentDetailsLodgingDatumParams struct {
 	Total *ChargeUpdatePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
-// Date of birth.
-type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
-	// Day of birth, between 1 and 31.
-	Day *int64 `form:"day" json:"day"`
-	// Month of birth, between 1 and 12.
-	Month *int64 `form:"month" json:"month"`
-	// Four-digit year of birth.
-	Year *int64 `form:"year" json:"year"`
-}
-
-// Inline identity details for the beneficiary of this account funding transaction.
-type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
-	// Address.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Date of birth.
-	DateOfBirth *ChargeUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
-	// Email address.
-	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
-	// Phone number.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Date of birth.
-type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
-	// Day of birth, between 1 and 31.
-	Day *int64 `form:"day" json:"day"`
-	// Month of birth, between 1 and 12.
-	Month *int64 `form:"month" json:"month"`
-	// Four-digit year of birth.
-	Year *int64 `form:"year" json:"year"`
-}
-
-// Inline identity details for the sender of this account funding transaction.
-type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
-	// Address.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Date of birth.
-	DateOfBirth *ChargeUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
-	// Email address.
-	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
-	// Phone number.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Account funding transaction details including sender and beneficiary information.
-type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParams struct {
-	// ID of the Account representing the beneficiary in this account funding transaction.
-	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
-	// Inline identity details for the beneficiary of this account funding transaction.
-	BeneficiaryDetails *ChargeUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
-	// ID of the Account representing the sender in this account funding transaction.
-	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
-	// Inline identity details for the sender of this account funding transaction.
-	SenderDetails *ChargeUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
-	UnsetFields   []ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
-}
-
-// ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParams.
-type ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
-
-const (
-	ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
-	ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
-// Money services details for this PaymentIntent.
-type ChargeUpdatePaymentDetailsMoneyServicesParams struct {
-	// Account funding transaction details including sender and beneficiary information.
-	AccountFunding *ChargeUpdatePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
-	// The type of money services transaction.
-	TransactionType *string                                                   `form:"transaction_type" json:"transaction_type,omitempty"`
-	UnsetFields     []ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
-}
-
-// ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField is the list of fields that can be cleared/unset on ChargeUpdatePaymentDetailsMoneyServicesParams.
-type ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField string
-
-const (
-	ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
-	ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *ChargeUpdatePaymentDetailsMoneyServicesParams) AddUnsetField(field ChargeUpdatePaymentDetailsMoneyServicesParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
 // Affiliate details for this purchase.
 type ChargeUpdatePaymentDetailsSubscriptionAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -3756,8 +3471,6 @@ type ChargeUpdatePaymentDetailsParams struct {
 	Lodging *ChargeUpdatePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
 	LodgingData []*ChargeUpdatePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
-	// Money services details for this PaymentIntent.
-	MoneyServices *ChargeUpdatePaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -3776,7 +3489,6 @@ const (
 	ChargeUpdatePaymentDetailsParamsUnsetFieldFleetData         ChargeUpdatePaymentDetailsParamsUnsetField = "fleet_data"
 	ChargeUpdatePaymentDetailsParamsUnsetFieldFlightData        ChargeUpdatePaymentDetailsParamsUnsetField = "flight_data"
 	ChargeUpdatePaymentDetailsParamsUnsetFieldLodgingData       ChargeUpdatePaymentDetailsParamsUnsetField = "lodging_data"
-	ChargeUpdatePaymentDetailsParamsUnsetFieldMoneyServices     ChargeUpdatePaymentDetailsParamsUnsetField = "money_services"
 	ChargeUpdatePaymentDetailsParamsUnsetFieldOrderReference    ChargeUpdatePaymentDetailsParamsUnsetField = "order_reference"
 )
 
@@ -4084,7 +3796,12 @@ type ChargePaymentMethodDetailsCardAccountFunding struct {
 	// The transaction type of the card transaction. One of `account_funding` or `purchase`.
 	ProcessedTransactionType ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType `json:"processed_transaction_type,omitempty"`
 }
+type ChargePaymentMethodDetailsCardBenefitsFRMealVoucher struct {
+	// The 14-digit SIRET of the meal voucher acceptor used for this charge.
+	Siret string `json:"siret"`
+}
 type ChargePaymentMethodDetailsCardBenefits struct {
+	FRMealVoucher *ChargePaymentMethodDetailsCardBenefitsFRMealVoucher `json:"fr_meal_voucher,omitempty"`
 	// Issuer of the benefit card utilized on this payment
 	Issuer string `json:"issuer"`
 }
@@ -4277,6 +3994,10 @@ type ChargePaymentMethodDetailsCard struct {
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
 	Issuer string `json:"issuer,omitempty"`
 }
+type ChargePaymentMethodDetailsCardPresentMulticapture struct {
+	// Indicates whether or not multiple captures are supported.
+	Status ChargePaymentMethodDetailsCardPresentMulticaptureStatus `json:"status"`
+}
 
 // Details about payments collected offline.
 type ChargePaymentMethodDetailsCardPresentOffline struct {
@@ -4349,7 +4070,8 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location,omitempty"`
+	Location     string                                             `json:"location,omitempty"`
+	Multicapture *ChargePaymentMethodDetailsCardPresentMulticapture `json:"multicapture,omitempty"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network ChargePaymentMethodDetailsCardPresentNetwork `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.

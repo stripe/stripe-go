@@ -76,6 +76,8 @@ import (
 	forwardingrequest "github.com/stripe/stripe-go/v85/forwarding/request"
 	"github.com/stripe/stripe-go/v85/frmealvouchersonboarding"
 	"github.com/stripe/stripe-go/v85/fxquote"
+	"github.com/stripe/stripe-go/v85/giftcard"
+	"github.com/stripe/stripe-go/v85/giftcardoperation"
 	identityblocklistentry "github.com/stripe/stripe-go/v85/identity/blocklistentry"
 	identityverificationreport "github.com/stripe/stripe-go/v85/identity/verificationreport"
 	identityverificationsession "github.com/stripe/stripe-go/v85/identity/verificationsession"
@@ -159,6 +161,7 @@ import (
 	taxsettings "github.com/stripe/stripe-go/v85/tax/settings"
 	taxtransaction "github.com/stripe/stripe-go/v85/tax/transaction"
 	"github.com/stripe/stripe-go/v85/taxcode"
+	"github.com/stripe/stripe-go/v85/taxfund"
 	"github.com/stripe/stripe-go/v85/taxid"
 	"github.com/stripe/stripe-go/v85/taxrate"
 	terminalconfiguration "github.com/stripe/stripe-go/v85/terminal/configuration"
@@ -416,6 +419,10 @@ type API struct {
 	FRMealVouchersOnboardings *frmealvouchersonboarding.Client
 	// FxQuotes is the client used to invoke /v1/fx_quotes APIs.
 	FxQuotes *fxquote.Client
+	// GiftCardOperations is the client used to invoke /v1/gift_card_operations APIs.
+	GiftCardOperations *giftcardoperation.Client
+	// GiftCards is the client used to invoke /v1/gift_cards APIs.
+	GiftCards *giftcard.Client
 	// IdentityBlocklistEntries is the client used to invoke /v1/identity/blocklist_entries APIs.
 	IdentityBlocklistEntries *identityblocklistentry.Client
 	// IdentityVerificationReports is the client used to invoke /v1/identity/verification_reports APIs.
@@ -574,6 +581,8 @@ type API struct {
 	TaxCodes *taxcode.Client
 	// TaxForms is the client used to invoke /v1/tax/forms APIs.
 	TaxForms *taxform.Client
+	// TaxFunds is the client used to invoke /v1/tax_funds APIs.
+	TaxFunds *taxfund.Client
 	// TaxIDs is the client used to invoke /v1/tax_ids APIs.
 	TaxIDs *taxid.Client
 	// TaxLocations is the client used to invoke /v1/tax/locations APIs.
@@ -907,6 +916,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.ForwardingRequests = &forwardingrequest.Client{B: backends.API, Key: key}
 	a.FRMealVouchersOnboardings = &frmealvouchersonboarding.Client{B: backends.API, Key: key}
 	a.FxQuotes = &fxquote.Client{B: backends.API, Key: key}
+	a.GiftCardOperations = &giftcardoperation.Client{B: backends.API, Key: key}
+	a.GiftCards = &giftcard.Client{B: backends.API, Key: key}
 	a.IdentityBlocklistEntries = &identityblocklistentry.Client{B: backends.API, Key: key}
 	a.IdentityVerificationReports = &identityverificationreport.Client{B: backends.API, Key: key}
 	a.IdentityVerificationSessions = &identityverificationsession.Client{B: backends.API, Key: key}
@@ -986,6 +997,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TaxCalculations = &taxcalculation.Client{B: backends.API, Key: key}
 	a.TaxCodes = &taxcode.Client{B: backends.API, Key: key}
 	a.TaxForms = &taxform.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
+	a.TaxFunds = &taxfund.Client{B: backends.API, Key: key}
 	a.TaxIDs = &taxid.Client{B: backends.API, Key: key}
 	a.TaxLocations = &taxlocation.Client{B: backends.API, Key: key}
 	a.TaxRates = &taxrate.Client{B: backends.API, Key: key}

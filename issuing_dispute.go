@@ -95,6 +95,21 @@ const (
 	IssuingDisputeLossReasonTransactionUnattended                         IssuingDisputeLossReason = "transaction_unattended"
 )
 
+// The status of the provisional credit obligation.
+type IssuingDisputeProvisionalCreditStatus string
+
+// List of values that IssuingDisputeProvisionalCreditStatus can take
+const (
+	IssuingDisputeProvisionalCreditStatusDelinquent             IssuingDisputeProvisionalCreditStatus = "delinquent"
+	IssuingDisputeProvisionalCreditStatusGranted                IssuingDisputeProvisionalCreditStatus = "granted"
+	IssuingDisputeProvisionalCreditStatusNotRequired            IssuingDisputeProvisionalCreditStatus = "not_required"
+	IssuingDisputeProvisionalCreditStatusPermanent              IssuingDisputeProvisionalCreditStatus = "permanent"
+	IssuingDisputeProvisionalCreditStatusRequired               IssuingDisputeProvisionalCreditStatus = "required"
+	IssuingDisputeProvisionalCreditStatusRevocable              IssuingDisputeProvisionalCreditStatus = "revocable"
+	IssuingDisputeProvisionalCreditStatusRevocationNoticePeriod IssuingDisputeProvisionalCreditStatus = "revocation_notice_period"
+	IssuingDisputeProvisionalCreditStatusRevoked                IssuingDisputeProvisionalCreditStatus = "revoked"
+)
+
 // Current status of the dispute.
 type IssuingDisputeStatus string
 
@@ -1391,6 +1406,20 @@ type IssuingDisputeNetworkLifecycle struct {
 	PreArbitrationSubmission *IssuingDisputeNetworkLifecyclePreArbitrationSubmission `json:"pre_arbitration_submission"`
 }
 
+// Provisional credit details for this dispute.
+type IssuingDisputeProvisionalCredit struct {
+	// The time by which the platform must grant a provisional credit to the consumer.
+	GrantDeadline int64 `json:"grant_deadline"`
+	// The time at which the platform reported granting the provisional credit.
+	GrantedAt int64 `json:"granted_at"`
+	// The earliest time after which the platform can revoke the provisional credit.
+	RevocableAfter int64 `json:"revocable_after"`
+	// The time at which the platform reported revoking the provisional credit.
+	RevokedAt int64 `json:"revoked_at"`
+	// The status of the provisional credit obligation.
+	Status IssuingDisputeProvisionalCreditStatus `json:"status"`
+}
+
 // [Treasury](https://docs.stripe.com/api/treasury) details related to this dispute if it was created on a [FinancialAccount](https://docs.stripe.com/api/treasury/financial_accounts)
 type IssuingDisputeTreasury struct {
 	// The Treasury [DebitReversal](https://docs.stripe.com/api/treasury/debit_reversals) representing this Issuing dispute
@@ -1427,6 +1456,8 @@ type IssuingDispute struct {
 	NetworkLifecycle *IssuingDisputeNetworkLifecycle `json:"network_lifecycle,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// Provisional credit details for this dispute.
+	ProvisionalCredit *IssuingDisputeProvisionalCredit `json:"provisional_credit,omitempty"`
 	// Current status of the dispute.
 	Status IssuingDisputeStatus `json:"status"`
 	// The transaction being disputed.

@@ -316,6 +316,7 @@ const (
 	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandElo             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "elo"
 	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandGirocard        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "girocard"
 	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandInterac         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "interac"
+	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandJaywan          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "jaywan"
 	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandJCB             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "jcb"
 	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandLink            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "link"
 	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandMaestro         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "maestro"
@@ -6888,6 +6889,10 @@ type CheckoutSessionCurrentAttemptPaymentMethodDetailsLink struct {
 	// Unique, encrypted bank account identifier.
 	Fingerprint string `json:"fingerprint,omitempty"`
 }
+type CheckoutSessionCurrentAttemptPaymentMethodDetailsPix struct {
+	// Uniquely identifies this particular Pix account. You can use this attribute to check whether two Pix accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+}
 type CheckoutSessionCurrentAttemptPaymentMethodDetailsSEPADebit struct {
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
 	Fingerprint string `json:"fingerprint"`
@@ -6906,6 +6911,7 @@ type CheckoutSessionCurrentAttemptPaymentMethodDetails struct {
 	Boleto         *CheckoutSessionCurrentAttemptPaymentMethodDetailsBoleto        `json:"boleto,omitempty"`
 	Card           *CheckoutSessionCurrentAttemptPaymentMethodDetailsCard          `json:"card,omitempty"`
 	Link           *CheckoutSessionCurrentAttemptPaymentMethodDetailsLink          `json:"link,omitempty"`
+	Pix            *CheckoutSessionCurrentAttemptPaymentMethodDetailsPix           `json:"pix,omitempty"`
 	SEPADebit      *CheckoutSessionCurrentAttemptPaymentMethodDetailsSEPADebit     `json:"sepa_debit,omitempty"`
 	// The type of payment method the customer is attempting to pay with. An additional hash is included in the payment method details with a name matching this value. It contains additional information specific to the payment method type.
 	Type          string                                                          `json:"type"`

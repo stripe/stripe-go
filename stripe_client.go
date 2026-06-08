@@ -132,6 +132,10 @@ type Client struct {
 	V1FRMealVouchersOnboardings *v1FRMealVouchersOnboardingService
 	// V1FxQuotes is the service used to invoke /v1/fx_quotes APIs.
 	V1FxQuotes *v1FxQuoteService
+	// V1GiftCardOperations is the service used to invoke /v1/gift_card_operations APIs.
+	V1GiftCardOperations *v1GiftCardOperationService
+	// V1GiftCards is the service used to invoke /v1/gift_cards APIs.
+	V1GiftCards *v1GiftCardService
 	// V1IdentityBlocklistEntries is the service used to invoke /v1/identity/blocklist_entries APIs.
 	V1IdentityBlocklistEntries *v1IdentityBlocklistEntryService
 	// V1IdentityVerificationReports is the service used to invoke /v1/identity/verification_reports APIs.
@@ -288,6 +292,8 @@ type Client struct {
 	V1TaxCodes *v1TaxCodeService
 	// V1TaxForms is the service used to invoke /v1/tax/forms APIs.
 	V1TaxForms *v1TaxFormService
+	// V1TaxFunds is the service used to invoke /v1/tax_funds APIs.
+	V1TaxFunds *v1TaxFundService
 	// V1TaxIDs is the service used to invoke /v1/tax_ids APIs.
 	V1TaxIDs *v1TaxIDService
 	// V1TaxLocations is the service used to invoke /v1/tax/locations APIs.
@@ -645,6 +651,8 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1ForwardingRequests = &v1ForwardingRequestService{B: backends.API, Key: key}
 	client.V1FRMealVouchersOnboardings = &v1FRMealVouchersOnboardingService{B: backends.API, Key: key}
 	client.V1FxQuotes = &v1FxQuoteService{B: backends.API, Key: key}
+	client.V1GiftCardOperations = &v1GiftCardOperationService{B: backends.API, Key: key}
+	client.V1GiftCards = &v1GiftCardService{B: backends.API, Key: key}
 	client.V1IdentityBlocklistEntries = &v1IdentityBlocklistEntryService{B: backends.API, Key: key}
 	client.V1IdentityVerificationReports = &v1IdentityVerificationReportService{B: backends.API, Key: key}
 	client.V1IdentityVerificationSessions = &v1IdentityVerificationSessionService{B: backends.API, Key: key}
@@ -723,6 +731,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TaxCalculations = &v1TaxCalculationService{B: backends.API, Key: key}
 	client.V1TaxCodes = &v1TaxCodeService{B: backends.API, Key: key}
 	client.V1TaxForms = &v1TaxFormService{B: backends.API, BUploads: backends.Uploads, Key: key}
+	client.V1TaxFunds = &v1TaxFundService{B: backends.API, Key: key}
 	client.V1TaxIDs = &v1TaxIDService{B: backends.API, Key: key}
 	client.V1TaxLocations = &v1TaxLocationService{B: backends.API, Key: key}
 	client.V1TaxRates = &v1TaxRateService{B: backends.API, Key: key}

@@ -352,6 +352,12 @@ type TaxCalculationCustomerDetailsParams struct {
 	TaxIDs []*TaxCalculationCustomerDetailsTaxIDParams `form:"tax_ids" json:"tax_ids,omitempty"`
 }
 
+// Details of the performance location for this line item. Use this to specify an address directly instead of a tax location ID.
+type TaxCalculationLineItemPerformanceLocationDetailsParams struct {
+	// The address of the performance venue.
+	Address *AddressParams `form:"address" json:"address"`
+}
+
 // A list of items the customer is purchasing.
 type TaxCalculationLineItemParams struct {
 	// A positive integer representing the line item's total price in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
@@ -361,6 +367,8 @@ type TaxCalculationLineItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// Details of the performance location for this line item. Use this to specify an address directly instead of a tax location ID.
+	PerformanceLocationDetails *TaxCalculationLineItemPerformanceLocationDetailsParams `form:"performance_location_details" json:"performance_location_details,omitempty"`
 	// If provided, the product's `tax_code` will be used as the line item's `tax_code`.
 	Product *string `form:"product" json:"product,omitempty"`
 	// The number of units of the item being purchased. Used to calculate the per-unit price from the total `amount` for the line. For example, if `amount=100` and `quantity=4`, the calculated unit price is 25.
@@ -434,6 +442,12 @@ type TaxCalculationCreateCustomerDetailsParams struct {
 	TaxIDs []*TaxCalculationCreateCustomerDetailsTaxIDParams `form:"tax_ids" json:"tax_ids,omitempty"`
 }
 
+// Details of the performance location for this line item. Use this to specify an address directly instead of a tax location ID.
+type TaxCalculationCreateLineItemPerformanceLocationDetailsParams struct {
+	// The address of the performance venue.
+	Address *AddressParams `form:"address" json:"address"`
+}
+
 // A list of items the customer is purchasing.
 type TaxCalculationCreateLineItemParams struct {
 	// A positive integer representing the line item's total price in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
@@ -443,6 +457,8 @@ type TaxCalculationCreateLineItemParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
 	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// Details of the performance location for this line item. Use this to specify an address directly instead of a tax location ID.
+	PerformanceLocationDetails *TaxCalculationCreateLineItemPerformanceLocationDetailsParams `form:"performance_location_details" json:"performance_location_details,omitempty"`
 	// If provided, the product's `tax_code` will be used as the line item's `tax_code`.
 	Product *string `form:"product" json:"product,omitempty"`
 	// The number of units of the item being purchased. Used to calculate the per-unit price from the total `amount` for the line. For example, if `amount=100` and `quantity=4`, the calculated unit price is 25.

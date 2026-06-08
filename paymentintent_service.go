@@ -254,6 +254,19 @@ func (c v1PaymentIntentService) TriggerAction(ctx context.Context, id string, pa
 	return paymentintent, err
 }
 
+// Updates the refund address for a static crypto deposit PaymentIntent on the specified network.
+func (c v1PaymentIntentService) UpdateCryptoRefundAddress(ctx context.Context, id string, params *PaymentIntentUpdateCryptoRefundAddressParams) (*PaymentIntent, error) {
+	if params == nil {
+		params = &PaymentIntentUpdateCryptoRefundAddressParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/payment_intents/%s/update_crypto_refund_address", id)
+	paymentintent := &PaymentIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	return paymentintent, err
+}
+
 // Verifies microdeposits on a PaymentIntent object.
 func (c v1PaymentIntentService) VerifyMicrodeposits(ctx context.Context, id string, params *PaymentIntentVerifyMicrodepositsParams) (*PaymentIntent, error) {
 	if params == nil {

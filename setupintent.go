@@ -1452,7 +1452,7 @@ type SetupIntentSetupDetailsBenefitFRMealVoucherParams struct {
 	// Whether to enable meal voucher benefit for this setup intent.
 	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
-	Siret *string `form:"siret" json:"siret"`
+	Siret *string `form:"siret" json:"siret,omitempty"`
 }
 
 // Benefit details for this SetupIntent
@@ -2106,7 +2106,7 @@ type SetupIntentConfirmSetupDetailsBenefitFRMealVoucherParams struct {
 	// Whether to enable meal voucher benefit for this setup intent.
 	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
-	Siret *string `form:"siret" json:"siret"`
+	Siret *string `form:"siret" json:"siret,omitempty"`
 }
 
 // Benefit details for this SetupIntent
@@ -3228,7 +3228,7 @@ type SetupIntentCreateSetupDetailsBenefitFRMealVoucherParams struct {
 	// Whether to enable meal voucher benefit for this setup intent.
 	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
-	Siret *string `form:"siret" json:"siret"`
+	Siret *string `form:"siret" json:"siret,omitempty"`
 }
 
 // Benefit details for this SetupIntent
@@ -4359,7 +4359,7 @@ type SetupIntentUpdateSetupDetailsBenefitFRMealVoucherParams struct {
 	// Whether to enable meal voucher benefit for this setup intent.
 	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
-	Siret *string `form:"siret" json:"siret"`
+	Siret *string `form:"siret" json:"siret,omitempty"`
 }
 
 // Benefit details for this SetupIntent
@@ -4759,6 +4759,8 @@ type SetupIntentSetupDetailsBenefit struct {
 }
 type SetupIntentSetupDetails struct {
 	Benefit *SetupIntentSetupDetailsBenefit `json:"benefit,omitempty"`
+	// The Payment Location associated with this SetupIntent.
+	Location string `json:"location,omitempty"`
 }
 
 // A SetupIntent guides you through the process of setting up and saving a customer's payment credentials for future payments.
