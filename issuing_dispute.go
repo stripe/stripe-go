@@ -448,6 +448,8 @@ type IssuingDisputeParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Provisional credit information for this dispute.
+	ProvisionalCredit *IssuingDisputeProvisionalCreditParams `form:"provisional_credit" json:"provisional_credit,omitempty"`
 	// The ID of the issuing transaction to create a dispute for. For transaction on Treasury FinancialAccounts, use `treasury.received_debit`.
 	Transaction *string `form:"transaction" json:"transaction,omitempty"`
 	// Params for disputes related to Treasury FinancialAccounts
@@ -479,6 +481,14 @@ func (p *IssuingDisputeParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// Provisional credit information for this dispute.
+type IssuingDisputeProvisionalCreditParams struct {
+	// The time at which the platform granted the provisional credit to their user.
+	GrantedAt *int64 `form:"granted_at" json:"granted_at,omitempty"`
+	// The time at which the platform revoked the provisional credit from their user.
+	RevokedAt *int64 `form:"revoked_at" json:"revoked_at,omitempty"`
 }
 
 // Submits an Issuing Dispute to the card network. Stripe validates that all evidence fields required for the dispute's reason are present. For more details, see [Dispute reasons and evidence](https://docs.stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence).
@@ -1144,6 +1154,14 @@ func (p *IssuingDisputeUpdateEvidenceParams) AddUnsetField(field IssuingDisputeU
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Provisional credit information for this dispute.
+type IssuingDisputeUpdateProvisionalCreditParams struct {
+	// The time at which the platform granted the provisional credit to their user.
+	GrantedAt *int64 `form:"granted_at" json:"granted_at,omitempty"`
+	// The time at which the platform revoked the provisional credit from their user.
+	RevokedAt *int64 `form:"revoked_at" json:"revoked_at,omitempty"`
+}
+
 // Updates the specified Issuing Dispute object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Properties on the evidence object can be unset by passing in an empty string.
 type IssuingDisputeUpdateParams struct {
 	Params `form:"*"`
@@ -1154,8 +1172,10 @@ type IssuingDisputeUpdateParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata    map[string]string                      `form:"metadata" json:"metadata,omitempty"`
-	UnsetFields []IssuingDisputeUpdateParamsUnsetField `form:"-" json:"-"`
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Provisional credit information for this dispute.
+	ProvisionalCredit *IssuingDisputeUpdateProvisionalCreditParams `form:"provisional_credit" json:"provisional_credit,omitempty"`
+	UnsetFields       []IssuingDisputeUpdateParamsUnsetField       `form:"-" json:"-"`
 }
 
 // IssuingDisputeUpdateParamsUnsetField is the list of fields that can be cleared/unset on IssuingDisputeUpdateParams.
