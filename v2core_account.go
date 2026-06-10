@@ -3189,7 +3189,7 @@ const (
 	V2CoreAccountDefaultsResponsibilitiesFeesCollectorStripe             V2CoreAccountDefaultsResponsibilitiesFeesCollector = "stripe"
 )
 
-// A value indicating responsibility for collecting requirements on this account.
+// A value indicating the responsibility for losses on this account.
 type V2CoreAccountDefaultsResponsibilitiesLossesCollector string
 
 // List of values that V2CoreAccountDefaultsResponsibilitiesLossesCollector can take
@@ -6165,7 +6165,7 @@ type V2CoreAccountDefaultsProfile struct {
 type V2CoreAccountDefaultsResponsibilities struct {
 	// Indicates whether the platform or connected account is responsible for paying Stripe fees for pricing-control-eligible products.
 	FeesCollector V2CoreAccountDefaultsResponsibilitiesFeesCollector `json:"fees_collector,omitempty"`
-	// A value indicating responsibility for collecting requirements on this account.
+	// A value indicating the responsibility for losses on this account.
 	LossesCollector V2CoreAccountDefaultsResponsibilitiesLossesCollector `json:"losses_collector,omitempty"`
 	// A value indicating responsibility for collecting requirements on this account.
 	RequirementsCollector V2CoreAccountDefaultsResponsibilitiesRequirementsCollector `json:"requirements_collector"`

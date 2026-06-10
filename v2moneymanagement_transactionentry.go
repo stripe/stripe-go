@@ -61,6 +61,7 @@ const (
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryStripeBalancePaymentDebitReversal       V2MoneyManagementTransactionEntryTransactionDetailsCategory = "stripe_balance_payment_debit_reversal"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryStripeFee                               V2MoneyManagementTransactionEntryTransactionDetailsCategory = "stripe_fee"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryStripeFeeTax                            V2MoneyManagementTransactionEntryTransactionDetailsCategory = "stripe_fee_tax"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryTaxFund                                 V2MoneyManagementTransactionEntryTransactionDetailsCategory = "tax_fund"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryTaxWithholding                          V2MoneyManagementTransactionEntryTransactionDetailsCategory = "tax_withholding"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryTransferReversal                        V2MoneyManagementTransactionEntryTransactionDetailsCategory = "transfer_reversal"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryUnreconciledCustomerFunds               V2MoneyManagementTransactionEntryTransactionDetailsCategory = "unreconciled_customer_funds"
@@ -88,6 +89,7 @@ const (
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeRefund                       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "refund"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReserveHold                  V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "reserve_hold"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReserveRelease               V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "reserve_release"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTaxFund                      V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "tax_fund"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTopup                        V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "topup"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTransfer                     V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "transfer"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeTransferReversal             V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "transfer_reversal"
@@ -148,6 +150,8 @@ type V2MoneyManagementTransactionEntryTransactionDetailsFlow struct {
 	ReserveHold string `json:"reserve_hold,omitempty"`
 	// If applicable, the ID of the Reserve Release that created this Transaction.
 	ReserveRelease string `json:"reserve_release,omitempty"`
+	// If applicable, the ID of the TaxFund that created this Transaction.
+	TaxFund string `json:"tax_fund,omitempty"`
 	// If applicable, the ID of the Topup that created this Transaction.
 	Topup string `json:"topup,omitempty"`
 	// If applicable, the ID of the Transfer that created this Transaction.

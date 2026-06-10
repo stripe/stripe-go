@@ -480,7 +480,7 @@ type V2BillingContractPricingOverrideParams struct {
 	Multiplier *V2BillingContractPricingOverrideMultiplierParams `form:"multiplier" json:"multiplier,omitempty"`
 	// Parameters for an overwrite_price override. Required if `type` is `overwrite_price`.
 	OverwritePrice *V2BillingContractPricingOverrideOverwritePriceParams `form:"overwrite_price" json:"overwrite_price,omitempty"`
-	// The priority of this override relative to others. Lower number = higher priority.
+	// The priority of this override relative to others. The highest priority is 0 and the lowest is 100.
 	Priority *int64 `form:"priority" json:"priority"`
 	// When the pricing override starts.
 	StartsAt *V2BillingContractPricingOverrideStartsAtParams `form:"starts_at" json:"starts_at"`
@@ -713,7 +713,7 @@ type V2BillingContractPricingOverrideActionAddParams struct {
 	Multiplier *V2BillingContractPricingOverrideActionAddMultiplierParams `form:"multiplier" json:"multiplier,omitempty"`
 	// An overwrite price override to add.
 	OverwritePrice *V2BillingContractPricingOverrideActionAddOverwritePriceParams `form:"overwrite_price" json:"overwrite_price,omitempty"`
-	// The priority for the pricing override.
+	// The priority for the pricing override. The highest priority is 0 and the lowest is 100.
 	Priority *int64 `form:"priority" json:"priority"`
 	// The start time for the pricing override.
 	StartsAt *V2BillingContractPricingOverrideActionAddStartsAtParams `form:"starts_at" json:"starts_at"`
@@ -1240,7 +1240,7 @@ type V2BillingContractCreatePricingOverrideParams struct {
 	Multiplier *V2BillingContractCreatePricingOverrideMultiplierParams `form:"multiplier" json:"multiplier,omitempty"`
 	// Parameters for an overwrite_price override. Required if `type` is `overwrite_price`.
 	OverwritePrice *V2BillingContractCreatePricingOverrideOverwritePriceParams `form:"overwrite_price" json:"overwrite_price,omitempty"`
-	// The priority of this override relative to others. Lower number = higher priority.
+	// The priority of this override relative to others. The highest priority is 0 and the lowest is 100.
 	Priority *int64 `form:"priority" json:"priority"`
 	// When the pricing override starts.
 	StartsAt *V2BillingContractCreatePricingOverrideStartsAtParams `form:"starts_at" json:"starts_at"`
@@ -1510,7 +1510,7 @@ type V2BillingContractUpdatePricingOverrideActionAddParams struct {
 	Multiplier *V2BillingContractUpdatePricingOverrideActionAddMultiplierParams `form:"multiplier" json:"multiplier,omitempty"`
 	// An overwrite price override to add.
 	OverwritePrice *V2BillingContractUpdatePricingOverrideActionAddOverwritePriceParams `form:"overwrite_price" json:"overwrite_price,omitempty"`
-	// The priority for the pricing override.
+	// The priority for the pricing override. The highest priority is 0 and the lowest is 100.
 	Priority *int64 `form:"priority" json:"priority"`
 	// The start time for the pricing override.
 	StartsAt *V2BillingContractUpdatePricingOverrideActionAddStartsAtParams `form:"starts_at" json:"starts_at"`
