@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v85/form"
+	"github.com/stripe/stripe-go/v86/form"
 )
 
 // v1DelegatedCheckoutRequestedSessionService is used to invoke /v1/delegated_checkout/requested_sessions APIs.

@@ -10,7 +10,7 @@ package billsetting
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v85"
+	stripe "github.com/stripe/stripe-go/v86"
 )
 
 // Client is used to invoke billsetting related APIs.

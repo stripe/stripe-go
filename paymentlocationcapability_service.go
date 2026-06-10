@@ -10,7 +10,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v85/form"
+	"github.com/stripe/stripe-go/v86/form"
 )
 
 // v1PaymentLocationCapabilityService is used to invoke /v1/payment_location_capabilities APIs.
