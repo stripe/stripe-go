@@ -419,6 +419,24 @@ func (c Client) TriggerAction(id string, params *stripe.PaymentIntentTriggerActi
 	return paymentintent, err
 }
 
+// Updates the refund address for a static crypto deposit PaymentIntent on the specified network.
+func UpdateCryptoRefundAddress(id string, params *stripe.PaymentIntentUpdateCryptoRefundAddressParams) (*stripe.PaymentIntent, error) {
+	return getC().UpdateCryptoRefundAddress(id, params)
+}
+
+// Updates the refund address for a static crypto deposit PaymentIntent on the specified network.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) UpdateCryptoRefundAddress(id string, params *stripe.PaymentIntentUpdateCryptoRefundAddressParams) (*stripe.PaymentIntent, error) {
+	path := stripe.FormatURLPath(
+		"/v1/payment_intents/%s/update_crypto_refund_address", id)
+	paymentintent := &stripe.PaymentIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	return paymentintent, err
+}
+
 // Verifies microdeposits on a PaymentIntent object.
 func VerifyMicrodeposits(id string, params *stripe.PaymentIntentVerifyMicrodepositsParams) (*stripe.PaymentIntent, error) {
 	return getC().VerifyMicrodeposits(id, params)

@@ -61,6 +61,7 @@ const (
 	V2MoneyManagementTransactionCategoryStripeBalancePaymentDebitReversal       V2MoneyManagementTransactionCategory = "stripe_balance_payment_debit_reversal"
 	V2MoneyManagementTransactionCategoryStripeFee                               V2MoneyManagementTransactionCategory = "stripe_fee"
 	V2MoneyManagementTransactionCategoryStripeFeeTax                            V2MoneyManagementTransactionCategory = "stripe_fee_tax"
+	V2MoneyManagementTransactionCategoryTaxFund                                 V2MoneyManagementTransactionCategory = "tax_fund"
 	V2MoneyManagementTransactionCategoryTaxWithholding                          V2MoneyManagementTransactionCategory = "tax_withholding"
 	V2MoneyManagementTransactionCategoryTransferReversal                        V2MoneyManagementTransactionCategory = "transfer_reversal"
 	V2MoneyManagementTransactionCategoryUnreconciledCustomerFunds               V2MoneyManagementTransactionCategory = "unreconciled_customer_funds"
@@ -88,6 +89,7 @@ const (
 	V2MoneyManagementTransactionFlowTypeRefund                       V2MoneyManagementTransactionFlowType = "refund"
 	V2MoneyManagementTransactionFlowTypeReserveHold                  V2MoneyManagementTransactionFlowType = "reserve_hold"
 	V2MoneyManagementTransactionFlowTypeReserveRelease               V2MoneyManagementTransactionFlowType = "reserve_release"
+	V2MoneyManagementTransactionFlowTypeTaxFund                      V2MoneyManagementTransactionFlowType = "tax_fund"
 	V2MoneyManagementTransactionFlowTypeTopup                        V2MoneyManagementTransactionFlowType = "topup"
 	V2MoneyManagementTransactionFlowTypeTransfer                     V2MoneyManagementTransactionFlowType = "transfer"
 	V2MoneyManagementTransactionFlowTypeTransferReversal             V2MoneyManagementTransactionFlowType = "transfer_reversal"
@@ -169,6 +171,8 @@ type V2MoneyManagementTransactionFlow struct {
 	ReserveHold string `json:"reserve_hold,omitempty"`
 	// If applicable, the ID of the Reserve Release that created this Transaction.
 	ReserveRelease string `json:"reserve_release,omitempty"`
+	// If applicable, the ID of the TaxFund that created this Transaction.
+	TaxFund string `json:"tax_fund,omitempty"`
 	// If applicable, the ID of the Topup that created this Transaction.
 	Topup string `json:"topup,omitempty"`
 	// If applicable, the ID of the Transfer that created this Transaction.

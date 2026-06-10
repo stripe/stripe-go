@@ -32,10 +32,22 @@ func (p *RadarAccountEvaluationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Raw client metadata fallback when Stripe.js is blocked. Required unless radar_session is provided.
+type RadarAccountEvaluationLoginInitiatedClientDeviceMetadataDetailsDataParams struct {
+	// The end user's IP address. Used for proxy detection and IP-clustering signals.
+	IP *string `form:"ip" json:"ip"`
+	// The referring URL of the login or registration page.
+	Referrer *string `form:"referrer" json:"referrer,omitempty"`
+	// The User-Agent HTTP header.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Client device metadata details (e.g., radar_session).
 type RadarAccountEvaluationLoginInitiatedClientDeviceMetadataDetailsParams struct {
-	// ID for the Radar Session associated with the account evaluation.
-	RadarSession *string `form:"radar_session" json:"radar_session"`
+	// Raw client metadata fallback when Stripe.js is blocked. Required unless radar_session is provided.
+	Data *RadarAccountEvaluationLoginInitiatedClientDeviceMetadataDetailsDataParams `form:"data" json:"data,omitempty"`
+	// ID for the Radar Session. Required unless data is provided.
+	RadarSession *string `form:"radar_session" json:"radar_session,omitempty"`
 }
 
 // Event payload for login_initiated.
@@ -46,10 +58,22 @@ type RadarAccountEvaluationLoginInitiatedParams struct {
 	Customer *string `form:"customer" json:"customer"`
 }
 
+// Raw client metadata fallback when Stripe.js is blocked. Required unless radar_session is provided.
+type RadarAccountEvaluationRegistrationInitiatedClientDeviceMetadataDetailsDataParams struct {
+	// The end user's IP address. Used for proxy detection and IP-clustering signals.
+	IP *string `form:"ip" json:"ip"`
+	// The referring URL of the login or registration page.
+	Referrer *string `form:"referrer" json:"referrer,omitempty"`
+	// The User-Agent HTTP header.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Client device metadata details (e.g., radar_session).
 type RadarAccountEvaluationRegistrationInitiatedClientDeviceMetadataDetailsParams struct {
-	// ID for the Radar Session associated with the account evaluation.
-	RadarSession *string `form:"radar_session" json:"radar_session"`
+	// Raw client metadata fallback when Stripe.js is blocked. Required unless radar_session is provided.
+	Data *RadarAccountEvaluationRegistrationInitiatedClientDeviceMetadataDetailsDataParams `form:"data" json:"data,omitempty"`
+	// ID for the Radar Session. Required unless data is provided.
+	RadarSession *string `form:"radar_session" json:"radar_session,omitempty"`
 }
 
 // Customer data
@@ -108,10 +132,22 @@ func (p *RadarAccountEvaluationRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Raw client metadata fallback when Stripe.js is blocked. Required unless radar_session is provided.
+type RadarAccountEvaluationCreateLoginInitiatedClientDeviceMetadataDetailsDataParams struct {
+	// The end user's IP address. Used for proxy detection and IP-clustering signals.
+	IP *string `form:"ip" json:"ip"`
+	// The referring URL of the login or registration page.
+	Referrer *string `form:"referrer" json:"referrer,omitempty"`
+	// The User-Agent HTTP header.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Client device metadata details (e.g., radar_session).
 type RadarAccountEvaluationCreateLoginInitiatedClientDeviceMetadataDetailsParams struct {
-	// ID for the Radar Session associated with the account evaluation.
-	RadarSession *string `form:"radar_session" json:"radar_session"`
+	// Raw client metadata fallback when Stripe.js is blocked. Required unless radar_session is provided.
+	Data *RadarAccountEvaluationCreateLoginInitiatedClientDeviceMetadataDetailsDataParams `form:"data" json:"data,omitempty"`
+	// ID for the Radar Session. Required unless data is provided.
+	RadarSession *string `form:"radar_session" json:"radar_session,omitempty"`
 }
 
 // Event payload for login_initiated.
@@ -122,10 +158,22 @@ type RadarAccountEvaluationCreateLoginInitiatedParams struct {
 	Customer *string `form:"customer" json:"customer"`
 }
 
+// Raw client metadata fallback when Stripe.js is blocked. Required unless radar_session is provided.
+type RadarAccountEvaluationCreateRegistrationInitiatedClientDeviceMetadataDetailsDataParams struct {
+	// The end user's IP address. Used for proxy detection and IP-clustering signals.
+	IP *string `form:"ip" json:"ip"`
+	// The referring URL of the login or registration page.
+	Referrer *string `form:"referrer" json:"referrer,omitempty"`
+	// The User-Agent HTTP header.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Client device metadata details (e.g., radar_session).
 type RadarAccountEvaluationCreateRegistrationInitiatedClientDeviceMetadataDetailsParams struct {
-	// ID for the Radar Session associated with the account evaluation.
-	RadarSession *string `form:"radar_session" json:"radar_session"`
+	// Raw client metadata fallback when Stripe.js is blocked. Required unless radar_session is provided.
+	Data *RadarAccountEvaluationCreateRegistrationInitiatedClientDeviceMetadataDetailsDataParams `form:"data" json:"data,omitempty"`
+	// ID for the Radar Session. Required unless data is provided.
+	RadarSession *string `form:"radar_session" json:"radar_session,omitempty"`
 }
 
 // Customer data

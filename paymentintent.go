@@ -44,15 +44,6 @@ const (
 	PaymentIntentAdvancedFeatureDetailsOvercaptureStatusUnavailable PaymentIntentAdvancedFeatureDetailsOvercaptureStatus = "unavailable"
 )
 
-// Indicates whether the feature is supported.
-type PaymentIntentAdvancedFeatureDetailsReauthorizationStatus string
-
-// List of values that PaymentIntentAdvancedFeatureDetailsReauthorizationStatus can take
-const (
-	PaymentIntentAdvancedFeatureDetailsReauthorizationStatusAvailable   PaymentIntentAdvancedFeatureDetailsReauthorizationStatus = "available"
-	PaymentIntentAdvancedFeatureDetailsReauthorizationStatusUnavailable PaymentIntentAdvancedFeatureDetailsReauthorizationStatus = "unavailable"
-)
-
 // The code of the error that occurred when validating the current amount details.
 type PaymentIntentAmountDetailsErrorCode string
 
@@ -769,6 +760,18 @@ const (
 	PaymentIntentPaymentMethodOptionsBoletoSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsBoletoSetupFutureUsage = "on_session"
 )
 
+// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+//
+// If omitted, funds are captured before the authorization expires.
+type PaymentIntentPaymentMethodOptionsCardCaptureBy string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardCaptureBy can take
+const (
+	PaymentIntentPaymentMethodOptionsCardCaptureByAuthExpiry  PaymentIntentPaymentMethodOptionsCardCaptureBy = "auth_expiry"
+	PaymentIntentPaymentMethodOptionsCardCaptureByEndOfDay    PaymentIntentPaymentMethodOptionsCardCaptureBy = "end_of_day"
+	PaymentIntentPaymentMethodOptionsCardCaptureByTargetDelay PaymentIntentPaymentMethodOptionsCardCaptureBy = "target_delay"
+)
+
 // Controls when the funds will be captured from the customer's account.
 type PaymentIntentPaymentMethodOptionsCardCaptureMethod string
 
@@ -934,6 +937,18 @@ const (
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "on_session"
 )
 
+// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+//
+// If omitted, funds are captured before the authorization expires.
+type PaymentIntentPaymentMethodOptionsCardPresentCaptureBy string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPresentCaptureBy can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentCaptureByAuthExpiry  PaymentIntentPaymentMethodOptionsCardPresentCaptureBy = "auth_expiry"
+	PaymentIntentPaymentMethodOptionsCardPresentCaptureByEndOfDay    PaymentIntentPaymentMethodOptionsCardPresentCaptureBy = "end_of_day"
+	PaymentIntentPaymentMethodOptionsCardPresentCaptureByTargetDelay PaymentIntentPaymentMethodOptionsCardPresentCaptureBy = "target_delay"
+)
+
 // Controls when the funds will be captured from the customer's account.
 type PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod string
 
@@ -941,6 +956,15 @@ type PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod string
 const (
 	PaymentIntentPaymentMethodOptionsCardPresentCaptureMethodManual          PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod = "manual"
 	PaymentIntentPaymentMethodOptionsCardPresentCaptureMethodManualPreferred PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod = "manual_preferred"
+)
+
+// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
+type PaymentIntentPaymentMethodOptionsCardPresentRequestMulticapture string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPresentRequestMulticapture can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentRequestMulticaptureIfAvailable PaymentIntentPaymentMethodOptionsCardPresentRequestMulticapture = "if_available"
+	PaymentIntentPaymentMethodOptionsCardPresentRequestMulticaptureNever       PaymentIntentPaymentMethodOptionsCardPresentRequestMulticapture = "never"
 )
 
 // Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
@@ -1000,8 +1024,9 @@ type PaymentIntentPaymentMethodOptionsCryptoMode string
 
 // List of values that PaymentIntentPaymentMethodOptionsCryptoMode can take
 const (
-	PaymentIntentPaymentMethodOptionsCryptoModeDefault PaymentIntentPaymentMethodOptionsCryptoMode = "default"
-	PaymentIntentPaymentMethodOptionsCryptoModeDeposit PaymentIntentPaymentMethodOptionsCryptoMode = "deposit"
+	PaymentIntentPaymentMethodOptionsCryptoModeDefault                 PaymentIntentPaymentMethodOptionsCryptoMode = "default"
+	PaymentIntentPaymentMethodOptionsCryptoModeDeposit                 PaymentIntentPaymentMethodOptionsCryptoMode = "deposit"
+	PaymentIntentPaymentMethodOptionsCryptoModeTransactionVerification PaymentIntentPaymentMethodOptionsCryptoMode = "transaction_verification"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2227,7 +2252,7 @@ type PaymentIntentPaymentDetailsBenefitFRMealVoucherParams struct {
 	// Whether to enable meal voucher benefit for this payment.
 	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
-	Siret *string `form:"siret" json:"siret"`
+	Siret *string `form:"siret" json:"siret,omitempty"`
 }
 
 // Benefit details for this PaymentIntent
@@ -3822,6 +3847,14 @@ func (p *PaymentIntentPaymentMethodOptionsBoletoParams) AddUnsetField(field Paym
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+//
+// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+type PaymentIntentPaymentMethodOptionsCardCaptureDelayParams struct {
+	Days  *int64 `form:"days" json:"days,omitempty"`
+	Hours *int64 `form:"hours" json:"hours,omitempty"`
+}
+
 // The selected installment plan to use for this payment attempt.
 // This parameter can only be provided during confirmation.
 type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams struct {
@@ -3882,26 +3915,6 @@ type PaymentIntentPaymentMethodOptionsCardMandateOptionsParams struct {
 	SupportedTypes []*string `form:"supported_types" json:"supported_types,omitempty"`
 }
 
-// Details for a cryptocurrency liquid asset funding transaction.
-type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
-	// The cryptocurrency currency code (e.g. BTC, ETH).
-	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
-}
-
-// Details for a security liquid asset funding transaction.
-type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
-	// The security's ticker symbol (e.g. AAPL).
-	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
-}
-
-// Details for a liquid asset (crypto or security) funding transaction.
-type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
-	// Details for a cryptocurrency liquid asset funding transaction.
-	Crypto *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
-	// Details for a security liquid asset funding transaction.
-	Security *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
-}
-
 // The merchant where the staged wallet purchase is made.
 type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
 	// The merchant category code of the merchant.
@@ -3939,23 +3952,8 @@ func (p *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccount
 type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
 	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
-	// Details for a liquid asset (crypto or security) funding transaction.
-	LiquidAsset *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
 	// Details for a wallet funding transaction.
-	Wallet      *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
-	UnsetFields []PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
-}
-
-// PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams.
-type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
-
-const (
-	PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
+	Wallet *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams `form:"wallet" json:"wallet,omitempty"`
 }
 
 // Money services details for payment method specific funding fields.
@@ -4033,6 +4031,14 @@ type PaymentIntentPaymentMethodOptionsCardThreeDSecureParams struct {
 
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardParams struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy *string `form:"capture_by" json:"capture_by,omitempty"`
+	// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	CaptureDelay *PaymentIntentPaymentMethodOptionsCardCaptureDelayParams `form:"capture_delay" json:"capture_delay,omitempty"`
 	// Controls when the funds are captured from the customer's account.
 	//
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
@@ -4111,24 +4117,12 @@ func (p *PaymentIntentPaymentMethodOptionsCardParams) AddUnsetField(field Paymen
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// Details for a cryptocurrency liquid asset funding transaction.
-type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
-	// The cryptocurrency currency code (e.g. BTC, ETH).
-	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
-}
-
-// Details for a security liquid asset funding transaction.
-type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
-	// The security's ticker symbol (e.g. AAPL).
-	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
-}
-
-// Details for a liquid asset (crypto or security) funding transaction.
-type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
-	// Details for a cryptocurrency liquid asset funding transaction.
-	Crypto *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
-	// Details for a security liquid asset funding transaction.
-	Security *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+//
+// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+type PaymentIntentPaymentMethodOptionsCardPresentCaptureDelayParams struct {
+	Days  *int64 `form:"days" json:"days,omitempty"`
+	Hours *int64 `form:"hours" json:"hours,omitempty"`
 }
 
 // The merchant where the staged wallet purchase is made.
@@ -4168,23 +4162,8 @@ func (p *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServices
 type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
 	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
-	// Details for a liquid asset (crypto or security) funding transaction.
-	LiquidAsset *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
 	// Details for a wallet funding transaction.
-	Wallet      *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
-	UnsetFields []PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
-}
-
-// PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams.
-type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
-
-const (
-	PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
+	Wallet *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams `form:"wallet" json:"wallet,omitempty"`
 }
 
 // Money services details for payment method specific funding fields.
@@ -4207,6 +4186,14 @@ type PaymentIntentPaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy *string `form:"capture_by" json:"capture_by,omitempty"`
+	// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	CaptureDelay *PaymentIntentPaymentMethodOptionsCardPresentCaptureDelayParams `form:"capture_delay" json:"capture_delay,omitempty"`
 	// Controls when the funds are captured from the customer's account.
 	//
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
@@ -4219,6 +4206,8 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization" json:"request_extended_authorization,omitempty"`
 	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support" json:"request_incremental_authorization_support,omitempty"`
+	// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
+	RequestMulticapture *string `form:"request_multicapture" json:"request_multicapture,omitempty"`
 	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
 	RequestReauthorization *string `form:"request_reauthorization" json:"request_reauthorization,omitempty"`
 	// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
@@ -4350,7 +4339,14 @@ type PaymentIntentPaymentMethodOptionsFPXParams struct {
 }
 
 // If this is a `gift_card` PaymentMethod, this sub-hash contains details about the gift card payment method options.
-type PaymentIntentPaymentMethodOptionsGiftCardParams struct{}
+type PaymentIntentPaymentMethodOptionsGiftCardParams struct {
+	// Set to `yes` to ignore the application fee on the PaymentIntent when redeeming this gift card.
+	IgnoreApplicationFee *string `form:"ignore_application_fee" json:"ignore_application_fee,omitempty"`
+	// Set to `yes` to ignore transfer data on the PaymentIntent when redeeming this gift card.
+	IgnoreTransferData *string `form:"ignore_transfer_data" json:"ignore_transfer_data,omitempty"`
+	// Request partial authorization on this PaymentIntent.
+	RequestPartialAuthorization *string `form:"request_partial_authorization" json:"request_partial_authorization,omitempty"`
+}
 
 // If this is a `giropay` PaymentMethod, this sub-hash contains details about the Giropay payment method options.
 type PaymentIntentPaymentMethodOptionsGiropayParams struct {
@@ -7570,102 +7566,6 @@ type PaymentIntentCapturePaymentDetailsLodgingDatumParams struct {
 	Total *PaymentIntentCapturePaymentDetailsLodgingDatumTotalParams `form:"total" json:"total"`
 }
 
-// Date of birth.
-type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
-	// Day of birth, between 1 and 31.
-	Day *int64 `form:"day" json:"day"`
-	// Month of birth, between 1 and 12.
-	Month *int64 `form:"month" json:"month"`
-	// Four-digit year of birth.
-	Year *int64 `form:"year" json:"year"`
-}
-
-// Inline identity details for the beneficiary of this account funding transaction.
-type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
-	// Address.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Date of birth.
-	DateOfBirth *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
-	// Email address.
-	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
-	// Phone number.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Date of birth.
-type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
-	// Day of birth, between 1 and 31.
-	Day *int64 `form:"day" json:"day"`
-	// Month of birth, between 1 and 12.
-	Month *int64 `form:"month" json:"month"`
-	// Four-digit year of birth.
-	Year *int64 `form:"year" json:"year"`
-}
-
-// Inline identity details for the sender of this account funding transaction.
-type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams struct {
-	// Address.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Date of birth.
-	DateOfBirth *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
-	// Email address.
-	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
-	// Phone number.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Account funding transaction details including sender and beneficiary information.
-type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams struct {
-	// ID of the Account representing the beneficiary in this account funding transaction.
-	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
-	// Inline identity details for the beneficiary of this account funding transaction.
-	BeneficiaryDetails *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
-	// ID of the Account representing the sender in this account funding transaction.
-	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
-	// Inline identity details for the sender of this account funding transaction.
-	SenderDetails *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
-	UnsetFields   []PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
-}
-
-// PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams.
-type PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
-
-const (
-	PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
-	PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
-// Money services details for this PaymentIntent.
-type PaymentIntentCapturePaymentDetailsMoneyServicesParams struct {
-	// Account funding transaction details including sender and beneficiary information.
-	AccountFunding *PaymentIntentCapturePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
-	// The type of money services transaction.
-	TransactionType *string                                                           `form:"transaction_type" json:"transaction_type,omitempty"`
-	UnsetFields     []PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
-}
-
-// PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCapturePaymentDetailsMoneyServicesParams.
-type PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField string
-
-const (
-	PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
-	PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentCapturePaymentDetailsMoneyServicesParams) AddUnsetField(field PaymentIntentCapturePaymentDetailsMoneyServicesParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
 // Affiliate details for this purchase.
 type PaymentIntentCapturePaymentDetailsSubscriptionAffiliateParams struct {
 	// The name of the affiliate that originated the purchase.
@@ -7718,8 +7618,6 @@ type PaymentIntentCapturePaymentDetailsParams struct {
 	Lodging *PaymentIntentCapturePaymentDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// Lodging data for this PaymentIntent.
 	LodgingData []*PaymentIntentCapturePaymentDetailsLodgingDatumParams `form:"lodging_data" json:"lodging_data,omitempty"`
-	// Money services details for this PaymentIntent.
-	MoneyServices *PaymentIntentCapturePaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
 	//
 	// For Cards, this field is truncated to 25 alphanumeric characters, excluding spaces, before being sent to card networks. For Klarna, this field is truncated to 255 characters and is visible to customers when they view the order in the Klarna app.
@@ -7738,7 +7636,6 @@ const (
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldFleetData         PaymentIntentCapturePaymentDetailsParamsUnsetField = "fleet_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldFlightData        PaymentIntentCapturePaymentDetailsParamsUnsetField = "flight_data"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldLodgingData       PaymentIntentCapturePaymentDetailsParamsUnsetField = "lodging_data"
-	PaymentIntentCapturePaymentDetailsParamsUnsetFieldMoneyServices     PaymentIntentCapturePaymentDetailsParamsUnsetField = "money_services"
 	PaymentIntentCapturePaymentDetailsParamsUnsetFieldOrderReference    PaymentIntentCapturePaymentDetailsParamsUnsetField = "order_reference"
 )
 
@@ -8035,7 +7932,7 @@ type PaymentIntentConfirmPaymentDetailsBenefitFRMealVoucherParams struct {
 	// Whether to enable meal voucher benefit for this payment.
 	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
-	Siret *string `form:"siret" json:"siret"`
+	Siret *string `form:"siret" json:"siret,omitempty"`
 }
 
 // Benefit details for this PaymentIntent
@@ -9828,6 +9725,22 @@ func (p *PaymentIntentReauthorizeParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Updates the refund address for a static crypto deposit PaymentIntent on the specified network.
+type PaymentIntentUpdateCryptoRefundAddressParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// The blockchain network for the refund address.
+	Network *string `form:"network" json:"network"`
+	// The wallet address that should receive refunds for deposits on the specified network.
+	RefundAddress *string `form:"refund_address" json:"refund_address"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentUpdateCryptoRefundAddressParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Verifies microdeposits on a PaymentIntent object.
 type PaymentIntentVerifyMicrodepositsParams struct {
 	Params `form:"*"`
@@ -10131,7 +10044,7 @@ type PaymentIntentCreatePaymentDetailsBenefitFRMealVoucherParams struct {
 	// Whether to enable meal voucher benefit for this payment.
 	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
-	Siret *string `form:"siret" json:"siret"`
+	Siret *string `form:"siret" json:"siret,omitempty"`
 }
 
 // Benefit details for this PaymentIntent
@@ -11726,6 +11639,14 @@ func (p *PaymentIntentCreatePaymentMethodOptionsBoletoParams) AddUnsetField(fiel
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+//
+// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+type PaymentIntentCreatePaymentMethodOptionsCardCaptureDelayParams struct {
+	Days  *int64 `form:"days" json:"days,omitempty"`
+	Hours *int64 `form:"hours" json:"hours,omitempty"`
+}
+
 // The selected installment plan to use for this payment attempt.
 // This parameter can only be provided during confirmation.
 type PaymentIntentCreatePaymentMethodOptionsCardInstallmentsPlanParams struct {
@@ -11786,26 +11707,6 @@ type PaymentIntentCreatePaymentMethodOptionsCardMandateOptionsParams struct {
 	SupportedTypes []*string `form:"supported_types" json:"supported_types,omitempty"`
 }
 
-// Details for a cryptocurrency liquid asset funding transaction.
-type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
-	// The cryptocurrency currency code (e.g. BTC, ETH).
-	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
-}
-
-// Details for a security liquid asset funding transaction.
-type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
-	// The security's ticker symbol (e.g. AAPL).
-	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
-}
-
-// Details for a liquid asset (crypto or security) funding transaction.
-type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
-	// Details for a cryptocurrency liquid asset funding transaction.
-	Crypto *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
-	// Details for a security liquid asset funding transaction.
-	Security *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
-}
-
 // The merchant where the staged wallet purchase is made.
 type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
 	// The merchant category code of the merchant.
@@ -11843,23 +11744,8 @@ func (p *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesA
 type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
 	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
-	// Details for a liquid asset (crypto or security) funding transaction.
-	LiquidAsset *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
 	// Details for a wallet funding transaction.
-	Wallet      *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
-	UnsetFields []PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
-}
-
-// PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams.
-type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
-
-const (
-	PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
+	Wallet *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams `form:"wallet" json:"wallet,omitempty"`
 }
 
 // Money services details for payment method specific funding fields.
@@ -11937,6 +11823,14 @@ type PaymentIntentCreatePaymentMethodOptionsCardThreeDSecureParams struct {
 
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentCreatePaymentMethodOptionsCardParams struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy *string `form:"capture_by" json:"capture_by,omitempty"`
+	// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	CaptureDelay *PaymentIntentCreatePaymentMethodOptionsCardCaptureDelayParams `form:"capture_delay" json:"capture_delay,omitempty"`
 	// Controls when the funds are captured from the customer's account.
 	//
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
@@ -12015,24 +11909,12 @@ func (p *PaymentIntentCreatePaymentMethodOptionsCardParams) AddUnsetField(field 
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// Details for a cryptocurrency liquid asset funding transaction.
-type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
-	// The cryptocurrency currency code (e.g. BTC, ETH).
-	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
-}
-
-// Details for a security liquid asset funding transaction.
-type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
-	// The security's ticker symbol (e.g. AAPL).
-	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
-}
-
-// Details for a liquid asset (crypto or security) funding transaction.
-type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
-	// Details for a cryptocurrency liquid asset funding transaction.
-	Crypto *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
-	// Details for a security liquid asset funding transaction.
-	Security *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+//
+// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+type PaymentIntentCreatePaymentMethodOptionsCardPresentCaptureDelayParams struct {
+	Days  *int64 `form:"days" json:"days,omitempty"`
+	Hours *int64 `form:"hours" json:"hours,omitempty"`
 }
 
 // The merchant where the staged wallet purchase is made.
@@ -12072,23 +11954,8 @@ func (p *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneySe
 type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
 	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
-	// Details for a liquid asset (crypto or security) funding transaction.
-	LiquidAsset *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
 	// Details for a wallet funding transaction.
-	Wallet      *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
-	UnsetFields []PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
-}
-
-// PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams.
-type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
-
-const (
-	PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
+	Wallet *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams `form:"wallet" json:"wallet,omitempty"`
 }
 
 // Money services details for payment method specific funding fields.
@@ -12111,6 +11978,14 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentCreatePaymentMethodOptionsCardPresentParams struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy *string `form:"capture_by" json:"capture_by,omitempty"`
+	// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	CaptureDelay *PaymentIntentCreatePaymentMethodOptionsCardPresentCaptureDelayParams `form:"capture_delay" json:"capture_delay,omitempty"`
 	// Controls when the funds are captured from the customer's account.
 	//
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
@@ -12123,6 +11998,8 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentParams struct {
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization" json:"request_extended_authorization,omitempty"`
 	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support" json:"request_incremental_authorization_support,omitempty"`
+	// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
+	RequestMulticapture *string `form:"request_multicapture" json:"request_multicapture,omitempty"`
 	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
 	RequestReauthorization *string `form:"request_reauthorization" json:"request_reauthorization,omitempty"`
 	// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
@@ -12254,7 +12131,14 @@ type PaymentIntentCreatePaymentMethodOptionsFPXParams struct {
 }
 
 // If this is a `gift_card` PaymentMethod, this sub-hash contains details about the gift card payment method options.
-type PaymentIntentCreatePaymentMethodOptionsGiftCardParams struct{}
+type PaymentIntentCreatePaymentMethodOptionsGiftCardParams struct {
+	// Set to `yes` to ignore the application fee on the PaymentIntent when redeeming this gift card.
+	IgnoreApplicationFee *string `form:"ignore_application_fee" json:"ignore_application_fee,omitempty"`
+	// Set to `yes` to ignore transfer data on the PaymentIntent when redeeming this gift card.
+	IgnoreTransferData *string `form:"ignore_transfer_data" json:"ignore_transfer_data,omitempty"`
+	// Request partial authorization on this PaymentIntent.
+	RequestPartialAuthorization *string `form:"request_partial_authorization" json:"request_partial_authorization,omitempty"`
+}
 
 // If this is a `giropay` PaymentMethod, this sub-hash contains details about the Giropay payment method options.
 type PaymentIntentCreatePaymentMethodOptionsGiropayParams struct {
@@ -14658,7 +14542,7 @@ type PaymentIntentUpdatePaymentDetailsBenefitFRMealVoucherParams struct {
 	// Whether to enable meal voucher benefit for this payment.
 	Enabled *string `form:"enabled" json:"enabled,omitempty"`
 	// The 14-digit SIRET of the meal voucher acceptor.
-	Siret *string `form:"siret" json:"siret"`
+	Siret *string `form:"siret" json:"siret,omitempty"`
 }
 
 // Benefit details for this PaymentIntent
@@ -16253,6 +16137,14 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsBoletoParams) AddUnsetField(fiel
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+//
+// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+type PaymentIntentUpdatePaymentMethodOptionsCardCaptureDelayParams struct {
+	Days  *int64 `form:"days" json:"days,omitempty"`
+	Hours *int64 `form:"hours" json:"hours,omitempty"`
+}
+
 // The selected installment plan to use for this payment attempt.
 // This parameter can only be provided during confirmation.
 type PaymentIntentUpdatePaymentMethodOptionsCardInstallmentsPlanParams struct {
@@ -16313,26 +16205,6 @@ type PaymentIntentUpdatePaymentMethodOptionsCardMandateOptionsParams struct {
 	SupportedTypes []*string `form:"supported_types" json:"supported_types,omitempty"`
 }
 
-// Details for a cryptocurrency liquid asset funding transaction.
-type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
-	// The cryptocurrency currency code (e.g. BTC, ETH).
-	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
-}
-
-// Details for a security liquid asset funding transaction.
-type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
-	// The security's ticker symbol (e.g. AAPL).
-	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
-}
-
-// Details for a liquid asset (crypto or security) funding transaction.
-type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
-	// Details for a cryptocurrency liquid asset funding transaction.
-	Crypto *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
-	// Details for a security liquid asset funding transaction.
-	Security *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
-}
-
 // The merchant where the staged wallet purchase is made.
 type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
 	// The merchant category code of the merchant.
@@ -16370,23 +16242,8 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesA
 type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
 	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
-	// Details for a liquid asset (crypto or security) funding transaction.
-	LiquidAsset *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
 	// Details for a wallet funding transaction.
-	Wallet      *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
-	UnsetFields []PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
-}
-
-// PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams.
-type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
-
-const (
-	PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
+	Wallet *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams `form:"wallet" json:"wallet,omitempty"`
 }
 
 // Money services details for payment method specific funding fields.
@@ -16464,6 +16321,14 @@ type PaymentIntentUpdatePaymentMethodOptionsCardThreeDSecureParams struct {
 
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentUpdatePaymentMethodOptionsCardParams struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy *string `form:"capture_by" json:"capture_by,omitempty"`
+	// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	CaptureDelay *PaymentIntentUpdatePaymentMethodOptionsCardCaptureDelayParams `form:"capture_delay" json:"capture_delay,omitempty"`
 	// Controls when the funds are captured from the customer's account.
 	//
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
@@ -16542,24 +16407,12 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsCardParams) AddUnsetField(field 
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
-// Details for a cryptocurrency liquid asset funding transaction.
-type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams struct {
-	// The cryptocurrency currency code (e.g. BTC, ETH).
-	CurrencyCode *string `form:"currency_code" json:"currency_code,omitempty"`
-}
-
-// Details for a security liquid asset funding transaction.
-type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams struct {
-	// The security's ticker symbol (e.g. AAPL).
-	TickerSymbol *string `form:"ticker_symbol" json:"ticker_symbol,omitempty"`
-}
-
-// Details for a liquid asset (crypto or security) funding transaction.
-type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams struct {
-	// Details for a cryptocurrency liquid asset funding transaction.
-	Crypto *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetCryptoParams `form:"crypto" json:"crypto,omitempty"`
-	// Details for a security liquid asset funding transaction.
-	Security *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetSecurityParams `form:"security" json:"security,omitempty"`
+// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+//
+// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentCaptureDelayParams struct {
+	Days  *int64 `form:"days" json:"days,omitempty"`
+	Hours *int64 `form:"hours" json:"hours,omitempty"`
 }
 
 // The merchant where the staged wallet purchase is made.
@@ -16599,23 +16452,8 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneySe
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
 	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
-	// Details for a liquid asset (crypto or security) funding transaction.
-	LiquidAsset *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingLiquidAssetParams `form:"liquid_asset" json:"liquid_asset,omitempty"`
 	// Details for a wallet funding transaction.
-	Wallet      *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams      `form:"wallet" json:"wallet,omitempty"`
-	UnsetFields []PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField `form:"-" json:"-"`
-}
-
-// PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams.
-type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
-
-const (
-	PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldLiquidAsset PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "liquid_asset"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
+	Wallet *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams `form:"wallet" json:"wallet,omitempty"`
 }
 
 // Money services details for payment method specific funding fields.
@@ -16638,6 +16476,14 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentParams struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy *string `form:"capture_by" json:"capture_by,omitempty"`
+	// The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	CaptureDelay *PaymentIntentUpdatePaymentMethodOptionsCardPresentCaptureDelayParams `form:"capture_delay" json:"capture_delay,omitempty"`
 	// Controls when the funds are captured from the customer's account.
 	//
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
@@ -16650,6 +16496,8 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentParams struct {
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization" json:"request_extended_authorization,omitempty"`
 	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support" json:"request_incremental_authorization_support,omitempty"`
+	// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
+	RequestMulticapture *string `form:"request_multicapture" json:"request_multicapture,omitempty"`
 	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
 	RequestReauthorization *string `form:"request_reauthorization" json:"request_reauthorization,omitempty"`
 	// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
@@ -16781,7 +16629,14 @@ type PaymentIntentUpdatePaymentMethodOptionsFPXParams struct {
 }
 
 // If this is a `gift_card` PaymentMethod, this sub-hash contains details about the gift card payment method options.
-type PaymentIntentUpdatePaymentMethodOptionsGiftCardParams struct{}
+type PaymentIntentUpdatePaymentMethodOptionsGiftCardParams struct {
+	// Set to `yes` to ignore the application fee on the PaymentIntent when redeeming this gift card.
+	IgnoreApplicationFee *string `form:"ignore_application_fee" json:"ignore_application_fee,omitempty"`
+	// Set to `yes` to ignore transfer data on the PaymentIntent when redeeming this gift card.
+	IgnoreTransferData *string `form:"ignore_transfer_data" json:"ignore_transfer_data,omitempty"`
+	// Request partial authorization on this PaymentIntent.
+	RequestPartialAuthorization *string `form:"request_partial_authorization" json:"request_partial_authorization,omitempty"`
+}
 
 // If this is a `giropay` PaymentMethod, this sub-hash contains details about the Giropay payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsGiropayParams struct {
@@ -18883,10 +18738,6 @@ type PaymentIntentAdvancedFeatureDetailsOvercapture struct {
 	// Indicates whether overcapture is supported.
 	Status PaymentIntentAdvancedFeatureDetailsOvercaptureStatus `json:"status"`
 }
-type PaymentIntentAdvancedFeatureDetailsReauthorization struct {
-	// Indicates whether the feature is supported.
-	Status PaymentIntentAdvancedFeatureDetailsReauthorizationStatus `json:"status"`
-}
 type PaymentIntentAdvancedFeatureDetails struct {
 	// Timestamp at which the authorization will expire if not captured.
 	CaptureBefore            int64                                                        `json:"capture_before,omitempty"`
@@ -18894,9 +18745,6 @@ type PaymentIntentAdvancedFeatureDetails struct {
 	IncrementalAuthorization *PaymentIntentAdvancedFeatureDetailsIncrementalAuthorization `json:"incremental_authorization,omitempty"`
 	Multicapture             *PaymentIntentAdvancedFeatureDetailsMulticapture             `json:"multicapture,omitempty"`
 	Overcapture              *PaymentIntentAdvancedFeatureDetailsOvercapture              `json:"overcapture,omitempty"`
-	Reauthorization          *PaymentIntentAdvancedFeatureDetailsReauthorization          `json:"reauthorization,omitempty"`
-	// Timestamp at which the reauthorization window closes.
-	ReauthorizeBefore int64 `json:"reauthorize_before"`
 }
 
 // Details about the agent that initiated the creation of this PaymentIntent.
@@ -19048,6 +18896,8 @@ type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedTok
 type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBase struct {
 	// Address of the deposit address.
 	Address string `json:"address"`
+	// The wallet address that should receive refunds for deposits on this network.
+	RefundAddress string `json:"refund_address,omitempty"`
 	// The token currencies supported on this network.
 	SupportedTokens []*PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesBaseSupportedToken `json:"supported_tokens"`
 }
@@ -19062,6 +18912,8 @@ type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedT
 type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolana struct {
 	// Address of the deposit address.
 	Address string `json:"address"`
+	// The wallet address that should receive refunds for deposits on this network.
+	RefundAddress string `json:"refund_address,omitempty"`
 	// The token currencies supported on this network.
 	SupportedTokens []*PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesSolanaSupportedToken `json:"supported_tokens"`
 }
@@ -19076,6 +18928,8 @@ type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedTo
 type PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempo struct {
 	// Address of the deposit address.
 	Address string `json:"address"`
+	// The wallet address that should receive refunds for deposits on this network.
+	RefundAddress string `json:"refund_address,omitempty"`
 	// The token currencies supported on this network.
 	SupportedTokens []*PaymentIntentNextActionCryptoDisplayDetailsDepositAddressesTempoSupportedToken `json:"supported_tokens"`
 }
@@ -20062,8 +19916,10 @@ type PaymentIntentPaymentDetails struct {
 	CustomerReference string                                   `json:"customer_reference"`
 	EventDetails      *PaymentIntentPaymentDetailsEventDetails `json:"event_details,omitempty"`
 	// Fleet data for this PaymentIntent.
-	FleetData     []*PaymentIntentPaymentDetailsFleetDatum   `json:"fleet_data,omitempty"`
-	FlightData    []*PaymentIntentPaymentDetailsFlightDatum  `json:"flight_data,omitempty"`
+	FleetData  []*PaymentIntentPaymentDetailsFleetDatum  `json:"fleet_data,omitempty"`
+	FlightData []*PaymentIntentPaymentDetailsFlightDatum `json:"flight_data,omitempty"`
+	// The Payment Location associated with this PaymentIntent.
+	Location      string                                     `json:"location,omitempty"`
 	LodgingData   []*PaymentIntentPaymentDetailsLodgingDatum `json:"lodging_data,omitempty"`
 	MoneyServices *PaymentIntentPaymentDetailsMoneyServices  `json:"money_services,omitempty"`
 	// A unique value assigned by the business to identify the transaction. Required for L2 and L3 rates.
@@ -20228,6 +20084,16 @@ type PaymentIntentPaymentMethodOptionsBoleto struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsBoletoSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsCardCaptureDelay struct {
+	// The number of days to delay the capture of the funds.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	Days int64 `json:"days,omitempty"`
+	// The number of hours to delay the capture of the funds.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	Hours int64 `json:"hours,omitempty"`
+}
 
 // Installment plan selected for this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardInstallmentsPlan struct {
@@ -20279,6 +20145,11 @@ type PaymentIntentPaymentMethodOptionsCardStatementDetails struct {
 	Phone string `json:"phone,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsCard struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy    PaymentIntentPaymentMethodOptionsCardCaptureBy     `json:"capture_by,omitempty"`
+	CaptureDelay *PaymentIntentPaymentMethodOptionsCardCaptureDelay `json:"capture_delay,omitempty"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsCardCaptureMethod `json:"capture_method,omitempty"`
 	// Installment details for this payment.
@@ -20321,17 +20192,34 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	StatementDescriptorSuffixKanji string                                                 `json:"statement_descriptor_suffix_kanji,omitempty"`
 	StatementDetails               *PaymentIntentPaymentMethodOptionsCardStatementDetails `json:"statement_details,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsCardPresentCaptureDelay struct {
+	// The number of days to delay the capture of the funds.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	Days int64 `json:"days,omitempty"`
+	// The number of hours to delay the capture of the funds.
+	//
+	// You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
+	Hours int64 `json:"hours,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsCardPresentRouting struct {
 	// Requested routing priority
 	RequestedPriority PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority `json:"requested_priority"`
 }
 type PaymentIntentPaymentMethodOptionsCardPresent struct {
+	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
+	//
+	// If omitted, funds are captured before the authorization expires.
+	CaptureBy    PaymentIntentPaymentMethodOptionsCardPresentCaptureBy     `json:"capture_by,omitempty"`
+	CaptureDelay *PaymentIntentPaymentMethodOptionsCardPresentCaptureDelay `json:"capture_delay,omitempty"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod `json:"capture_method,omitempty"`
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://docs.stripe.com/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization bool `json:"request_extended_authorization"`
 	// Request ability to [increment](https://docs.stripe.com/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://docs.stripe.com/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport bool `json:"request_incremental_authorization_support"`
+	// Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
+	RequestMulticapture PaymentIntentPaymentMethodOptionsCardPresentRequestMulticapture `json:"request_multicapture,omitempty"`
 	// Request ability to [reauthorize](https://docs.stripe.com/payments/reauthorization) for this PaymentIntent.
 	RequestReauthorization PaymentIntentPaymentMethodOptionsCardPresentRequestReauthorization `json:"request_reauthorization,omitempty"`
 	Routing                *PaymentIntentPaymentMethodOptionsCardPresentRouting               `json:"routing,omitempty"`
@@ -21139,6 +21027,8 @@ type PaymentIntent struct {
 	LastPaymentError *Error `json:"last_payment_error"`
 	// ID of the latest [Charge object](https://docs.stripe.com/api/charges) created by this PaymentIntent. This property is `null` until PaymentIntent confirmation is attempted.
 	LatestCharge *Charge `json:"latest_charge"`
+	// ID of the latest [Payment Attempt Record object](https://docs.stripe.com/api/payment-attempt-record) created by this PaymentIntent. This property is `null` until PaymentIntent confirmation is attempted.
+	LatestPaymentAttemptRecord string `json:"latest_payment_attempt_record,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// Settings for Managed Payments.
@@ -21161,6 +21051,8 @@ type PaymentIntent struct {
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptions `json:"payment_method_options"`
 	// The list of payment method types (e.g. card) that this PaymentIntent is allowed to use. A comprehensive list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []string `json:"payment_method_types"`
+	// ID of the [Payment Record object](https://docs.stripe.com/api/payment-record) created by this PaymentIntent.
+	PaymentRecord *PaymentRecord `json:"payment_record,omitempty"`
 	// When you enable this parameter, this PaymentIntent will route your payment to processors that you configure in the dashboard.
 	PaymentsOrchestration *PaymentIntentPaymentsOrchestration `json:"payments_orchestration,omitempty"`
 	PresentmentDetails    *PaymentIntentPresentmentDetails    `json:"presentment_details,omitempty"`

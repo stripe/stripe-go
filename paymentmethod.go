@@ -66,6 +66,15 @@ const (
 	PaymentMethodCardChecksCVCCheckUnchecked   PaymentMethodCardChecksCVCCheck = "unchecked"
 )
 
+// Indicates whether or not multiple captures are supported.
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentMulticaptureStatus string
+
+// List of values that PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentMulticaptureStatus can take
+const (
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentMulticaptureStatusAvailable   PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentMulticaptureStatus = "available"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentMulticaptureStatusUnavailable PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentMulticaptureStatus = "unavailable"
+)
+
 // The method used to process this payment method offline. Only deferred is allowed.
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType string
 
@@ -1820,6 +1829,10 @@ type PaymentMethodCardChecks struct {
 	// If a CVC was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 	CVCCheck PaymentMethodCardChecksCVCCheck `json:"cvc_check"`
 }
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentMulticapture struct {
+	// Indicates whether or not multiple captures are supported.
+	Status PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentMulticaptureStatus `json:"status"`
+}
 
 // Details about payments collected offline.
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline struct {
@@ -1898,7 +1911,8 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
-	Location string `json:"location,omitempty"`
+	Location     string                                                                     `json:"location,omitempty"`
+	Multicapture *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentMulticapture `json:"multicapture,omitempty"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.

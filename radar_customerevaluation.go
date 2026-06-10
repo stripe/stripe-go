@@ -41,10 +41,22 @@ const (
 	RadarCustomerEvaluationSignalsMultiAccountingRiskLevelUnknown     RadarCustomerEvaluationSignalsMultiAccountingRiskLevel = "unknown"
 )
 
+// Raw client metadata fallback in case a Radar Session is unavailable.
+type RadarCustomerEvaluationEvaluationContextClientDetailsDataParams struct {
+	// The end user's IP address. Used for proxy detection and IP-clustering signals.
+	IP *string `form:"ip" json:"ip"`
+	// The referring URL of the login or registration page.
+	Referrer *string `form:"referrer" json:"referrer,omitempty"`
+	// The User-Agent HTTP header.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Client details context.
 type RadarCustomerEvaluationEvaluationContextClientDetailsParams struct {
-	// ID for the Radar Session associated with the customer evaluation.
-	RadarSession *string `form:"radar_session" json:"radar_session"`
+	// Raw client metadata fallback in case a Radar Session is unavailable.
+	Data *RadarCustomerEvaluationEvaluationContextClientDetailsDataParams `form:"data" json:"data,omitempty"`
+	// ID for the Radar Session. Required unless data is provided.
+	RadarSession *string `form:"radar_session" json:"radar_session,omitempty"`
 }
 
 // Customer data
@@ -95,10 +107,22 @@ func (p *RadarCustomerEvaluationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Raw client metadata fallback in case a Radar Session is unavailable.
+type RadarCustomerEvaluationCreateEvaluationContextClientDetailsDataParams struct {
+	// The end user's IP address. Used for proxy detection and IP-clustering signals.
+	IP *string `form:"ip" json:"ip"`
+	// The referring URL of the login or registration page.
+	Referrer *string `form:"referrer" json:"referrer,omitempty"`
+	// The User-Agent HTTP header.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Client details context.
 type RadarCustomerEvaluationCreateEvaluationContextClientDetailsParams struct {
-	// ID for the Radar Session associated with the customer evaluation.
-	RadarSession *string `form:"radar_session" json:"radar_session"`
+	// Raw client metadata fallback in case a Radar Session is unavailable.
+	Data *RadarCustomerEvaluationCreateEvaluationContextClientDetailsDataParams `form:"data" json:"data,omitempty"`
+	// ID for the Radar Session. Required unless data is provided.
+	RadarSession *string `form:"radar_session" json:"radar_session,omitempty"`
 }
 
 // Customer data

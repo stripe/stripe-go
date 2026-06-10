@@ -1,5 +1,17 @@
 # Changelog
 
+## 86.0.0 - 2026-06-05
+
+This release **doesn't** change the pinned API version; it still uses `2026-05-27.dahlia`.
+
+We're doing an out-of-band-major to update a field type that changed. If you're not using `tax_details`, this is a no-op release when compared with the last one. If you _are_ using `tax_details` its type has changed slightly and you'll have to update your code when upgrading.
+
+* [#2375](https://github.com/stripe/stripe-go/pull/2375) ⚠️ Make `tax_rate.tax_details` expandable
+* [#2370](https://github.com/stripe/stripe-go/pull/2370) Add "source" field to user-agent header
+* [#2367](https://github.com/stripe/stripe-go/pull/2367) Remove `Limit`, `StartingAfter`, and `EndingBefore` fields for `List` methods that do not accept those fields
+  <!-- Include any links or additional information that help explain this change. -->
+  - Fixes a bug where `Limit`, `StartingAfter`, and `EndingBefore` were embedded in `CapabilityListParams` and `ReportingReportTypeListParams` even though they are not valid parameters and would have always resulted in a 400 from the Stripe API if set. If you were including them before in either of those 2 structs, you can safely remove them.
+
 ## 85.3.0-alpha.2 - 2026-06-03
 * [#2365](https://github.com/stripe/stripe-go/pull/2365) Update generated code for private-preview
   * Add support for new resources `DelegatedCheckoutOrderEvent`, `DelegatedCheckoutOrder`, `V2BillingContractLicensePricingQuantityChange`, `V2BillingContract`, and `V2SignalsAccountSignal`
