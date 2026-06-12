@@ -2108,6 +2108,12 @@ type CheckoutSessionInvoiceCreationParams struct {
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceDataParams `form:"invoice_data" json:"invoice_data,omitempty"`
 }
 
+// A list of items the customer will purchase.
+type CheckoutSessionItemParams struct {
+	// The type of item.
+	Type *string `form:"type" json:"type"`
+}
+
 // When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 type CheckoutSessionLineItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any positive integer. Setting to false will remove any previously specified constraints on quantity.
@@ -3818,6 +3824,8 @@ type CheckoutSessionParams struct {
 	IntegrationIdentifier *string `form:"integration_identifier" json:"integration_identifier,omitempty"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *CheckoutSessionInvoiceCreationParams `form:"invoice_creation" json:"invoice_creation,omitempty"`
+	// A list of items the customer will purchase.
+	Items []*CheckoutSessionItemParams `form:"items" json:"items,omitempty"`
 	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
 	//
 	// For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
@@ -4411,6 +4419,12 @@ type CheckoutSessionCreateInvoiceCreationParams struct {
 	Enabled *bool `form:"enabled" json:"enabled"`
 	// Parameters passed when creating invoices for payment-mode Checkout Sessions.
 	InvoiceData *CheckoutSessionCreateInvoiceCreationInvoiceDataParams `form:"invoice_data" json:"invoice_data,omitempty"`
+}
+
+// A list of items the customer will purchase.
+type CheckoutSessionCreateItemParams struct {
+	// The type of item.
+	Type *string `form:"type" json:"type"`
 }
 
 // When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
@@ -6091,6 +6105,8 @@ type CheckoutSessionCreateParams struct {
 	IntegrationIdentifier *string `form:"integration_identifier" json:"integration_identifier,omitempty"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *CheckoutSessionCreateInvoiceCreationParams `form:"invoice_creation" json:"invoice_creation,omitempty"`
+	// A list of items the customer will purchase.
+	Items []*CheckoutSessionCreateItemParams `form:"items" json:"items,omitempty"`
 	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
 	//
 	// For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
