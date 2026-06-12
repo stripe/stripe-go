@@ -3131,16 +3131,16 @@ type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams s
 	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Email address.
 	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
+	// Given (first) name.
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 	// Phone number.
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// Surname (family name).
+	Surname *string `form:"surname" json:"surname,omitempty"`
 }
 
 // Account funding transaction details including sender information.
 type PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams struct {
-	// ID of the Account representing the sender in this account funding transaction.
-	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
 	// Inline identity details for the sender of this account funding transaction.
 	SenderDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
 	UnsetFields   []PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
@@ -3170,24 +3170,26 @@ type PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirthParams
 
 // Inline identity details for the beneficiary of this transaction.
 type PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetailsParams struct {
+	// An opaque identifier for the beneficiary's account (e.g. bank account number, card first6+last4, or other unique identifier).
+	AccountReference *string `form:"account_reference" json:"account_reference,omitempty"`
 	// Address.
 	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Date of birth.
 	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Email address.
 	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
+	// Given (first) name.
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 	// Phone number.
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// Surname (family name).
+	Surname *string `form:"surname" json:"surname,omitempty"`
 }
 
 // Money services details for this PaymentIntent.
 type PaymentIntentPaymentDetailsMoneyServicesParams struct {
 	// Account funding transaction details including sender information.
 	AccountFunding *PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
-	// ID of the Account representing the beneficiary in this account funding transaction.
-	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
 	// Inline identity details for the beneficiary of this transaction.
 	BeneficiaryDetails *PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
 	// The type of money services transaction.
@@ -8741,16 +8743,16 @@ type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsP
 	DateOfBirth *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Email address.
 	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
+	// Given (first) name.
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 	// Phone number.
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// Surname (family name).
+	Surname *string `form:"surname" json:"surname,omitempty"`
 }
 
 // Account funding transaction details including sender information.
 type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams struct {
-	// ID of the Account representing the sender in this account funding transaction.
-	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
 	// Inline identity details for the sender of this account funding transaction.
 	SenderDetails *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
 	UnsetFields   []PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
@@ -8780,24 +8782,26 @@ type PaymentIntentConfirmPaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirt
 
 // Inline identity details for the beneficiary of this transaction.
 type PaymentIntentConfirmPaymentDetailsMoneyServicesBeneficiaryDetailsParams struct {
+	// An opaque identifier for the beneficiary's account (e.g. bank account number, card first6+last4, or other unique identifier).
+	AccountReference *string `form:"account_reference" json:"account_reference,omitempty"`
 	// Address.
 	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Date of birth.
 	DateOfBirth *PaymentIntentConfirmPaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Email address.
 	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
+	// Given (first) name.
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 	// Phone number.
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// Surname (family name).
+	Surname *string `form:"surname" json:"surname,omitempty"`
 }
 
 // Money services details for this PaymentIntent.
 type PaymentIntentConfirmPaymentDetailsMoneyServicesParams struct {
 	// Account funding transaction details including sender information.
 	AccountFunding *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
-	// ID of the Account representing the beneficiary in this account funding transaction.
-	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
 	// Inline identity details for the beneficiary of this transaction.
 	BeneficiaryDetails *PaymentIntentConfirmPaymentDetailsMoneyServicesBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
 	// The type of money services transaction.
@@ -10853,16 +10857,16 @@ type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsPa
 	DateOfBirth *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Email address.
 	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
+	// Given (first) name.
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 	// Phone number.
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// Surname (family name).
+	Surname *string `form:"surname" json:"surname,omitempty"`
 }
 
 // Account funding transaction details including sender information.
 type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams struct {
-	// ID of the Account representing the sender in this account funding transaction.
-	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
 	// Inline identity details for the sender of this account funding transaction.
 	SenderDetails *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
 	UnsetFields   []PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
@@ -10892,24 +10896,26 @@ type PaymentIntentCreatePaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirth
 
 // Inline identity details for the beneficiary of this transaction.
 type PaymentIntentCreatePaymentDetailsMoneyServicesBeneficiaryDetailsParams struct {
+	// An opaque identifier for the beneficiary's account (e.g. bank account number, card first6+last4, or other unique identifier).
+	AccountReference *string `form:"account_reference" json:"account_reference,omitempty"`
 	// Address.
 	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Date of birth.
 	DateOfBirth *PaymentIntentCreatePaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Email address.
 	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
+	// Given (first) name.
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 	// Phone number.
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// Surname (family name).
+	Surname *string `form:"surname" json:"surname,omitempty"`
 }
 
 // Money services details for this PaymentIntent.
 type PaymentIntentCreatePaymentDetailsMoneyServicesParams struct {
 	// Account funding transaction details including sender information.
 	AccountFunding *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
-	// ID of the Account representing the beneficiary in this account funding transaction.
-	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
 	// Inline identity details for the beneficiary of this transaction.
 	BeneficiaryDetails *PaymentIntentCreatePaymentDetailsMoneyServicesBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
 	// The type of money services transaction.
@@ -15281,16 +15287,16 @@ type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsPa
 	DateOfBirth *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Email address.
 	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
+	// Given (first) name.
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 	// Phone number.
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// Surname (family name).
+	Surname *string `form:"surname" json:"surname,omitempty"`
 }
 
 // Account funding transaction details including sender information.
 type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams struct {
-	// ID of the Account representing the sender in this account funding transaction.
-	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
 	// Inline identity details for the sender of this account funding transaction.
 	SenderDetails *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsParams `form:"sender_details" json:"sender_details,omitempty"`
 	UnsetFields   []PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField   `form:"-" json:"-"`
@@ -15320,24 +15326,26 @@ type PaymentIntentUpdatePaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirth
 
 // Inline identity details for the beneficiary of this transaction.
 type PaymentIntentUpdatePaymentDetailsMoneyServicesBeneficiaryDetailsParams struct {
+	// An opaque identifier for the beneficiary's account (e.g. bank account number, card first6+last4, or other unique identifier).
+	AccountReference *string `form:"account_reference" json:"account_reference,omitempty"`
 	// Address.
 	Address *AddressParams `form:"address" json:"address,omitempty"`
 	// Date of birth.
 	DateOfBirth *PaymentIntentUpdatePaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
 	// Email address.
 	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
+	// Given (first) name.
+	GivenName *string `form:"given_name" json:"given_name,omitempty"`
 	// Phone number.
 	Phone *string `form:"phone" json:"phone,omitempty"`
+	// Surname (family name).
+	Surname *string `form:"surname" json:"surname,omitempty"`
 }
 
 // Money services details for this PaymentIntent.
 type PaymentIntentUpdatePaymentDetailsMoneyServicesParams struct {
 	// Account funding transaction details including sender information.
 	AccountFunding *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
-	// ID of the Account representing the beneficiary in this account funding transaction.
-	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
 	// Inline identity details for the beneficiary of this transaction.
 	BeneficiaryDetails *PaymentIntentUpdatePaymentDetailsMoneyServicesBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
 	// The type of money services transaction.
@@ -19718,10 +19726,12 @@ type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetails struct 
 	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirth `json:"date_of_birth,omitempty"`
 	// Email address.
 	Email string `json:"email,omitempty"`
-	// Full name.
-	Name string `json:"name,omitempty"`
+	// Given name (first name).
+	GivenName string `json:"given_name,omitempty"`
 	// Phone number.
 	Phone string `json:"phone,omitempty"`
+	// Surname (last name).
+	Surname string `json:"surname,omitempty"`
 }
 type PaymentIntentPaymentDetailsMoneyServicesAccountFunding struct {
 	// ID of the Account representing the sender in this account funding transaction.
@@ -19741,10 +19751,12 @@ type PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetails struct {
 	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirth `json:"date_of_birth,omitempty"`
 	// Email address.
 	Email string `json:"email,omitempty"`
-	// Full name.
-	Name string `json:"name,omitempty"`
+	// Given name (first name).
+	GivenName string `json:"given_name,omitempty"`
 	// Phone number.
 	Phone string `json:"phone,omitempty"`
+	// Surname (last name).
+	Surname string `json:"surname,omitempty"`
 }
 type PaymentIntentPaymentDetailsMoneyServices struct {
 	AccountFunding *PaymentIntentPaymentDetailsMoneyServicesAccountFunding `json:"account_funding,omitempty"`
