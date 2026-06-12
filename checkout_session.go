@@ -300,36 +300,6 @@ const (
 	CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplayUnspecified CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay = "unspecified"
 )
 
-// The brand of the card, accounting for customer's brand choice on dual-branded cards.
-type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand string
-
-// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand can take
-const (
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandAccel           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "accel"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandAmex            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "amex"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandCarnet          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "carnet"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandCartesBancaires CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "cartes_bancaires"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandConecs          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "conecs"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandDiners          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "diners"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandDiscover        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "discover"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandEFTPOSAU        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "eftpos_au"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandElo             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "elo"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandGirocard        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "girocard"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandInterac         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "interac"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandJaywan          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "jaywan"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandJCB             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "jcb"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandLink            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "link"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandMaestro         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "maestro"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandMastercard      CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "mastercard"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandNyce            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "nyce"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandPulse           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "pulse"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandRupay           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "rupay"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandStar            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "star"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandUnionpay        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "unionpay"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandUnknown         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "unknown"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandVisa            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "visa"
-)
-
 // Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding string
 
@@ -6864,8 +6834,6 @@ type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWallet struct {
 	Type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType `json:"type"`
 }
 type CheckoutSessionCurrentAttemptPaymentMethodDetailsCard struct {
-	// The brand of the card, accounting for customer's brand choice on dual-branded cards.
-	Brand CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand `json:"brand"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// Two-digit number representing the card's expiration month.
