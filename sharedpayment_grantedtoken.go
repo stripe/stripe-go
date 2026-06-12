@@ -359,6 +359,7 @@ const (
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeStripeBalance    SharedPaymentGrantedTokenPaymentMethodDetailsType = "stripe_balance"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeSunbit           SharedPaymentGrantedTokenPaymentMethodDetailsType = "sunbit"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeSwish            SharedPaymentGrantedTokenPaymentMethodDetailsType = "swish"
+	SharedPaymentGrantedTokenPaymentMethodDetailsTypeTamara           SharedPaymentGrantedTokenPaymentMethodDetailsType = "tamara"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeTWINT            SharedPaymentGrantedTokenPaymentMethodDetailsType = "twint"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeUpi              SharedPaymentGrantedTokenPaymentMethodDetailsType = "upi"
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeUSBankAccount    SharedPaymentGrantedTokenPaymentMethodDetailsType = "us_bank_account"
@@ -892,6 +893,7 @@ type SharedPaymentGrantedTokenPaymentMethodDetailsStripeBalance struct {
 }
 type SharedPaymentGrantedTokenPaymentMethodDetailsSunbit struct{}
 type SharedPaymentGrantedTokenPaymentMethodDetailsSwish struct{}
+type SharedPaymentGrantedTokenPaymentMethodDetailsTamara struct{}
 type SharedPaymentGrantedTokenPaymentMethodDetailsTWINT struct{}
 type SharedPaymentGrantedTokenPaymentMethodDetailsUpi struct {
 	// Customer's unique Virtual Payment Address
@@ -1004,6 +1006,7 @@ type SharedPaymentGrantedTokenPaymentMethodDetails struct {
 	StripeBalance   *SharedPaymentGrantedTokenPaymentMethodDetailsStripeBalance   `json:"stripe_balance,omitempty"`
 	Sunbit          *SharedPaymentGrantedTokenPaymentMethodDetailsSunbit          `json:"sunbit,omitempty"`
 	Swish           *SharedPaymentGrantedTokenPaymentMethodDetailsSwish           `json:"swish,omitempty"`
+	Tamara          *SharedPaymentGrantedTokenPaymentMethodDetailsTamara          `json:"tamara,omitempty"`
 	TWINT           *SharedPaymentGrantedTokenPaymentMethodDetailsTWINT           `json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          SharedPaymentGrantedTokenPaymentMethodDetailsType           `json:"type"`

@@ -178,6 +178,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeStripeBalance    PaymentIntentExcludedPaymentMethodType = "stripe_balance"
 	PaymentIntentExcludedPaymentMethodTypeSunbit           PaymentIntentExcludedPaymentMethodType = "sunbit"
 	PaymentIntentExcludedPaymentMethodTypeSwish            PaymentIntentExcludedPaymentMethodType = "swish"
+	PaymentIntentExcludedPaymentMethodTypeTamara           PaymentIntentExcludedPaymentMethodType = "tamara"
 	PaymentIntentExcludedPaymentMethodTypeTWINT            PaymentIntentExcludedPaymentMethodType = "twint"
 	PaymentIntentExcludedPaymentMethodTypeUpi              PaymentIntentExcludedPaymentMethodType = "upi"
 	PaymentIntentExcludedPaymentMethodTypeUSBankAccount    PaymentIntentExcludedPaymentMethodType = "us_bank_account"
@@ -3460,6 +3461,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Sunbit *PaymentMethodSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
+	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
+	Tamara *PaymentMethodTamaraParams `form:"tamara" json:"tamara,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *PaymentMethodTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -11186,6 +11189,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Sunbit *PaymentMethodSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
+	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
+	Tamara *PaymentMethodTamaraParams `form:"tamara" json:"tamara,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *PaymentMethodTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
@@ -15616,6 +15621,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Sunbit *PaymentMethodSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
+	// If this is a `tamara` PaymentMethod, this hash contains details about the Tamara payment method.
+	Tamara *PaymentMethodTamaraParams `form:"tamara" json:"tamara,omitempty"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *PaymentMethodTWINTParams `form:"twint" json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
