@@ -847,6 +847,30 @@ func (p *PaymentAttemptRecordReportFailedParams) AddMetadata(key string, value s
 	p.Metadata[key] = value
 }
 
+// Verification checks performed on the card.
+type PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsCardChecksParams struct {
+	// The result of the check on the cardholder's address line 1.
+	AddressLine1Check *string `form:"address_line1_check" json:"address_line1_check,omitempty"`
+	// The result of the check on the cardholder's postal code.
+	AddressPostalCodeCheck *string `form:"address_postal_code_check" json:"address_postal_code_check,omitempty"`
+	// The result of the check on the card's CVC.
+	CVCCheck *string `form:"cvc_check" json:"cvc_check,omitempty"`
+}
+
+// Information about the card payment method used to make this payment.
+type PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsCardParams struct {
+	// Verification checks performed on the card.
+	Checks *PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsCardChecksParams `form:"checks" json:"checks,omitempty"`
+}
+
+// Information about the Payment Method debited for this payment.
+type PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsParams struct {
+	// Information about the card payment method used to make this payment.
+	Card *PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
+	// The type of the payment method details. An additional hash is included on the payment_method_details with a name matching this value. It contains additional information specific to the type.
+	Type *string `form:"type" json:"type"`
+}
+
 // Information about the custom processor used to make this payment.
 type PaymentAttemptRecordReportGuaranteedProcessorDetailsCustomParams struct {
 	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
@@ -872,6 +896,8 @@ type PaymentAttemptRecordReportGuaranteedParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Payment evaluations associated with this reported payment.
 	PaymentEvaluations []*string `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
+	// Information about the Payment Method debited for this payment.
+	PaymentMethodDetails *PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsParams `form:"payment_method_details" json:"payment_method_details,omitempty"`
 	// Processor information for this payment.
 	ProcessorDetails *PaymentAttemptRecordReportGuaranteedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
 	UnsetFields      []PaymentAttemptRecordReportGuaranteedParamsUnsetField      `form:"-" json:"-"`
