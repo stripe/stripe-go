@@ -4551,6 +4551,10 @@ type SetupIntentNextActionVerifyWithMicrodeposits struct {
 	// The type of the microdeposit sent to the customer. Used to distinguish between different verification methods.
 	MicrodepositType SetupIntentNextActionVerifyWithMicrodepositsMicrodepositType `json:"microdeposit_type"`
 }
+type SetupIntentNextActionWeChatPayHandleAppRedirect struct {
+	// Session ID of the WeChat Pay signing session
+	SessionID string `json:"session_id"`
+}
 
 // If present, this property tells you what actions you need to take in order for your customer to continue payment setup.
 type SetupIntentNextAction struct {
@@ -4562,8 +4566,9 @@ type SetupIntentNextAction struct {
 	Type                             SetupIntentNextActionType                              `json:"type"`
 	UpiHandleRedirectOrDisplayQRCode *SetupIntentNextActionUpiHandleRedirectOrDisplayQRCode `json:"upi_handle_redirect_or_display_qr_code,omitempty"`
 	// When confirming a SetupIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
-	UseStripeSDK            *SetupIntentNextActionUseStripeSDK            `json:"use_stripe_sdk,omitempty"`
-	VerifyWithMicrodeposits *SetupIntentNextActionVerifyWithMicrodeposits `json:"verify_with_microdeposits,omitempty"`
+	UseStripeSDK               *SetupIntentNextActionUseStripeSDK               `json:"use_stripe_sdk,omitempty"`
+	VerifyWithMicrodeposits    *SetupIntentNextActionVerifyWithMicrodeposits    `json:"verify_with_microdeposits,omitempty"`
+	WeChatPayHandleAppRedirect *SetupIntentNextActionWeChatPayHandleAppRedirect `json:"wechat_pay_handle_app_redirect,omitempty"`
 }
 
 // Information about the [payment method configuration](https://docs.stripe.com/api/payment_method_configurations) used for this Setup Intent.

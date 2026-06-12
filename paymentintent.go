@@ -1926,9 +1926,10 @@ type PaymentIntentPaymentMethodOptionsWeChatPayClient string
 
 // List of values that PaymentIntentPaymentMethodOptionsWeChatPayClient can take
 const (
-	PaymentIntentPaymentMethodOptionsWeChatPayClientAndroid PaymentIntentPaymentMethodOptionsWeChatPayClient = "android"
-	PaymentIntentPaymentMethodOptionsWeChatPayClientIOS     PaymentIntentPaymentMethodOptionsWeChatPayClient = "ios"
-	PaymentIntentPaymentMethodOptionsWeChatPayClientWeb     PaymentIntentPaymentMethodOptionsWeChatPayClient = "web"
+	PaymentIntentPaymentMethodOptionsWeChatPayClientAndroid     PaymentIntentPaymentMethodOptionsWeChatPayClient = "android"
+	PaymentIntentPaymentMethodOptionsWeChatPayClientIOS         PaymentIntentPaymentMethodOptionsWeChatPayClient = "ios"
+	PaymentIntentPaymentMethodOptionsWeChatPayClientMiniProgram PaymentIntentPaymentMethodOptionsWeChatPayClient = "mini_program"
+	PaymentIntentPaymentMethodOptionsWeChatPayClientWeb         PaymentIntentPaymentMethodOptionsWeChatPayClient = "web"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -5985,6 +5986,8 @@ func (p *PaymentIntentPaymentMethodOptionsUSBankAccountParams) AddUnsetField(fie
 type PaymentIntentPaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID *string `form:"app_id" json:"app_id,omitempty"`
+	// The unique buyer ID for the app ID registered with WeChat Pay. Only required when client is mini_program.
+	BuyerID *string `form:"buyer_id" json:"buyer_id,omitempty"`
 	// The client type that the end customer will pay from
 	Client *string `form:"client" json:"client,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -13713,6 +13716,8 @@ func (p *PaymentIntentCreatePaymentMethodOptionsUSBankAccountParams) AddUnsetFie
 type PaymentIntentCreatePaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID *string `form:"app_id" json:"app_id,omitempty"`
+	// The unique buyer ID for the app ID registered with WeChat Pay. Only required when client is mini_program.
+	BuyerID *string `form:"buyer_id" json:"buyer_id,omitempty"`
 	// The client type that the end customer will pay from
 	Client *string `form:"client" json:"client,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -18145,6 +18150,8 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsUSBankAccountParams) AddUnsetFie
 type PaymentIntentUpdatePaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID *string `form:"app_id" json:"app_id,omitempty"`
+	// The unique buyer ID for the app ID registered with WeChat Pay. Only required when client is mini_program.
+	BuyerID *string `form:"buyer_id" json:"buyer_id,omitempty"`
 	// The client type that the end customer will pay from
 	Client *string `form:"client" json:"client,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -19118,6 +19125,10 @@ type PaymentIntentNextActionWeChatPayDisplayQRCode struct {
 	// The image_url_svg string used to render QR code
 	ImageURLSVG string `json:"image_url_svg"`
 }
+type PaymentIntentNextActionWeChatPayHandleAppRedirect struct {
+	// Session ID of the WeChat Pay signing session
+	SessionID string `json:"session_id"`
+}
 type PaymentIntentNextActionWeChatPayRedirectToAndroidApp struct {
 	// app_id is the APP ID registered on WeChat open platform
 	AppID string `json:"app_id"`
@@ -19164,6 +19175,7 @@ type PaymentIntentNextAction struct {
 	UseStripeSDK                  *PaymentIntentNextActionUseStripeSDK                  `json:"use_stripe_sdk,omitempty"`
 	VerifyWithMicrodeposits       *PaymentIntentNextActionVerifyWithMicrodeposits       `json:"verify_with_microdeposits,omitempty"`
 	WeChatPayDisplayQRCode        *PaymentIntentNextActionWeChatPayDisplayQRCode        `json:"wechat_pay_display_qr_code,omitempty"`
+	WeChatPayHandleAppRedirect    *PaymentIntentNextActionWeChatPayHandleAppRedirect    `json:"wechat_pay_handle_app_redirect,omitempty"`
 	WeChatPayRedirectToAndroidApp *PaymentIntentNextActionWeChatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app,omitempty"`
 	WeChatPayRedirectToIOSApp     *PaymentIntentNextActionWeChatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app,omitempty"`
 }
@@ -20701,6 +20713,8 @@ type PaymentIntentPaymentMethodOptionsUSBankAccount struct {
 type PaymentIntentPaymentMethodOptionsWeChatPay struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID string `json:"app_id"`
+	// The unique buyer ID for the app ID registered with WeChat Pay. Only required when client is mini_program.
+	BuyerID string `json:"buyer_id,omitempty"`
 	// The client type that the end customer will pay from
 	Client PaymentIntentPaymentMethodOptionsWeChatPayClient `json:"client"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
