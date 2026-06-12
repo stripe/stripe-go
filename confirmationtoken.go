@@ -969,8 +969,6 @@ type ConfirmationTokenPaymentMethodPreviewGiftCard struct {
 	ExpYear int64 `json:"exp_year"`
 	// Uniquely identifies the gift card.
 	Fingerprint string `json:"fingerprint,omitempty"`
-	// The first six digits of the gift card number.
-	First6 string `json:"first6"`
 	// The last four digits of the gift card number.
 	Last4 string `json:"last4"`
 }
