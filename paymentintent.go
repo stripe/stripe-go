@@ -17,6 +17,15 @@ const (
 	PaymentIntentAdvancedFeatureDetailsDecrementalAuthorizationStatusUnavailable PaymentIntentAdvancedFeatureDetailsDecrementalAuthorizationStatus = "unavailable"
 )
 
+// Indicates whether forced capture is supported.
+type PaymentIntentAdvancedFeatureDetailsForcedCaptureStatus string
+
+// List of values that PaymentIntentAdvancedFeatureDetailsForcedCaptureStatus can take
+const (
+	PaymentIntentAdvancedFeatureDetailsForcedCaptureStatusAvailable   PaymentIntentAdvancedFeatureDetailsForcedCaptureStatus = "available"
+	PaymentIntentAdvancedFeatureDetailsForcedCaptureStatusUnavailable PaymentIntentAdvancedFeatureDetailsForcedCaptureStatus = "unavailable"
+)
+
 // Indicates whether the feature is supported.
 type PaymentIntentAdvancedFeatureDetailsIncrementalAuthorizationStatus string
 
@@ -777,7 +786,8 @@ type PaymentIntentPaymentMethodOptionsCardCaptureMethod string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardCaptureMethod can take
 const (
-	PaymentIntentPaymentMethodOptionsCardCaptureMethodManual PaymentIntentPaymentMethodOptionsCardCaptureMethod = "manual"
+	PaymentIntentPaymentMethodOptionsCardCaptureMethodAutomaticDelayed PaymentIntentPaymentMethodOptionsCardCaptureMethod = "automatic_delayed"
+	PaymentIntentPaymentMethodOptionsCardCaptureMethodManual           PaymentIntentPaymentMethodOptionsCardCaptureMethod = "manual"
 )
 
 // For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
@@ -954,8 +964,9 @@ type PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod can take
 const (
-	PaymentIntentPaymentMethodOptionsCardPresentCaptureMethodManual          PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod = "manual"
-	PaymentIntentPaymentMethodOptionsCardPresentCaptureMethodManualPreferred PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod = "manual_preferred"
+	PaymentIntentPaymentMethodOptionsCardPresentCaptureMethodAutomaticDelayed PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod = "automatic_delayed"
+	PaymentIntentPaymentMethodOptionsCardPresentCaptureMethodManual           PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod = "manual"
+	PaymentIntentPaymentMethodOptionsCardPresentCaptureMethodManualPreferred  PaymentIntentPaymentMethodOptionsCardPresentCaptureMethod = "manual_preferred"
 )
 
 // Request ability to make [multiple captures](https://docs.stripe.com/payments/multicapture) for this PaymentIntent.
@@ -1682,6 +1693,22 @@ type PaymentIntentPaymentMethodOptionsSatispayCaptureMethod string
 // List of values that PaymentIntentPaymentMethodOptionsSatispayCaptureMethod can take
 const (
 	PaymentIntentPaymentMethodOptionsSatispayCaptureMethodManual PaymentIntentPaymentMethodOptionsSatispayCaptureMethod = "manual"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsSatispaySetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsSatispaySetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsSatispaySetupFutureUsageNone       PaymentIntentPaymentMethodOptionsSatispaySetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsSatispaySetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsSatispaySetupFutureUsage = "off_session"
+	PaymentIntentPaymentMethodOptionsSatispaySetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsSatispaySetupFutureUsage = "on_session"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -3075,30 +3102,6 @@ type PaymentIntentPaymentDetailsLodgingDatumParams struct {
 }
 
 // Date of birth.
-type PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
-	// Day of birth, between 1 and 31.
-	Day *int64 `form:"day" json:"day"`
-	// Month of birth, between 1 and 12.
-	Month *int64 `form:"month" json:"month"`
-	// Four-digit year of birth.
-	Year *int64 `form:"year" json:"year"`
-}
-
-// Inline identity details for the beneficiary of this account funding transaction.
-type PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
-	// Address.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Date of birth.
-	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
-	// Email address.
-	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
-	// Phone number.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Date of birth.
 type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
 	// Day of birth, between 1 and 31.
 	Day *int64 `form:"day" json:"day"`
@@ -3122,12 +3125,8 @@ type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsParams s
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// Account funding transaction details including sender and beneficiary information.
+// Account funding transaction details including sender information.
 type PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams struct {
-	// ID of the Account representing the beneficiary in this account funding transaction.
-	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
-	// Inline identity details for the beneficiary of this account funding transaction.
-	BeneficiaryDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
 	// ID of the Account representing the sender in this account funding transaction.
 	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
 	// Inline identity details for the sender of this account funding transaction.
@@ -3139,8 +3138,7 @@ type PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams struct {
 type PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
 
 const (
-	PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
-	PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+	PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails PaymentIntentPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3148,10 +3146,38 @@ func (p *PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams) AddUnsetF
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Date of birth.
+type PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this transaction.
+type PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Money services details for this PaymentIntent.
 type PaymentIntentPaymentDetailsMoneyServicesParams struct {
-	// Account funding transaction details including sender and beneficiary information.
+	// Account funding transaction details including sender information.
 	AccountFunding *PaymentIntentPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this transaction.
+	BeneficiaryDetails *PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
 	// The type of money services transaction.
 	TransactionType *string                                                    `form:"transaction_type" json:"transaction_type,omitempty"`
 	UnsetFields     []PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
@@ -3161,8 +3187,9 @@ type PaymentIntentPaymentDetailsMoneyServicesParams struct {
 type PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
-	PaymentIntentPaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
+	PaymentIntentPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding     PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentPaymentDetailsMoneyServicesParamsUnsetFieldBeneficiaryDetails PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField = "beneficiary_details"
+	PaymentIntentPaymentDetailsMoneyServicesParamsUnsetFieldTransactionType    PaymentIntentPaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -3915,45 +3942,10 @@ type PaymentIntentPaymentMethodOptionsCardMandateOptionsParams struct {
 	SupportedTypes []*string `form:"supported_types" json:"supported_types,omitempty"`
 }
 
-// The merchant where the staged wallet purchase is made.
-type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
-	// The merchant category code of the merchant.
-	MCC *string `form:"mcc" json:"mcc,omitempty"`
-	// The merchant's name.
-	Name *string `form:"name" json:"name,omitempty"`
-}
-
-// Details for a staged purchase.
-type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
-	// The merchant where the staged wallet purchase is made.
-	Merchant *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
-}
-
-// Details for a wallet funding transaction.
-type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
-	// Details for a staged purchase.
-	StagedPurchase *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
-	UnsetFields    []PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
-}
-
-// PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams.
-type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
-
-const (
-	PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
 // Payment method specific account funding transaction details.
 type PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
 	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
-	// Details for a wallet funding transaction.
-	Wallet *PaymentIntentPaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams `form:"wallet" json:"wallet,omitempty"`
 }
 
 // Money services details for payment method specific funding fields.
@@ -4125,45 +4117,10 @@ type PaymentIntentPaymentMethodOptionsCardPresentCaptureDelayParams struct {
 	Hours *int64 `form:"hours" json:"hours,omitempty"`
 }
 
-// The merchant where the staged wallet purchase is made.
-type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
-	// The merchant category code of the merchant.
-	MCC *string `form:"mcc" json:"mcc,omitempty"`
-	// The merchant's name.
-	Name *string `form:"name" json:"name,omitempty"`
-}
-
-// Details for a staged purchase.
-type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
-	// The merchant where the staged wallet purchase is made.
-	Merchant *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
-}
-
-// Details for a wallet funding transaction.
-type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
-	// Details for a staged purchase.
-	StagedPurchase *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
-	UnsetFields    []PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
-}
-
-// PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams.
-type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
-
-const (
-	PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
 // Payment method specific account funding transaction details.
 type PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
 	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
-	// Details for a wallet funding transaction.
-	Wallet *PaymentIntentPaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams `form:"wallet" json:"wallet,omitempty"`
 }
 
 // Money services details for payment method specific funding fields.
@@ -5671,15 +5628,24 @@ type PaymentIntentPaymentMethodOptionsSatispayParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                     `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentPaymentMethodOptionsSatispayParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                     `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentPaymentMethodOptionsSatispayParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentPaymentMethodOptionsSatispayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsSatispayParams.
 type PaymentIntentPaymentMethodOptionsSatispayParamsUnsetField string
 
 const (
-	PaymentIntentPaymentMethodOptionsSatispayParamsUnsetFieldCaptureMethod PaymentIntentPaymentMethodOptionsSatispayParamsUnsetField = "capture_method"
+	PaymentIntentPaymentMethodOptionsSatispayParamsUnsetFieldCaptureMethod    PaymentIntentPaymentMethodOptionsSatispayParamsUnsetField = "capture_method"
+	PaymentIntentPaymentMethodOptionsSatispayParamsUnsetFieldSetupFutureUsage PaymentIntentPaymentMethodOptionsSatispayParamsUnsetField = "setup_future_usage"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -8755,30 +8721,6 @@ type PaymentIntentConfirmPaymentDetailsLodgingDatumParams struct {
 }
 
 // Date of birth.
-type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
-	// Day of birth, between 1 and 31.
-	Day *int64 `form:"day" json:"day"`
-	// Month of birth, between 1 and 12.
-	Month *int64 `form:"month" json:"month"`
-	// Four-digit year of birth.
-	Year *int64 `form:"year" json:"year"`
-}
-
-// Inline identity details for the beneficiary of this account funding transaction.
-type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
-	// Address.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Date of birth.
-	DateOfBirth *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
-	// Email address.
-	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
-	// Phone number.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Date of birth.
 type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
 	// Day of birth, between 1 and 31.
 	Day *int64 `form:"day" json:"day"`
@@ -8802,12 +8744,8 @@ type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingSenderDetailsP
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// Account funding transaction details including sender and beneficiary information.
+// Account funding transaction details including sender information.
 type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams struct {
-	// ID of the Account representing the beneficiary in this account funding transaction.
-	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
-	// Inline identity details for the beneficiary of this account funding transaction.
-	BeneficiaryDetails *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
 	// ID of the Account representing the sender in this account funding transaction.
 	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
 	// Inline identity details for the sender of this account funding transaction.
@@ -8819,8 +8757,7 @@ type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams struct 
 type PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
 
 const (
-	PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
-	PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+	PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -8828,10 +8765,38 @@ func (p *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams) Ad
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Date of birth.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this transaction.
+type PaymentIntentConfirmPaymentDetailsMoneyServicesBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentConfirmPaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Money services details for this PaymentIntent.
 type PaymentIntentConfirmPaymentDetailsMoneyServicesParams struct {
-	// Account funding transaction details including sender and beneficiary information.
+	// Account funding transaction details including sender information.
 	AccountFunding *PaymentIntentConfirmPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this transaction.
+	BeneficiaryDetails *PaymentIntentConfirmPaymentDetailsMoneyServicesBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
 	// The type of money services transaction.
 	TransactionType *string                                                           `form:"transaction_type" json:"transaction_type,omitempty"`
 	UnsetFields     []PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
@@ -8841,8 +8806,9 @@ type PaymentIntentConfirmPaymentDetailsMoneyServicesParams struct {
 type PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
-	PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
+	PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding     PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetFieldBeneficiaryDetails PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField = "beneficiary_details"
+	PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetFieldTransactionType    PaymentIntentConfirmPaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -10867,30 +10833,6 @@ type PaymentIntentCreatePaymentDetailsLodgingDatumParams struct {
 }
 
 // Date of birth.
-type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
-	// Day of birth, between 1 and 31.
-	Day *int64 `form:"day" json:"day"`
-	// Month of birth, between 1 and 12.
-	Month *int64 `form:"month" json:"month"`
-	// Four-digit year of birth.
-	Year *int64 `form:"year" json:"year"`
-}
-
-// Inline identity details for the beneficiary of this account funding transaction.
-type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
-	// Address.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Date of birth.
-	DateOfBirth *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
-	// Email address.
-	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
-	// Phone number.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Date of birth.
 type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
 	// Day of birth, between 1 and 31.
 	Day *int64 `form:"day" json:"day"`
@@ -10914,12 +10856,8 @@ type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingSenderDetailsPa
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// Account funding transaction details including sender and beneficiary information.
+// Account funding transaction details including sender information.
 type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams struct {
-	// ID of the Account representing the beneficiary in this account funding transaction.
-	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
-	// Inline identity details for the beneficiary of this account funding transaction.
-	BeneficiaryDetails *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
 	// ID of the Account representing the sender in this account funding transaction.
 	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
 	// Inline identity details for the sender of this account funding transaction.
@@ -10931,8 +10869,7 @@ type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams struct {
 type PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
 
 const (
-	PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
-	PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+	PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -10940,10 +10877,38 @@ func (p *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams) Add
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Date of birth.
+type PaymentIntentCreatePaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this transaction.
+type PaymentIntentCreatePaymentDetailsMoneyServicesBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentCreatePaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Money services details for this PaymentIntent.
 type PaymentIntentCreatePaymentDetailsMoneyServicesParams struct {
-	// Account funding transaction details including sender and beneficiary information.
+	// Account funding transaction details including sender information.
 	AccountFunding *PaymentIntentCreatePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this transaction.
+	BeneficiaryDetails *PaymentIntentCreatePaymentDetailsMoneyServicesBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
 	// The type of money services transaction.
 	TransactionType *string                                                          `form:"transaction_type" json:"transaction_type,omitempty"`
 	UnsetFields     []PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
@@ -10953,8 +10918,9 @@ type PaymentIntentCreatePaymentDetailsMoneyServicesParams struct {
 type PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
-	PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
+	PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding     PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetFieldBeneficiaryDetails PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField = "beneficiary_details"
+	PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType    PaymentIntentCreatePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -11707,45 +11673,10 @@ type PaymentIntentCreatePaymentMethodOptionsCardMandateOptionsParams struct {
 	SupportedTypes []*string `form:"supported_types" json:"supported_types,omitempty"`
 }
 
-// The merchant where the staged wallet purchase is made.
-type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
-	// The merchant category code of the merchant.
-	MCC *string `form:"mcc" json:"mcc,omitempty"`
-	// The merchant's name.
-	Name *string `form:"name" json:"name,omitempty"`
-}
-
-// Details for a staged purchase.
-type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
-	// The merchant where the staged wallet purchase is made.
-	Merchant *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
-}
-
-// Details for a wallet funding transaction.
-type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
-	// Details for a staged purchase.
-	StagedPurchase *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
-	UnsetFields    []PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
-}
-
-// PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams.
-type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
-
-const (
-	PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
 // Payment method specific account funding transaction details.
 type PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
 	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
-	// Details for a wallet funding transaction.
-	Wallet *PaymentIntentCreatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams `form:"wallet" json:"wallet,omitempty"`
 }
 
 // Money services details for payment method specific funding fields.
@@ -11917,45 +11848,10 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentCaptureDelayParams struct
 	Hours *int64 `form:"hours" json:"hours,omitempty"`
 }
 
-// The merchant where the staged wallet purchase is made.
-type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
-	// The merchant category code of the merchant.
-	MCC *string `form:"mcc" json:"mcc,omitempty"`
-	// The merchant's name.
-	Name *string `form:"name" json:"name,omitempty"`
-}
-
-// Details for a staged purchase.
-type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
-	// The merchant where the staged wallet purchase is made.
-	Merchant *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
-}
-
-// Details for a wallet funding transaction.
-type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
-	// Details for a staged purchase.
-	StagedPurchase *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
-	UnsetFields    []PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
-}
-
-// PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams.
-type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
-
-const (
-	PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
 // Payment method specific account funding transaction details.
 type PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
 	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
-	// Details for a wallet funding transaction.
-	Wallet *PaymentIntentCreatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams `form:"wallet" json:"wallet,omitempty"`
 }
 
 // Money services details for payment method specific funding fields.
@@ -13463,15 +13359,24 @@ type PaymentIntentCreatePaymentMethodOptionsSatispayParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                           `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentCreatePaymentMethodOptionsSatispayParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                           `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsSatispayParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentCreatePaymentMethodOptionsSatispayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsSatispayParams.
 type PaymentIntentCreatePaymentMethodOptionsSatispayParamsUnsetField string
 
 const (
-	PaymentIntentCreatePaymentMethodOptionsSatispayParamsUnsetFieldCaptureMethod PaymentIntentCreatePaymentMethodOptionsSatispayParamsUnsetField = "capture_method"
+	PaymentIntentCreatePaymentMethodOptionsSatispayParamsUnsetFieldCaptureMethod    PaymentIntentCreatePaymentMethodOptionsSatispayParamsUnsetField = "capture_method"
+	PaymentIntentCreatePaymentMethodOptionsSatispayParamsUnsetFieldSetupFutureUsage PaymentIntentCreatePaymentMethodOptionsSatispayParamsUnsetField = "setup_future_usage"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -15365,30 +15270,6 @@ type PaymentIntentUpdatePaymentDetailsLodgingDatumParams struct {
 }
 
 // Date of birth.
-type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams struct {
-	// Day of birth, between 1 and 31.
-	Day *int64 `form:"day" json:"day"`
-	// Month of birth, between 1 and 12.
-	Month *int64 `form:"month" json:"month"`
-	// Four-digit year of birth.
-	Year *int64 `form:"year" json:"year"`
-}
-
-// Inline identity details for the beneficiary of this account funding transaction.
-type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams struct {
-	// Address.
-	Address *AddressParams `form:"address" json:"address,omitempty"`
-	// Date of birth.
-	DateOfBirth *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
-	// Email address.
-	Email *string `form:"email" json:"email,omitempty"`
-	// Full name.
-	Name *string `form:"name" json:"name,omitempty"`
-	// Phone number.
-	Phone *string `form:"phone" json:"phone,omitempty"`
-}
-
-// Date of birth.
 type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirthParams struct {
 	// Day of birth, between 1 and 31.
 	Day *int64 `form:"day" json:"day"`
@@ -15412,12 +15293,8 @@ type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingSenderDetailsPa
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// Account funding transaction details including sender and beneficiary information.
+// Account funding transaction details including sender information.
 type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams struct {
-	// ID of the Account representing the beneficiary in this account funding transaction.
-	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
-	// Inline identity details for the beneficiary of this account funding transaction.
-	BeneficiaryDetails *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
 	// ID of the Account representing the sender in this account funding transaction.
 	SenderAccount *string `form:"sender_account" json:"sender_account,omitempty"`
 	// Inline identity details for the sender of this account funding transaction.
@@ -15429,8 +15306,7 @@ type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams struct {
 type PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField string
 
 const (
-	PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldBeneficiaryDetails PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "beneficiary_details"
-	PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails      PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
+	PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetFieldSenderDetails PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParamsUnsetField = "sender_details"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -15438,10 +15314,38 @@ func (p *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams) Add
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Date of birth.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirthParams struct {
+	// Day of birth, between 1 and 31.
+	Day *int64 `form:"day" json:"day"`
+	// Month of birth, between 1 and 12.
+	Month *int64 `form:"month" json:"month"`
+	// Four-digit year of birth.
+	Year *int64 `form:"year" json:"year"`
+}
+
+// Inline identity details for the beneficiary of this transaction.
+type PaymentIntentUpdatePaymentDetailsMoneyServicesBeneficiaryDetailsParams struct {
+	// Address.
+	Address *AddressParams `form:"address" json:"address,omitempty"`
+	// Date of birth.
+	DateOfBirth *PaymentIntentUpdatePaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirthParams `form:"date_of_birth" json:"date_of_birth,omitempty"`
+	// Email address.
+	Email *string `form:"email" json:"email,omitempty"`
+	// Full name.
+	Name *string `form:"name" json:"name,omitempty"`
+	// Phone number.
+	Phone *string `form:"phone" json:"phone,omitempty"`
+}
+
 // Money services details for this PaymentIntent.
 type PaymentIntentUpdatePaymentDetailsMoneyServicesParams struct {
-	// Account funding transaction details including sender and beneficiary information.
+	// Account funding transaction details including sender information.
 	AccountFunding *PaymentIntentUpdatePaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount *string `form:"beneficiary_account" json:"beneficiary_account,omitempty"`
+	// Inline identity details for the beneficiary of this transaction.
+	BeneficiaryDetails *PaymentIntentUpdatePaymentDetailsMoneyServicesBeneficiaryDetailsParams `form:"beneficiary_details" json:"beneficiary_details,omitempty"`
 	// The type of money services transaction.
 	TransactionType *string                                                          `form:"transaction_type" json:"transaction_type,omitempty"`
 	UnsetFields     []PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField `form:"-" json:"-"`
@@ -15451,8 +15355,9 @@ type PaymentIntentUpdatePaymentDetailsMoneyServicesParams struct {
 type PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField string
 
 const (
-	PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding  PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
-	PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
+	PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetFieldAccountFunding     PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField = "account_funding"
+	PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetFieldBeneficiaryDetails PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField = "beneficiary_details"
+	PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetFieldTransactionType    PaymentIntentUpdatePaymentDetailsMoneyServicesParamsUnsetField = "transaction_type"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -16205,45 +16110,10 @@ type PaymentIntentUpdatePaymentMethodOptionsCardMandateOptionsParams struct {
 	SupportedTypes []*string `form:"supported_types" json:"supported_types,omitempty"`
 }
 
-// The merchant where the staged wallet purchase is made.
-type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
-	// The merchant category code of the merchant.
-	MCC *string `form:"mcc" json:"mcc,omitempty"`
-	// The merchant's name.
-	Name *string `form:"name" json:"name,omitempty"`
-}
-
-// Details for a staged purchase.
-type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
-	// The merchant where the staged wallet purchase is made.
-	Merchant *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
-}
-
-// Details for a wallet funding transaction.
-type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
-	// Details for a staged purchase.
-	StagedPurchase *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
-	UnsetFields    []PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
-}
-
-// PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams.
-type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
-
-const (
-	PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
 // Payment method specific account funding transaction details.
 type PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
 	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
-	// Details for a wallet funding transaction.
-	Wallet *PaymentIntentUpdatePaymentMethodOptionsCardPaymentDetailsMoneyServicesAccountFundingWalletParams `form:"wallet" json:"wallet,omitempty"`
 }
 
 // Money services details for payment method specific funding fields.
@@ -16415,45 +16285,10 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentCaptureDelayParams struct
 	Hours *int64 `form:"hours" json:"hours,omitempty"`
 }
 
-// The merchant where the staged wallet purchase is made.
-type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams struct {
-	// The merchant category code of the merchant.
-	MCC *string `form:"mcc" json:"mcc,omitempty"`
-	// The merchant's name.
-	Name *string `form:"name" json:"name,omitempty"`
-}
-
-// Details for a staged purchase.
-type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams struct {
-	// The merchant where the staged wallet purchase is made.
-	Merchant *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseMerchantParams `form:"merchant" json:"merchant,omitempty"`
-}
-
-// Details for a wallet funding transaction.
-type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams struct {
-	// Details for a staged purchase.
-	StagedPurchase *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletStagedPurchaseParams `form:"staged_purchase" json:"staged_purchase,omitempty"`
-	UnsetFields    []PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField    `form:"-" json:"-"`
-}
-
-// PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams.
-type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField string
-
-const (
-	PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetFieldStagedPurchase PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField = "staged_purchase"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
 // Payment method specific account funding transaction details.
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingParams struct {
 	// The category of digital asset being acquired through this account funding transaction.
 	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
-	// Details for a wallet funding transaction.
-	Wallet *PaymentIntentUpdatePaymentMethodOptionsCardPresentPaymentDetailsMoneyServicesAccountFundingWalletParams `form:"wallet" json:"wallet,omitempty"`
 }
 
 // Money services details for payment method specific funding fields.
@@ -17961,15 +17796,24 @@ type PaymentIntentUpdatePaymentMethodOptionsSatispayParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                           `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentUpdatePaymentMethodOptionsSatispayParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                           `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsSatispayParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentUpdatePaymentMethodOptionsSatispayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsSatispayParams.
 type PaymentIntentUpdatePaymentMethodOptionsSatispayParamsUnsetField string
 
 const (
-	PaymentIntentUpdatePaymentMethodOptionsSatispayParamsUnsetFieldCaptureMethod PaymentIntentUpdatePaymentMethodOptionsSatispayParamsUnsetField = "capture_method"
+	PaymentIntentUpdatePaymentMethodOptionsSatispayParamsUnsetFieldCaptureMethod    PaymentIntentUpdatePaymentMethodOptionsSatispayParamsUnsetField = "capture_method"
+	PaymentIntentUpdatePaymentMethodOptionsSatispayParamsUnsetFieldSetupFutureUsage PaymentIntentUpdatePaymentMethodOptionsSatispayParamsUnsetField = "setup_future_usage"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -18724,6 +18568,12 @@ type PaymentIntentAdvancedFeatureDetailsDecrementalAuthorization struct {
 	// Indicates whether the feature is supported.
 	Status PaymentIntentAdvancedFeatureDetailsDecrementalAuthorizationStatus `json:"status"`
 }
+type PaymentIntentAdvancedFeatureDetailsForcedCapture struct {
+	// Timestamp at which the forced capture window expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// Indicates whether forced capture is supported.
+	Status PaymentIntentAdvancedFeatureDetailsForcedCaptureStatus `json:"status"`
+}
 type PaymentIntentAdvancedFeatureDetailsIncrementalAuthorization struct {
 	// Indicates whether the feature is supported.
 	Status PaymentIntentAdvancedFeatureDetailsIncrementalAuthorizationStatus `json:"status"`
@@ -18742,6 +18592,7 @@ type PaymentIntentAdvancedFeatureDetails struct {
 	// Timestamp at which the authorization will expire if not captured.
 	CaptureBefore            int64                                                        `json:"capture_before,omitempty"`
 	DecrementalAuthorization *PaymentIntentAdvancedFeatureDetailsDecrementalAuthorization `json:"decremental_authorization,omitempty"`
+	ForcedCapture            *PaymentIntentAdvancedFeatureDetailsForcedCapture            `json:"forced_capture,omitempty"`
 	IncrementalAuthorization *PaymentIntentAdvancedFeatureDetailsIncrementalAuthorization `json:"incremental_authorization,omitempty"`
 	Multicapture             *PaymentIntentAdvancedFeatureDetailsMulticapture             `json:"multicapture,omitempty"`
 	Overcapture              *PaymentIntentAdvancedFeatureDetailsOvercapture              `json:"overcapture,omitempty"`
@@ -19835,24 +19686,6 @@ type PaymentIntentPaymentDetailsLodgingDatum struct {
 	RenterName string                                        `json:"renter_name,omitempty"`
 	Total      *PaymentIntentPaymentDetailsLodgingDatumTotal `json:"total,omitempty"`
 }
-type PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirth struct {
-	// Day of birth, between 1 and 31.
-	Day int64 `json:"day"`
-	// Month of birth, between 1 and 12.
-	Month int64 `json:"month"`
-	// Four-digit year of birth.
-	Year int64 `json:"year"`
-}
-type PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetails struct {
-	Address     *Address                                                                             `json:"address,omitempty"`
-	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetailsDateOfBirth `json:"date_of_birth,omitempty"`
-	// Email address.
-	Email string `json:"email,omitempty"`
-	// Full name.
-	Name string `json:"name,omitempty"`
-	// Phone number.
-	Phone string `json:"phone,omitempty"`
-}
 type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetailsDateOfBirth struct {
 	// Day of birth, between 1 and 31.
 	Day int64 `json:"day"`
@@ -19872,15 +19705,33 @@ type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetails struct 
 	Phone string `json:"phone,omitempty"`
 }
 type PaymentIntentPaymentDetailsMoneyServicesAccountFunding struct {
-	// ID of the Account representing the beneficiary in this account funding transaction.
-	BeneficiaryAccount string                                                                    `json:"beneficiary_account,omitempty"`
-	BeneficiaryDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingBeneficiaryDetails `json:"beneficiary_details,omitempty"`
 	// ID of the Account representing the sender in this account funding transaction.
 	SenderAccount string                                                               `json:"sender_account,omitempty"`
 	SenderDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetails `json:"sender_details,omitempty"`
 }
+type PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirth struct {
+	// Day of birth, between 1 and 31.
+	Day int64 `json:"day"`
+	// Month of birth, between 1 and 12.
+	Month int64 `json:"month"`
+	// Four-digit year of birth.
+	Year int64 `json:"year"`
+}
+type PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetails struct {
+	Address     *Address                                                               `json:"address,omitempty"`
+	DateOfBirth *PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetailsDateOfBirth `json:"date_of_birth,omitempty"`
+	// Email address.
+	Email string `json:"email,omitempty"`
+	// Full name.
+	Name string `json:"name,omitempty"`
+	// Phone number.
+	Phone string `json:"phone,omitempty"`
+}
 type PaymentIntentPaymentDetailsMoneyServices struct {
 	AccountFunding *PaymentIntentPaymentDetailsMoneyServicesAccountFunding `json:"account_funding,omitempty"`
+	// ID of the Account representing the beneficiary in this account funding transaction.
+	BeneficiaryAccount string                                                      `json:"beneficiary_account,omitempty"`
+	BeneficiaryDetails *PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetails `json:"beneficiary_details,omitempty"`
 	// The type of money services transaction.
 	TransactionType PaymentIntentPaymentDetailsMoneyServicesTransactionType `json:"transaction_type,omitempty"`
 }
@@ -20676,6 +20527,14 @@ type PaymentIntentPaymentMethodOptionsSamsungPay struct {
 type PaymentIntentPaymentMethodOptionsSatispay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsSatispayCaptureMethod `json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsSatispaySetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsScalapay struct {
 	// Controls when the funds will be captured from the customer's account.

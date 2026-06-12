@@ -305,6 +305,7 @@ type SetupAttemptPaymentMethodDetailsPaypal struct{}
 type SetupAttemptPaymentMethodDetailsPayto struct{}
 type SetupAttemptPaymentMethodDetailsPix struct{}
 type SetupAttemptPaymentMethodDetailsRevolutPay struct{}
+type SetupAttemptPaymentMethodDetailsSatispay struct{}
 type SetupAttemptPaymentMethodDetailsSEPADebit struct{}
 type SetupAttemptPaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -352,6 +353,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	Payto          *SetupAttemptPaymentMethodDetailsPayto          `json:"payto,omitempty"`
 	Pix            *SetupAttemptPaymentMethodDetailsPix            `json:"pix,omitempty"`
 	RevolutPay     *SetupAttemptPaymentMethodDetailsRevolutPay     `json:"revolut_pay,omitempty"`
+	Satispay       *SetupAttemptPaymentMethodDetailsSatispay       `json:"satispay,omitempty"`
 	SEPADebit      *SetupAttemptPaymentMethodDetailsSEPADebit      `json:"sepa_debit,omitempty"`
 	Sofort         *SetupAttemptPaymentMethodDetailsSofort         `json:"sofort,omitempty"`
 	StripeBalance  *SetupAttemptPaymentMethodDetailsStripeBalance  `json:"stripe_balance,omitempty"`

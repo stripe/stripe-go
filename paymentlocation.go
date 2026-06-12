@@ -51,7 +51,20 @@ func (p *PaymentLocationParams) AddExpand(f string) {
 // Identification numbers associated with the location.
 type PaymentLocationBusinessRegistrationParams struct {
 	// 14-digit SIRET (Système d'identification du répertoire des établissements) number for the location.
-	Siret *string `form:"siret" json:"siret,omitempty"`
+	Siret       *string                                               `form:"siret" json:"siret,omitempty"`
+	UnsetFields []PaymentLocationBusinessRegistrationParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLocationBusinessRegistrationParamsUnsetField is the list of fields that can be cleared/unset on PaymentLocationBusinessRegistrationParams.
+type PaymentLocationBusinessRegistrationParamsUnsetField string
+
+const (
+	PaymentLocationBusinessRegistrationParamsUnsetFieldSiret PaymentLocationBusinessRegistrationParamsUnsetField = "siret"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLocationBusinessRegistrationParams) AddUnsetField(field PaymentLocationBusinessRegistrationParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // List all Payment Locations.
@@ -86,7 +99,20 @@ func (p *PaymentLocationRetrieveParams) AddExpand(f string) {
 // Identification numbers associated with the location.
 type PaymentLocationUpdateBusinessRegistrationParams struct {
 	// 14-digit SIRET (Système d'identification du répertoire des établissements) number for the location.
-	Siret *string `form:"siret" json:"siret,omitempty"`
+	Siret       *string                                                     `form:"siret" json:"siret,omitempty"`
+	UnsetFields []PaymentLocationUpdateBusinessRegistrationParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentLocationUpdateBusinessRegistrationParamsUnsetField is the list of fields that can be cleared/unset on PaymentLocationUpdateBusinessRegistrationParams.
+type PaymentLocationUpdateBusinessRegistrationParamsUnsetField string
+
+const (
+	PaymentLocationUpdateBusinessRegistrationParamsUnsetFieldSiret PaymentLocationUpdateBusinessRegistrationParamsUnsetField = "siret"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentLocationUpdateBusinessRegistrationParams) AddUnsetField(field PaymentLocationUpdateBusinessRegistrationParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Update a Payment Location.

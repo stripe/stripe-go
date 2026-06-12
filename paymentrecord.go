@@ -769,6 +769,22 @@ type PaymentRecordReportPaymentAttemptPaymentMethodDetailsBillingDetailsParams s
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
+// Verification checks performed on the card.
+type PaymentRecordReportPaymentAttemptPaymentMethodDetailsCardChecksParams struct {
+	// The result of the check on the cardholder's address line 1.
+	AddressLine1Check *string `form:"address_line1_check" json:"address_line1_check,omitempty"`
+	// The result of the check on the cardholder's postal code.
+	AddressPostalCodeCheck *string `form:"address_postal_code_check" json:"address_postal_code_check,omitempty"`
+	// The result of the check on the card's CVC.
+	CVCCheck *string `form:"cvc_check" json:"cvc_check,omitempty"`
+}
+
+// Information about the card payment method used to make this payment.
+type PaymentRecordReportPaymentAttemptPaymentMethodDetailsCardParams struct {
+	// Verification checks performed on the card.
+	Checks *PaymentRecordReportPaymentAttemptPaymentMethodDetailsCardChecksParams `form:"checks" json:"checks,omitempty"`
+}
+
 // Information about the custom (user-defined) payment method used to make this payment.
 type PaymentRecordReportPaymentAttemptPaymentMethodDetailsCustomParams struct {
 	// Display name for the custom (user-defined) payment method type used to make this payment.
@@ -781,6 +797,8 @@ type PaymentRecordReportPaymentAttemptPaymentMethodDetailsCustomParams struct {
 type PaymentRecordReportPaymentAttemptPaymentMethodDetailsParams struct {
 	// The billing details associated with the method of payment.
 	BillingDetails *PaymentRecordReportPaymentAttemptPaymentMethodDetailsBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// Information about the card payment method used to make this payment.
+	Card *PaymentRecordReportPaymentAttemptPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
 	// Information about the custom (user-defined) payment method used to make this payment.
 	Custom *PaymentRecordReportPaymentAttemptPaymentMethodDetailsCustomParams `form:"custom" json:"custom,omitempty"`
 	// ID of the Stripe Payment Method used to make this payment.
@@ -1119,6 +1137,22 @@ type PaymentRecordReportPaymentPaymentMethodDetailsBillingDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
+// Verification checks performed on the card.
+type PaymentRecordReportPaymentPaymentMethodDetailsCardChecksParams struct {
+	// The result of the check on the cardholder's address line 1.
+	AddressLine1Check *string `form:"address_line1_check" json:"address_line1_check,omitempty"`
+	// The result of the check on the cardholder's postal code.
+	AddressPostalCodeCheck *string `form:"address_postal_code_check" json:"address_postal_code_check,omitempty"`
+	// The result of the check on the card's CVC.
+	CVCCheck *string `form:"cvc_check" json:"cvc_check,omitempty"`
+}
+
+// Information about the card payment method used to make this payment.
+type PaymentRecordReportPaymentPaymentMethodDetailsCardParams struct {
+	// Verification checks performed on the card.
+	Checks *PaymentRecordReportPaymentPaymentMethodDetailsCardChecksParams `form:"checks" json:"checks,omitempty"`
+}
+
 // Information about the custom (user-defined) payment method used to make this payment.
 type PaymentRecordReportPaymentPaymentMethodDetailsCustomParams struct {
 	// Display name for the custom (user-defined) payment method type used to make this payment.
@@ -1131,6 +1165,8 @@ type PaymentRecordReportPaymentPaymentMethodDetailsCustomParams struct {
 type PaymentRecordReportPaymentPaymentMethodDetailsParams struct {
 	// The billing details associated with the method of payment.
 	BillingDetails *PaymentRecordReportPaymentPaymentMethodDetailsBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// Information about the card payment method used to make this payment.
+	Card *PaymentRecordReportPaymentPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
 	// Information about the custom (user-defined) payment method used to make this payment.
 	Custom *PaymentRecordReportPaymentPaymentMethodDetailsCustomParams `form:"custom" json:"custom,omitempty"`
 	// ID of the Stripe Payment Method used to make this payment.
