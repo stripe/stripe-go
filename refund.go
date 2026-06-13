@@ -109,6 +109,8 @@ type RefundParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Origin of the refund
 	Origin *string `form:"origin" json:"origin,omitempty"`
+	// The identifier of the PaymentAttemptRecord to refund.
+	PaymentAttemptRecord *string `form:"payment_attempt_record" json:"payment_attempt_record,omitempty"`
 	// The identifier of the PaymentIntent to refund.
 	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
 	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://docs.stripe.com/radar/lists), and will also help us improve our fraud detection algorithms.
@@ -190,6 +192,8 @@ type RefundCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Origin of the refund
 	Origin *string `form:"origin" json:"origin,omitempty"`
+	// The identifier of the PaymentAttemptRecord to refund.
+	PaymentAttemptRecord *string `form:"payment_attempt_record" json:"payment_attempt_record,omitempty"`
 	// The identifier of the PaymentIntent to refund.
 	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
 	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://docs.stripe.com/radar/lists), and will also help us improve our fraud detection algorithms.
