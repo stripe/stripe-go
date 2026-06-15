@@ -72,8 +72,12 @@ type RefundListParams struct {
 	CreatedRange *RangeQueryParams `form:"created" json:"-"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Only return refunds for the PaymentAttemptRecord specified by this ID.
+	PaymentAttemptRecord *string `form:"payment_attempt_record" json:"payment_attempt_record,omitempty"`
 	// Only return refunds for the PaymentIntent specified by this ID.
 	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
+	// Only return refunds for the PaymentRecord specified by this ID.
+	PaymentRecord *string `form:"payment_record" json:"payment_record,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
