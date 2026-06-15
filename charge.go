@@ -43,13 +43,13 @@ const (
 	ChargePaymentMethodDetailsAmazonPayFundingTypeCard ChargePaymentMethodDetailsAmazonPayFundingType = "card"
 )
 
-// The transaction type of the card transaction. One of `account_funding` or `purchase`.
-type ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType string
+// Indicates whether or not this charge is a funding transaction.
+type ChargePaymentMethodDetailsCardAccountFundingStatus string
 
-// List of values that ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType can take
+// List of values that ChargePaymentMethodDetailsCardAccountFundingStatus can take
 const (
-	ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionTypeAccountFunding ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType = "account_funding"
-	ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionTypePurchase       ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType = "purchase"
+	ChargePaymentMethodDetailsCardAccountFundingStatusDisabled ChargePaymentMethodDetailsCardAccountFundingStatus = "disabled"
+	ChargePaymentMethodDetailsCardAccountFundingStatusEnabled  ChargePaymentMethodDetailsCardAccountFundingStatus = "enabled"
 )
 
 // If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
@@ -3793,8 +3793,8 @@ type ChargePaymentMethodDetailsBoleto struct {
 	TaxID string `json:"tax_id"`
 }
 type ChargePaymentMethodDetailsCardAccountFunding struct {
-	// The transaction type of the card transaction. One of `account_funding` or `purchase`.
-	ProcessedTransactionType ChargePaymentMethodDetailsCardAccountFundingProcessedTransactionType `json:"processed_transaction_type,omitempty"`
+	// Indicates whether or not this charge is a funding transaction.
+	Status ChargePaymentMethodDetailsCardAccountFundingStatus `json:"status"`
 }
 type ChargePaymentMethodDetailsCardBenefitsFRMealVoucher struct {
 	// The 14-digit SIRET of the meal voucher acceptor used for this charge.
