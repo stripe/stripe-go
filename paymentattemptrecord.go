@@ -1039,7 +1039,9 @@ type PaymentAttemptRecordReportRefundParams struct {
 	// Processor information for this refund.
 	ProcessorDetails *PaymentAttemptRecordReportRefundProcessorDetailsParams `form:"processor_details" json:"processor_details"`
 	// Information about the payment attempt refund.
-	Refunded    *PaymentAttemptRecordReportRefundRefundedParams    `form:"refunded" json:"refunded,omitempty"`
+	Refunded *PaymentAttemptRecordReportRefundRefundedParams `form:"refunded" json:"refunded,omitempty"`
+	// A key to group refunds together.
+	RefundGroup *string                                            `form:"refund_group" json:"refund_group,omitempty"`
 	UnsetFields []PaymentAttemptRecordReportRefundParamsUnsetField `form:"-" json:"-"`
 }
 
