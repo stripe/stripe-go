@@ -1083,6 +1083,18 @@ const (
 	PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsageNone PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage = "none"
 )
 
+// The network on which the transaction was submitted.
+type PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsNetwork string
+
+// List of values that PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsNetwork can take
+const (
+	PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsNetworkBase     PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsNetwork = "base"
+	PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsNetworkEthereum PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsNetwork = "ethereum"
+	PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsNetworkPolygon  PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsNetwork = "polygon"
+	PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsNetworkSolana   PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsNetwork = "solana"
+	PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsNetworkTempo    PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsNetwork = "tempo"
+)
+
 // List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 //
 // Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
@@ -4231,6 +4243,14 @@ type PaymentIntentPaymentMethodOptionsCryptoDepositOptionsParams struct {
 	StaticAddress *bool `form:"static_address" json:"static_address,omitempty"`
 }
 
+// Specific configuration for this PaymentIntent when the mode is `transaction_verification`.
+type PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsParams struct {
+	// The network on which the transaction was submitted.
+	Network *string `form:"network" json:"network"`
+	// The hash of the onchain transaction to verify.
+	TransactionHash *string `form:"transaction_hash" json:"transaction_hash"`
+}
+
 // If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
 type PaymentIntentPaymentMethodOptionsCryptoParams struct {
 	// Specific configuration for this PaymentIntent when the mode is `deposit`.
@@ -4247,6 +4267,8 @@ type PaymentIntentPaymentMethodOptionsCryptoParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	// Specific configuration for this PaymentIntent when the mode is `transaction_verification`.
+	TransactionVerificationOptions *PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsParams `form:"transaction_verification_options" json:"transaction_verification_options,omitempty"`
 }
 
 // Configuration for the eu_bank_transfer funding type.
@@ -11961,6 +11983,14 @@ type PaymentIntentCreatePaymentMethodOptionsCryptoDepositOptionsParams struct {
 	StaticAddress *bool `form:"static_address" json:"static_address,omitempty"`
 }
 
+// Specific configuration for this PaymentIntent when the mode is `transaction_verification`.
+type PaymentIntentCreatePaymentMethodOptionsCryptoTransactionVerificationOptionsParams struct {
+	// The network on which the transaction was submitted.
+	Network *string `form:"network" json:"network"`
+	// The hash of the onchain transaction to verify.
+	TransactionHash *string `form:"transaction_hash" json:"transaction_hash"`
+}
+
 // If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
 type PaymentIntentCreatePaymentMethodOptionsCryptoParams struct {
 	// Specific configuration for this PaymentIntent when the mode is `deposit`.
@@ -11977,6 +12007,8 @@ type PaymentIntentCreatePaymentMethodOptionsCryptoParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	// Specific configuration for this PaymentIntent when the mode is `transaction_verification`.
+	TransactionVerificationOptions *PaymentIntentCreatePaymentMethodOptionsCryptoTransactionVerificationOptionsParams `form:"transaction_verification_options" json:"transaction_verification_options,omitempty"`
 }
 
 // Configuration for the eu_bank_transfer funding type.
@@ -16395,6 +16427,14 @@ type PaymentIntentUpdatePaymentMethodOptionsCryptoDepositOptionsParams struct {
 	StaticAddress *bool `form:"static_address" json:"static_address,omitempty"`
 }
 
+// Specific configuration for this PaymentIntent when the mode is `transaction_verification`.
+type PaymentIntentUpdatePaymentMethodOptionsCryptoTransactionVerificationOptionsParams struct {
+	// The network on which the transaction was submitted.
+	Network *string `form:"network" json:"network"`
+	// The hash of the onchain transaction to verify.
+	TransactionHash *string `form:"transaction_hash" json:"transaction_hash"`
+}
+
 // If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsCryptoParams struct {
 	// Specific configuration for this PaymentIntent when the mode is `deposit`.
@@ -16411,6 +16451,8 @@ type PaymentIntentUpdatePaymentMethodOptionsCryptoParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	// Specific configuration for this PaymentIntent when the mode is `transaction_verification`.
+	TransactionVerificationOptions *PaymentIntentUpdatePaymentMethodOptionsCryptoTransactionVerificationOptionsParams `form:"transaction_verification_options" json:"transaction_verification_options,omitempty"`
 }
 
 // Configuration for the eu_bank_transfer funding type.
@@ -20143,6 +20185,12 @@ type PaymentIntentPaymentMethodOptionsCryptoDepositOptions struct {
 	// If true, provisions a permanent per-customer deposit address reused across PaymentIntents.
 	StaticAddress bool `json:"static_address,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptions struct {
+	// The network on which the transaction was submitted.
+	Network PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptionsNetwork `json:"network,omitempty"`
+	// The hash of the onchain transaction to verify.
+	TransactionHash string `json:"transaction_hash,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsCrypto struct {
 	DepositOptions *PaymentIntentPaymentMethodOptionsCryptoDepositOptions `json:"deposit_options,omitempty"`
 	// The mode of the crypto payment.
@@ -20154,7 +20202,8 @@ type PaymentIntentPaymentMethodOptionsCrypto struct {
 	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage `json:"setup_future_usage,omitempty"`
+	SetupFutureUsage               PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage                `json:"setup_future_usage,omitempty"`
+	TransactionVerificationOptions *PaymentIntentPaymentMethodOptionsCryptoTransactionVerificationOptions `json:"transaction_verification_options,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
 	// The desired country code of the bank account information. Permitted values include: `DE`, `FR`, `IE`, or `NL`.
