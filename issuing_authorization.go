@@ -686,10 +686,12 @@ type IssuingAuthorizationAmountDetails struct {
 type IssuingAuthorizationBalanceResponse struct {
 	// The cardholder account type affected by this authorization.
 	AccountType IssuingAuthorizationBalanceResponseAccountType `json:"account_type"`
-	// The remaining balance in the cardholder's account after the authorization, in the smallest currency unit.
-	Amount int64 `json:"amount"`
-	// The currency of the remaining balance in the cardholder's account after the authorization.
+	// The available balance or credit limit in the cardholder's account after the authorization, in the smallest currency unit.
+	AvailableBalance int64 `json:"available_balance"`
+	// The currency of the remaining balances in the cardholder's account after the authorization.
 	Currency Currency `json:"currency"`
+	// The current ledger balance or remaining credit amount in the cardholder's account after the authorization, in the smallest currency unit.
+	CurrentBalance int64 `json:"current_balance"`
 }
 
 // Fees associated with the transaction.
