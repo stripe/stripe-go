@@ -633,6 +633,9 @@ New features and bug fixes are released on the latest major version of the Strip
 
 ## Development
 
+> [!WARNING]
+> External contributions to this repo from first-time contributors are currently on hiatus. If you'd like to see a change made to the package, please open an issue.
+
 Pull requests from the community are welcome. If you submit one, please keep
 the following guidelines in mind:
 
