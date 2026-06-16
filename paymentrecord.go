@@ -1013,6 +1013,14 @@ type PaymentRecordReportRefundAmountParams struct {
 	Value *int64 `form:"value" json:"value"`
 }
 
+// Information about the refund failure.
+type PaymentRecordReportRefundFailedParams struct {
+	// When the reported refund failed. Measured in seconds since the Unix epoch.
+	FailedAt *int64 `form:"failed_at" json:"failed_at,omitempty"`
+	// Provides the reason for the refund failure. Possible values are: `lost_or_stolen_card`, `expired_or_canceled_card`, `charge_for_pending_refund_disputed`, `insufficient_funds`, `declined`, `merchant_request`, or `unknown`.
+	FailureReason *string `form:"failure_reason" json:"failure_reason,omitempty"`
+}
+
 // Information about the custom processor used to make this refund.
 type PaymentRecordReportRefundProcessorDetailsCustomParams struct {
 	// A reference to the external refund. This field must be unique across all refunds.
@@ -1042,6 +1050,8 @@ type PaymentRecordReportRefundParams struct {
 	Amount *PaymentRecordReportRefundAmountParams `form:"amount" json:"amount,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Information about the refund failure.
+	Failed *PaymentRecordReportRefundFailedParams `form:"failed" json:"failed,omitempty"`
 	// When the reported refund was initiated. Measured in seconds since the Unix epoch.
 	InitiatedAt *int64 `form:"initiated_at" json:"initiated_at,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
