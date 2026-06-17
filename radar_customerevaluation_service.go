@@ -29,6 +29,18 @@ func (c v1RadarCustomerEvaluationService) Create(ctx context.Context, params *Ra
 	return customerevaluation, err
 }
 
+// Retrieves an CustomerEvaluation object.
+func (c v1RadarCustomerEvaluationService) Retrieve(ctx context.Context, id string, params *RadarCustomerEvaluationRetrieveParams) (*RadarCustomerEvaluation, error) {
+	if params == nil {
+		params = &RadarCustomerEvaluationRetrieveParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/radar/customer_evaluations/%s", id)
+	customerevaluation := &RadarCustomerEvaluation{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, customerevaluation)
+	return customerevaluation, err
+}
+
 // Reports an event on a CustomerEvaluation object.
 func (c v1RadarCustomerEvaluationService) Update(ctx context.Context, id string, params *RadarCustomerEvaluationUpdateParams) (*RadarCustomerEvaluation, error) {
 	if params == nil {

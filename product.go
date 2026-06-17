@@ -11,6 +11,24 @@ import (
 	"github.com/stripe/stripe-go/v86/form"
 )
 
+// Whether this product is eligible for use with Managed Payments. Possible values are `eligible` and `ineligible`.
+type ProductManagedPaymentsEligibility string
+
+// List of values that ProductManagedPaymentsEligibility can take
+const (
+	ProductManagedPaymentsEligibilityEligible   ProductManagedPaymentsEligibility = "eligible"
+	ProductManagedPaymentsEligibilityIneligible ProductManagedPaymentsEligibility = "ineligible"
+)
+
+// A code identifying the reason this product can't be used with Managed Payments. Additional values might be added as Managed Payments evolves its eligibility criteria.
+type ProductManagedPaymentsIneligibilityReasonCode string
+
+// List of values that ProductManagedPaymentsIneligibilityReasonCode can take
+const (
+	ProductManagedPaymentsIneligibilityReasonCodeIneligibleTaxCode  ProductManagedPaymentsIneligibilityReasonCode = "ineligible_tax_code"
+	ProductManagedPaymentsIneligibilityReasonCodeNoTaxCodeSpecified ProductManagedPaymentsIneligibilityReasonCode = "no_tax_code_specified"
+)
+
 // The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.
 type ProductType string
 
@@ -714,6 +732,20 @@ type ProductIdentifiers struct {
 	Upc string `json:"upc,omitempty"`
 }
 
+// The reasons this product is ineligible for use with Managed Payments, if any. This field isn't present if the product is eligible.
+type ProductManagedPaymentsIneligibilityReason struct {
+	// A code identifying the reason this product can't be used with Managed Payments. Additional values might be added as Managed Payments evolves its eligibility criteria.
+	Code ProductManagedPaymentsIneligibilityReasonCode `json:"code,omitempty"`
+	// A human-readable description of the reason this product can't be used with Managed Payments.
+	Message string `json:"message,omitempty"`
+}
+type ProductManagedPayments struct {
+	// Whether this product is eligible for use with Managed Payments. Possible values are `eligible` and `ineligible`.
+	Eligibility ProductManagedPaymentsEligibility `json:"eligibility,omitempty"`
+	// The reasons this product is ineligible for use with Managed Payments, if any. This field isn't present if the product is eligible.
+	IneligibilityReasons []*ProductManagedPaymentsIneligibilityReason `json:"ineligibility_reasons,omitempty"`
+}
+
 // A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://docs.stripe.com/payments/checkout/pricing-table).
 type ProductMarketingFeature struct {
 	// The marketing feature name. Up to 80 characters long.
@@ -765,7 +797,8 @@ type Product struct {
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 	Images []string `json:"images"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
-	Livemode bool `json:"livemode"`
+	Livemode        bool                    `json:"livemode"`
+	ManagedPayments *ProductManagedPayments `json:"managed_payments,omitempty"`
 	// A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://docs.stripe.com/payments/checkout/pricing-table).
 	MarketingFeatures []*ProductMarketingFeature `json:"marketing_features"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

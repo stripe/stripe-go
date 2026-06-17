@@ -726,6 +726,8 @@ type PaymentRecordReportPaymentAttemptGuaranteedParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Payment evaluations associated with this reported payment.
 	PaymentEvaluations []*string `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
+	// Information about the Payment Method debited for this payment.
+	PaymentMethodDetails *PaymentRecordReportPaymentAttemptGuaranteedPaymentMethodDetailsParams `form:"payment_method_details" json:"payment_method_details,omitempty"`
 	// Processor information for this payment.
 	ProcessorDetails *PaymentRecordReportPaymentAttemptGuaranteedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
 	UnsetFields      []PaymentRecordReportPaymentAttemptGuaranteedParamsUnsetField      `form:"-" json:"-"`
@@ -769,6 +771,22 @@ type PaymentRecordReportPaymentAttemptPaymentMethodDetailsBillingDetailsParams s
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
+// Verification checks performed on the card.
+type PaymentRecordReportPaymentAttemptPaymentMethodDetailsCardChecksParams struct {
+	// The result of the check on the cardholder's address line 1.
+	AddressLine1Check *string `form:"address_line1_check" json:"address_line1_check,omitempty"`
+	// The result of the check on the cardholder's postal code.
+	AddressPostalCodeCheck *string `form:"address_postal_code_check" json:"address_postal_code_check,omitempty"`
+	// The result of the check on the card's CVC.
+	CVCCheck *string `form:"cvc_check" json:"cvc_check,omitempty"`
+}
+
+// Information about the card payment method used to make this payment.
+type PaymentRecordReportPaymentAttemptPaymentMethodDetailsCardParams struct {
+	// Verification checks performed on the card.
+	Checks *PaymentRecordReportPaymentAttemptPaymentMethodDetailsCardChecksParams `form:"checks" json:"checks,omitempty"`
+}
+
 // Information about the custom (user-defined) payment method used to make this payment.
 type PaymentRecordReportPaymentAttemptPaymentMethodDetailsCustomParams struct {
 	// Display name for the custom (user-defined) payment method type used to make this payment.
@@ -781,6 +799,8 @@ type PaymentRecordReportPaymentAttemptPaymentMethodDetailsCustomParams struct {
 type PaymentRecordReportPaymentAttemptPaymentMethodDetailsParams struct {
 	// The billing details associated with the method of payment.
 	BillingDetails *PaymentRecordReportPaymentAttemptPaymentMethodDetailsBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// Information about the card payment method used to make this payment.
+	Card *PaymentRecordReportPaymentAttemptPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
 	// Information about the custom (user-defined) payment method used to make this payment.
 	Custom *PaymentRecordReportPaymentAttemptPaymentMethodDetailsCustomParams `form:"custom" json:"custom,omitempty"`
 	// ID of the Stripe Payment Method used to make this payment.
@@ -895,6 +915,30 @@ func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddMetadata(key string
 	p.Metadata[key] = value
 }
 
+// Verification checks performed on the card.
+type PaymentRecordReportPaymentAttemptGuaranteedPaymentMethodDetailsCardChecksParams struct {
+	// The result of the check on the cardholder's address line 1.
+	AddressLine1Check *string `form:"address_line1_check" json:"address_line1_check,omitempty"`
+	// The result of the check on the cardholder's postal code.
+	AddressPostalCodeCheck *string `form:"address_postal_code_check" json:"address_postal_code_check,omitempty"`
+	// The result of the check on the card's CVC.
+	CVCCheck *string `form:"cvc_check" json:"cvc_check,omitempty"`
+}
+
+// Information about the card payment method used to make this payment.
+type PaymentRecordReportPaymentAttemptGuaranteedPaymentMethodDetailsCardParams struct {
+	// Verification checks performed on the card.
+	Checks *PaymentRecordReportPaymentAttemptGuaranteedPaymentMethodDetailsCardChecksParams `form:"checks" json:"checks,omitempty"`
+}
+
+// Information about the Payment Method debited for this payment.
+type PaymentRecordReportPaymentAttemptGuaranteedPaymentMethodDetailsParams struct {
+	// Information about the card payment method used to make this payment.
+	Card *PaymentRecordReportPaymentAttemptGuaranteedPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
+	// The type of the payment method details. An additional hash is included on the payment_method_details with a name matching this value. It contains additional information specific to the type.
+	Type *string `form:"type" json:"type"`
+}
+
 // Customer information for this payment.
 type PaymentRecordReportPaymentAttemptInformationalCustomerDetailsParams struct {
 	// The customer who made the payment.
@@ -969,6 +1013,14 @@ type PaymentRecordReportRefundAmountParams struct {
 	Value *int64 `form:"value" json:"value"`
 }
 
+// Information about the refund failure.
+type PaymentRecordReportRefundFailedParams struct {
+	// When the reported refund failed. Measured in seconds since the Unix epoch.
+	FailedAt *int64 `form:"failed_at" json:"failed_at,omitempty"`
+	// Provides the reason for the refund failure. Possible values are: `lost_or_stolen_card`, `expired_or_canceled_card`, `charge_for_pending_refund_disputed`, `insufficient_funds`, `declined`, `merchant_request`, or `unknown`.
+	FailureReason *string `form:"failure_reason" json:"failure_reason,omitempty"`
+}
+
 // Information about the custom processor used to make this refund.
 type PaymentRecordReportRefundProcessorDetailsCustomParams struct {
 	// A reference to the external refund. This field must be unique across all refunds.
@@ -998,6 +1050,8 @@ type PaymentRecordReportRefundParams struct {
 	Amount *PaymentRecordReportRefundAmountParams `form:"amount" json:"amount,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Information about the refund failure.
+	Failed *PaymentRecordReportRefundFailedParams `form:"failed" json:"failed,omitempty"`
 	// When the reported refund was initiated. Measured in seconds since the Unix epoch.
 	InitiatedAt *int64 `form:"initiated_at" json:"initiated_at,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -1007,7 +1061,9 @@ type PaymentRecordReportRefundParams struct {
 	// Processor information for this refund.
 	ProcessorDetails *PaymentRecordReportRefundProcessorDetailsParams `form:"processor_details" json:"processor_details"`
 	// Information about the payment attempt refund.
-	Refunded    *PaymentRecordReportRefundRefundedParams    `form:"refunded" json:"refunded,omitempty"`
+	Refunded *PaymentRecordReportRefundRefundedParams `form:"refunded" json:"refunded,omitempty"`
+	// A key to group refunds together.
+	RefundGroup *string                                     `form:"refund_group" json:"refund_group,omitempty"`
 	UnsetFields []PaymentRecordReportRefundParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1119,6 +1175,22 @@ type PaymentRecordReportPaymentPaymentMethodDetailsBillingDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
+// Verification checks performed on the card.
+type PaymentRecordReportPaymentPaymentMethodDetailsCardChecksParams struct {
+	// The result of the check on the cardholder's address line 1.
+	AddressLine1Check *string `form:"address_line1_check" json:"address_line1_check,omitempty"`
+	// The result of the check on the cardholder's postal code.
+	AddressPostalCodeCheck *string `form:"address_postal_code_check" json:"address_postal_code_check,omitempty"`
+	// The result of the check on the card's CVC.
+	CVCCheck *string `form:"cvc_check" json:"cvc_check,omitempty"`
+}
+
+// Information about the card payment method used to make this payment.
+type PaymentRecordReportPaymentPaymentMethodDetailsCardParams struct {
+	// Verification checks performed on the card.
+	Checks *PaymentRecordReportPaymentPaymentMethodDetailsCardChecksParams `form:"checks" json:"checks,omitempty"`
+}
+
 // Information about the custom (user-defined) payment method used to make this payment.
 type PaymentRecordReportPaymentPaymentMethodDetailsCustomParams struct {
 	// Display name for the custom (user-defined) payment method type used to make this payment.
@@ -1131,6 +1203,8 @@ type PaymentRecordReportPaymentPaymentMethodDetailsCustomParams struct {
 type PaymentRecordReportPaymentPaymentMethodDetailsParams struct {
 	// The billing details associated with the method of payment.
 	BillingDetails *PaymentRecordReportPaymentPaymentMethodDetailsBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
+	// Information about the card payment method used to make this payment.
+	Card *PaymentRecordReportPaymentPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
 	// Information about the custom (user-defined) payment method used to make this payment.
 	Custom *PaymentRecordReportPaymentPaymentMethodDetailsCustomParams `form:"custom" json:"custom,omitempty"`
 	// ID of the Stripe Payment Method used to make this payment.
@@ -2165,6 +2239,10 @@ type PaymentRecordPaymentMethodDetailsSwish struct {
 	// The last four digits of the Swish account phone number
 	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
 }
+type PaymentRecordPaymentMethodDetailsTamara struct {
+	// The Tamara transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type PaymentRecordPaymentMethodDetailsTWINT struct {
 	// ID of the multi use Mandate generated by the PaymentIntent
 	Mandate string `json:"mandate,omitempty"`
@@ -2280,6 +2358,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	StripeBalance      *PaymentRecordPaymentMethodDetailsStripeBalance      `json:"stripe_balance,omitempty"`
 	Sunbit             *PaymentRecordPaymentMethodDetailsSunbit             `json:"sunbit,omitempty"`
 	Swish              *PaymentRecordPaymentMethodDetailsSwish              `json:"swish,omitempty"`
+	Tamara             *PaymentRecordPaymentMethodDetailsTamara             `json:"tamara,omitempty"`
 	TWINT              *PaymentRecordPaymentMethodDetailsTWINT              `json:"twint,omitempty"`
 	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
 	// An additional hash is included on `payment_method_details` with a name matching this value.

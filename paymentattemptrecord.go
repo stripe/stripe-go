@@ -847,6 +847,30 @@ func (p *PaymentAttemptRecordReportFailedParams) AddMetadata(key string, value s
 	p.Metadata[key] = value
 }
 
+// Verification checks performed on the card.
+type PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsCardChecksParams struct {
+	// The result of the check on the cardholder's address line 1.
+	AddressLine1Check *string `form:"address_line1_check" json:"address_line1_check,omitempty"`
+	// The result of the check on the cardholder's postal code.
+	AddressPostalCodeCheck *string `form:"address_postal_code_check" json:"address_postal_code_check,omitempty"`
+	// The result of the check on the card's CVC.
+	CVCCheck *string `form:"cvc_check" json:"cvc_check,omitempty"`
+}
+
+// Information about the card payment method used to make this payment.
+type PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsCardParams struct {
+	// Verification checks performed on the card.
+	Checks *PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsCardChecksParams `form:"checks" json:"checks,omitempty"`
+}
+
+// Information about the Payment Method debited for this payment.
+type PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsParams struct {
+	// Information about the card payment method used to make this payment.
+	Card *PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
+	// The type of the payment method details. An additional hash is included on the payment_method_details with a name matching this value. It contains additional information specific to the type.
+	Type *string `form:"type" json:"type"`
+}
+
 // Information about the custom processor used to make this payment.
 type PaymentAttemptRecordReportGuaranteedProcessorDetailsCustomParams struct {
 	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
@@ -872,6 +896,8 @@ type PaymentAttemptRecordReportGuaranteedParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Payment evaluations associated with this reported payment.
 	PaymentEvaluations []*string `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
+	// Information about the Payment Method debited for this payment.
+	PaymentMethodDetails *PaymentAttemptRecordReportGuaranteedPaymentMethodDetailsParams `form:"payment_method_details" json:"payment_method_details,omitempty"`
 	// Processor information for this payment.
 	ProcessorDetails *PaymentAttemptRecordReportGuaranteedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
 	UnsetFields      []PaymentAttemptRecordReportGuaranteedParamsUnsetField      `form:"-" json:"-"`
@@ -977,6 +1003,14 @@ type PaymentAttemptRecordReportRefundAmountParams struct {
 	Value *int64 `form:"value" json:"value"`
 }
 
+// Information about the refund failure.
+type PaymentAttemptRecordReportRefundFailedParams struct {
+	// When the reported refund failed. Measured in seconds since the Unix epoch.
+	FailedAt *int64 `form:"failed_at" json:"failed_at,omitempty"`
+	// Provides the reason for the refund failure. Possible values are: `lost_or_stolen_card`, `expired_or_canceled_card`, `charge_for_pending_refund_disputed`, `insufficient_funds`, `declined`, `merchant_request`, or `unknown`.
+	FailureReason *string `form:"failure_reason" json:"failure_reason,omitempty"`
+}
+
 // Information about the custom processor used to make this refund.
 type PaymentAttemptRecordReportRefundProcessorDetailsCustomParams struct {
 	// A reference to the external refund. This field must be unique across all refunds.
@@ -1004,6 +1038,8 @@ type PaymentAttemptRecordReportRefundParams struct {
 	Amount *PaymentAttemptRecordReportRefundAmountParams `form:"amount" json:"amount,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Information about the refund failure.
+	Failed *PaymentAttemptRecordReportRefundFailedParams `form:"failed" json:"failed,omitempty"`
 	// When the reported refund was initiated. Measured in seconds since the Unix epoch.
 	InitiatedAt *int64 `form:"initiated_at" json:"initiated_at,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -1013,7 +1049,9 @@ type PaymentAttemptRecordReportRefundParams struct {
 	// Processor information for this refund.
 	ProcessorDetails *PaymentAttemptRecordReportRefundProcessorDetailsParams `form:"processor_details" json:"processor_details"`
 	// Information about the payment attempt refund.
-	Refunded    *PaymentAttemptRecordReportRefundRefundedParams    `form:"refunded" json:"refunded,omitempty"`
+	Refunded *PaymentAttemptRecordReportRefundRefundedParams `form:"refunded" json:"refunded,omitempty"`
+	// A key to group refunds together.
+	RefundGroup *string                                            `form:"refund_group" json:"refund_group,omitempty"`
 	UnsetFields []PaymentAttemptRecordReportRefundParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -1984,6 +2022,10 @@ type PaymentAttemptRecordPaymentMethodDetailsSwish struct {
 	// The last four digits of the Swish account phone number
 	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsTamara struct {
+	// The Tamara transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsTWINT struct {
 	// ID of the multi use Mandate generated by the PaymentIntent
 	Mandate string `json:"mandate,omitempty"`
@@ -2099,6 +2141,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	StripeBalance      *PaymentAttemptRecordPaymentMethodDetailsStripeBalance      `json:"stripe_balance,omitempty"`
 	Sunbit             *PaymentAttemptRecordPaymentMethodDetailsSunbit             `json:"sunbit,omitempty"`
 	Swish              *PaymentAttemptRecordPaymentMethodDetailsSwish              `json:"swish,omitempty"`
+	Tamara             *PaymentAttemptRecordPaymentMethodDetailsTamara             `json:"tamara,omitempty"`
 	TWINT              *PaymentAttemptRecordPaymentMethodDetailsTWINT              `json:"twint,omitempty"`
 	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
 	// An additional hash is included on `payment_method_details` with a name matching this value.

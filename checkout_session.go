@@ -300,36 +300,6 @@ const (
 	CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplayUnspecified CheckoutSessionCurrentAttemptPaymentMethodDetailsAllowRedisplay = "unspecified"
 )
 
-// The brand of the card, accounting for customer's brand choice on dual-branded cards.
-type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand string
-
-// List of values that CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand can take
-const (
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandAccel           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "accel"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandAmex            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "amex"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandCarnet          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "carnet"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandCartesBancaires CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "cartes_bancaires"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandConecs          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "conecs"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandDiners          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "diners"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandDiscover        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "discover"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandEFTPOSAU        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "eftpos_au"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandElo             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "elo"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandGirocard        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "girocard"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandInterac         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "interac"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandJaywan          CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "jaywan"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandJCB             CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "jcb"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandLink            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "link"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandMaestro         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "maestro"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandMastercard      CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "mastercard"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandNyce            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "nyce"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandPulse           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "pulse"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandRupay           CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "rupay"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandStar            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "star"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandUnionpay        CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "unionpay"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandUnknown         CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "unknown"
-	CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrandVisa            CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand = "visa"
-)
-
 // Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardFunding string
 
@@ -2138,6 +2108,12 @@ type CheckoutSessionInvoiceCreationParams struct {
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceDataParams `form:"invoice_data" json:"invoice_data,omitempty"`
 }
 
+// A list of items the customer will purchase.
+type CheckoutSessionItemParams struct {
+	// The type of item.
+	Type *string `form:"type" json:"type"`
+}
+
 // When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 type CheckoutSessionLineItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any positive integer. Setting to false will remove any previously specified constraints on quantity.
@@ -3848,6 +3824,8 @@ type CheckoutSessionParams struct {
 	IntegrationIdentifier *string `form:"integration_identifier" json:"integration_identifier,omitempty"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *CheckoutSessionInvoiceCreationParams `form:"invoice_creation" json:"invoice_creation,omitempty"`
+	// A list of items the customer will purchase.
+	Items []*CheckoutSessionItemParams `form:"items" json:"items,omitempty"`
 	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
 	//
 	// For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
@@ -4441,6 +4419,12 @@ type CheckoutSessionCreateInvoiceCreationParams struct {
 	Enabled *bool `form:"enabled" json:"enabled"`
 	// Parameters passed when creating invoices for payment-mode Checkout Sessions.
 	InvoiceData *CheckoutSessionCreateInvoiceCreationInvoiceDataParams `form:"invoice_data" json:"invoice_data,omitempty"`
+}
+
+// A list of items the customer will purchase.
+type CheckoutSessionCreateItemParams struct {
+	// The type of item.
+	Type *string `form:"type" json:"type"`
 }
 
 // When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
@@ -6121,6 +6105,8 @@ type CheckoutSessionCreateParams struct {
 	IntegrationIdentifier *string `form:"integration_identifier" json:"integration_identifier,omitempty"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *CheckoutSessionCreateInvoiceCreationParams `form:"invoice_creation" json:"invoice_creation,omitempty"`
+	// A list of items the customer will purchase.
+	Items []*CheckoutSessionCreateItemParams `form:"items" json:"items,omitempty"`
 	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices). The parameter is required for `payment` and `subscription` mode.
 	//
 	// For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
@@ -6864,8 +6850,6 @@ type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWallet struct {
 	Type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType `json:"type"`
 }
 type CheckoutSessionCurrentAttemptPaymentMethodDetailsCard struct {
-	// The brand of the card, accounting for customer's brand choice on dual-branded cards.
-	Brand CheckoutSessionCurrentAttemptPaymentMethodDetailsCardBrand `json:"brand"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// Two-digit number representing the card's expiration month.

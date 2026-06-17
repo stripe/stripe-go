@@ -169,6 +169,8 @@ type GiftCard struct {
 	ExpMonth int64 `json:"exp_month"`
 	// The expiration year of the gift card.
 	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies this particular gift card number. You can use this attribute to check whether two gift cards are the same.
+	Fingerprint string `json:"fingerprint"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The last four digits of the gift card number.

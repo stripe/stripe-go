@@ -446,6 +446,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeStripeBalance    ConfirmationTokenPaymentMethodPreviewType = "stripe_balance"
 	ConfirmationTokenPaymentMethodPreviewTypeSunbit           ConfirmationTokenPaymentMethodPreviewType = "sunbit"
 	ConfirmationTokenPaymentMethodPreviewTypeSwish            ConfirmationTokenPaymentMethodPreviewType = "swish"
+	ConfirmationTokenPaymentMethodPreviewTypeTamara           ConfirmationTokenPaymentMethodPreviewType = "tamara"
 	ConfirmationTokenPaymentMethodPreviewTypeTWINT            ConfirmationTokenPaymentMethodPreviewType = "twint"
 	ConfirmationTokenPaymentMethodPreviewTypeUpi              ConfirmationTokenPaymentMethodPreviewType = "upi"
 	ConfirmationTokenPaymentMethodPreviewTypeUSBankAccount    ConfirmationTokenPaymentMethodPreviewType = "us_bank_account"
@@ -968,8 +969,6 @@ type ConfirmationTokenPaymentMethodPreviewGiftCard struct {
 	ExpYear int64 `json:"exp_year"`
 	// Uniquely identifies the gift card.
 	Fingerprint string `json:"fingerprint,omitempty"`
-	// The first six digits of the gift card number.
-	First6 string `json:"first6"`
 	// The last four digits of the gift card number.
 	Last4 string `json:"last4"`
 }
@@ -1164,6 +1163,7 @@ type ConfirmationTokenPaymentMethodPreviewStripeBalance struct {
 }
 type ConfirmationTokenPaymentMethodPreviewSunbit struct{}
 type ConfirmationTokenPaymentMethodPreviewSwish struct{}
+type ConfirmationTokenPaymentMethodPreviewTamara struct{}
 type ConfirmationTokenPaymentMethodPreviewTWINT struct{}
 type ConfirmationTokenPaymentMethodPreviewUpi struct {
 	// Customer's unique Virtual Payment Address
@@ -1280,6 +1280,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	StripeBalance   *ConfirmationTokenPaymentMethodPreviewStripeBalance   `json:"stripe_balance,omitempty"`
 	Sunbit          *ConfirmationTokenPaymentMethodPreviewSunbit          `json:"sunbit,omitempty"`
 	Swish           *ConfirmationTokenPaymentMethodPreviewSwish           `json:"swish,omitempty"`
+	Tamara          *ConfirmationTokenPaymentMethodPreviewTamara          `json:"tamara,omitempty"`
 	TWINT           *ConfirmationTokenPaymentMethodPreviewTWINT           `json:"twint,omitempty"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          ConfirmationTokenPaymentMethodPreviewType           `json:"type"`

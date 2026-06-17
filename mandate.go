@@ -68,6 +68,15 @@ const (
 	MandatePaymentMethodDetailsBACSDebitRevocationReasonDebitNotAuthorized    MandatePaymentMethodDetailsBACSDebitRevocationReason = "debit_not_authorized"
 )
 
+// Type of the mandate.
+type MandatePaymentMethodDetailsBLIKType string
+
+// List of values that MandatePaymentMethodDetailsBLIKType can take
+const (
+	MandatePaymentMethodDetailsBLIKTypeOffSession MandatePaymentMethodDetailsBLIKType = "off_session"
+	MandatePaymentMethodDetailsBLIKTypeOnSession  MandatePaymentMethodDetailsBLIKType = "on_session"
+)
+
 // The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
 type MandatePaymentMethodDetailsPaytoAmountType string
 
@@ -282,6 +291,12 @@ type MandatePaymentMethodDetailsBACSDebit struct {
 	// The URL that will contain the mandate that the customer has signed.
 	URL string `json:"url"`
 }
+type MandatePaymentMethodDetailsBLIK struct {
+	// Date at which the mandate expires.
+	ExpiresAfter int64 `json:"expires_after"`
+	// Type of the mandate.
+	Type MandatePaymentMethodDetailsBLIKType `json:"type"`
+}
 type MandatePaymentMethodDetailsCard struct{}
 type MandatePaymentMethodDetailsCashApp struct{}
 type MandatePaymentMethodDetailsKakaoPay struct{}
@@ -358,6 +373,7 @@ type MandatePaymentMethodDetails struct {
 	AmazonPay     *MandatePaymentMethodDetailsAmazonPay     `json:"amazon_pay,omitempty"`
 	AUBECSDebit   *MandatePaymentMethodDetailsAUBECSDebit   `json:"au_becs_debit,omitempty"`
 	BACSDebit     *MandatePaymentMethodDetailsBACSDebit     `json:"bacs_debit,omitempty"`
+	BLIK          *MandatePaymentMethodDetailsBLIK          `json:"blik,omitempty"`
 	Card          *MandatePaymentMethodDetailsCard          `json:"card,omitempty"`
 	CashApp       *MandatePaymentMethodDetailsCashApp       `json:"cashapp,omitempty"`
 	KakaoPay      *MandatePaymentMethodDetailsKakaoPay      `json:"kakao_pay,omitempty"`

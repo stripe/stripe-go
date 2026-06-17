@@ -41,6 +41,26 @@ const (
 	RadarCustomerEvaluationSignalsMultiAccountingRiskLevelUnknown     RadarCustomerEvaluationSignalsMultiAccountingRiskLevel = "unknown"
 )
 
+// Retrieves an CustomerEvaluation object.
+type RadarCustomerEvaluationParams struct {
+	Params `form:"*"`
+	// The ID of a Customer to attach to an entity-less registration evaluation.
+	Customer *string `form:"customer" json:"customer,omitempty"`
+	// Array of context entries for the evaluation.
+	EvaluationContext []*RadarCustomerEvaluationEvaluationContextParams `form:"evaluation_context" json:"evaluation_context,omitempty"`
+	// The type of evaluation event.
+	EventType *string `form:"event_type" json:"event_type,omitempty"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// The outcome status of the evaluation: allowed, restricted, or blocked.
+	Status *string `form:"status" json:"status,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *RadarCustomerEvaluationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Raw client metadata fallback in case a Radar Session is unavailable.
 type RadarCustomerEvaluationEvaluationContextClientDetailsDataParams struct {
 	// The end user's IP address. Used for proxy detection and IP-clustering signals.
@@ -87,23 +107,15 @@ type RadarCustomerEvaluationEvaluationContextParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Creates a new CustomerEvaluation object.
-type RadarCustomerEvaluationParams struct {
+// Retrieves an CustomerEvaluation object.
+type RadarCustomerEvaluationRetrieveParams struct {
 	Params `form:"*"`
-	// The ID of a Customer to attach to an entity-less registration evaluation.
-	Customer *string `form:"customer" json:"customer,omitempty"`
-	// Array of context entries for the evaluation.
-	EvaluationContext []*RadarCustomerEvaluationEvaluationContextParams `form:"evaluation_context" json:"evaluation_context,omitempty"`
-	// The type of evaluation event.
-	EventType *string `form:"event_type" json:"event_type,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// The outcome status of the evaluation: allowed, restricted, or blocked.
-	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *RadarCustomerEvaluationParams) AddExpand(f string) {
+func (p *RadarCustomerEvaluationRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

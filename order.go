@@ -397,9 +397,10 @@ type OrderPaymentSettingsPaymentMethodOptionsWeChatPayClient string
 
 // List of values that OrderPaymentSettingsPaymentMethodOptionsWeChatPayClient can take
 const (
-	OrderPaymentSettingsPaymentMethodOptionsWeChatPayClientAndroid OrderPaymentSettingsPaymentMethodOptionsWeChatPayClient = "android"
-	OrderPaymentSettingsPaymentMethodOptionsWeChatPayClientIOS     OrderPaymentSettingsPaymentMethodOptionsWeChatPayClient = "ios"
-	OrderPaymentSettingsPaymentMethodOptionsWeChatPayClientWeb     OrderPaymentSettingsPaymentMethodOptionsWeChatPayClient = "web"
+	OrderPaymentSettingsPaymentMethodOptionsWeChatPayClientAndroid     OrderPaymentSettingsPaymentMethodOptionsWeChatPayClient = "android"
+	OrderPaymentSettingsPaymentMethodOptionsWeChatPayClientIOS         OrderPaymentSettingsPaymentMethodOptionsWeChatPayClient = "ios"
+	OrderPaymentSettingsPaymentMethodOptionsWeChatPayClientMiniProgram OrderPaymentSettingsPaymentMethodOptionsWeChatPayClient = "mini_program"
+	OrderPaymentSettingsPaymentMethodOptionsWeChatPayClientWeb         OrderPaymentSettingsPaymentMethodOptionsWeChatPayClient = "web"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1920,6 +1921,8 @@ func (p *OrderPaymentSettingsPaymentMethodOptionsSofortParams) AddUnsetField(fie
 type OrderPaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID *string `form:"app_id" json:"app_id,omitempty"`
+	// The unique buyer ID for the app ID registered with WeChat Pay. Only required when client is mini_program.
+	BuyerID *string `form:"buyer_id" json:"buyer_id,omitempty"`
 	// The client type that the end customer will pay from
 	Client *string `form:"client" json:"client,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -3505,6 +3508,8 @@ func (p *OrderCreatePaymentSettingsPaymentMethodOptionsSofortParams) AddUnsetFie
 type OrderCreatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID *string `form:"app_id" json:"app_id,omitempty"`
+	// The unique buyer ID for the app ID registered with WeChat Pay. Only required when client is mini_program.
+	BuyerID *string `form:"buyer_id" json:"buyer_id,omitempty"`
 	// The client type that the end customer will pay from
 	Client *string `form:"client" json:"client,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -5046,6 +5051,8 @@ func (p *OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParams) AddUnsetFie
 type OrderUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID *string `form:"app_id" json:"app_id,omitempty"`
+	// The unique buyer ID for the app ID registered with WeChat Pay. Only required when client is mini_program.
+	BuyerID *string `form:"buyer_id" json:"buyer_id,omitempty"`
 	// The client type that the end customer will pay from
 	Client *string `form:"client" json:"client,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -5625,6 +5632,8 @@ type OrderPaymentSettingsPaymentMethodOptionsSofort struct {
 type OrderPaymentSettingsPaymentMethodOptionsWeChatPay struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID string `json:"app_id"`
+	// The unique buyer ID for the app ID registered with WeChat Pay. Only required when client is mini_program.
+	BuyerID string `json:"buyer_id,omitempty"`
 	// The client type that the end customer will pay from
 	Client OrderPaymentSettingsPaymentMethodOptionsWeChatPayClient `json:"client"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
