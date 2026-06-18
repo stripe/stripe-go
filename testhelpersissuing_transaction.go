@@ -46,6 +46,12 @@ type TestHelpersIssuingTransactionCreateForceCaptureMerchantDataParams struct {
 	URL *string `form:"url" json:"url,omitempty"`
 }
 
+// Details about the transaction, such as processing dates, set by the card network.
+type TestHelpersIssuingTransactionCreateForceCaptureNetworkDataParams struct {
+	// Optional. A test value to populate network_data.acquirer_reference_number on the resulting Issuing Transaction. Must contain only digits and be at most 23 characters long. This value is intended only for integration validation in testmode and does not need to correspond to a real network-assigned acquirer reference number.
+	AcquirerReferenceNumber *string `form:"acquirer_reference_number" json:"acquirer_reference_number,omitempty"`
+}
+
 // Answers to prompts presented to the cardholder at the point of sale. Prompted fields vary depending on the configuration of your physical fleet cards. Typical points of sale support only numeric entry.
 type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetCardholderPromptDataParams struct {
 	// Driver ID.
@@ -191,6 +197,8 @@ type TestHelpersIssuingTransactionCreateForceCaptureParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 	MerchantData *TestHelpersIssuingTransactionCreateForceCaptureMerchantDataParams `form:"merchant_data" json:"merchant_data,omitempty"`
+	// Details about the transaction, such as processing dates, set by the card network.
+	NetworkData *TestHelpersIssuingTransactionCreateForceCaptureNetworkDataParams `form:"network_data" json:"network_data,omitempty"`
 	// Additional purchase information that is optionally provided by the merchant.
 	PurchaseDetails *TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsParams `form:"purchase_details" json:"purchase_details,omitempty"`
 }
