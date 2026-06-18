@@ -19,6 +19,15 @@ const (
 	V2CommerceProductCatalogImportFeedTypePromotion V2CommerceProductCatalogImportFeedType = "promotion"
 )
 
+// The import strategy for handling existing catalog data.
+type V2CommerceProductCatalogImportMode string
+
+// List of values that V2CommerceProductCatalogImportMode can take
+const (
+	V2CommerceProductCatalogImportModeReplace V2CommerceProductCatalogImportMode = "replace"
+	V2CommerceProductCatalogImportModeUpsert  V2CommerceProductCatalogImportMode = "upsert"
+)
+
 // The current status of this ProductCatalogImport.
 type V2CommerceProductCatalogImportStatus string
 
@@ -157,6 +166,8 @@ type V2CommerceProductCatalogImport struct {
 	Livemode bool `json:"livemode"`
 	// Additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
+	// The import strategy for handling existing catalog data.
+	Mode V2CommerceProductCatalogImportMode `json:"mode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The current status of this ProductCatalogImport.

@@ -75,6 +75,7 @@ type V2MoneyManagementOutboundPaymentStatusDetailsFailedReason string
 
 // List of values that V2MoneyManagementOutboundPaymentStatusDetailsFailedReason can take
 const (
+	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonFxRateDriftExceededAfterReview          V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "fx_rate_drift_exceeded_after_review"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPaperCheckAttachmentTooLarge            V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "paper_check_attachment_too_large"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPaperCheckExpired                       V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "paper_check_expired"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPaperCheckUndeliverable                 V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "paper_check_undeliverable"
@@ -84,7 +85,16 @@ const (
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodExpired                     V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_expired"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodUnsupported                 V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_unsupported"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodUsageFrequencyLimitExceeded V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_usage_frequency_limit_exceeded"
+	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonReviewRejected                          V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "review_rejected"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonUnknownFailure                          V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "unknown_failure"
+)
+
+// Open Enum. The `processing` status reason.
+type V2MoneyManagementOutboundPaymentStatusDetailsProcessingReason string
+
+// List of values that V2MoneyManagementOutboundPaymentStatusDetailsProcessingReason can take
+const (
+	V2MoneyManagementOutboundPaymentStatusDetailsProcessingReasonUnderReview V2MoneyManagementOutboundPaymentStatusDetailsProcessingReason = "under_review"
 )
 
 // Open Enum. The `returned` status reason.
@@ -103,6 +113,40 @@ const (
 	V2MoneyManagementOutboundPaymentStatusDetailsReturnedReasonPayoutMethodRestricted             V2MoneyManagementOutboundPaymentStatusDetailsReturnedReason = "payout_method_restricted"
 	V2MoneyManagementOutboundPaymentStatusDetailsReturnedReasonRecalled                           V2MoneyManagementOutboundPaymentStatusDetailsReturnedReason = "recalled"
 	V2MoneyManagementOutboundPaymentStatusDetailsReturnedReasonUnknownFailure                     V2MoneyManagementOutboundPaymentStatusDetailsReturnedReason = "unknown_failure"
+)
+
+// Open Enum. ACH submission timing.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission string
+
+// List of values that V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission can take
+const (
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmissionNextDay V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission = "next_day"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmissionSameDay V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission = "same_day"
+)
+
+// The transaction purpose for this ACH payment.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurpose string
+
+// List of values that V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurpose can take
+const (
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurposePayroll V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurpose = "payroll"
+)
+
+// The preferred networks to use for this OutboundPayment.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork string
+
+// List of values that V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork can take
+const (
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkACH         V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "ach"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkBECS        V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "becs"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkEft         V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "eft"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkFedwire     V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "fedwire"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkFPS         V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "fps"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkNpp         V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "npp"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkRTP         V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "rtp"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkSEPACredit  V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_credit"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkSEPAInstant V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_instant"
+	V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkSwift       V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
 )
 
 // Possible values are `pending`, `supported`, and `unsupported`. Initially set to `pending`, it changes to
@@ -139,6 +183,8 @@ const (
 
 // Delivery options for paper check.
 type V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheck struct {
+	// The ID of a file to include as an attachment with the paper check.
+	Attachment string `json:"attachment,omitempty"`
 	// Memo printed on the memo field of the check.
 	Memo string `json:"memo"`
 	// Open Enum. Shipping speed of the paper check.
@@ -178,16 +224,24 @@ type V2MoneyManagementOutboundPaymentStatusDetailsFailed struct {
 	Reason V2MoneyManagementOutboundPaymentStatusDetailsFailedReason `json:"reason"`
 }
 
+// The `processing` status details.
+type V2MoneyManagementOutboundPaymentStatusDetailsProcessing struct {
+	// Open Enum. The `processing` status reason.
+	Reason V2MoneyManagementOutboundPaymentStatusDetailsProcessingReason `json:"reason"`
+}
+
 // The `returned` status reason.
 type V2MoneyManagementOutboundPaymentStatusDetailsReturned struct {
 	// Open Enum. The `returned` status reason.
 	Reason V2MoneyManagementOutboundPaymentStatusDetailsReturnedReason `json:"reason"`
 }
 
-// Status details for an OutboundPayment in a `failed` or `returned` state.
+// Status details for an OutboundPayment in a `processing`, `failed`, or `returned` state.
 type V2MoneyManagementOutboundPaymentStatusDetails struct {
 	// The `failed` status reason.
 	Failed *V2MoneyManagementOutboundPaymentStatusDetailsFailed `json:"failed,omitempty"`
+	// The `processing` status details.
+	Processing *V2MoneyManagementOutboundPaymentStatusDetailsProcessing `json:"processing,omitempty"`
 	// The `returned` status reason.
 	Returned *V2MoneyManagementOutboundPaymentStatusDetailsReturned `json:"returned,omitempty"`
 }
@@ -208,12 +262,42 @@ type V2MoneyManagementOutboundPaymentStatusTransitions struct {
 	ReturnedAt time.Time `json:"returned_at,omitempty"`
 }
 
+// ACH-specific network options.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACH struct {
+	// Open Enum. ACH submission timing.
+	Submission V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission `json:"submission,omitempty"`
+	// The transaction purpose for this ACH payment.
+	TransactionPurpose V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurpose `json:"transaction_purpose,omitempty"`
+}
+
+// Per-network configuration options.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptions struct {
+	// ACH-specific network options.
+	ACH *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACH `json:"ach,omitempty"`
+}
+
+// Options for bank account payout methods.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccount struct {
+	// Per-network configuration options.
+	PreferredNetworkOptions *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptions `json:"preferred_network_options,omitempty"`
+	// The preferred networks to use for this OutboundPayment.
+	PreferredNetworks []V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetwork `json:"preferred_networks"`
+}
+
+// Payout method options for the OutboundPayment.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptions struct {
+	// Options for bank account payout methods.
+	BankAccount *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccount `json:"bank_account,omitempty"`
+}
+
 // To which payout method the OutboundPayment was sent.
 type V2MoneyManagementOutboundPaymentTo struct {
 	// The monetary amount being credited to the destination.
 	Credited Amount `json:"credited"`
 	// The payout method which the OutboundPayment uses to send payout.
 	PayoutMethod string `json:"payout_method"`
+	// Payout method options for the OutboundPayment.
+	PayoutMethodOptions *V2MoneyManagementOutboundPaymentToPayoutMethodOptions `json:"payout_method_options,omitempty"`
 	// To which account the OutboundPayment is sent.
 	Recipient string `json:"recipient"`
 }
@@ -297,7 +381,7 @@ type V2MoneyManagementOutboundPayment struct {
 	// The status changes to `posted` once the OutboundPayment has been "confirmed" and funds have left the account, or to `failed` or `canceled`.
 	// If an OutboundPayment fails to arrive at its payout method, its status will change to `returned`.
 	Status V2MoneyManagementOutboundPaymentStatus `json:"status"`
-	// Status details for an OutboundPayment in a `failed` or `returned` state.
+	// Status details for an OutboundPayment in a `processing`, `failed`, or `returned` state.
 	StatusDetails *V2MoneyManagementOutboundPaymentStatusDetails `json:"status_details,omitempty"`
 	// Hash containing timestamps of when the object transitioned to a particular status.
 	StatusTransitions *V2MoneyManagementOutboundPaymentStatusTransitions `json:"status_transitions,omitempty"`

@@ -247,6 +247,8 @@ import (
 	v2coreeventdestination "github.com/stripe/stripe-go/v86/v2/core/eventdestination"
 	v2corefeebatch "github.com/stripe/stripe-go/v86/v2/core/feebatch"
 	v2corefeeentry "github.com/stripe/stripe-go/v86/v2/core/feeentry"
+	v2corehealthalert "github.com/stripe/stripe-go/v86/v2/core/health/alert"
+	v2corehealthalertshistory "github.com/stripe/stripe-go/v86/v2/core/health/alerts/history"
 	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v86/v2/core/vault/gbbankaccount"
 	v2corevaultusbankaccount "github.com/stripe/stripe-go/v86/v2/core/vault/usbankaccount"
 	v2dataanalyticsmetricquery "github.com/stripe/stripe-go/v86/v2/data/analytics/metricquery"
@@ -266,11 +268,13 @@ import (
 	v2moneymanagementoutboundpaymentquote "github.com/stripe/stripe-go/v86/v2/moneymanagement/outboundpaymentquote"
 	v2moneymanagementoutboundsetupintent "github.com/stripe/stripe-go/v86/v2/moneymanagement/outboundsetupintent"
 	v2moneymanagementoutboundtransfer "github.com/stripe/stripe-go/v86/v2/moneymanagement/outboundtransfer"
+	v2moneymanagementpayoutintent "github.com/stripe/stripe-go/v86/v2/moneymanagement/payoutintent"
 	v2moneymanagementpayoutmethod "github.com/stripe/stripe-go/v86/v2/moneymanagement/payoutmethod"
 	v2moneymanagementpayoutmethodsbankaccountspec "github.com/stripe/stripe-go/v86/v2/moneymanagement/payoutmethodsbankaccountspec"
 	v2moneymanagementreceivedcredit "github.com/stripe/stripe-go/v86/v2/moneymanagement/receivedcredit"
 	v2moneymanagementreceiveddebit "github.com/stripe/stripe-go/v86/v2/moneymanagement/receiveddebit"
 	v2moneymanagementrecipientverification "github.com/stripe/stripe-go/v86/v2/moneymanagement/recipientverification"
+	v2moneymanagementtesthelpersfinancialaddress "github.com/stripe/stripe-go/v86/v2/moneymanagement/testhelpers/financialaddress"
 	v2moneymanagementtransaction "github.com/stripe/stripe-go/v86/v2/moneymanagement/transaction"
 	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v86/v2/moneymanagement/transactionentry"
 	v2networkbusinessprofile "github.com/stripe/stripe-go/v86/v2/network/businessprofile"
@@ -761,6 +765,10 @@ type API struct {
 	V2CoreFeeBatches *v2corefeebatch.Client
 	// V2CoreFeeEntries is the client used to invoke /v2/core/fee_entries APIs.
 	V2CoreFeeEntries *v2corefeeentry.Client
+	// V2CoreHealthAlerts is the client used to invoke /v2/core/health/alerts APIs.
+	V2CoreHealthAlerts *v2corehealthalert.Client
+	// V2CoreHealthAlertsHistories is the client used to invoke /v2/core/health/alerts/{id}/history APIs.
+	V2CoreHealthAlertsHistories *v2corehealthalertshistory.Client
 	// V2CoreVaultGBBankAccounts is the client used to invoke /v2/core/vault/gb_bank_accounts APIs.
 	V2CoreVaultGBBankAccounts *v2corevaultgbbankaccount.Client
 	// V2CoreVaultUSBankAccounts is the client used to invoke /v2/core/vault/us_bank_accounts APIs.
@@ -799,6 +807,8 @@ type API struct {
 	V2MoneyManagementOutboundSetupIntents *v2moneymanagementoutboundsetupintent.Client
 	// V2MoneyManagementOutboundTransfers is the client used to invoke /v2/money_management/outbound_transfers APIs.
 	V2MoneyManagementOutboundTransfers *v2moneymanagementoutboundtransfer.Client
+	// V2MoneyManagementPayoutIntents is the client used to invoke /v2/money_management/payout_intents APIs.
+	V2MoneyManagementPayoutIntents *v2moneymanagementpayoutintent.Client
 	// V2MoneyManagementPayoutMethods is the client used to invoke /v2/money_management/payout_methods APIs.
 	V2MoneyManagementPayoutMethods *v2moneymanagementpayoutmethod.Client
 	// V2MoneyManagementPayoutMethodsBankAccountSpecs is the client used to invoke payoutmethodsbankaccountspec related APIs.
@@ -809,6 +819,8 @@ type API struct {
 	V2MoneyManagementReceivedDebits *v2moneymanagementreceiveddebit.Client
 	// V2MoneyManagementRecipientVerifications is the client used to invoke /v2/money_management/recipient_verifications APIs.
 	V2MoneyManagementRecipientVerifications *v2moneymanagementrecipientverification.Client
+	// V2MoneyManagementTestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
+	V2MoneyManagementTestHelpersFinancialAddresses *v2moneymanagementtesthelpersfinancialaddress.Client
 	// V2MoneyManagementTransactionEntries is the client used to invoke /v2/money_management/transaction_entries APIs.
 	V2MoneyManagementTransactionEntries *v2moneymanagementtransactionentry.Client
 	// V2MoneyManagementTransactions is the client used to invoke /v2/money_management/transactions APIs.
@@ -1087,6 +1099,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
 	a.V2CoreFeeBatches = &v2corefeebatch.Client{B: backends.API, Key: key}
 	a.V2CoreFeeEntries = &v2corefeeentry.Client{B: backends.API, Key: key}
+	a.V2CoreHealthAlerts = &v2corehealthalert.Client{B: backends.API, Key: key}
+	a.V2CoreHealthAlertsHistories = &v2corehealthalertshistory.Client{B: backends.API, Key: key}
 	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}
 	a.V2CoreVaultUSBankAccounts = &v2corevaultusbankaccount.Client{B: backends.API, Key: key}
 	a.V2DataAnalyticsMetricQueries = &v2dataanalyticsmetricquery.Client{B: backends.API, Key: key}
@@ -1106,11 +1120,13 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementOutboundPayments = &v2moneymanagementoutboundpayment.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementOutboundSetupIntents = &v2moneymanagementoutboundsetupintent.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementOutboundTransfers = &v2moneymanagementoutboundtransfer.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementPayoutIntents = &v2moneymanagementpayoutintent.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementPayoutMethods = &v2moneymanagementpayoutmethod.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2moneymanagementpayoutmethodsbankaccountspec.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementReceivedCredits = &v2moneymanagementreceivedcredit.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementReceivedDebits = &v2moneymanagementreceiveddebit.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementRecipientVerifications = &v2moneymanagementrecipientverification.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementTestHelpersFinancialAddresses = &v2moneymanagementtesthelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
 	a.V2NetworkBusinessProfiles = &v2networkbusinessprofile.Client{B: backends.API, Key: key}

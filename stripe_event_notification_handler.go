@@ -1429,6 +1429,18 @@ func (h *EventNotificationHandler) OnV2CoreAccountIncludingConfigurationMerchant
 		h, "v2.core.account[configuration.merchant].updated", callback)
 }
 
+// OnV2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdated registers a callback to handle notifications about the "v2.core.account[configuration.money_manager].capability_status_updated" event.
+func (h *EventNotificationHandler) OnV2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdated(callback func(ctx context.Context, notif *V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.account[configuration.money_manager].capability_status_updated", callback)
+}
+
+// OnV2CoreAccountIncludingConfigurationMoneyManagerUpdated registers a callback to handle notifications about the "v2.core.account[configuration.money_manager].updated" event.
+func (h *EventNotificationHandler) OnV2CoreAccountIncludingConfigurationMoneyManagerUpdated(callback func(ctx context.Context, notif *V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.core.account[configuration.money_manager].updated", callback)
+}
+
 // OnV2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdated registers a callback to handle notifications about the "v2.core.account[configuration.recipient].capability_status_updated" event.
 func (h *EventNotificationHandler) OnV2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdated(callback func(ctx context.Context, notif *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
@@ -1439,18 +1451,6 @@ func (h *EventNotificationHandler) OnV2CoreAccountIncludingConfigurationRecipien
 func (h *EventNotificationHandler) OnV2CoreAccountIncludingConfigurationRecipientUpdated(callback func(ctx context.Context, notif *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.core.account[configuration.recipient].updated", callback)
-}
-
-// OnV2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdated registers a callback to handle notifications about the "v2.core.account[configuration.storer].capability_status_updated" event.
-func (h *EventNotificationHandler) OnV2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdated(callback func(ctx context.Context, notif *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification, client *Client) error) error {
-	return registerTypedHandler(
-		h, "v2.core.account[configuration.storer].capability_status_updated", callback)
-}
-
-// OnV2CoreAccountIncludingConfigurationStorerUpdated registers a callback to handle notifications about the "v2.core.account[configuration.storer].updated" event.
-func (h *EventNotificationHandler) OnV2CoreAccountIncludingConfigurationStorerUpdated(callback func(ctx context.Context, notif *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification, client *Client) error) error {
-	return registerTypedHandler(
-		h, "v2.core.account[configuration.storer].updated", callback)
 }
 
 // OnV2CoreAccountIncludingDefaultsUpdated registers a callback to handle notifications about the "v2.core.account[defaults].updated" event.
@@ -1883,6 +1883,24 @@ func (h *EventNotificationHandler) OnV2MoneyManagementAdjustmentCreated(callback
 		h, "v2.money_management.adjustment.created", callback)
 }
 
+// OnV2MoneyManagementDebitDisputeFailed registers a callback to handle notifications about the "v2.money_management.debit_dispute.failed" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementDebitDisputeFailed(callback func(ctx context.Context, notif *V2MoneyManagementDebitDisputeFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.debit_dispute.failed", callback)
+}
+
+// OnV2MoneyManagementDebitDisputeSubmitted registers a callback to handle notifications about the "v2.money_management.debit_dispute.submitted" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementDebitDisputeSubmitted(callback func(ctx context.Context, notif *V2MoneyManagementDebitDisputeSubmittedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.debit_dispute.submitted", callback)
+}
+
+// OnV2MoneyManagementDebitDisputeSucceeded registers a callback to handle notifications about the "v2.money_management.debit_dispute.succeeded" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementDebitDisputeSucceeded(callback func(ctx context.Context, notif *V2MoneyManagementDebitDisputeSucceededEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.debit_dispute.succeeded", callback)
+}
+
 // OnV2MoneyManagementFinancialAccountCreated registers a callback to handle notifications about the "v2.money_management.financial_account.created" event.
 func (h *EventNotificationHandler) OnV2MoneyManagementFinancialAccountCreated(callback func(ctx context.Context, notif *V2MoneyManagementFinancialAccountCreatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
@@ -1985,6 +2003,12 @@ func (h *EventNotificationHandler) OnV2MoneyManagementOutboundPaymentReturned(ca
 		h, "v2.money_management.outbound_payment.returned", callback)
 }
 
+// OnV2MoneyManagementOutboundPaymentUnderReview registers a callback to handle notifications about the "v2.money_management.outbound_payment.under_review" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementOutboundPaymentUnderReview(callback func(ctx context.Context, notif *V2MoneyManagementOutboundPaymentUnderReviewEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.outbound_payment.under_review", callback)
+}
+
 // OnV2MoneyManagementOutboundPaymentUpdated registers a callback to handle notifications about the "v2.money_management.outbound_payment.updated" event.
 func (h *EventNotificationHandler) OnV2MoneyManagementOutboundPaymentUpdated(callback func(ctx context.Context, notif *V2MoneyManagementOutboundPaymentUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
@@ -2019,6 +2043,12 @@ func (h *EventNotificationHandler) OnV2MoneyManagementOutboundTransferPosted(cal
 func (h *EventNotificationHandler) OnV2MoneyManagementOutboundTransferReturned(callback func(ctx context.Context, notif *V2MoneyManagementOutboundTransferReturnedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.money_management.outbound_transfer.returned", callback)
+}
+
+// OnV2MoneyManagementOutboundTransferUnderReview registers a callback to handle notifications about the "v2.money_management.outbound_transfer.under_review" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementOutboundTransferUnderReview(callback func(ctx context.Context, notif *V2MoneyManagementOutboundTransferUnderReviewEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.outbound_transfer.under_review", callback)
 }
 
 // OnV2MoneyManagementOutboundTransferUpdated registers a callback to handle notifications about the "v2.money_management.outbound_transfer.updated" event.

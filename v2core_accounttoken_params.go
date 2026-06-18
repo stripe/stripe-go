@@ -192,14 +192,14 @@ type V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorParams struc
 	Commercial *V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorCommercialParams `form:"commercial" json:"commercial,omitempty"`
 }
 
-// Details on the Account's acceptance of Crypto-storer-specific terms of service; IP, date, and User Agent are expanded by Stripe.
-type V2CoreAccountTokenIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
+// Details on the Account's acceptance of Crypto-specific terms of service; IP, date, and User Agent are expanded by Stripe.
+type V2CoreAccountTokenIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams struct {
 	// The boolean value indicating if the terms of service have been accepted.
 	ShownAndAccepted *bool `form:"shown_and_accepted" json:"shown_and_accepted,omitempty"`
 }
 
 // Details on the Account's acceptance of Treasury-specific terms of service; IP, date, and User Agent are expanded by Stripe.
-type V2CoreAccountTokenIdentityAttestationsTermsOfServiceStorerParams struct {
+type V2CoreAccountTokenIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 	// The boolean value indicating if the terms of service have been accepted.
 	ShownAndAccepted *bool `form:"shown_and_accepted" json:"shown_and_accepted,omitempty"`
 }
@@ -210,10 +210,10 @@ type V2CoreAccountTokenIdentityAttestationsTermsOfServiceParams struct {
 	Account *V2CoreAccountTokenIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Issuing-specific terms of service.
 	CardCreator *V2CoreAccountTokenIdentityAttestationsTermsOfServiceCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
-	// Details on the Account's acceptance of Crypto-storer-specific terms of service; IP, date, and User Agent are expanded by Stripe.
-	CryptoStorer *V2CoreAccountTokenIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
+	// Details on the Account's acceptance of Crypto-specific terms of service; IP, date, and User Agent are expanded by Stripe.
+	CryptoMoneyManager *V2CoreAccountTokenIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams `form:"crypto_money_manager" json:"crypto_money_manager,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service; IP, date, and User Agent are expanded by Stripe.
-	Storer *V2CoreAccountTokenIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
+	MoneyManager *V2CoreAccountTokenIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 }
 
 // Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
@@ -986,14 +986,14 @@ type V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorParams
 	Commercial *V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorCommercialParams `form:"commercial" json:"commercial,omitempty"`
 }
 
-// Details on the Account's acceptance of Crypto-storer-specific terms of service; IP, date, and User Agent are expanded by Stripe.
-type V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
+// Details on the Account's acceptance of Crypto-specific terms of service; IP, date, and User Agent are expanded by Stripe.
+type V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams struct {
 	// The boolean value indicating if the terms of service have been accepted.
 	ShownAndAccepted *bool `form:"shown_and_accepted" json:"shown_and_accepted,omitempty"`
 }
 
 // Details on the Account's acceptance of Treasury-specific terms of service; IP, date, and User Agent are expanded by Stripe.
-type V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceStorerParams struct {
+type V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 	// The boolean value indicating if the terms of service have been accepted.
 	ShownAndAccepted *bool `form:"shown_and_accepted" json:"shown_and_accepted,omitempty"`
 }
@@ -1004,10 +1004,10 @@ type V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceParams struct {
 	Account *V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Issuing-specific terms of service.
 	CardCreator *V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCardCreatorParams `form:"card_creator" json:"card_creator,omitempty"`
-	// Details on the Account's acceptance of Crypto-storer-specific terms of service; IP, date, and User Agent are expanded by Stripe.
-	CryptoStorer *V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
+	// Details on the Account's acceptance of Crypto-specific terms of service; IP, date, and User Agent are expanded by Stripe.
+	CryptoMoneyManager *V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams `form:"crypto_money_manager" json:"crypto_money_manager,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service; IP, date, and User Agent are expanded by Stripe.
-	Storer *V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
+	MoneyManager *V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 }
 
 // Attestations from the identity's key people, e.g. owners, executives, directors, representatives.

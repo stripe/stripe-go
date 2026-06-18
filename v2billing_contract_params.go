@@ -433,7 +433,7 @@ type V2BillingContractPricingOverrideMultiplierCriterionParams struct {
 // Parameters for a multiplier override. Required if `type` is `multiplier`.
 type V2BillingContractPricingOverrideMultiplierParams struct {
 	// Criteria determining which rates the multiplier applies to.
-	Criteria []*V2BillingContractPricingOverrideMultiplierCriterionParams `form:"criteria" json:"criteria"`
+	Criteria []*V2BillingContractPricingOverrideMultiplierCriterionParams `form:"criteria" json:"criteria,omitempty"`
 	// The multiplier factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
 	Factor *string `form:"factor" json:"factor"`
 }
@@ -1193,7 +1193,7 @@ type V2BillingContractCreatePricingOverrideMultiplierCriterionParams struct {
 // Parameters for a multiplier override. Required if `type` is `multiplier`.
 type V2BillingContractCreatePricingOverrideMultiplierParams struct {
 	// Criteria determining which rates the multiplier applies to.
-	Criteria []*V2BillingContractCreatePricingOverrideMultiplierCriterionParams `form:"criteria" json:"criteria"`
+	Criteria []*V2BillingContractCreatePricingOverrideMultiplierCriterionParams `form:"criteria" json:"criteria,omitempty"`
 	// The multiplier factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
 	Factor *string `form:"factor" json:"factor"`
 }

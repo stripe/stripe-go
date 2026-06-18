@@ -476,6 +476,10 @@ type Client struct {
 	V2CoreFeeBatches *v2CoreFeeBatchService
 	// V2CoreFeeEntries is the service used to invoke /v2/core/fee_entries APIs.
 	V2CoreFeeEntries *v2CoreFeeEntryService
+	// V2CoreHealthAlerts is the service used to invoke /v2/core/health/alerts APIs.
+	V2CoreHealthAlerts *v2CoreHealthAlertService
+	// V2CoreHealthAlertsHistories is the service used to invoke /v2/core/health/alerts/{id}/history APIs.
+	V2CoreHealthAlertsHistories *v2CoreHealthAlertsHistoryService
 	// V2CoreVaultGBBankAccounts is the service used to invoke /v2/core/vault/gb_bank_accounts APIs.
 	V2CoreVaultGBBankAccounts *v2CoreVaultGBBankAccountService
 	// V2CoreVaultUSBankAccounts is the service used to invoke /v2/core/vault/us_bank_accounts APIs.
@@ -514,6 +518,8 @@ type Client struct {
 	V2MoneyManagementOutboundSetupIntents *v2MoneyManagementOutboundSetupIntentService
 	// V2MoneyManagementOutboundTransfers is the service used to invoke /v2/money_management/outbound_transfers APIs.
 	V2MoneyManagementOutboundTransfers *v2MoneyManagementOutboundTransferService
+	// V2MoneyManagementPayoutIntents is the service used to invoke /v2/money_management/payout_intents APIs.
+	V2MoneyManagementPayoutIntents *v2MoneyManagementPayoutIntentService
 	// V2MoneyManagementPayoutMethods is the service used to invoke /v2/money_management/payout_methods APIs.
 	V2MoneyManagementPayoutMethods *v2MoneyManagementPayoutMethodService
 	// V2MoneyManagementPayoutMethodsBankAccountSpecs is the service used to invoke payoutmethodsbankaccountspec related APIs.
@@ -524,6 +530,8 @@ type Client struct {
 	V2MoneyManagementReceivedDebits *v2MoneyManagementReceivedDebitService
 	// V2MoneyManagementRecipientVerifications is the service used to invoke /v2/money_management/recipient_verifications APIs.
 	V2MoneyManagementRecipientVerifications *v2MoneyManagementRecipientVerificationService
+	// V2MoneyManagementTestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
+	V2MoneyManagementTestHelpersFinancialAddresses *v2MoneyManagementTestHelpersFinancialAddressService
 	// V2MoneyManagementTransactionEntries is the service used to invoke /v2/money_management/transaction_entries APIs.
 	V2MoneyManagementTransactionEntries *v2MoneyManagementTransactionEntryService
 	// V2MoneyManagementTransactions is the service used to invoke /v2/money_management/transactions APIs.
@@ -823,6 +831,8 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
 	client.V2CoreFeeBatches = &v2CoreFeeBatchService{B: backends.API, Key: key}
 	client.V2CoreFeeEntries = &v2CoreFeeEntryService{B: backends.API, Key: key}
+	client.V2CoreHealthAlerts = &v2CoreHealthAlertService{B: backends.API, Key: key}
+	client.V2CoreHealthAlertsHistories = &v2CoreHealthAlertsHistoryService{B: backends.API, Key: key}
 	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}
 	client.V2CoreVaultUSBankAccounts = &v2CoreVaultUSBankAccountService{B: backends.API, Key: key}
 	client.V2DataAnalyticsMetricQueries = &v2DataAnalyticsMetricQueryService{B: backends.API, Key: key}
@@ -842,11 +852,13 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementOutboundPayments = &v2MoneyManagementOutboundPaymentService{B: backends.API, Key: key}
 	client.V2MoneyManagementOutboundSetupIntents = &v2MoneyManagementOutboundSetupIntentService{B: backends.API, Key: key}
 	client.V2MoneyManagementOutboundTransfers = &v2MoneyManagementOutboundTransferService{B: backends.API, Key: key}
+	client.V2MoneyManagementPayoutIntents = &v2MoneyManagementPayoutIntentService{B: backends.API, Key: key}
 	client.V2MoneyManagementPayoutMethods = &v2MoneyManagementPayoutMethodService{B: backends.API, Key: key}
 	client.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2MoneyManagementPayoutMethodsBankAccountSpecService{B: backends.API, Key: key}
 	client.V2MoneyManagementReceivedCredits = &v2MoneyManagementReceivedCreditService{B: backends.API, Key: key}
 	client.V2MoneyManagementReceivedDebits = &v2MoneyManagementReceivedDebitService{B: backends.API, Key: key}
 	client.V2MoneyManagementRecipientVerifications = &v2MoneyManagementRecipientVerificationService{B: backends.API, Key: key}
+	client.V2MoneyManagementTestHelpersFinancialAddresses = &v2MoneyManagementTestHelpersFinancialAddressService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactionEntries = &v2MoneyManagementTransactionEntryService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
 	client.V2NetworkBusinessProfiles = &v2NetworkBusinessProfileService{B: backends.API, Key: key}
