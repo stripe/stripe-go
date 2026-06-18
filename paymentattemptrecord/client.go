@@ -94,6 +94,24 @@ func (c Client) ReportCanceled(id string, params *stripe.PaymentAttemptRecordRep
 	return paymentattemptrecord, err
 }
 
+// Report that the specified Payment Attempt Record received an early fraud warning.
+func ReportEarlyFraudWarning(id string, params *stripe.PaymentAttemptRecordReportEarlyFraudWarningParams) (*stripe.PaymentAttemptRecord, error) {
+	return getC().ReportEarlyFraudWarning(id, params)
+}
+
+// Report that the specified Payment Attempt Record received an early fraud warning.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) ReportEarlyFraudWarning(id string, params *stripe.PaymentAttemptRecordReportEarlyFraudWarningParams) (*stripe.PaymentAttemptRecord, error) {
+	path := stripe.FormatURLPath(
+		"/v1/payment_attempt_records/%s/report_early_fraud_warning", id)
+	paymentattemptrecord := &stripe.PaymentAttemptRecord{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentattemptrecord)
+	return paymentattemptrecord, err
+}
+
 // Report that the specified Payment Attempt Record failed.
 func ReportFailed(id string, params *stripe.PaymentAttemptRecordReportFailedParams) (*stripe.PaymentAttemptRecord, error) {
 	return getC().ReportFailed(id, params)

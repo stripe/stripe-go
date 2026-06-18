@@ -772,11 +772,28 @@ type V2BillingContractActivateParams struct {
 	Include []*string `form:"include" json:"include,omitempty"`
 }
 
+// Per-pricing-line proration behavior overrides. Falls back to `proration_behavior` if
+// not specified for a given line.
+type V2BillingContractCancelCancelPricingLineParams struct {
+	// The ID of the pricing line.
+	ID *string `form:"id" json:"id,omitempty"`
+	// The lookup key of the pricing line.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Proration behavior scoped to this pricing line. If not provided, falls back to the
+	// top-level `proration_behavior` on the cancel request. Defaults to `prorated`.
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
+}
+
 // Cancel a Contract object by ID.
 type V2BillingContractCancelParams struct {
 	Params `form:"*"`
+	// Per-pricing-line proration behavior overrides. Falls back to `proration_behavior` if
+	// not specified for a given line.
+	CancelPricingLines []*V2BillingContractCancelCancelPricingLineParams `form:"cancel_pricing_lines" json:"cancel_pricing_lines,omitempty"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
+	// Top-level proration behavior for the cancellation. Defaults to `prorated` if not set.
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 }
 
 // Tax calculation settings.

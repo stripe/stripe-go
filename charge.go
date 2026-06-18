@@ -4155,6 +4155,10 @@ type ChargePaymentMethodDetailsGiftCard struct {
 	First6 string `json:"first6"`
 	// The last four digits of the gift card number.
 	Last4 string `json:"last4"`
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location,omitempty"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader,omitempty"`
 	// The transaction ID from the gift card processor.
 	TransactionID string `json:"transaction_id"`
 }

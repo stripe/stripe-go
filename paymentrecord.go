@@ -643,6 +643,23 @@ func (p *PaymentRecordParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Search for PaymentRecords you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
+// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
+// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
+// to an hour behind during outages. Search functionality is not available to merchants in India.
+type PaymentRecordSearchParams struct {
+	SearchParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
+	Page *string `form:"page" json:"page,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentRecordSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Information about the custom processor used to make this payment.
 type PaymentRecordReportPaymentAttemptFailedProcessorDetailsCustomParams struct {
 	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
@@ -1057,7 +1074,7 @@ type PaymentRecordReportRefundParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The outcome of the reported refund.
-	Outcome *string `form:"outcome" json:"outcome"`
+	Outcome *string `form:"outcome" json:"outcome,omitempty"`
 	// Processor information for this refund.
 	ProcessorDetails *PaymentRecordReportRefundProcessorDetailsParams `form:"processor_details" json:"processor_details"`
 	// Information about the payment attempt refund.
@@ -1833,6 +1850,10 @@ type PaymentRecordPaymentMethodDetailsGiftCard struct {
 	First6 string `json:"first6"`
 	// The last four digits of the gift card number.
 	Last4 string `json:"last4"`
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location,omitempty"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader,omitempty"`
 	// The transaction ID from the gift card processor.
 	TransactionID string `json:"transaction_id"`
 }
@@ -2471,6 +2492,13 @@ type PaymentRecord struct {
 	ReportedBy PaymentRecordReportedBy `json:"reported_by"`
 	// Shipping information for this payment.
 	ShippingDetails *PaymentRecordShippingDetails `json:"shipping_details"`
+}
+
+// PaymentRecordSearchResult is a list of PaymentRecord search results as retrieved from a search endpoint.
+type PaymentRecordSearchResult struct {
+	APIResource
+	SearchMeta
+	Data []*PaymentRecord `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a PaymentRecord.

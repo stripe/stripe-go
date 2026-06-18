@@ -24,11 +24,6 @@ const (
 	TaxTransactionLineItemTypeTransaction TaxTransactionLineItemType = "transaction"
 )
 
-// The address of the location where this line item's event or service takes place. Depending on the [tax code](https://docs.stripe.com/tax/tax-codes), providing a performance location is required, optional, or not supported. Use this to provide the address inline without pre-creating a [TaxLocation](https://docs.stripe.com/api/tax/location) object. Can't be used with `performance_location`.
-type TaxTransactionLineItemPerformanceLocationDetails struct {
-	Address *Address `json:"address"`
-}
-
 // If `type=reversal`, contains information about what was reversed.
 type TaxTransactionLineItemReversal struct {
 	// The `id` of the line item to reverse in the original transaction.
@@ -47,8 +42,6 @@ type TaxTransactionLineItem struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The address of the location where this line item's event or service takes place. Depending on the [tax code](https://docs.stripe.com/tax/tax-codes), providing a performance location is required, optional, or not supported. Use this to provide the address inline without pre-creating a [TaxLocation](https://docs.stripe.com/api/tax/location) object. Can't be used with `performance_location`.
-	PerformanceLocationDetails *TaxTransactionLineItemPerformanceLocationDetails `json:"performance_location_details,omitempty"`
 	// The ID of an existing [Product](https://docs.stripe.com/api/products/object).
 	Product string `json:"product"`
 	// The number of units of the item being purchased. For reversals, this is the quantity reversed.

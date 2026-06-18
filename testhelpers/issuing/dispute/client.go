@@ -39,6 +39,24 @@ func (c Client) Close(id string, params *stripe.TestHelpersIssuingDisputeClosePa
 	return dispute, err
 }
 
+// Test helper: overrides the grant_deadline and revocable_after timestamps on a test-mode Issuing dispute's provisional credit, allowing tests to simulate timer-driven status transitions without waiting for real regulatory deadlines to pass.
+func ProvisionalCredit(id string, params *stripe.TestHelpersIssuingDisputeProvisionalCreditParams) (*stripe.IssuingDispute, error) {
+	return getC().ProvisionalCredit(id, params)
+}
+
+// Test helper: overrides the grant_deadline and revocable_after timestamps on a test-mode Issuing dispute's provisional credit, allowing tests to simulate timer-driven status transitions without waiting for real regulatory deadlines to pass.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) ProvisionalCredit(id string, params *stripe.TestHelpersIssuingDisputeProvisionalCreditParams) (*stripe.IssuingDispute, error) {
+	path := stripe.FormatURLPath(
+		"/v1/test_helpers/issuing/disputes/%s/provisional_credit", id)
+	dispute := &stripe.IssuingDispute{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
+	return dispute, err
+}
+
 // Test helper: populates network_lifecycle.dispute_response on a test-mode Visa Issuing Dispute using placeholder file tokens. Only supported for Visa disputes.
 func SimulateNetworkLifecycleDisputeResponse(id string, params *stripe.TestHelpersIssuingDisputeSimulateNetworkLifecycleDisputeResponseParams) (*stripe.IssuingDispute, error) {
 	return getC().SimulateNetworkLifecycleDisputeResponse(id, params)

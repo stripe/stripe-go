@@ -68,6 +68,19 @@ func (c v1PaymentAttemptRecordService) ReportCanceled(ctx context.Context, id st
 	return paymentattemptrecord, err
 }
 
+// Report that the specified Payment Attempt Record received an early fraud warning.
+func (c v1PaymentAttemptRecordService) ReportEarlyFraudWarning(ctx context.Context, id string, params *PaymentAttemptRecordReportEarlyFraudWarningParams) (*PaymentAttemptRecord, error) {
+	if params == nil {
+		params = &PaymentAttemptRecordReportEarlyFraudWarningParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/payment_attempt_records/%s/report_early_fraud_warning", id)
+	paymentattemptrecord := &PaymentAttemptRecord{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentattemptrecord)
+	return paymentattemptrecord, err
+}
+
 // Report that the specified Payment Attempt Record failed.
 func (c v1PaymentAttemptRecordService) ReportFailed(ctx context.Context, id string, params *PaymentAttemptRecordReportFailedParams) (*PaymentAttemptRecord, error) {
 	if params == nil {
