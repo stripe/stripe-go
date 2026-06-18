@@ -398,8 +398,8 @@ type Client struct {
 	V2BillingCollectionSettingsVersions *v2BillingCollectionSettingsVersionService
 	// V2BillingContracts is the service used to invoke /v2/billing/contracts APIs.
 	V2BillingContracts *v2BillingContractService
-	// V2BillingContractsLicensePricingQuantityChanges is the service used to invoke quantitychange related APIs.
-	V2BillingContractsLicensePricingQuantityChanges *v2BillingContractsLicensePricingQuantityChangeService
+	// V2BillingContractsPricingLinesQuantityChanges is the service used to invoke quantitychange related APIs.
+	V2BillingContractsPricingLinesQuantityChanges *v2BillingContractsPricingLinesQuantityChangeService
 	// V2BillingCustomPricingUnits is the service used to invoke /v2/billing/custom_pricing_units APIs.
 	V2BillingCustomPricingUnits *v2BillingCustomPricingUnitService
 	// V2BillingIntents is the service used to invoke /v2/billing/intents APIs.
@@ -792,7 +792,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2BillingCollectionSettings = &v2BillingCollectionSettingService{B: backends.API, Key: key}
 	client.V2BillingCollectionSettingsVersions = &v2BillingCollectionSettingsVersionService{B: backends.API, Key: key}
 	client.V2BillingContracts = &v2BillingContractService{B: backends.API, Key: key}
-	client.V2BillingContractsLicensePricingQuantityChanges = &v2BillingContractsLicensePricingQuantityChangeService{B: backends.API, Key: key}
+	client.V2BillingContractsPricingLinesQuantityChanges = &v2BillingContractsPricingLinesQuantityChangeService{B: backends.API, Key: key}
 	client.V2BillingCustomPricingUnits = &v2BillingCustomPricingUnitService{B: backends.API, Key: key}
 	client.V2BillingIntents = &v2BillingIntentService{B: backends.API, Key: key}
 	client.V2BillingIntentsActions = &v2BillingIntentsActionService{B: backends.API, Key: key}

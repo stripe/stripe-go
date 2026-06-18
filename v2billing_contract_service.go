@@ -53,6 +53,18 @@ func (c v2BillingContractService) Update(ctx context.Context, id string, params 
 	return contract, err
 }
 
+// Delete a draft Contract object by ID.
+func (c v2BillingContractService) Delete(ctx context.Context, id string, params *V2BillingContractDeleteParams) (*V2DeletedObject, error) {
+	if params == nil {
+		params = &V2BillingContractDeleteParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/billing/contracts/%s", id)
+	deletedObj := &V2DeletedObject{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, deletedObj)
+	return deletedObj, err
+}
+
 // Activate a Draft Contract object by ID.
 func (c v2BillingContractService) Activate(ctx context.Context, id string, params *V2BillingContractActivateParams) (*V2BillingContract, error) {
 	if params == nil {
