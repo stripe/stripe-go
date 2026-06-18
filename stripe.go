@@ -2006,12 +2006,16 @@ func (u *UsageBackend) Call(method, path, key string, params ParamsContainer, v 
 }
 
 func (u *UsageBackend) CallRaw(method, path, key string, body []byte, params *Params, v LastResponseSetter) error {
-	params.GetParams().InternalSetUsage(u.Usage)
+	if params != nil {
+		params.GetParams().InternalSetUsage(u.Usage)
+	}
 	return u.B.CallRaw(method, path, key, body, params, v)
 }
 
 func (u *UsageBackend) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error {
-	params.GetParams().InternalSetUsage(u.Usage)
+	if params != nil {
+		params.GetParams().InternalSetUsage(u.Usage)
+	}
 	return u.B.CallMultipart(method, path, key, boundary, body, params, v)
 }
 

@@ -2714,6 +2714,60 @@ func TestHandleResponseBufferingErrors_NilResponse(t *testing.T) {
 	assert.Equal(t, timeoutErr, err)
 }
 
+type mockBackend struct {
+	callRaw       func(method, path, key string, body []byte, params *Params, v LastResponseSetter) error
+	callMultipart func(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error
+}
+
+func (m *mockBackend) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
+	return nil
+}
+func (m *mockBackend) CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error {
+	return nil
+}
+func (m *mockBackend) CallRaw(method, path, key string, body []byte, params *Params, v LastResponseSetter) error {
+	if m.callRaw != nil {
+		return m.callRaw(method, path, key, body, params, v)
+	}
+	return nil
+}
+func (m *mockBackend) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error {
+	if m.callMultipart != nil {
+		return m.callMultipart(method, path, key, boundary, body, params, v)
+	}
+	return nil
+}
+func (m *mockBackend) SetMaxNetworkRetries(maxNetworkRetries int64) {}
+
+func TestUsageBackend_NilParams(t *testing.T) {
+	var calledRaw bool
+	var calledMultipart bool
+	mb := &mockBackend{
+		callRaw: func(method, path, key string, body []byte, params *Params, v LastResponseSetter) error {
+			calledRaw = true
+			return nil
+		},
+		callMultipart: func(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error {
+			calledMultipart = true
+			return nil
+		},
+	}
+
+	ub := &UsageBackend{B: mb, Usage: []string{"test_usage"}}
+
+	assert.NotPanics(t, func() {
+		err := ub.CallRaw(http.MethodPost, "/v1/test", "sk_test", []byte("body"), nil, nil)
+		assert.NoError(t, err)
+	})
+	assert.True(t, calledRaw)
+
+	assert.NotPanics(t, func() {
+		err := ub.CallMultipart(http.MethodPost, "/v1/test", "sk_test", "boundary", bytes.NewBufferString("body"), nil, nil)
+		assert.NoError(t, err)
+	})
+	assert.True(t, calledMultipart)
+}
+
 func BenchmarkCollectAllUnsetFields(b *testing.B) {
 	// Minimal params — just the root struct with one unset field.
 	b.Run("minimal", func(b *testing.B) {
