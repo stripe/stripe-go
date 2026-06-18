@@ -124,6 +124,12 @@ const (
 	V2BillingContractStatusEnded    V2BillingContractStatus = "ended"
 )
 
+// The billing cycle anchor for the contract.
+type V2BillingContractBillingCycleAnchor struct {
+	// The billing cycle anchor as a UTC timestamp.
+	Timestamp time.Time `json:"timestamp"`
+}
+
 // Tax calculation settings.
 type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTax struct {
 	// The type of tax calculation.
@@ -437,6 +443,8 @@ type V2BillingContractStatusDetails struct {
 // Main Contract resource representing a comprehensive billing agreement
 type V2BillingContract struct {
 	APIResource
+	// The billing cycle anchor for the contract.
+	BillingCycleAnchor *V2BillingContractBillingCycleAnchor `json:"billing_cycle_anchor,omitempty"`
 	// The billing settings for the contract.
 	BillingSettings *V2BillingContractBillingSettings `json:"billing_settings,omitempty"`
 	// A unique user-provided contract number e.g. C-2026-0001.

@@ -17,6 +17,31 @@ type V2BillingContractListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
+// Configuration for determining the billing cycle anchor by calendar fields.
+type V2BillingContractBillingCycleAnchorConfigParams struct {
+	// Day of month (1-31).
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
+	// Hour of day in UTC (0-23).
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
+	// Minute of hour (0-59).
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	// Month of year (1-12).
+	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
+	// Second of minute (0-59).
+	Second *int64 `form:"second" json:"second,omitempty"`
+}
+
+// The billing cycle anchor for the contract. If not provided, defaults to the pricing line start time.
+// It is only at the top-level of the contract with no option to override at the pricing line level.
+type V2BillingContractBillingCycleAnchorParams struct {
+	// Configuration for determining the billing cycle anchor by calendar fields.
+	Config *V2BillingContractBillingCycleAnchorConfigParams `form:"config" json:"config,omitempty"`
+	// A specific timestamp to use as the billing cycle anchor.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// The type of billing cycle anchor.
+	Type *string `form:"type" json:"type"`
+}
+
 // Tax calculation settings.
 type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTaxParams struct {
 	// The type of tax calculation.
@@ -328,6 +353,9 @@ type V2BillingContractPricingOverrideParams struct {
 // Create a Contract object.
 type V2BillingContractParams struct {
 	Params `form:"*"`
+	// The billing cycle anchor for the contract. If not provided, defaults to the pricing line start time.
+	// It is only at the top-level of the contract with no option to override at the pricing line level.
+	BillingCycleAnchor *V2BillingContractBillingCycleAnchorParams `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// The billing settings for the contract.
 	BillingSettings *V2BillingContractBillingSettingsParams `form:"billing_settings" json:"billing_settings,omitempty"`
 	// A unique user-provided contract number e.g. C-2026-0001.
@@ -868,6 +896,31 @@ type V2BillingContractCancelParams struct {
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 }
 
+// Configuration for determining the billing cycle anchor by calendar fields.
+type V2BillingContractCreateBillingCycleAnchorConfigParams struct {
+	// Day of month (1-31).
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
+	// Hour of day in UTC (0-23).
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
+	// Minute of hour (0-59).
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	// Month of year (1-12).
+	MonthOfYear *int64 `form:"month_of_year" json:"month_of_year,omitempty"`
+	// Second of minute (0-59).
+	Second *int64 `form:"second" json:"second,omitempty"`
+}
+
+// The billing cycle anchor for the contract. If not provided, defaults to the pricing line start time.
+// It is only at the top-level of the contract with no option to override at the pricing line level.
+type V2BillingContractCreateBillingCycleAnchorParams struct {
+	// Configuration for determining the billing cycle anchor by calendar fields.
+	Config *V2BillingContractCreateBillingCycleAnchorConfigParams `form:"config" json:"config,omitempty"`
+	// A specific timestamp to use as the billing cycle anchor.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// The type of billing cycle anchor.
+	Type *string `form:"type" json:"type"`
+}
+
 // Tax calculation settings.
 type V2BillingContractCreateBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTaxParams struct {
 	// The type of tax calculation.
@@ -1179,6 +1232,9 @@ type V2BillingContractCreatePricingOverrideParams struct {
 // Create a Contract object.
 type V2BillingContractCreateParams struct {
 	Params `form:"*"`
+	// The billing cycle anchor for the contract. If not provided, defaults to the pricing line start time.
+	// It is only at the top-level of the contract with no option to override at the pricing line level.
+	BillingCycleAnchor *V2BillingContractCreateBillingCycleAnchorParams `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// The billing settings for the contract.
 	BillingSettings *V2BillingContractCreateBillingSettingsParams `form:"billing_settings" json:"billing_settings,omitempty"`
 	// A unique user-provided contract number e.g. C-2026-0001.
