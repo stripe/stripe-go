@@ -7192,6 +7192,8 @@ type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWallet struct {
 	Type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType `json:"type"`
 }
 type CheckoutSessionCurrentAttemptPaymentMethodDetailsCard struct {
+	// The brand of the card, accounting for customer's brand choice on dual-branded cards.
+	Brand string `json:"brand"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// Two-digit number representing the card's expiration month.
