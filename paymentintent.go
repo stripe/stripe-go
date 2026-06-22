@@ -19795,7 +19795,6 @@ type PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetails struct 
 	Surname string `json:"surname,omitempty"`
 }
 type PaymentIntentPaymentDetailsMoneyServicesAccountFunding struct {
-	// ID of the Account representing the sender in this account funding transaction.
 	SenderAccount string                                                               `json:"sender_account,omitempty"`
 	SenderDetails *PaymentIntentPaymentDetailsMoneyServicesAccountFundingSenderDetails `json:"sender_details,omitempty"`
 }
@@ -19820,8 +19819,7 @@ type PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetails struct {
 	Surname string `json:"surname,omitempty"`
 }
 type PaymentIntentPaymentDetailsMoneyServices struct {
-	AccountFunding *PaymentIntentPaymentDetailsMoneyServicesAccountFunding `json:"account_funding,omitempty"`
-	// ID of the Account representing the beneficiary in this account funding transaction.
+	AccountFunding     *PaymentIntentPaymentDetailsMoneyServicesAccountFunding     `json:"account_funding,omitempty"`
 	BeneficiaryAccount string                                                      `json:"beneficiary_account,omitempty"`
 	BeneficiaryDetails *PaymentIntentPaymentDetailsMoneyServicesBeneficiaryDetails `json:"beneficiary_details,omitempty"`
 	// The type of money services transaction.
