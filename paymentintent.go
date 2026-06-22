@@ -2191,6 +2191,25 @@ type PaymentIntentAmountDetailsTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount"`
 }
 
+// Contains information about the tip portion of the amount.
+type PaymentIntentAmountDetailsTipParams struct {
+	// Portion of the amount that corresponds to a tip.
+	Amount      *int64                                          `form:"amount" json:"amount,omitempty"`
+	UnsetFields []PaymentIntentAmountDetailsTipParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentAmountDetailsTipParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentAmountDetailsTipParams.
+type PaymentIntentAmountDetailsTipParamsUnsetField string
+
+const (
+	PaymentIntentAmountDetailsTipParamsUnsetFieldAmount PaymentIntentAmountDetailsTipParamsUnsetField = "amount"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentAmountDetailsTipParams) AddUnsetField(field PaymentIntentAmountDetailsTipParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the amount.
 type PaymentIntentAmountDetailsParams struct {
 	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
@@ -2210,7 +2229,9 @@ type PaymentIntentAmountDetailsParams struct {
 	// Contains information about the surcharge portion of the amount.
 	Surcharge *PaymentIntentAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
 	// Contains information about the tax portion of the amount.
-	Tax         *PaymentIntentAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
+	Tax *PaymentIntentAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
+	// Contains information about the tip portion of the amount.
+	Tip         *PaymentIntentAmountDetailsTipParams         `form:"tip" json:"tip,omitempty"`
 	UnsetFields []PaymentIntentAmountDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -2223,6 +2244,7 @@ const (
 	PaymentIntentAmountDetailsParamsUnsetFieldShipping       PaymentIntentAmountDetailsParamsUnsetField = "shipping"
 	PaymentIntentAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentAmountDetailsParamsUnsetFieldTax            PaymentIntentAmountDetailsParamsUnsetField = "tax"
+	PaymentIntentAmountDetailsParamsUnsetFieldTip            PaymentIntentAmountDetailsParamsUnsetField = "tip"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -6695,6 +6717,25 @@ type PaymentIntentCaptureAmountDetailsTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount"`
 }
 
+// Contains information about the tip portion of the amount.
+type PaymentIntentCaptureAmountDetailsTipParams struct {
+	// Portion of the amount that corresponds to a tip.
+	Amount      *int64                                                 `form:"amount" json:"amount,omitempty"`
+	UnsetFields []PaymentIntentCaptureAmountDetailsTipParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCaptureAmountDetailsTipParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCaptureAmountDetailsTipParams.
+type PaymentIntentCaptureAmountDetailsTipParamsUnsetField string
+
+const (
+	PaymentIntentCaptureAmountDetailsTipParamsUnsetFieldAmount PaymentIntentCaptureAmountDetailsTipParamsUnsetField = "amount"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCaptureAmountDetailsTipParams) AddUnsetField(field PaymentIntentCaptureAmountDetailsTipParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the amount.
 type PaymentIntentCaptureAmountDetailsParams struct {
 	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
@@ -6714,7 +6755,9 @@ type PaymentIntentCaptureAmountDetailsParams struct {
 	// Contains information about the surcharge portion of the amount.
 	Surcharge *PaymentIntentCaptureAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
 	// Contains information about the tax portion of the amount.
-	Tax         *PaymentIntentCaptureAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
+	Tax *PaymentIntentCaptureAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
+	// Contains information about the tip portion of the amount.
+	Tip         *PaymentIntentCaptureAmountDetailsTipParams         `form:"tip" json:"tip,omitempty"`
 	UnsetFields []PaymentIntentCaptureAmountDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -6727,6 +6770,7 @@ const (
 	PaymentIntentCaptureAmountDetailsParamsUnsetFieldShipping       PaymentIntentCaptureAmountDetailsParamsUnsetField = "shipping"
 	PaymentIntentCaptureAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentCaptureAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentCaptureAmountDetailsParamsUnsetFieldTax            PaymentIntentCaptureAmountDetailsParamsUnsetField = "tax"
+	PaymentIntentCaptureAmountDetailsParamsUnsetFieldTip            PaymentIntentCaptureAmountDetailsParamsUnsetField = "tip"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -7856,6 +7900,25 @@ type PaymentIntentConfirmAmountDetailsTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount"`
 }
 
+// Contains information about the tip portion of the amount.
+type PaymentIntentConfirmAmountDetailsTipParams struct {
+	// Portion of the amount that corresponds to a tip.
+	Amount      *int64                                                 `form:"amount" json:"amount,omitempty"`
+	UnsetFields []PaymentIntentConfirmAmountDetailsTipParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentConfirmAmountDetailsTipParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentConfirmAmountDetailsTipParams.
+type PaymentIntentConfirmAmountDetailsTipParamsUnsetField string
+
+const (
+	PaymentIntentConfirmAmountDetailsTipParamsUnsetFieldAmount PaymentIntentConfirmAmountDetailsTipParamsUnsetField = "amount"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentConfirmAmountDetailsTipParams) AddUnsetField(field PaymentIntentConfirmAmountDetailsTipParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the amount.
 type PaymentIntentConfirmAmountDetailsParams struct {
 	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
@@ -7875,7 +7938,9 @@ type PaymentIntentConfirmAmountDetailsParams struct {
 	// Contains information about the surcharge portion of the amount.
 	Surcharge *PaymentIntentConfirmAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
 	// Contains information about the tax portion of the amount.
-	Tax         *PaymentIntentConfirmAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
+	Tax *PaymentIntentConfirmAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
+	// Contains information about the tip portion of the amount.
+	Tip         *PaymentIntentConfirmAmountDetailsTipParams         `form:"tip" json:"tip,omitempty"`
 	UnsetFields []PaymentIntentConfirmAmountDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -7888,6 +7953,7 @@ const (
 	PaymentIntentConfirmAmountDetailsParamsUnsetFieldShipping       PaymentIntentConfirmAmountDetailsParamsUnsetField = "shipping"
 	PaymentIntentConfirmAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentConfirmAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentConfirmAmountDetailsParamsUnsetFieldTax            PaymentIntentConfirmAmountDetailsParamsUnsetField = "tax"
+	PaymentIntentConfirmAmountDetailsParamsUnsetFieldTip            PaymentIntentConfirmAmountDetailsParamsUnsetField = "tip"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -9211,6 +9277,25 @@ type PaymentIntentDecrementAuthorizationAmountDetailsTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount"`
 }
 
+// Contains information about the tip portion of the amount.
+type PaymentIntentDecrementAuthorizationAmountDetailsTipParams struct {
+	// Portion of the amount that corresponds to a tip.
+	Amount      *int64                                                                `form:"amount" json:"amount,omitempty"`
+	UnsetFields []PaymentIntentDecrementAuthorizationAmountDetailsTipParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentDecrementAuthorizationAmountDetailsTipParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentDecrementAuthorizationAmountDetailsTipParams.
+type PaymentIntentDecrementAuthorizationAmountDetailsTipParamsUnsetField string
+
+const (
+	PaymentIntentDecrementAuthorizationAmountDetailsTipParamsUnsetFieldAmount PaymentIntentDecrementAuthorizationAmountDetailsTipParamsUnsetField = "amount"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentDecrementAuthorizationAmountDetailsTipParams) AddUnsetField(field PaymentIntentDecrementAuthorizationAmountDetailsTipParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the amount.
 type PaymentIntentDecrementAuthorizationAmountDetailsParams struct {
 	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
@@ -9230,7 +9315,9 @@ type PaymentIntentDecrementAuthorizationAmountDetailsParams struct {
 	// Contains information about the surcharge portion of the amount.
 	Surcharge *PaymentIntentDecrementAuthorizationAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
 	// Contains information about the tax portion of the amount.
-	Tax         *PaymentIntentDecrementAuthorizationAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
+	Tax *PaymentIntentDecrementAuthorizationAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
+	// Contains information about the tip portion of the amount.
+	Tip         *PaymentIntentDecrementAuthorizationAmountDetailsTipParams         `form:"tip" json:"tip,omitempty"`
 	UnsetFields []PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -9243,6 +9330,7 @@ const (
 	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldShipping       PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "shipping"
 	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldTax            PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "tax"
+	PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetFieldTip            PaymentIntentDecrementAuthorizationAmountDetailsParamsUnsetField = "tip"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -9512,6 +9600,25 @@ type PaymentIntentIncrementAuthorizationAmountDetailsTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount"`
 }
 
+// Contains information about the tip portion of the amount.
+type PaymentIntentIncrementAuthorizationAmountDetailsTipParams struct {
+	// Portion of the amount that corresponds to a tip.
+	Amount      *int64                                                                `form:"amount" json:"amount,omitempty"`
+	UnsetFields []PaymentIntentIncrementAuthorizationAmountDetailsTipParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentIncrementAuthorizationAmountDetailsTipParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentIncrementAuthorizationAmountDetailsTipParams.
+type PaymentIntentIncrementAuthorizationAmountDetailsTipParamsUnsetField string
+
+const (
+	PaymentIntentIncrementAuthorizationAmountDetailsTipParamsUnsetFieldAmount PaymentIntentIncrementAuthorizationAmountDetailsTipParamsUnsetField = "amount"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentIncrementAuthorizationAmountDetailsTipParams) AddUnsetField(field PaymentIntentIncrementAuthorizationAmountDetailsTipParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the amount.
 type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
 	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
@@ -9531,7 +9638,9 @@ type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
 	// Contains information about the surcharge portion of the amount.
 	Surcharge *PaymentIntentIncrementAuthorizationAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
 	// Contains information about the tax portion of the amount.
-	Tax         *PaymentIntentIncrementAuthorizationAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
+	Tax *PaymentIntentIncrementAuthorizationAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
+	// Contains information about the tip portion of the amount.
+	Tip         *PaymentIntentIncrementAuthorizationAmountDetailsTipParams         `form:"tip" json:"tip,omitempty"`
 	UnsetFields []PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -9544,6 +9653,7 @@ const (
 	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldShipping       PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "shipping"
 	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldTax            PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "tax"
+	PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetFieldTip            PaymentIntentIncrementAuthorizationAmountDetailsParamsUnsetField = "tip"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -9931,6 +10041,25 @@ type PaymentIntentCreateAmountDetailsTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount"`
 }
 
+// Contains information about the tip portion of the amount.
+type PaymentIntentCreateAmountDetailsTipParams struct {
+	// Portion of the amount that corresponds to a tip.
+	Amount      *int64                                                `form:"amount" json:"amount,omitempty"`
+	UnsetFields []PaymentIntentCreateAmountDetailsTipParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreateAmountDetailsTipParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreateAmountDetailsTipParams.
+type PaymentIntentCreateAmountDetailsTipParamsUnsetField string
+
+const (
+	PaymentIntentCreateAmountDetailsTipParamsUnsetFieldAmount PaymentIntentCreateAmountDetailsTipParamsUnsetField = "amount"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreateAmountDetailsTipParams) AddUnsetField(field PaymentIntentCreateAmountDetailsTipParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the amount.
 type PaymentIntentCreateAmountDetailsParams struct {
 	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
@@ -9950,7 +10079,9 @@ type PaymentIntentCreateAmountDetailsParams struct {
 	// Contains information about the surcharge portion of the amount.
 	Surcharge *PaymentIntentCreateAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
 	// Contains information about the tax portion of the amount.
-	Tax         *PaymentIntentCreateAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
+	Tax *PaymentIntentCreateAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
+	// Contains information about the tip portion of the amount.
+	Tip         *PaymentIntentCreateAmountDetailsTipParams         `form:"tip" json:"tip,omitempty"`
 	UnsetFields []PaymentIntentCreateAmountDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -9963,6 +10094,7 @@ const (
 	PaymentIntentCreateAmountDetailsParamsUnsetFieldShipping       PaymentIntentCreateAmountDetailsParamsUnsetField = "shipping"
 	PaymentIntentCreateAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentCreateAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentCreateAmountDetailsParamsUnsetFieldTax            PaymentIntentCreateAmountDetailsParamsUnsetField = "tax"
+	PaymentIntentCreateAmountDetailsParamsUnsetFieldTip            PaymentIntentCreateAmountDetailsParamsUnsetField = "tip"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -14392,6 +14524,25 @@ type PaymentIntentUpdateAmountDetailsTaxParams struct {
 	TotalTaxAmount *int64 `form:"total_tax_amount" json:"total_tax_amount"`
 }
 
+// Contains information about the tip portion of the amount.
+type PaymentIntentUpdateAmountDetailsTipParams struct {
+	// Portion of the amount that corresponds to a tip.
+	Amount      *int64                                                `form:"amount" json:"amount,omitempty"`
+	UnsetFields []PaymentIntentUpdateAmountDetailsTipParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdateAmountDetailsTipParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdateAmountDetailsTipParams.
+type PaymentIntentUpdateAmountDetailsTipParamsUnsetField string
+
+const (
+	PaymentIntentUpdateAmountDetailsTipParamsUnsetFieldAmount PaymentIntentUpdateAmountDetailsTipParamsUnsetField = "amount"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdateAmountDetailsTipParams) AddUnsetField(field PaymentIntentUpdateAmountDetailsTipParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Provides industry-specific information about the amount.
 type PaymentIntentUpdateAmountDetailsParams struct {
 	// The total discount applied on the transaction represented in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). An integer greater than 0.
@@ -14411,7 +14562,9 @@ type PaymentIntentUpdateAmountDetailsParams struct {
 	// Contains information about the surcharge portion of the amount.
 	Surcharge *PaymentIntentUpdateAmountDetailsSurchargeParams `form:"surcharge" json:"surcharge,omitempty"`
 	// Contains information about the tax portion of the amount.
-	Tax         *PaymentIntentUpdateAmountDetailsTaxParams         `form:"tax" json:"tax,omitempty"`
+	Tax *PaymentIntentUpdateAmountDetailsTaxParams `form:"tax" json:"tax,omitempty"`
+	// Contains information about the tip portion of the amount.
+	Tip         *PaymentIntentUpdateAmountDetailsTipParams         `form:"tip" json:"tip,omitempty"`
 	UnsetFields []PaymentIntentUpdateAmountDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
@@ -14424,6 +14577,7 @@ const (
 	PaymentIntentUpdateAmountDetailsParamsUnsetFieldShipping       PaymentIntentUpdateAmountDetailsParamsUnsetField = "shipping"
 	PaymentIntentUpdateAmountDetailsParamsUnsetFieldSurcharge      PaymentIntentUpdateAmountDetailsParamsUnsetField = "surcharge"
 	PaymentIntentUpdateAmountDetailsParamsUnsetFieldTax            PaymentIntentUpdateAmountDetailsParamsUnsetField = "tax"
+	PaymentIntentUpdateAmountDetailsParamsUnsetFieldTip            PaymentIntentUpdateAmountDetailsParamsUnsetField = "tip"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
