@@ -1519,6 +1519,41 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatus string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatus can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusActive      V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatus = "active"
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusPending     V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatus = "pending"
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusRestricted  V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatus = "restricted"
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusUnsupported V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailResolutionContactStripe V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatus string
 
 // List of values that V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatus can take
@@ -1749,7 +1784,7 @@ const (
 	V2CoreAccountDefaultsResponsibilitiesFeesCollectorStripe             V2CoreAccountDefaultsResponsibilitiesFeesCollector = "stripe"
 )
 
-// A value indicating responsibility for collecting requirements on this account.
+// A value indicating the responsibility for losses on this account.
 type V2CoreAccountDefaultsResponsibilitiesLossesCollector string
 
 // List of values that V2CoreAccountDefaultsResponsibilitiesLossesCollector can take
@@ -3429,6 +3464,22 @@ type V2CoreAccountConfigurationMerchantCapabilitiesStripeBalance struct {
 }
 
 // Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetailResolution `json:"resolution"`
+}
+
+// Allow the merchant to process Sunbit payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesSunbitPayments struct {
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsStatusDetail `json:"status_details"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetailCode `json:"code"`
@@ -3576,6 +3627,8 @@ type V2CoreAccountConfigurationMerchantCapabilities struct {
 	SEPADebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPayments `json:"sepa_debit_payments,omitempty"`
 	// Capabilities that enable the merchant to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountConfigurationMerchantCapabilitiesStripeBalance `json:"stripe_balance,omitempty"`
+	// Allow the merchant to process Sunbit payments.
+	SunbitPayments *V2CoreAccountConfigurationMerchantCapabilitiesSunbitPayments `json:"sunbit_payments,omitempty"`
 	// Allow the merchant to process Swish payments.
 	SwishPayments *V2CoreAccountConfigurationMerchantCapabilitiesSwishPayments `json:"swish_payments,omitempty"`
 	// Allow the merchant to process TWINT payments.
@@ -3796,7 +3849,7 @@ type V2CoreAccountDefaultsProfile struct {
 type V2CoreAccountDefaultsResponsibilities struct {
 	// Indicates whether the platform or connected account is responsible for paying Stripe fees for pricing-control-eligible products.
 	FeesCollector V2CoreAccountDefaultsResponsibilitiesFeesCollector `json:"fees_collector,omitempty"`
-	// A value indicating responsibility for collecting requirements on this account.
+	// A value indicating the responsibility for losses on this account.
 	LossesCollector V2CoreAccountDefaultsResponsibilitiesLossesCollector `json:"losses_collector,omitempty"`
 	// A value indicating responsibility for collecting requirements on this account.
 	RequirementsCollector V2CoreAccountDefaultsResponsibilitiesRequirementsCollector `json:"requirements_collector"`
