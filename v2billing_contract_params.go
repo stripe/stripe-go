@@ -13,6 +13,8 @@ type V2BillingContractListParams struct {
 	Params `form:"*"`
 	// Filter by customer ID.
 	Customer *string `form:"customer" json:"customer,omitempty"`
+	// Additional fields to include in the response.
+	Include []*string `form:"include" json:"include,omitempty"`
 	// The limit for the number of results per page.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
@@ -43,19 +45,19 @@ type V2BillingContractBillingCycleAnchorParams struct {
 }
 
 // Tax calculation settings.
-type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTaxParams struct {
+type V2BillingContractBillingSettingsBillSettingsDetailsCalculationTaxParams struct {
 	// The type of tax calculation.
 	Type *string `form:"type" json:"type"`
 }
 
 // Calculation settings.
-type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationParams struct {
+type V2BillingContractBillingSettingsBillSettingsDetailsCalculationParams struct {
 	// Tax calculation settings.
-	Tax *V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTaxParams `form:"tax" json:"tax,omitempty"`
+	Tax *V2BillingContractBillingSettingsBillSettingsDetailsCalculationTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
 // The number of time units before the invoice is past due.
-type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueParams struct {
+type V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueParams struct {
 	// The interval unit.
 	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals.
@@ -63,81 +65,63 @@ type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsIn
 }
 
 // Invoice settings.
-type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceParams struct {
+type V2BillingContractBillingSettingsBillSettingsDetailsInvoiceParams struct {
 	// The number of time units before the invoice is past due.
-	TimeUntilDue *V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueParams `form:"time_until_due" json:"time_until_due,omitempty"`
+	TimeUntilDue *V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueParams `form:"time_until_due" json:"time_until_due,omitempty"`
 }
 
-// The bill settings details.
-type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsParams struct {
+// The bill settings details configures invoice and tax settings for the contract.
+type V2BillingContractBillingSettingsBillSettingsDetailsParams struct {
 	// Calculation settings.
-	Calculation *V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationParams `form:"calculation" json:"calculation,omitempty"`
+	Calculation *V2BillingContractBillingSettingsBillSettingsDetailsCalculationParams `form:"calculation" json:"calculation,omitempty"`
 	// Invoice settings.
-	Invoice *V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceParams `form:"invoice" json:"invoice,omitempty"`
+	Invoice *V2BillingContractBillingSettingsBillSettingsDetailsInvoiceParams `form:"invoice" json:"invoice,omitempty"`
 }
 
-// The billing profile details.
-type V2BillingContractBillingSettingsContractBillingDetailsBillingProfileDetailsParams struct {
+// The billing profile details configures who is charged for the contract.
+type V2BillingContractBillingSettingsBillingProfileDetailsParams struct {
 	// The customer who pays for the contract invoice.
 	Customer *string `form:"customer" json:"customer"`
 	// The default payment method for the contract.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
 }
 
-// The collection settings details.
-type V2BillingContractBillingSettingsContractBillingDetailsCollectionSettingsDetailsParams struct {
+// The collection settings details configures how payments are collected on the contract.
+type V2BillingContractBillingSettingsCollectionSettingsDetailsParams struct {
 	// The collection method.
 	CollectionMethod *string `form:"collection_method" json:"collection_method"`
 	// The payment method configuration.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
 }
 
-// Billing settings details for the contract.
-type V2BillingContractBillingSettingsContractBillingDetailsParams struct {
-	// The billing profile details.
-	BillingProfileDetails *V2BillingContractBillingSettingsContractBillingDetailsBillingProfileDetailsParams `form:"billing_profile_details" json:"billing_profile_details"`
-	// The bill settings details.
-	BillSettingsDetails *V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsParams `form:"bill_settings_details" json:"bill_settings_details,omitempty"`
-	// The collection settings details.
-	CollectionSettingsDetails *V2BillingContractBillingSettingsContractBillingDetailsCollectionSettingsDetailsParams `form:"collection_settings_details" json:"collection_settings_details"`
-}
-
 // The billing settings for the contract.
 type V2BillingContractBillingSettingsParams struct {
-	// Billing settings details for the contract.
-	ContractBillingDetails *V2BillingContractBillingSettingsContractBillingDetailsParams `form:"contract_billing_details" json:"contract_billing_details,omitempty"`
+	// The billing profile details configures who is charged for the contract.
+	BillingProfileDetails *V2BillingContractBillingSettingsBillingProfileDetailsParams `form:"billing_profile_details" json:"billing_profile_details"`
+	// The bill settings details configures invoice and tax settings for the contract.
+	BillSettingsDetails *V2BillingContractBillingSettingsBillSettingsDetailsParams `form:"bill_settings_details" json:"bill_settings_details,omitempty"`
+	// The collection settings details configures how payments are collected on the contract.
+	CollectionSettingsDetails *V2BillingContractBillingSettingsCollectionSettingsDetailsParams `form:"collection_settings_details" json:"collection_settings_details"`
 }
 
-// When this entry should be billed.
-type V2BillingContractOneTimeFeeBillScheduleBillAtParams struct {
-	// The datetime at which the entry should be billed. Required if `type` is `datetime`.
+// When this fee should be billed.
+type V2BillingContractOneTimeFeeBillAtParams struct {
+	// The timestamp at which the entry should be billed. Required if `type` is `timestamp`.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of the bill_at.
 	Type *string `form:"type" json:"type"`
 }
 
-// The bill schedule for the fee. Each entry produces an individual invoice item billed at `bill_at`.
-type V2BillingContractOneTimeFeeBillScheduleParams struct {
-	// When this entry should be billed.
-	BillAt *V2BillingContractOneTimeFeeBillScheduleBillAtParams `form:"bill_at" json:"bill_at"`
-	// The amount to bill for this entry, in the smallest currency unit.
-	Value *int64 `form:"value" json:"value,string"`
-}
-
-// Details for a product billable target. Required when `billable_item_type` is `product`.
-type V2BillingContractOneTimeFeeProductDetailsParams struct {
-	// The ID of the v1 Product.
-	Product *string `form:"product" json:"product"`
-}
-
 // A list of one-time fees to create with the contract. Each fee is billed as individual invoice items per its bill_schedule.
 type V2BillingContractOneTimeFeeParams struct {
-	// The type of billable item that this fee references.
-	BillableItemType *string `form:"billable_item_type" json:"billable_item_type"`
-	// The bill schedule for the fee. Each entry produces an individual invoice item billed at `bill_at`.
-	BillSchedule []*V2BillingContractOneTimeFeeBillScheduleParams `form:"bill_schedule" json:"bill_schedule"`
-	// Details for a product billable target. Required when `billable_item_type` is `product`.
-	ProductDetails *V2BillingContractOneTimeFeeProductDetailsParams `form:"product_details" json:"product_details,omitempty"`
+	// The amount to bill.
+	Amount *Amount `form:"amount" json:"amount"`
+	// When this fee should be billed.
+	BillAt *V2BillingContractOneTimeFeeBillAtParams `form:"bill_at" json:"bill_at"`
+	// A user-provided lookup key.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// The ID of the v1 Product for this fee.
+	Product *string `form:"product" json:"product"`
 }
 
 // When the pricing line ends.
@@ -288,32 +272,12 @@ type V2BillingContractPricingOverrideEndsAtParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// All of these key-value conditions must match.
-type V2BillingContractPricingOverrideMultiplierCriterionMetadataConditionAllOfParams struct {
-	// The metadata key.
-	Key *string `form:"key" json:"key"`
-	// The metadata value.
-	Value *string `form:"value" json:"value"`
-}
-
-// Filter by metadata conditions.
-type V2BillingContractPricingOverrideMultiplierCriterionMetadataConditionParams struct {
-	// All of these key-value conditions must match.
-	AllOf []*V2BillingContractPricingOverrideMultiplierCriterionMetadataConditionAllOfParams `form:"all_of" json:"all_of"`
-}
-
 // Criteria determining which rates the multiplier applies to.
 type V2BillingContractPricingOverrideMultiplierCriterionParams struct {
-	// Filter by billable item IDs.
-	BillableItemIDs []*string `form:"billable_item_ids" json:"billable_item_ids"`
-	// Filter by billable item lookup keys.
-	BillableItemLookupKeys []*string `form:"billable_item_lookup_keys" json:"billable_item_lookup_keys"`
-	// Filter by billable item type.
-	BillableItemTypes []*string `form:"billable_item_types" json:"billable_item_types"`
-	// Filter by metadata conditions.
-	MetadataConditions []*V2BillingContractPricingOverrideMultiplierCriterionMetadataConditionParams `form:"metadata_conditions" json:"metadata_conditions"`
-	// Filter by rate card IDs. Only applicable for `multiplier` overrides.
-	RateCardIDs []*string `form:"rate_card_ids" json:"rate_card_ids"`
+	// Filter by pricing line IDs.
+	PricingLineIDs []*string `form:"pricing_line_ids" json:"pricing_line_ids,omitempty"`
+	// Filter by pricing line lookup keys.
+	PricingLineLookupKeys []*string `form:"pricing_line_lookup_keys" json:"pricing_line_lookup_keys,omitempty"`
 	// Whether to include or exclude items matching these criteria.
 	Type *string `form:"type" json:"type"`
 }
@@ -735,32 +699,12 @@ type V2BillingContractPricingOverrideActionAddEndsAtParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// All of these key-value conditions must match.
-type V2BillingContractPricingOverrideActionAddMultiplierCriterionMetadataConditionAllOfParams struct {
-	// The metadata key.
-	Key *string `form:"key" json:"key"`
-	// The metadata value.
-	Value *string `form:"value" json:"value"`
-}
-
-// Filter by metadata conditions.
-type V2BillingContractPricingOverrideActionAddMultiplierCriterionMetadataConditionParams struct {
-	// All of these key-value conditions must match.
-	AllOf []*V2BillingContractPricingOverrideActionAddMultiplierCriterionMetadataConditionAllOfParams `form:"all_of" json:"all_of"`
-}
-
 // Criteria determining which rates the multiplier applies to.
 type V2BillingContractPricingOverrideActionAddMultiplierCriterionParams struct {
-	// Filter by billable item IDs.
-	BillableItemIDs []*string `form:"billable_item_ids" json:"billable_item_ids"`
-	// Filter by billable item lookup keys.
-	BillableItemLookupKeys []*string `form:"billable_item_lookup_keys" json:"billable_item_lookup_keys"`
-	// Filter by billable item type.
-	BillableItemTypes []*string `form:"billable_item_types" json:"billable_item_types"`
-	// Filter by metadata conditions.
-	MetadataConditions []*V2BillingContractPricingOverrideActionAddMultiplierCriterionMetadataConditionParams `form:"metadata_conditions" json:"metadata_conditions"`
-	// Filter by rate card IDs. Only applicable for `multiplier` overrides.
-	RateCardIDs []*string `form:"rate_card_ids" json:"rate_card_ids"`
+	// Filter by pricing line IDs.
+	PricingLineIDs []*string `form:"pricing_line_ids" json:"pricing_line_ids,omitempty"`
+	// Filter by pricing line lookup keys.
+	PricingLineLookupKeys []*string `form:"pricing_line_lookup_keys" json:"pricing_line_lookup_keys,omitempty"`
 	// Whether to include or exclude items matching these criteria.
 	Type *string `form:"type" json:"type"`
 }
@@ -922,19 +866,19 @@ type V2BillingContractCreateBillingCycleAnchorParams struct {
 }
 
 // Tax calculation settings.
-type V2BillingContractCreateBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTaxParams struct {
+type V2BillingContractCreateBillingSettingsBillSettingsDetailsCalculationTaxParams struct {
 	// The type of tax calculation.
 	Type *string `form:"type" json:"type"`
 }
 
 // Calculation settings.
-type V2BillingContractCreateBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationParams struct {
+type V2BillingContractCreateBillingSettingsBillSettingsDetailsCalculationParams struct {
 	// Tax calculation settings.
-	Tax *V2BillingContractCreateBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTaxParams `form:"tax" json:"tax,omitempty"`
+	Tax *V2BillingContractCreateBillingSettingsBillSettingsDetailsCalculationTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
 // The number of time units before the invoice is past due.
-type V2BillingContractCreateBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueParams struct {
+type V2BillingContractCreateBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueParams struct {
 	// The interval unit.
 	Interval *string `form:"interval" json:"interval"`
 	// The number of intervals.
@@ -942,81 +886,63 @@ type V2BillingContractCreateBillingSettingsContractBillingDetailsBillSettingsDet
 }
 
 // Invoice settings.
-type V2BillingContractCreateBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceParams struct {
+type V2BillingContractCreateBillingSettingsBillSettingsDetailsInvoiceParams struct {
 	// The number of time units before the invoice is past due.
-	TimeUntilDue *V2BillingContractCreateBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueParams `form:"time_until_due" json:"time_until_due,omitempty"`
+	TimeUntilDue *V2BillingContractCreateBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueParams `form:"time_until_due" json:"time_until_due,omitempty"`
 }
 
-// The bill settings details.
-type V2BillingContractCreateBillingSettingsContractBillingDetailsBillSettingsDetailsParams struct {
+// The bill settings details configures invoice and tax settings for the contract.
+type V2BillingContractCreateBillingSettingsBillSettingsDetailsParams struct {
 	// Calculation settings.
-	Calculation *V2BillingContractCreateBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationParams `form:"calculation" json:"calculation,omitempty"`
+	Calculation *V2BillingContractCreateBillingSettingsBillSettingsDetailsCalculationParams `form:"calculation" json:"calculation,omitempty"`
 	// Invoice settings.
-	Invoice *V2BillingContractCreateBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceParams `form:"invoice" json:"invoice,omitempty"`
+	Invoice *V2BillingContractCreateBillingSettingsBillSettingsDetailsInvoiceParams `form:"invoice" json:"invoice,omitempty"`
 }
 
-// The billing profile details.
-type V2BillingContractCreateBillingSettingsContractBillingDetailsBillingProfileDetailsParams struct {
+// The billing profile details configures who is charged for the contract.
+type V2BillingContractCreateBillingSettingsBillingProfileDetailsParams struct {
 	// The customer who pays for the contract invoice.
 	Customer *string `form:"customer" json:"customer"`
 	// The default payment method for the contract.
 	DefaultPaymentMethod *string `form:"default_payment_method" json:"default_payment_method,omitempty"`
 }
 
-// The collection settings details.
-type V2BillingContractCreateBillingSettingsContractBillingDetailsCollectionSettingsDetailsParams struct {
+// The collection settings details configures how payments are collected on the contract.
+type V2BillingContractCreateBillingSettingsCollectionSettingsDetailsParams struct {
 	// The collection method.
 	CollectionMethod *string `form:"collection_method" json:"collection_method"`
 	// The payment method configuration.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
 }
 
-// Billing settings details for the contract.
-type V2BillingContractCreateBillingSettingsContractBillingDetailsParams struct {
-	// The billing profile details.
-	BillingProfileDetails *V2BillingContractCreateBillingSettingsContractBillingDetailsBillingProfileDetailsParams `form:"billing_profile_details" json:"billing_profile_details"`
-	// The bill settings details.
-	BillSettingsDetails *V2BillingContractCreateBillingSettingsContractBillingDetailsBillSettingsDetailsParams `form:"bill_settings_details" json:"bill_settings_details,omitempty"`
-	// The collection settings details.
-	CollectionSettingsDetails *V2BillingContractCreateBillingSettingsContractBillingDetailsCollectionSettingsDetailsParams `form:"collection_settings_details" json:"collection_settings_details"`
-}
-
 // The billing settings for the contract.
 type V2BillingContractCreateBillingSettingsParams struct {
-	// Billing settings details for the contract.
-	ContractBillingDetails *V2BillingContractCreateBillingSettingsContractBillingDetailsParams `form:"contract_billing_details" json:"contract_billing_details,omitempty"`
+	// The billing profile details configures who is charged for the contract.
+	BillingProfileDetails *V2BillingContractCreateBillingSettingsBillingProfileDetailsParams `form:"billing_profile_details" json:"billing_profile_details"`
+	// The bill settings details configures invoice and tax settings for the contract.
+	BillSettingsDetails *V2BillingContractCreateBillingSettingsBillSettingsDetailsParams `form:"bill_settings_details" json:"bill_settings_details,omitempty"`
+	// The collection settings details configures how payments are collected on the contract.
+	CollectionSettingsDetails *V2BillingContractCreateBillingSettingsCollectionSettingsDetailsParams `form:"collection_settings_details" json:"collection_settings_details"`
 }
 
-// When this entry should be billed.
-type V2BillingContractCreateOneTimeFeeBillScheduleBillAtParams struct {
-	// The datetime at which the entry should be billed. Required if `type` is `datetime`.
+// When this fee should be billed.
+type V2BillingContractCreateOneTimeFeeBillAtParams struct {
+	// The timestamp at which the entry should be billed. Required if `type` is `timestamp`.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of the bill_at.
 	Type *string `form:"type" json:"type"`
 }
 
-// The bill schedule for the fee. Each entry produces an individual invoice item billed at `bill_at`.
-type V2BillingContractCreateOneTimeFeeBillScheduleParams struct {
-	// When this entry should be billed.
-	BillAt *V2BillingContractCreateOneTimeFeeBillScheduleBillAtParams `form:"bill_at" json:"bill_at"`
-	// The amount to bill for this entry, in the smallest currency unit.
-	Value *int64 `form:"value" json:"value,string"`
-}
-
-// Details for a product billable target. Required when `billable_item_type` is `product`.
-type V2BillingContractCreateOneTimeFeeProductDetailsParams struct {
-	// The ID of the v1 Product.
-	Product *string `form:"product" json:"product"`
-}
-
 // A list of one-time fees to create with the contract. Each fee is billed as individual invoice items per its bill_schedule.
 type V2BillingContractCreateOneTimeFeeParams struct {
-	// The type of billable item that this fee references.
-	BillableItemType *string `form:"billable_item_type" json:"billable_item_type"`
-	// The bill schedule for the fee. Each entry produces an individual invoice item billed at `bill_at`.
-	BillSchedule []*V2BillingContractCreateOneTimeFeeBillScheduleParams `form:"bill_schedule" json:"bill_schedule"`
-	// Details for a product billable target. Required when `billable_item_type` is `product`.
-	ProductDetails *V2BillingContractCreateOneTimeFeeProductDetailsParams `form:"product_details" json:"product_details,omitempty"`
+	// The amount to bill.
+	Amount *Amount `form:"amount" json:"amount"`
+	// When this fee should be billed.
+	BillAt *V2BillingContractCreateOneTimeFeeBillAtParams `form:"bill_at" json:"bill_at"`
+	// A user-provided lookup key.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// The ID of the v1 Product for this fee.
+	Product *string `form:"product" json:"product"`
 }
 
 // When the pricing line ends.
@@ -1167,32 +1093,12 @@ type V2BillingContractCreatePricingOverrideEndsAtParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// All of these key-value conditions must match.
-type V2BillingContractCreatePricingOverrideMultiplierCriterionMetadataConditionAllOfParams struct {
-	// The metadata key.
-	Key *string `form:"key" json:"key"`
-	// The metadata value.
-	Value *string `form:"value" json:"value"`
-}
-
-// Filter by metadata conditions.
-type V2BillingContractCreatePricingOverrideMultiplierCriterionMetadataConditionParams struct {
-	// All of these key-value conditions must match.
-	AllOf []*V2BillingContractCreatePricingOverrideMultiplierCriterionMetadataConditionAllOfParams `form:"all_of" json:"all_of"`
-}
-
 // Criteria determining which rates the multiplier applies to.
 type V2BillingContractCreatePricingOverrideMultiplierCriterionParams struct {
-	// Filter by billable item IDs.
-	BillableItemIDs []*string `form:"billable_item_ids" json:"billable_item_ids"`
-	// Filter by billable item lookup keys.
-	BillableItemLookupKeys []*string `form:"billable_item_lookup_keys" json:"billable_item_lookup_keys"`
-	// Filter by billable item type.
-	BillableItemTypes []*string `form:"billable_item_types" json:"billable_item_types"`
-	// Filter by metadata conditions.
-	MetadataConditions []*V2BillingContractCreatePricingOverrideMultiplierCriterionMetadataConditionParams `form:"metadata_conditions" json:"metadata_conditions"`
-	// Filter by rate card IDs. Only applicable for `multiplier` overrides.
-	RateCardIDs []*string `form:"rate_card_ids" json:"rate_card_ids"`
+	// Filter by pricing line IDs.
+	PricingLineIDs []*string `form:"pricing_line_ids" json:"pricing_line_ids,omitempty"`
+	// Filter by pricing line lookup keys.
+	PricingLineLookupKeys []*string `form:"pricing_line_lookup_keys" json:"pricing_line_lookup_keys,omitempty"`
 	// Whether to include or exclude items matching these criteria.
 	Type *string `form:"type" json:"type"`
 }
@@ -1622,32 +1528,12 @@ type V2BillingContractUpdatePricingOverrideActionAddEndsAtParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// All of these key-value conditions must match.
-type V2BillingContractUpdatePricingOverrideActionAddMultiplierCriterionMetadataConditionAllOfParams struct {
-	// The metadata key.
-	Key *string `form:"key" json:"key"`
-	// The metadata value.
-	Value *string `form:"value" json:"value"`
-}
-
-// Filter by metadata conditions.
-type V2BillingContractUpdatePricingOverrideActionAddMultiplierCriterionMetadataConditionParams struct {
-	// All of these key-value conditions must match.
-	AllOf []*V2BillingContractUpdatePricingOverrideActionAddMultiplierCriterionMetadataConditionAllOfParams `form:"all_of" json:"all_of"`
-}
-
 // Criteria determining which rates the multiplier applies to.
 type V2BillingContractUpdatePricingOverrideActionAddMultiplierCriterionParams struct {
-	// Filter by billable item IDs.
-	BillableItemIDs []*string `form:"billable_item_ids" json:"billable_item_ids"`
-	// Filter by billable item lookup keys.
-	BillableItemLookupKeys []*string `form:"billable_item_lookup_keys" json:"billable_item_lookup_keys"`
-	// Filter by billable item type.
-	BillableItemTypes []*string `form:"billable_item_types" json:"billable_item_types"`
-	// Filter by metadata conditions.
-	MetadataConditions []*V2BillingContractUpdatePricingOverrideActionAddMultiplierCriterionMetadataConditionParams `form:"metadata_conditions" json:"metadata_conditions"`
-	// Filter by rate card IDs. Only applicable for `multiplier` overrides.
-	RateCardIDs []*string `form:"rate_card_ids" json:"rate_card_ids"`
+	// Filter by pricing line IDs.
+	PricingLineIDs []*string `form:"pricing_line_ids" json:"pricing_line_ids,omitempty"`
+	// Filter by pricing line lookup keys.
+	PricingLineLookupKeys []*string `form:"pricing_line_lookup_keys" json:"pricing_line_lookup_keys,omitempty"`
 	// Whether to include or exclude items matching these criteria.
 	Type *string `form:"type" json:"type"`
 }

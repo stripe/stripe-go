@@ -9,49 +9,32 @@ package stripe
 import "time"
 
 // The type of tax calculation.
-type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTaxType string
+type V2BillingContractBillingSettingsBillSettingsDetailsCalculationTaxType string
 
-// List of values that V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTaxType can take
+// List of values that V2BillingContractBillingSettingsBillSettingsDetailsCalculationTaxType can take
 const (
-	V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTaxTypeAutomatic V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTaxType = "automatic"
-	V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTaxTypeManual    V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTaxType = "manual"
+	V2BillingContractBillingSettingsBillSettingsDetailsCalculationTaxTypeAutomatic V2BillingContractBillingSettingsBillSettingsDetailsCalculationTaxType = "automatic"
+	V2BillingContractBillingSettingsBillSettingsDetailsCalculationTaxTypeManual    V2BillingContractBillingSettingsBillSettingsDetailsCalculationTaxType = "manual"
 )
 
 // The interval unit.
-type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueInterval string
+type V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueInterval string
 
-// List of values that V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueInterval can take
+// List of values that V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueInterval can take
 const (
-	V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueIntervalDay   V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueInterval = "day"
-	V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueIntervalMonth V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueInterval = "month"
-	V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueIntervalWeek  V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueInterval = "week"
-	V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueIntervalYear  V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueInterval = "year"
+	V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueIntervalDay   V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueInterval = "day"
+	V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueIntervalMonth V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueInterval = "month"
+	V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueIntervalWeek  V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueInterval = "week"
+	V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueIntervalYear  V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueInterval = "year"
 )
 
 // The collection method.
-type V2BillingContractBillingSettingsContractBillingDetailsCollectionSettingsDetailsCollectionMethod string
+type V2BillingContractBillingSettingsCollectionSettingsDetailsCollectionMethod string
 
-// List of values that V2BillingContractBillingSettingsContractBillingDetailsCollectionSettingsDetailsCollectionMethod can take
+// List of values that V2BillingContractBillingSettingsCollectionSettingsDetailsCollectionMethod can take
 const (
-	V2BillingContractBillingSettingsContractBillingDetailsCollectionSettingsDetailsCollectionMethodChargeAutomatically V2BillingContractBillingSettingsContractBillingDetailsCollectionSettingsDetailsCollectionMethod = "charge_automatically"
-	V2BillingContractBillingSettingsContractBillingDetailsCollectionSettingsDetailsCollectionMethodSendInvoice         V2BillingContractBillingSettingsContractBillingDetailsCollectionSettingsDetailsCollectionMethod = "send_invoice"
-)
-
-// The type of the bill_at.
-type V2BillingContractOneTimeFeesDataBillScheduleBillAtType string
-
-// List of values that V2BillingContractOneTimeFeesDataBillScheduleBillAtType can take
-const (
-	V2BillingContractOneTimeFeesDataBillScheduleBillAtTypeContractStart V2BillingContractOneTimeFeesDataBillScheduleBillAtType = "contract_start"
-	V2BillingContractOneTimeFeesDataBillScheduleBillAtTypeDatetime      V2BillingContractOneTimeFeesDataBillScheduleBillAtType = "datetime"
-)
-
-// The type of billable item that this fee references.
-type V2BillingContractOneTimeFeesDataBillableItemType string
-
-// List of values that V2BillingContractOneTimeFeesDataBillableItemType can take
-const (
-	V2BillingContractOneTimeFeesDataBillableItemTypeProduct V2BillingContractOneTimeFeesDataBillableItemType = "product"
+	V2BillingContractBillingSettingsCollectionSettingsDetailsCollectionMethodChargeAutomatically V2BillingContractBillingSettingsCollectionSettingsDetailsCollectionMethod = "charge_automatically"
+	V2BillingContractBillingSettingsCollectionSettingsDetailsCollectionMethodSendInvoice         V2BillingContractBillingSettingsCollectionSettingsDetailsCollectionMethod = "send_invoice"
 )
 
 // Defines whether the tiered price should be graduated or volume-based.
@@ -85,15 +68,6 @@ type V2BillingContractPricingLinesDataPricingType string
 // List of values that V2BillingContractPricingLinesDataPricingType can take
 const (
 	V2BillingContractPricingLinesDataPricingTypePrice V2BillingContractPricingLinesDataPricingType = "price"
-)
-
-// Filter by billable item type.
-type V2BillingContractPricingOverridesDataMultiplierCriterionBillableItemType string
-
-// List of values that V2BillingContractPricingOverridesDataMultiplierCriterionBillableItemType can take
-const (
-	V2BillingContractPricingOverridesDataMultiplierCriterionBillableItemTypeLicensed V2BillingContractPricingOverridesDataMultiplierCriterionBillableItemType = "licensed"
-	V2BillingContractPricingOverridesDataMultiplierCriterionBillableItemTypeMetered  V2BillingContractPricingOverridesDataMultiplierCriterionBillableItemType = "metered"
 )
 
 // Whether to include or exclude items matching these criteria.
@@ -131,105 +105,83 @@ type V2BillingContractBillingCycleAnchor struct {
 }
 
 // Tax calculation settings.
-type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTax struct {
+type V2BillingContractBillingSettingsBillSettingsDetailsCalculationTax struct {
 	// The type of tax calculation.
-	Type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTaxType `json:"type"`
+	Type V2BillingContractBillingSettingsBillSettingsDetailsCalculationTaxType `json:"type"`
 }
 
 // Calculation settings.
-type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculation struct {
+type V2BillingContractBillingSettingsBillSettingsDetailsCalculation struct {
 	// Tax calculation settings.
-	Tax *V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculationTax `json:"tax,omitempty"`
+	Tax *V2BillingContractBillingSettingsBillSettingsDetailsCalculationTax `json:"tax,omitempty"`
 }
 
 // The number of time units before the invoice is past due.
-type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDue struct {
+type V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDue struct {
 	// The interval unit.
-	Interval V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDueInterval `json:"interval"`
+	Interval V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueInterval `json:"interval"`
 	// The number of intervals.
 	IntervalCount int64 `json:"interval_count"`
 }
 
 // Invoice settings.
-type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoice struct {
+type V2BillingContractBillingSettingsBillSettingsDetailsInvoice struct {
 	// The number of time units before the invoice is past due.
-	TimeUntilDue *V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoiceTimeUntilDue `json:"time_until_due,omitempty"`
+	TimeUntilDue *V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDue `json:"time_until_due,omitempty"`
 }
 
-// The bill settings details.
-type V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetails struct {
+// The bill settings details configures invoice and tax settings for the contract.
+type V2BillingContractBillingSettingsBillSettingsDetails struct {
 	// Calculation settings.
-	Calculation *V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsCalculation `json:"calculation,omitempty"`
+	Calculation *V2BillingContractBillingSettingsBillSettingsDetailsCalculation `json:"calculation,omitempty"`
 	// Invoice settings.
-	Invoice *V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetailsInvoice `json:"invoice,omitempty"`
+	Invoice *V2BillingContractBillingSettingsBillSettingsDetailsInvoice `json:"invoice,omitempty"`
 }
 
-// The billing profile details.
-type V2BillingContractBillingSettingsContractBillingDetailsBillingProfileDetails struct {
+// The billing profile details configures who is charged for the contract.
+type V2BillingContractBillingSettingsBillingProfileDetails struct {
 	// The customer who pays for the contract invoice.
 	Customer string `json:"customer"`
 	// The default payment method for the contract.
 	DefaultPaymentMethod string `json:"default_payment_method,omitempty"`
 }
 
-// The collection settings details.
-type V2BillingContractBillingSettingsContractBillingDetailsCollectionSettingsDetails struct {
+// The collection settings details configures how payments are collected on the contract.
+type V2BillingContractBillingSettingsCollectionSettingsDetails struct {
 	// The collection method.
-	CollectionMethod V2BillingContractBillingSettingsContractBillingDetailsCollectionSettingsDetailsCollectionMethod `json:"collection_method"`
+	CollectionMethod V2BillingContractBillingSettingsCollectionSettingsDetailsCollectionMethod `json:"collection_method"`
 	// The payment method configuration.
 	PaymentMethodConfiguration string `json:"payment_method_configuration,omitempty"`
 }
 
-// Billing settings details for the contract.
-type V2BillingContractBillingSettingsContractBillingDetails struct {
-	// The billing profile details.
-	BillingProfileDetails *V2BillingContractBillingSettingsContractBillingDetailsBillingProfileDetails `json:"billing_profile_details"`
-	// The bill settings details.
-	BillSettingsDetails *V2BillingContractBillingSettingsContractBillingDetailsBillSettingsDetails `json:"bill_settings_details,omitempty"`
-	// The collection settings details.
-	CollectionSettingsDetails *V2BillingContractBillingSettingsContractBillingDetailsCollectionSettingsDetails `json:"collection_settings_details"`
-}
-
 // The billing settings for the contract.
 type V2BillingContractBillingSettings struct {
-	// Billing settings details for the contract.
-	ContractBillingDetails *V2BillingContractBillingSettingsContractBillingDetails `json:"contract_billing_details,omitempty"`
+	// The billing profile details configures who is charged for the contract.
+	BillingProfileDetails *V2BillingContractBillingSettingsBillingProfileDetails `json:"billing_profile_details"`
+	// The bill settings details configures invoice and tax settings for the contract.
+	BillSettingsDetails *V2BillingContractBillingSettingsBillSettingsDetails `json:"bill_settings_details,omitempty"`
+	// The collection settings details configures how payments are collected on the contract.
+	CollectionSettingsDetails *V2BillingContractBillingSettingsCollectionSettingsDetails `json:"collection_settings_details"`
 }
 
-// When this entry will be billed.
-type V2BillingContractOneTimeFeesDataBillScheduleBillAt struct {
-	// The datetime at which the entry will be billed. Set when `type` is `datetime`.
-	Timestamp time.Time `json:"timestamp,omitempty"`
-	// The type of the bill_at.
-	Type V2BillingContractOneTimeFeesDataBillScheduleBillAtType `json:"type"`
-}
-
-// The resolved bill schedule for the fee.
-type V2BillingContractOneTimeFeesDataBillSchedule struct {
-	// When this entry will be billed.
-	BillAt *V2BillingContractOneTimeFeesDataBillScheduleBillAt `json:"bill_at"`
-	// The amount to bill for this entry, in the smallest currency unit.
-	Value int64 `json:"value,string"`
-}
-
-// Details for a product billable target. Set when `billable_item_type` is `product`.
-type V2BillingContractOneTimeFeesDataProductDetails struct {
-	// The ID of the v1 Product.
-	Product string `json:"product"`
+// When this fee will be billed. Always contains a concrete timestamp.
+type V2BillingContractOneTimeFeesDataBillAt struct {
+	// The timestamp at which the fee will be billed.
+	Timestamp time.Time `json:"timestamp"`
 }
 
 // The one-time fees for this page.
 type V2BillingContractOneTimeFeesData struct {
-	// The type of billable item that this fee references.
-	BillableItemType V2BillingContractOneTimeFeesDataBillableItemType `json:"billable_item_type"`
-	// The resolved bill schedule for the fee.
-	BillSchedule []*V2BillingContractOneTimeFeesDataBillSchedule `json:"bill_schedule"`
+	// The amount billed for this fee.
+	Amount Amount `json:"amount"`
+	// When this fee will be billed. Always contains a concrete timestamp.
+	BillAt *V2BillingContractOneTimeFeesDataBillAt `json:"bill_at"`
 	// The ID of the one-time fee.
 	ID string `json:"id"`
 	// The user-provided lookup key.
 	LookupKey string `json:"lookup_key,omitempty"`
-	// Details for a product billable target. Set when `billable_item_type` is `product`.
-	ProductDetails *V2BillingContractOneTimeFeesDataProductDetails `json:"product_details,omitempty"`
+	// The ID of the v1 Product for this fee.
+	Product string `json:"product"`
 }
 
 // The one-time fees of the contract. Only populated when `one_time_fees` is passed in the `include` parameter.
@@ -352,32 +304,12 @@ type V2BillingContractPricingOverridesDataEndsAt struct {
 	Timestamp time.Time `json:"timestamp"`
 }
 
-// All of these key-value conditions must match.
-type V2BillingContractPricingOverridesDataMultiplierCriterionMetadataConditionAllOf struct {
-	// The metadata key.
-	Key string `json:"key"`
-	// The metadata value.
-	Value string `json:"value"`
-}
-
-// Filter by metadata conditions.
-type V2BillingContractPricingOverridesDataMultiplierCriterionMetadataCondition struct {
-	// All of these key-value conditions must match.
-	AllOf []*V2BillingContractPricingOverridesDataMultiplierCriterionMetadataConditionAllOf `json:"all_of"`
-}
-
 // Criteria determining which rates the multiplier applies to.
 type V2BillingContractPricingOverridesDataMultiplierCriterion struct {
-	// Filter by billable item IDs.
-	BillableItemIDs []string `json:"billable_item_ids"`
-	// Filter by billable item lookup keys.
-	BillableItemLookupKeys []string `json:"billable_item_lookup_keys"`
-	// Filter by billable item type.
-	BillableItemTypes []V2BillingContractPricingOverridesDataMultiplierCriterionBillableItemType `json:"billable_item_types"`
-	// Filter by metadata conditions.
-	MetadataConditions []*V2BillingContractPricingOverridesDataMultiplierCriterionMetadataCondition `json:"metadata_conditions"`
-	// Filter by rate card IDs. Only applicable for `multiplier` overrides.
-	RateCardIDs []string `json:"rate_card_ids"`
+	// Filter by pricing line IDs.
+	PricingLineIDs []string `json:"pricing_line_ids,omitempty"`
+	// Filter by pricing line lookup keys.
+	PricingLineLookupKeys []string `json:"pricing_line_lookup_keys,omitempty"`
 	// Whether to include or exclude items matching these criteria.
 	Type V2BillingContractPricingOverridesDataMultiplierCriterionType `json:"type"`
 }
