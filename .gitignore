@@ -1,0 +1,4 @@
+# Build artifacts
+*.test
+*.out
+coverage.txt

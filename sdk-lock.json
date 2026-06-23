@@ -1,0 +1,33 @@
+{
+  "runtime": {
+    "minVersion": "1.22",
+    "commands": [
+      {
+        "name": "go",
+        "versionFlag": "version",
+        "versionPattern": "go(\\d+\\.\\d+\\.\\d+)"
+      }
+    ]
+  },
+  "recipes": {
+    "format": {
+      "commands": [
+        "perl -pi -e 's|github.com/stripe/stripe-go/v\\d+|github.com/stripe/stripe-go/v`cat VERSION`|' README.md",
+        "perl -pi -e 's|github.com/stripe/stripe-go/v\\d+|github.com/stripe/stripe-go/v`cat VERSION`|' go.mod",
+        "find . -name '*.go' -exec perl -pi -e 's|github.com/stripe/stripe-go/(v\\d+\\|\\[MAJOR_VERSION\\])|github.com/stripe/stripe-go/v`cat VERSION`|' {} +",
+        "go get -t",
+        "go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.11.4",
+        "go install golang.org/x/tools/cmd/goimports@v0.39.0",
+        "scripts/gofmt.sh",
+        "goimports -w example/generated_examples_test.go"
+      ],
+      "sourceHash": "sha256:5e9a2418d73d83ae4533eff78e51e0be59bfcbb997d68688db6d4bee7cc8a529"
+    },
+    "build": {
+      "commands": [
+        "go build ./..."
+      ],
+      "sourceHash": "sha256:5e9a2418d73d83ae4533eff78e51e0be59bfcbb997d68688db6d4bee7cc8a529"
+    }
+  }
+}
