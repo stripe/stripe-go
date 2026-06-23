@@ -43,7 +43,7 @@ type V2CoreAccountTokenIdentityAttestationsTermsOfServiceAccountParams struct {
 }
 
 // Details on the Account's acceptance of Treasury-specific terms of service; IP, date, and User Agent are expanded by Stripe.
-type V2CoreAccountTokenIdentityAttestationsTermsOfServiceStorerParams struct {
+type V2CoreAccountTokenIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 	// The boolean value indicating if the terms of service have been accepted.
 	ShownAndAccepted *bool `form:"shown_and_accepted" json:"shown_and_accepted,omitempty"`
 }
@@ -53,7 +53,7 @@ type V2CoreAccountTokenIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement]; IP, date, and User Agent are expanded by Stripe.
 	Account *V2CoreAccountTokenIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service; IP, date, and User Agent are expanded by Stripe.
-	Storer *V2CoreAccountTokenIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
+	MoneyManager *V2CoreAccountTokenIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 }
 
 // Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
@@ -675,7 +675,7 @@ type V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceAccountParams str
 }
 
 // Details on the Account's acceptance of Treasury-specific terms of service; IP, date, and User Agent are expanded by Stripe.
-type V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceStorerParams struct {
+type V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 	// The boolean value indicating if the terms of service have been accepted.
 	ShownAndAccepted *bool `form:"shown_and_accepted" json:"shown_and_accepted,omitempty"`
 }
@@ -685,7 +685,7 @@ type V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement]; IP, date, and User Agent are expanded by Stripe.
 	Account *V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service; IP, date, and User Agent are expanded by Stripe.
-	Storer *V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
+	MoneyManager *V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 }
 
 // Attestations from the identity's key people, e.g. owners, executives, directors, representatives.

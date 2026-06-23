@@ -13926,7 +13926,7 @@ func TestV2BillingProfilePost2Client(t *testing.T) {
 func TestV2CoreAccountGetService(t *testing.T) {
 	params := &stripe.V2CoreAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"object\":\"v2.core.account\",\"applied_configurations\":[\"storer\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13938,7 +13938,7 @@ func TestV2CoreAccountGetService(t *testing.T) {
 func TestV2CoreAccountGetClient(t *testing.T) {
 	params := &stripe.V2CoreAccountListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"object\":\"v2.core.account\",\"applied_configurations\":[\"storer\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/core/accounts", params, "{\"data\":[{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13950,7 +13950,7 @@ func TestV2CoreAccountGetClient(t *testing.T) {
 func TestV2CoreAccountPostService(t *testing.T) {
 	params := &stripe.V2CoreAccountParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"storer\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13963,7 +13963,7 @@ func TestV2CoreAccountPostService(t *testing.T) {
 func TestV2CoreAccountPostClient(t *testing.T) {
 	params := &stripe.V2CoreAccountCreateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"storer\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13976,7 +13976,7 @@ func TestV2CoreAccountPostClient(t *testing.T) {
 func TestV2CoreAccountGet2Service(t *testing.T) {
 	params := &stripe.V2CoreAccountParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"storer\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13989,7 +13989,7 @@ func TestV2CoreAccountGet2Service(t *testing.T) {
 func TestV2CoreAccountGet2Client(t *testing.T) {
 	params := &stripe.V2CoreAccountRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"storer\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14002,7 +14002,7 @@ func TestV2CoreAccountGet2Client(t *testing.T) {
 func TestV2CoreAccountPost2Service(t *testing.T) {
 	params := &stripe.V2CoreAccountParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"storer\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14015,7 +14015,7 @@ func TestV2CoreAccountPost2Service(t *testing.T) {
 func TestV2CoreAccountPost2Client(t *testing.T) {
 	params := &stripe.V2CoreAccountUpdateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"storer\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/id_123", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14028,7 +14028,7 @@ func TestV2CoreAccountPost2Client(t *testing.T) {
 func TestV2CoreAccountPost3Service(t *testing.T) {
 	params := &stripe.V2CoreAccountCloseParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"storer\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14041,7 +14041,7 @@ func TestV2CoreAccountPost3Service(t *testing.T) {
 func TestV2CoreAccountPost3Client(t *testing.T) {
 	params := &stripe.V2CoreAccountCloseParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"storer\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/core/accounts/id_123/close", params, "{\"object\":\"v2.core.account\",\"applied_configurations\":[\"money_manager\"],\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14272,7 +14272,7 @@ func TestV2CoreAccountLinkPostService(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("storer")},
+				Configurations: []*string{stripe.String("merchant")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
@@ -14281,7 +14281,7 @@ func TestV2CoreAccountLinkPostService(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("storer")},
+				Configurations: []*string{stripe.String("merchant")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
@@ -14308,7 +14308,7 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("storer")},
+				Configurations: []*string{stripe.String("merchant")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
@@ -14317,7 +14317,7 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("storer")},
+				Configurations: []*string{stripe.String("merchant")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
@@ -14396,9 +14396,8 @@ func TestV2CoreBatchJobPostService(t *testing.T) {
 		},
 		SkipValidation: stripe.Bool(true),
 	}
-	params.AddMetadata("key", "metadata")
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/batch_jobs", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"maximum_rps\":1686015830,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
+		t, http.MethodPost, "/v2/core/batch_jobs", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14416,9 +14415,8 @@ func TestV2CoreBatchJobPostClient(t *testing.T) {
 		},
 		SkipValidation: stripe.Bool(true),
 	}
-	params.AddMetadata("key", "metadata")
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/batch_jobs", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"maximum_rps\":1686015830,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
+		t, http.MethodPost, "/v2/core/batch_jobs", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14431,7 +14429,7 @@ func TestV2CoreBatchJobPostClient(t *testing.T) {
 func TestV2CoreBatchJobGetService(t *testing.T) {
 	params := &stripe.V2CoreBatchJobParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/batch_jobs/id_123", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"maximum_rps\":1686015830,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
+		t, http.MethodGet, "/v2/core/batch_jobs/id_123", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14444,7 +14442,7 @@ func TestV2CoreBatchJobGetService(t *testing.T) {
 func TestV2CoreBatchJobGetClient(t *testing.T) {
 	params := &stripe.V2CoreBatchJobRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/batch_jobs/id_123", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"maximum_rps\":1686015830,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
+		t, http.MethodGet, "/v2/core/batch_jobs/id_123", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14457,7 +14455,7 @@ func TestV2CoreBatchJobGetClient(t *testing.T) {
 func TestV2CoreBatchJobPost2Service(t *testing.T) {
 	params := &stripe.V2CoreBatchJobCancelParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/batch_jobs/id_123/cancel", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"maximum_rps\":1686015830,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
+		t, http.MethodPost, "/v2/core/batch_jobs/id_123/cancel", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14470,7 +14468,7 @@ func TestV2CoreBatchJobPost2Service(t *testing.T) {
 func TestV2CoreBatchJobPost2Client(t *testing.T) {
 	params := &stripe.V2CoreBatchJobCancelParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/batch_jobs/id_123/cancel", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"maximum_rps\":1686015830,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
+		t, http.MethodPost, "/v2/core/batch_jobs/id_123/cancel", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -16874,51 +16872,28 @@ func TestBlockedByStripeErrorClient(t *testing.T) {
 }
 
 func TestCannotProceedErrorService(t *testing.T) {
-	params := &stripe.V2ExtendWorkflowInvokeParams{
-		InputParameters: map[string]any{
-			"int_key":     123,
-			"string_key":  "value",
-			"boolean_key": true,
-			"object_key": map[string]any{
-				"object_int_key":     123,
-				"object_string_key":  "value",
-				"object_boolean_key": true,
-			},
-			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
-		},
-	}
+	params := &stripe.V2CoreVaultUSBankAccountArchiveParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/extend/workflows/id_123/invoke", params, "{\"error\":{\"type\":\"cannot_proceed\",\"code\":\"default_payout_method_cannot_be_archived\"}}")
+		t, http.MethodPost, "/v2/core/vault/us_bank_accounts/id_123/archive", params, "{\"error\":{\"type\":\"cannot_proceed\",\"code\":\"default_payout_method_cannot_be_archived\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2ExtendWorkflows.Invoke("id_123", params)
+	result, err := sc.V2CoreVaultUSBankAccounts.Archive("id_123", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
 }
 
 func TestCannotProceedErrorClient(t *testing.T) {
-	params := &stripe.V2ExtendWorkflowInvokeParams{
-		InputParameters: map[string]any{
-			"int_key":     123,
-			"string_key":  "value",
-			"boolean_key": true,
-			"object_key": map[string]any{
-				"object_int_key":     123,
-				"object_string_key":  "value",
-				"object_boolean_key": true,
-			},
-			"array_key": stripe.Float64Slice([]float64{1, 2, 3}),
-		},
-	}
+	params := &stripe.V2CoreVaultUSBankAccountArchiveParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/extend/workflows/id_123/invoke", params, "{\"error\":{\"type\":\"cannot_proceed\",\"code\":\"default_payout_method_cannot_be_archived\"}}")
+		t, http.MethodPost, "/v2/core/vault/us_bank_accounts/id_123/archive", params, "{\"error\":{\"type\":\"cannot_proceed\",\"code\":\"default_payout_method_cannot_be_archived\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2ExtendWorkflows.Invoke(context.TODO(), "id_123", params)
+	result, err := sc.V2CoreVaultUSBankAccounts.Archive(
+		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
 }

@@ -41,6 +41,7 @@ type V2MoneyManagementReceivedDebitStatusDetailsFailedReason string
 
 // List of values that V2MoneyManagementReceivedDebitStatusDetailsFailedReason can take
 const (
+	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonCapabilityInactive       V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "capability_inactive"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonFinancialAddressInactive V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "financial_address_inactive"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonInsufficientFunds        V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "insufficient_funds"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonStripeRejected           V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "stripe_rejected"

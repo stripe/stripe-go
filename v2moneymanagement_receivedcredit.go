@@ -144,6 +144,8 @@ type V2MoneyManagementReceivedCreditBankTransferSEPABankAccount struct {
 
 // Hash containing the transaction bank details. Present if `origin_type` field value is `us_bank_account`.
 type V2MoneyManagementReceivedCreditBankTransferUSBankAccount struct {
+	// The name of the account holder that sent the payment.
+	AccountHolderName string `json:"account_holder_name,omitempty"`
 	// The bank name the transfer was received from.
 	BankName string `json:"bank_name,omitempty"`
 	// The last 4 digits of the account number that originated the transfer.
