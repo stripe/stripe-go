@@ -50,16 +50,15 @@ func (c v1CapabilityService) List(ctx context.Context, listParams *CapabilityLis
 	if listParams == nil {
 		listParams = &CapabilityListParams{}
 	}
-	listParams.Context = ctx
+	p := listParams.GetParams()
+	p.Context = ctx
 	path := FormatURLPath(
 		"/v1/accounts/%s/capabilities", StringValue(listParams.Account))
-	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*Capability], error) {
+	queryParams := &form.Values{}
+	form.AppendTo(queryParams, listParams)
+	return newV1List(ctx, nil, func(ctx context.Context, _ *Params, _ *form.Values) (*v1Page[*Capability], error) {
 		list := &v1Page[*Capability]{}
-		if p == nil {
-			p = &Params{}
-		}
-		p.Context = ctx
-		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
+		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(queryParams.Encode()), p, list)
 		return list, err
 	})
 }

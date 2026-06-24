@@ -161,8 +161,21 @@ type FinancialConnectionsSessionHostedParams struct {
 
 // Settings for configuring Session-specific limits.
 type FinancialConnectionsSessionLimitsParams struct {
-	// The number of accounts that can be linked in this Session.
-	Accounts *int64 `form:"accounts" json:"accounts"`
+	// The number of accounts that can be linked in this Session. Pass an empty value to allow any number of accounts.
+	Accounts    *int64                                              `form:"accounts" json:"accounts"`
+	UnsetFields []FinancialConnectionsSessionLimitsParamsUnsetField `form:"-" json:"-"`
+}
+
+// FinancialConnectionsSessionLimitsParamsUnsetField is the list of fields that can be cleared/unset on FinancialConnectionsSessionLimitsParams.
+type FinancialConnectionsSessionLimitsParamsUnsetField string
+
+const (
+	FinancialConnectionsSessionLimitsParamsUnsetFieldAccounts FinancialConnectionsSessionLimitsParamsUnsetField = "accounts"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *FinancialConnectionsSessionLimitsParams) AddUnsetField(field FinancialConnectionsSessionLimitsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Customize manual entry behavior
@@ -221,8 +234,21 @@ type FinancialConnectionsSessionCreateHostedParams struct {
 
 // Settings for configuring Session-specific limits.
 type FinancialConnectionsSessionCreateLimitsParams struct {
-	// The number of accounts that can be linked in this Session.
-	Accounts *int64 `form:"accounts" json:"accounts"`
+	// The number of accounts that can be linked in this Session. Pass an empty value to allow any number of accounts.
+	Accounts    *int64                                                    `form:"accounts" json:"accounts"`
+	UnsetFields []FinancialConnectionsSessionCreateLimitsParamsUnsetField `form:"-" json:"-"`
+}
+
+// FinancialConnectionsSessionCreateLimitsParamsUnsetField is the list of fields that can be cleared/unset on FinancialConnectionsSessionCreateLimitsParams.
+type FinancialConnectionsSessionCreateLimitsParamsUnsetField string
+
+const (
+	FinancialConnectionsSessionCreateLimitsParamsUnsetFieldAccounts FinancialConnectionsSessionCreateLimitsParamsUnsetField = "accounts"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *FinancialConnectionsSessionCreateLimitsParams) AddUnsetField(field FinancialConnectionsSessionCreateLimitsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Customize manual entry behavior

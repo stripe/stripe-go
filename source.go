@@ -57,6 +57,16 @@ const (
 	SourceReceiverRefundAttributesStatusRequested SourceReceiverRefundAttributesStatus = "requested"
 )
 
+// Indicates whether this object and its related objects have been redacted or not.
+type SourceRedactionStatus string
+
+// List of values that SourceRedactionStatus can take
+const (
+	SourceRedactionStatusProcessing SourceRedactionStatus = "processing"
+	SourceRedactionStatusRedacted   SourceRedactionStatus = "redacted"
+	SourceRedactionStatusValidated  SourceRedactionStatus = "validated"
+)
+
 // The failure reason for the redirect, either `user_abort` (the customer aborted or dropped out of the redirect flow), `declined` (the authentication failed or the transaction was declined), or `processing_error` (the redirect failed due to a technical error). Present only if the redirect status is `failed`.
 type SourceRedirectFailureReason string
 
@@ -807,6 +817,12 @@ type SourceReceiver struct {
 	// Type of refund attribute status, one of `missing`, `requested`, or `available`.
 	RefundAttributesStatus SourceReceiverRefundAttributesStatus `json:"refund_attributes_status"`
 }
+
+// Redaction status of this source. If not null, this source is associated to a redaction job.
+type SourceRedaction struct {
+	// Indicates whether this object and its related objects have been redacted or not.
+	Status SourceRedactionStatus `json:"status"`
+}
 type SourceRedirect struct {
 	// The failure reason for the redirect, either `user_abort` (the customer aborted or dropped out of the redirect flow), `declined` (the authentication failed or the transaction was declined), or `processing_error` (the redirect failed due to a technical error). Present only if the redirect status is `failed`.
 	FailureReason SourceRedirectFailureReason `json:"failure_reason"`
@@ -953,10 +969,12 @@ type Source struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Information about the owner of the payment instrument that may be used or required by particular source types.
-	Owner              *SourceOwner              `json:"owner"`
-	P24                *SourceP24                `json:"p24,omitempty"`
-	Paypal             *SourcePaypal             `json:"paypal,omitempty"`
-	Receiver           *SourceReceiver           `json:"receiver,omitempty"`
+	Owner    *SourceOwner    `json:"owner"`
+	P24      *SourceP24      `json:"p24,omitempty"`
+	Paypal   *SourcePaypal   `json:"paypal,omitempty"`
+	Receiver *SourceReceiver `json:"receiver,omitempty"`
+	// Redaction status of this source. If not null, this source is associated to a redaction job.
+	Redaction          *SourceRedaction          `json:"redaction,omitempty"`
 	Redirect           *SourceRedirect           `json:"redirect,omitempty"`
 	SEPACreditTransfer *SourceSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *SourceSEPADebit          `json:"sepa_debit,omitempty"`

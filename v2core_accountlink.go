@@ -31,10 +31,11 @@ type V2CoreAccountLinkUseCaseAccountOnboardingConfiguration string
 
 // List of values that V2CoreAccountLinkUseCaseAccountOnboardingConfiguration can take
 const (
-	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationCustomer  V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "customer"
-	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationMerchant  V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "merchant"
-	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationRecipient V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "recipient"
-	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationStorer    V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "storer"
+	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationCustomer     V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "customer"
+	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationMerchant     V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "merchant"
+	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationMoneyManager V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "money_manager"
+	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationRecipient    V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "recipient"
+	V2CoreAccountLinkUseCaseAccountOnboardingConfigurationStorer       V2CoreAccountLinkUseCaseAccountOnboardingConfiguration = "storer"
 )
 
 // Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). The default value is `currently_due`.
@@ -60,10 +61,11 @@ type V2CoreAccountLinkUseCaseAccountUpdateConfiguration string
 
 // List of values that V2CoreAccountLinkUseCaseAccountUpdateConfiguration can take
 const (
-	V2CoreAccountLinkUseCaseAccountUpdateConfigurationCustomer  V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "customer"
-	V2CoreAccountLinkUseCaseAccountUpdateConfigurationMerchant  V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "merchant"
-	V2CoreAccountLinkUseCaseAccountUpdateConfigurationRecipient V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "recipient"
-	V2CoreAccountLinkUseCaseAccountUpdateConfigurationStorer    V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "storer"
+	V2CoreAccountLinkUseCaseAccountUpdateConfigurationCustomer     V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "customer"
+	V2CoreAccountLinkUseCaseAccountUpdateConfigurationMerchant     V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "merchant"
+	V2CoreAccountLinkUseCaseAccountUpdateConfigurationMoneyManager V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "money_manager"
+	V2CoreAccountLinkUseCaseAccountUpdateConfigurationRecipient    V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "recipient"
+	V2CoreAccountLinkUseCaseAccountUpdateConfigurationStorer       V2CoreAccountLinkUseCaseAccountUpdateConfiguration = "storer"
 )
 
 // Open Enum. The type of Account Link the user is requesting.

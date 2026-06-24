@@ -98,10 +98,37 @@ const (
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySamsungPayPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "samsung_pay_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPABankTransferPayments V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_bank_transfer_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPADebitPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_debit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySunbitPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sunbit_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySwishPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "swish_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityTWINTPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "twint_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityUSBankTransferPayments   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "us_bank_transfer_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityZipPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "zip_payments"
+)
+
+// Open Enum. The capability which had its status updated.
+type V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability string
+
+// List of values that V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability can take
+const (
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundEUR          V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.eur"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundGBP          V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.gbp"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundUSD          V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.usd"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageInboundUsdc         V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.inbound.usdc"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundEUR         V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.eur"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundGBP         V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.gbp"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundUSD         V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.usd"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityBusinessStorageOutboundUsdc        V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "business_storage.outbound.usdc"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityInboundTransfersBankAccounts       V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "inbound_transfers.bank_accounts"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsBankAccounts       V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.bank_accounts"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsCards              V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.cards"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsCryptoWallets      V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.crypto_wallets"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsFinancialAccounts  V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.financial_accounts"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersBankAccounts      V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.bank_accounts"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersCryptoWallets     V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.crypto_wallets"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersFinancialAccounts V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.financial_accounts"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityReceivedCreditsBankAccounts        V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "received_credits.bank_accounts"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityReceivedCreditsCryptoWallets       V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "received_credits.crypto_wallets"
+	V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapabilityReceivedDebitsBankAccounts         V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability = "received_debits.bank_accounts"
 )
 
 // Open Enum. The capability which had its status updated.
@@ -117,36 +144,16 @@ const (
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeTransfers              V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe.transfers"
 )
 
-// Open Enum. The capability which had its status updated.
-type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability string
-
-// List of values that V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability can take
-const (
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityFinancialAddresssesBankAccounts    V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "financial_addressses.bank_accounts"
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityFinancialAddresssesCryptoWallets   V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "financial_addressses.crypto_wallets"
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesEUR                 V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.eur"
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesGBP                 V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.gbp"
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesUSD                 V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.usd"
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesUsdc                V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.usdc"
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityInboundTransfersBankAccounts       V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "inbound_transfers.bank_accounts"
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsBankAccounts       V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.bank_accounts"
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsCards              V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.cards"
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsCryptoWallets      V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.crypto_wallets"
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsFinancialAccounts  V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.financial_accounts"
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersBankAccounts      V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.bank_accounts"
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersCryptoWallets     V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.crypto_wallets"
-	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersFinancialAccounts V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.financial_accounts"
-)
-
 // Configurations on the Account that was onboarded via the account link.
 type V2CoreAccountLinkReturnedEventDataConfiguration string
 
 // List of values that V2CoreAccountLinkReturnedEventDataConfiguration can take
 const (
-	V2CoreAccountLinkReturnedEventDataConfigurationCustomer  V2CoreAccountLinkReturnedEventDataConfiguration = "customer"
-	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
-	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
-	V2CoreAccountLinkReturnedEventDataConfigurationStorer    V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
+	V2CoreAccountLinkReturnedEventDataConfigurationCustomer     V2CoreAccountLinkReturnedEventDataConfiguration = "customer"
+	V2CoreAccountLinkReturnedEventDataConfigurationMerchant     V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
+	V2CoreAccountLinkReturnedEventDataConfigurationMoneyManager V2CoreAccountLinkReturnedEventDataConfiguration = "money_manager"
+	V2CoreAccountLinkReturnedEventDataConfigurationRecipient    V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
+	V2CoreAccountLinkReturnedEventDataConfigurationStorer       V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
 )
 
 // Open Enum. The use case type of the account link that has been completed.
@@ -219,7 +226,7 @@ type V1BillingMeterErrorReportTriggeredEventNotification struct {
 
 // FetchEvent retrieves the V1BillingMeterErrorReportTriggeredEvent that created this Notification
 func (n *V1BillingMeterErrorReportTriggeredEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterErrorReportTriggeredEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -253,7 +260,7 @@ type V1BillingMeterNoMeterFoundEventNotification struct {
 
 // FetchEvent retrieves the V1BillingMeterNoMeterFoundEvent that created this Notification
 func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterNoMeterFoundEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -282,7 +289,7 @@ type V2CommerceProductCatalogImportsFailedEventNotification struct {
 
 // FetchEvent retrieves the V2CommerceProductCatalogImportsFailedEvent that created this Notification
 func (n *V2CommerceProductCatalogImportsFailedEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -323,7 +330,7 @@ type V2CommerceProductCatalogImportsProcessingEventNotification struct {
 
 // FetchEvent retrieves the V2CommerceProductCatalogImportsProcessingEvent that created this Notification
 func (n *V2CommerceProductCatalogImportsProcessingEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsProcessingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -364,7 +371,7 @@ type V2CommerceProductCatalogImportsSucceededEventNotification struct {
 
 // FetchEvent retrieves the V2CommerceProductCatalogImportsSucceededEvent that created this Notification
 func (n *V2CommerceProductCatalogImportsSucceededEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -405,7 +412,7 @@ type V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification struct 
 
 // FetchEvent retrieves the V2CommerceProductCatalogImportsSucceededWithErrorsEvent that created this Notification
 func (n *V2CommerceProductCatalogImportsSucceededWithErrorsEventNotification) FetchEvent(ctx context.Context) (*V2CommerceProductCatalogImportsSucceededWithErrorsEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -446,7 +453,7 @@ type V2CoreAccountClosedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountClosedEvent that created this Notification
 func (n *V2CoreAccountClosedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountClosedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -487,7 +494,7 @@ type V2CoreAccountCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountCreatedEvent that created this Notification
 func (n *V2CoreAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -528,7 +535,7 @@ type V2CoreAccountUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountUpdatedEvent that created this Notification
 func (n *V2CoreAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -570,7 +577,7 @@ type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNoti
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -611,7 +618,7 @@ type V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification struct 
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationCustomerUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationCustomerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationCustomerUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -653,7 +660,7 @@ type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNoti
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -694,7 +701,7 @@ type V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification struct 
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationMerchantUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMerchantUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -703,6 +710,89 @@ func (n *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) Fe
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (n *V2CoreAccountIncludingConfigurationMerchantUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.money_manager].capability_status_updated" event.
+// Occurs when the status of an Account's money manager configuration capability is updated.
+type V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEvent struct {
+	V2BaseEvent
+	Data               V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                                                        `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.money_manager].capability_status_updated"
+// Occurs when the status of an Account's money manager configuration capability is updated.
+type V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEvent that created this Notification
+func (n *V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (n *V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEvent is the Go struct for the "v2.core.account[configuration.money_manager].updated" event.
+// Occurs when a MoneyManager's configuration is updated.
+type V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (e *V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.money_manager].updated"
+// Occurs when a MoneyManager's configuration is updated.
+type V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEvent that created this Notification
+func (n *V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreAccount related to the event.
+func (n *V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -736,7 +826,7 @@ type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNot
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -777,7 +867,7 @@ type V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification struct
 
 // FetchEvent retrieves the V2CoreAccountIncludingConfigurationRecipientUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationRecipientUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -786,89 +876,6 @@ func (n *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) F
 
 // FetchRelatedObject fetches the V2CoreAccount related to the event.
 func (n *V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &V2CoreAccount{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.storer].capability_status_updated" event.
-// Occurs when the status of an Account's storer configuration capability is updated.
-type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent struct {
-	V2BaseEvent
-	Data               V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventData `json:"data"`
-	RelatedObject      V2CoreEventRelatedObject                                                  `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (e *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.storer].capability_status_updated"
-// Occurs when the status of an Account's storer configuration capability is updated.
-type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent that created this Notification
-func (n *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent), nil
-}
-
-// FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (n *V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	params := &eventNotificationParams{Params: Params{Context: ctx}}
-	params.SetStripeContextFrom(n.Context)
-	params.Headers = make(http.Header)
-	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
-	relatedObj := &V2CoreAccount{}
-	err := n.client.backends.API.Call(
-		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
-	return relatedObj, err
-}
-
-// V2CoreAccountIncludingConfigurationStorerUpdatedEvent is the Go struct for the "v2.core.account[configuration.storer].updated" event.
-// Occurs when a Storer's configuration is updated.
-type V2CoreAccountIncludingConfigurationStorerUpdatedEvent struct {
-	V2BaseEvent
-	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2CoreAccount, error)
-}
-
-// FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (e *V2CoreAccountIncludingConfigurationStorerUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
-	return e.fetchRelatedObject()
-}
-
-// V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.account[configuration.storer].updated"
-// Occurs when a Storer's configuration is updated.
-type V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification struct {
-	V2CoreEventNotification
-	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
-}
-
-// FetchEvent retrieves the V2CoreAccountIncludingConfigurationStorerUpdatedEvent that created this Notification
-func (n *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingConfigurationStorerUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return evt.(*V2CoreAccountIncludingConfigurationStorerUpdatedEvent), nil
-}
-
-// FetchRelatedObject fetches the V2CoreAccount related to the event.
-func (n *V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreAccount, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -901,7 +908,7 @@ type V2CoreAccountIncludingDefaultsUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountIncludingDefaultsUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingDefaultsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingDefaultsUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -942,7 +949,7 @@ type V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountIncludingFutureRequirementsUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingFutureRequirementsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingFutureRequirementsUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -983,7 +990,7 @@ type V2CoreAccountIncludingIdentityUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountIncludingIdentityUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingIdentityUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingIdentityUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1024,7 +1031,7 @@ type V2CoreAccountIncludingRequirementsUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountIncludingRequirementsUpdatedEvent that created this Notification
 func (n *V2CoreAccountIncludingRequirementsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountIncludingRequirementsUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1058,7 +1065,7 @@ type V2CoreAccountLinkReturnedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountLinkReturnedEvent that created this Notification
 func (n *V2CoreAccountLinkReturnedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountLinkReturnedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1088,7 +1095,7 @@ type V2CoreAccountPersonCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountPersonCreatedEvent that created this Notification
 func (n *V2CoreAccountPersonCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1130,7 +1137,7 @@ type V2CoreAccountPersonDeletedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountPersonDeletedEvent that created this Notification
 func (n *V2CoreAccountPersonDeletedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonDeletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1172,7 +1179,7 @@ type V2CoreAccountPersonUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreAccountPersonUpdatedEvent that created this Notification
 func (n *V2CoreAccountPersonUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreAccountPersonUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1213,7 +1220,7 @@ type V2CoreBatchJobBatchFailedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobBatchFailedEvent that created this Notification
 func (n *V2CoreBatchJobBatchFailedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobBatchFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1254,7 +1261,7 @@ type V2CoreBatchJobCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobCanceledEvent that created this Notification
 func (n *V2CoreBatchJobCanceledEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1295,7 +1302,7 @@ type V2CoreBatchJobCompletedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobCompletedEvent that created this Notification
 func (n *V2CoreBatchJobCompletedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobCompletedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1336,7 +1343,7 @@ type V2CoreBatchJobCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobCreatedEvent that created this Notification
 func (n *V2CoreBatchJobCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1377,7 +1384,7 @@ type V2CoreBatchJobReadyForUploadEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobReadyForUploadEvent that created this Notification
 func (n *V2CoreBatchJobReadyForUploadEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobReadyForUploadEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1418,7 +1425,7 @@ type V2CoreBatchJobTimeoutEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobTimeoutEvent that created this Notification
 func (n *V2CoreBatchJobTimeoutEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobTimeoutEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1459,7 +1466,7 @@ type V2CoreBatchJobUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobUpdatedEvent that created this Notification
 func (n *V2CoreBatchJobUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1500,7 +1507,7 @@ type V2CoreBatchJobUploadTimeoutEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobUploadTimeoutEvent that created this Notification
 func (n *V2CoreBatchJobUploadTimeoutEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobUploadTimeoutEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1541,7 +1548,7 @@ type V2CoreBatchJobValidatingEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobValidatingEvent that created this Notification
 func (n *V2CoreBatchJobValidatingEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobValidatingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1582,7 +1589,7 @@ type V2CoreBatchJobValidationFailedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreBatchJobValidationFailedEvent that created this Notification
 func (n *V2CoreBatchJobValidationFailedEventNotification) FetchEvent(ctx context.Context) (*V2CoreBatchJobValidationFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1623,7 +1630,7 @@ type V2CoreEventDestinationPingEventNotification struct {
 
 // FetchEvent retrieves the V2CoreEventDestinationPingEvent that created this Notification
 func (n *V2CoreEventDestinationPingEventNotification) FetchEvent(ctx context.Context) (*V2CoreEventDestinationPingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1657,7 +1664,7 @@ type V2CoreHealthEventGenerationFailureResolvedEventNotification struct {
 
 // FetchEvent retrieves the V2CoreHealthEventGenerationFailureResolvedEvent that created this Notification
 func (n *V2CoreHealthEventGenerationFailureResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthEventGenerationFailureResolvedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1686,7 +1693,7 @@ type V2DataReportingQueryRunCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2DataReportingQueryRunCreatedEvent that created this Notification
 func (n *V2DataReportingQueryRunCreatedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1727,7 +1734,7 @@ type V2DataReportingQueryRunFailedEventNotification struct {
 
 // FetchEvent retrieves the V2DataReportingQueryRunFailedEvent that created this Notification
 func (n *V2DataReportingQueryRunFailedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1768,7 +1775,7 @@ type V2DataReportingQueryRunSucceededEventNotification struct {
 
 // FetchEvent retrieves the V2DataReportingQueryRunSucceededEvent that created this Notification
 func (n *V2DataReportingQueryRunSucceededEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1809,7 +1816,7 @@ type V2DataReportingQueryRunUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2DataReportingQueryRunUpdatedEvent that created this Notification
 func (n *V2DataReportingQueryRunUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2DataReportingQueryRunUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1851,7 +1858,7 @@ type V2ExtendWorkflowRunFailedEventNotification struct {
 
 // FetchEvent retrieves the V2ExtendWorkflowRunFailedEvent that created this Notification
 func (n *V2ExtendWorkflowRunFailedEventNotification) FetchEvent(ctx context.Context) (*V2ExtendWorkflowRunFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1892,7 +1899,7 @@ type V2ExtendWorkflowRunStartedEventNotification struct {
 
 // FetchEvent retrieves the V2ExtendWorkflowRunStartedEvent that created this Notification
 func (n *V2ExtendWorkflowRunStartedEventNotification) FetchEvent(ctx context.Context) (*V2ExtendWorkflowRunStartedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1933,7 +1940,7 @@ type V2ExtendWorkflowRunSucceededEventNotification struct {
 
 // FetchEvent retrieves the V2ExtendWorkflowRunSucceededEvent that created this Notification
 func (n *V2ExtendWorkflowRunSucceededEventNotification) FetchEvent(ctx context.Context) (*V2ExtendWorkflowRunSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1974,7 +1981,7 @@ type V2MoneyManagementAdjustmentCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementAdjustmentCreatedEvent that created this Notification
 func (n *V2MoneyManagementAdjustmentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementAdjustmentCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2015,7 +2022,7 @@ type V2MoneyManagementFinancialAccountCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAccountCreatedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAccountCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2056,7 +2063,7 @@ type V2MoneyManagementFinancialAccountUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAccountUpdatedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAccountUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAccountUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2097,7 +2104,7 @@ type V2MoneyManagementFinancialAddressActivatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAddressActivatedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAddressActivatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAddressActivatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2138,7 +2145,7 @@ type V2MoneyManagementFinancialAddressFailedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementFinancialAddressFailedEvent that created this Notification
 func (n *V2MoneyManagementFinancialAddressFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementFinancialAddressFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2180,7 +2187,7 @@ type V2MoneyManagementInboundTransferAvailableEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferAvailableEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferAvailableEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferAvailableEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2221,7 +2228,7 @@ type V2MoneyManagementInboundTransferBankDebitFailedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitFailedEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2262,7 +2269,7 @@ type V2MoneyManagementInboundTransferBankDebitProcessingEventNotification struct
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitProcessingEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitProcessingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitProcessingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2303,7 +2310,7 @@ type V2MoneyManagementInboundTransferBankDebitQueuedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitQueuedEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitQueuedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitQueuedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2344,7 +2351,7 @@ type V2MoneyManagementInboundTransferBankDebitReturnedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitReturnedEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitReturnedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2385,7 +2392,7 @@ type V2MoneyManagementInboundTransferBankDebitSucceededEventNotification struct 
 
 // FetchEvent retrieves the V2MoneyManagementInboundTransferBankDebitSucceededEvent that created this Notification
 func (n *V2MoneyManagementInboundTransferBankDebitSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementInboundTransferBankDebitSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2426,7 +2433,7 @@ type V2MoneyManagementOutboundPaymentCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentCanceledEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2467,7 +2474,7 @@ type V2MoneyManagementOutboundPaymentCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentCreatedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2508,7 +2515,7 @@ type V2MoneyManagementOutboundPaymentFailedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentFailedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2549,7 +2556,7 @@ type V2MoneyManagementOutboundPaymentPostedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentPostedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentPostedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentPostedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2590,7 +2597,7 @@ type V2MoneyManagementOutboundPaymentReturnedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentReturnedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentReturnedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2599,6 +2606,47 @@ func (n *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchEvent(c
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
 func (n *V2MoneyManagementOutboundPaymentReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementOutboundPayment{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementOutboundPaymentUnderReviewEvent is the Go struct for the "v2.money_management.outbound_payment.under_review" event.
+// Occurs when an OutboundPayment is placed under review.
+type V2MoneyManagementOutboundPaymentUnderReviewEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (e *V2MoneyManagementOutboundPaymentUnderReviewEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundPaymentUnderReviewEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_payment.under_review"
+// Occurs when an OutboundPayment is placed under review.
+type V2MoneyManagementOutboundPaymentUnderReviewEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundPaymentUnderReviewEvent that created this Notification
+func (n *V2MoneyManagementOutboundPaymentUnderReviewEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentUnderReviewEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundPaymentUnderReviewEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundPayment related to the event.
+func (n *V2MoneyManagementOutboundPaymentUnderReviewEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundPayment, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -2631,7 +2679,7 @@ type V2MoneyManagementOutboundPaymentUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundPaymentUpdatedEvent that created this Notification
 func (n *V2MoneyManagementOutboundPaymentUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundPaymentUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2672,7 +2720,7 @@ type V2MoneyManagementOutboundTransferCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferCanceledEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2713,7 +2761,7 @@ type V2MoneyManagementOutboundTransferCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferCreatedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2754,7 +2802,7 @@ type V2MoneyManagementOutboundTransferFailedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferFailedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2795,7 +2843,7 @@ type V2MoneyManagementOutboundTransferPostedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferPostedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferPostedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferPostedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2836,7 +2884,7 @@ type V2MoneyManagementOutboundTransferReturnedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferReturnedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferReturnedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2845,6 +2893,47 @@ func (n *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchEvent(
 
 // FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
 func (n *V2MoneyManagementOutboundTransferReturnedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementOutboundTransfer{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementOutboundTransferUnderReviewEvent is the Go struct for the "v2.money_management.outbound_transfer.under_review" event.
+// Occurs when an OutboundTransfer is placed under review.
+type V2MoneyManagementOutboundTransferUnderReviewEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (e *V2MoneyManagementOutboundTransferUnderReviewEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferUnderReviewEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.outbound_transfer.under_review"
+// Occurs when an OutboundTransfer is placed under review.
+type V2MoneyManagementOutboundTransferUnderReviewEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementOutboundTransferUnderReviewEvent that created this Notification
+func (n *V2MoneyManagementOutboundTransferUnderReviewEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferUnderReviewEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementOutboundTransferUnderReviewEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementOutboundTransfer related to the event.
+func (n *V2MoneyManagementOutboundTransferUnderReviewEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementOutboundTransfer, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -2877,7 +2966,7 @@ type V2MoneyManagementOutboundTransferUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementOutboundTransferUpdatedEvent that created this Notification
 func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementOutboundTransferUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2918,7 +3007,7 @@ type V2MoneyManagementPayoutMethodCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementPayoutMethodCreatedEvent that created this Notification
 func (n *V2MoneyManagementPayoutMethodCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutMethodCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2959,7 +3048,7 @@ type V2MoneyManagementPayoutMethodUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementPayoutMethodUpdatedEvent that created this Notification
 func (n *V2MoneyManagementPayoutMethodUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutMethodUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3001,7 +3090,7 @@ type V2MoneyManagementReceivedCreditAvailableEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditAvailableEvent that created this Notification
 func (n *V2MoneyManagementReceivedCreditAvailableEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditAvailableEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3042,7 +3131,7 @@ type V2MoneyManagementReceivedCreditFailedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditFailedEvent that created this Notification
 func (n *V2MoneyManagementReceivedCreditFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3083,7 +3172,7 @@ type V2MoneyManagementReceivedCreditReturnedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditReturnedEvent that created this Notification
 func (n *V2MoneyManagementReceivedCreditReturnedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditReturnedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3124,7 +3213,7 @@ type V2MoneyManagementReceivedCreditSucceededEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedCreditSucceededEvent that created this Notification
 func (n *V2MoneyManagementReceivedCreditSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedCreditSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3165,7 +3254,7 @@ type V2MoneyManagementReceivedDebitCanceledEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitCanceledEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitCanceledEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3206,7 +3295,7 @@ type V2MoneyManagementReceivedDebitFailedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitFailedEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitFailedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitFailedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3247,7 +3336,7 @@ type V2MoneyManagementReceivedDebitPendingEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitPendingEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitPendingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitPendingEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3288,7 +3377,7 @@ type V2MoneyManagementReceivedDebitSucceededEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitSucceededEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitSucceededEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitSucceededEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3329,7 +3418,7 @@ type V2MoneyManagementReceivedDebitUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementReceivedDebitUpdatedEvent that created this Notification
 func (n *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3371,7 +3460,7 @@ type V2MoneyManagementTransactionCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementTransactionCreatedEvent that created this Notification
 func (n *V2MoneyManagementTransactionCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementTransactionCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3412,7 +3501,7 @@ type V2MoneyManagementTransactionUpdatedEventNotification struct {
 
 // FetchEvent retrieves the V2MoneyManagementTransactionUpdatedEvent that created this Notification
 func (n *V2MoneyManagementTransactionUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementTransactionUpdatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3454,7 +3543,7 @@ type V2OrchestratedCommerceAgreementConfirmedEventNotification struct {
 
 // FetchEvent retrieves the V2OrchestratedCommerceAgreementConfirmedEvent that created this Notification
 func (n *V2OrchestratedCommerceAgreementConfirmedEventNotification) FetchEvent(ctx context.Context) (*V2OrchestratedCommerceAgreementConfirmedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3496,7 +3585,7 @@ type V2OrchestratedCommerceAgreementCreatedEventNotification struct {
 
 // FetchEvent retrieves the V2OrchestratedCommerceAgreementCreatedEvent that created this Notification
 func (n *V2OrchestratedCommerceAgreementCreatedEventNotification) FetchEvent(ctx context.Context) (*V2OrchestratedCommerceAgreementCreatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3538,7 +3627,7 @@ type V2OrchestratedCommerceAgreementPartiallyConfirmedEventNotification struct {
 
 // FetchEvent retrieves the V2OrchestratedCommerceAgreementPartiallyConfirmedEvent that created this Notification
 func (n *V2OrchestratedCommerceAgreementPartiallyConfirmedEventNotification) FetchEvent(ctx context.Context) (*V2OrchestratedCommerceAgreementPartiallyConfirmedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3580,7 +3669,7 @@ type V2OrchestratedCommerceAgreementTerminatedEventNotification struct {
 
 // FetchEvent retrieves the V2OrchestratedCommerceAgreementTerminatedEvent that created this Notification
 func (n *V2OrchestratedCommerceAgreementTerminatedEventNotification) FetchEvent(ctx context.Context) (*V2OrchestratedCommerceAgreementTerminatedEvent, error) {
-	evt, err := n.V2CoreEventNotification.fetchEvent(ctx)
+	evt, err := n.fetchEvent(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3699,16 +3788,16 @@ type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData
 	UpdatedCapability V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
 }
 
+// Occurs when the status of an Account's money manager configuration capability is updated.
+type V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventData struct {
+	// Open Enum. The capability which had its status updated.
+	UpdatedCapability V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+}
+
 // Occurs when the status of an Account's recipient configuration capability is updated.
 type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventData struct {
 	// Open Enum. The capability which had its status updated.
 	UpdatedCapability V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
-}
-
-// Occurs when the status of an Account's storer configuration capability is updated.
-type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventData struct {
-	// Open Enum. The capability which had its status updated.
-	UpdatedCapability V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
 }
 
 // Occurs when the generated AccountLink is completed.
@@ -4111,6 +4200,39 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.core.account[configuration.money_manager].capability_status_updated":
+		result := &V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account[configuration.money_manager].updated":
+		result := &V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.core.account[configuration.recipient].capability_status_updated":
 		result := &V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -4131,39 +4253,6 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v2.core.account[configuration.recipient].updated":
 		result := &V2CoreAccountIncludingConfigurationRecipientUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			params := &Params{}
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		return result, nil
-	case "v2.core.account[configuration.storer].capability_status_updated":
-		result := &V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
-			v := &V2CoreAccount{}
-			params := &Params{}
-			params.Headers = make(http.Header)
-			params.Headers.Set(
-				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
-			err := backend.Call(
-				http.MethodGet, event.RelatedObject.URL, key, params, v)
-			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.core.account[configuration.storer].updated":
-		result := &V2CoreAccountIncludingConfigurationStorerUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
@@ -4821,6 +4910,21 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.money_management.outbound_payment.under_review":
+		result := &V2MoneyManagementOutboundPaymentUnderReviewEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
+			v := &V2MoneyManagementOutboundPayment{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.money_management.outbound_payment.updated":
 		result := &V2MoneyManagementOutboundPaymentUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -4898,6 +5002,21 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v2.money_management.outbound_transfer.returned":
 		result := &V2MoneyManagementOutboundTransferReturnedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
+			v := &V2MoneyManagementOutboundTransfer{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_transfer.under_review":
+		result := &V2MoneyManagementOutboundTransferUnderReviewEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
@@ -5219,7 +5338,7 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 	}
 
 	if result.Object == "event" {
-		return nil, fmt.Errorf("Did you use EventNotificationFromJSON to parse a webhook payload? If so, use ConstructEvent instead.")
+		return nil, fmt.Errorf("did you use EventNotificationFromJSON to parse a webhook payload? If so, use ConstructEvent instead")
 	}
 
 	// V2EventNotificationTypes: The beginning of the section generated from our OpenAPI spec
@@ -5315,6 +5434,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.core.account[configuration.money_manager].capability_status_updated":
+		evt := V2CoreAccountIncludingConfigurationMoneyManagerCapabilityStatusUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.account[configuration.money_manager].updated":
+		evt := V2CoreAccountIncludingConfigurationMoneyManagerUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.core.account[configuration.recipient].capability_status_updated":
 		evt := V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -5324,20 +5457,6 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.core.account[configuration.recipient].updated":
 		evt := V2CoreAccountIncludingConfigurationRecipientUpdatedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v2.core.account[configuration.storer].capability_status_updated":
-		evt := V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventNotification{}
-		if err := json.Unmarshal(payload, &evt); err != nil {
-			return nil, err
-		}
-		evt.client = client
-		return &evt, nil
-	case "v2.core.account[configuration.storer].updated":
-		evt := V2CoreAccountIncludingConfigurationStorerUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -5644,6 +5763,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.money_management.outbound_payment.under_review":
+		evt := V2MoneyManagementOutboundPaymentUnderReviewEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.money_management.outbound_payment.updated":
 		evt := V2MoneyManagementOutboundPaymentUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -5681,6 +5807,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.money_management.outbound_transfer.returned":
 		evt := V2MoneyManagementOutboundTransferReturnedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.outbound_transfer.under_review":
+		evt := V2MoneyManagementOutboundTransferUnderReviewEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

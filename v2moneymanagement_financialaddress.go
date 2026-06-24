@@ -86,13 +86,13 @@ type V2MoneyManagementFinancialAddressCredentialsUSBankAccount struct {
 	AccountNumber string `json:"account_number,omitempty"`
 	// The name of the Bank.
 	BankName string `json:"bank_name,omitempty"`
+	// The BIC of the bank or financial institution.
+	BIC string `json:"bic,omitempty"`
 	// The last four digits of the US Bank Account number. This will always be returned.
 	// To view the full account number when retrieving or listing FinancialAddresses, use the `include` request parameter.
 	Last4 string `json:"last4"`
 	// The routing number of the US Bank Account.
 	RoutingNumber string `json:"routing_number"`
-	// The swift code of the bank or financial institution.
-	SwiftCode string `json:"swift_code,omitempty"`
 }
 
 // Object indicates the type of credentials that have been allocated and attached to the FinancialAddress.

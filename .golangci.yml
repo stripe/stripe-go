@@ -1,0 +1,59 @@
+version: "2"
+
+linters:
+  settings:
+    staticcheck:
+      checks:
+        - "all"
+        # ST1020/ST1021 are doc-comment format rules (comments must start with the
+        # exported symbol name). All violations are in generated files and require
+        # large-scale codegen changes to fix.
+        - "-ST1020"
+        - "-ST1021"
+
+  exclusions:
+    rules:
+      # SA1019: deprecated client package usage. These files use the old client.API /
+      # client.New surface intentionally (backward-compat tests or generated examples).
+      - path: "^account/client_test\\.go$"
+        linters: [staticcheck]
+        text: "SA1019"
+      - path: "^charge/client_test\\.go$"
+        linters: [staticcheck]
+        text: "SA1019"
+      - path: "^coupon/client_test\\.go$"
+        linters: [staticcheck]
+        text: "SA1019"
+      - path: "^example/generated_examples_test\\.go$"
+        linters: [staticcheck]
+        text: "SA1019"
+      - path: "^v2/billing/meterevent/client_test\\.go$"
+        linters: [staticcheck]
+        text: "SA1019"
+      - path: "^v2/billing/metereventadjustment/client_test\\.go$"
+        linters: [staticcheck]
+        text: "SA1019"
+      - path: "^v2/billing/metereventsession/client_test\\.go$"
+        linters: [staticcheck]
+        text: "SA1019"
+      - path: "^v2/billing/metereventstream/client_test\\.go$"
+        linters: [staticcheck]
+        text: "SA1019"
+
+      # Deferred lint fixes: pre-existing issues surfaced by the golangci-lint
+      # migration (#2360/#2361). Tracked in DEVSDK-3134.
+      #
+      # errcheck: unchecked returns in tests and example code.
+      - path: "^stripe_test\\.go$"
+        linters: [errcheck]
+      - path: "^example/"
+        linters: [errcheck]
+      # ST1005: error string punctuation in generated file.
+      - path: "^stripe_event_notification_handler\\.go$"
+        linters: [staticcheck]
+        text: "ST1005"
+      # ST1003: trimApiVersion naming in webhook/client.go (private-preview code).
+      - path: "^webhook/client\\.go$"
+        linters: [staticcheck]
+        text: "ST1003"
+

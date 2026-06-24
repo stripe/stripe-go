@@ -19,7 +19,8 @@ func TestErrorResponse(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Request-Id", "req_123")
 		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprintln(w, `{"error":{"message":"bar","type":"`+ErrorTypeInvalidRequest+`"}}`)
+		_, err := fmt.Fprintln(w, `{"error":{"message":"bar","type":"`+ErrorTypeInvalidRequest+`"}}`)
+		assert.NoError(t, err)
 	}))
 	defer ts.Close()
 

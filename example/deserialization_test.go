@@ -11,8 +11,6 @@ import (
 type APIResource = stripe.APIResource
 type ListMeta = stripe.ListMeta
 
-var parseID = stripe.ParseID
-
 func ParseID(data []byte) (string, bool) {
 	return string(data), false
 }

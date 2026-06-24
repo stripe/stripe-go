@@ -36,7 +36,7 @@ func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
 		return &Iter{
 			Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 				list := &stripe.SourceTransactionList{}
-				return nil, list, fmt.Errorf("Invalid source transaction params: Source needs to be set")
+				return nil, list, fmt.Errorf("invalid source transaction params: Source needs to be set")
 			}),
 		}
 	}

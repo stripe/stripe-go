@@ -617,8 +617,14 @@ type ConfirmationTokenPaymentMethodPreviewBillingDetails struct {
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
 	TaxID string `json:"tax_id"`
 }
-type ConfirmationTokenPaymentMethodPreviewBizum struct{}
-type ConfirmationTokenPaymentMethodPreviewBLIK struct{}
+type ConfirmationTokenPaymentMethodPreviewBizum struct {
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id,omitempty"`
+}
+type ConfirmationTokenPaymentMethodPreviewBLIK struct {
+	// A unique and immutable identifier assigned by BLIK to every buyer.
+	BuyerID string `json:"buyer_id,omitempty"`
+}
 type ConfirmationTokenPaymentMethodPreviewBoleto struct {
 	// Uniquely identifies the customer tax id (CNPJ or CPF)
 	TaxID string `json:"tax_id"`
@@ -1046,7 +1052,10 @@ type ConfirmationTokenPaymentMethodPreviewPayto struct {
 	// The PayID alias for the bank account.
 	PayID string `json:"pay_id"`
 }
-type ConfirmationTokenPaymentMethodPreviewPix struct{}
+type ConfirmationTokenPaymentMethodPreviewPix struct {
+	// Uniquely identifies this particular Pix account. You can use this attribute to check whether two Pix accounts are the same.
+	Fingerprint string `json:"fingerprint,omitempty"`
+}
 type ConfirmationTokenPaymentMethodPreviewPromptPay struct{}
 type ConfirmationTokenPaymentMethodPreviewQris struct{}
 type ConfirmationTokenPaymentMethodPreviewRechnungDOB struct {

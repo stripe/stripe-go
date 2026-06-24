@@ -1,5 +1,17 @@
 # Changelog
 
+## 86.0.0 - 2026-06-05
+
+This release **doesn't** change the pinned API version; it still uses `2026-05-27.dahlia`.
+
+We're doing an out-of-band-major to update a field type that changed. If you're not using `tax_details`, this is a no-op release when compared with the last one. If you _are_ using `tax_details` its type has changed slightly and you'll have to update your code when upgrading.
+
+* [#2375](https://github.com/stripe/stripe-go/pull/2375) ⚠️ Make `tax_rate.tax_details` expandable
+* [#2370](https://github.com/stripe/stripe-go/pull/2370) Add "source" field to user-agent header
+* [#2367](https://github.com/stripe/stripe-go/pull/2367) Remove `Limit`, `StartingAfter`, and `EndingBefore` fields for `List` methods that do not accept those fields
+  <!-- Include any links or additional information that help explain this change. -->
+  - Fixes a bug where `Limit`, `StartingAfter`, and `EndingBefore` were embedded in `CapabilityListParams` and `ReportingReportTypeListParams` even though they are not valid parameters and would have always resulted in a 400 from the Stripe API if set. If you were including them before in either of those 2 structs, you can safely remove them.
+
 ## 85.3.0-beta.1 - 2026-05-27
 This release changes the pinned API version to 2026-05-27.private.
 
@@ -18,6 +30,49 @@ This release changes the pinned API version to 2026-05-27.private.
   * Add support for new values `ao_bank_account`, `az_bank_account`, `bd_bank_account`, `bo_bank_account`, `br_bank_account`, `cl_bank_account`, `ga_bank_account`, `gh_bank_account`, `gi_bank_account`, `hn_bank_account`, `kr_bank_account`, `kz_bank_account`, `la_bank_account`, `ne_bank_account`, `ng_bank_account`, `ni_bank_account`, `py_bank_account`, `sa_bank_account`, `sm_bank_account`, and `uy_bank_account` on enum `V2CoreAccountConfigurationRecipientDefaultOutboundDestination.Type`
   * ⚠️ Change type of `V2MoneyManagementReceivedCreditBankTransferGbBankAccount.Network` from `literal('fps')` to `enum('chaps'|'fps')`
   * Add support for error codes `payment_method_microdeposit_processing_error` and `siret_invalid` on `QuotePreviewInvoiceLastFinalizationError`
+
+## 85.2.0 - 2026-05-27
+* [#2359](https://github.com/stripe/stripe-go/pull/2359) Update generated code
+  * Add support for new resource `V2CommerceProductCatalogImport`
+  * Add support for `Get` and `New` methods on resource `V2CommerceProductCatalogImport`
+  * Add support for `BizumPayments` and `ScalapayPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `AutomaticTransferRulesByCurrency` on `BalanceSettingsPaymentsPayoutsParams` and `BalanceSettingsPaymentsPayouts`
+  * Add support for `StartOfDay` on `BalanceSettingsPaymentsSettlementTimingParams` and `BalanceSettingsPaymentsSettlementTiming`
+  * Add support for `Description` on `ChargeTransferDataParams`, `PaymentIntentTransferDataParams`, and `PaymentIntentTransferData`
+  * Add support for `Bizum` on `ChargePaymentMethodDetails`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `PaymentAttemptRecordPaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodConfigurationParams`, `PaymentMethodConfiguration`, `PaymentMethodParams`, `PaymentMethod`, `PaymentRecordPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodDataParams`, `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodDataParams`, `SetupIntentPaymentMethodOptionsParams`, and `SetupIntentPaymentMethodOptions`
+  * Add support for `Scalapay` on `ChargePaymentMethodDetails`, `CheckoutSessionPaymentMethodOptionsParams`, `CheckoutSessionPaymentMethodOptions`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `PaymentAttemptRecordPaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodConfigurationParams`, `PaymentMethodConfiguration`, `PaymentMethodParams`, `PaymentMethod`, `PaymentRecordPaymentMethodDetails`, `RefundDestinationDetails`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `Mandate` on `ChargePaymentMethodDetailsTwint`, `PaymentAttemptRecordPaymentMethodDetailsTwint`, and `PaymentRecordPaymentMethodDetailsTwint`
+  * Change type of `CheckoutSessionPaymentMethodOptionsTwintParams.SetupFutureUsage`, `PaymentIntentConfirmPaymentMethodOptionsTwintParams.SetupFutureUsage`, and `PaymentIntentPaymentMethodOptionsTwintParams.SetupFutureUsage` from `literal('none')` to `enum('none'|'off_session')`
+  * ⚠️ Change type of `CheckoutSessionPaymentMethodOptionsTwint.SetupFutureUsage` and `PaymentIntentPaymentMethodOptionsTwint.SetupFutureUsage` from `literal('none')` to `enum('none'|'off_session')`
+  * Add support for new values `bizum` and `scalapay` on enums `ConfirmationTokenPaymentMethodPreview.Type` and `PaymentMethod.Type`
+  * Add support for `CreditedItems` on `InvoiceItemProrationDetails`
+  * Add support for `Discountable` on `InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemParams`, `SubscriptionAddInvoiceItemParams`, `SubscriptionSchedulePhaseAddInvoiceItemParams`, and `SubscriptionSchedulePhaseAddInvoiceItem`
+  * Add support for `BillingSchedules` on `InvoiceCreatePreviewSubscriptionDetailsParams`, `SubscriptionParams`, and `Subscription`
+  * Add support for `AmountPaidOffStripe` on `Invoice`
+  * Add support for new value `twint` on enums `InvoicePaymentSettings.PaymentMethodTypes` and `SubscriptionPaymentSettings.PaymentMethodTypes`
+  * Add support for `TWINT` on `MandatePaymentMethodDetails` and `SetupAttemptPaymentMethodDetails`
+  * Add support for `Metadata` on `PaymentIntentTransferDataParams`, `PaymentIntentTransferData`, and `SubscriptionPendingUpdate`
+  * Add support for `PaymentData` on `PaymentIntentTransferDataParams` and `PaymentIntentTransferData`
+  * Add support for new values `bizum` and `scalapay` on enums `PaymentIntent.ExcludedPaymentMethodTypes` and `SetupIntent.ExcludedPaymentMethodTypes`
+  * Add support for `BLIKAuthorize` on `PaymentIntentNextAction` and `SetupIntentNextAction`
+  * Add support for `PaymentMethodOptions` on `PaymentLinkParams` and `PaymentLink`
+  * Add support for new value `bizum` on enum `PaymentLink.PaymentMethodTypes`
+  * Add support for `Active` on `PaymentMethodConfigurationListParams`
+  * Add support for `BilledUntil` on `SubscriptionItem`
+  * Add support for `Discount` and `Discounts` on `SubscriptionPendingUpdate`
+  * Add support for `VerifoneM425`, `VerifoneP630`, `VerifoneUx700`, and `VerifoneV660p` on `TerminalConfigurationParams` and `TerminalConfiguration`
+  * Add support for `APIError` and `PrintContent` on `TerminalReaderAction`
+  * Add support for new value `print_content` on enum `TerminalReaderAction.Type`
+  * Add support for new values `simulated_verifone_m425`, `simulated_verifone_p630`, `simulated_verifone_ux700`, `simulated_verifone_v660p`, `verifone_m425`, `verifone_p630`, `verifone_ux700`, and `verifone_v660p` on enum `TerminalReader.DeviceType`
+  * Add support for `Customer` on `TestHelpersTestClockParams`
+  * Add support for `Signer` on `V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistrationParams`, `V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistration`, `V2CoreAccountIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams`, `V2CoreAccountIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnership`, `V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfRegistrationParams`, and `V2CoreAccountTokenIdentityBusinessDetailsDocumentsProofOfUltimateBeneficialOwnershipParams`
+  * Add support for `AzureEventGrid` on `V2CoreEventDestinationParams` and `V2CoreEventDestination`
+  * Add support for new value `no_azure_partner_topic_exists` on enum `V2CoreEventDestinationStatusDetailsDisabled.Reason`
+  * Add support for new value `azure_event_grid` on enum `V2CoreEventDestination.Type`
+  * Add support for new value `meter_event_value_too_many_digits` on enums `EventsV1BillingMeterErrorReportTriggeredEventReasonErrorType.Code` and `EventsV1BillingMeterNoMeterFoundEventReasonErrorType.Code`
+  * Add support for event notifications `V2CommerceProductCatalogImportsFailedEvent`, `V2CommerceProductCatalogImportsProcessingEvent`, `V2CommerceProductCatalogImportsSucceededEvent`, and `V2CommerceProductCatalogImportsSucceededWithErrorsEvent` with related object `V2CommerceProductCatalogImport`
+  * Add support for error codes `payment_method_microdeposit_processing_error` and `siret_invalid` on `Error`, `InvoiceLastFinalizationError`, `PaymentIntentLastPaymentError`, `SetupAttemptSetupError`, `SetupIntentLastSetupError`, and `StripeError`
+* [#2357](https://github.com/stripe/stripe-go/pull/2357) Emit warning when `stripe-notify` header is present in response
 
 ## 85.2.0-beta.2 - 2026-04-24
 * [#2347](https://github.com/stripe/stripe-go/pull/2347) Update generated code for beta

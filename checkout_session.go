@@ -1305,6 +1305,28 @@ const (
 	CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsage = "none"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsSunbitCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsSunbitCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsSunbitCaptureMethodManual CheckoutSessionPaymentMethodOptionsSunbitCaptureMethod = "manual"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsSunbitSetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsSunbitSetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsSunbitSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsSunbitSetupFutureUsage = "none"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1410,6 +1432,30 @@ const (
 	CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethodInstant   CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod = "instant"
 )
 
+// The client type that the end customer will pay from
+type CheckoutSessionPaymentMethodOptionsWeChatPayClient string
+
+// List of values that CheckoutSessionPaymentMethodOptionsWeChatPayClient can take
+const (
+	CheckoutSessionPaymentMethodOptionsWeChatPayClientAndroid CheckoutSessionPaymentMethodOptionsWeChatPayClient = "android"
+	CheckoutSessionPaymentMethodOptionsWeChatPayClientIOS     CheckoutSessionPaymentMethodOptionsWeChatPayClient = "ios"
+	CheckoutSessionPaymentMethodOptionsWeChatPayClientWeb     CheckoutSessionPaymentMethodOptionsWeChatPayClient = "web"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsWeChatPaySetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsWeChatPaySetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsWeChatPaySetupFutureUsageNone CheckoutSessionPaymentMethodOptionsWeChatPaySetupFutureUsage = "none"
+)
+
 // The payment status of the Checkout Session, one of `paid`, `unpaid`, or `no_payment_required`.
 // You can use this value to decide when to fulfill your customer's order.
 type CheckoutSessionPaymentStatus string
@@ -1445,6 +1491,16 @@ type CheckoutSessionPermissionsUpdateShippingDetails string
 const (
 	CheckoutSessionPermissionsUpdateShippingDetailsClientOnly CheckoutSessionPermissionsUpdateShippingDetails = "client_only"
 	CheckoutSessionPermissionsUpdateShippingDetailsServerOnly CheckoutSessionPermissionsUpdateShippingDetails = "server_only"
+)
+
+// Indicates whether this object and its related objects have been redacted or not.
+type CheckoutSessionRedactionStatus string
+
+// List of values that CheckoutSessionRedactionStatus can take
+const (
+	CheckoutSessionRedactionStatusProcessing CheckoutSessionRedactionStatus = "processing"
+	CheckoutSessionRedactionStatusRedacted   CheckoutSessionRedactionStatus = "redacted"
+	CheckoutSessionRedactionStatusValidated  CheckoutSessionRedactionStatus = "validated"
 )
 
 // This parameter applies to `ui_mode: embedded_page`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
@@ -2151,8 +2207,6 @@ type CheckoutSessionNameCollectionIndividualParams struct {
 // You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
 //
 // If a [Customer](https://docs.stripe.com/api/customers) is created or provided, the names can be saved to the Customer object as well.
-//
-// You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionNameCollectionParams struct {
 	// Controls settings applied for collecting the customer's business name on the session.
 	Business *CheckoutSessionNameCollectionBusinessParams `form:"business" json:"business,omitempty"`
@@ -3066,6 +3120,20 @@ type CheckoutSessionPaymentMethodOptionsSofortParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// contains details about the Sunbit payment method options.
+type CheckoutSessionPaymentMethodOptionsSunbitParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
 // contains details about the Swish payment method options.
 type CheckoutSessionPaymentMethodOptionsSwishParams struct {
 	// The order reference that will be displayed to customers in the Swish application. Defaults to the `id` of the Payment Intent.
@@ -3248,6 +3316,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	SEPADebit *CheckoutSessionPaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// contains details about the Sofort payment method options.
 	Sofort *CheckoutSessionPaymentMethodOptionsSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// contains details about the Sunbit payment method options.
+	Sunbit *CheckoutSessionPaymentMethodOptionsSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// contains details about the Swish payment method options.
 	Swish *CheckoutSessionPaymentMethodOptionsSwishParams `form:"swish" json:"swish,omitempty"`
 	// contains details about the TWINT payment method options.
@@ -3424,6 +3494,20 @@ type CheckoutSessionShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data" json:"shipping_rate_data,omitempty"`
 }
 
+// Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
+type CheckoutSessionSubscriptionDataBillingCycleAnchorConfigParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month" json:"month,omitempty"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second" json:"second,omitempty"`
+}
+
 // Configure behavior for flexible billing mode.
 type CheckoutSessionSubscriptionDataBillingModeFlexibleParams struct {
 	// Controls how invoices and invoice items display proration amounts and discount amounts.
@@ -3486,6 +3570,8 @@ type CheckoutSessionSubscriptionDataParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions. You can't set this parameter if `ui_mode` is `elements`.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
+	// Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
+	BillingCycleAnchorConfig *CheckoutSessionSubscriptionDataBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config" json:"billing_cycle_anchor_config,omitempty"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *CheckoutSessionSubscriptionDataBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
 	// The tax rates that will apply to any subscription item that does not have
@@ -3653,8 +3739,6 @@ type CheckoutSessionParams struct {
 	// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
 	//
 	// If a [Customer](https://docs.stripe.com/api/customers) is created or provided, the names can be saved to the Customer object as well.
-	//
-	// You can't set this parameter if `ui_mode` is `custom`.
 	NameCollection *CheckoutSessionNameCollectionParams `form:"name_collection" json:"name_collection,omitempty"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
 	//
@@ -4327,8 +4411,6 @@ type CheckoutSessionCreateNameCollectionIndividualParams struct {
 // You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
 //
 // If a [Customer](https://docs.stripe.com/api/customers) is created or provided, the names can be saved to the Customer object as well.
-//
-// You can't set this parameter if `ui_mode` is `custom`.
 type CheckoutSessionCreateNameCollectionParams struct {
 	// Controls settings applied for collecting the customer's business name on the session.
 	Business *CheckoutSessionCreateNameCollectionBusinessParams `form:"business" json:"business,omitempty"`
@@ -5242,6 +5324,20 @@ type CheckoutSessionCreatePaymentMethodOptionsSofortParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
+// contains details about the Sunbit payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsSunbitParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+}
+
 // contains details about the Swish payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsSwishParams struct {
 	// The order reference that will be displayed to customers in the Swish application. Defaults to the `id` of the Payment Intent.
@@ -5424,6 +5520,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	SEPADebit *CheckoutSessionCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// contains details about the Sofort payment method options.
 	Sofort *CheckoutSessionCreatePaymentMethodOptionsSofortParams `form:"sofort" json:"sofort,omitempty"`
+	// contains details about the Sunbit payment method options.
+	Sunbit *CheckoutSessionCreatePaymentMethodOptionsSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// contains details about the Swish payment method options.
 	Swish *CheckoutSessionCreatePaymentMethodOptionsSwishParams `form:"swish" json:"swish,omitempty"`
 	// contains details about the TWINT payment method options.
@@ -5600,6 +5698,20 @@ type CheckoutSessionCreateShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionCreateShippingOptionShippingRateDataParams `form:"shipping_rate_data" json:"shipping_rate_data,omitempty"`
 }
 
+// Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
+type CheckoutSessionCreateSubscriptionDataBillingCycleAnchorConfigParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month" json:"month,omitempty"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second" json:"second,omitempty"`
+}
+
 // Configure behavior for flexible billing mode.
 type CheckoutSessionCreateSubscriptionDataBillingModeFlexibleParams struct {
 	// Controls how invoices and invoice items display proration amounts and discount amounts.
@@ -5662,6 +5774,8 @@ type CheckoutSessionCreateSubscriptionDataParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions. You can't set this parameter if `ui_mode` is `elements`.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
+	// Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
+	BillingCycleAnchorConfig *CheckoutSessionCreateSubscriptionDataBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config" json:"billing_cycle_anchor_config,omitempty"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *CheckoutSessionCreateSubscriptionDataBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
 	// The tax rates that will apply to any subscription item that does not have
@@ -5813,8 +5927,6 @@ type CheckoutSessionCreateParams struct {
 	// You can configure Checkout to collect your customers' business names, individual names, or both. Each name field can be either required or optional.
 	//
 	// If a [Customer](https://docs.stripe.com/api/customers) is created or provided, the names can be saved to the Customer object as well.
-	//
-	// You can't set this parameter if `ui_mode` is `custom`.
 	NameCollection *CheckoutSessionCreateNameCollectionParams `form:"name_collection" json:"name_collection,omitempty"`
 	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://docs.stripe.com/api/prices).
 	//
@@ -7236,6 +7348,18 @@ type CheckoutSessionPaymentMethodOptionsSofort struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
+type CheckoutSessionPaymentMethodOptionsSunbit struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsSunbitCaptureMethod `json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsSunbitSetupFutureUsage `json:"setup_future_usage,omitempty"`
+}
 type CheckoutSessionPaymentMethodOptionsSwish struct {
 	// The order reference that will be displayed to customers in the Swish application. Defaults to the `id` of the Payment Intent.
 	Reference string `json:"reference"`
@@ -7306,6 +7430,20 @@ type CheckoutSessionPaymentMethodOptionsUSBankAccount struct {
 	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
+type CheckoutSessionPaymentMethodOptionsWeChatPay struct {
+	// The app ID registered with WeChat Pay. Only required when client is iOS or Android.
+	AppID string `json:"app_id"`
+	// The client type that the end customer will pay from
+	Client CheckoutSessionPaymentMethodOptionsWeChatPayClient `json:"client"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsWeChatPaySetupFutureUsage `json:"setup_future_usage,omitempty"`
+}
 
 // Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession.
 type CheckoutSessionPaymentMethodOptions struct {
@@ -7349,10 +7487,12 @@ type CheckoutSessionPaymentMethodOptions struct {
 	Scalapay         *CheckoutSessionPaymentMethodOptionsScalapay         `json:"scalapay,omitempty"`
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit,omitempty"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort,omitempty"`
+	Sunbit           *CheckoutSessionPaymentMethodOptionsSunbit           `json:"sunbit,omitempty"`
 	Swish            *CheckoutSessionPaymentMethodOptionsSwish            `json:"swish,omitempty"`
 	TWINT            *CheckoutSessionPaymentMethodOptionsTWINT            `json:"twint,omitempty"`
 	Upi              *CheckoutSessionPaymentMethodOptionsUpi              `json:"upi,omitempty"`
 	USBankAccount    *CheckoutSessionPaymentMethodOptionsUSBankAccount    `json:"us_bank_account,omitempty"`
+	WeChatPay        *CheckoutSessionPaymentMethodOptionsWeChatPay        `json:"wechat_pay,omitempty"`
 }
 
 // Permissions for updating the Checkout Session.
@@ -7399,6 +7539,12 @@ type CheckoutSessionPresentmentDetails struct {
 	PresentmentAmount int64 `json:"presentment_amount"`
 	// Currency presented to the customer during payment.
 	PresentmentCurrency Currency `json:"presentment_currency"`
+}
+
+// The redaction status of the Checkout Session. If the Session is not redacted, this field is null.
+type CheckoutSessionRedaction struct {
+	// Indicates whether this object and its related objects have been redacted or not.
+	Status CheckoutSessionRedactionStatus `json:"status"`
 }
 
 // Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
@@ -7640,6 +7786,8 @@ type CheckoutSession struct {
 	PresentmentDetails    *CheckoutSessionPresentmentDetails    `json:"presentment_details,omitempty"`
 	// The ID of the original expired Checkout Session that triggered the recovery flow.
 	RecoveredFrom string `json:"recovered_from"`
+	// The redaction status of the Checkout Session. If the Session is not redacted, this field is null.
+	Redaction *CheckoutSessionRedaction `json:"redaction,omitempty"`
 	// This parameter applies to `ui_mode: embedded_page`. Learn more about the [redirect behavior](https://docs.stripe.com/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
 	RedirectOnCompletion CheckoutSessionRedirectOnCompletion `json:"redirect_on_completion,omitempty"`
 	// Applies to Checkout Sessions with `ui_mode: embedded_page` or `ui_mode: elements`. The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site.

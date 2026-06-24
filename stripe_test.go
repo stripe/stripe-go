@@ -179,7 +179,8 @@ func TestDo_Retry(t *testing.T) {
 		switch requestNum {
 		case 0:
 			w.WriteHeader(http.StatusConflict)
-			w.Write([]byte(`{"error":"Conflict (this should be retried)."}`))
+			_, err := w.Write([]byte(`{"error":"Conflict (this should be retried)."}`))
+			assert.NoError(t, err)
 
 		case 1:
 			response := testServerResponse{Message: message}
@@ -1282,8 +1283,10 @@ func TestCall_V1PathPostNestedUnsetFields(t *testing.T) {
 		// "details[feedback]" should have a value
 		assert.Equal(t, "too_slow", vals.Get("details[feedback]"))
 
-		data, _ := json.Marshal(testServerResponse{Message: "ok"})
-		w.Write(data)
+		data, err := json.Marshal(testServerResponse{Message: "ok"})
+		assert.NoError(t, err)
+		_, err = w.Write(data)
+		assert.NoError(t, err)
 	}))
 	defer testServer.Close()
 
@@ -1345,8 +1348,10 @@ func TestCall_V2PathPostNestedUnsetFields(t *testing.T) {
 		assert.Equal(t, "null", string(details["comment"]))
 		assert.Equal(t, `"too_slow"`, string(details["feedback"]))
 
-		data, _ := json.Marshal(testServerResponse{Message: "ok"})
-		w.Write(data)
+		data, err := json.Marshal(testServerResponse{Message: "ok"})
+		assert.NoError(t, err)
+		_, err = w.Write(data)
+		assert.NoError(t, err)
 	}))
 	defer testServer.Close()
 
@@ -1406,8 +1411,10 @@ func TestCall_V1PathPostSliceElementUnsetFields(t *testing.T) {
 		assert.Equal(t, "", vals.Get("line_items[1][tax_rates]"))
 		assert.Contains(t, bodyStr, "line_items[1][tax_rates]=")
 
-		data, _ := json.Marshal(testServerResponse{Message: "ok"})
-		w.Write(data)
+		data, err := json.Marshal(testServerResponse{Message: "ok"})
+		assert.NoError(t, err)
+		_, err = w.Write(data)
+		assert.NoError(t, err)
 	}))
 	defer testServer.Close()
 
@@ -1477,8 +1484,10 @@ func TestCall_V2PathPostSliceElementUnsetFields(t *testing.T) {
 		assert.Equal(t, `"price_456"`, string(item1["price"]))
 		assert.Equal(t, "null", string(item1["tax_rates"]))
 
-		data, _ := json.Marshal(testServerResponse{Message: "ok"})
-		w.Write(data)
+		data, err := json.Marshal(testServerResponse{Message: "ok"})
+		assert.NoError(t, err)
+		_, err = w.Write(data)
+		assert.NoError(t, err)
 	}))
 	defer testServer.Close()
 
@@ -1691,7 +1700,7 @@ func TestDoStreaming_UnparsableError(t *testing.T) {
 	assert.NotNil(t, err)
 	_, ok := err.(*Error)
 	assert.False(t, ok)
-	assert.True(t, strings.Contains(err.Error(), "Couldn't deserialize JSON"))
+	assert.True(t, strings.Contains(err.Error(), "couldn't deserialize JSON"))
 }
 
 func TestFormatURLPath(t *testing.T) {
@@ -1930,7 +1939,7 @@ func TestUnmarshalJSONVerbose(t *testing.T) {
 		var sample testServerResponse
 		err := backend.unmarshalJSONVerbose(context.Background(), 200, []byte(body), &sample)
 		assert.Regexp(t,
-			fmt.Sprintf(`^Couldn't deserialize JSON \(response status: 200, body sample: '%s'\): invalid character`, body),
+			fmt.Sprintf(`^couldn't deserialize JSON \(response status: 200, body sample: '%s'\): invalid character`, body),
 			err)
 	}
 
@@ -1944,7 +1953,7 @@ func TestUnmarshalJSONVerbose(t *testing.T) {
 		var sample testServerResponse
 		err := backend.unmarshalJSONVerbose(context.Background(), 200, []byte(body), &sample)
 		assert.Regexp(t,
-			fmt.Sprintf(`^Couldn't deserialize JSON \(response status: 200, body sample: '%s ...'\): invalid character`, body[0:500]),
+			fmt.Sprintf(`^couldn't deserialize JSON \(response status: 200, body sample: '%s ...'\): invalid character`, body[0:500]),
 			err)
 	}
 }
@@ -2162,6 +2171,54 @@ func TestStripeClientUserAgentOmitsPlatformWithoutTelemetry(t *testing.T) {
 	assert.Empty(t, userAgent["platform"])
 }
 
+func TestStripeClientUserAgentSourceHash(t *testing.T) {
+	originalEncoded := encodedStripeUserAgent
+	originalReady := encodedStripeUserAgentReady
+	defer func() {
+		encodedStripeUserAgent = originalEncoded
+		encodedStripeUserAgentReady = originalReady
+	}()
+
+	encodedStripeUserAgentReady = &sync.Once{}
+
+	encoded := getEncodedStripeUserAgent(true)
+	var userAgent map[string]interface{}
+	err := json.Unmarshal([]byte(encoded), &userAgent)
+	assert.NoError(t, err)
+
+	// stripeSourceHash is computed from `uname -a` in init(). On systems where
+	// uname is available (all CI environments), the field should be a non-empty
+	// 32-character hex MD5 digest. We validate format rather than value because
+	// the hash is machine-specific.
+	source, ok := userAgent["source"]
+	assert.True(t, ok, "expected 'source' field to be present in X-Stripe-Client-User-Agent")
+	sourceStr, isString := source.(string)
+	assert.True(t, isString, "expected 'source' field to be a string")
+	assert.Regexp(t, `^[0-9a-f]{32}$`, sourceStr, "expected 'source' to be a 32-char lowercase hex MD5 digest")
+}
+
+func TestStripeClientUserAgentOmitsSourceWhenEmpty(t *testing.T) {
+	originalEncoded := encodedStripeUserAgent
+	originalReady := encodedStripeUserAgentReady
+	originalSourceHash := stripeSourceHash
+	defer func() {
+		encodedStripeUserAgent = originalEncoded
+		encodedStripeUserAgentReady = originalReady
+		stripeSourceHash = originalSourceHash
+	}()
+
+	stripeSourceHash = ""
+	encodedStripeUserAgentReady = &sync.Once{}
+
+	encoded := getEncodedStripeUserAgent(true)
+	var userAgent map[string]interface{}
+	err := json.Unmarshal([]byte(encoded), &userAgent)
+	assert.NoError(t, err)
+
+	_, ok := userAgent["source"]
+	assert.False(t, ok, "expected 'source' field to be absent from X-Stripe-Client-User-Agent when stripeSourceHash is empty")
+}
+
 func TestResponseToError(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
@@ -2314,13 +2371,14 @@ func TestRawRequestPreviewPost(t *testing.T) {
 	var contentType string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req, _ := io.ReadAll(r.Body)
-		r.Body.Close()
+		assert.NoError(t, r.Body.Close())
 		body = string(req)
 		path = r.URL.RequestURI()
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		_, err := w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		assert.NoError(t, err)
 	}))
 
 	backend := GetBackendWithConfig(
@@ -2364,14 +2422,15 @@ func TestRawRequestStandardGet(t *testing.T) {
 	var stripeVersion string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req, _ := io.ReadAll(r.Body)
-		r.Body.Close()
+		assert.NoError(t, r.Body.Close())
 		body = string(req)
 		path = r.URL.RequestURI()
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
 		stripeVersion = r.Header.Get("Stripe-Version")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		_, err := w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		assert.NoError(t, err)
 	}))
 
 	backend := GetBackendWithConfig(
@@ -2402,14 +2461,15 @@ func TestRawRequestStandardPost(t *testing.T) {
 	var stripeVersion string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req, _ := io.ReadAll(r.Body)
-		r.Body.Close()
+		assert.NoError(t, r.Body.Close())
 		body = string(req)
 		path = r.URL.RequestURI()
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
 		stripeVersion = r.Header.Get("Stripe-Version")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		_, err := w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		assert.NoError(t, err)
 	}))
 
 	backend := GetBackendWithConfig(
@@ -2439,13 +2499,14 @@ func TestRawRequestPreviewGet(t *testing.T) {
 	var contentType string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req, _ := io.ReadAll(r.Body)
-		r.Body.Close()
+		assert.NoError(t, r.Body.Close())
 		body = string(req)
 		path = r.URL.RequestURI()
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		_, err := w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		assert.NoError(t, err)
 	}))
 
 	backend := GetBackendWithConfig(
@@ -2478,7 +2539,7 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 	var stripeContext string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req, _ := io.ReadAll(r.Body)
-		r.Body.Close()
+		assert.NoError(t, r.Body.Close())
 		body = string(req)
 		path = r.URL.RequestURI()
 		method = r.Method
@@ -2486,7 +2547,8 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 		fooHeader = r.Header.Get("foo")
 		stripeContext = r.Header.Get("Stripe-Context")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		_, err := w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		assert.NoError(t, err)
 	}))
 
 	backend := GetBackendWithConfig(
@@ -2518,12 +2580,13 @@ func TestRawRequestTelemetry(t *testing.T) {
 	var telemetry []byte
 	i := 0
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		r.Body.Close()
+		assert.NoError(t, r.Body.Close())
 		telemetry = []byte(r.Header.Get("X-Stripe-Client-Telemetry"))
 		i += 1
 		w.Header().Add("Request-Id", fmt.Sprintf("req_%d", i))
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		_, err := w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+		assert.NoError(t, err)
 	}))
 
 	backend := GetBackendWithConfig(
@@ -2546,7 +2609,7 @@ func TestRawRequestTelemetry(t *testing.T) {
 	metrics := struct {
 		LastRequestMetrics requestMetrics `json:"last_request_metrics"`
 	}{}
-	json.Unmarshal(telemetry, &metrics)
+	assert.NoError(t, json.Unmarshal(telemetry, &metrics))
 	assert.Equal(t, []string{"raw_request"}, metrics.LastRequestMetrics.Usage)
 	defer testServer.Close()
 }

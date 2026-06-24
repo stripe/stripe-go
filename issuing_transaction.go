@@ -35,6 +35,16 @@ const (
 	IssuingTransactionPurchaseDetailsFuelUnitOther          IssuingTransactionPurchaseDetailsFuelUnit = "other"
 )
 
+// Indicates whether this object and its related objects have been redacted or not.
+type IssuingTransactionRedactionStatus string
+
+// List of values that IssuingTransactionRedactionStatus can take
+const (
+	IssuingTransactionRedactionStatusProcessing IssuingTransactionRedactionStatus = "processing"
+	IssuingTransactionRedactionStatusRedacted   IssuingTransactionRedactionStatus = "redacted"
+	IssuingTransactionRedactionStatusValidated  IssuingTransactionRedactionStatus = "validated"
+)
+
 // The nature of the transaction.
 type IssuingTransactionType string
 
@@ -316,6 +326,12 @@ type IssuingTransactionPurchaseDetails struct {
 	Reference string `json:"reference"`
 }
 
+// Redaction status of this transaction. If the transaction is not redacted, this field will be null.
+type IssuingTransactionRedaction struct {
+	// Indicates whether this object and its related objects have been redacted or not.
+	Status IssuingTransactionRedactionStatus `json:"status"`
+}
+
 // [Treasury](https://docs.stripe.com/api/treasury) details related to this transaction if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
 type IssuingTransactionTreasury struct {
 	// The Treasury [ReceivedCredit](https://docs.stripe.com/api/treasury/received_credits) representing this Issuing transaction if it is a refund
@@ -366,6 +382,8 @@ type IssuingTransaction struct {
 	Object string `json:"object"`
 	// Additional purchase information that is optionally provided by the merchant.
 	PurchaseDetails *IssuingTransactionPurchaseDetails `json:"purchase_details,omitempty"`
+	// Redaction status of this transaction. If the transaction is not redacted, this field will be null.
+	Redaction *IssuingTransactionRedaction `json:"redaction,omitempty"`
 	// The ID of the [settlement](https://docs.stripe.com/api/issuing/settlements) to which this transaction belongs.
 	Settlement *IssuingSettlement `json:"settlement,omitempty"`
 	// [Token](https://docs.stripe.com/api/issuing/tokens/object) object used for this transaction. If a network token was not used for this transaction, this field will be null.

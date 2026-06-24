@@ -8,7 +8,7 @@ package stripe
 
 // Returns a full list of Report Types.
 type ReportingReportTypeListParams struct {
-	ListParams `form:"*"`
+	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 }

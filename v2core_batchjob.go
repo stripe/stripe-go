@@ -201,8 +201,6 @@ type V2CoreBatchJob struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// The maximum requests per second defined for the `batch_job`.
-	MaximumRps int64 `json:"maximum_rps"`
 	// The metadata of the `batch_job`.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.

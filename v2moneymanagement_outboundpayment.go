@@ -56,12 +56,23 @@ type V2MoneyManagementOutboundPaymentStatusDetailsFailedReason string
 
 // List of values that V2MoneyManagementOutboundPaymentStatusDetailsFailedReason can take
 const (
+	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonFxRateDriftExceededAfterReview          V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "fx_rate_drift_exceeded_after_review"
+	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodAmountLimitExceeded         V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_amount_limit_exceeded"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodDeclined                    V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_declined"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodDoesNotExist                V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_does_not_exist"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodExpired                     V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_expired"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodUnsupported                 V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_unsupported"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonPayoutMethodUsageFrequencyLimitExceeded V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "payout_method_usage_frequency_limit_exceeded"
+	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonReviewRejected                          V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "review_rejected"
 	V2MoneyManagementOutboundPaymentStatusDetailsFailedReasonUnknownFailure                          V2MoneyManagementOutboundPaymentStatusDetailsFailedReason = "unknown_failure"
+)
+
+// Open Enum. The `processing` status reason.
+type V2MoneyManagementOutboundPaymentStatusDetailsProcessingReason string
+
+// List of values that V2MoneyManagementOutboundPaymentStatusDetailsProcessingReason can take
+const (
+	V2MoneyManagementOutboundPaymentStatusDetailsProcessingReasonUnderReview V2MoneyManagementOutboundPaymentStatusDetailsProcessingReason = "under_review"
 )
 
 // Open Enum. The `returned` status reason.
@@ -122,16 +133,24 @@ type V2MoneyManagementOutboundPaymentStatusDetailsFailed struct {
 	Reason V2MoneyManagementOutboundPaymentStatusDetailsFailedReason `json:"reason"`
 }
 
+// The `processing` status details.
+type V2MoneyManagementOutboundPaymentStatusDetailsProcessing struct {
+	// Open Enum. The `processing` status reason.
+	Reason V2MoneyManagementOutboundPaymentStatusDetailsProcessingReason `json:"reason"`
+}
+
 // The `returned` status reason.
 type V2MoneyManagementOutboundPaymentStatusDetailsReturned struct {
 	// Open Enum. The `returned` status reason.
 	Reason V2MoneyManagementOutboundPaymentStatusDetailsReturnedReason `json:"reason"`
 }
 
-// Status details for an OutboundPayment in a `failed` or `returned` state.
+// Status details for an OutboundPayment in a `processing`, `failed`, or `returned` state.
 type V2MoneyManagementOutboundPaymentStatusDetails struct {
 	// The `failed` status reason.
 	Failed *V2MoneyManagementOutboundPaymentStatusDetailsFailed `json:"failed,omitempty"`
+	// The `processing` status details.
+	Processing *V2MoneyManagementOutboundPaymentStatusDetailsProcessing `json:"processing,omitempty"`
 	// The `returned` status reason.
 	Returned *V2MoneyManagementOutboundPaymentStatusDetailsReturned `json:"returned,omitempty"`
 }
@@ -215,7 +234,7 @@ type V2MoneyManagementOutboundPayment struct {
 	// The status changes to `posted` once the OutboundPayment has been "confirmed" and funds have left the account, or to `failed` or `canceled`.
 	// If an OutboundPayment fails to arrive at its payout method, its status will change to `returned`.
 	Status V2MoneyManagementOutboundPaymentStatus `json:"status"`
-	// Status details for an OutboundPayment in a `failed` or `returned` state.
+	// Status details for an OutboundPayment in a `processing`, `failed`, or `returned` state.
 	StatusDetails *V2MoneyManagementOutboundPaymentStatusDetails `json:"status_details,omitempty"`
 	// Hash containing timestamps of when the object transitioned to a particular status.
 	StatusTransitions *V2MoneyManagementOutboundPaymentStatusTransitions `json:"status_transitions,omitempty"`

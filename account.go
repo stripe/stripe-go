@@ -1281,7 +1281,7 @@ type AccountDocumentsCompanyLicenseParams struct {
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
-// One or more documents showing the company's Memorandum of Association.
+// One or more documents showing the company's governing document (for example, a memorandum of association, constitution, or articles of association).
 type AccountDocumentsCompanyMemorandumOfAssociationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
@@ -1345,7 +1345,7 @@ type AccountDocumentsParams struct {
 	BankAccountOwnershipVerification *AccountDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification" json:"bank_account_ownership_verification,omitempty"`
 	// One or more documents that demonstrate proof of a company's license to operate.
 	CompanyLicense *AccountDocumentsCompanyLicenseParams `form:"company_license" json:"company_license,omitempty"`
-	// One or more documents showing the company's Memorandum of Association.
+	// One or more documents showing the company's governing document (for example, a memorandum of association, constitution, or articles of association).
 	CompanyMemorandumOfAssociation *AccountDocumentsCompanyMemorandumOfAssociationParams `form:"company_memorandum_of_association" json:"company_memorandum_of_association,omitempty"`
 	// (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
 	CompanyMinisterialDecree *AccountDocumentsCompanyMinisterialDecreeParams `form:"company_ministerial_decree" json:"company_ministerial_decree,omitempty"`
@@ -2702,7 +2702,7 @@ type AccountUpdateDocumentsCompanyLicenseParams struct {
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
-// One or more documents showing the company's Memorandum of Association.
+// One or more documents showing the company's governing document (for example, a memorandum of association, constitution, or articles of association).
 type AccountUpdateDocumentsCompanyMemorandumOfAssociationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
@@ -2766,7 +2766,7 @@ type AccountUpdateDocumentsParams struct {
 	BankAccountOwnershipVerification *AccountUpdateDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification" json:"bank_account_ownership_verification,omitempty"`
 	// One or more documents that demonstrate proof of a company's license to operate.
 	CompanyLicense *AccountUpdateDocumentsCompanyLicenseParams `form:"company_license" json:"company_license,omitempty"`
-	// One or more documents showing the company's Memorandum of Association.
+	// One or more documents showing the company's governing document (for example, a memorandum of association, constitution, or articles of association).
 	CompanyMemorandumOfAssociation *AccountUpdateDocumentsCompanyMemorandumOfAssociationParams `form:"company_memorandum_of_association" json:"company_memorandum_of_association,omitempty"`
 	// (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
 	CompanyMinisterialDecree *AccountUpdateDocumentsCompanyMinisterialDecreeParams `form:"company_ministerial_decree" json:"company_ministerial_decree,omitempty"`
@@ -4167,7 +4167,7 @@ type AccountCreateDocumentsCompanyLicenseParams struct {
 	Files []*string `form:"files" json:"files,omitempty"`
 }
 
-// One or more documents showing the company's Memorandum of Association.
+// One or more documents showing the company's governing document (for example, a memorandum of association, constitution, or articles of association).
 type AccountCreateDocumentsCompanyMemorandumOfAssociationParams struct {
 	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files" json:"files,omitempty"`
@@ -4231,7 +4231,7 @@ type AccountCreateDocumentsParams struct {
 	BankAccountOwnershipVerification *AccountCreateDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification" json:"bank_account_ownership_verification,omitempty"`
 	// One or more documents that demonstrate proof of a company's license to operate.
 	CompanyLicense *AccountCreateDocumentsCompanyLicenseParams `form:"company_license" json:"company_license,omitempty"`
-	// One or more documents showing the company's Memorandum of Association.
+	// One or more documents showing the company's governing document (for example, a memorandum of association, constitution, or articles of association).
 	CompanyMemorandumOfAssociation *AccountCreateDocumentsCompanyMemorandumOfAssociationParams `form:"company_memorandum_of_association" json:"company_memorandum_of_association,omitempty"`
 	// (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
 	CompanyMinisterialDecree *AccountCreateDocumentsCompanyMinisterialDecreeParams `form:"company_ministerial_decree" json:"company_ministerial_decree,omitempty"`

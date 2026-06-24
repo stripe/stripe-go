@@ -439,6 +439,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePix                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "pix"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePromptPay          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "promptpay"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeRevolutPay         QuotePreviewInvoicePaymentSettingsPaymentMethodType = "revolut_pay"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSatispay           QuotePreviewInvoicePaymentSettingsPaymentMethodType = "satispay"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSEPACreditTransfer QuotePreviewInvoicePaymentSettingsPaymentMethodType = "sepa_credit_transfer"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSEPADebit          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "sepa_debit"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSofort             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "sofort"

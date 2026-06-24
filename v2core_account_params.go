@@ -365,6 +365,12 @@ type V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsParams struc
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Allow the merchant to process Sunbit payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Allow the merchant to process Swish payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -471,6 +477,8 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	SEPABankTransferPayments *V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process SEPA Direct Debit payments.
 	SEPADebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// Allow the merchant to process Sunbit payments.
+	SunbitPayments *V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// Allow the merchant to process Swish payments.
 	SwishPayments *V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsParams `form:"swish_payments" json:"swish_payments,omitempty"`
 	// Allow the merchant to process TWINT payments.
@@ -619,6 +627,210 @@ type V2CoreAccountConfigurationMerchantParams struct {
 	Support *V2CoreAccountConfigurationMerchantSupportParams `form:"support" json:"support,omitempty"`
 }
 
+// Can receive business storage-type funds on Stripe in AUD.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business storage-type funds on Stripe in CAD.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business storage-type funds on Stripe in EUR.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business storage-type funds on Stripe in GBP.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundGBPParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business storage-type funds on Stripe in USD.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundUSDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business storage-type funds on Stripe.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundParams struct {
+	// Can receive business storage-type funds on Stripe in AUD.
+	AUD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUDParams `form:"aud" json:"aud,omitempty"`
+	// Can receive business storage-type funds on Stripe in CAD.
+	CAD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can receive business storage-type funds on Stripe in EUR.
+	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURParams `form:"eur" json:"eur,omitempty"`
+	// Can receive business storage-type funds on Stripe in GBP.
+	GBP *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can receive business storage-type funds on Stripe in USD.
+	USD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe in AUD.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAUDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe in CAD.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe in EUR.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe in GBP.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundGBPParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe in USD.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundUSDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundParams struct {
+	// Can send business storage-type funds on Stripe in AUD.
+	AUD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAUDParams `form:"aud" json:"aud,omitempty"`
+	// Can send business storage-type funds on Stripe in CAD.
+	CAD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can send business storage-type funds on Stripe in EUR.
+	EUR *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send business storage-type funds on Stripe in GBP.
+	GBP *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send business storage-type funds on Stripe in USD.
+	USD *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send or receive business storage-type funds on Stripe.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageParams struct {
+	// Can receive business storage-type funds on Stripe.
+	Inbound *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageInboundParams `form:"inbound" json:"inbound,omitempty"`
+	// Can send business storage-type funds on Stripe.
+	Outbound *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundParams `form:"outbound" json:"outbound,omitempty"`
+}
+
+// Can pull funds from an external bank account owned by yourself to a FinancialAccount.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesInboundTransfersBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesInboundTransfersParams struct {
+	// Can pull funds from an external bank account owned by yourself to a FinancialAccount.
+	BankAccounts *V2CoreAccountConfigurationMoneyManagerCapabilitiesInboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a bank account owned by someone else.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a debit card owned by someone else.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsCardsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsFinancialAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a destination owned by someone else.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsParams struct {
+	// Can send funds from a FinancialAccount to a bank account owned by someone else.
+	BankAccounts *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to a debit card owned by someone else.
+	Cards *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsCardsParams `form:"cards" json:"cards,omitempty"`
+	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
+	FinancialAccounts *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a bank account owned by yourself.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersFinancialAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a destination owned by yourself.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersParams struct {
+	// Can send funds from a FinancialAccount to a bank account owned by yourself.
+	BankAccounts *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
+	FinancialAccounts *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+}
+
+// Can receive funds on a bank-account-like financial address (VBAN) to credit a FinancialAccount.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive funds into a FinancialAccount.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsParams struct {
+	// Can receive funds on a bank-account-like financial address (VBAN) to credit a FinancialAccount.
+	BankAccounts *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Can receive debits to a FinancialAccount from a bank account.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedDebitsBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive debits to a FinancialAccount.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedDebitsParams struct {
+	// Can receive debits to a FinancialAccount from a bank account.
+	BankAccounts *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedDebitsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Capabilities to request on the Money Manager Configuration.
+type V2CoreAccountConfigurationMoneyManagerCapabilitiesParams struct {
+	// Can send or receive business storage-type funds on Stripe.
+	BusinessStorage *V2CoreAccountConfigurationMoneyManagerCapabilitiesBusinessStorageParams `form:"business_storage" json:"business_storage,omitempty"`
+	// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
+	InboundTransfers *V2CoreAccountConfigurationMoneyManagerCapabilitiesInboundTransfersParams `form:"inbound_transfers" json:"inbound_transfers,omitempty"`
+	// Can send funds from a FinancialAccount to a destination owned by someone else.
+	OutboundPayments *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundPaymentsParams `form:"outbound_payments" json:"outbound_payments,omitempty"`
+	// Can send funds from a FinancialAccount to a destination owned by yourself.
+	OutboundTransfers *V2CoreAccountConfigurationMoneyManagerCapabilitiesOutboundTransfersParams `form:"outbound_transfers" json:"outbound_transfers,omitempty"`
+	// Can receive funds on a financial address to credit a FinancialAccount.
+	ReceivedCredits *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedCreditsParams `form:"received_credits" json:"received_credits,omitempty"`
+	// Can receive debits to a FinancialAccount.
+	ReceivedDebits *V2CoreAccountConfigurationMoneyManagerCapabilitiesReceivedDebitsParams `form:"received_debits" json:"received_debits,omitempty"`
+}
+
+// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.
+type V2CoreAccountConfigurationMoneyManagerParams struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied *bool `form:"applied" json:"applied,omitempty"`
+	// Capabilities to request on the Money Manager Configuration.
+	Capabilities *V2CoreAccountConfigurationMoneyManagerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
+}
+
 // Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 type V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -677,138 +889,16 @@ type V2CoreAccountConfigurationRecipientParams struct {
 	DefaultOutboundDestination *string `form:"default_outbound_destination" json:"default_outbound_destination,omitempty"`
 }
 
-// Can provision a bank-account-like financial address (VBAN) to credit/debit a FinancialAccount.
-type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can provision a financial address to credit/debit a FinancialAccount.
-type V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesParams struct {
-	// Can provision a bank-account-like financial address (VBAN) to credit/debit a FinancialAccount.
-	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
-}
-
-// Can hold storage-type funds on Stripe in EUR.
-type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can hold storage-type funds on Stripe in GBP.
-type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can hold storage-type funds on Stripe in USD.
-type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can hold storage-type funds on Stripe.
-type V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesParams struct {
-	// Can hold storage-type funds on Stripe in EUR.
-	EUR *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesEURParams `form:"eur" json:"eur,omitempty"`
-	// Can hold storage-type funds on Stripe in GBP.
-	GBP *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams `form:"gbp" json:"gbp,omitempty"`
-	// Can hold storage-type funds on Stripe in USD.
-	USD *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams `form:"usd" json:"usd,omitempty"`
-}
-
-// Can pull funds from an external bank account owned by yourself to a FinancialAccount.
-type V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersBankAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
-type V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersParams struct {
-	// Can pull funds from an external bank account owned by yourself to a FinancialAccount.
-	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to a bank account owned by someone else.
-type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to a debit card owned by someone else.
-type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCardsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
-type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to a destination owned by someone else.
-type V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsParams struct {
-	// Can send funds from a FinancialAccount to a bank account owned by someone else.
-	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
-	// Can send funds from a FinancialAccount to a debit card owned by someone else.
-	Cards *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsCardsParams `form:"cards" json:"cards,omitempty"`
-	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
-	FinancialAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to a bank account owned by yourself.
-type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
-type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to a destination owned by yourself.
-type V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersParams struct {
-	// Can send funds from a FinancialAccount to a bank account owned by yourself.
-	BankAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
-	// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
-	FinancialAccounts *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
-}
-
-// Capabilities to request on the Storer Configuration.
-type V2CoreAccountConfigurationStorerCapabilitiesParams struct {
-	// Can provision a financial address to credit/debit a FinancialAccount.
-	FinancialAddresses *V2CoreAccountConfigurationStorerCapabilitiesFinancialAddressesParams `form:"financial_addresses" json:"financial_addresses,omitempty"`
-	// Can hold storage-type funds on Stripe.
-	HoldsCurrencies *V2CoreAccountConfigurationStorerCapabilitiesHoldsCurrenciesParams `form:"holds_currencies" json:"holds_currencies,omitempty"`
-	// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
-	InboundTransfers *V2CoreAccountConfigurationStorerCapabilitiesInboundTransfersParams `form:"inbound_transfers" json:"inbound_transfers,omitempty"`
-	// Can send funds from a FinancialAccount to a destination owned by someone else.
-	OutboundPayments *V2CoreAccountConfigurationStorerCapabilitiesOutboundPaymentsParams `form:"outbound_payments" json:"outbound_payments,omitempty"`
-	// Can send funds from a FinancialAccount to a destination owned by yourself.
-	OutboundTransfers *V2CoreAccountConfigurationStorerCapabilitiesOutboundTransfersParams `form:"outbound_transfers" json:"outbound_transfers,omitempty"`
-}
-
-// The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
-type V2CoreAccountConfigurationStorerParams struct {
-	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
-	Applied *bool `form:"applied" json:"applied,omitempty"`
-	// Capabilities to request on the Storer Configuration.
-	Capabilities *V2CoreAccountConfigurationStorerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
-}
-
 // An Account Configuration which allows the Account to take on a key persona across Stripe products.
 type V2CoreAccountConfigurationParams struct {
 	// The Customer Configuration allows the Account to be used in inbound payment flows (i.e. customer-facing payment and billing flows).
 	Customer *V2CoreAccountConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
 	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
+	// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.
+	MoneyManager *V2CoreAccountConfigurationMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	Recipient *V2CoreAccountConfigurationRecipientParams `form:"recipient" json:"recipient,omitempty"`
-	// The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
-	Storer *V2CoreAccountConfigurationStorerParams `form:"storer" json:"storer,omitempty"`
 }
 
 // Account profile information.
@@ -896,7 +986,7 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams struct {
 }
 
 // Details on the Account's acceptance of Treasury-specific terms of service.
-type V2CoreAccountIdentityAttestationsTermsOfServiceStorerParams struct {
+type V2CoreAccountIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date,omitempty"`
 	// The IP address from which the Account's representative accepted the terms of service.
@@ -909,10 +999,10 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceStorerParams struct {
 type V2CoreAccountIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
-	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
-	CryptoStorer *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
+	// Details on the Account's acceptance of Crypto-specific terms of service.
+	CryptoMoneyManager *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams `form:"crypto_money_manager" json:"crypto_money_manager,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
-	Storer *V2CoreAccountIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
+	MoneyManager *V2CoreAccountIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 }
 
 // Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
@@ -1516,8 +1606,8 @@ func (p *V2CoreAccountParams) AddMetadata(key string, value *string) {
 	p.Metadata[key] = value
 }
 
-// Details on the Account's acceptance of Crypto-storer-specific terms of service.
-type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
+// Details on the Account's acceptance of Crypto-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date,omitempty"`
 	// The IP address from which the Account's representative accepted the terms of service.
@@ -1873,6 +1963,12 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesSEPADebitPaymentsParams
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Allow the merchant to process Sunbit payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesSunbitPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Allow the merchant to process Swish payments.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesSwishPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -1979,6 +2075,8 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	SEPABankTransferPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process SEPA Direct Debit payments.
 	SEPADebitPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// Allow the merchant to process Sunbit payments.
+	SunbitPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// Allow the merchant to process Swish payments.
 	SwishPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSwishPaymentsParams `form:"swish_payments" json:"swish_payments,omitempty"`
 	// Allow the merchant to process TWINT payments.
@@ -2125,6 +2223,208 @@ type V2CoreAccountCreateConfigurationMerchantParams struct {
 	Support *V2CoreAccountCreateConfigurationMerchantSupportParams `form:"support" json:"support,omitempty"`
 }
 
+// Can receive business storage-type funds on Stripe in AUD.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can receive business storage-type funds on Stripe in CAD.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can receive business storage-type funds on Stripe in EUR.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can receive business storage-type funds on Stripe in GBP.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundGBPParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can receive business storage-type funds on Stripe in USD.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundUSDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can receive business storage-type funds on Stripe.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundParams struct {
+	// Can receive business storage-type funds on Stripe in AUD.
+	AUD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUDParams `form:"aud" json:"aud,omitempty"`
+	// Can receive business storage-type funds on Stripe in CAD.
+	CAD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can receive business storage-type funds on Stripe in EUR.
+	EUR *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURParams `form:"eur" json:"eur,omitempty"`
+	// Can receive business storage-type funds on Stripe in GBP.
+	GBP *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can receive business storage-type funds on Stripe in USD.
+	USD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe in AUD.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAUDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send business storage-type funds on Stripe in CAD.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send business storage-type funds on Stripe in EUR.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send business storage-type funds on Stripe in GBP.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundGBPParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send business storage-type funds on Stripe in USD.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundUSDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send business storage-type funds on Stripe.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundParams struct {
+	// Can send business storage-type funds on Stripe in AUD.
+	AUD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAUDParams `form:"aud" json:"aud,omitempty"`
+	// Can send business storage-type funds on Stripe in CAD.
+	CAD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can send business storage-type funds on Stripe in EUR.
+	EUR *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send business storage-type funds on Stripe in GBP.
+	GBP *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send business storage-type funds on Stripe in USD.
+	USD *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send or receive business storage-type funds on Stripe.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageParams struct {
+	// Can receive business storage-type funds on Stripe.
+	Inbound *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundParams `form:"inbound" json:"inbound,omitempty"`
+	// Can send business storage-type funds on Stripe.
+	Outbound *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundParams `form:"outbound" json:"outbound,omitempty"`
+}
+
+// Can pull funds from an external bank account owned by yourself to a FinancialAccount.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesInboundTransfersBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesInboundTransfersParams struct {
+	// Can pull funds from an external bank account owned by yourself to a FinancialAccount.
+	BankAccounts *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesInboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a bank account owned by someone else.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send funds from a FinancialAccount to a debit card owned by someone else.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsCardsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsFinancialAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send funds from a FinancialAccount to a destination owned by someone else.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsParams struct {
+	// Can send funds from a FinancialAccount to a bank account owned by someone else.
+	BankAccounts *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to a debit card owned by someone else.
+	Cards *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsCardsParams `form:"cards" json:"cards,omitempty"`
+	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
+	FinancialAccounts *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a bank account owned by yourself.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersFinancialAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can send funds from a FinancialAccount to a destination owned by yourself.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersParams struct {
+	// Can send funds from a FinancialAccount to a bank account owned by yourself.
+	BankAccounts *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
+	FinancialAccounts *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+}
+
+// Can receive funds on a bank-account-like financial address (VBAN) to credit a FinancialAccount.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can receive funds into a FinancialAccount.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsParams struct {
+	// Can receive funds on a bank-account-like financial address (VBAN) to credit a FinancialAccount.
+	BankAccounts *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Can receive debits to a FinancialAccount from a bank account.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedDebitsBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Can receive debits to a FinancialAccount.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedDebitsParams struct {
+	// Can receive debits to a FinancialAccount from a bank account.
+	BankAccounts *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedDebitsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Capabilities to request on the Money Manager Configuration.
+type V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesParams struct {
+	// Can send or receive business storage-type funds on Stripe.
+	BusinessStorage *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesBusinessStorageParams `form:"business_storage" json:"business_storage,omitempty"`
+	// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
+	InboundTransfers *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesInboundTransfersParams `form:"inbound_transfers" json:"inbound_transfers,omitempty"`
+	// Can send funds from a FinancialAccount to a destination owned by someone else.
+	OutboundPayments *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundPaymentsParams `form:"outbound_payments" json:"outbound_payments,omitempty"`
+	// Can send funds from a FinancialAccount to a destination owned by yourself.
+	OutboundTransfers *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesOutboundTransfersParams `form:"outbound_transfers" json:"outbound_transfers,omitempty"`
+	// Can receive funds into a FinancialAccount.
+	ReceivedCredits *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedCreditsParams `form:"received_credits" json:"received_credits,omitempty"`
+	// Can receive debits to a FinancialAccount.
+	ReceivedDebits *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesReceivedDebitsParams `form:"received_debits" json:"received_debits,omitempty"`
+}
+
+// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.
+type V2CoreAccountCreateConfigurationMoneyManagerParams struct {
+	// Capabilities to request on the Money Manager Configuration.
+	Capabilities *V2CoreAccountCreateConfigurationMoneyManagerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
+}
+
 // Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsLocalParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -2179,136 +2479,16 @@ type V2CoreAccountCreateConfigurationRecipientParams struct {
 	Capabilities *V2CoreAccountCreateConfigurationRecipientCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 }
 
-// Can provision a bank-account-like financial address (VBAN) to credit/debit a FinancialAccount.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesFinancialAddressesBankAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested"`
-}
-
-// Can provision a financial address to credit/debit a FinancialAccount.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesFinancialAddressesParams struct {
-	// Can provision a bank-account-like financial address (VBAN) to credit/debit a FinancialAccount.
-	BankAccounts *V2CoreAccountCreateConfigurationStorerCapabilitiesFinancialAddressesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
-}
-
-// Can hold storage-type funds on Stripe in EUR.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesEURParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested"`
-}
-
-// Can hold storage-type funds on Stripe in GBP.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested"`
-}
-
-// Can hold storage-type funds on Stripe in USD.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested"`
-}
-
-// Can hold storage-type funds on Stripe.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesParams struct {
-	// Can hold storage-type funds on Stripe in EUR.
-	EUR *V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesEURParams `form:"eur" json:"eur,omitempty"`
-	// Can hold storage-type funds on Stripe in GBP.
-	GBP *V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams `form:"gbp" json:"gbp,omitempty"`
-	// Can hold storage-type funds on Stripe in USD.
-	USD *V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams `form:"usd" json:"usd,omitempty"`
-}
-
-// Can pull funds from an external bank account owned by yourself to a FinancialAccount.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesInboundTransfersBankAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested"`
-}
-
-// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesInboundTransfersParams struct {
-	// Can pull funds from an external bank account owned by yourself to a FinancialAccount.
-	BankAccounts *V2CoreAccountCreateConfigurationStorerCapabilitiesInboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to a bank account owned by someone else.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested"`
-}
-
-// Can send funds from a FinancialAccount to a debit card owned by someone else.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsCardsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested"`
-}
-
-// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested"`
-}
-
-// Can send funds from a FinancialAccount to a destination owned by someone else.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsParams struct {
-	// Can send funds from a FinancialAccount to a bank account owned by someone else.
-	BankAccounts *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
-	// Can send funds from a FinancialAccount to a debit card owned by someone else.
-	Cards *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsCardsParams `form:"cards" json:"cards,omitempty"`
-	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
-	FinancialAccounts *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to a bank account owned by yourself.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersBankAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested"`
-}
-
-// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested"`
-}
-
-// Can send funds from a FinancialAccount to a destination owned by yourself.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersParams struct {
-	// Can send funds from a FinancialAccount to a bank account owned by yourself.
-	BankAccounts *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
-	// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
-	FinancialAccounts *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
-}
-
-// Capabilities to request on the Storer Configuration.
-type V2CoreAccountCreateConfigurationStorerCapabilitiesParams struct {
-	// Can provision a financial address to credit/debit a FinancialAccount.
-	FinancialAddresses *V2CoreAccountCreateConfigurationStorerCapabilitiesFinancialAddressesParams `form:"financial_addresses" json:"financial_addresses,omitempty"`
-	// Can hold storage-type funds on Stripe.
-	HoldsCurrencies *V2CoreAccountCreateConfigurationStorerCapabilitiesHoldsCurrenciesParams `form:"holds_currencies" json:"holds_currencies,omitempty"`
-	// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
-	InboundTransfers *V2CoreAccountCreateConfigurationStorerCapabilitiesInboundTransfersParams `form:"inbound_transfers" json:"inbound_transfers,omitempty"`
-	// Can send funds from a FinancialAccount to a destination owned by someone else.
-	OutboundPayments *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundPaymentsParams `form:"outbound_payments" json:"outbound_payments,omitempty"`
-	// Can send funds from a FinancialAccount to a destination owned by yourself.
-	OutboundTransfers *V2CoreAccountCreateConfigurationStorerCapabilitiesOutboundTransfersParams `form:"outbound_transfers" json:"outbound_transfers,omitempty"`
-}
-
-// The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
-type V2CoreAccountCreateConfigurationStorerParams struct {
-	// Capabilities to request on the Storer Configuration.
-	Capabilities *V2CoreAccountCreateConfigurationStorerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
-}
-
 // An Account Configuration which allows the Account to take on a key persona across Stripe products.
 type V2CoreAccountCreateConfigurationParams struct {
 	// The Customer Configuration allows the Account to be used in inbound payment flows (i.e. customer-facing payment and billing flows).
 	Customer *V2CoreAccountCreateConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
 	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountCreateConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
+	// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.
+	MoneyManager *V2CoreAccountCreateConfigurationMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	Recipient *V2CoreAccountCreateConfigurationRecipientParams `form:"recipient" json:"recipient,omitempty"`
-	// The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
-	Storer *V2CoreAccountCreateConfigurationStorerParams `form:"storer" json:"storer,omitempty"`
 }
 
 // Account profile information.
@@ -2396,7 +2576,7 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceAccountParams struct {
 }
 
 // Details on the Account's acceptance of Treasury-specific terms of service.
-type V2CoreAccountCreateIdentityAttestationsTermsOfServiceStorerParams struct {
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date"`
 	// The IP address from which the Account's representative accepted the terms of service.
@@ -2410,7 +2590,7 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 	Account *V2CoreAccountCreateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
-	Storer *V2CoreAccountCreateIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
+	MoneyManager *V2CoreAccountCreateIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 }
 
 // Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
@@ -3367,6 +3547,12 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesSEPADebitPaymentsParams
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Allow the merchant to process Sunbit payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesSunbitPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Allow the merchant to process Swish payments.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesSwishPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -3473,6 +3659,8 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	SEPABankTransferPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process SEPA Direct Debit payments.
 	SEPADebitPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// Allow the merchant to process Sunbit payments.
+	SunbitPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// Allow the merchant to process Swish payments.
 	SwishPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSwishPaymentsParams `form:"swish_payments" json:"swish_payments,omitempty"`
 	// Allow the merchant to process TWINT payments.
@@ -3621,6 +3809,210 @@ type V2CoreAccountUpdateConfigurationMerchantParams struct {
 	Support *V2CoreAccountUpdateConfigurationMerchantSupportParams `form:"support" json:"support,omitempty"`
 }
 
+// Can receive business storage-type funds on Stripe in AUD.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business storage-type funds on Stripe in CAD.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business storage-type funds on Stripe in EUR.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business storage-type funds on Stripe in GBP.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundGBPParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business storage-type funds on Stripe in USD.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundUSDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive business storage-type funds on Stripe.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundParams struct {
+	// Can receive business storage-type funds on Stripe in AUD.
+	AUD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundAUDParams `form:"aud" json:"aud,omitempty"`
+	// Can receive business storage-type funds on Stripe in CAD.
+	CAD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can receive business storage-type funds on Stripe in EUR.
+	EUR *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundEURParams `form:"eur" json:"eur,omitempty"`
+	// Can receive business storage-type funds on Stripe in GBP.
+	GBP *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can receive business storage-type funds on Stripe in USD.
+	USD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe in AUD.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAUDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe in CAD.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe in EUR.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe in GBP.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundGBPParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe in USD.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundUSDParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send business storage-type funds on Stripe.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundParams struct {
+	// Can send business storage-type funds on Stripe in AUD.
+	AUD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundAUDParams `form:"aud" json:"aud,omitempty"`
+	// Can send business storage-type funds on Stripe in CAD.
+	CAD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundCADParams `form:"cad" json:"cad,omitempty"`
+	// Can send business storage-type funds on Stripe in EUR.
+	EUR *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundEURParams `form:"eur" json:"eur,omitempty"`
+	// Can send business storage-type funds on Stripe in GBP.
+	GBP *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundGBPParams `form:"gbp" json:"gbp,omitempty"`
+	// Can send business storage-type funds on Stripe in USD.
+	USD *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundUSDParams `form:"usd" json:"usd,omitempty"`
+}
+
+// Can send or receive business storage-type funds on Stripe.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageParams struct {
+	// Can receive business storage-type funds on Stripe.
+	Inbound *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageInboundParams `form:"inbound" json:"inbound,omitempty"`
+	// Can send business storage-type funds on Stripe.
+	Outbound *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageOutboundParams `form:"outbound" json:"outbound,omitempty"`
+}
+
+// Can pull funds from an external bank account owned by yourself to a FinancialAccount.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesInboundTransfersBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesInboundTransfersParams struct {
+	// Can pull funds from an external bank account owned by yourself to a FinancialAccount.
+	BankAccounts *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesInboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a bank account owned by someone else.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a debit card owned by someone else.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsCardsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsFinancialAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a destination owned by someone else.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsParams struct {
+	// Can send funds from a FinancialAccount to a bank account owned by someone else.
+	BankAccounts *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to a debit card owned by someone else.
+	Cards *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsCardsParams `form:"cards" json:"cards,omitempty"`
+	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
+	FinancialAccounts *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a bank account owned by yourself.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersFinancialAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can send funds from a FinancialAccount to a destination owned by yourself.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersParams struct {
+	// Can send funds from a FinancialAccount to a bank account owned by yourself.
+	BankAccounts *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+	// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
+	FinancialAccounts *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
+}
+
+// Can receive funds on a bank-account-like financial address (VBAN) to credit a FinancialAccount.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive funds on a financial address to credit a FinancialAccount.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsParams struct {
+	// Can receive funds on a bank-account-like financial address (VBAN) to credit a FinancialAccount.
+	BankAccounts *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Can receive debits to a FinancialAccount from a bank account.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedDebitsBankAccountsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Can receive debits to a FinancialAccount.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedDebitsParams struct {
+	// Can receive debits to a FinancialAccount from a bank account.
+	BankAccounts *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedDebitsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
+}
+
+// Capabilities to request on the Money Manager Configuration.
+type V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesParams struct {
+	// Can send or receive business storage-type funds on Stripe.
+	BusinessStorage *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesBusinessStorageParams `form:"business_storage" json:"business_storage,omitempty"`
+	// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
+	InboundTransfers *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesInboundTransfersParams `form:"inbound_transfers" json:"inbound_transfers,omitempty"`
+	// Can send funds from a FinancialAccount to a destination owned by someone else.
+	OutboundPayments *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundPaymentsParams `form:"outbound_payments" json:"outbound_payments,omitempty"`
+	// Can send funds from a FinancialAccount to a destination owned by yourself.
+	OutboundTransfers *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesOutboundTransfersParams `form:"outbound_transfers" json:"outbound_transfers,omitempty"`
+	// Can receive funds on a financial address to credit a FinancialAccount.
+	ReceivedCredits *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedCreditsParams `form:"received_credits" json:"received_credits,omitempty"`
+	// Can receive debits to a FinancialAccount.
+	ReceivedDebits *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesReceivedDebitsParams `form:"received_debits" json:"received_debits,omitempty"`
+}
+
+// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.
+type V2CoreAccountUpdateConfigurationMoneyManagerParams struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied *bool `form:"applied" json:"applied,omitempty"`
+	// Capabilities to request on the Money Manager Configuration.
+	Capabilities *V2CoreAccountUpdateConfigurationMoneyManagerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
+}
+
 // Enables this Account to receive OutboundPayments to linked bank accounts over local networks.
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsLocalParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -3679,138 +4071,16 @@ type V2CoreAccountUpdateConfigurationRecipientParams struct {
 	DefaultOutboundDestination *string `form:"default_outbound_destination" json:"default_outbound_destination,omitempty"`
 }
 
-// Can provision a bank-account-like financial address (VBAN) to credit/debit a FinancialAccount.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesFinancialAddressesBankAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can provision a financial address to credit/debit a FinancialAccount.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesFinancialAddressesParams struct {
-	// Can provision a bank-account-like financial address (VBAN) to credit/debit a FinancialAccount.
-	BankAccounts *V2CoreAccountUpdateConfigurationStorerCapabilitiesFinancialAddressesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
-}
-
-// Can hold storage-type funds on Stripe in EUR.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesEURParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can hold storage-type funds on Stripe in GBP.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can hold storage-type funds on Stripe in USD.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can hold storage-type funds on Stripe.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesParams struct {
-	// Can hold storage-type funds on Stripe in EUR.
-	EUR *V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesEURParams `form:"eur" json:"eur,omitempty"`
-	// Can hold storage-type funds on Stripe in GBP.
-	GBP *V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesGBPParams `form:"gbp" json:"gbp,omitempty"`
-	// Can hold storage-type funds on Stripe in USD.
-	USD *V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesUSDParams `form:"usd" json:"usd,omitempty"`
-}
-
-// Can pull funds from an external bank account owned by yourself to a FinancialAccount.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesInboundTransfersBankAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesInboundTransfersParams struct {
-	// Can pull funds from an external bank account owned by yourself to a FinancialAccount.
-	BankAccounts *V2CoreAccountUpdateConfigurationStorerCapabilitiesInboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to a bank account owned by someone else.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to a debit card owned by someone else.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsCardsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to a destination owned by someone else.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsParams struct {
-	// Can send funds from a FinancialAccount to a bank account owned by someone else.
-	BankAccounts *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
-	// Can send funds from a FinancialAccount to a debit card owned by someone else.
-	Cards *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsCardsParams `form:"cards" json:"cards,omitempty"`
-	// Can send funds from a FinancialAccount to another FinancialAccount owned by someone else.
-	FinancialAccounts *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to a bank account owned by yourself.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersBankAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsParams struct {
-	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
-	Requested *bool `form:"requested" json:"requested,omitempty"`
-}
-
-// Can send funds from a FinancialAccount to a destination owned by yourself.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersParams struct {
-	// Can send funds from a FinancialAccount to a bank account owned by yourself.
-	BankAccounts *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
-	// Can send funds from a FinancialAccount to another FinancialAccount owned by yourself.
-	FinancialAccounts *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
-}
-
-// Capabilities to request on the Storer Configuration.
-type V2CoreAccountUpdateConfigurationStorerCapabilitiesParams struct {
-	// Can provision a financial address to credit/debit a FinancialAccount.
-	FinancialAddresses *V2CoreAccountUpdateConfigurationStorerCapabilitiesFinancialAddressesParams `form:"financial_addresses" json:"financial_addresses,omitempty"`
-	// Can hold storage-type funds on Stripe.
-	HoldsCurrencies *V2CoreAccountUpdateConfigurationStorerCapabilitiesHoldsCurrenciesParams `form:"holds_currencies" json:"holds_currencies,omitempty"`
-	// Can pull funds from an external source, owned by yourself, to a FinancialAccount.
-	InboundTransfers *V2CoreAccountUpdateConfigurationStorerCapabilitiesInboundTransfersParams `form:"inbound_transfers" json:"inbound_transfers,omitempty"`
-	// Can send funds from a FinancialAccount to a destination owned by someone else.
-	OutboundPayments *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundPaymentsParams `form:"outbound_payments" json:"outbound_payments,omitempty"`
-	// Can send funds from a FinancialAccount to a destination owned by yourself.
-	OutboundTransfers *V2CoreAccountUpdateConfigurationStorerCapabilitiesOutboundTransfersParams `form:"outbound_transfers" json:"outbound_transfers,omitempty"`
-}
-
-// The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
-type V2CoreAccountUpdateConfigurationStorerParams struct {
-	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
-	Applied *bool `form:"applied" json:"applied,omitempty"`
-	// Capabilities to request on the Storer Configuration.
-	Capabilities *V2CoreAccountUpdateConfigurationStorerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
-}
-
 // An Account Configuration which allows the Account to take on a key persona across Stripe products.
 type V2CoreAccountUpdateConfigurationParams struct {
 	// The Customer Configuration allows the Account to be charged.
 	Customer *V2CoreAccountUpdateConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
 	// Enables the Account to act as a connected account and collect payments facilitated by a Connect platform. You must onboard your platform to Connect before you can add this configuration to your connected accounts. Utilize this configuration when the Account will be the Merchant of Record, like with Direct charges or Destination Charges with on_behalf_of set.
 	Merchant *V2CoreAccountUpdateConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
+	// The Money Manager Configuration allows the Account to store and move funds using FinancialAccounts.
+	MoneyManager *V2CoreAccountUpdateConfigurationMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 	// The Recipient Configuration allows the Account to receive funds. Utilize this configuration if the Account will not be the Merchant of Record, like with Separate Charges & Transfers, or Destination Charges without on_behalf_of set.
 	Recipient *V2CoreAccountUpdateConfigurationRecipientParams `form:"recipient" json:"recipient,omitempty"`
-	// The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
-	Storer *V2CoreAccountUpdateConfigurationStorerParams `form:"storer" json:"storer,omitempty"`
 }
 
 // Account profile information.
@@ -3897,8 +4167,8 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams struct {
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
-// Details on the Account's acceptance of Crypto-storer-specific terms of service.
-type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
+// Details on the Account's acceptance of Crypto-specific terms of service.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date,omitempty"`
 	// The IP address from which the Account's representative accepted the terms of service.
@@ -3908,7 +4178,7 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoStorerParams str
 }
 
 // Details on the Account's acceptance of Treasury-specific terms of service.
-type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams struct {
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date,omitempty"`
 	// The IP address from which the Account's representative accepted the terms of service.
@@ -3921,10 +4191,10 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams struct {
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 	Account *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
-	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
-	CryptoStorer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
+	// Details on the Account's acceptance of Crypto-specific terms of service.
+	CryptoMoneyManager *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams `form:"crypto_money_manager" json:"crypto_money_manager,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
-	Storer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
+	MoneyManager *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 }
 
 // Attestations from the identity's key people, e.g. owners, executives, directors, representatives.

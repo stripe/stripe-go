@@ -22,6 +22,16 @@ const (
 	IssuingCardholderPreferredLocaleIT IssuingCardholderPreferredLocale = "it"
 )
 
+// Indicates whether this object and its related objects have been redacted or not.
+type IssuingCardholderRedactionStatus string
+
+// List of values that IssuingCardholderRedactionStatus can take
+const (
+	IssuingCardholderRedactionStatusProcessing IssuingCardholderRedactionStatus = "processing"
+	IssuingCardholderRedactionStatusRedacted   IssuingCardholderRedactionStatus = "redacted"
+	IssuingCardholderRedactionStatusValidated  IssuingCardholderRedactionStatus = "validated"
+)
+
 // If `disabled_reason` is present, all cards will decline authorizations with `cardholder_verification_required` reason.
 type IssuingCardholderRequirementsDisabledReason string
 
@@ -639,6 +649,12 @@ type IssuingCardholderIndividual struct {
 	// Government-issued ID document for this cardholder.
 	Verification *IssuingCardholderIndividualVerification `json:"verification"`
 }
+
+// Redaction status of this cardholder. If the cardholder is not redacted, this field will be null.
+type IssuingCardholderRedaction struct {
+	// Indicates whether this object and its related objects have been redacted or not.
+	Status IssuingCardholderRedactionStatus `json:"status"`
+}
 type IssuingCardholderRequirements struct {
 	// If `disabled_reason` is present, all cards will decline authorizations with `cardholder_verification_required` reason.
 	DisabledReason IssuingCardholderRequirementsDisabledReason `json:"disabled_reason"`
@@ -705,7 +721,9 @@ type IssuingCardholder struct {
 	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `da`, `de`, `en`, `es`, `fr`, `it`, `pl`, or `sv`.
 	//  This changes the language of the [3D Secure flow](https://docs.stripe.com/issuing/3d-secure) and one-time password messages sent to the cardholder.
 	PreferredLocales []IssuingCardholderPreferredLocale `json:"preferred_locales"`
-	Requirements     *IssuingCardholderRequirements     `json:"requirements"`
+	// Redaction status of this cardholder. If the cardholder is not redacted, this field will be null.
+	Redaction    *IssuingCardholderRedaction    `json:"redaction,omitempty"`
+	Requirements *IssuingCardholderRequirements `json:"requirements"`
 	// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardholderSpendingControls `json:"spending_controls"`
 	// Specifies whether to permit authorizations on this cardholder's cards.

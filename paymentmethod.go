@@ -266,6 +266,16 @@ const (
 	PaymentMethodNaverPayFundingPoints PaymentMethodNaverPayFunding = "points"
 )
 
+// Indicates whether this object and its related objects have been redacted or not.
+type PaymentMethodRedactionStatus string
+
+// List of values that PaymentMethodRedactionStatus can take
+const (
+	PaymentMethodRedactionStatusProcessing PaymentMethodRedactionStatus = "processing"
+	PaymentMethodRedactionStatusRedacted   PaymentMethodRedactionStatus = "redacted"
+	PaymentMethodRedactionStatusValidated  PaymentMethodRedactionStatus = "validated"
+)
+
 // The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 type PaymentMethodType string
 
@@ -750,7 +760,7 @@ type PaymentMethodStripeBalanceParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
-// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 type PaymentMethodSunbitParams struct{}
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -924,7 +934,7 @@ type PaymentMethodParams struct {
 	Sofort *PaymentMethodSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *PaymentMethodStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
-	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 	Sunbit *PaymentMethodSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish" json:"swish,omitempty"`
@@ -1334,7 +1344,7 @@ type PaymentMethodCreateStripeBalanceParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
-// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 type PaymentMethodCreateSunbitParams struct{}
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -1512,7 +1522,7 @@ type PaymentMethodCreateParams struct {
 	Sofort *PaymentMethodCreateSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *PaymentMethodCreateStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
-	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 	Sunbit *PaymentMethodCreateSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodCreateSwishParams `form:"swish" json:"swish,omitempty"`
@@ -1728,8 +1738,14 @@ type PaymentMethodBillingDetails struct {
 	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
 	TaxID string `json:"tax_id"`
 }
-type PaymentMethodBizum struct{}
-type PaymentMethodBLIK struct{}
+type PaymentMethodBizum struct {
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id,omitempty"`
+}
+type PaymentMethodBLIK struct {
+	// A unique and immutable identifier assigned by BLIK to every buyer.
+	BuyerID string `json:"buyer_id,omitempty"`
+}
 type PaymentMethodBoleto struct {
 	// Uniquely identifies the customer tax id (CNPJ or CPF)
 	TaxID string `json:"tax_id"`
@@ -2175,7 +2191,10 @@ type PaymentMethodPayto struct {
 	// The PayID alias for the bank account.
 	PayID string `json:"pay_id"`
 }
-type PaymentMethodPix struct{}
+type PaymentMethodPix struct {
+	// Uniquely identifies this particular Pix account. You can use this attribute to check whether two Pix accounts are the same.
+	Fingerprint string `json:"fingerprint,omitempty"`
+}
 type PaymentMethodPromptPay struct{}
 type PaymentMethodQris struct{}
 
@@ -2194,6 +2213,12 @@ type PaymentMethodRechnungDOB struct {
 }
 type PaymentMethodRechnung struct {
 	DOB *PaymentMethodRechnungDOB `json:"dob,omitempty"`
+}
+
+// Redaction status of this PaymentMethod. If the PaymentMethod is not redacted, this field will be null.
+type PaymentMethodRedaction struct {
+	// Indicates whether this object and its related objects have been redacted or not.
+	Status PaymentMethodRedactionStatus `json:"status"`
 }
 type PaymentMethodRevolutPay struct{}
 type PaymentMethodSamsungPay struct{}
@@ -2357,11 +2382,13 @@ type PaymentMethod struct {
 	// Options to configure Radar. See [Radar Session](https://docs.stripe.com/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptions `json:"radar_options,omitempty"`
 	Rechnung     *PaymentMethodRechnung     `json:"rechnung,omitempty"`
-	RevolutPay   *PaymentMethodRevolutPay   `json:"revolut_pay,omitempty"`
-	SamsungPay   *PaymentMethodSamsungPay   `json:"samsung_pay,omitempty"`
-	Satispay     *PaymentMethodSatispay     `json:"satispay,omitempty"`
-	Scalapay     *PaymentMethodScalapay     `json:"scalapay,omitempty"`
-	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit,omitempty"`
+	// Redaction status of this PaymentMethod. If the PaymentMethod is not redacted, this field will be null.
+	Redaction  *PaymentMethodRedaction  `json:"redaction,omitempty"`
+	RevolutPay *PaymentMethodRevolutPay `json:"revolut_pay,omitempty"`
+	SamsungPay *PaymentMethodSamsungPay `json:"samsung_pay,omitempty"`
+	Satispay   *PaymentMethodSatispay   `json:"satispay,omitempty"`
+	Scalapay   *PaymentMethodScalapay   `json:"scalapay,omitempty"`
+	SEPADebit  *PaymentMethodSEPADebit  `json:"sepa_debit,omitempty"`
 	// ID of the shared payment granted token used in the creation of this PaymentMethod.
 	SharedPaymentGrantedToken string                      `json:"shared_payment_granted_token,omitempty"`
 	Shopeepay                 *PaymentMethodShopeepay     `json:"shopeepay,omitempty"`

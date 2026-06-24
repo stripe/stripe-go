@@ -1,6 +1,7 @@
 package event_test
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"testing"
@@ -15,7 +16,7 @@ import (
 
 func TestEventGet(t *testing.T) {
 	timeNow := time.Now()
-	params := stripe.V2CoreEventParams{}
+	params := stripe.V2CoreEventRetrieveParams{}
 	testServer, sc := mock.Server(t, string(http.MethodGet), "/v2/core/events/evt_123", nil, func(p *stripe.V2CoreEventParams) []byte {
 		data, err := json.Marshal(stripe.V1BillingMeterErrorReportTriggeredEvent{
 			V2BaseEvent: stripe.V2BaseEvent{
@@ -35,7 +36,7 @@ func TestEventGet(t *testing.T) {
 	})
 	defer testServer.Close()
 
-	event, err := sc.V2CoreEvents.Get("evt_123", &params)
+	event, err := sc.V2CoreEvents.Retrieve(context.TODO(), "evt_123", &params)
 	assert.Nil(t, err)
 	v1BillingEvent, ok := event.(*stripe.V1BillingMeterErrorReportTriggeredEvent)
 	assert.True(t, ok)
@@ -92,7 +93,7 @@ func TestEventAll(t *testing.T) {
 	})
 	defer testServer.Close()
 	cnt := 1
-	sc.V2CoreEvents.All(params)(func(event stripe.V2CoreEvent, err error) bool {
+	sc.V2CoreEvents.List(context.TODO(), params).All(context.TODO())(func(event stripe.V2CoreEvent, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, event)
 		if cnt == 1 {
