@@ -363,6 +363,12 @@ type V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsParams struc
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Allow the merchant to process Sunbit payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Allow the merchant to process Swish payments.
 type V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -469,6 +475,8 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	SEPABankTransferPayments *V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process SEPA Direct Debit payments.
 	SEPADebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// Allow the merchant to process Sunbit payments.
+	SunbitPayments *V2CoreAccountConfigurationMerchantCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// Allow the merchant to process Swish payments.
 	SwishPayments *V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsParams `form:"swish_payments" json:"swish_payments,omitempty"`
 	// Allow the merchant to process TWINT payments.
@@ -725,10 +733,10 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams struct {
 type V2CoreAccountIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
-	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
-	CryptoStorer *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
+	// Details on the Account's acceptance of Crypto-specific terms of service.
+	CryptoMoneyManager *V2CoreAccountIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams `form:"crypto_money_manager" json:"crypto_money_manager,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
-	Storer *V2CoreAccountIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
+	MoneyManager *V2CoreAccountIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 }
 
 // Attestations from the identity's key people, e.g. owners, executives, directors, representatives.
@@ -1332,8 +1340,8 @@ func (p *V2CoreAccountParams) AddMetadata(key string, value *string) {
 	p.Metadata[key] = value
 }
 
-// Details on the Account's acceptance of Crypto-storer-specific terms of service.
-type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
+// Details on the Account's acceptance of Crypto-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date,omitempty"`
 	// The IP address from which the Account's representative accepted the terms of service.
@@ -1343,7 +1351,7 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
 }
 
 // Details on the Account's acceptance of Treasury-specific terms of service.
-type V2CoreAccountIdentityAttestationsTermsOfServiceStorerParams struct {
+type V2CoreAccountIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date,omitempty"`
 	// The IP address from which the Account's representative accepted the terms of service.
@@ -1697,6 +1705,12 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesSEPADebitPaymentsParams
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Allow the merchant to process Sunbit payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesSunbitPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Allow the merchant to process Swish payments.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesSwishPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -1803,6 +1817,8 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	SEPABankTransferPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process SEPA Direct Debit payments.
 	SEPADebitPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// Allow the merchant to process Sunbit payments.
+	SunbitPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// Allow the merchant to process Swish payments.
 	SwishPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesSwishPaymentsParams `form:"swish_payments" json:"swish_payments,omitempty"`
 	// Allow the merchant to process TWINT payments.
@@ -3009,6 +3025,12 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesSEPADebitPaymentsParams
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Allow the merchant to process Sunbit payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesSunbitPaymentsParams struct {
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Allow the merchant to process Swish payments.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesSwishPaymentsParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
@@ -3115,6 +3137,8 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	SEPABankTransferPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments" json:"sepa_bank_transfer_payments,omitempty"`
 	// Allow the merchant to process SEPA Direct Debit payments.
 	SEPADebitPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
+	// Allow the merchant to process Sunbit payments.
+	SunbitPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSunbitPaymentsParams `form:"sunbit_payments" json:"sunbit_payments,omitempty"`
 	// Allow the merchant to process Swish payments.
 	SwishPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesSwishPaymentsParams `form:"swish_payments" json:"swish_payments,omitempty"`
 	// Allow the merchant to process TWINT payments.
@@ -3367,8 +3391,8 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams struct {
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
-// Details on the Account's acceptance of Crypto-storer-specific terms of service.
-type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoStorerParams struct {
+// Details on the Account's acceptance of Crypto-specific terms of service.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date,omitempty"`
 	// The IP address from which the Account's representative accepted the terms of service.
@@ -3378,7 +3402,7 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoStorerParams str
 }
 
 // Details on the Account's acceptance of Treasury-specific terms of service.
-type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams struct {
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceMoneyManagerParams struct {
 	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Date *time.Time `form:"date" json:"date,omitempty"`
 	// The IP address from which the Account's representative accepted the terms of service.
@@ -3391,10 +3415,10 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams struct {
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 	Account *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
-	// Details on the Account's acceptance of Crypto-storer-specific terms of service.
-	CryptoStorer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoStorerParams `form:"crypto_storer" json:"crypto_storer,omitempty"`
+	// Details on the Account's acceptance of Crypto-specific terms of service.
+	CryptoMoneyManager *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceCryptoMoneyManagerParams `form:"crypto_money_manager" json:"crypto_money_manager,omitempty"`
 	// Details on the Account's acceptance of Treasury-specific terms of service.
-	Storer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
+	MoneyManager *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceMoneyManagerParams `form:"money_manager" json:"money_manager,omitempty"`
 }
 
 // Attestations from the identity's key people, e.g. owners, executives, directors, representatives.

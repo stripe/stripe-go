@@ -254,6 +254,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypePix                InvoicePaymentSettingsPaymentMethodType = "pix"
 	InvoicePaymentSettingsPaymentMethodTypePromptPay          InvoicePaymentSettingsPaymentMethodType = "promptpay"
 	InvoicePaymentSettingsPaymentMethodTypeRevolutPay         InvoicePaymentSettingsPaymentMethodType = "revolut_pay"
+	InvoicePaymentSettingsPaymentMethodTypeSatispay           InvoicePaymentSettingsPaymentMethodType = "satispay"
 	InvoicePaymentSettingsPaymentMethodTypeSEPACreditTransfer InvoicePaymentSettingsPaymentMethodType = "sepa_credit_transfer"
 	InvoicePaymentSettingsPaymentMethodTypeSEPADebit          InvoicePaymentSettingsPaymentMethodType = "sepa_debit"
 	InvoicePaymentSettingsPaymentMethodTypeSofort             InvoicePaymentSettingsPaymentMethodType = "sofort"
@@ -1019,7 +1020,7 @@ type InvoiceAddLinesLineTaxAmountTaxRateDataParams struct {
 	TaxType *string `form:"tax_type" json:"tax_type,omitempty"`
 }
 
-// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
+// A list of up to 20 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 type InvoiceAddLinesLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount" json:"amount"`
@@ -1057,7 +1058,7 @@ type InvoiceAddLinesLineParams struct {
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
 	QuantityDecimal *float64 `form:"quantity_decimal,high_precision" json:"quantity_decimal,string,omitempty"`
-	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
+	// A list of up to 20 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceAddLinesLineTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates    []*string                             `form:"tax_rates" json:"tax_rates,omitempty"`
@@ -1347,7 +1348,7 @@ type InvoiceUpdateLinesLineTaxAmountTaxRateDataParams struct {
 	TaxType *string `form:"tax_type" json:"tax_type,omitempty"`
 }
 
-// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
+// A list of up to 20 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 type InvoiceUpdateLinesLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount" json:"amount"`
@@ -1385,7 +1386,7 @@ type InvoiceUpdateLinesLineParams struct {
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
 	QuantityDecimal *float64 `form:"quantity_decimal,high_precision" json:"quantity_decimal,string,omitempty"`
-	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
+	// A list of up to 20 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceUpdateLinesLineTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates    []*string                                `form:"tax_rates" json:"tax_rates,omitempty"`
@@ -2124,7 +2125,7 @@ type InvoiceCreatePreviewSubscriptionDetailsItemParams struct {
 	Deleted *bool `form:"deleted" json:"deleted,omitempty"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*InvoiceCreatePreviewSubscriptionDetailsItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
-	// Subscription item to update.
+	// Subscription item to update. If you omit `id`, the API adds a new subscription item rather than updating the existing one. See [Changing a subscription's price](https://docs.stripe.com/billing/subscriptions/change-price#changing).
 	ID *string `form:"id" json:"id,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`

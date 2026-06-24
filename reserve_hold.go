@@ -36,6 +36,13 @@ const (
 	ReserveHoldSourceTypeFPX         ReserveHoldSourceType = "fpx"
 )
 
+// List of ReserveReleases and the amounts released from this ReserveHold.
+type ReserveHoldReleaseDetail struct {
+	// The amount released by the ReserveRelease from this ReserveHold. A positive integer representing how much is released in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+	Amount int64 `json:"amount"`
+	// The ReserveRelease which released funds from this ReserveHold (e.g., resrel_123).
+	ReserveRelease string `json:"reserve_release"`
+}
 type ReserveHoldReleaseSchedule struct {
 	// The time after which the ReserveHold is requested to be released.
 	ReleaseAfter int64 `json:"release_after"`
@@ -66,7 +73,9 @@ type ReserveHold struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The reason for the ReserveHold.
-	Reason          ReserveHoldReason           `json:"reason"`
+	Reason ReserveHoldReason `json:"reason"`
+	// List of ReserveReleases and the amounts released from this ReserveHold.
+	ReleaseDetails  []*ReserveHoldReleaseDetail `json:"release_details,omitempty"`
 	ReleaseSchedule *ReserveHoldReleaseSchedule `json:"release_schedule"`
 	// The ReservePlan which produced this ReserveHold (i.e., resplan_123)
 	ReservePlan *ReservePlan `json:"reserve_plan"`

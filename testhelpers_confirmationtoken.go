@@ -258,7 +258,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataSofortParams struct {
 	Country *string `form:"country" json:"country"`
 }
 
-// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataSunbitParams struct{}
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -409,7 +409,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	SEPADebit *TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *TestHelpersConfirmationTokenPaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
-	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 	Sunbit *TestHelpersConfirmationTokenPaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *TestHelpersConfirmationTokenPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
@@ -768,7 +768,7 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataSofortParams struct {
 	Country *string `form:"country" json:"country"`
 }
 
-// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataSunbitParams struct{}
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -919,7 +919,7 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	SEPADebit *TestHelpersConfirmationTokenCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *TestHelpersConfirmationTokenCreatePaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
-	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 	Sunbit *TestHelpersConfirmationTokenCreatePaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *TestHelpersConfirmationTokenCreatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
