@@ -281,8 +281,12 @@ type SetupAttemptPaymentMethodDetailsNaverPay struct {
 type SetupAttemptPaymentMethodDetailsNzBankAccount struct{}
 type SetupAttemptPaymentMethodDetailsPaypal struct{}
 type SetupAttemptPaymentMethodDetailsPayto struct{}
-type SetupAttemptPaymentMethodDetailsPix struct{}
+type SetupAttemptPaymentMethodDetailsPix struct {
+	// Uniquely identifies this particular Pix account. You can use this attribute to check whether two Pix accounts are the same.
+	Fingerprint string `json:"fingerprint,omitempty"`
+}
 type SetupAttemptPaymentMethodDetailsRevolutPay struct{}
+type SetupAttemptPaymentMethodDetailsSatispay struct{}
 type SetupAttemptPaymentMethodDetailsSEPADebit struct{}
 type SetupAttemptPaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -328,6 +332,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	Payto         *SetupAttemptPaymentMethodDetailsPayto         `json:"payto,omitempty"`
 	Pix           *SetupAttemptPaymentMethodDetailsPix           `json:"pix,omitempty"`
 	RevolutPay    *SetupAttemptPaymentMethodDetailsRevolutPay    `json:"revolut_pay,omitempty"`
+	Satispay      *SetupAttemptPaymentMethodDetailsSatispay      `json:"satispay,omitempty"`
 	SEPADebit     *SetupAttemptPaymentMethodDetailsSEPADebit     `json:"sepa_debit,omitempty"`
 	Sofort        *SetupAttemptPaymentMethodDetailsSofort        `json:"sofort,omitempty"`
 	TWINT         *SetupAttemptPaymentMethodDetailsTWINT         `json:"twint,omitempty"`

@@ -143,15 +143,6 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardNetworkVisa            PaymentAttemptRecordPaymentMethodDetailsCardNetwork = "visa"
 )
 
-// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
-type PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage string
-
-// List of values that PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage can take
-const (
-	PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsageRecurring   PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage = "recurring"
-	PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsageUnscheduled PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage = "unscheduled"
-)
-
 // For authenticated transactions: Indicates how the issuing bank authenticated the customer.
 type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
 
@@ -272,6 +263,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkEthereum PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "ethereum"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkPolygon  PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "polygon"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkSolana   PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "solana"
+	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkSui      PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "sui"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkTempo    PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "tempo"
 )
 
@@ -284,6 +276,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdc        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdc"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdg        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdg"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdp        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdp"
+	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdsui      PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdsui"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdt        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdt"
 )
 
@@ -845,6 +838,8 @@ type PaymentAttemptRecordPaymentMethodDetailsBillingDetails struct {
 	Phone string `json:"phone"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsBizum struct {
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id"`
 	// The Bizum transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -937,7 +932,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCard struct {
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// A high-level description of the type of cards issued in this range.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Two-digit number representing the card's expiration month.
 	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
@@ -949,11 +944,11 @@ type PaymentAttemptRecordPaymentMethodDetailsCard struct {
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 	Funding PaymentAttemptRecordPaymentMethodDetailsCardFunding `json:"funding"`
 	// Issuer identification number of the card.
-	IIN string `json:"iin"`
+	IIN string `json:"iin,omitempty"`
 	// Installment details for this payment.
 	Installments *PaymentAttemptRecordPaymentMethodDetailsCardInstallments `json:"installments"`
 	// The name of the card's issuing bank.
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// True if this payment was marked as MOTO and out of scope for SCA.
@@ -968,8 +963,6 @@ type PaymentAttemptRecordPaymentMethodDetailsCard struct {
 	NetworkToken *PaymentAttemptRecordPaymentMethodDetailsCardNetworkToken `json:"network_token,omitempty"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
-	// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
-	StoredCredentialUsage PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage `json:"stored_credential_usage"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.

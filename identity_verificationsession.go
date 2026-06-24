@@ -67,6 +67,7 @@ type IdentityVerificationSessionRedactionStatus string
 const (
 	IdentityVerificationSessionRedactionStatusProcessing IdentityVerificationSessionRedactionStatus = "processing"
 	IdentityVerificationSessionRedactionStatusRedacted   IdentityVerificationSessionRedactionStatus = "redacted"
+	IdentityVerificationSessionRedactionStatusValidated  IdentityVerificationSessionRedactionStatus = "validated"
 )
 
 // Status of this VerificationSession. [Learn more about the lifecycle of sessions](https://docs.stripe.com/identity/how-sessions-work).

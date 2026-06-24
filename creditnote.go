@@ -140,7 +140,7 @@ func (p *CreditNoteListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
+// A list of up to 20 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 type CreditNoteLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount" json:"amount"`
@@ -162,7 +162,7 @@ type CreditNoteLineParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
-	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
+	// A list of up to 20 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 	TaxAmounts []*CreditNoteLineTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and `tax_amounts` is not used.
 	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
@@ -234,6 +234,8 @@ type CreditNoteShippingCostParams struct {
 //
 // You may issue multiple credit notes for an invoice. Each credit note may increment the invoice's pre_payment_credit_notes_amount,
 // post_payment_credit_notes_amount, or both, depending on the invoice's amount_remaining at the time of credit note creation.
+//
+// For invoices that also have refunds created through the [Refund API](https://docs.stripe.com/docs/api/refunds), the credit note API subtracts those refund amounts from the maximum creditable amount. This prevents the combined credit notes and refunds from exceeding the invoice amount. If you use both, ensure the combined total does not exceed the invoice's paid amount.
 type CreditNoteParams struct {
 	Params `form:"*"`
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
@@ -280,7 +282,7 @@ func (p *CreditNoteParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
+// A list of up to 20 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 type CreditNotePreviewLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount" json:"amount"`
@@ -302,7 +304,7 @@ type CreditNotePreviewLineParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
-	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
+	// A list of up to 20 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 	TaxAmounts []*CreditNotePreviewLineTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and `tax_amounts` is not used.
 	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
@@ -410,7 +412,7 @@ func (p *CreditNotePreviewParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
+// A list of up to 20 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 type CreditNotePreviewLinesLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount" json:"amount"`
@@ -432,7 +434,7 @@ type CreditNotePreviewLinesLineParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
-	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
+	// A list of up to 20 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 	TaxAmounts []*CreditNotePreviewLinesLineTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and `tax_amounts` is not used.
 	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
@@ -565,7 +567,7 @@ func (p *CreditNoteListLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
+// A list of up to 20 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 type CreditNoteCreateLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount" json:"amount"`
@@ -587,7 +589,7 @@ type CreditNoteCreateLineParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The line item quantity to credit.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
-	// A list of up to 10 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
+	// A list of up to 20 tax amounts for the credit note line item. Not valid when `tax_rates` is used or if invoice is set up with `automatic_tax[enabled]=true`.
 	TaxAmounts []*CreditNoteCreateLineTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and `tax_amounts` is not used.
 	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
@@ -659,6 +661,8 @@ type CreditNoteCreateShippingCostParams struct {
 //
 // You may issue multiple credit notes for an invoice. Each credit note may increment the invoice's pre_payment_credit_notes_amount,
 // post_payment_credit_notes_amount, or both, depending on the invoice's amount_remaining at the time of credit note creation.
+//
+// For invoices that also have refunds created through the [Refund API](https://docs.stripe.com/docs/api/refunds), the credit note API subtracts those refund amounts from the maximum creditable amount. This prevents the combined credit notes and refunds from exceeding the invoice amount. If you use both, ensure the combined total does not exceed the invoice's paid amount.
 type CreditNoteCreateParams struct {
 	Params `form:"*"`
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.

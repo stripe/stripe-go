@@ -698,7 +698,7 @@ type SetupIntentPaymentMethodDataSofortParams struct {
 	Country *string `form:"country" json:"country"`
 }
 
-// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 type SetupIntentPaymentMethodDataSunbitParams struct{}
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -850,7 +850,7 @@ type SetupIntentPaymentMethodDataParams struct {
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentPaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
-	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 	Sunbit *SetupIntentPaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
@@ -1703,7 +1703,7 @@ type SetupIntentConfirmPaymentMethodDataSofortParams struct {
 	Country *string `form:"country" json:"country"`
 }
 
-// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 type SetupIntentConfirmPaymentMethodDataSunbitParams struct{}
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -1855,7 +1855,7 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentConfirmPaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
-	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 	Sunbit *SetupIntentConfirmPaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentConfirmPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
@@ -2245,7 +2245,7 @@ type SetupIntentCreatePaymentMethodDataSofortParams struct {
 	Country *string `form:"country" json:"country"`
 }
 
-// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 type SetupIntentCreatePaymentMethodDataSunbitParams struct{}
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -2397,7 +2397,7 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	SEPADebit *SetupIntentCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentCreatePaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
-	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 	Sunbit *SetupIntentCreatePaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentCreatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
@@ -3248,7 +3248,7 @@ type SetupIntentUpdatePaymentMethodDataSofortParams struct {
 	Country *string `form:"country" json:"country"`
 }
 
-// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 type SetupIntentUpdatePaymentMethodDataSunbitParams struct{}
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -3400,7 +3400,7 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	SEPADebit *SetupIntentUpdatePaymentMethodDataSEPADebitParams `form:"sepa_debit" json:"sepa_debit,omitempty"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentUpdatePaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
-	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 	Sunbit *SetupIntentUpdatePaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentUpdatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`

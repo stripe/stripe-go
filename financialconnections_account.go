@@ -102,6 +102,25 @@ const (
 	FinancialConnectionsAccountStatusInactive     FinancialConnectionsAccountStatus = "inactive"
 )
 
+// The action (if any) to proactively relink the Account.
+type FinancialConnectionsAccountStatusDetailsActiveAction string
+
+// List of values that FinancialConnectionsAccountStatusDetailsActiveAction can take
+const (
+	FinancialConnectionsAccountStatusDetailsActiveActionNone           FinancialConnectionsAccountStatusDetailsActiveAction = "none"
+	FinancialConnectionsAccountStatusDetailsActiveActionRelinkRequired FinancialConnectionsAccountStatusDetailsActiveAction = "relink_required"
+)
+
+// The underlying cause of the Account becoming inactive.
+type FinancialConnectionsAccountStatusDetailsActiveCause string
+
+// List of values that FinancialConnectionsAccountStatusDetailsActiveCause can take
+const (
+	FinancialConnectionsAccountStatusDetailsActiveCauseAccessExpired          FinancialConnectionsAccountStatusDetailsActiveCause = "access_expired"
+	FinancialConnectionsAccountStatusDetailsActiveCauseInstitutionRequirement FinancialConnectionsAccountStatusDetailsActiveCause = "institution_requirement"
+	FinancialConnectionsAccountStatusDetailsActiveCauseUnspecified            FinancialConnectionsAccountStatusDetailsActiveCause = "unspecified"
+)
+
 // If `category` is `cash`, one of:
 //
 //   - `checking`
@@ -348,6 +367,17 @@ type FinancialConnectionsAccountOwnershipRefresh struct {
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountOwnershipRefreshStatus `json:"status"`
 }
+type FinancialConnectionsAccountStatusDetailsActive struct {
+	// The action (if any) to proactively relink the Account.
+	Action FinancialConnectionsAccountStatusDetailsActiveAction `json:"action"`
+	// The underlying cause of the Account becoming inactive.
+	Cause FinancialConnectionsAccountStatusDetailsActiveCause `json:"cause"`
+	// When the Account is expected to become inactive, if applicable.
+	ExpectedDeactivationDate int64 `json:"expected_deactivation_date"`
+}
+type FinancialConnectionsAccountStatusDetails struct {
+	Active *FinancialConnectionsAccountStatusDetailsActive `json:"active,omitempty"`
+}
 
 // The state of the most recent attempt to refresh the account transactions.
 type FinancialConnectionsAccountTransactionRefresh struct {
@@ -395,7 +425,8 @@ type FinancialConnectionsAccount struct {
 	// The list of permissions granted by this account.
 	Permissions []FinancialConnectionsAccountPermission `json:"permissions"`
 	// The status of the link to the account.
-	Status FinancialConnectionsAccountStatus `json:"status"`
+	Status        FinancialConnectionsAccountStatus         `json:"status"`
+	StatusDetails *FinancialConnectionsAccountStatusDetails `json:"status_details,omitempty"`
 	// If `category` is `cash`, one of:
 	//
 	//  - `checking`
