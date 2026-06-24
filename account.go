@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v85/form"
+	"github.com/stripe/stripe-go/v86/form"
 )
 
 // Whether the business is a minority-owned, women-owned, and/or LGBTQI+ -owned business.

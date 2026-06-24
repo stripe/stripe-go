@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v85/form"
+	"github.com/stripe/stripe-go/v86/form"
 )
 
 // The status of the payment, one of `open`, `paid`, or `past_due`

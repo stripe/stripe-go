@@ -10,7 +10,7 @@ package issuedtoken
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v85"
+	stripe "github.com/stripe/stripe-go/v86"
 )
 
 // Client is used to invoke /v1/shared_payment/issued_tokens APIs.
