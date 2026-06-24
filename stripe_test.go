@@ -2091,6 +2091,54 @@ func TestStripeClientUserAgentOmitsPlatformWithoutTelemetry(t *testing.T) {
 	assert.Empty(t, userAgent["platform"])
 }
 
+func TestStripeClientUserAgentSourceHash(t *testing.T) {
+	originalEncoded := encodedStripeUserAgent
+	originalReady := encodedStripeUserAgentReady
+	defer func() {
+		encodedStripeUserAgent = originalEncoded
+		encodedStripeUserAgentReady = originalReady
+	}()
+
+	encodedStripeUserAgentReady = &sync.Once{}
+
+	encoded := getEncodedStripeUserAgent(true)
+	var userAgent map[string]interface{}
+	err := json.Unmarshal([]byte(encoded), &userAgent)
+	assert.NoError(t, err)
+
+	// stripeSourceHash is computed from `uname -a` in init(). On systems where
+	// uname is available (all CI environments), the field should be a non-empty
+	// 32-character hex MD5 digest. We validate format rather than value because
+	// the hash is machine-specific.
+	source, ok := userAgent["source"]
+	assert.True(t, ok, "expected 'source' field to be present in X-Stripe-Client-User-Agent")
+	sourceStr, isString := source.(string)
+	assert.True(t, isString, "expected 'source' field to be a string")
+	assert.Regexp(t, `^[0-9a-f]{32}$`, sourceStr, "expected 'source' to be a 32-char lowercase hex MD5 digest")
+}
+
+func TestStripeClientUserAgentOmitsSourceWhenEmpty(t *testing.T) {
+	originalEncoded := encodedStripeUserAgent
+	originalReady := encodedStripeUserAgentReady
+	originalSourceHash := stripeSourceHash
+	defer func() {
+		encodedStripeUserAgent = originalEncoded
+		encodedStripeUserAgentReady = originalReady
+		stripeSourceHash = originalSourceHash
+	}()
+
+	stripeSourceHash = ""
+	encodedStripeUserAgentReady = &sync.Once{}
+
+	encoded := getEncodedStripeUserAgent(true)
+	var userAgent map[string]interface{}
+	err := json.Unmarshal([]byte(encoded), &userAgent)
+	assert.NoError(t, err)
+
+	_, ok := userAgent["source"]
+	assert.False(t, ok, "expected 'source' field to be absent from X-Stripe-Client-User-Agent when stripeSourceHash is empty")
+}
+
 func TestResponseToError(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
