@@ -6,6 +6,16 @@
 
 package stripe
 
+// Indicates whether this object and its related objects have been redacted or not.
+type TokenRedactionStatus string
+
+// List of values that TokenRedactionStatus can take
+const (
+	TokenRedactionStatusProcessing TokenRedactionStatus = "processing"
+	TokenRedactionStatusRedacted   TokenRedactionStatus = "redacted"
+	TokenRedactionStatusValidated  TokenRedactionStatus = "validated"
+)
+
 // Type of the token: `account`, `bank_account`, `card`, or `pii`.
 type TokenType string
 
@@ -131,6 +141,12 @@ func (p *TokenCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Redaction status of this token. If not null, this token is associated to a redaction job.
+type TokenRedaction struct {
+	// Indicates whether this object and its related objects have been redacted or not.
+	Status TokenRedactionStatus `json:"status"`
+}
+
 // Tokenization is the process Stripe uses to collect sensitive card or bank
 // account details, or personally identifiable information (PII), directly from
 // your customers in a secure manner. A token representing this information is
@@ -177,6 +193,8 @@ type Token struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// Redaction status of this token. If not null, this token is associated to a redaction job.
+	Redaction *TokenRedaction `json:"redaction,omitempty"`
 	// Type of the token: `account`, `bank_account`, `card`, or `pii`.
 	Type TokenType `json:"type"`
 	// Determines if you have already used this token (you can only use tokens once).

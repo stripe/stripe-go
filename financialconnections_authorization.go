@@ -25,6 +25,15 @@ const (
 	FinancialConnectionsAuthorizationStatusInactive     FinancialConnectionsAuthorizationStatus = "inactive"
 )
 
+// The action (if any) to proactively relink the Authorization.
+type FinancialConnectionsAuthorizationStatusDetailsActiveAction string
+
+// List of values that FinancialConnectionsAuthorizationStatusDetailsActiveAction can take
+const (
+	FinancialConnectionsAuthorizationStatusDetailsActiveActionNone           FinancialConnectionsAuthorizationStatusDetailsActiveAction = "none"
+	FinancialConnectionsAuthorizationStatusDetailsActiveActionRelinkRequired FinancialConnectionsAuthorizationStatusDetailsActiveAction = "relink_required"
+)
+
 // The action (if any) to relink the inactive Authorization.
 type FinancialConnectionsAuthorizationStatusDetailsInactiveAction string
 
@@ -68,11 +77,18 @@ type FinancialConnectionsAuthorizationAccountHolder struct {
 	// Type of account holder that this account belongs to.
 	Type FinancialConnectionsAuthorizationAccountHolderType `json:"type"`
 }
+type FinancialConnectionsAuthorizationStatusDetailsActive struct {
+	// The action (if any) to proactively relink the Authorization.
+	Action FinancialConnectionsAuthorizationStatusDetailsActiveAction `json:"action"`
+	// When the Authorization is expected to become inactive, if applicable.
+	ExpectedDeactivationDate int64 `json:"expected_deactivation_date"`
+}
 type FinancialConnectionsAuthorizationStatusDetailsInactive struct {
 	// The action (if any) to relink the inactive Authorization.
 	Action FinancialConnectionsAuthorizationStatusDetailsInactiveAction `json:"action"`
 }
 type FinancialConnectionsAuthorizationStatusDetails struct {
+	Active   *FinancialConnectionsAuthorizationStatusDetailsActive   `json:"active,omitempty"`
 	Inactive *FinancialConnectionsAuthorizationStatusDetailsInactive `json:"inactive,omitempty"`
 }
 

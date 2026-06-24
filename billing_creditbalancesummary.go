@@ -22,7 +22,7 @@ const (
 	BillingCreditBalanceSummaryBalanceLedgerBalanceTypeMonetary BillingCreditBalanceSummaryBalanceLedgerBalanceType = "monetary"
 )
 
-// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`. Limit 20 prices.
 type BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams struct {
 	// The price ID this credit grant should apply to.
 	ID *string `form:"id" json:"id"`
@@ -30,7 +30,7 @@ type BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams struct {
 
 // The billing credit applicability scope for which to fetch credit balance summary.
 type BillingCreditBalanceSummaryFilterApplicabilityScopeParams struct {
-	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`. Limit 20 prices.
 	Prices []*BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
@@ -64,7 +64,7 @@ func (p *BillingCreditBalanceSummaryParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`. Limit 20 prices.
 type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopePriceParams struct {
 	// The price ID this credit grant should apply to.
 	ID *string `form:"id" json:"id"`
@@ -72,7 +72,7 @@ type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopePriceParams stru
 
 // The billing credit applicability scope for which to fetch credit balance summary.
 type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopeParams struct {
-	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`. Limit 20 prices.
 	Prices []*BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`

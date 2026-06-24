@@ -6,6 +6,19 @@
 
 package stripe
 
+// The type of disclaimer to use for a financing offer in user-facing surfaces. The corresponding disclaimer text to use for each disclaimer_variant value can be found in the [regulatory compliance docs](https://docs.stripe.com/capital/regulatory-compliance).
+type CapitalFinancingSummaryDetailsDisclaimerVariant string
+
+// List of values that CapitalFinancingSummaryDetailsDisclaimerVariant can take
+const (
+	CapitalFinancingSummaryDetailsDisclaimerVariantCelticUSLoan       CapitalFinancingSummaryDetailsDisclaimerVariant = "celtic_us_loan"
+	CapitalFinancingSummaryDetailsDisclaimerVariantFundboxAuFinancing CapitalFinancingSummaryDetailsDisclaimerVariant = "fundbox_au_financing"
+	CapitalFinancingSummaryDetailsDisclaimerVariantYoulendDEFinancing CapitalFinancingSummaryDetailsDisclaimerVariant = "youlend_de_financing"
+	CapitalFinancingSummaryDetailsDisclaimerVariantYoulendFRFinancing CapitalFinancingSummaryDetailsDisclaimerVariant = "youlend_fr_financing"
+	CapitalFinancingSummaryDetailsDisclaimerVariantYoulendUkMca       CapitalFinancingSummaryDetailsDisclaimerVariant = "youlend_uk_mca"
+	CapitalFinancingSummaryDetailsDisclaimerVariantYoulendUSMca       CapitalFinancingSummaryDetailsDisclaimerVariant = "youlend_us_mca"
+)
+
 // The financing status of the connected account.
 type CapitalFinancingSummaryStatus string
 
@@ -65,6 +78,8 @@ type CapitalFinancingSummaryDetails struct {
 	Currency Currency `json:"currency"`
 	// The chronologically current repayment interval for the financing offer.
 	CurrentRepaymentInterval *CapitalFinancingSummaryDetailsCurrentRepaymentInterval `json:"current_repayment_interval"`
+	// The type of disclaimer to use for a financing offer in user-facing surfaces. The corresponding disclaimer text to use for each disclaimer_variant value can be found in the [regulatory compliance docs](https://docs.stripe.com/capital/regulatory-compliance).
+	DisclaimerVariant CapitalFinancingSummaryDetailsDisclaimerVariant `json:"disclaimer_variant,omitempty"`
 	// Fixed fee amount, in minor units. For example, 100 USD is represented as 10000.
 	FeeAmount int64 `json:"fee_amount"`
 	// The amount the Connected account has paid toward the financing debt so far, in minor units. For example, 1,000 USD is represented as 100000.

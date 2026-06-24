@@ -105,6 +105,16 @@ const (
 	IssuingAuthorizationFuelUnitUSGallon       IssuingAuthorizationFuelUnit = "us_gallon"
 )
 
+// Indicates whether this object and its related objects have been redacted or not.
+type IssuingAuthorizationRedactionStatus string
+
+// List of values that IssuingAuthorizationRedactionStatus can take
+const (
+	IssuingAuthorizationRedactionStatusProcessing IssuingAuthorizationRedactionStatus = "processing"
+	IssuingAuthorizationRedactionStatusRedacted   IssuingAuthorizationRedactionStatus = "redacted"
+	IssuingAuthorizationRedactionStatusValidated  IssuingAuthorizationRedactionStatus = "validated"
+)
+
 // When an authorization is approved or declined by you or by Stripe, this field provides additional detail on the reason for the outcome.
 type IssuingAuthorizationRequestHistoryReason string
 
@@ -518,6 +528,12 @@ type IssuingAuthorizationPendingRequest struct {
 	NetworkRiskScore int64 `json:"network_risk_score"`
 }
 
+// Redaction status of this authorization. If the authorization is not redacted, this field will be null.
+type IssuingAuthorizationRedaction struct {
+	// Indicates whether this object and its related objects have been redacted or not.
+	Status IssuingAuthorizationRedactionStatus `json:"status"`
+}
+
 // History of every time a `pending_request` authorization was approved/declined, either by you directly or by Stripe (e.g. based on your spending_controls). If the merchant changes the authorization by performing an incremental authorization, you can look at this field to see the previous requests for the authorization. This field can be helpful in determining why a given authorization was approved/declined.
 type IssuingAuthorizationRequestHistory struct {
 	// The `pending_request.amount` at the time of the request, presented in your card's currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Stripe held this amount from your account to fund the authorization if the request was approved.
@@ -636,6 +652,8 @@ type IssuingAuthorization struct {
 	Object string `json:"object"`
 	// The pending authorization request. This field will only be non-null during an `issuing_authorization.request` webhook.
 	PendingRequest *IssuingAuthorizationPendingRequest `json:"pending_request"`
+	// Redaction status of this authorization. If the authorization is not redacted, this field will be null.
+	Redaction *IssuingAuthorizationRedaction `json:"redaction,omitempty"`
 	// History of every time a `pending_request` authorization was approved/declined, either by you directly or by Stripe (e.g. based on your spending_controls). If the merchant changes the authorization by performing an incremental authorization, you can look at this field to see the previous requests for the authorization. This field can be helpful in determining why a given authorization was approved/declined.
 	RequestHistory []*IssuingAuthorizationRequestHistory `json:"request_history"`
 	// The current status of the authorization in its lifecycle.
