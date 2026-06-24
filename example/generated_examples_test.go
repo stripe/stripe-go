@@ -13682,7 +13682,7 @@ func TestV2BillingCollectionSettingsVersionGet2Client(t *testing.T) {
 func TestV2BillingContractGetService(t *testing.T) {
 	params := &stripe.V2BillingContractListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/contracts", params, "{\"data\":[{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/contracts", params, "{\"data\":[{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13694,7 +13694,7 @@ func TestV2BillingContractGetService(t *testing.T) {
 func TestV2BillingContractGetClient(t *testing.T) {
 	params := &stripe.V2BillingContractListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/contracts", params, "{\"data\":[{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/contracts", params, "{\"data\":[{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13705,104 +13705,8 @@ func TestV2BillingContractGetClient(t *testing.T) {
 
 func TestV2BillingContractPostService(t *testing.T) {
 	params := &stripe.V2BillingContractParams{
-		ContractLines: []*stripe.V2BillingContractContractLineParams{
-			{
-				EndsAt: &stripe.V2BillingContractContractLineEndsAtParams{
-					Timestamp: stripe.Time(time.Now()),
-				},
-				Metadata: map[string]string{"key": "metadata"},
-				Overrides: []*stripe.V2BillingContractContractLineOverrideParams{
-					{
-						EndsAt: &stripe.V2BillingContractContractLineOverrideEndsAtParams{
-							Timestamp: stripe.Time(time.Now()),
-						},
-						ServiceAction: &stripe.V2BillingContractContractLineOverrideServiceActionParams{
-							Add: &stripe.V2BillingContractContractLineOverrideServiceActionAddParams{
-								CreditGrant: &stripe.V2BillingContractContractLineOverrideServiceActionAddCreditGrantParams{
-									Amount: &stripe.V2BillingContractContractLineOverrideServiceActionAddCreditGrantAmountParams{
-										Monetary: &stripe.Amount{
-											Value:    63,
-											Currency: stripe.CurrencyUSD,
-										},
-										Type: stripe.String("monetary"),
-									},
-									ApplicabilityConfig: &stripe.V2BillingContractContractLineOverrideServiceActionAddCreditGrantApplicabilityConfigParams{
-										Scope: &stripe.V2BillingContractContractLineOverrideServiceActionAddCreditGrantApplicabilityConfigScopeParams{
-											BillableItems: []*string{stripe.String("billable_items")},
-											PriceType:     stripe.String("metered"),
-										},
-									},
-									Category: stripe.String("paid"),
-									ExpiryConfig: &stripe.V2BillingContractContractLineOverrideServiceActionAddCreditGrantExpiryConfigParams{
-										Type: stripe.String("end_of_service_period"),
-									},
-									Name:     stripe.String("name"),
-									Priority: stripe.Int64(1165461084),
-								},
-								ServiceInterval:      stripe.String("month"),
-								ServiceIntervalCount: stripe.Int64(1375336415),
-								Type:                 stripe.String("credit_grant"),
-							},
-							Replace: &stripe.V2BillingContractContractLineOverrideServiceActionReplaceParams{
-								CreditGrant: &stripe.V2BillingContractContractLineOverrideServiceActionReplaceCreditGrantParams{
-									Amount: &stripe.V2BillingContractContractLineOverrideServiceActionReplaceCreditGrantAmountParams{
-										Monetary: &stripe.Amount{
-											Value:    63,
-											Currency: stripe.CurrencyUSD,
-										},
-										Type: stripe.String("monetary"),
-									},
-									ApplicabilityConfig: &stripe.V2BillingContractContractLineOverrideServiceActionReplaceCreditGrantApplicabilityConfigParams{
-										Scope: &stripe.V2BillingContractContractLineOverrideServiceActionReplaceCreditGrantApplicabilityConfigScopeParams{
-											BillableItems: []*string{stripe.String("billable_items")},
-											PriceType:     stripe.String("metered"),
-										},
-									},
-									Category: stripe.String("paid"),
-									ExpiryConfig: &stripe.V2BillingContractContractLineOverrideServiceActionReplaceCreditGrantExpiryConfigParams{
-										Type: stripe.String("end_of_service_period"),
-									},
-									Name:     stripe.String("name"),
-									Priority: stripe.Int64(1165461084),
-								},
-								ID:                   stripe.String("obj_123"),
-								LookupKey:            stripe.String("lookup_key"),
-								ServiceInterval:      stripe.String("month"),
-								ServiceIntervalCount: stripe.Int64(1375336415),
-								Type:                 stripe.String("credit_grant"),
-							},
-							Type: stripe.String("add"),
-						},
-						StartsAt: &stripe.V2BillingContractContractLineOverrideStartsAtParams{
-							Timestamp: stripe.Time(time.Now()),
-						},
-						Type: stripe.String("service_action"),
-					},
-				},
-				Pricing: &stripe.V2BillingContractContractLinePricingParams{},
-				StartsAt: &stripe.V2BillingContractContractLineStartsAtParams{
-					Timestamp: stripe.Time(time.Now()),
-				},
-			},
-		},
 		ContractNumber: stripe.String("contract_number"),
 		Currency:       stripe.String(stripe.CurrencyUSD),
-		LicenseQuantityActions: []*stripe.V2BillingContractLicenseQuantityActionParams{
-			{
-				EffectiveAt: &stripe.V2BillingContractLicenseQuantityActionEffectiveAtParams{
-					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("timestamp"),
-				},
-				LicensePricingID:        stripe.String("license_pricing_id"),
-				LicensePricingLookupKey: stripe.String("license_pricing_lookup_key"),
-				LicensePricingType:      stripe.String("price"),
-				PricingLine:             stripe.String("pricing_line"),
-				Set: &stripe.V2BillingContractLicenseQuantityActionSetParams{
-					Quantity: stripe.Int64(1285004149),
-				},
-				Type: stripe.String("set"),
-			},
-		},
 		PricingLines: []*stripe.V2BillingContractPricingLineParams{
 			{
 				EndsAt: &stripe.V2BillingContractPricingLineEndsAtParams{
@@ -13813,8 +13717,44 @@ func TestV2BillingContractPostService(t *testing.T) {
 				Metadata:  map[string]string{"key": "metadata"},
 				Pricing: &stripe.V2BillingContractPricingLinePricingParams{
 					PriceDetails: &stripe.V2BillingContractPricingLinePricingPriceDetailsParams{
-						Price:    stripe.String("price"),
-						Quantity: stripe.Int64(1285004149),
+						Price: stripe.String("price"),
+						PricingOverrides: []*stripe.V2BillingContractPricingLinePricingPriceDetailsPricingOverrideParams{
+							{
+								EndsAt: &stripe.V2BillingContractPricingLinePricingPriceDetailsPricingOverrideEndsAtParams{
+									Timestamp: stripe.Time(time.Now()),
+									Type:      stripe.String("contract_end"),
+								},
+								LookupKey: stripe.String("lookup_key"),
+								Metadata:  map[string]string{"key": "metadata"},
+								OverwritePrice: &stripe.V2BillingContractPricingLinePricingPriceDetailsPricingOverrideOverwritePriceParams{
+									TieringMode: stripe.String("graduated"),
+									Tiers: []*stripe.V2BillingContractPricingLinePricingPriceDetailsPricingOverrideOverwritePriceTierParams{
+										{
+											FlatAmount:  stripe.String("flat_amount"),
+											UnitAmount:  stripe.String("unit_amount"),
+											UpToDecimal: stripe.Float64(1387931359.3333333),
+											UpToInf:     stripe.String("inf"),
+										},
+									},
+									UnitAmount: stripe.String("unit_amount"),
+								},
+								Priority: stripe.Int64(1165461084),
+								StartsAt: &stripe.V2BillingContractPricingLinePricingPriceDetailsPricingOverrideStartsAtParams{
+									Timestamp: stripe.Time(time.Now()),
+									Type:      stripe.String("contract_start"),
+								},
+								Type: stripe.String("overwrite_price"),
+							},
+						},
+						QuantityChanges: []*stripe.V2BillingContractPricingLinePricingPriceDetailsQuantityChangeParams{
+							{
+								EffectiveAt: &stripe.V2BillingContractPricingLinePricingPriceDetailsQuantityChangeEffectiveAtParams{
+									Timestamp: stripe.Time(time.Now()),
+									Type:      stripe.String("timestamp"),
+								},
+								Set: stripe.Float64(75841.33333333333),
+							},
+						},
 					},
 					Type: stripe.String("price"),
 				},
@@ -13824,61 +13764,9 @@ func TestV2BillingContractPostService(t *testing.T) {
 				},
 			},
 		},
-		PricingOverrides: []*stripe.V2BillingContractPricingOverrideParams{
-			{
-				EndsAt: &stripe.V2BillingContractPricingOverrideEndsAtParams{
-					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("contract_end"),
-				},
-				LookupKey: stripe.String("lookup_key"),
-				Multiplier: &stripe.V2BillingContractPricingOverrideMultiplierParams{
-					Criteria: []*stripe.V2BillingContractPricingOverrideMultiplierCriterionParams{
-						{
-							BillableItemIDs: []*string{stripe.String("billable_item_ids")},
-							BillableItemLookupKeys: []*string{
-								stripe.String("billable_item_lookup_keys"),
-							},
-							BillableItemTypes: []*string{stripe.String("metered")},
-							MetadataConditions: []*stripe.V2BillingContractPricingOverrideMultiplierCriterionMetadataConditionParams{
-								{
-									AllOf: []*stripe.V2BillingContractPricingOverrideMultiplierCriterionMetadataConditionAllOfParams{
-										{
-											Key:   stripe.String("key"),
-											Value: stripe.String("value"),
-										},
-									},
-								},
-							},
-							RateCardIDs: []*string{stripe.String("rate_card_ids")},
-							Type:        stripe.String("exclude"),
-						},
-					},
-					Factor: stripe.String("factor"),
-				},
-				OverwritePrice: &stripe.V2BillingContractPricingOverrideOverwritePriceParams{
-					Price:       stripe.String("price"),
-					TieringMode: stripe.String("graduated"),
-					Tiers: []*stripe.V2BillingContractPricingOverrideOverwritePriceTierParams{
-						{
-							FlatAmount:  stripe.String("flat_amount"),
-							UnitAmount:  stripe.String("unit_amount"),
-							UpToDecimal: stripe.Float64(1387931359.3333333),
-							UpToInf:     stripe.String("inf"),
-						},
-					},
-					UnitAmount: stripe.String("unit_amount"),
-				},
-				Priority: stripe.Int64(1165461084),
-				StartsAt: &stripe.V2BillingContractPricingOverrideStartsAtParams{
-					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("contract_start"),
-				},
-				Type: stripe.String("multiplier"),
-			},
-		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13890,104 +13778,8 @@ func TestV2BillingContractPostService(t *testing.T) {
 
 func TestV2BillingContractPostClient(t *testing.T) {
 	params := &stripe.V2BillingContractCreateParams{
-		ContractLines: []*stripe.V2BillingContractCreateContractLineParams{
-			{
-				EndsAt: &stripe.V2BillingContractCreateContractLineEndsAtParams{
-					Timestamp: stripe.Time(time.Now()),
-				},
-				Metadata: map[string]string{"key": "metadata"},
-				Overrides: []*stripe.V2BillingContractCreateContractLineOverrideParams{
-					{
-						EndsAt: &stripe.V2BillingContractCreateContractLineOverrideEndsAtParams{
-							Timestamp: stripe.Time(time.Now()),
-						},
-						ServiceAction: &stripe.V2BillingContractCreateContractLineOverrideServiceActionParams{
-							Add: &stripe.V2BillingContractCreateContractLineOverrideServiceActionAddParams{
-								CreditGrant: &stripe.V2BillingContractCreateContractLineOverrideServiceActionAddCreditGrantParams{
-									Amount: &stripe.V2BillingContractCreateContractLineOverrideServiceActionAddCreditGrantAmountParams{
-										Monetary: &stripe.Amount{
-											Value:    63,
-											Currency: stripe.CurrencyUSD,
-										},
-										Type: stripe.String("monetary"),
-									},
-									ApplicabilityConfig: &stripe.V2BillingContractCreateContractLineOverrideServiceActionAddCreditGrantApplicabilityConfigParams{
-										Scope: &stripe.V2BillingContractCreateContractLineOverrideServiceActionAddCreditGrantApplicabilityConfigScopeParams{
-											BillableItems: []*string{stripe.String("billable_items")},
-											PriceType:     stripe.String("metered"),
-										},
-									},
-									Category: stripe.String("paid"),
-									ExpiryConfig: &stripe.V2BillingContractCreateContractLineOverrideServiceActionAddCreditGrantExpiryConfigParams{
-										Type: stripe.String("end_of_service_period"),
-									},
-									Name:     stripe.String("name"),
-									Priority: stripe.Int64(1165461084),
-								},
-								ServiceInterval:      stripe.String("month"),
-								ServiceIntervalCount: stripe.Int64(1375336415),
-								Type:                 stripe.String("credit_grant"),
-							},
-							Replace: &stripe.V2BillingContractCreateContractLineOverrideServiceActionReplaceParams{
-								CreditGrant: &stripe.V2BillingContractCreateContractLineOverrideServiceActionReplaceCreditGrantParams{
-									Amount: &stripe.V2BillingContractCreateContractLineOverrideServiceActionReplaceCreditGrantAmountParams{
-										Monetary: &stripe.Amount{
-											Value:    63,
-											Currency: stripe.CurrencyUSD,
-										},
-										Type: stripe.String("monetary"),
-									},
-									ApplicabilityConfig: &stripe.V2BillingContractCreateContractLineOverrideServiceActionReplaceCreditGrantApplicabilityConfigParams{
-										Scope: &stripe.V2BillingContractCreateContractLineOverrideServiceActionReplaceCreditGrantApplicabilityConfigScopeParams{
-											BillableItems: []*string{stripe.String("billable_items")},
-											PriceType:     stripe.String("metered"),
-										},
-									},
-									Category: stripe.String("paid"),
-									ExpiryConfig: &stripe.V2BillingContractCreateContractLineOverrideServiceActionReplaceCreditGrantExpiryConfigParams{
-										Type: stripe.String("end_of_service_period"),
-									},
-									Name:     stripe.String("name"),
-									Priority: stripe.Int64(1165461084),
-								},
-								ID:                   stripe.String("obj_123"),
-								LookupKey:            stripe.String("lookup_key"),
-								ServiceInterval:      stripe.String("month"),
-								ServiceIntervalCount: stripe.Int64(1375336415),
-								Type:                 stripe.String("credit_grant"),
-							},
-							Type: stripe.String("add"),
-						},
-						StartsAt: &stripe.V2BillingContractCreateContractLineOverrideStartsAtParams{
-							Timestamp: stripe.Time(time.Now()),
-						},
-						Type: stripe.String("service_action"),
-					},
-				},
-				Pricing: &stripe.V2BillingContractCreateContractLinePricingParams{},
-				StartsAt: &stripe.V2BillingContractCreateContractLineStartsAtParams{
-					Timestamp: stripe.Time(time.Now()),
-				},
-			},
-		},
 		ContractNumber: stripe.String("contract_number"),
 		Currency:       stripe.String(stripe.CurrencyUSD),
-		LicenseQuantityActions: []*stripe.V2BillingContractCreateLicenseQuantityActionParams{
-			{
-				EffectiveAt: &stripe.V2BillingContractCreateLicenseQuantityActionEffectiveAtParams{
-					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("timestamp"),
-				},
-				LicensePricingID:        stripe.String("license_pricing_id"),
-				LicensePricingLookupKey: stripe.String("license_pricing_lookup_key"),
-				LicensePricingType:      stripe.String("price"),
-				PricingLine:             stripe.String("pricing_line"),
-				Set: &stripe.V2BillingContractCreateLicenseQuantityActionSetParams{
-					Quantity: stripe.Int64(1285004149),
-				},
-				Type: stripe.String("set"),
-			},
-		},
 		PricingLines: []*stripe.V2BillingContractCreatePricingLineParams{
 			{
 				EndsAt: &stripe.V2BillingContractCreatePricingLineEndsAtParams{
@@ -13998,8 +13790,44 @@ func TestV2BillingContractPostClient(t *testing.T) {
 				Metadata:  map[string]string{"key": "metadata"},
 				Pricing: &stripe.V2BillingContractCreatePricingLinePricingParams{
 					PriceDetails: &stripe.V2BillingContractCreatePricingLinePricingPriceDetailsParams{
-						Price:    stripe.String("price"),
-						Quantity: stripe.Int64(1285004149),
+						Price: stripe.String("price"),
+						PricingOverrides: []*stripe.V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideParams{
+							{
+								EndsAt: &stripe.V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideEndsAtParams{
+									Timestamp: stripe.Time(time.Now()),
+									Type:      stripe.String("contract_end"),
+								},
+								LookupKey: stripe.String("lookup_key"),
+								Metadata:  map[string]string{"key": "metadata"},
+								OverwritePrice: &stripe.V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideOverwritePriceParams{
+									TieringMode: stripe.String("graduated"),
+									Tiers: []*stripe.V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideOverwritePriceTierParams{
+										{
+											FlatAmount:  stripe.String("flat_amount"),
+											UnitAmount:  stripe.String("unit_amount"),
+											UpToDecimal: stripe.Float64(1387931359.3333333),
+											UpToInf:     stripe.String("inf"),
+										},
+									},
+									UnitAmount: stripe.String("unit_amount"),
+								},
+								Priority: stripe.Int64(1165461084),
+								StartsAt: &stripe.V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideStartsAtParams{
+									Timestamp: stripe.Time(time.Now()),
+									Type:      stripe.String("contract_start"),
+								},
+								Type: stripe.String("overwrite_price"),
+							},
+						},
+						QuantityChanges: []*stripe.V2BillingContractCreatePricingLinePricingPriceDetailsQuantityChangeParams{
+							{
+								EffectiveAt: &stripe.V2BillingContractCreatePricingLinePricingPriceDetailsQuantityChangeEffectiveAtParams{
+									Timestamp: stripe.Time(time.Now()),
+									Type:      stripe.String("timestamp"),
+								},
+								Set: stripe.Float64(75841.33333333333),
+							},
+						},
 					},
 					Type: stripe.String("price"),
 				},
@@ -14009,61 +13837,9 @@ func TestV2BillingContractPostClient(t *testing.T) {
 				},
 			},
 		},
-		PricingOverrides: []*stripe.V2BillingContractCreatePricingOverrideParams{
-			{
-				EndsAt: &stripe.V2BillingContractCreatePricingOverrideEndsAtParams{
-					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("contract_end"),
-				},
-				LookupKey: stripe.String("lookup_key"),
-				Multiplier: &stripe.V2BillingContractCreatePricingOverrideMultiplierParams{
-					Criteria: []*stripe.V2BillingContractCreatePricingOverrideMultiplierCriterionParams{
-						{
-							BillableItemIDs: []*string{stripe.String("billable_item_ids")},
-							BillableItemLookupKeys: []*string{
-								stripe.String("billable_item_lookup_keys"),
-							},
-							BillableItemTypes: []*string{stripe.String("metered")},
-							MetadataConditions: []*stripe.V2BillingContractCreatePricingOverrideMultiplierCriterionMetadataConditionParams{
-								{
-									AllOf: []*stripe.V2BillingContractCreatePricingOverrideMultiplierCriterionMetadataConditionAllOfParams{
-										{
-											Key:   stripe.String("key"),
-											Value: stripe.String("value"),
-										},
-									},
-								},
-							},
-							RateCardIDs: []*string{stripe.String("rate_card_ids")},
-							Type:        stripe.String("exclude"),
-						},
-					},
-					Factor: stripe.String("factor"),
-				},
-				OverwritePrice: &stripe.V2BillingContractCreatePricingOverrideOverwritePriceParams{
-					Price:       stripe.String("price"),
-					TieringMode: stripe.String("graduated"),
-					Tiers: []*stripe.V2BillingContractCreatePricingOverrideOverwritePriceTierParams{
-						{
-							FlatAmount:  stripe.String("flat_amount"),
-							UnitAmount:  stripe.String("unit_amount"),
-							UpToDecimal: stripe.Float64(1387931359.3333333),
-							UpToInf:     stripe.String("inf"),
-						},
-					},
-					UnitAmount: stripe.String("unit_amount"),
-				},
-				Priority: stripe.Int64(1165461084),
-				StartsAt: &stripe.V2BillingContractCreatePricingOverrideStartsAtParams{
-					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("contract_start"),
-				},
-				Type: stripe.String("multiplier"),
-			},
-		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14073,10 +13849,36 @@ func TestV2BillingContractPostClient(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestV2BillingContractDeleteService(t *testing.T) {
+	params := &stripe.V2BillingContractParams{}
+	testServer := MockServer(
+		t, http.MethodDelete, "/v2/billing/contracts/id_123", params, "{\"id\":\"abc_123\",\"object\":\"some.object.tag\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2BillingContracts.Del("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2BillingContractDeleteClient(t *testing.T) {
+	params := &stripe.V2BillingContractDeleteParams{}
+	testServer := MockServer(
+		t, http.MethodDelete, "/v2/billing/contracts/id_123", params, "{\"id\":\"abc_123\",\"object\":\"some.object.tag\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2BillingContracts.Delete(context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
 func TestV2BillingContractGet2Service(t *testing.T) {
 	params := &stripe.V2BillingContractParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodGet, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14089,7 +13891,7 @@ func TestV2BillingContractGet2Service(t *testing.T) {
 func TestV2BillingContractGet2Client(t *testing.T) {
 	params := &stripe.V2BillingContractRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodGet, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14103,7 +13905,7 @@ func TestV2BillingContractGet2Client(t *testing.T) {
 func TestV2BillingContractPost2Service(t *testing.T) {
 	params := &stripe.V2BillingContractParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14116,7 +13918,7 @@ func TestV2BillingContractPost2Service(t *testing.T) {
 func TestV2BillingContractPost2Client(t *testing.T) {
 	params := &stripe.V2BillingContractUpdateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14129,7 +13931,7 @@ func TestV2BillingContractPost2Client(t *testing.T) {
 func TestV2BillingContractPost3Service(t *testing.T) {
 	params := &stripe.V2BillingContractActivateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts/id_123/activate", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts/id_123/activate", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14142,7 +13944,7 @@ func TestV2BillingContractPost3Service(t *testing.T) {
 func TestV2BillingContractPost3Client(t *testing.T) {
 	params := &stripe.V2BillingContractActivateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts/id_123/activate", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts/id_123/activate", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14156,7 +13958,7 @@ func TestV2BillingContractPost3Client(t *testing.T) {
 func TestV2BillingContractPost4Service(t *testing.T) {
 	params := &stripe.V2BillingContractCancelParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts/id_123/cancel", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts/id_123/cancel", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14169,7 +13971,7 @@ func TestV2BillingContractPost4Service(t *testing.T) {
 func TestV2BillingContractPost4Client(t *testing.T) {
 	params := &stripe.V2BillingContractCancelParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts/id_123/cancel", params, "{\"object\":\"v2.billing.contract\",\"contract_line_details\":[{\"contract_line\":\"contract_line\",\"contract_line_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"service_action\"}],\"pricing\":{},\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"contract_number\":\"contract_number\",\"contract_value_details\":{\"total\":\"total\"},\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"license_quantities\":[{\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"livemode\":true,\"pricing_lines\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"}}],\"pricing_overrides\":[{\"ends_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"pricing_override\":\"pricing_override\",\"priority\":1165461084,\"starts_at\":{\"timestamp\":\"1970-01-01T15:18:46.294Z\"},\"type\":\"multiplier\"}],\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts/id_123/cancel", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -14179,36 +13981,34 @@ func TestV2BillingContractPost4Client(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestV2BillingContractsLicensePricingQuantityChangeGetService(
-	t *testing.T,
-) {
-	params := &stripe.V2BillingContractsLicensePricingQuantityChangeListQuantityChangesParams{
-		ContractID:       stripe.String("contract_id_123"),
-		LicensePricingID: stripe.String("license_pricing_id_123"),
+func TestV2BillingContractsPricingLinesQuantityChangeGetService(t *testing.T) {
+	params := &stripe.V2BillingContractsPricingLinesQuantityChangeListContractPricingLineQuantityChangesParams{
+		ContractID:    stripe.String("contract_id_123"),
+		PricingLineID: stripe.String("pricing_line_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/contracts/contract_id_123/license_pricing/license_pricing_id_123/quantity_changes", params, "{\"data\":[{\"object\":\"v2.billing.contract_license_pricing_quantity_change\",\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"livemode\":true,\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/contracts/contract_id_123/pricing_lines/pricing_line_id_123/quantity_changes", params, "{\"data\":[{\"object\":\"v2.billing.contract_pricing_line_quantity_change\",\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"livemode\":true,\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"quantity\":\"856669432.6666666\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := client.New(TestAPIKey, backends)
-	result := sc.V2BillingContractsLicensePricingQuantityChanges.ListQuantityChanges(
+	result := sc.V2BillingContractsPricingLinesQuantityChanges.ListContractPricingLineQuantityChanges(
 		params)
 	assert.NotNil(t, result)
 }
 
-func TestV2BillingContractsLicensePricingQuantityChangeGetClient(t *testing.T) {
-	params := &stripe.V2BillingContractsLicensePricingQuantityChangeListQuantityChangesParams{
-		ContractID:       stripe.String("contract_id_123"),
-		LicensePricingID: stripe.String("license_pricing_id_123"),
+func TestV2BillingContractsPricingLinesQuantityChangeGetClient(t *testing.T) {
+	params := &stripe.V2BillingContractsPricingLinesQuantityChangeListContractPricingLineQuantityChangesParams{
+		ContractID:    stripe.String("contract_id_123"),
+		PricingLineID: stripe.String("pricing_line_id_123"),
 	}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/contracts/contract_id_123/license_pricing/license_pricing_id_123/quantity_changes", params, "{\"data\":[{\"object\":\"v2.billing.contract_license_pricing_quantity_change\",\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"license_pricing_id\":\"license_pricing_id\",\"license_pricing_type\":\"price\",\"livemode\":true,\"pricing_line\":\"pricing_line\",\"quantity\":1285004149}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/contracts/contract_id_123/pricing_lines/pricing_line_id_123/quantity_changes", params, "{\"data\":[{\"object\":\"v2.billing.contract_pricing_line_quantity_change\",\"created\":\"1970-01-12T21:42:34.472Z\",\"effective_at\":\"1970-01-03T20:38:28.043Z\",\"id\":\"obj_123\",\"livemode\":true,\"pricing\":{\"type\":\"price\"},\"pricing_line\":\"pricing_line\",\"quantity\":\"856669432.6666666\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result := sc.V2BillingContractsLicensePricingQuantityChanges.ListQuantityChanges(
+	result := sc.V2BillingContractsPricingLinesQuantityChanges.ListContractPricingLineQuantityChanges(
 		context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -17206,7 +17006,7 @@ func TestV2CoreAccountLinkPostService(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("storer")},
+				Configurations: []*string{stripe.String("merchant")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
@@ -17215,7 +17015,7 @@ func TestV2CoreAccountLinkPostService(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("storer")},
+				Configurations: []*string{stripe.String("merchant")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
@@ -17260,7 +17060,7 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("storer")},
+				Configurations: []*string{stripe.String("merchant")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
@@ -17269,7 +17069,7 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 					Fields:             stripe.String("eventually_due"),
 					FutureRequirements: stripe.String("include"),
 				},
-				Configurations: []*string{stripe.String("storer")},
+				Configurations: []*string{stripe.String("merchant")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
@@ -17498,9 +17298,8 @@ func TestV2CoreBatchJobPostService(t *testing.T) {
 		},
 		SkipValidation: stripe.Bool(true),
 	}
-	params.AddMetadata("key", "metadata")
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/batch_jobs", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"maximum_rps\":1686015830,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
+		t, http.MethodPost, "/v2/core/batch_jobs", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17518,9 +17317,8 @@ func TestV2CoreBatchJobPostClient(t *testing.T) {
 		},
 		SkipValidation: stripe.Bool(true),
 	}
-	params.AddMetadata("key", "metadata")
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/batch_jobs", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"maximum_rps\":1686015830,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
+		t, http.MethodPost, "/v2/core/batch_jobs", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17533,7 +17331,7 @@ func TestV2CoreBatchJobPostClient(t *testing.T) {
 func TestV2CoreBatchJobGetService(t *testing.T) {
 	params := &stripe.V2CoreBatchJobParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/batch_jobs/id_123", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"maximum_rps\":1686015830,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
+		t, http.MethodGet, "/v2/core/batch_jobs/id_123", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17546,7 +17344,7 @@ func TestV2CoreBatchJobGetService(t *testing.T) {
 func TestV2CoreBatchJobGetClient(t *testing.T) {
 	params := &stripe.V2CoreBatchJobRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/batch_jobs/id_123", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"maximum_rps\":1686015830,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
+		t, http.MethodGet, "/v2/core/batch_jobs/id_123", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17559,7 +17357,7 @@ func TestV2CoreBatchJobGetClient(t *testing.T) {
 func TestV2CoreBatchJobPost2Service(t *testing.T) {
 	params := &stripe.V2CoreBatchJobCancelParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/batch_jobs/id_123/cancel", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"maximum_rps\":1686015830,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
+		t, http.MethodPost, "/v2/core/batch_jobs/id_123/cancel", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -17572,7 +17370,7 @@ func TestV2CoreBatchJobPost2Service(t *testing.T) {
 func TestV2CoreBatchJobPost2Client(t *testing.T) {
 	params := &stripe.V2CoreBatchJobCancelParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/core/batch_jobs/id_123/cancel", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"maximum_rps\":1686015830,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
+		t, http.MethodPost, "/v2/core/batch_jobs/id_123/cancel", params, "{\"object\":\"v2.core.batch_job\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"metadata\":{\"key\":\"metadata\"},\"skip_validation\":true,\"status\":\"batch_failed\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18110,6 +17908,85 @@ func TestV2CoreFeeEntryGet2Client(t *testing.T) {
 	result, err := sc.V2CoreFeeEntries.Retrieve(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
+}
+
+func TestV2CoreHealthAlertGetService(t *testing.T) {
+	params := &stripe.V2CoreHealthAlertListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/health/alerts", params, "{\"data\":[{\"object\":\"v2.core.health.alert\",\"created\":\"1970-01-12T21:42:34.472Z\",\"documentation_links\":[{\"label\":\"label\",\"url\":\"url\"}],\"grouping_key\":\"grouping_key\",\"grouping_type\":\"incident\",\"id\":\"obj_123\",\"livemode\":true,\"severity\":\"non_critical\",\"started_at\":\"1970-01-19T03:34:50.959Z\",\"status\":\"open\",\"summary\":\"summary\",\"type\":\"api_error\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2CoreHealthAlerts.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreHealthAlertGetClient(t *testing.T) {
+	params := &stripe.V2CoreHealthAlertListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/health/alerts", params, "{\"data\":[{\"object\":\"v2.core.health.alert\",\"created\":\"1970-01-12T21:42:34.472Z\",\"documentation_links\":[{\"label\":\"label\",\"url\":\"url\"}],\"grouping_key\":\"grouping_key\",\"grouping_type\":\"incident\",\"id\":\"obj_123\",\"livemode\":true,\"severity\":\"non_critical\",\"started_at\":\"1970-01-19T03:34:50.959Z\",\"status\":\"open\",\"summary\":\"summary\",\"type\":\"api_error\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2CoreHealthAlerts.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreHealthAlertGet2Service(t *testing.T) {
+	params := &stripe.V2CoreHealthAlertParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/health/alerts/id_123", params, "{\"object\":\"v2.core.health.alert\",\"created\":\"1970-01-12T21:42:34.472Z\",\"documentation_links\":[{\"label\":\"label\",\"url\":\"url\"}],\"grouping_key\":\"grouping_key\",\"grouping_type\":\"incident\",\"id\":\"obj_123\",\"livemode\":true,\"severity\":\"non_critical\",\"started_at\":\"1970-01-19T03:34:50.959Z\",\"status\":\"open\",\"summary\":\"summary\",\"type\":\"api_error\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreHealthAlerts.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2CoreHealthAlertGet2Client(t *testing.T) {
+	params := &stripe.V2CoreHealthAlertRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/health/alerts/id_123", params, "{\"object\":\"v2.core.health.alert\",\"created\":\"1970-01-12T21:42:34.472Z\",\"documentation_links\":[{\"label\":\"label\",\"url\":\"url\"}],\"grouping_key\":\"grouping_key\",\"grouping_type\":\"incident\",\"id\":\"obj_123\",\"livemode\":true,\"severity\":\"non_critical\",\"started_at\":\"1970-01-19T03:34:50.959Z\",\"status\":\"open\",\"summary\":\"summary\",\"type\":\"api_error\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreHealthAlerts.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2CoreHealthAlertsHistoryGetService(t *testing.T) {
+	params := &stripe.V2CoreHealthAlertsHistoryListParams{
+		ID: stripe.String("id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/health/alerts/id_123/history", params, "{\"data\":[{\"object\":\"v2.core.health.alert_history_entry\",\"at\":\"1970-01-01T00:00:03.123Z\",\"id\":\"obj_123\",\"livemode\":true,\"transition\":\"impact_updated\",\"type\":\"api_error\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2CoreHealthAlertsHistories.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreHealthAlertsHistoryGetClient(t *testing.T) {
+	params := &stripe.V2CoreHealthAlertsHistoryListParams{
+		ID: stripe.String("id_123"),
+	}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/health/alerts/id_123/history", params, "{\"data\":[{\"object\":\"v2.core.health.alert_history_entry\",\"at\":\"1970-01-01T00:00:03.123Z\",\"id\":\"obj_123\",\"livemode\":true,\"transition\":\"impact_updated\",\"type\":\"api_error\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2CoreHealthAlertsHistories.List(context.TODO(), params)
+	assert.NotNil(t, result)
 }
 
 func TestV2CoreVaultGbBankAccountGetService(t *testing.T) {
@@ -19569,7 +19446,18 @@ func TestV2MoneyManagementOutboundPaymentPostService(t *testing.T) {
 		To: &stripe.V2MoneyManagementOutboundPaymentToParams{
 			Currency:     stripe.String(stripe.CurrencyUSD),
 			PayoutMethod: stripe.String("payout_method"),
-			Recipient:    stripe.String("recipient"),
+			PayoutMethodOptions: &stripe.V2MoneyManagementOutboundPaymentToPayoutMethodOptionsParams{
+				BankAccount: &stripe.V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountParams{
+					PreferredNetworkOptions: &stripe.V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams{
+						ACH: &stripe.V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams{
+							Submission:         stripe.String("next_day"),
+							TransactionPurpose: stripe.String("payroll"),
+						},
+					},
+					PreferredNetworks: []*string{stripe.String("sepa_credit")},
+				},
+			},
+			Recipient: stripe.String("recipient"),
 		},
 	}
 	testServer := MockServer(
@@ -19593,7 +19481,18 @@ func TestV2MoneyManagementOutboundPaymentPostClient(t *testing.T) {
 		To: &stripe.V2MoneyManagementOutboundPaymentCreateToParams{
 			Currency:     stripe.String(stripe.CurrencyUSD),
 			PayoutMethod: stripe.String("payout_method"),
-			Recipient:    stripe.String("recipient"),
+			PayoutMethodOptions: &stripe.V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsParams{
+				BankAccount: &stripe.V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountParams{
+					PreferredNetworkOptions: &stripe.V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams{
+						ACH: &stripe.V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams{
+							Submission:         stripe.String("next_day"),
+							TransactionPurpose: stripe.String("payroll"),
+						},
+					},
+					PreferredNetworks: []*string{stripe.String("sepa_credit")},
+				},
+			},
+			Recipient: stripe.String("recipient"),
 		},
 	}
 	testServer := MockServer(
@@ -19907,6 +19806,11 @@ func TestV2MoneyManagementOutboundTransferPostService(t *testing.T) {
 		To: &stripe.V2MoneyManagementOutboundTransferToParams{
 			Currency:     stripe.String(stripe.CurrencyUSD),
 			PayoutMethod: stripe.String("payout_method"),
+			PayoutMethodOptions: &stripe.V2MoneyManagementOutboundTransferToPayoutMethodOptionsParams{
+				BankAccount: &stripe.V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountParams{
+					PreferredNetworks: []*string{stripe.String("sepa_credit")},
+				},
+			},
 		},
 	}
 	testServer := MockServer(
@@ -19930,6 +19834,11 @@ func TestV2MoneyManagementOutboundTransferPostClient(t *testing.T) {
 		To: &stripe.V2MoneyManagementOutboundTransferCreateToParams{
 			Currency:     stripe.String(stripe.CurrencyUSD),
 			PayoutMethod: stripe.String("payout_method"),
+			PayoutMethodOptions: &stripe.V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsParams{
+				BankAccount: &stripe.V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountParams{
+					PreferredNetworks: []*string{stripe.String("sepa_credit")},
+				},
+			},
 		},
 	}
 	testServer := MockServer(
@@ -19993,6 +19902,182 @@ func TestV2MoneyManagementOutboundTransferPost2Client(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2MoneyManagementOutboundTransfers.Cancel(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2MoneyManagementPayoutIntentGetService(t *testing.T) {
+	params := &stripe.V2MoneyManagementPayoutIntentListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/money_management/payout_intents", params, "{\"data\":[{\"object\":\"v2.money_management.payout_intent\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"created\":\"1970-01-12T21:42:34.472Z\",\"from\":{\"currency\":\"usd\",\"financial_account\":\"financial_account\"},\"id\":\"obj_123\",\"latest_payout\":{\"type\":\"outbound_payment\"},\"livemode\":true,\"status\":\"canceled\",\"to\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result := sc.V2MoneyManagementPayoutIntents.All(params)
+	assert.NotNil(t, result)
+}
+
+func TestV2MoneyManagementPayoutIntentGetClient(t *testing.T) {
+	params := &stripe.V2MoneyManagementPayoutIntentListParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/money_management/payout_intents", params, "{\"data\":[{\"object\":\"v2.money_management.payout_intent\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"created\":\"1970-01-12T21:42:34.472Z\",\"from\":{\"currency\":\"usd\",\"financial_account\":\"financial_account\"},\"id\":\"obj_123\",\"latest_payout\":{\"type\":\"outbound_payment\"},\"livemode\":true,\"status\":\"canceled\",\"to\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result := sc.V2MoneyManagementPayoutIntents.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2MoneyManagementPayoutIntentPostService(t *testing.T) {
+	params := &stripe.V2MoneyManagementPayoutIntentParams{
+		Amount: &stripe.Amount{Value: 96, Currency: stripe.CurrencyUSD},
+		From: &stripe.V2MoneyManagementPayoutIntentFromParams{
+			Currency:         stripe.String(stripe.CurrencyUSD),
+			FinancialAccount: stripe.String("financial_account"),
+		},
+		To: &stripe.V2MoneyManagementPayoutIntentToParams{
+			Currency:     stripe.String(stripe.CurrencyUSD),
+			PayoutMethod: stripe.String("payout_method"),
+			PayoutMethodOptions: &stripe.V2MoneyManagementPayoutIntentToPayoutMethodOptionsParams{
+				BankAccount: &stripe.V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountParams{
+					PreferredNetworkOptions: &stripe.V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams{
+						ACH: &stripe.V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams{
+							Submission:         stripe.String("next_day"),
+							TransactionPurpose: stripe.String("payroll"),
+						},
+					},
+					PreferredNetworks: []*string{stripe.String("sepa_credit")},
+				},
+			},
+			Recipient: stripe.String("recipient"),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/payout_intents", params, "{\"object\":\"v2.money_management.payout_intent\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"created\":\"1970-01-12T21:42:34.472Z\",\"from\":{\"currency\":\"usd\",\"financial_account\":\"financial_account\"},\"id\":\"obj_123\",\"latest_payout\":{\"type\":\"outbound_payment\"},\"livemode\":true,\"status\":\"canceled\",\"to\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2MoneyManagementPayoutIntents.New(params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2MoneyManagementPayoutIntentPostClient(t *testing.T) {
+	params := &stripe.V2MoneyManagementPayoutIntentCreateParams{
+		Amount: &stripe.Amount{Value: 96, Currency: stripe.CurrencyUSD},
+		From: &stripe.V2MoneyManagementPayoutIntentCreateFromParams{
+			Currency:         stripe.String(stripe.CurrencyUSD),
+			FinancialAccount: stripe.String("financial_account"),
+		},
+		To: &stripe.V2MoneyManagementPayoutIntentCreateToParams{
+			Currency:     stripe.String(stripe.CurrencyUSD),
+			PayoutMethod: stripe.String("payout_method"),
+			PayoutMethodOptions: &stripe.V2MoneyManagementPayoutIntentCreateToPayoutMethodOptionsParams{
+				BankAccount: &stripe.V2MoneyManagementPayoutIntentCreateToPayoutMethodOptionsBankAccountParams{
+					PreferredNetworkOptions: &stripe.V2MoneyManagementPayoutIntentCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams{
+						ACH: &stripe.V2MoneyManagementPayoutIntentCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams{
+							Submission:         stripe.String("next_day"),
+							TransactionPurpose: stripe.String("payroll"),
+						},
+					},
+					PreferredNetworks: []*string{stripe.String("sepa_credit")},
+				},
+			},
+			Recipient: stripe.String("recipient"),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/payout_intents", params, "{\"object\":\"v2.money_management.payout_intent\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"created\":\"1970-01-12T21:42:34.472Z\",\"from\":{\"currency\":\"usd\",\"financial_account\":\"financial_account\"},\"id\":\"obj_123\",\"latest_payout\":{\"type\":\"outbound_payment\"},\"livemode\":true,\"status\":\"canceled\",\"to\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2MoneyManagementPayoutIntents.Create(
+		context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2MoneyManagementPayoutIntentGet2Service(t *testing.T) {
+	params := &stripe.V2MoneyManagementPayoutIntentParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/money_management/payout_intents/id_123", params, "{\"object\":\"v2.money_management.payout_intent\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"created\":\"1970-01-12T21:42:34.472Z\",\"from\":{\"currency\":\"usd\",\"financial_account\":\"financial_account\"},\"id\":\"obj_123\",\"latest_payout\":{\"type\":\"outbound_payment\"},\"livemode\":true,\"status\":\"canceled\",\"to\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2MoneyManagementPayoutIntents.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2MoneyManagementPayoutIntentGet2Client(t *testing.T) {
+	params := &stripe.V2MoneyManagementPayoutIntentRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/money_management/payout_intents/id_123", params, "{\"object\":\"v2.money_management.payout_intent\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"created\":\"1970-01-12T21:42:34.472Z\",\"from\":{\"currency\":\"usd\",\"financial_account\":\"financial_account\"},\"id\":\"obj_123\",\"latest_payout\":{\"type\":\"outbound_payment\"},\"livemode\":true,\"status\":\"canceled\",\"to\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2MoneyManagementPayoutIntents.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2MoneyManagementPayoutIntentPost2Service(t *testing.T) {
+	params := &stripe.V2MoneyManagementPayoutIntentParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/payout_intents/id_123", params, "{\"object\":\"v2.money_management.payout_intent\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"created\":\"1970-01-12T21:42:34.472Z\",\"from\":{\"currency\":\"usd\",\"financial_account\":\"financial_account\"},\"id\":\"obj_123\",\"latest_payout\":{\"type\":\"outbound_payment\"},\"livemode\":true,\"status\":\"canceled\",\"to\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2MoneyManagementPayoutIntents.Update("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2MoneyManagementPayoutIntentPost2Client(t *testing.T) {
+	params := &stripe.V2MoneyManagementPayoutIntentUpdateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/payout_intents/id_123", params, "{\"object\":\"v2.money_management.payout_intent\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"created\":\"1970-01-12T21:42:34.472Z\",\"from\":{\"currency\":\"usd\",\"financial_account\":\"financial_account\"},\"id\":\"obj_123\",\"latest_payout\":{\"type\":\"outbound_payment\"},\"livemode\":true,\"status\":\"canceled\",\"to\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2MoneyManagementPayoutIntents.Update(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2MoneyManagementPayoutIntentPost3Service(t *testing.T) {
+	params := &stripe.V2MoneyManagementPayoutIntentCancelParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/payout_intents/id_123/cancel", params, "{\"object\":\"v2.money_management.payout_intent\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"created\":\"1970-01-12T21:42:34.472Z\",\"from\":{\"currency\":\"usd\",\"financial_account\":\"financial_account\"},\"id\":\"obj_123\",\"latest_payout\":{\"type\":\"outbound_payment\"},\"livemode\":true,\"status\":\"canceled\",\"to\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2MoneyManagementPayoutIntents.Cancel("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2MoneyManagementPayoutIntentPost3Client(t *testing.T) {
+	params := &stripe.V2MoneyManagementPayoutIntentCancelParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/payout_intents/id_123/cancel", params, "{\"object\":\"v2.money_management.payout_intent\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"created\":\"1970-01-12T21:42:34.472Z\",\"from\":{\"currency\":\"usd\",\"financial_account\":\"financial_account\"},\"id\":\"obj_123\",\"latest_payout\":{\"type\":\"outbound_payment\"},\"livemode\":true,\"status\":\"canceled\",\"to\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2MoneyManagementPayoutIntents.Cancel(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -20314,6 +20399,40 @@ func TestV2MoneyManagementRecipientVerificationPost2Client(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2MoneyManagementRecipientVerifications.Acknowledge(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2MoneyManagementTestHelpersFinancialAddressPostService(t *testing.T) {
+	params := &stripe.V2MoneyManagementTestHelpersFinancialAddressDebitParams{
+		Amount:  &stripe.Amount{Value: 96, Currency: stripe.CurrencyUSD},
+		Network: stripe.String("ach"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/test_helpers/financial_addresses/id_123/debit", params, "{\"object\":\"v2.money_management.financial_address_debit_simulation\",\"livemode\":true,\"status\":\"status\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2MoneyManagementTestHelpersFinancialAddresses.Debit(
+		"id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2MoneyManagementTestHelpersFinancialAddressPostClient(t *testing.T) {
+	params := &stripe.V2MoneyManagementTestHelpersFinancialAddressDebitParams{
+		Amount:  &stripe.Amount{Value: 96, Currency: stripe.CurrencyUSD},
+		Network: stripe.String("ach"),
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/test_helpers/financial_addresses/id_123/debit", params, "{\"object\":\"v2.money_management.financial_address_debit_simulation\",\"livemode\":true,\"status\":\"status\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2MoneyManagementTestHelpersFinancialAddresses.Debit(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
@@ -21672,28 +21791,29 @@ func TestCannotProceedErrorClient(t *testing.T) {
 }
 
 func TestControlledByAlternateResourceErrorService(t *testing.T) {
-	params := &stripe.V2MoneyManagementOutboundSetupIntentParams{}
+	params := &stripe.V2CoreVaultUSBankAccountConfirmMicrodepositsParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/outbound_setup_intents", params, "{\"error\":{\"type\":\"controlled_by_alternate_resource\",\"code\":\"payout_method_cannot_be_archived\"}}")
+		t, http.MethodPost, "/v2/core/vault/us_bank_accounts/id_123/confirm_microdeposits", params, "{\"error\":{\"type\":\"controlled_by_alternate_resource\",\"code\":\"payout_method_cannot_be_archived\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2MoneyManagementOutboundSetupIntents.New(params)
+	result, err := sc.V2CoreVaultUSBankAccounts.ConfirmMicrodeposits(
+		"id_123", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
 }
 
 func TestControlledByAlternateResourceErrorClient(t *testing.T) {
-	params := &stripe.V2MoneyManagementOutboundSetupIntentCreateParams{}
+	params := &stripe.V2CoreVaultUSBankAccountConfirmMicrodepositsParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/outbound_setup_intents", params, "{\"error\":{\"type\":\"controlled_by_alternate_resource\",\"code\":\"payout_method_cannot_be_archived\"}}")
+		t, http.MethodPost, "/v2/core/vault/us_bank_accounts/id_123/confirm_microdeposits", params, "{\"error\":{\"type\":\"controlled_by_alternate_resource\",\"code\":\"payout_method_cannot_be_archived\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2MoneyManagementOutboundSetupIntents.Create(
-		context.TODO(), params)
+	result, err := sc.V2CoreVaultUSBankAccounts.ConfirmMicrodeposits(
+		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
 }

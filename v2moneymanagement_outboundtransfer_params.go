@@ -46,6 +46,18 @@ type V2MoneyManagementOutboundTransferFromParams struct {
 	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 }
 
+// Options for bank account payout methods.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountParams struct {
+	// The preferred networks to use for this OutboundTransfer.
+	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks"`
+}
+
+// Payout method options for the OutboundTransfer.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsParams struct {
+	// Options for bank account payout methods.
+	BankAccount *V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
+}
+
 // To which payout method to send the OutboundTransfer.
 type V2MoneyManagementOutboundTransferToParams struct {
 	// Describes the currency to send to the recipient.
@@ -58,6 +70,8 @@ type V2MoneyManagementOutboundTransferToParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The payout method which the OutboundTransfer uses to send payout.
 	PayoutMethod *string `form:"payout_method" json:"payout_method"`
+	// Payout method options for the OutboundTransfer.
+	PayoutMethodOptions *V2MoneyManagementOutboundTransferToPayoutMethodOptionsParams `form:"payout_method_options" json:"payout_method_options,omitempty"`
 }
 
 // Creates an OutboundTransfer.
@@ -109,6 +123,18 @@ type V2MoneyManagementOutboundTransferCreateFromParams struct {
 	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 }
 
+// Options for bank account payout methods.
+type V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountParams struct {
+	// The preferred networks to use for this OutboundTransfer.
+	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks"`
+}
+
+// Payout method options for the OutboundTransfer.
+type V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsParams struct {
+	// Options for bank account payout methods.
+	BankAccount *V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
+}
+
 // To which payout method to send the OutboundTransfer.
 type V2MoneyManagementOutboundTransferCreateToParams struct {
 	// Describes the currency to send to the recipient.
@@ -121,6 +147,8 @@ type V2MoneyManagementOutboundTransferCreateToParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The payout method which the OutboundTransfer uses to send payout.
 	PayoutMethod *string `form:"payout_method" json:"payout_method"`
+	// Payout method options for the OutboundTransfer.
+	PayoutMethodOptions *V2MoneyManagementOutboundTransferCreateToPayoutMethodOptionsParams `form:"payout_method_options" json:"payout_method_options,omitempty"`
 }
 
 // Creates an OutboundTransfer.

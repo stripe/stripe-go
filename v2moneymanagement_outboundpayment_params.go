@@ -36,6 +36,8 @@ type V2MoneyManagementOutboundPaymentListParams struct {
 
 // Delivery options for paper check.
 type V2MoneyManagementOutboundPaymentDeliveryOptionsPaperCheckParams struct {
+	// The ID of a file to include as an attachment with the paper check.
+	Attachment *string `form:"attachment" json:"attachment,omitempty"`
 	// Memo printed on the memo field of the check.
 	Memo *string `form:"memo" json:"memo,omitempty"`
 	// Open Enum. Shipping speed of the paper check. Defaults to standard.
@@ -69,6 +71,34 @@ type V2MoneyManagementOutboundPaymentRecipientNotificationParams struct {
 	Setting *string `form:"setting" json:"setting"`
 }
 
+// ACH-specific network options.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams struct {
+	// Open Enum. ACH submission timing.
+	Submission *string `form:"submission" json:"submission,omitempty"`
+	// The transaction purpose for this ACH payment.
+	TransactionPurpose *string `form:"transaction_purpose" json:"transaction_purpose,omitempty"`
+}
+
+// Per-network configuration options.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams struct {
+	// ACH-specific network options.
+	ACH *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams `form:"ach" json:"ach,omitempty"`
+}
+
+// Options for bank account payout methods.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountParams struct {
+	// Per-network configuration options.
+	PreferredNetworkOptions *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams `form:"preferred_network_options" json:"preferred_network_options,omitempty"`
+	// The preferred networks to use for this OutboundPayment.
+	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks"`
+}
+
+// Payout method options for the OutboundPayment.
+type V2MoneyManagementOutboundPaymentToPayoutMethodOptionsParams struct {
+	// Options for bank account payout methods.
+	BankAccount *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
+}
+
 // To which payout method to send the OutboundPayment.
 type V2MoneyManagementOutboundPaymentToParams struct {
 	// Describes the currency to send to the recipient.
@@ -81,6 +111,8 @@ type V2MoneyManagementOutboundPaymentToParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The payout method which the OutboundPayment uses to send payout.
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
+	// Payout method options for the OutboundPayment.
+	PayoutMethodOptions *V2MoneyManagementOutboundPaymentToPayoutMethodOptionsParams `form:"payout_method_options" json:"payout_method_options,omitempty"`
 	// To which account the OutboundPayment is sent.
 	Recipient *string `form:"recipient" json:"recipient"`
 }
@@ -100,6 +132,8 @@ type V2MoneyManagementOutboundPaymentParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
 	OutboundPaymentQuote *string `form:"outbound_payment_quote" json:"outbound_payment_quote,omitempty"`
+	// The PayoutIntent ID that triggered this OutboundPayment.
+	PayoutIntent *string `form:"payout_intent" json:"payout_intent,omitempty"`
 	// The purpose of the OutboundPayment.
 	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 	// Details about the notification settings for the OutboundPayment recipient.
@@ -128,6 +162,8 @@ type V2MoneyManagementOutboundPaymentCancelParams struct {
 
 // Delivery options for paper check.
 type V2MoneyManagementOutboundPaymentCreateDeliveryOptionsPaperCheckParams struct {
+	// The ID of a file to include as an attachment with the paper check.
+	Attachment *string `form:"attachment" json:"attachment,omitempty"`
 	// Memo printed on the memo field of the check.
 	Memo *string `form:"memo" json:"memo,omitempty"`
 	// Open Enum. Shipping speed of the paper check. Defaults to standard.
@@ -161,6 +197,34 @@ type V2MoneyManagementOutboundPaymentCreateRecipientNotificationParams struct {
 	Setting *string `form:"setting" json:"setting"`
 }
 
+// ACH-specific network options.
+type V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams struct {
+	// Open Enum. ACH submission timing.
+	Submission *string `form:"submission" json:"submission,omitempty"`
+	// The transaction purpose for this ACH payment.
+	TransactionPurpose *string `form:"transaction_purpose" json:"transaction_purpose,omitempty"`
+}
+
+// Per-network configuration options.
+type V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams struct {
+	// ACH-specific network options.
+	ACH *V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams `form:"ach" json:"ach,omitempty"`
+}
+
+// Options for bank account payout methods.
+type V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountParams struct {
+	// Per-network configuration options.
+	PreferredNetworkOptions *V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams `form:"preferred_network_options" json:"preferred_network_options,omitempty"`
+	// The preferred networks to use for this OutboundPayment.
+	PreferredNetworks []*string `form:"preferred_networks" json:"preferred_networks"`
+}
+
+// Payout method options for the OutboundPayment.
+type V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsParams struct {
+	// Options for bank account payout methods.
+	BankAccount *V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
+}
+
 // To which payout method to send the OutboundPayment.
 type V2MoneyManagementOutboundPaymentCreateToParams struct {
 	// Describes the currency to send to the recipient.
@@ -173,6 +237,8 @@ type V2MoneyManagementOutboundPaymentCreateToParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The payout method which the OutboundPayment uses to send payout.
 	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
+	// Payout method options for the OutboundPayment.
+	PayoutMethodOptions *V2MoneyManagementOutboundPaymentCreateToPayoutMethodOptionsParams `form:"payout_method_options" json:"payout_method_options,omitempty"`
 	// To which account the OutboundPayment is sent.
 	Recipient *string `form:"recipient" json:"recipient"`
 }
@@ -192,6 +258,8 @@ type V2MoneyManagementOutboundPaymentCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
 	OutboundPaymentQuote *string `form:"outbound_payment_quote" json:"outbound_payment_quote,omitempty"`
+	// The PayoutIntent ID that triggered this OutboundPayment.
+	PayoutIntent *string `form:"payout_intent" json:"payout_intent,omitempty"`
 	// The purpose of the OutboundPayment.
 	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 	// Details about the notification settings for the OutboundPayment recipient.

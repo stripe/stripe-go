@@ -57,9 +57,18 @@ type V2MoneyManagementReceivedDebitStatusDetailsFailedReason string
 
 // List of values that V2MoneyManagementReceivedDebitStatusDetailsFailedReason can take
 const (
+	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonCapabilityInactive       V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "capability_inactive"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonFinancialAddressInactive V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "financial_address_inactive"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonInsufficientFunds        V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "insufficient_funds"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonStripeRejected           V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "stripe_rejected"
+)
+
+// Open Enum. The reason the ReceivedDebit was returned.
+type V2MoneyManagementReceivedDebitStatusDetailsReturnedReason string
+
+// List of values that V2MoneyManagementReceivedDebitStatusDetailsReturnedReason can take
+const (
+	V2MoneyManagementReceivedDebitStatusDetailsReturnedReasonOriginatorInitiated V2MoneyManagementReceivedDebitStatusDetailsReturnedReason = "originator_initiated"
 )
 
 // Open Enum. The type of the ReceivedDebit.
@@ -147,11 +156,21 @@ type V2MoneyManagementReceivedDebitStatusDetailsFailed struct {
 	Reason V2MoneyManagementReceivedDebitStatusDetailsFailedReason `json:"reason"`
 }
 
+// Information that elaborates on the `returned` status of a ReceivedDebit.
+// It is only present when the ReceivedDebit status is `returned`.
+type V2MoneyManagementReceivedDebitStatusDetailsReturned struct {
+	// Open Enum. The reason the ReceivedDebit was returned.
+	Reason V2MoneyManagementReceivedDebitStatusDetailsReturnedReason `json:"reason"`
+}
+
 // Detailed information about the status of the ReceivedDebit.
 type V2MoneyManagementReceivedDebitStatusDetails struct {
 	// Information that elaborates on the `failed` status of a ReceivedDebit.
 	// It is only present when the ReceivedDebit status is `failed`.
 	Failed *V2MoneyManagementReceivedDebitStatusDetailsFailed `json:"failed"`
+	// Information that elaborates on the `returned` status of a ReceivedDebit.
+	// It is only present when the ReceivedDebit status is `returned`.
+	Returned *V2MoneyManagementReceivedDebitStatusDetailsReturned `json:"returned"`
 }
 
 // The time at which the ReceivedDebit transitioned to a particular status.
@@ -162,6 +181,9 @@ type V2MoneyManagementReceivedDebitStatusTransitions struct {
 	// The time when the ReceivedDebit was marked as `failed`.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
 	FailedAt time.Time `json:"failed_at,omitempty"`
+	// The time when the ReceivedDebit was marked as `returned`.
+	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
+	ReturnedAt time.Time `json:"returned_at,omitempty"`
 	// The time when the ReceivedDebit was marked as `succeeded`.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
 	SucceededAt time.Time `json:"succeeded_at,omitempty"`

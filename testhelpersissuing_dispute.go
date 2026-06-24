@@ -20,6 +20,22 @@ func (p *TestHelpersIssuingDisputeCloseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Test helper: overrides the grant_deadline and revocable_after timestamps on a test-mode Issuing dispute's provisional credit, allowing tests to simulate timer-driven status transitions without waiting for real regulatory deadlines to pass.
+type TestHelpersIssuingDisputeProvisionalCreditParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Override the deadline by which the platform must grant a provisional credit to the consumer.
+	GrantDeadline *int64 `form:"grant_deadline" json:"grant_deadline,omitempty"`
+	// Override the earliest time after which the platform may revoke the provisional credit.
+	RevocableAfter *int64 `form:"revocable_after" json:"revocable_after,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingDisputeProvisionalCreditParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Controls the acquiring merchant's simulated submitted evidence files for the dispute response stage.
 type TestHelpersIssuingDisputeSimulateNetworkLifecycleDisputeResponseMerchantEvidenceFilesParams struct {
 	// How many simulated merchant evidence file tokens to attach (between 1 and 12).

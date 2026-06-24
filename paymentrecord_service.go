@@ -9,6 +9,8 @@ package stripe
 import (
 	"context"
 	"net/http"
+
+	"github.com/stripe/stripe-go/v86/form"
 )
 
 // v1PaymentRecordService is used to invoke /v1/payment_records APIs.
@@ -128,4 +130,24 @@ func (c v1PaymentRecordService) ReportRefund(ctx context.Context, id string, par
 	paymentrecord := &PaymentRecord{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
+}
+
+// Search for PaymentRecords you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
+// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
+// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
+// to an hour behind during outages. Search functionality is not available to merchants in India.
+func (c v1PaymentRecordService) Search(ctx context.Context, params *PaymentRecordSearchParams) *V1SearchList[*PaymentRecord] {
+	if params == nil {
+		params = &PaymentRecordSearchParams{}
+	}
+	params.Context = ctx
+	return newV1SearchList(ctx, params, func(ctx context.Context, p *Params, b *form.Values) (*v1SearchPage[*PaymentRecord], error) {
+		list := &v1SearchPage[*PaymentRecord]{}
+		if p == nil {
+			p = &Params{}
+		}
+		p.Context = ctx
+		err := c.B.CallRaw(http.MethodGet, "/v1/payment_records/search", c.Key, []byte(b.Encode()), p, list)
+		return list, err
+	})
 }

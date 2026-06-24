@@ -112,6 +112,25 @@ func (c Client) ReportDecision(id string, params *stripe.IssuingCreditUnderwriti
 	return creditunderwritingrecord, err
 }
 
+// Update a CreditUnderwritingRecord object to report that a credit offer has been accepted.
+func ReportOfferAcceptance(id string, params *stripe.IssuingCreditUnderwritingRecordReportOfferAcceptanceParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
+	return getC().ReportOfferAcceptance(id, params)
+}
+
+// Update a CreditUnderwritingRecord object to report that a credit offer has been accepted.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) ReportOfferAcceptance(id string, params *stripe.IssuingCreditUnderwritingRecordReportOfferAcceptanceParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
+	path := stripe.FormatURLPath(
+		"/v1/issuing/credit_underwriting_records/%s/report_offer_acceptance", id)
+	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
+	err := c.B.Call(
+		http.MethodPost, path, c.Key, params, creditunderwritingrecord)
+	return creditunderwritingrecord, err
+}
+
 // Retrieves a list of CreditUnderwritingRecord objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
 func List(params *stripe.IssuingCreditUnderwritingRecordListParams) *Iter {
 	return getC().List(params)

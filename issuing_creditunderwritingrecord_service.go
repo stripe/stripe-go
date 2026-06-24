@@ -83,6 +83,20 @@ func (c v1IssuingCreditUnderwritingRecordService) ReportDecision(ctx context.Con
 	return creditunderwritingrecord, err
 }
 
+// Update a CreditUnderwritingRecord object to report that a credit offer has been accepted.
+func (c v1IssuingCreditUnderwritingRecordService) ReportOfferAcceptance(ctx context.Context, id string, params *IssuingCreditUnderwritingRecordReportOfferAcceptanceParams) (*IssuingCreditUnderwritingRecord, error) {
+	if params == nil {
+		params = &IssuingCreditUnderwritingRecordReportOfferAcceptanceParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/issuing/credit_underwriting_records/%s/report_offer_acceptance", id)
+	creditunderwritingrecord := &IssuingCreditUnderwritingRecord{}
+	err := c.B.Call(
+		http.MethodPost, path, c.Key, params, creditunderwritingrecord)
+	return creditunderwritingrecord, err
+}
+
 // Retrieves a list of CreditUnderwritingRecord objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
 func (c v1IssuingCreditUnderwritingRecordService) List(ctx context.Context, listParams *IssuingCreditUnderwritingRecordListParams) *V1List[*IssuingCreditUnderwritingRecord] {
 	if listParams == nil {

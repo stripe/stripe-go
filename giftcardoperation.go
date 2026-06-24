@@ -229,10 +229,14 @@ type GiftCardOperation struct {
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
+	// ID of the location that this transaction's reader is assigned to.
+	Location string `json:"location,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The connected account whose credentials were used to perform this operation.
 	OnBehalfOf string `json:"on_behalf_of"`
+	// ID of the reader this transaction was made on.
+	Reader string `json:"reader,omitempty"`
 	// Details about a gift card reload operation.
 	Reload *GiftCardOperationReload `json:"reload,omitempty"`
 	// Details about a gift card reload void operation.

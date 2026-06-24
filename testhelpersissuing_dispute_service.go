@@ -29,6 +29,19 @@ func (c v1TestHelpersIssuingDisputeService) Close(ctx context.Context, id string
 	return dispute, err
 }
 
+// Test helper: overrides the grant_deadline and revocable_after timestamps on a test-mode Issuing dispute's provisional credit, allowing tests to simulate timer-driven status transitions without waiting for real regulatory deadlines to pass.
+func (c v1TestHelpersIssuingDisputeService) ProvisionalCredit(ctx context.Context, id string, params *TestHelpersIssuingDisputeProvisionalCreditParams) (*IssuingDispute, error) {
+	if params == nil {
+		params = &TestHelpersIssuingDisputeProvisionalCreditParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/test_helpers/issuing/disputes/%s/provisional_credit", id)
+	dispute := &IssuingDispute{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
+	return dispute, err
+}
+
 // Test helper: populates network_lifecycle.dispute_response on a test-mode Visa Issuing Dispute using placeholder file tokens. Only supported for Visa disputes.
 func (c v1TestHelpersIssuingDisputeService) SimulateNetworkLifecycleDisputeResponse(ctx context.Context, id string, params *TestHelpersIssuingDisputeSimulateNetworkLifecycleDisputeResponseParams) (*IssuingDispute, error) {
 	if params == nil {

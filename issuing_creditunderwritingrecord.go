@@ -489,6 +489,18 @@ func (p *IssuingCreditUnderwritingRecordReportDecisionParams) AddMetadata(key st
 	p.Metadata[key] = value
 }
 
+// Update a CreditUnderwritingRecord object to report that a credit offer has been accepted.
+type IssuingCreditUnderwritingRecordReportOfferAcceptanceParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingCreditUnderwritingRecordReportOfferAcceptanceParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Details about the application submission.
 type IssuingCreditUnderwritingRecordCreateFromApplicationApplicationParams struct {
 	// The channel through which the applicant has submitted their application. Defaults to `online`.
@@ -727,6 +739,8 @@ type IssuingCreditUnderwritingRecord struct {
 	Decision *IssuingCreditUnderwritingRecordDecision `json:"decision"`
 	// For underwriting initiated by an application, a decision must be taken 30 days after the submission.
 	DecisionDeadline int64 `json:"decision_deadline"`
+	// Time at which the decision deadline was last updated.
+	DecisionDeadlineUpdatedAt int64 `json:"decision_deadline_updated_at,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.

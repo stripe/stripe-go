@@ -789,6 +789,46 @@ func (p *PaymentAttemptRecordReportCanceledParams) AddMetadata(key string, value
 	p.Metadata[key] = value
 }
 
+// Report that the specified Payment Attempt Record received an early fraud warning.
+type PaymentAttemptRecordReportEarlyFraudWarningParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// The type of fraud reported in the early fraud warning.
+	FraudType *string `form:"fraud_type" json:"fraud_type"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The time at which the early fraud warning was received.
+	OccurredAt  *int64                                                        `form:"occurred_at" json:"occurred_at"`
+	UnsetFields []PaymentAttemptRecordReportEarlyFraudWarningParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentAttemptRecordReportEarlyFraudWarningParamsUnsetField is the list of fields that can be cleared/unset on PaymentAttemptRecordReportEarlyFraudWarningParams.
+type PaymentAttemptRecordReportEarlyFraudWarningParamsUnsetField string
+
+const (
+	PaymentAttemptRecordReportEarlyFraudWarningParamsUnsetFieldMetadata PaymentAttemptRecordReportEarlyFraudWarningParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentAttemptRecordReportEarlyFraudWarningParams) AddUnsetField(field PaymentAttemptRecordReportEarlyFraudWarningParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentAttemptRecordReportEarlyFraudWarningParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentAttemptRecordReportEarlyFraudWarningParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Information about the custom processor used to make this payment.
 type PaymentAttemptRecordReportFailedProcessorDetailsCustomParams struct {
 	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
@@ -1045,7 +1085,7 @@ type PaymentAttemptRecordReportRefundParams struct {
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The outcome of the reported refund.
-	Outcome *string `form:"outcome" json:"outcome"`
+	Outcome *string `form:"outcome" json:"outcome,omitempty"`
 	// Processor information for this refund.
 	ProcessorDetails *PaymentAttemptRecordReportRefundProcessorDetailsParams `form:"processor_details" json:"processor_details"`
 	// Information about the payment attempt refund.
@@ -1616,6 +1656,10 @@ type PaymentAttemptRecordPaymentMethodDetailsGiftCard struct {
 	First6 string `json:"first6"`
 	// The last four digits of the gift card number.
 	Last4 string `json:"last4"`
+	// ID of the [location](https://docs.stripe.com/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location,omitempty"`
+	// ID of the [reader](https://docs.stripe.com/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader,omitempty"`
 	// The transaction ID from the gift card processor.
 	TransactionID string `json:"transaction_id"`
 }

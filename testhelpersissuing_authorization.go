@@ -226,6 +226,12 @@ func (p *TestHelpersIssuingAuthorizationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Details about the transaction, such as processing dates, set by the card network.
+type TestHelpersIssuingAuthorizationCaptureNetworkDataParams struct {
+	// Optional. A test value to populate network_data.acquirer_reference_number on the resulting Issuing Transaction. Must contain only digits and be at most 23 characters long. This value is intended only for integration validation in testmode and does not need to correspond to a real network-assigned acquirer reference number.
+	AcquirerReferenceNumber *string `form:"acquirer_reference_number" json:"acquirer_reference_number,omitempty"`
+}
+
 // Answers to prompts presented to the cardholder at the point of sale. Prompted fields vary depending on the configuration of your physical fleet cards. Typical points of sale support only numeric entry.
 type TestHelpersIssuingAuthorizationCapturePurchaseDetailsFleetCardholderPromptDataParams struct {
 	// Driver ID.
@@ -367,6 +373,8 @@ type TestHelpersIssuingAuthorizationCaptureParams struct {
 	CloseAuthorization *bool `form:"close_authorization" json:"close_authorization,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Details about the transaction, such as processing dates, set by the card network.
+	NetworkData *TestHelpersIssuingAuthorizationCaptureNetworkDataParams `form:"network_data" json:"network_data,omitempty"`
 	// Additional purchase information that is optionally provided by the merchant.
 	PurchaseDetails *TestHelpersIssuingAuthorizationCapturePurchaseDetailsParams `form:"purchase_details" json:"purchase_details,omitempty"`
 }

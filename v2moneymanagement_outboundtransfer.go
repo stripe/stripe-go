@@ -38,13 +38,23 @@ type V2MoneyManagementOutboundTransferStatusDetailsFailedReason string
 
 // List of values that V2MoneyManagementOutboundTransferStatusDetailsFailedReason can take
 const (
+	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonFxRateDriftExceededAfterReview          V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "fx_rate_drift_exceeded_after_review"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodAmountLimitExceeded         V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_amount_limit_exceeded"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodDeclined                    V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_declined"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodDoesNotExist                V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_does_not_exist"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodExpired                     V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_expired"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodUnsupported                 V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_unsupported"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonPayoutMethodUsageFrequencyLimitExceeded V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "payout_method_usage_frequency_limit_exceeded"
+	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonReviewRejected                          V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "review_rejected"
 	V2MoneyManagementOutboundTransferStatusDetailsFailedReasonUnknownFailure                          V2MoneyManagementOutboundTransferStatusDetailsFailedReason = "unknown_failure"
+)
+
+// Open Enum. The `processing` status reason.
+type V2MoneyManagementOutboundTransferStatusDetailsProcessingReason string
+
+// List of values that V2MoneyManagementOutboundTransferStatusDetailsProcessingReason can take
+const (
+	V2MoneyManagementOutboundTransferStatusDetailsProcessingReasonUnderReview V2MoneyManagementOutboundTransferStatusDetailsProcessingReason = "under_review"
 )
 
 // Open Enum. The `returned` status reason.
@@ -63,6 +73,23 @@ const (
 	V2MoneyManagementOutboundTransferStatusDetailsReturnedReasonPayoutMethodRestricted             V2MoneyManagementOutboundTransferStatusDetailsReturnedReason = "payout_method_restricted"
 	V2MoneyManagementOutboundTransferStatusDetailsReturnedReasonRecalled                           V2MoneyManagementOutboundTransferStatusDetailsReturnedReason = "recalled"
 	V2MoneyManagementOutboundTransferStatusDetailsReturnedReasonUnknownFailure                     V2MoneyManagementOutboundTransferStatusDetailsReturnedReason = "unknown_failure"
+)
+
+// The preferred networks to use for this OutboundTransfer.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork string
+
+// List of values that V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork can take
+const (
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkACH         V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "ach"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkBECS        V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "becs"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkEft         V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "eft"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkFedwire     V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "fedwire"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkFPS         V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "fps"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkNpp         V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "npp"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkRTP         V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "rtp"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkSEPACredit  V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_credit"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkSEPAInstant V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_instant"
+	V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetworkSwift       V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
 )
 
 // Possible values are `pending`, `supported`, and `unsupported`. Initially set to `pending`, it changes to
@@ -98,16 +125,24 @@ type V2MoneyManagementOutboundTransferStatusDetailsFailed struct {
 	Reason V2MoneyManagementOutboundTransferStatusDetailsFailedReason `json:"reason"`
 }
 
+// The `processing` status details.
+type V2MoneyManagementOutboundTransferStatusDetailsProcessing struct {
+	// Open Enum. The `processing` status reason.
+	Reason V2MoneyManagementOutboundTransferStatusDetailsProcessingReason `json:"reason"`
+}
+
 // The `returned` status reason.
 type V2MoneyManagementOutboundTransferStatusDetailsReturned struct {
 	// Open Enum. The `returned` status reason.
 	Reason V2MoneyManagementOutboundTransferStatusDetailsReturnedReason `json:"reason"`
 }
 
-// Status details for an OutboundTransfer in a `failed` or `returned` state.
+// Status details for an OutboundTransfer in a `processing`, `failed`, or `returned` state.
 type V2MoneyManagementOutboundTransferStatusDetails struct {
 	// The `failed` status reason.
 	Failed *V2MoneyManagementOutboundTransferStatusDetailsFailed `json:"failed,omitempty"`
+	// The `processing` status details.
+	Processing *V2MoneyManagementOutboundTransferStatusDetailsProcessing `json:"processing,omitempty"`
 	// The `returned` status reason.
 	Returned *V2MoneyManagementOutboundTransferStatusDetailsReturned `json:"returned,omitempty"`
 }
@@ -128,12 +163,26 @@ type V2MoneyManagementOutboundTransferStatusTransitions struct {
 	ReturnedAt time.Time `json:"returned_at,omitempty"`
 }
 
+// Options for bank account payout methods.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccount struct {
+	// The preferred networks to use for this OutboundTransfer.
+	PreferredNetworks []V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccountPreferredNetwork `json:"preferred_networks"`
+}
+
+// Payout method options for the OutboundTransfer.
+type V2MoneyManagementOutboundTransferToPayoutMethodOptions struct {
+	// Options for bank account payout methods.
+	BankAccount *V2MoneyManagementOutboundTransferToPayoutMethodOptionsBankAccount `json:"bank_account,omitempty"`
+}
+
 // To which payout method the OutboundTransfer was sent.
 type V2MoneyManagementOutboundTransferTo struct {
 	// The monetary amount being credited to the destination.
 	Credited Amount `json:"credited"`
 	// The payout method which the OutboundTransfer uses to send payout.
 	PayoutMethod string `json:"payout_method"`
+	// Payout method options for the OutboundTransfer.
+	PayoutMethodOptions *V2MoneyManagementOutboundTransferToPayoutMethodOptions `json:"payout_method_options,omitempty"`
 }
 
 // A unique identifier that can be used to track this OutboundTransfer with recipient bank. Banks might call this a "reference number" or something similar.
@@ -185,7 +234,7 @@ type V2MoneyManagementOutboundTransfer struct {
 	// The status changes to `posted` once the OutboundTransfer has been "confirmed" and funds have left the account, or to `failed` or `canceled`.
 	// If an OutboundTransfer fails to arrive at its payout method, its status will change to `returned`.
 	Status V2MoneyManagementOutboundTransferStatus `json:"status"`
-	// Status details for an OutboundTransfer in a `failed` or `returned` state.
+	// Status details for an OutboundTransfer in a `processing`, `failed`, or `returned` state.
 	StatusDetails *V2MoneyManagementOutboundTransferStatusDetails `json:"status_details,omitempty"`
 	// Hash containing timestamps of when the object transitioned to a particular status.
 	StatusTransitions *V2MoneyManagementOutboundTransferStatusTransitions `json:"status_transitions,omitempty"`

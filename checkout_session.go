@@ -497,6 +497,14 @@ const (
 	CheckoutSessionInvoiceCreationInvoiceDataIssuerTypeSelf        CheckoutSessionInvoiceCreationInvoiceDataIssuerType = "self"
 )
 
+// The type of the item.
+type CheckoutSessionItemType string
+
+// List of values that CheckoutSessionItemType can take
+const (
+	CheckoutSessionItemTypeSubscription CheckoutSessionItemType = "subscription"
+)
+
 // The mode of the Checkout Session.
 type CheckoutSessionMode string
 
@@ -2108,8 +2116,175 @@ type CheckoutSessionInvoiceCreationParams struct {
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceDataParams `form:"invoice_data" json:"invoice_data,omitempty"`
 }
 
+// Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
+type CheckoutSessionItemSubscriptionBillingCycleAnchorConfigParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month" json:"month,omitempty"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second" json:"second,omitempty"`
+}
+
+// Configure behavior for flexible billing mode.
+type CheckoutSessionItemSubscriptionBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts" json:"proration_discounts,omitempty"`
+}
+
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type CheckoutSessionItemSubscriptionBillingModeParams struct {
+	// Configure behavior for flexible billing mode.
+	Flexible *CheckoutSessionItemSubscriptionBillingModeFlexibleParams `form:"flexible" json:"flexible,omitempty"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
+	Type *string `form:"type" json:"type"`
+}
+
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type CheckoutSessionItemSubscriptionItemPriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                                                             `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []CheckoutSessionItemSubscriptionItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionItemSubscriptionItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionItemSubscriptionItemPriceDataProductDataTaxDetailsParams.
+type CheckoutSessionItemSubscriptionItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	CheckoutSessionItemSubscriptionItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode CheckoutSessionItemSubscriptionItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionItemSubscriptionItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field CheckoutSessionItemSubscriptionItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+type CheckoutSessionItemSubscriptionItemPriceDataProductDataParams struct {
+	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
+	Description *string `form:"description" json:"description,omitempty"`
+	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
+	Images []*string `form:"images" json:"images,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The product's name, meant to be displayable to the customer.
+	Name *string `form:"name" json:"name"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *CheckoutSessionItemSubscriptionItemPriceDataProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionItemSubscriptionItemPriceDataProductDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type CheckoutSessionItemSubscriptionItemPriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
+// Data used to generate a new Price object inline.
+type CheckoutSessionItemSubscriptionItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
+	Product *string `form:"product" json:"product,omitempty"`
+	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+	ProductData *CheckoutSessionItemSubscriptionItemPriceDataProductDataParams `form:"product_data" json:"product_data,omitempty"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *CheckoutSessionItemSubscriptionItemPriceDataRecurringParams `form:"recurring" json:"recurring,omitempty"`
+	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
+	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+}
+
+// The list of items for the subscription.
+type CheckoutSessionItemSubscriptionItemParams struct {
+	// The ID of the price for this subscription item.
+	Price *string `form:"price" json:"price,omitempty"`
+	// Data used to generate a new Price object inline.
+	PriceData *CheckoutSessionItemSubscriptionItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
+	// Quantity for this item.
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
+}
+
+// Specifies an interval for how often to bill for any pending invoice items.
+type CheckoutSessionItemSubscriptionPendingInvoiceItemIntervalParams struct {
+	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
+// Defines how the subscription should behave when the user's free trial ends.
+type CheckoutSessionItemSubscriptionTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
+	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
+}
+
+// Settings related to subscription trials.
+type CheckoutSessionItemSubscriptionTrialSettingsParams struct {
+	// Defines how the subscription should behave when the user's free trial ends.
+	EndBehavior *CheckoutSessionItemSubscriptionTrialSettingsEndBehaviorParams `form:"end_behavior" json:"end_behavior"`
+}
+
+// Configuration for the subscription item.
+type CheckoutSessionItemSubscriptionParams struct {
+	// Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
+	BillingCycleAnchorConfig *CheckoutSessionItemSubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config" json:"billing_cycle_anchor_config,omitempty"`
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	BillingMode *CheckoutSessionItemSubscriptionBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
+	// The subscription's description, meant to be displayable to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// The list of items for the subscription.
+	Items []*CheckoutSessionItemSubscriptionItemParams `form:"items" json:"items"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Specifies an interval for how often to bill for any pending invoice items.
+	PendingInvoiceItemInterval *CheckoutSessionItemSubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval" json:"pending_invoice_item_interval,omitempty"`
+	// Determines how to handle prorations resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`.
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
+	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
+	TrialEnd *int64 `form:"trial_end" json:"trial_end,omitempty"`
+	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
+	TrialPeriodDays *int64 `form:"trial_period_days" json:"trial_period_days,omitempty"`
+	// Settings related to subscription trials.
+	TrialSettings *CheckoutSessionItemSubscriptionTrialSettingsParams `form:"trial_settings" json:"trial_settings,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionItemSubscriptionParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // A list of items the customer will purchase.
 type CheckoutSessionItemParams struct {
+	// Configuration for the subscription item.
+	Subscription *CheckoutSessionItemSubscriptionParams `form:"subscription" json:"subscription,omitempty"`
 	// The type of item.
 	Type *string `form:"type" json:"type"`
 }
@@ -4421,8 +4596,175 @@ type CheckoutSessionCreateInvoiceCreationParams struct {
 	InvoiceData *CheckoutSessionCreateInvoiceCreationInvoiceDataParams `form:"invoice_data" json:"invoice_data,omitempty"`
 }
 
+// Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
+type CheckoutSessionCreateItemSubscriptionBillingCycleAnchorConfigParams struct {
+	// The day of the month the anchor should be. Ranges from 1 to 31.
+	DayOfMonth *int64 `form:"day_of_month" json:"day_of_month"`
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
+	Hour *int64 `form:"hour" json:"hour,omitempty"`
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
+	Minute *int64 `form:"minute" json:"minute,omitempty"`
+	// The month to start full cycle periods. Ranges from 1 to 12.
+	Month *int64 `form:"month" json:"month,omitempty"`
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
+	Second *int64 `form:"second" json:"second,omitempty"`
+}
+
+// Configure behavior for flexible billing mode.
+type CheckoutSessionCreateItemSubscriptionBillingModeFlexibleParams struct {
+	// Controls how invoices and invoice items display proration amounts and discount amounts.
+	ProrationDiscounts *string `form:"proration_discounts" json:"proration_discounts,omitempty"`
+}
+
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type CheckoutSessionCreateItemSubscriptionBillingModeParams struct {
+	// Configure behavior for flexible billing mode.
+	Flexible *CheckoutSessionCreateItemSubscriptionBillingModeFlexibleParams `form:"flexible" json:"flexible,omitempty"`
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions. If no value is passed, the default is `flexible`.
+	Type *string `form:"type" json:"type"`
+}
+
+// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+type CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataTaxDetailsParams struct {
+	// A tax location ID. Depending on the [tax code](https://docs.stripe.com/tax/tax-for-tickets/reference/tax-location-performance), this is required, optional, or not supported.
+	PerformanceLocation *string `form:"performance_location" json:"performance_location,omitempty"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode     *string                                                                                   `form:"tax_code" json:"tax_code,omitempty"`
+	UnsetFields []CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataTaxDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataTaxDetailsParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataTaxDetailsParams.
+type CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataTaxDetailsParamsUnsetField string
+
+const (
+	CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataTaxDetailsParamsUnsetFieldTaxCode CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataTaxDetailsParamsUnsetField = "tax_code"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataTaxDetailsParams) AddUnsetField(field CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataTaxDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+type CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataParams struct {
+	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
+	Description *string `form:"description" json:"description,omitempty"`
+	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
+	Images []*string `form:"images" json:"images,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The product's name, meant to be displayable to the customer.
+	Name *string `form:"name" json:"name"`
+	// A [tax code](https://docs.stripe.com/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code" json:"tax_code,omitempty"`
+	// Tax details for this product, including the [tax code](https://docs.stripe.com/tax/tax-codes) and an optional performance location.
+	TaxDetails *CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataTaxDetailsParams `form:"tax_details" json:"tax_details,omitempty"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label" json:"unit_label,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type CheckoutSessionCreateItemSubscriptionItemPriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
+// Data used to generate a new Price object inline.
+type CheckoutSessionCreateItemSubscriptionItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
+	Product *string `form:"product" json:"product,omitempty"`
+	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+	ProductData *CheckoutSessionCreateItemSubscriptionItemPriceDataProductDataParams `form:"product_data" json:"product_data,omitempty"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *CheckoutSessionCreateItemSubscriptionItemPriceDataRecurringParams `form:"recurring" json:"recurring,omitempty"`
+	// Only required if a [default tax behavior](https://docs.stripe.com/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior" json:"tax_behavior,omitempty"`
+	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
+	UnitAmount *int64 `form:"unit_amount" json:"unit_amount,omitempty"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision" json:"unit_amount_decimal,string,omitempty"`
+}
+
+// The list of items for the subscription.
+type CheckoutSessionCreateItemSubscriptionItemParams struct {
+	// The ID of the price for this subscription item.
+	Price *string `form:"price" json:"price,omitempty"`
+	// Data used to generate a new Price object inline.
+	PriceData *CheckoutSessionCreateItemSubscriptionItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
+	// Quantity for this item.
+	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
+}
+
+// Specifies an interval for how often to bill for any pending invoice items.
+type CheckoutSessionCreateItemSubscriptionPendingInvoiceItemIntervalParams struct {
+	// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval" json:"interval"`
+	// The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
+}
+
+// Defines how the subscription should behave when the user's free trial ends.
+type CheckoutSessionCreateItemSubscriptionTrialSettingsEndBehaviorParams struct {
+	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
+	MissingPaymentMethod *string `form:"missing_payment_method" json:"missing_payment_method"`
+}
+
+// Settings related to subscription trials.
+type CheckoutSessionCreateItemSubscriptionTrialSettingsParams struct {
+	// Defines how the subscription should behave when the user's free trial ends.
+	EndBehavior *CheckoutSessionCreateItemSubscriptionTrialSettingsEndBehaviorParams `form:"end_behavior" json:"end_behavior"`
+}
+
+// Configuration for the subscription item.
+type CheckoutSessionCreateItemSubscriptionParams struct {
+	// Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
+	BillingCycleAnchorConfig *CheckoutSessionCreateItemSubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config" json:"billing_cycle_anchor_config,omitempty"`
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	BillingMode *CheckoutSessionCreateItemSubscriptionBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
+	// The subscription's description, meant to be displayable to the customer.
+	Description *string `form:"description" json:"description,omitempty"`
+	// The list of items for the subscription.
+	Items []*CheckoutSessionCreateItemSubscriptionItemParams `form:"items" json:"items"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Specifies an interval for how often to bill for any pending invoice items.
+	PendingInvoiceItemInterval *CheckoutSessionCreateItemSubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval" json:"pending_invoice_item_interval,omitempty"`
+	// Determines how to handle prorations resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`.
+	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
+	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
+	TrialEnd *int64 `form:"trial_end" json:"trial_end,omitempty"`
+	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
+	TrialPeriodDays *int64 `form:"trial_period_days" json:"trial_period_days,omitempty"`
+	// Settings related to subscription trials.
+	TrialSettings *CheckoutSessionCreateItemSubscriptionTrialSettingsParams `form:"trial_settings" json:"trial_settings,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionCreateItemSubscriptionParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // A list of items the customer will purchase.
 type CheckoutSessionCreateItemParams struct {
+	// Configuration for the subscription item.
+	Subscription *CheckoutSessionCreateItemSubscriptionParams `form:"subscription" json:"subscription,omitempty"`
 	// The type of item.
 	Type *string `form:"type" json:"type"`
 }
@@ -6850,6 +7192,8 @@ type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWallet struct {
 	Type CheckoutSessionCurrentAttemptPaymentMethodDetailsCardWalletType `json:"type"`
 }
 type CheckoutSessionCurrentAttemptPaymentMethodDetailsCard struct {
+	// The brand of the card, accounting for customer's brand choice on dual-branded cards.
+	Brand string `json:"brand"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// Two-digit number representing the card's expiration month.
@@ -7097,6 +7441,14 @@ type CheckoutSessionInvoiceCreation struct {
 	// Indicates whether invoice creation is enabled for the Checkout Session.
 	Enabled     bool                                       `json:"enabled"`
 	InvoiceData *CheckoutSessionInvoiceCreationInvoiceData `json:"invoice_data"`
+}
+
+// The items to be purchased by the customer.
+type CheckoutSessionItem struct {
+	// The key of the item. Guaranteed to be a unique ID within this checkout session's items.
+	Key string `json:"key"`
+	// The type of the item.
+	Type CheckoutSessionItemType `json:"type"`
 }
 
 // Settings for Managed Payments for this Checkout Session and resulting [PaymentIntents](https://docs.stripe.com/api/payment_intents/object), [Invoices](https://docs.stripe.com/api/invoices/object), and [Subscriptions](https://docs.stripe.com/api/subscriptions/object).
@@ -8077,6 +8429,8 @@ type CheckoutSession struct {
 	Invoice *Invoice `json:"invoice"`
 	// Details on the state of invoice creation for the Checkout Session.
 	InvoiceCreation *CheckoutSessionInvoiceCreation `json:"invoice_creation"`
+	// The items to be purchased by the customer.
+	Items []*CheckoutSessionItem `json:"items,omitempty"`
 	// The line items purchased by the customer.
 	LineItems *LineItemList `json:"line_items,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
