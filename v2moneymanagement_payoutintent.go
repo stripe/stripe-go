@@ -24,6 +24,7 @@ type V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason string
 const (
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonAccountNotConfiguredAsRecipient                V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "account_not_configured_as_recipient"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonCurrencyNotSupportedForFinancialAccountBalance V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "currency_not_supported_for_financial_account_balance"
+	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonCurrencyRequired                               V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "currency_required"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonFeatureNotActiveForRecipient                   V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "feature_not_active_for_recipient"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonFxRateDriftExceededAfterReview                 V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "fx_rate_drift_exceeded_after_review"
 	V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReasonInsufficientFunds                              V2MoneyManagementPayoutIntentNextActionHandleFailureFailureReason = "insufficient_funds"
