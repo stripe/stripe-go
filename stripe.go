@@ -1146,27 +1146,27 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	raw.Error.HTTPStatusCode = res.StatusCode
 	raw.Error.RequestID = res.Header.Get("Request-Id")
 
-	var typedError error
-	switch raw.Error.Type {
-	case ErrorTypeAPI:
-		typedError = &APIError{stripeErr: raw.Error}
-	case ErrorTypeCard:
-		cardErr := &CardError{stripeErr: raw.Error}
+	// var typedError error
+	// switch raw.Error.Type {
+	// case ErrorTypeAPI:
+	// 	typedError = &APIError{stripeErr: raw.Error}
+	// case ErrorTypeCard:
+	// 	cardErr := &CardError{stripeErr: raw.Error}
 
-		// `DeclineCode` was traditionally only available on `CardError`, but
-		// we ended up moving it to the top-level error as well. However, keep
-		// it on `CardError` for backwards compatibility.
-		if raw.Error.DeclineCode != "" {
-			cardErr.DeclineCode = raw.Error.DeclineCode
-		}
+	// 	// `DeclineCode` was traditionally only available on `CardError`, but
+	// 	// we ended up moving it to the top-level error as well. However, keep
+	// 	// it on `CardError` for backwards compatibility.
+	// 	if raw.Error.DeclineCode != "" {
+	// 		cardErr.DeclineCode = raw.Error.DeclineCode
+	// 	}
 
-		typedError = cardErr
-	case ErrorTypeIdempotency:
-		typedError = &IdempotencyError{stripeErr: raw.Error}
-	case ErrorTypeInvalidRequest:
-		typedError = &InvalidRequestError{stripeErr: raw.Error}
-	}
-	raw.Error.Err = typedError
+	// 	typedError = cardErr
+	// case ErrorTypeIdempotency:
+	// 	typedError = &IdempotencyError{stripeErr: raw.Error}
+	// case ErrorTypeInvalidRequest:
+	// 	typedError = &InvalidRequestError{stripeErr: raw.Error}
+	// }
+	// raw.Error.Err = typedError
 
 	raw.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 
@@ -1202,32 +1202,6 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 	var typedError error
 
 	// errorTypeSwitch: The beginning of the section generated from our OpenAPI spec
-	switch *raw.Error.Type {
-	case "rate_limit":
-		tmp := struct {
-			Error *RateLimitError `json:"error"`
-		}{
-			Error: &RateLimitError{},
-		}
-		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "temporary_session_expired":
-		tmp := struct {
-			Error *TemporarySessionExpiredError `json:"error"`
-		}{
-			Error: &TemporarySessionExpiredError{},
-		}
-		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	default:
-		typedError = raw.Error
-	}
 	// errorTypeSwitch: The end of the section generated from our OpenAPI spec
 
 	return typedError
