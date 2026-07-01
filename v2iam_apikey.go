@@ -77,6 +77,8 @@ type V2IamAPIKeySecretKey struct {
 // An API key is used to authenticate API requests.
 type V2IamAPIKey struct {
 	APIResource
+	// List of connect permissions for this API key.
+	ConnectPermissions []string `json:"connect_permissions,omitempty"`
 	// Timestamp when the API key was created.
 	Created time.Time `json:"created"`
 	// Timestamp when the API key expires.
@@ -97,6 +99,8 @@ type V2IamAPIKey struct {
 	Note string `json:"note,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
+	// List of permissions for this API key.
+	Permissions []string `json:"permissions,omitempty"`
 	// Token set for a publishable key.
 	PublishableKey *V2IamAPIKeyPublishableKey `json:"publishable_key,omitempty"`
 	// Token set for a secret key.
