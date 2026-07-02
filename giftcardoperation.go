@@ -55,7 +55,6 @@ const (
 	GiftCardOperationTypeBalanceCheck   GiftCardOperationType = "balance_check"
 	GiftCardOperationTypeCashout        GiftCardOperationType = "cashout"
 	GiftCardOperationTypeCashoutVoid    GiftCardOperationType = "cashout_void"
-	GiftCardOperationTypeDeactivation   GiftCardOperationType = "deactivation"
 	GiftCardOperationTypeReload         GiftCardOperationType = "reload"
 	GiftCardOperationTypeReloadVoid     GiftCardOperationType = "reload_void"
 )
@@ -158,9 +157,6 @@ type GiftCardOperationCashoutVoid struct {
 	VoidedOperation string `json:"voided_operation"`
 }
 
-// Details about a gift card deactivation operation.
-type GiftCardOperationDeactivation struct{}
-
 // The balance amount of a gift card, including currency and amount.
 type GiftCardOperationReloadBalance struct {
 	// The balance amount.
@@ -202,7 +198,7 @@ type GiftCardOperationReloadVoid struct {
 }
 
 // A GiftCardOperation represents an operation performed on a third-party gift card,
-// such as activation, deactivation, reload, cashout, balance check, or void.
+// such as activation, reload, cashout, balance check, or void.
 type GiftCardOperation struct {
 	APIResource
 	// Details about a gift card activation operation.
@@ -219,8 +215,6 @@ type GiftCardOperation struct {
 	CompletedAt int64 `json:"completed_at"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// Details about a gift card deactivation operation.
-	Deactivation *GiftCardOperationDeactivation `json:"deactivation,omitempty"`
 	// The failure code of the operation. Only present if the status is failed.
 	FailureCode GiftCardOperationFailureCode `json:"failure_code"`
 	// The gift card this operation was performed on.

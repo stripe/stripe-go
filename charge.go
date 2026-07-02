@@ -310,6 +310,7 @@ const (
 	ChargePaymentMethodDetailsCryptoNetworkEthereum ChargePaymentMethodDetailsCryptoNetwork = "ethereum"
 	ChargePaymentMethodDetailsCryptoNetworkPolygon  ChargePaymentMethodDetailsCryptoNetwork = "polygon"
 	ChargePaymentMethodDetailsCryptoNetworkSolana   ChargePaymentMethodDetailsCryptoNetwork = "solana"
+	ChargePaymentMethodDetailsCryptoNetworkSui      ChargePaymentMethodDetailsCryptoNetwork = "sui"
 	ChargePaymentMethodDetailsCryptoNetworkTempo    ChargePaymentMethodDetailsCryptoNetwork = "tempo"
 )
 
@@ -322,6 +323,7 @@ const (
 	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdc        ChargePaymentMethodDetailsCryptoTokenCurrency = "usdc"
 	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdg        ChargePaymentMethodDetailsCryptoTokenCurrency = "usdg"
 	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdp        ChargePaymentMethodDetailsCryptoTokenCurrency = "usdp"
+	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdsui      ChargePaymentMethodDetailsCryptoTokenCurrency = "usdsui"
 	ChargePaymentMethodDetailsCryptoTokenCurrencyUsdt        ChargePaymentMethodDetailsCryptoTokenCurrency = "usdt"
 )
 
@@ -474,6 +476,16 @@ type ChargePaymentMethodDetailsUSBankAccountAccountType string
 const (
 	ChargePaymentMethodDetailsUSBankAccountAccountTypeChecking ChargePaymentMethodDetailsUSBankAccountAccountType = "checking"
 	ChargePaymentMethodDetailsUSBankAccountAccountTypeSavings  ChargePaymentMethodDetailsUSBankAccountAccountType = "savings"
+)
+
+// Indicates whether this object and its related objects have been redacted or not.
+type ChargeRedactionStatus string
+
+// List of values that ChargeRedactionStatus can take
+const (
+	ChargeRedactionStatusProcessing ChargeRedactionStatus = "processing"
+	ChargeRedactionStatusRedacted   ChargeRedactionStatus = "redacted"
+	ChargeRedactionStatusValidated  ChargeRedactionStatus = "validated"
 )
 
 // The status of the payment is either `succeeded`, `pending`, or `failed`.
@@ -3781,6 +3793,8 @@ type ChargePaymentMethodDetailsBillie struct {
 	TransactionID string `json:"transaction_id"`
 }
 type ChargePaymentMethodDetailsBizum struct {
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id"`
 	// The Bizum transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -3944,6 +3958,8 @@ type ChargePaymentMethodDetailsCard struct {
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country                  string                                                  `json:"country"`
 	DecrementalAuthorization *ChargePaymentMethodDetailsCardDecrementalAuthorization `json:"decremental_authorization,omitempty"`
+	// The Electronic Commerce Indicator (ECI) returned by the card network in the authorization response. Indicates the level of authentication used. Only populated for Visa and Mastercard transactions. The response value is the source of truth; it may differ from the request value if the network downgraded the transaction.
+	ElectronicCommerceIndicator string `json:"electronic_commerce_indicator,omitempty"`
 	// Two-digit number representing the card's expiration month.
 	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
@@ -3983,6 +3999,8 @@ type ChargePaymentMethodDetailsCard struct {
 	RegulatedStatus ChargePaymentMethodDetailsCardRegulatedStatus `json:"regulated_status"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
+	// Transaction Link ID (TLID) is a unique identifier for a transaction. This is used by some card networks, such as Mastercard, for transaction linking, in addition to Network Transaction IDs. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
+	TransactionLinkID string `json:"transaction_link_id"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
 	Wallet *ChargePaymentMethodDetailsCardWallet `json:"wallet"`
 	// Please note that the fields below are for internal use only and are not returned
@@ -4111,6 +4129,10 @@ type ChargePaymentMethodDetailsCashApp struct {
 	TransactionID string `json:"transaction_id"`
 }
 type ChargePaymentMethodDetailsCrypto struct {
+	// The amount received for the crypto payment.
+	AmountReceived int64 `json:"amount_received,omitempty"`
+	// The amount requested for the crypto payment.
+	AmountRequested int64 `json:"amount_requested,omitempty"`
 	// The wallet address of the customer.
 	BuyerAddress string `json:"buyer_address,omitempty"`
 	// The blockchain network that the transaction was sent on.
@@ -4151,6 +4173,8 @@ type ChargePaymentMethodDetailsGiftCard struct {
 	ExpMonth int64 `json:"exp_month"`
 	// The expiration year of the gift card.
 	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies this particular gift card number. You can use this attribute to check whether two transactions were made using the same gift card.
+	Fingerprint string `json:"fingerprint"`
 	// The first six digits of the gift card number.
 	First6 string `json:"first6"`
 	// The last four digits of the gift card number.
@@ -4461,6 +4485,8 @@ type ChargePaymentMethodDetailsPayto struct {
 type ChargePaymentMethodDetailsPix struct {
 	// Unique transaction id generated by BCB
 	BankTransactionID string `json:"bank_transaction_id,omitempty"`
+	// Uniquely identifies this particular Pix account. You can use this attribute to check whether two Pix accounts are the same.
+	Fingerprint string `json:"fingerprint,omitempty"`
 	// ID of the multi use Mandate generated by the PaymentIntent
 	Mandate string `json:"mandate,omitempty"`
 }
@@ -4712,6 +4738,12 @@ type ChargeRadarOptions struct {
 	Session string `json:"session,omitempty"`
 }
 
+// Redaction status of this charge. If not null, this charge is associated to a redaction job.
+type ChargeRedaction struct {
+	// Indicates whether this object and its related objects have been redacted or not.
+	Status ChargeRedactionStatus `json:"status"`
+}
+
 // An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://docs.stripe.com/connect/destination-charges) for details.
 type ChargeTransferData struct {
 	// The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
@@ -4796,6 +4828,8 @@ type Charge struct {
 	ReceiptNumber string `json:"receipt_number"`
 	// This is the URL to view the receipt for this charge. The receipt is kept up-to-date to the latest state of the charge, including any refunds. If the charge is for an Invoice, the receipt will be stylized as an Invoice receipt.
 	ReceiptURL string `json:"receipt_url"`
+	// Redaction status of this charge. If not null, this charge is associated to a redaction job.
+	Redaction *ChargeRedaction `json:"redaction,omitempty"`
 	// Whether the charge has been fully refunded. If the charge is only partially refunded, this attribute will still be false.
 	Refunded bool `json:"refunded"`
 	// A list of refunds that have been applied to the charge.

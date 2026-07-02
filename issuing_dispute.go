@@ -110,6 +110,16 @@ const (
 	IssuingDisputeProvisionalCreditStatusRevoked                IssuingDisputeProvisionalCreditStatus = "revoked"
 )
 
+// Indicates whether this object and its related objects have been redacted or not.
+type IssuingDisputeRedactionStatus string
+
+// List of values that IssuingDisputeRedactionStatus can take
+const (
+	IssuingDisputeRedactionStatusProcessing IssuingDisputeRedactionStatus = "processing"
+	IssuingDisputeRedactionStatusRedacted   IssuingDisputeRedactionStatus = "redacted"
+	IssuingDisputeRedactionStatusValidated  IssuingDisputeRedactionStatus = "validated"
+)
+
 // Current status of the dispute.
 type IssuingDisputeStatus string
 
@@ -1440,6 +1450,12 @@ type IssuingDisputeProvisionalCredit struct {
 	Status IssuingDisputeProvisionalCreditStatus `json:"status"`
 }
 
+// Redaction status of this dispute. If the dispute is not redacted, this field will be null.
+type IssuingDisputeRedaction struct {
+	// Indicates whether this object and its related objects have been redacted or not.
+	Status IssuingDisputeRedactionStatus `json:"status"`
+}
+
 // [Treasury](https://docs.stripe.com/api/treasury) details related to this dispute if it was created on a [FinancialAccount](https://docs.stripe.com/api/treasury/financial_accounts)
 type IssuingDisputeTreasury struct {
 	// The Treasury [DebitReversal](https://docs.stripe.com/api/treasury/debit_reversals) representing this Issuing dispute
@@ -1478,6 +1494,8 @@ type IssuingDispute struct {
 	Object string `json:"object"`
 	// Provisional credit details for this dispute.
 	ProvisionalCredit *IssuingDisputeProvisionalCredit `json:"provisional_credit,omitempty"`
+	// Redaction status of this dispute. If the dispute is not redacted, this field will be null.
+	Redaction *IssuingDisputeRedaction `json:"redaction,omitempty"`
 	// Current status of the dispute.
 	Status IssuingDisputeStatus `json:"status"`
 	// The transaction being disputed.

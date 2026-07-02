@@ -82,7 +82,7 @@ type BillingCreditGrantApplicabilityConfigScopeBillableItemParams struct {
 	ID *string `form:"id" json:"id"`
 }
 
-// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`. Limit 20 prices.
 type BillingCreditGrantApplicabilityConfigScopePriceParams struct {
 	// The price ID this credit grant should apply to.
 	ID *string `form:"id" json:"id"`
@@ -92,7 +92,7 @@ type BillingCreditGrantApplicabilityConfigScopePriceParams struct {
 type BillingCreditGrantApplicabilityConfigScopeParams struct {
 	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
 	BillableItems []*BillingCreditGrantApplicabilityConfigScopeBillableItemParams `form:"billable_items" json:"billable_items,omitempty"`
-	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`. Limit 20 prices.
 	Prices []*BillingCreditGrantApplicabilityConfigScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
@@ -214,7 +214,7 @@ type BillingCreditGrantCreateApplicabilityConfigScopeBillableItemParams struct {
 	ID *string `form:"id" json:"id"`
 }
 
-// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`. Limit 20 prices.
 type BillingCreditGrantCreateApplicabilityConfigScopePriceParams struct {
 	// The price ID this credit grant should apply to.
 	ID *string `form:"id" json:"id"`
@@ -224,7 +224,7 @@ type BillingCreditGrantCreateApplicabilityConfigScopePriceParams struct {
 type BillingCreditGrantCreateApplicabilityConfigScopeParams struct {
 	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
 	BillableItems []*BillingCreditGrantCreateApplicabilityConfigScopeBillableItemParams `form:"billable_items" json:"billable_items,omitempty"`
-	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`. Limit 20 prices.
 	Prices []*BillingCreditGrantCreateApplicabilityConfigScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
@@ -422,7 +422,7 @@ type BillingCreditGrant struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The priority for applying this credit grant. The highest priority is 0 and the lowest is 100.
-	Priority int64 `json:"priority,omitempty"`
+	Priority int64 `json:"priority"`
 	// ID of the test clock this credit grant belongs to.
 	TestClock *TestHelpersTestClock `json:"test_clock"`
 	// Time at which the object was last updated. Measured in seconds since the Unix epoch.

@@ -399,6 +399,8 @@ func (p *IssuingTokenUpdateParams) AddExpand(f string) {
 type IssuingTokenNetworkDataDevice struct {
 	// An obfuscated ID derived from the device ID.
 	DeviceFingerprint string `json:"device_fingerprint,omitempty"`
+	// An identifier for the device used during wallet provisioning.
+	DeviceID string `json:"device_id,omitempty"`
 	// The IP address of the device at provisioning time.
 	IPAddress string `json:"ip_address,omitempty"`
 	// The ISO 639-1 language code of the device associated with the tokenization request.

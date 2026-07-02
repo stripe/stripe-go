@@ -30,6 +30,16 @@ const (
 	IssuingCardLatestFraudWarningTypeUserIndicatedFraud  IssuingCardLatestFraudWarningType = "user_indicated_fraud"
 )
 
+// Indicates whether this object and its related objects have been redacted or not.
+type IssuingCardRedactionStatus string
+
+// List of values that IssuingCardRedactionStatus can take
+const (
+	IssuingCardRedactionStatusProcessing IssuingCardRedactionStatus = "processing"
+	IssuingCardRedactionStatusRedacted   IssuingCardRedactionStatus = "redacted"
+	IssuingCardRedactionStatusValidated  IssuingCardRedactionStatus = "validated"
+)
+
 // The reason why the previous card needed to be replaced.
 type IssuingCardReplacementReason string
 
@@ -661,6 +671,12 @@ type IssuingCardLifecycleControls struct {
 	CancelAfter *IssuingCardLifecycleControlsCancelAfter `json:"cancel_after"`
 }
 
+// Redaction status of this card. If not null, this card is associated to a redaction job.
+type IssuingCardRedaction struct {
+	// Indicates whether this object and its related objects have been redacted or not.
+	Status IssuingCardRedactionStatus `json:"status"`
+}
+
 // Address validation details for the shipment.
 type IssuingCardShippingAddressValidation struct {
 	// The address validation capabilities to use.
@@ -799,6 +815,10 @@ type IssuingCard struct {
 	Object string `json:"object"`
 	// The personalization design object belonging to this card.
 	PersonalizationDesign *IssuingPersonalizationDesign `json:"personalization_design"`
+	// The program that this card belongs to — will not be nil.
+	Program string `json:"program,omitempty"`
+	// Redaction status of this card. If not null, this card is associated to a redaction job.
+	Redaction *IssuingCardRedaction `json:"redaction,omitempty"`
 	// The latest card that replaces this card, if any.
 	ReplacedBy *IssuingCard `json:"replaced_by"`
 	// The card this card replaces, if any.
