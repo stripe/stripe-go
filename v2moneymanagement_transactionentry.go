@@ -33,10 +33,12 @@ const (
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryInboundTransfer                         V2MoneyManagementTransactionEntryTransactionDetailsCategory = "inbound_transfer"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryInboundTransferReversal                 V2MoneyManagementTransactionEntryTransactionDetailsCategory = "inbound_transfer_reversal"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryIndiaMdrProcessingFee                   V2MoneyManagementTransactionEntryTransactionDetailsCategory = "india_mdr_processing_fee"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryIssuingAuthorization                    V2MoneyManagementTransactionEntryTransactionDetailsCategory = "issuing_authorization"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryIssuingDispute                          V2MoneyManagementTransactionEntryTransactionDetailsCategory = "issuing_dispute"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryIssuingDisputeFraudLiabilityDebit       V2MoneyManagementTransactionEntryTransactionDetailsCategory = "issuing_dispute_fraud_liability_debit"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryIssuingDisputeProvisionalCredit         V2MoneyManagementTransactionEntryTransactionDetailsCategory = "issuing_dispute_provisional_credit"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryIssuingDisputeProvisionalCreditReversal V2MoneyManagementTransactionEntryTransactionDetailsCategory = "issuing_dispute_provisional_credit_reversal"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryIssuingTransaction                      V2MoneyManagementTransactionEntryTransactionDetailsCategory = "issuing_transaction"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryMinimumBalanceHold                      V2MoneyManagementTransactionEntryTransactionDetailsCategory = "minimum_balance_hold"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryNetworkCost                             V2MoneyManagementTransactionEntryTransactionDetailsCategory = "network_cost"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryObligation                              V2MoneyManagementTransactionEntryTransactionDetailsCategory = "obligation"
@@ -50,6 +52,7 @@ const (
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryPlatformEarning                         V2MoneyManagementTransactionEntryTransactionDetailsCategory = "platform_earning"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryPlatformEarningRefund                   V2MoneyManagementTransactionEntryTransactionDetailsCategory = "platform_earning_refund"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryPlatformFee                             V2MoneyManagementTransactionEntryTransactionDetailsCategory = "platform_fee"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryPlatformFundedCreditTransaction         V2MoneyManagementTransactionEntryTransactionDetailsCategory = "platform_funded_credit_transaction"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReceivedCredit                          V2MoneyManagementTransactionEntryTransactionDetailsCategory = "received_credit"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReceivedCreditReversal                  V2MoneyManagementTransactionEntryTransactionDetailsCategory = "received_credit_reversal"
 	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReceivedDebit                           V2MoneyManagementTransactionEntryTransactionDetailsCategory = "received_debit"
@@ -81,6 +84,9 @@ const (
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeDispute                      V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "dispute"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeFeeTransaction               V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "fee_transaction"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeInboundTransfer              V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "inbound_transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeIssuingAuthorization         V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "issuing_authorization"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeIssuingDispute               V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "issuing_dispute"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeIssuingTransaction           V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "issuing_transaction"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundPayment              V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_payment"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundTransfer             V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_transfer"
 	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypePayout                       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "payout"
@@ -116,6 +122,8 @@ type V2MoneyManagementTransactionEntryBalanceImpact struct {
 
 // Details about the Flow object that created the Transaction.
 type V2MoneyManagementTransactionEntryTransactionDetailsFlow struct {
+	// If applicable, the connected account associated with this Transaction's flow.
+	Account string `json:"account,omitempty"`
 	// If applicable, the ID of the Adjustment that created this Transaction.
 	Adjustment string `json:"adjustment,omitempty"`
 	// If applicable, the ID of the Application Fee that created this Transaction.
@@ -134,6 +142,12 @@ type V2MoneyManagementTransactionEntryTransactionDetailsFlow struct {
 	FeeTransaction string `json:"fee_transaction,omitempty"`
 	// If applicable, the ID of the InboundTransfer that created this Transaction.
 	InboundTransfer string `json:"inbound_transfer,omitempty"`
+	// If applicable, the ID of the Issuing authorization that created this Transaction.
+	IssuingAuthorization string `json:"issuing_authorization,omitempty"`
+	// If applicable, the ID of the Issuing dispute that created this Transaction.
+	IssuingDispute string `json:"issuing_dispute,omitempty"`
+	// If applicable, the ID of the Issuing transaction that created this Transaction.
+	IssuingTransaction string `json:"issuing_transaction,omitempty"`
 	// If applicable, the ID of the OutboundPayment that created this Transaction.
 	OutboundPayment string `json:"outbound_payment,omitempty"`
 	// If applicable, the ID of the OutboundTransfer that created this Transaction.

@@ -112,6 +112,25 @@ const (
 	FinancialConnectionsAccountStatusInactive     FinancialConnectionsAccountStatus = "inactive"
 )
 
+// The action (if any) to proactively relink the Account.
+type FinancialConnectionsAccountStatusDetailsActiveAction string
+
+// List of values that FinancialConnectionsAccountStatusDetailsActiveAction can take
+const (
+	FinancialConnectionsAccountStatusDetailsActiveActionNone           FinancialConnectionsAccountStatusDetailsActiveAction = "none"
+	FinancialConnectionsAccountStatusDetailsActiveActionRelinkRequired FinancialConnectionsAccountStatusDetailsActiveAction = "relink_required"
+)
+
+// The underlying cause of the Account becoming inactive.
+type FinancialConnectionsAccountStatusDetailsActiveCause string
+
+// List of values that FinancialConnectionsAccountStatusDetailsActiveCause can take
+const (
+	FinancialConnectionsAccountStatusDetailsActiveCauseAccessExpired          FinancialConnectionsAccountStatusDetailsActiveCause = "access_expired"
+	FinancialConnectionsAccountStatusDetailsActiveCauseInstitutionRequirement FinancialConnectionsAccountStatusDetailsActiveCause = "institution_requirement"
+	FinancialConnectionsAccountStatusDetailsActiveCauseUnspecified            FinancialConnectionsAccountStatusDetailsActiveCause = "unspecified"
+)
+
 // The action (if any) to relink the inactive Account.
 type FinancialConnectionsAccountStatusDetailsInactiveAction string
 
@@ -392,6 +411,14 @@ type FinancialConnectionsAccountOwnershipRefresh struct {
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountOwnershipRefreshStatus `json:"status"`
 }
+type FinancialConnectionsAccountStatusDetailsActive struct {
+	// The action (if any) to proactively relink the Account.
+	Action FinancialConnectionsAccountStatusDetailsActiveAction `json:"action"`
+	// The underlying cause of the Account becoming inactive.
+	Cause FinancialConnectionsAccountStatusDetailsActiveCause `json:"cause"`
+	// When the Account is expected to become inactive, if applicable.
+	ExpectedDeactivationDate int64 `json:"expected_deactivation_date"`
+}
 type FinancialConnectionsAccountStatusDetailsInactive struct {
 	// The action (if any) to relink the inactive Account.
 	Action FinancialConnectionsAccountStatusDetailsInactiveAction `json:"action"`
@@ -399,6 +426,7 @@ type FinancialConnectionsAccountStatusDetailsInactive struct {
 	Cause FinancialConnectionsAccountStatusDetailsInactiveCause `json:"cause"`
 }
 type FinancialConnectionsAccountStatusDetails struct {
+	Active   *FinancialConnectionsAccountStatusDetailsActive   `json:"active,omitempty"`
 	Inactive *FinancialConnectionsAccountStatusDetailsInactive `json:"inactive,omitempty"`
 }
 

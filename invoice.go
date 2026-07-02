@@ -295,6 +295,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypePix                InvoicePaymentSettingsPaymentMethodType = "pix"
 	InvoicePaymentSettingsPaymentMethodTypePromptPay          InvoicePaymentSettingsPaymentMethodType = "promptpay"
 	InvoicePaymentSettingsPaymentMethodTypeRevolutPay         InvoicePaymentSettingsPaymentMethodType = "revolut_pay"
+	InvoicePaymentSettingsPaymentMethodTypeSatispay           InvoicePaymentSettingsPaymentMethodType = "satispay"
 	InvoicePaymentSettingsPaymentMethodTypeSEPACreditTransfer InvoicePaymentSettingsPaymentMethodType = "sepa_credit_transfer"
 	InvoicePaymentSettingsPaymentMethodTypeSEPADebit          InvoicePaymentSettingsPaymentMethodType = "sepa_debit"
 	InvoicePaymentSettingsPaymentMethodTypeSofort             InvoicePaymentSettingsPaymentMethodType = "sofort"
@@ -1182,7 +1183,7 @@ type InvoiceAddLinesLineTaxAmountTaxRateDataParams struct {
 	TaxType *string `form:"tax_type" json:"tax_type,omitempty"`
 }
 
-// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
+// A list of up to 20 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 type InvoiceAddLinesLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount" json:"amount"`
@@ -1222,7 +1223,7 @@ type InvoiceAddLinesLineParams struct {
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
 	QuantityDecimal *float64 `form:"quantity_decimal,high_precision" json:"quantity_decimal,string,omitempty"`
-	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
+	// A list of up to 20 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceAddLinesLineTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates    []*string                             `form:"tax_rates" json:"tax_rates,omitempty"`
@@ -1612,7 +1613,7 @@ type InvoiceUpdateLinesLineTaxAmountTaxRateDataParams struct {
 	TaxType *string `form:"tax_type" json:"tax_type,omitempty"`
 }
 
-// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
+// A list of up to 20 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 type InvoiceUpdateLinesLineTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount" json:"amount"`
@@ -1652,7 +1653,7 @@ type InvoiceUpdateLinesLineParams struct {
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
 	// Non-negative decimal with at most 12 decimal places. The quantity of units for the line item.
 	QuantityDecimal *float64 `form:"quantity_decimal,high_precision" json:"quantity_decimal,string,omitempty"`
-	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
+	// A list of up to 20 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://docs.stripe.com/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://docs.stripe.com/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
 	TaxAmounts []*InvoiceUpdateLinesLineTaxAmountParams `form:"tax_amounts" json:"tax_amounts,omitempty"`
 	// The tax rates which apply to the line item. When set, the `default_tax_rates` on the invoice do not apply to this line item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates    []*string                                `form:"tax_rates" json:"tax_rates,omitempty"`
@@ -3261,7 +3262,7 @@ type InvoiceCreatePreviewSubscriptionDetailsItemParams struct {
 	Deleted *bool `form:"deleted" json:"deleted,omitempty"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*InvoiceCreatePreviewSubscriptionDetailsItemDiscountParams `form:"discounts" json:"discounts,omitempty"`
-	// Subscription item to update.
+	// Subscription item to update. If you omit `id`, the API adds a new subscription item rather than updating the existing one. See [Changing a subscription's price](https://docs.stripe.com/billing/subscriptions/change-price#changing).
 	ID *string `form:"id" json:"id,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
@@ -3302,6 +3303,40 @@ func (p *InvoiceCreatePreviewSubscriptionDetailsItemParams) AddMetadata(key stri
 	p.Metadata[key] = value
 }
 
+// Controls when to bill for metered usage in the current period. Defaults to `{ type: "now" }`.
+type InvoiceCreatePreviewSubscriptionDetailsPauseBillForOutstandingUsageThroughParams struct {
+	// When to bill metered usage in the current period.
+	Type *string `form:"type" json:"type"`
+}
+
+// Controls when to credit for unused time on licensed items. Defaults to `{ type: "now" }`.
+type InvoiceCreatePreviewSubscriptionDetailsPauseBillForUnusedTimeFromParams struct {
+	// When to credit for unused time.
+	Type *string `form:"type" json:"type"`
+}
+
+// Controls what to bill for when pausing the subscription.
+type InvoiceCreatePreviewSubscriptionDetailsPauseBillForParams struct {
+	// Controls when to bill for metered usage in the current period. Defaults to `{ type: "now" }`.
+	OutstandingUsageThrough *InvoiceCreatePreviewSubscriptionDetailsPauseBillForOutstandingUsageThroughParams `form:"outstanding_usage_through" json:"outstanding_usage_through,omitempty"`
+	// Controls when to credit for unused time on licensed items. Defaults to `{ type: "now" }`.
+	UnusedTimeFrom *InvoiceCreatePreviewSubscriptionDetailsPauseBillForUnusedTimeFromParams `form:"unused_time_from" json:"unused_time_from,omitempty"`
+}
+
+// Previews the invoice that would be generated when pausing the subscription. Passing an empty hash won't preview pausing and instead returns the next invoice.
+//
+// To receive a preview invoice, set `invoicing_behavior` to `invoice`. A preview isn't available if the `bill_for` options produce no billable amounts.
+//
+// `pending_invoice_item` never has a preview available because pausing wouldn't generate an invoice, and paused subscriptions don't generate invoices either.
+type InvoiceCreatePreviewSubscriptionDetailsPauseParams struct {
+	// Controls what to bill for when pausing the subscription.
+	BillFor *InvoiceCreatePreviewSubscriptionDetailsPauseBillForParams `form:"bill_for" json:"bill_for,omitempty"`
+	// Determines how to handle debits and credits when pausing. Defaults to `pending_invoice_item`.
+	InvoicingBehavior *string `form:"invoicing_behavior" json:"invoicing_behavior,omitempty"`
+	// The type of pause to apply. Defaults to `subscription`.
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
 // The pre-billing to apply to the subscription as a preview.
 type InvoiceCreatePreviewSubscriptionDetailsPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
@@ -3331,6 +3366,12 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	DefaultTaxRates []*string `form:"default_tax_rates" json:"default_tax_rates,omitempty"`
 	// A list of up to 20 subscription items, each with an attached price.
 	Items []*InvoiceCreatePreviewSubscriptionDetailsItemParams `form:"items" json:"items,omitempty"`
+	// Previews the invoice that would be generated when pausing the subscription. Passing an empty hash won't preview pausing and instead returns the next invoice.
+	//
+	// To receive a preview invoice, set `invoicing_behavior` to `invoice`. A preview isn't available if the `bill_for` options produce no billable amounts.
+	//
+	// `pending_invoice_item` never has a preview available because pausing wouldn't generate an invoice, and paused subscriptions don't generate invoices either.
+	Pause *InvoiceCreatePreviewSubscriptionDetailsPauseParams `form:"pause" json:"pause,omitempty"`
 	// The pre-billing to apply to the subscription as a preview.
 	Prebilling *InvoiceCreatePreviewSubscriptionDetailsPrebillingParams `form:"prebilling" json:"prebilling,omitempty"`
 	// Determines how to handle [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.

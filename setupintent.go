@@ -376,6 +376,16 @@ const (
 	SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
 )
 
+// Indicates whether this object and its related objects have been redacted or not.
+type SetupIntentRedactionStatus string
+
+// List of values that SetupIntentRedactionStatus can take
+const (
+	SetupIntentRedactionStatusProcessing SetupIntentRedactionStatus = "processing"
+	SetupIntentRedactionStatusRedacted   SetupIntentRedactionStatus = "redacted"
+	SetupIntentRedactionStatusValidated  SetupIntentRedactionStatus = "validated"
+)
+
 // Whether meal voucher benefit is enabled for this setup intent.
 type SetupIntentSetupDetailsBenefitFRMealVoucherEnabled string
 
@@ -772,7 +782,7 @@ type SetupIntentPaymentMethodDataStripeBalanceParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
-// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 type SetupIntentPaymentMethodDataSunbitParams struct{}
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -945,7 +955,7 @@ type SetupIntentPaymentMethodDataParams struct {
 	Sofort *SetupIntentPaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *SetupIntentPaymentMethodDataStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
-	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 	Sunbit *SetupIntentPaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
@@ -1910,7 +1920,7 @@ type SetupIntentConfirmPaymentMethodDataStripeBalanceParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
-// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 type SetupIntentConfirmPaymentMethodDataSunbitParams struct{}
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -2083,7 +2093,7 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Sofort *SetupIntentConfirmPaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *SetupIntentConfirmPaymentMethodDataStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
-	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 	Sunbit *SetupIntentConfirmPaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentConfirmPaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
@@ -2558,7 +2568,7 @@ type SetupIntentCreatePaymentMethodDataStripeBalanceParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
-// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 type SetupIntentCreatePaymentMethodDataSunbitParams struct{}
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -2731,7 +2741,7 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	Sofort *SetupIntentCreatePaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *SetupIntentCreatePaymentMethodDataStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
-	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 	Sunbit *SetupIntentCreatePaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentCreatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
@@ -3694,7 +3704,7 @@ type SetupIntentUpdatePaymentMethodDataStripeBalanceParams struct {
 	Account *string `form:"account" json:"account,omitempty"`
 }
 
-// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 type SetupIntentUpdatePaymentMethodDataSunbitParams struct{}
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -3867,7 +3877,7 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	Sofort *SetupIntentUpdatePaymentMethodDataSofortParams `form:"sofort" json:"sofort,omitempty"`
 	// This hash contains details about the Stripe balance payment method.
 	StripeBalance *SetupIntentUpdatePaymentMethodDataStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
-	// If this is a Sunbit PaymentMethod, this hash contains details about the Sunbit payment method.
+	// If this is a `sunbit` PaymentMethod, this hash contains details about the Sunbit payment method.
 	Sunbit *SetupIntentUpdatePaymentMethodDataSunbitParams `form:"sunbit" json:"sunbit,omitempty"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentUpdatePaymentMethodDataSwishParams `form:"swish" json:"swish,omitempty"`
@@ -4774,6 +4784,12 @@ type SetupIntentPaymentMethodOptions struct {
 	Upi           *SetupIntentPaymentMethodOptionsUpi           `json:"upi,omitempty"`
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccount `json:"us_bank_account,omitempty"`
 }
+
+// Redaction status of this SetupIntent. If the SetupIntent isn't redacted, this field is null.
+type SetupIntentRedaction struct {
+	// Indicates whether this object and its related objects have been redacted or not.
+	Status SetupIntentRedactionStatus `json:"status"`
+}
 type SetupIntentSetupDetailsBenefitFRMealVoucher struct {
 	// Whether meal voucher benefit is enabled for this setup intent.
 	Enabled SetupIntentSetupDetailsBenefitFRMealVoucherEnabled `json:"enabled,omitempty"`
@@ -4870,8 +4886,10 @@ type SetupIntent struct {
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptions `json:"payment_method_options"`
 	// The list of payment method types (e.g. card) that this SetupIntent is allowed to set up. A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []string                 `json:"payment_method_types"`
-	SetupDetails       *SetupIntentSetupDetails `json:"setup_details,omitempty"`
+	PaymentMethodTypes []string `json:"payment_method_types"`
+	// Redaction status of this SetupIntent. If the SetupIntent isn't redacted, this field is null.
+	Redaction    *SetupIntentRedaction    `json:"redaction,omitempty"`
+	SetupDetails *SetupIntentSetupDetails `json:"setup_details,omitempty"`
 	// ID of the single_use Mandate generated by the SetupIntent.
 	SingleUseMandate *Mandate `json:"single_use_mandate"`
 	// [Status](https://docs.stripe.com/payments/intents#intent-statuses) of this SetupIntent, one of `requires_payment_method`, `requires_confirmation`, `requires_action`, `processing`, `canceled`, or `succeeded`.

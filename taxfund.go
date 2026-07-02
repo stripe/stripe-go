@@ -48,23 +48,32 @@ func (p *TaxFundRetrieveParams) AddExpand(f string) {
 
 // Associated billing or tax documents for this sweep.
 type TaxFundContext struct {
+	// The Checkout Session associated with this sweep, if any.
 	CheckoutSession string `json:"checkout_session,omitempty"`
-	CreditNote      string `json:"credit_note,omitempty"`
-	Invoice         string `json:"invoice,omitempty"`
-	PaymentIntent   string `json:"payment_intent,omitempty"`
-	Refund          string `json:"refund,omitempty"`
-	TaxTransaction  string `json:"tax_transaction,omitempty"`
+	// The Credit Note associated with this sweep, if any.
+	CreditNote string `json:"credit_note,omitempty"`
+	// The Invoice associated with this sweep, if any.
+	Invoice string `json:"invoice,omitempty"`
+	// The PaymentIntent associated with this sweep, if any.
+	PaymentIntent string `json:"payment_intent,omitempty"`
+	// The Refund associated with this sweep, if any.
+	Refund string `json:"refund,omitempty"`
+	// The Tax Transaction associated with this sweep, if any.
+	TaxTransaction string `json:"tax_transaction,omitempty"`
 }
 
 // Details about the payments balance side of the sweep.
 type TaxFundDestinationPaymentsBalance struct {
+	// The balance transaction on the payments balance side of the sweep.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 }
 
 // Details about the tax fund financial account side of the sweep.
 type TaxFundDestinationTaxFundAccount struct {
+	// The tax fund financial account involved in the sweep.
 	FinancialAccount string `json:"financial_account,omitempty"`
-	Transaction      string `json:"transaction,omitempty"`
+	// The financial account transaction on the tax fund account side of the sweep.
+	Transaction string `json:"transaction,omitempty"`
 }
 
 // Where funds moved to.
@@ -73,18 +82,22 @@ type TaxFundDestination struct {
 	PaymentsBalance *TaxFundDestinationPaymentsBalance `json:"payments_balance,omitempty"`
 	// Details about the tax fund financial account side of the sweep.
 	TaxFundAccount *TaxFundDestinationTaxFundAccount `json:"tax_fund_account,omitempty"`
-	Type           string                            `json:"type"`
+	// The type of account funds moved to or from. Either `payments_balance` or `tax_fund_account`.
+	Type string `json:"type"`
 }
 
 // Details about the payments balance side of the sweep.
 type TaxFundSourcePaymentsBalance struct {
+	// The balance transaction on the payments balance side of the sweep.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 }
 
 // Details about the tax fund financial account side of the sweep.
 type TaxFundSourceTaxFundAccount struct {
+	// The tax fund financial account involved in the sweep.
 	FinancialAccount string `json:"financial_account,omitempty"`
-	Transaction      string `json:"transaction,omitempty"`
+	// The financial account transaction on the tax fund account side of the sweep.
+	Transaction string `json:"transaction,omitempty"`
 }
 
 // Where funds moved from.
@@ -93,13 +106,16 @@ type TaxFundSource struct {
 	PaymentsBalance *TaxFundSourcePaymentsBalance `json:"payments_balance,omitempty"`
 	// Details about the tax fund financial account side of the sweep.
 	TaxFundAccount *TaxFundSourceTaxFundAccount `json:"tax_fund_account,omitempty"`
-	Type           string                       `json:"type"`
+	// The type of account funds moved to or from. Either `payments_balance` or `tax_fund_account`.
+	Type string `json:"type"`
 }
 
 // What caused the sweep.
 type TaxFundTrigger struct {
+	// The balance transaction on the payments balance that triggered the sweep.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
-	Type               string              `json:"type"`
+	// The type of event that triggered the sweep. Always `balance_transaction`.
+	Type string `json:"type"`
 }
 
 // A TaxFund object represents a single tax float sweep event — funds moved between

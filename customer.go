@@ -8,6 +8,16 @@ package stripe
 
 import "encoding/json"
 
+// Indicates whether this object and its related objects have been redacted or not.
+type CustomerRedactionStatus string
+
+// List of values that CustomerRedactionStatus can take
+const (
+	CustomerRedactionStatusProcessing CustomerRedactionStatus = "processing"
+	CustomerRedactionStatusRedacted   CustomerRedactionStatus = "redacted"
+	CustomerRedactionStatusValidated  CustomerRedactionStatus = "validated"
+)
+
 // Surfaces if automatic tax computation is possible given the current customer location information.
 type CustomerTaxAutomaticTax string
 
@@ -769,6 +779,12 @@ type CustomerInvoiceSettings struct {
 	RenderingOptions *CustomerInvoiceSettingsRenderingOptions `json:"rendering_options"`
 }
 
+// Redaction status of this customer. If not null, this customer is associated to a redaction job.
+type CustomerRedaction struct {
+	// Indicates whether this object and its related objects have been redacted or not.
+	Status CustomerRedactionStatus `json:"status"`
+}
+
 // The identified tax location of the customer.
 type CustomerTaxLocation struct {
 	// The identified tax country of the customer.
@@ -847,6 +863,8 @@ type Customer struct {
 	Phone string `json:"phone,omitempty"`
 	// The customer's preferred locales (languages), ordered by preference.
 	PreferredLocales []string `json:"preferred_locales,omitempty"`
+	// Redaction status of this customer. If not null, this customer is associated to a redaction job.
+	Redaction *CustomerRedaction `json:"redaction,omitempty"`
 	// Mailing and shipping address for the customer. Appears on invoices emailed to this customer.
 	Shipping *ShippingDetails   `json:"shipping"`
 	Sources  *PaymentSourceList `json:"sources"`

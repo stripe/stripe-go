@@ -143,15 +143,6 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardNetworkVisa            PaymentAttemptRecordPaymentMethodDetailsCardNetwork = "visa"
 )
 
-// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
-type PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage string
-
-// List of values that PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage can take
-const (
-	PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsageRecurring   PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage = "recurring"
-	PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsageUnscheduled PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage = "unscheduled"
-)
-
 // For authenticated transactions: Indicates how the issuing bank authenticated the customer.
 type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
 
@@ -290,6 +281,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkEthereum PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "ethereum"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkPolygon  PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "polygon"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkSolana   PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "solana"
+	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkSui      PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "sui"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoNetworkTempo    PaymentAttemptRecordPaymentMethodDetailsCryptoNetwork = "tempo"
 )
 
@@ -302,6 +294,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdc        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdc"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdg        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdg"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdp        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdp"
+	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdsui      PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdsui"
 	PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrencyUsdt        PaymentAttemptRecordPaymentMethodDetailsCryptoTokenCurrency = "usdt"
 )
 
@@ -829,6 +822,30 @@ func (p *PaymentAttemptRecordReportEarlyFraudWarningParams) AddMetadata(key stri
 	p.Metadata[key] = value
 }
 
+// Verification checks performed on the card.
+type PaymentAttemptRecordReportFailedPaymentMethodDetailsCardChecksParams struct {
+	// The result of the check on the cardholder's address line 1.
+	AddressLine1Check *string `form:"address_line1_check" json:"address_line1_check,omitempty"`
+	// The result of the check on the cardholder's postal code.
+	AddressPostalCodeCheck *string `form:"address_postal_code_check" json:"address_postal_code_check,omitempty"`
+	// The result of the check on the card's CVC.
+	CVCCheck *string `form:"cvc_check" json:"cvc_check,omitempty"`
+}
+
+// Information about the card payment method used to make this payment.
+type PaymentAttemptRecordReportFailedPaymentMethodDetailsCardParams struct {
+	// Verification checks performed on the card.
+	Checks *PaymentAttemptRecordReportFailedPaymentMethodDetailsCardChecksParams `form:"checks" json:"checks,omitempty"`
+}
+
+// Information about the Payment Method debited for this payment.
+type PaymentAttemptRecordReportFailedPaymentMethodDetailsParams struct {
+	// Information about the card payment method used to make this payment.
+	Card *PaymentAttemptRecordReportFailedPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
+	// The type of the payment method details. An additional hash is included on the payment_method_details with a name matching this value. It contains additional information specific to the type.
+	Type *string `form:"type" json:"type"`
+}
+
 // Information about the custom processor used to make this payment.
 type PaymentAttemptRecordReportFailedProcessorDetailsCustomParams struct {
 	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
@@ -856,6 +873,8 @@ type PaymentAttemptRecordReportFailedParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Payment evaluations associated with this reported payment.
 	PaymentEvaluations []*string `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
+	// Information about the Payment Method debited for this payment.
+	PaymentMethodDetails *PaymentAttemptRecordReportFailedPaymentMethodDetailsParams `form:"payment_method_details" json:"payment_method_details,omitempty"`
 	// Processor information for this payment.
 	ProcessorDetails *PaymentAttemptRecordReportFailedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
 	UnsetFields      []PaymentAttemptRecordReportFailedParamsUnsetField      `form:"-" json:"-"`
@@ -1088,6 +1107,8 @@ type PaymentAttemptRecordReportRefundParams struct {
 	Outcome *string `form:"outcome" json:"outcome,omitempty"`
 	// Processor information for this refund.
 	ProcessorDetails *PaymentAttemptRecordReportRefundProcessorDetailsParams `form:"processor_details" json:"processor_details"`
+	// The reason for the refund. One of `duplicate`, `fraudulent`, or `requested_by_customer`.
+	Reason *string `form:"reason" json:"reason,omitempty"`
 	// Information about the payment attempt refund.
 	Refunded *PaymentAttemptRecordReportRefundRefundedParams `form:"refunded" json:"refunded,omitempty"`
 	// A key to group refunds together.
@@ -1356,6 +1377,8 @@ type PaymentAttemptRecordPaymentMethodDetailsBillingDetails struct {
 	Phone string `json:"phone"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsBizum struct {
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id"`
 	// The Bizum transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -1448,7 +1471,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCard struct {
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
 	// A high-level description of the type of cards issued in this range.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Two-digit number representing the card's expiration month.
 	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
@@ -1460,11 +1483,11 @@ type PaymentAttemptRecordPaymentMethodDetailsCard struct {
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 	Funding PaymentAttemptRecordPaymentMethodDetailsCardFunding `json:"funding"`
 	// Issuer identification number of the card.
-	IIN string `json:"iin"`
+	IIN string `json:"iin,omitempty"`
 	// Installment details for this payment.
 	Installments *PaymentAttemptRecordPaymentMethodDetailsCardInstallments `json:"installments"`
 	// The name of the card's issuing bank.
-	Issuer string `json:"issuer"`
+	Issuer string `json:"issuer,omitempty"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// True if this payment was marked as MOTO and out of scope for SCA.
@@ -1479,8 +1502,6 @@ type PaymentAttemptRecordPaymentMethodDetailsCard struct {
 	NetworkToken *PaymentAttemptRecordPaymentMethodDetailsCardNetworkToken `json:"network_token,omitempty"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
-	// The transaction type that was passed for an off-session, Merchant-Initiated transaction, one of `recurring` or `unscheduled`.
-	StoredCredentialUsage PaymentAttemptRecordPaymentMethodDetailsCardStoredCredentialUsage `json:"stored_credential_usage"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
@@ -1601,6 +1622,10 @@ type PaymentAttemptRecordPaymentMethodDetailsCashApp struct {
 	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsCrypto struct {
+	// The amount received for the crypto payment.
+	AmountReceived int64 `json:"amount_received,omitempty"`
+	// The amount requested for the crypto payment.
+	AmountRequested int64 `json:"amount_requested,omitempty"`
 	// The wallet address of the customer.
 	BuyerAddress string `json:"buyer_address,omitempty"`
 	// The blockchain network that the transaction was sent on.
@@ -1652,6 +1677,8 @@ type PaymentAttemptRecordPaymentMethodDetailsGiftCard struct {
 	ExpMonth int64 `json:"exp_month"`
 	// The expiration year of the gift card.
 	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies this particular gift card number. You can use this attribute to check whether two transactions were made using the same gift card.
+	Fingerprint string `json:"fingerprint"`
 	// The first six digits of the gift card number.
 	First6 string `json:"first6"`
 	// The last four digits of the gift card number.

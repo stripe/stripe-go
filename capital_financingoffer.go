@@ -6,6 +6,19 @@
 
 package stripe
 
+// The type of disclaimer to use for a financing offer in user-facing surfaces. The corresponding disclaimer text to use for each disclaimer_variant value can be found in the [marketing docs](https://docs.stripe.com/capital/marketing).
+type CapitalFinancingOfferDisclaimerVariant string
+
+// List of values that CapitalFinancingOfferDisclaimerVariant can take
+const (
+	CapitalFinancingOfferDisclaimerVariantCelticUSLoan       CapitalFinancingOfferDisclaimerVariant = "celtic_us_loan"
+	CapitalFinancingOfferDisclaimerVariantFundboxAuFinancing CapitalFinancingOfferDisclaimerVariant = "fundbox_au_financing"
+	CapitalFinancingOfferDisclaimerVariantYoulendDEFinancing CapitalFinancingOfferDisclaimerVariant = "youlend_de_financing"
+	CapitalFinancingOfferDisclaimerVariantYoulendFRFinancing CapitalFinancingOfferDisclaimerVariant = "youlend_fr_financing"
+	CapitalFinancingOfferDisclaimerVariantYoulendUkMca       CapitalFinancingOfferDisclaimerVariant = "youlend_uk_mca"
+	CapitalFinancingOfferDisclaimerVariantYoulendUSMca       CapitalFinancingOfferDisclaimerVariant = "youlend_us_mca"
+)
+
 // The type of financing being offered.
 type CapitalFinancingOfferFinancingType string
 
@@ -172,6 +185,8 @@ type CapitalFinancingOffer struct {
 	ChargedOffAt int64 `json:"charged_off_at,omitempty"`
 	// Time at which the offer was created. Given in seconds since unix epoch.
 	Created int64 `json:"created"`
+	// The type of disclaimer to use for a financing offer in user-facing surfaces. The corresponding disclaimer text to use for each disclaimer_variant value can be found in the [marketing docs](https://docs.stripe.com/capital/marketing).
+	DisclaimerVariant CapitalFinancingOfferDisclaimerVariant `json:"disclaimer_variant,omitempty"`
 	// Time at which the offer expires. Given in seconds since unix epoch.
 	ExpiresAfter float64 `json:"expires_after"`
 	// The type of financing being offered.

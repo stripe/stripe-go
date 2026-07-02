@@ -91,6 +91,16 @@ const (
 	CardFundingUnknown CardFunding = "unknown"
 )
 
+// Indicates whether this object and its related objects have been redacted or not.
+type CardRedactionStatus string
+
+// List of values that CardRedactionStatus can take
+const (
+	CardRedactionStatusProcessing CardRedactionStatus = "processing"
+	CardRedactionStatusRedacted   CardRedactionStatus = "redacted"
+	CardRedactionStatusValidated  CardRedactionStatus = "validated"
+)
+
 // Status of a card based on the card issuer.
 type CardRegulatedStatus string
 
@@ -590,6 +600,12 @@ type CardNetworks struct {
 	Preferred string `json:"preferred"`
 }
 
+// Redaction status of this card. If not null, this card is associated to a redaction job.
+type CardRedaction struct {
+	// Indicates whether this object and its related objects have been redacted or not.
+	Status CardRedactionStatus `json:"status"`
+}
+
 // You can store multiple cards on a customer in order to charge the customer
 // later. You can also store multiple debit cards on a recipient in order to
 // transfer to those cards later.
@@ -675,6 +691,8 @@ type Card struct {
 	Networks *CardNetworks `json:"networks,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// Redaction status of this card. If not null, this card is associated to a redaction job.
+	Redaction *CardRedaction `json:"redaction,omitempty"`
 	// Status of a card based on the card issuer.
 	RegulatedStatus CardRegulatedStatus `json:"regulated_status"`
 	// For external accounts that are cards, possible values are `new` and `errored`. If a payout fails, the status is set to `errored` and [scheduled payouts](https://stripe.com/docs/payouts#payout-schedule) are stopped until account details are updated.

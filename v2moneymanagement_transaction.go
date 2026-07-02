@@ -33,10 +33,12 @@ const (
 	V2MoneyManagementTransactionCategoryInboundTransfer                         V2MoneyManagementTransactionCategory = "inbound_transfer"
 	V2MoneyManagementTransactionCategoryInboundTransferReversal                 V2MoneyManagementTransactionCategory = "inbound_transfer_reversal"
 	V2MoneyManagementTransactionCategoryIndiaMdrProcessingFee                   V2MoneyManagementTransactionCategory = "india_mdr_processing_fee"
+	V2MoneyManagementTransactionCategoryIssuingAuthorization                    V2MoneyManagementTransactionCategory = "issuing_authorization"
 	V2MoneyManagementTransactionCategoryIssuingDispute                          V2MoneyManagementTransactionCategory = "issuing_dispute"
 	V2MoneyManagementTransactionCategoryIssuingDisputeFraudLiabilityDebit       V2MoneyManagementTransactionCategory = "issuing_dispute_fraud_liability_debit"
 	V2MoneyManagementTransactionCategoryIssuingDisputeProvisionalCredit         V2MoneyManagementTransactionCategory = "issuing_dispute_provisional_credit"
 	V2MoneyManagementTransactionCategoryIssuingDisputeProvisionalCreditReversal V2MoneyManagementTransactionCategory = "issuing_dispute_provisional_credit_reversal"
+	V2MoneyManagementTransactionCategoryIssuingTransaction                      V2MoneyManagementTransactionCategory = "issuing_transaction"
 	V2MoneyManagementTransactionCategoryMinimumBalanceHold                      V2MoneyManagementTransactionCategory = "minimum_balance_hold"
 	V2MoneyManagementTransactionCategoryNetworkCost                             V2MoneyManagementTransactionCategory = "network_cost"
 	V2MoneyManagementTransactionCategoryObligation                              V2MoneyManagementTransactionCategory = "obligation"
@@ -50,6 +52,7 @@ const (
 	V2MoneyManagementTransactionCategoryPlatformEarning                         V2MoneyManagementTransactionCategory = "platform_earning"
 	V2MoneyManagementTransactionCategoryPlatformEarningRefund                   V2MoneyManagementTransactionCategory = "platform_earning_refund"
 	V2MoneyManagementTransactionCategoryPlatformFee                             V2MoneyManagementTransactionCategory = "platform_fee"
+	V2MoneyManagementTransactionCategoryPlatformFundedCreditTransaction         V2MoneyManagementTransactionCategory = "platform_funded_credit_transaction"
 	V2MoneyManagementTransactionCategoryReceivedCredit                          V2MoneyManagementTransactionCategory = "received_credit"
 	V2MoneyManagementTransactionCategoryReceivedCreditReversal                  V2MoneyManagementTransactionCategory = "received_credit_reversal"
 	V2MoneyManagementTransactionCategoryReceivedDebit                           V2MoneyManagementTransactionCategory = "received_debit"
@@ -81,6 +84,9 @@ const (
 	V2MoneyManagementTransactionFlowTypeDispute                      V2MoneyManagementTransactionFlowType = "dispute"
 	V2MoneyManagementTransactionFlowTypeFeeTransaction               V2MoneyManagementTransactionFlowType = "fee_transaction"
 	V2MoneyManagementTransactionFlowTypeInboundTransfer              V2MoneyManagementTransactionFlowType = "inbound_transfer"
+	V2MoneyManagementTransactionFlowTypeIssuingAuthorization         V2MoneyManagementTransactionFlowType = "issuing_authorization"
+	V2MoneyManagementTransactionFlowTypeIssuingDispute               V2MoneyManagementTransactionFlowType = "issuing_dispute"
+	V2MoneyManagementTransactionFlowTypeIssuingTransaction           V2MoneyManagementTransactionFlowType = "issuing_transaction"
 	V2MoneyManagementTransactionFlowTypeOutboundPayment              V2MoneyManagementTransactionFlowType = "outbound_payment"
 	V2MoneyManagementTransactionFlowTypeOutboundTransfer             V2MoneyManagementTransactionFlowType = "outbound_transfer"
 	V2MoneyManagementTransactionFlowTypePayout                       V2MoneyManagementTransactionFlowType = "payout"
@@ -137,6 +143,8 @@ type V2MoneyManagementTransactionCounterparty struct {
 
 // Details about the Flow object that created the Transaction.
 type V2MoneyManagementTransactionFlow struct {
+	// If applicable, the connected account associated with this Transaction's flow.
+	Account string `json:"account,omitempty"`
 	// If applicable, the ID of the Adjustment that created this Transaction.
 	Adjustment string `json:"adjustment,omitempty"`
 	// If applicable, the ID of the Application Fee that created this Transaction.
@@ -155,6 +163,12 @@ type V2MoneyManagementTransactionFlow struct {
 	FeeTransaction string `json:"fee_transaction,omitempty"`
 	// If applicable, the ID of the InboundTransfer that created this Transaction.
 	InboundTransfer string `json:"inbound_transfer,omitempty"`
+	// If applicable, the ID of the Issuing authorization that created this Transaction.
+	IssuingAuthorization string `json:"issuing_authorization,omitempty"`
+	// If applicable, the ID of the Issuing dispute that created this Transaction.
+	IssuingDispute string `json:"issuing_dispute,omitempty"`
+	// If applicable, the ID of the Issuing transaction that created this Transaction.
+	IssuingTransaction string `json:"issuing_transaction,omitempty"`
 	// If applicable, the ID of the OutboundPayment that created this Transaction.
 	OutboundPayment string `json:"outbound_payment,omitempty"`
 	// If applicable, the ID of the OutboundTransfer that created this Transaction.

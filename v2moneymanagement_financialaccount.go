@@ -17,6 +17,15 @@ const (
 	V2MoneyManagementFinancialAccountAccruedFeesDirectionReceivable V2MoneyManagementFinancialAccountAccruedFeesDirection = "receivable"
 )
 
+// The type of funding source for this credit FinancialAccount.
+type V2MoneyManagementFinancialAccountCreditFundedByType string
+
+// List of values that V2MoneyManagementFinancialAccountCreditFundedByType can take
+const (
+	V2MoneyManagementFinancialAccountCreditFundedByTypePlatform V2MoneyManagementFinancialAccountCreditFundedByType = "platform"
+	V2MoneyManagementFinancialAccountCreditFundedByTypeStripe   V2MoneyManagementFinancialAccountCreditFundedByType = "stripe"
+)
+
 // Enum describing the Stripe product that is managing this FinancialAccount.
 type V2MoneyManagementFinancialAccountManagedByType string
 
@@ -61,6 +70,7 @@ type V2MoneyManagementFinancialAccountType string
 // List of values that V2MoneyManagementFinancialAccountType can take
 const (
 	V2MoneyManagementFinancialAccountTypeAccruedFees              V2MoneyManagementFinancialAccountType = "accrued_fees"
+	V2MoneyManagementFinancialAccountTypeCredit                   V2MoneyManagementFinancialAccountType = "credit"
 	V2MoneyManagementFinancialAccountTypeMultiprocessorSettlement V2MoneyManagementFinancialAccountType = "multiprocessor_settlement"
 	V2MoneyManagementFinancialAccountTypeOther                    V2MoneyManagementFinancialAccountType = "other"
 	V2MoneyManagementFinancialAccountTypePayments                 V2MoneyManagementFinancialAccountType = "payments"
@@ -83,6 +93,28 @@ type V2MoneyManagementFinancialAccountBalance struct {
 	InboundPending map[string]Amount `json:"inbound_pending"`
 	// Balance of funds that are being used for a pending outbound money movement.
 	OutboundPending map[string]Amount `json:"outbound_pending"`
+}
+
+// Details for platform-funded credit FinancialAccounts.
+type V2MoneyManagementFinancialAccountCreditFundedByPlatform struct {
+	// The platform FinancialAccount used to fund this credit FinancialAccount.
+	FinancialAccount string `json:"financial_account"`
+}
+
+// Details about how this credit FinancialAccount is funded.
+type V2MoneyManagementFinancialAccountCreditFundedBy struct {
+	// Details for platform-funded credit FinancialAccounts.
+	Platform *V2MoneyManagementFinancialAccountCreditFundedByPlatform `json:"platform"`
+	// The type of funding source for this credit FinancialAccount.
+	Type V2MoneyManagementFinancialAccountCreditFundedByType `json:"type"`
+}
+
+// If this is a `credit` FinancialAccount, this hash includes details specific to `credit` FinancialAccounts.
+type V2MoneyManagementFinancialAccountCredit struct {
+	// Details about how this credit FinancialAccount is funded.
+	FundedBy *V2MoneyManagementFinancialAccountCreditFundedBy `json:"funded_by,omitempty"`
+	// The currencies supported by this credit FinancialAccount.
+	SupportedCurrencies []Currency `json:"supported_currencies"`
 }
 
 // If this is a managed FinancialAccount, `managed_by` indicates the product that created and manages this FinancialAccount. For managed FinancialAccounts,
@@ -195,6 +227,8 @@ type V2MoneyManagementFinancialAccount struct {
 	Country string `json:"country"`
 	// Time at which the object was created.
 	Created time.Time `json:"created"`
+	// If this is a `credit` FinancialAccount, this hash includes details specific to `credit` FinancialAccounts.
+	Credit *V2MoneyManagementFinancialAccountCredit `json:"credit,omitempty"`
 	// A descriptive name for the FinancialAccount, up to 50 characters long. This name will be used in the Stripe Dashboard and embedded components.
 	DisplayName string `json:"display_name,omitempty"`
 	// Unique identifier for the object.

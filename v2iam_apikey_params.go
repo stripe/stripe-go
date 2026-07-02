@@ -6,6 +6,8 @@
 
 package stripe
 
+import "time"
+
 // List all API Keys of an account.
 type V2IamAPIKeyListParams struct {
 	Params `form:"*"`
@@ -37,10 +39,16 @@ type V2IamAPIKeyPublicKeyParams struct {
 // Create an API Key. To create a secret key in livemode, a public key for encryption must be provided.
 type V2IamAPIKeyParams struct {
 	Params `form:"*"`
+	// List of connect permissions for this API key.
+	ConnectPermissions []*string `form:"connect_permissions" json:"connect_permissions,omitempty"`
+	// Timestamp at which the key expires. If not provided, the key never expires.
+	ExpiresAt *time.Time `form:"expires_at" json:"expires_at,omitempty"`
 	// Name to set for the API key. If blank, the field is left unchanged.
 	Name *string `form:"name" json:"name,omitempty"`
 	// Note or description to set for the API key. If blank, the field is left unchanged.
 	Note *string `form:"note" json:"note,omitempty"`
+	// List of permissions for this API key.
+	Permissions []*string `form:"permissions" json:"permissions,omitempty"`
 	// Public key for encrypting the API key secret.
 	// This must a PEM-formatted RSA key suitable for encryption, >= 2048 bits.
 	// A public key is required when creating secret keys.
@@ -109,10 +117,16 @@ type V2IamAPIKeyCreatePublicKeyParams struct {
 // Create an API Key. To create a secret key in livemode, a public key for encryption must be provided.
 type V2IamAPIKeyCreateParams struct {
 	Params `form:"*"`
+	// List of connect permissions for this API key.
+	ConnectPermissions []*string `form:"connect_permissions" json:"connect_permissions,omitempty"`
+	// Timestamp at which the key expires. If not provided, the key never expires.
+	ExpiresAt *time.Time `form:"expires_at" json:"expires_at,omitempty"`
 	// Name for the API key.
 	Name *string `form:"name" json:"name,omitempty"`
 	// Note or description for the API key.
 	Note *string `form:"note" json:"note,omitempty"`
+	// List of permissions for this API key.
+	Permissions []*string `form:"permissions" json:"permissions,omitempty"`
 	// Public key for encrypting the API key secret.
 	// This must a PEM-formatted RSA key suitable for encryption, >= 2048 bits.
 	// A public key is required when creating secret keys.
@@ -130,8 +144,12 @@ type V2IamAPIKeyRetrieveParams struct {
 // Update an API Key. Only parameters that are specified in the request will be updated.
 type V2IamAPIKeyUpdateParams struct {
 	Params `form:"*"`
+	// List of connect permissions for this API key.
+	ConnectPermissions []*string `form:"connect_permissions" json:"connect_permissions,omitempty"`
 	// Name to set for the API key. If blank, the field is left unchanged.
 	Name *string `form:"name" json:"name,omitempty"`
 	// Note or description to set for the API key. If blank, the field is left unchanged.
 	Note *string `form:"note" json:"note,omitempty"`
+	// List of permissions for this API key.
+	Permissions []*string `form:"permissions" json:"permissions,omitempty"`
 }

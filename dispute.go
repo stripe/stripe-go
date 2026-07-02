@@ -13,6 +13,7 @@ type DisputeEnhancedEligibilityType string
 
 // List of values that DisputeEnhancedEligibilityType can take
 const (
+	DisputeEnhancedEligibilityTypeMastercardCompliance    DisputeEnhancedEligibilityType = "mastercard_compliance"
 	DisputeEnhancedEligibilityTypeVisaCompellingEvidence3 DisputeEnhancedEligibilityType = "visa_compelling_evidence_3"
 	DisputeEnhancedEligibilityTypeVisaCompliance          DisputeEnhancedEligibilityType = "visa_compliance"
 )
@@ -24,6 +25,15 @@ type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMe
 const (
 	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServicesMerchandise DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServices = "merchandise"
 	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServicesServices    DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServices = "services"
+)
+
+// Mastercard compliance eligibility status.
+type DisputeEvidenceDetailsEnhancedEligibilityMastercardComplianceStatus string
+
+// List of values that DisputeEvidenceDetailsEnhancedEligibilityMastercardComplianceStatus can take
+const (
+	DisputeEvidenceDetailsEnhancedEligibilityMastercardComplianceStatusFeeAcknowledged            DisputeEvidenceDetailsEnhancedEligibilityMastercardComplianceStatus = "fee_acknowledged"
+	DisputeEvidenceDetailsEnhancedEligibilityMastercardComplianceStatusRequiresFeeAcknowledgement DisputeEvidenceDetailsEnhancedEligibilityMastercardComplianceStatus = "requires_fee_acknowledgement"
 )
 
 // List of actions required to qualify dispute for Visa Compelling Evidence 3.0 evidence submission.
@@ -222,6 +232,12 @@ func (p *DisputeParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Evidence provided for Mastercard compliance evidence submission.
+type DisputeEvidenceEnhancedEvidenceMastercardComplianceParams struct {
+	// A field acknowledging the fee incurred when countering a Mastercard compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute.
+	FeeAcknowledged *bool `form:"fee_acknowledged" json:"fee_acknowledged,omitempty"`
+}
+
 // Disputed transaction details for Visa Compelling Evidence 3.0 evidence submission.
 type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams struct {
 	// User Account ID used to log into business platform. Must be recognizable by the user.
@@ -314,6 +330,8 @@ type DisputeEvidenceEnhancedEvidenceVisaComplianceParams struct {
 
 // Additional evidence for qualifying evidence programs.
 type DisputeEvidenceEnhancedEvidenceParams struct {
+	// Evidence provided for Mastercard compliance evidence submission.
+	MastercardCompliance *DisputeEvidenceEnhancedEvidenceMastercardComplianceParams `form:"mastercard_compliance" json:"mastercard_compliance,omitempty"`
 	// Evidence provided for Visa Compelling Evidence 3.0 evidence submission.
 	VisaCompellingEvidence3 *DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3Params `form:"visa_compelling_evidence_3" json:"visa_compelling_evidence_3,omitempty"`
 	// Evidence provided for Visa compliance evidence submission.
@@ -419,6 +437,12 @@ func (p *DisputeRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Evidence provided for Mastercard compliance evidence submission.
+type DisputeUpdateEvidenceEnhancedEvidenceMastercardComplianceParams struct {
+	// A field acknowledging the fee incurred when countering a Mastercard compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute.
+	FeeAcknowledged *bool `form:"fee_acknowledged" json:"fee_acknowledged,omitempty"`
+}
+
 // Disputed transaction details for Visa Compelling Evidence 3.0 evidence submission.
 type DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams struct {
 	// User Account ID used to log into business platform. Must be recognizable by the user.
@@ -511,6 +535,8 @@ type DisputeUpdateEvidenceEnhancedEvidenceVisaComplianceParams struct {
 
 // Additional evidence for qualifying evidence programs.
 type DisputeUpdateEvidenceEnhancedEvidenceParams struct {
+	// Evidence provided for Mastercard compliance evidence submission.
+	MastercardCompliance *DisputeUpdateEvidenceEnhancedEvidenceMastercardComplianceParams `form:"mastercard_compliance" json:"mastercard_compliance,omitempty"`
 	// Evidence provided for Visa Compelling Evidence 3.0 evidence submission.
 	VisaCompellingEvidence3 *DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3Params `form:"visa_compelling_evidence_3" json:"visa_compelling_evidence_3,omitempty"`
 	// Evidence provided for Visa compliance evidence submission.
@@ -636,6 +662,11 @@ func (p *DisputeUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+type DisputeEvidenceEnhancedEvidenceMastercardCompliance struct {
+	// A field acknowledging the fee incurred when countering a Mastercard compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute.
+	FeeAcknowledged bool `json:"fee_acknowledged"`
+}
+
 // Disputed transaction details for Visa Compelling Evidence 3.0 evidence submission.
 type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransaction struct {
 	// User Account ID used to log into business platform. Must be recognizable by the user.
@@ -686,6 +717,7 @@ type DisputeEvidenceEnhancedEvidenceVisaCompliance struct {
 	FeeAcknowledged bool `json:"fee_acknowledged"`
 }
 type DisputeEvidenceEnhancedEvidence struct {
+	MastercardCompliance    *DisputeEvidenceEnhancedEvidenceMastercardCompliance    `json:"mastercard_compliance,omitempty"`
 	VisaCompellingEvidence3 *DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3 `json:"visa_compelling_evidence_3,omitempty"`
 	VisaCompliance          *DisputeEvidenceEnhancedEvidenceVisaCompliance          `json:"visa_compliance,omitempty"`
 }
@@ -746,6 +778,10 @@ type DisputeEvidence struct {
 	// Any additional evidence or statements.
 	UncategorizedText string `json:"uncategorized_text"`
 }
+type DisputeEvidenceDetailsEnhancedEligibilityMastercardCompliance struct {
+	// Mastercard compliance eligibility status.
+	Status DisputeEvidenceDetailsEnhancedEligibilityMastercardComplianceStatus `json:"status"`
+}
 type DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3 struct {
 	// List of actions required to qualify dispute for Visa Compelling Evidence 3.0 evidence submission.
 	RequiredActions []DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredAction `json:"required_actions"`
@@ -757,6 +793,7 @@ type DisputeEvidenceDetailsEnhancedEligibilityVisaCompliance struct {
 	Status DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus `json:"status"`
 }
 type DisputeEvidenceDetailsEnhancedEligibility struct {
+	MastercardCompliance    *DisputeEvidenceDetailsEnhancedEligibilityMastercardCompliance    `json:"mastercard_compliance,omitempty"`
 	VisaCompellingEvidence3 *DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3 `json:"visa_compelling_evidence_3,omitempty"`
 	VisaCompliance          *DisputeEvidenceDetailsEnhancedEligibilityVisaCompliance          `json:"visa_compliance,omitempty"`
 }

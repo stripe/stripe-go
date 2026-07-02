@@ -52,6 +52,11 @@ import (
 	"github.com/stripe/stripe-go/v86/countryspec"
 	"github.com/stripe/stripe-go/v86/coupon"
 	"github.com/stripe/stripe-go/v86/creditnote"
+	cryptocustomer "github.com/stripe/stripe-go/v86/crypto/customer"
+	cryptocustomerconsumerwallet "github.com/stripe/stripe-go/v86/crypto/customerconsumerwallet"
+	cryptocustomerpaymenttoken "github.com/stripe/stripe-go/v86/crypto/customerpaymenttoken"
+	cryptoonrampsession "github.com/stripe/stripe-go/v86/crypto/onrampsession"
+	cryptoonramptransactionlimits "github.com/stripe/stripe-go/v86/crypto/onramptransactionlimits"
 	"github.com/stripe/stripe-go/v86/customer"
 	"github.com/stripe/stripe-go/v86/customerbalancetransaction"
 	"github.com/stripe/stripe-go/v86/customercashbalancetransaction"
@@ -375,6 +380,16 @@ type API struct {
 	Coupons *coupon.Client
 	// CreditNotes is the client used to invoke /v1/credit_notes APIs.
 	CreditNotes *creditnote.Client
+	// CryptoCustomerConsumerWallets is the client used to invoke /v1/crypto/customers/{id}/crypto_consumer_wallets APIs.
+	CryptoCustomerConsumerWallets *cryptocustomerconsumerwallet.Client
+	// CryptoCustomerPaymentTokens is the client used to invoke /v1/crypto/customers/{id}/payment_tokens APIs.
+	CryptoCustomerPaymentTokens *cryptocustomerpaymenttoken.Client
+	// CryptoCustomers is the client used to invoke /v1/crypto/customers APIs.
+	CryptoCustomers *cryptocustomer.Client
+	// CryptoOnrampSessions is the client used to invoke /v1/crypto/onramp_sessions APIs.
+	CryptoOnrampSessions *cryptoonrampsession.Client
+	// CryptoOnrampTransactionLimits is the client used to invoke /v1/crypto/onramp_transaction_limits APIs.
+	CryptoOnrampTransactionLimits *cryptoonramptransactionlimits.Client
 	// CustomerBalanceTransactions is the client used to invoke /v1/customers/{customer}/balance_transactions APIs.
 	CustomerBalanceTransactions *customerbalancetransaction.Client
 	// CustomerCashBalanceTransactions is the client used to invoke /v1/customers/{customer}/cash_balance_transactions APIs.
@@ -904,6 +919,11 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.CountrySpecs = &countryspec.Client{B: backends.API, Key: key}
 	a.Coupons = &coupon.Client{B: backends.API, Key: key}
 	a.CreditNotes = &creditnote.Client{B: backends.API, Key: key}
+	a.CryptoCustomerConsumerWallets = &cryptocustomerconsumerwallet.Client{B: backends.API, Key: key}
+	a.CryptoCustomerPaymentTokens = &cryptocustomerpaymenttoken.Client{B: backends.API, Key: key}
+	a.CryptoCustomers = &cryptocustomer.Client{B: backends.API, Key: key}
+	a.CryptoOnrampSessions = &cryptoonrampsession.Client{B: backends.API, Key: key}
+	a.CryptoOnrampTransactionLimits = &cryptoonramptransactionlimits.Client{B: backends.API, Key: key}
 	a.CustomerBalanceTransactions = &customerbalancetransaction.Client{B: backends.API, Key: key}
 	a.CustomerCashBalanceTransactions = &customercashbalancetransaction.Client{B: backends.API, Key: key}
 	a.Customers = &customer.Client{B: backends.API, Key: key}

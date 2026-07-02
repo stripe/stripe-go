@@ -1527,6 +1527,8 @@ type PaymentLinkCreatePaymentMethodOptionsCardParams struct {
 	// Restrictions to apply to the card payment method. For example, you can block specific card brands.
 	Restrictions *PaymentLinkCreatePaymentMethodOptionsCardRestrictionsParams `form:"restrictions" json:"restrictions,omitempty"`
 }
+
+// Payment-method-specific configuration.
 type PaymentLinkCreatePaymentMethodOptionsParams struct {
 	// Configuration for `card` payment methods.
 	Card *PaymentLinkCreatePaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
@@ -1687,8 +1689,9 @@ type PaymentLinkCreateParams struct {
 	// Can only be set in `subscription` mode. Defaults to `always`.
 	//
 	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://docs.stripe.com/payments/checkout/free-trials).
-	PaymentMethodCollection *string                                      `form:"payment_method_collection" json:"payment_method_collection,omitempty"`
-	PaymentMethodOptions    *PaymentLinkCreatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
+	PaymentMethodCollection *string `form:"payment_method_collection" json:"payment_method_collection,omitempty"`
+	// Payment-method-specific configuration.
+	PaymentMethodOptions *PaymentLinkCreatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
 	// The list of payment method types that customers can use. If no value is passed, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods) (20+ payment methods [supported](https://docs.stripe.com/payments/payment-methods/integration-options#payment-method-product-support)).
 	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// Controls phone number collection settings during checkout.

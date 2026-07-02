@@ -84,6 +84,16 @@ type Client struct {
 	V1Coupons *v1CouponService
 	// V1CreditNotes is the service used to invoke /v1/credit_notes APIs.
 	V1CreditNotes *v1CreditNoteService
+	// V1CryptoCustomerConsumerWallets is the service used to invoke /v1/crypto/customers/{id}/crypto_consumer_wallets APIs.
+	V1CryptoCustomerConsumerWallets *v1CryptoCustomerConsumerWalletService
+	// V1CryptoCustomerPaymentTokens is the service used to invoke /v1/crypto/customers/{id}/payment_tokens APIs.
+	V1CryptoCustomerPaymentTokens *v1CryptoCustomerPaymentTokenService
+	// V1CryptoCustomers is the service used to invoke /v1/crypto/customers APIs.
+	V1CryptoCustomers *v1CryptoCustomerService
+	// V1CryptoOnrampSessions is the service used to invoke /v1/crypto/onramp_sessions APIs.
+	V1CryptoOnrampSessions *v1CryptoOnrampSessionService
+	// V1CryptoOnrampTransactionLimits is the service used to invoke /v1/crypto/onramp_transaction_limits APIs.
+	V1CryptoOnrampTransactionLimits *v1CryptoOnrampTransactionLimitsService
 	// V1CustomerBalanceTransactions is the service used to invoke /v1/customers/{customer}/balance_transactions APIs.
 	V1CustomerBalanceTransactions *v1CustomerBalanceTransactionService
 	// V1CustomerCashBalanceTransactions is the service used to invoke /v1/customers/{customer}/cash_balance_transactions APIs.
@@ -635,6 +645,11 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1CountrySpecs = &v1CountrySpecService{B: backends.API, Key: key}
 	client.V1Coupons = &v1CouponService{B: backends.API, Key: key}
 	client.V1CreditNotes = &v1CreditNoteService{B: backends.API, Key: key}
+	client.V1CryptoCustomerConsumerWallets = &v1CryptoCustomerConsumerWalletService{B: backends.API, Key: key}
+	client.V1CryptoCustomerPaymentTokens = &v1CryptoCustomerPaymentTokenService{B: backends.API, Key: key}
+	client.V1CryptoCustomers = &v1CryptoCustomerService{B: backends.API, Key: key}
+	client.V1CryptoOnrampSessions = &v1CryptoOnrampSessionService{B: backends.API, Key: key}
+	client.V1CryptoOnrampTransactionLimits = &v1CryptoOnrampTransactionLimitsService{B: backends.API, Key: key}
 	client.V1CustomerBalanceTransactions = &v1CustomerBalanceTransactionService{B: backends.API, Key: key}
 	client.V1CustomerCashBalanceTransactions = &v1CustomerCashBalanceTransactionService{B: backends.API, Key: key}
 	client.V1Customers = &v1CustomerService{B: backends.API, Key: key}
