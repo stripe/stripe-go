@@ -352,24 +352,14 @@ type V2BillingContractPricingOverrides struct {
 	Data []*V2BillingContractPricingOverridesData `json:"data"`
 }
 
-// Details of the active contract status.
-type V2BillingContractStatusDetailsActive struct {
+// Historical timestamps of when the contract transitioned into each status.
+type V2BillingContractStatusTransitions struct {
 	// The timestamp when the contract was activated.
-	ActivatedAt time.Time `json:"activated_at"`
-}
-
-// Details of the canceled contract status.
-type V2BillingContractStatusDetailsCanceled struct {
+	ActivatedAt time.Time `json:"activated_at,omitempty"`
 	// The timestamp when the contract was canceled.
-	CanceledAt time.Time `json:"canceled_at"`
-}
-
-// Information about the contract status transitions.
-type V2BillingContractStatusDetails struct {
-	// Details of the active contract status.
-	Active *V2BillingContractStatusDetailsActive `json:"active,omitempty"`
-	// Details of the canceled contract status.
-	Canceled *V2BillingContractStatusDetailsCanceled `json:"canceled,omitempty"`
+	CanceledAt time.Time `json:"canceled_at,omitempty"`
+	// The timestamp when the contract ended.
+	EndedAt time.Time `json:"ended_at,omitempty"`
 }
 
 // Main Contract resource representing a comprehensive billing agreement
@@ -403,6 +393,6 @@ type V2BillingContract struct {
 	PricingOverrides *V2BillingContractPricingOverrides `json:"pricing_overrides,omitempty"`
 	// The current status of the contract.
 	Status V2BillingContractStatus `json:"status"`
-	// Information about the contract status transitions.
-	StatusDetails *V2BillingContractStatusDetails `json:"status_details"`
+	// Historical timestamps of when the contract transitioned into each status.
+	StatusTransitions *V2BillingContractStatusTransitions `json:"status_transitions,omitempty"`
 }

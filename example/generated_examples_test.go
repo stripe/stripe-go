@@ -13682,7 +13682,7 @@ func TestV2BillingCollectionSettingsVersionGet2Client(t *testing.T) {
 func TestV2BillingContractGetService(t *testing.T) {
 	params := &stripe.V2BillingContractListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/contracts", params, "{\"data\":[{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/contracts", params, "{\"data\":[{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13694,7 +13694,7 @@ func TestV2BillingContractGetService(t *testing.T) {
 func TestV2BillingContractGetClient(t *testing.T) {
 	params := &stripe.V2BillingContractListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/contracts", params, "{\"data\":[{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/billing/contracts", params, "{\"data\":[{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13766,7 +13766,7 @@ func TestV2BillingContractPostService(t *testing.T) {
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13839,7 +13839,7 @@ func TestV2BillingContractPostClient(t *testing.T) {
 		},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13878,7 +13878,7 @@ func TestV2BillingContractDeleteClient(t *testing.T) {
 func TestV2BillingContractGet2Service(t *testing.T) {
 	params := &stripe.V2BillingContractParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodGet, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13891,7 +13891,7 @@ func TestV2BillingContractGet2Service(t *testing.T) {
 func TestV2BillingContractGet2Client(t *testing.T) {
 	params := &stripe.V2BillingContractRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodGet, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13905,7 +13905,7 @@ func TestV2BillingContractGet2Client(t *testing.T) {
 func TestV2BillingContractPost2Service(t *testing.T) {
 	params := &stripe.V2BillingContractParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13918,7 +13918,7 @@ func TestV2BillingContractPost2Service(t *testing.T) {
 func TestV2BillingContractPost2Client(t *testing.T) {
 	params := &stripe.V2BillingContractUpdateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts/id_123", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13931,7 +13931,7 @@ func TestV2BillingContractPost2Client(t *testing.T) {
 func TestV2BillingContractPost3Service(t *testing.T) {
 	params := &stripe.V2BillingContractActivateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts/id_123/activate", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts/id_123/activate", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13944,7 +13944,7 @@ func TestV2BillingContractPost3Service(t *testing.T) {
 func TestV2BillingContractPost3Client(t *testing.T) {
 	params := &stripe.V2BillingContractActivateParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts/id_123/activate", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts/id_123/activate", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13958,7 +13958,7 @@ func TestV2BillingContractPost3Client(t *testing.T) {
 func TestV2BillingContractPost4Service(t *testing.T) {
 	params := &stripe.V2BillingContractCancelParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts/id_123/cancel", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts/id_123/cancel", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13971,7 +13971,7 @@ func TestV2BillingContractPost4Service(t *testing.T) {
 func TestV2BillingContractPost4Client(t *testing.T) {
 	params := &stripe.V2BillingContractCancelParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/contracts/id_123/cancel", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\",\"status_details\":{}}")
+		t, http.MethodPost, "/v2/billing/contracts/id_123/cancel", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})

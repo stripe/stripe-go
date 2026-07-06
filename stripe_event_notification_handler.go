@@ -1155,6 +1155,31 @@ func (h *EventNotificationHandler) OnV2BillingCadenceCreated(callback func(ctx c
 	return registerTypedHandler(h, "v2.billing.cadence.created", callback)
 }
 
+// OnV2BillingContractActivated registers a callback to handle notifications about the "v2.billing.contract.activated" event.
+func (h *EventNotificationHandler) OnV2BillingContractActivated(callback func(ctx context.Context, notif *V2BillingContractActivatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.billing.contract.activated", callback)
+}
+
+// OnV2BillingContractCanceled registers a callback to handle notifications about the "v2.billing.contract.canceled" event.
+func (h *EventNotificationHandler) OnV2BillingContractCanceled(callback func(ctx context.Context, notif *V2BillingContractCanceledEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.billing.contract.canceled", callback)
+}
+
+// OnV2BillingContractCreated registers a callback to handle notifications about the "v2.billing.contract.created" event.
+func (h *EventNotificationHandler) OnV2BillingContractCreated(callback func(ctx context.Context, notif *V2BillingContractCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.billing.contract.created", callback)
+}
+
+// OnV2BillingContractEnded registers a callback to handle notifications about the "v2.billing.contract.ended" event.
+func (h *EventNotificationHandler) OnV2BillingContractEnded(callback func(ctx context.Context, notif *V2BillingContractEndedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.billing.contract.ended", callback)
+}
+
+// OnV2BillingContractUpdated registers a callback to handle notifications about the "v2.billing.contract.updated" event.
+func (h *EventNotificationHandler) OnV2BillingContractUpdated(callback func(ctx context.Context, notif *V2BillingContractUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.billing.contract.updated", callback)
+}
+
 // OnV2BillingLicenseFeeCreated registers a callback to handle notifications about the "v2.billing.license_fee.created" event.
 func (h *EventNotificationHandler) OnV2BillingLicenseFeeCreated(callback func(ctx context.Context, notif *V2BillingLicenseFeeCreatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.billing.license_fee.created", callback)

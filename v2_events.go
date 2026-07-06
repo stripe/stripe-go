@@ -9000,6 +9000,211 @@ func (n *V2BillingCadenceCreatedEventNotification) FetchRelatedObject(ctx contex
 	return relatedObj, err
 }
 
+// V2BillingContractActivatedEvent is the Go struct for the "v2.billing.contract.activated" event.
+// Occurs when a Contract transitions from Draft to Active.
+type V2BillingContractActivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingContract, error)
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (e *V2BillingContractActivatedEvent) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingContractActivatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.contract.activated"
+// Occurs when a Contract transitions from Draft to Active.
+type V2BillingContractActivatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2BillingContractActivatedEvent that created this Notification
+func (n *V2BillingContractActivatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingContractActivatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingContractActivatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (n *V2BillingContractActivatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2BillingContract{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2BillingContractCanceledEvent is the Go struct for the "v2.billing.contract.canceled" event.
+// Occurs when a Contract transitions to canceled.
+type V2BillingContractCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingContract, error)
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (e *V2BillingContractCanceledEvent) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingContractCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.contract.canceled"
+// Occurs when a Contract transitions to canceled.
+type V2BillingContractCanceledEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2BillingContractCanceledEvent that created this Notification
+func (n *V2BillingContractCanceledEventNotification) FetchEvent(ctx context.Context) (*V2BillingContractCanceledEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingContractCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (n *V2BillingContractCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2BillingContract{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2BillingContractCreatedEvent is the Go struct for the "v2.billing.contract.created" event.
+// Occurs when a Contract is created.
+type V2BillingContractCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingContract, error)
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (e *V2BillingContractCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingContractCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.contract.created"
+// Occurs when a Contract is created.
+type V2BillingContractCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2BillingContractCreatedEvent that created this Notification
+func (n *V2BillingContractCreatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingContractCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingContractCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (n *V2BillingContractCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2BillingContract{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2BillingContractEndedEvent is the Go struct for the "v2.billing.contract.ended" event.
+// Occurs when a Contract reaches the end of all its Pricing Lines and transitions to ended.
+type V2BillingContractEndedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingContract, error)
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (e *V2BillingContractEndedEvent) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingContractEndedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.contract.ended"
+// Occurs when a Contract reaches the end of all its Pricing Lines and transitions to ended.
+type V2BillingContractEndedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2BillingContractEndedEvent that created this Notification
+func (n *V2BillingContractEndedEventNotification) FetchEvent(ctx context.Context) (*V2BillingContractEndedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingContractEndedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (n *V2BillingContractEndedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2BillingContract{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2BillingContractUpdatedEvent is the Go struct for the "v2.billing.contract.updated" event.
+// Occurs when a Contract is updated.
+type V2BillingContractUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingContract, error)
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (e *V2BillingContractUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingContractUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.billing.contract.updated"
+// Occurs when a Contract is updated.
+type V2BillingContractUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2BillingContractUpdatedEvent that created this Notification
+func (n *V2BillingContractUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2BillingContractUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2BillingContractUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2BillingContract related to the event.
+func (n *V2BillingContractUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2BillingContract, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2BillingContract{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2BillingLicenseFeeCreatedEvent is the Go struct for the "v2.billing.license_fee.created" event.
 // Occurs when a LicenseFee is created.
 type V2BillingLicenseFeeCreatedEvent struct {
@@ -21073,6 +21278,81 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return nil, err
 		}
 		return result, nil
+	case "v2.billing.contract.activated":
+		result := &V2BillingContractActivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingContract, error) {
+			v := &V2BillingContract{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.contract.canceled":
+		result := &V2BillingContractCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingContract, error) {
+			v := &V2BillingContract{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.contract.created":
+		result := &V2BillingContractCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingContract, error) {
+			v := &V2BillingContract{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.contract.ended":
+		result := &V2BillingContractEndedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingContract, error) {
+			v := &V2BillingContract{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.contract.updated":
+		result := &V2BillingContractUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingContract, error) {
+			v := &V2BillingContract{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.billing.license_fee.created":
 		result := &V2BillingLicenseFeeCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -25385,6 +25665,41 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.billing.cadence.created":
 		evt := V2BillingCadenceCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.billing.contract.activated":
+		evt := V2BillingContractActivatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.billing.contract.canceled":
+		evt := V2BillingContractCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.billing.contract.created":
+		evt := V2BillingContractCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.billing.contract.ended":
+		evt := V2BillingContractEndedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.billing.contract.updated":
+		evt := V2BillingContractUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

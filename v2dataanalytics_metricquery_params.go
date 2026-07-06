@@ -10,9 +10,9 @@ import "time"
 
 // A list of the metrics to be returned; all metrics must share the same metric namespace.
 type V2DataAnalyticsMetricQueryMetricParams struct {
-	// The ID for this metric, e.g. metric_61Sud3n5oAGVCWiSr5.
+	// The ID for this metric (for example, `metric_61Sud3n5oAGVCWiSr5`). For the full list of supported metrics, see [Supported metrics](https://docs.stripe.com/data/analytics/supported-metrics).
 	ID *string `form:"id" json:"id,omitempty"`
-	// The common name for this metric, e.g. revenue.mrr.
+	// The common name for this metric (for example, `revenue.mrr`). For the full list of supported metric names, see [Supported metrics](https://docs.stripe.com/data/analytics/supported-metrics).
 	Name *string `form:"name" json:"name,omitempty"`
 }
 
@@ -43,9 +43,9 @@ type V2DataAnalyticsMetricQueryParams struct {
 
 // A list of the metrics to be returned; all metrics must share the same metric namespace.
 type V2DataAnalyticsMetricQueryCreateMetricParams struct {
-	// The ID for this metric, e.g. metric_61Sud3n5oAGVCWiSr5.
+	// The ID for this metric (for example, `metric_61Sud3n5oAGVCWiSr5`). For the full list of supported metrics, see [Supported metrics](https://docs.stripe.com/data/analytics/supported-metrics).
 	ID *string `form:"id" json:"id,omitempty"`
-	// The common name for this metric, e.g. revenue.mrr.
+	// The common name for this metric (for example, `revenue.mrr`). For the full list of supported metric names, see [Supported metrics](https://docs.stripe.com/data/analytics/supported-metrics).
 	Name *string `form:"name" json:"name,omitempty"`
 }
 
