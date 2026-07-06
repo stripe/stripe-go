@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create a Contract object.
+// Create a draft contract.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) New(params *stripe.V2BillingContractParams) (*stripe.V2BillingCo
 	return contract, err
 }
 
-// Retrieve a Contract object by ID.
+// Retrieve a contract.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -46,7 +46,7 @@ func (c Client) Get(id string, params *stripe.V2BillingContractParams) (*stripe.
 	return contract, err
 }
 
-// Update a Contract object by ID.
+// Update a draft or active contract.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -58,7 +58,7 @@ func (c Client) Update(id string, params *stripe.V2BillingContractParams) (*stri
 	return contract, err
 }
 
-// Delete a draft Contract object by ID.
+// Delete a draft contract.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -70,7 +70,7 @@ func (c Client) Del(id string, params *stripe.V2BillingContractParams) (*stripe.
 	return deletedObj, err
 }
 
-// Activate a Draft Contract object by ID.
+// Activate a draft contract.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -82,7 +82,7 @@ func (c Client) Activate(id string, params *stripe.V2BillingContractActivatePara
 	return contract, err
 }
 
-// Cancel a Contract object by ID.
+// Cancel an active contract.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -94,7 +94,7 @@ func (c Client) Cancel(id string, params *stripe.V2BillingContractCancelParams) 
 	return contract, err
 }
 
-// List Contract objects with pagination.
+// List contracts.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

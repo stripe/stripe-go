@@ -8,10 +8,10 @@ package stripe
 
 import "time"
 
-// List Contract objects with pagination.
+// List contracts.
 type V2BillingContractListParams struct {
 	Params `form:"*"`
-	// Filter by customer ID.
+	// Filter by customer id.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
@@ -56,7 +56,7 @@ type V2BillingContractBillingSettingsBillSettingsDetailsCalculationParams struct
 	Tax *V2BillingContractBillingSettingsBillSettingsDetailsCalculationTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
-// The number of time units before the invoice is past due.
+// How long the customer has to pay the invoice before it's past due.
 type V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueParams struct {
 	// The interval unit.
 	Interval *string `form:"interval" json:"interval"`
@@ -66,7 +66,7 @@ type V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueParam
 
 // Invoice settings.
 type V2BillingContractBillingSettingsBillSettingsDetailsInvoiceParams struct {
-	// The number of time units before the invoice is past due.
+	// How long the customer has to pay the invoice before it's past due.
 	TimeUntilDue *V2BillingContractBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueParams `form:"time_until_due" json:"time_until_due,omitempty"`
 }
 
@@ -88,7 +88,7 @@ type V2BillingContractBillingSettingsBillingProfileDetailsParams struct {
 
 // The collection settings details configures how payments are collected on the contract.
 type V2BillingContractBillingSettingsCollectionSettingsDetailsParams struct {
-	// The collection method.
+	// How payment is collected for the contract.
 	CollectionMethod *string `form:"collection_method" json:"collection_method"`
 	// The payment method configuration.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
@@ -120,7 +120,7 @@ type V2BillingContractOneTimeFeeParams struct {
 	BillAt *V2BillingContractOneTimeFeeBillAtParams `form:"bill_at" json:"bill_at"`
 	// A user-provided lookup key.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// The ID of the v1 Product for this fee.
+	// The id of the product for this fee.
 	Product *string `form:"product" json:"product"`
 }
 
@@ -184,7 +184,7 @@ type V2BillingContractPricingLinePricingPriceDetailsPricingOverrideParams struct
 	Priority *int64 `form:"priority" json:"priority,omitempty"`
 	// When the override starts. Defaults to the pricing line's start if not specified.
 	StartsAt *V2BillingContractPricingLinePricingPriceDetailsPricingOverrideStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
-	// The type of override. Currently only `overwrite_price` is supported.
+	// The type of override.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -206,7 +206,7 @@ type V2BillingContractPricingLinePricingPriceDetailsQuantityChangeEffectiveAtPar
 }
 
 // Quantity changes for the pricing line. For now, at most one entry is allowed.
-// A quantity change clears all future quantity changes on this pricing line.
+// A quantity change clears all future quantity changes on this pricing line. Defaults to 1.
 type V2BillingContractPricingLinePricingPriceDetailsQuantityChangeParams struct {
 	// When this quantity change takes effect.
 	EffectiveAt *V2BillingContractPricingLinePricingPriceDetailsQuantityChangeEffectiveAtParams `form:"effective_at" json:"effective_at"`
@@ -216,12 +216,12 @@ type V2BillingContractPricingLinePricingPriceDetailsQuantityChangeParams struct 
 
 // V1 price details. Required if `type` is `price`.
 type V2BillingContractPricingLinePricingPriceDetailsParams struct {
-	// The ID of the V1 price.
+	// The id of the price.
 	Price *string `form:"price" json:"price"`
 	// Pricing overrides embedded directly on this pricing line.
 	PricingOverrides []*V2BillingContractPricingLinePricingPriceDetailsPricingOverrideParams `form:"pricing_overrides" json:"pricing_overrides,omitempty"`
 	// Quantity changes for the pricing line. For now, at most one entry is allowed.
-	// A quantity change clears all future quantity changes on this pricing line.
+	// A quantity change clears all future quantity changes on this pricing line. Defaults to 1.
 	QuantityChanges []*V2BillingContractPricingLinePricingPriceDetailsQuantityChangeParams `form:"quantity_changes" json:"quantity_changes,omitempty"`
 }
 
@@ -272,8 +272,8 @@ type V2BillingContractPricingOverrideEndsAtParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Criteria determining which rates the multiplier applies to.
-type V2BillingContractPricingOverrideMultiplierCriterionParams struct {
+// Criteria determining which rates the multiply_pricing override applies to.
+type V2BillingContractPricingOverrideMultiplyPricingCriterionParams struct {
 	// Filter by pricing line IDs.
 	PricingLineIDs []*string `form:"pricing_line_ids" json:"pricing_line_ids,omitempty"`
 	// Filter by pricing line lookup keys.
@@ -282,11 +282,11 @@ type V2BillingContractPricingOverrideMultiplierCriterionParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for a multiplier override. Required if `type` is `multiplier`.
-type V2BillingContractPricingOverrideMultiplierParams struct {
-	// Criteria determining which rates the multiplier applies to.
-	Criteria []*V2BillingContractPricingOverrideMultiplierCriterionParams `form:"criteria" json:"criteria,omitempty"`
-	// The multiplier factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
+// Parameters for a multiply_pricing override. Required if `type` is `multiply_pricing`.
+type V2BillingContractPricingOverrideMultiplyPricingParams struct {
+	// Criteria determining which rates the multiply_pricing override applies to.
+	Criteria []*V2BillingContractPricingOverrideMultiplyPricingCriterionParams `form:"criteria" json:"criteria,omitempty"`
+	// The multiply_pricing factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
 	Factor *string `form:"factor" json:"factor"`
 }
 
@@ -304,17 +304,17 @@ type V2BillingContractPricingOverrideParams struct {
 	EndsAt *V2BillingContractPricingOverrideEndsAtParams `form:"ends_at" json:"ends_at"`
 	// A user-provided lookup key to reference this pricing override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Parameters for a multiplier override. Required if `type` is `multiplier`.
-	Multiplier *V2BillingContractPricingOverrideMultiplierParams `form:"multiplier" json:"multiplier,omitempty"`
+	// Parameters for a multiply_pricing override. Required if `type` is `multiply_pricing`.
+	MultiplyPricing *V2BillingContractPricingOverrideMultiplyPricingParams `form:"multiply_pricing" json:"multiply_pricing,omitempty"`
 	// The priority of this override relative to others. The highest priority is 0 and the lowest is 100.
-	Priority *int64 `form:"priority" json:"priority"`
+	Priority *int64 `form:"priority" json:"priority,omitempty"`
 	// When the pricing override starts.
 	StartsAt *V2BillingContractPricingOverrideStartsAtParams `form:"starts_at" json:"starts_at"`
 	// The type of pricing override.
 	Type *string `form:"type" json:"type"`
 }
 
-// Create a Contract object.
+// Create a draft contract.
 type V2BillingContractParams struct {
 	Params `form:"*"`
 	// The billing cycle anchor for the contract. If not provided, defaults to the pricing line start time.
@@ -353,7 +353,7 @@ func (p *V2BillingContractParams) AddMetadata(key string, value string) {
 
 // The end time for the pricing line.
 type V2BillingContractPricingLineActionAddEndsAtParams struct {
-	// The timestamp when the item ends.
+	// The timestamp when the pricing ends.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of end time to apply.
 	Type *string `form:"type" json:"type"`
@@ -411,7 +411,7 @@ type V2BillingContractPricingLineActionAddPricingPriceDetailsPricingOverridePara
 	Priority *int64 `form:"priority" json:"priority,omitempty"`
 	// When the override starts. Defaults to the pricing line's start if not specified.
 	StartsAt *V2BillingContractPricingLineActionAddPricingPriceDetailsPricingOverrideStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
-	// The type of override. Currently only `overwrite_price` is supported.
+	// The type of override.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -433,7 +433,7 @@ type V2BillingContractPricingLineActionAddPricingPriceDetailsQuantityChangeEffec
 }
 
 // Quantity changes for the pricing line. For now, at most one entry is allowed.
-// A quantity change clears all future quantity changes on this pricing line.
+// A quantity change clears all future quantity changes on this pricing line. Defaults to 1.
 type V2BillingContractPricingLineActionAddPricingPriceDetailsQuantityChangeParams struct {
 	// When this quantity change takes effect.
 	EffectiveAt *V2BillingContractPricingLineActionAddPricingPriceDetailsQuantityChangeEffectiveAtParams `form:"effective_at" json:"effective_at"`
@@ -443,12 +443,12 @@ type V2BillingContractPricingLineActionAddPricingPriceDetailsQuantityChangeParam
 
 // V1 price details. Required if `type` is `price`.
 type V2BillingContractPricingLineActionAddPricingPriceDetailsParams struct {
-	// The ID of the V1 price.
+	// The id of the price.
 	Price *string `form:"price" json:"price"`
 	// Pricing overrides embedded directly on this pricing line.
 	PricingOverrides []*V2BillingContractPricingLineActionAddPricingPriceDetailsPricingOverrideParams `form:"pricing_overrides" json:"pricing_overrides,omitempty"`
 	// Quantity changes for the pricing line. For now, at most one entry is allowed.
-	// A quantity change clears all future quantity changes on this pricing line.
+	// A quantity change clears all future quantity changes on this pricing line. Defaults to 1.
 	QuantityChanges []*V2BillingContractPricingLineActionAddPricingPriceDetailsQuantityChangeParams `form:"quantity_changes" json:"quantity_changes,omitempty"`
 }
 
@@ -462,13 +462,13 @@ type V2BillingContractPricingLineActionAddPricingParams struct {
 
 // The start time for the pricing line.
 type V2BillingContractPricingLineActionAddStartsAtParams struct {
-	// The timestamp when the item starts.
+	// The timestamp when the pricing starts.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of start time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for adding a pricing line.
+// Add a pricing line.
 type V2BillingContractPricingLineActionAddParams struct {
 	// The end time for the pricing line.
 	EndsAt *V2BillingContractPricingLineActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
@@ -491,15 +491,15 @@ func (p *V2BillingContractPricingLineActionAddParams) AddMetadata(key string, va
 	p.Metadata[key] = value
 }
 
-// Parameters for removing a pricing line.
+// Remove a pricing line.
 type V2BillingContractPricingLineActionRemoveParams struct {
-	// The ID of the pricing line to remove.
+	// The id of the pricing line to remove.
 	ID *string `form:"id" json:"id"`
 }
 
-// The updated end time for the pricing line.
+// Updated end time.
 type V2BillingContractPricingLineActionUpdateEndsAtParams struct {
-	// The timestamp when the item ends.
+	// The timestamp when the pricing ends.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of end time to apply.
 	Type *string `form:"type" json:"type"`
@@ -507,7 +507,7 @@ type V2BillingContractPricingLineActionUpdateEndsAtParams struct {
 
 // The end time for the override.
 type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddEndsAtParams struct {
-	// The timestamp when the item ends.
+	// The timestamp when the pricing ends.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of end time to apply.
 	Type *string `form:"type" json:"type"`
@@ -537,19 +537,19 @@ type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideA
 
 // The start time for the override.
 type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddStartsAtParams struct {
-	// The timestamp when the item starts.
+	// The timestamp when the pricing starts.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of start time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for adding a pricing line override.
+// Add a pricing line override.
 type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddParams struct {
 	// The end time for the override.
 	EndsAt *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
 	// A lookup key for the override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object.
+	// Metadata for the pricing override.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Parameters for an overwrite_price override. Required if `type` is `overwrite_price`.
 	OverwritePrice *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddOverwritePriceParams `form:"overwrite_price" json:"overwrite_price,omitempty"`
@@ -570,41 +570,41 @@ func (p *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverr
 	p.Metadata[key] = value
 }
 
-// Parameters for removing a pricing line override.
+// Remove a pricing line override.
 type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionRemoveParams struct {
-	// The ID of the pricing line override to remove.
+	// The id of the pricing override to remove.
 	ID *string `form:"id" json:"id,omitempty"`
-	// A lookup key for the override to remove.
+	// Lookup key of the override to remove.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 }
 
-// The updated end time for the override.
+// Updated end time.
 type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateEndsAtParams struct {
-	// The timestamp when the item ends.
+	// The timestamp when the pricing ends.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of end time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// The updated start time for the override.
+// Updated start time.
 type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateStartsAtParams struct {
-	// The timestamp when the item starts.
+	// The timestamp when the pricing starts.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of start time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for updating a pricing line override.
+// Update a pricing line override.
 type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateParams struct {
-	// The updated end time for the override.
+	// Updated end time.
 	EndsAt *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
-	// The ID of the pricing line override to update.
+	// The id of the pricing override to update.
 	ID *string `form:"id" json:"id,omitempty"`
-	// A lookup key for the override to update.
+	// Updated lookup key.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object.
+	// Metadata for the pricing override.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// The updated start time for the override.
+	// Updated start time.
 	StartsAt *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
 }
 
@@ -619,13 +619,13 @@ func (p *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverr
 
 // Pricing override actions to apply to the overrides embedded on this pricing line.
 type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionParams struct {
-	// Parameters for adding a pricing line override.
+	// Add a pricing line override.
 	Add *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddParams `form:"add" json:"add,omitempty"`
-	// Parameters for removing a pricing line override.
+	// Remove a pricing line override.
 	Remove *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionRemoveParams `form:"remove" json:"remove,omitempty"`
 	// The type of pricing line override action.
 	Type *string `form:"type" json:"type"`
-	// Parameters for updating a pricing line override.
+	// Update a pricing line override.
 	Update *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateParams `form:"update" json:"update,omitempty"`
 }
 
@@ -653,54 +653,54 @@ type V2BillingContractPricingLineActionUpdatePricingPriceDetailsParams struct {
 	QuantityChanges []*V2BillingContractPricingLineActionUpdatePricingPriceDetailsQuantityChangeParams `form:"quantity_changes" json:"quantity_changes,omitempty"`
 }
 
-// Pricing updates for the pricing line (quantity changes and pricing override actions).
+// Updated pricing configuration.
 type V2BillingContractPricingLineActionUpdatePricingParams struct {
 	// V1 price details. Present when the pricing line type is `price`.
 	PriceDetails *V2BillingContractPricingLineActionUpdatePricingPriceDetailsParams `form:"price_details" json:"price_details,omitempty"`
 }
 
-// The updated start time for the pricing line.
+// Updated start time.
 type V2BillingContractPricingLineActionUpdateStartsAtParams struct {
-	// The timestamp when the item starts.
+	// The timestamp when the pricing starts.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of start time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for updating a pricing line.
+// Update a pricing line.
 type V2BillingContractPricingLineActionUpdateParams struct {
-	// The updated end time for the pricing line.
+	// Updated end time.
 	EndsAt *V2BillingContractPricingLineActionUpdateEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
-	// The ID of the pricing line.
+	// The id of the pricing line.
 	ID *string `form:"id" json:"id"`
-	// Pricing updates for the pricing line (quantity changes and pricing override actions).
+	// Updated pricing configuration.
 	Pricing *V2BillingContractPricingLineActionUpdatePricingParams `form:"pricing" json:"pricing,omitempty"`
-	// The updated start time for the pricing line.
+	// Updated start time.
 	StartsAt *V2BillingContractPricingLineActionUpdateStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
 }
 
 // Pricing line actions to apply.
 type V2BillingContractPricingLineActionParams struct {
-	// Parameters for adding a pricing line.
+	// Add a pricing line.
 	Add *V2BillingContractPricingLineActionAddParams `form:"add" json:"add,omitempty"`
-	// Parameters for removing a pricing line.
+	// Remove a pricing line.
 	Remove *V2BillingContractPricingLineActionRemoveParams `form:"remove" json:"remove,omitempty"`
 	// The type of pricing line action.
 	Type *string `form:"type" json:"type"`
-	// Parameters for updating a pricing line.
+	// Update a pricing line.
 	Update *V2BillingContractPricingLineActionUpdateParams `form:"update" json:"update,omitempty"`
 }
 
 // The end time for the pricing override.
 type V2BillingContractPricingOverrideActionAddEndsAtParams struct {
-	// The timestamp when the item ends.
+	// The timestamp when the pricing ends.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of end time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Criteria determining which rates the multiplier applies to.
-type V2BillingContractPricingOverrideActionAddMultiplierCriterionParams struct {
+// Criteria determining which rates the multiply_pricing override applies to.
+type V2BillingContractPricingOverrideActionAddMultiplyPricingCriterionParams struct {
 	// Filter by pricing line IDs.
 	PricingLineIDs []*string `form:"pricing_line_ids" json:"pricing_line_ids,omitempty"`
 	// Filter by pricing line lookup keys.
@@ -709,11 +709,11 @@ type V2BillingContractPricingOverrideActionAddMultiplierCriterionParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// A multiplier override to add.
-type V2BillingContractPricingOverrideActionAddMultiplierParams struct {
-	// Criteria determining which rates the multiplier applies to.
-	Criteria []*V2BillingContractPricingOverrideActionAddMultiplierCriterionParams `form:"criteria" json:"criteria"`
-	// The multiplier factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
+// A multiply_pricing override to add.
+type V2BillingContractPricingOverrideActionAddMultiplyPricingParams struct {
+	// Criteria determining which rates the multiply_pricing override applies to.
+	Criteria []*V2BillingContractPricingOverrideActionAddMultiplyPricingCriterionParams `form:"criteria" json:"criteria"`
+	// The multiply_pricing factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
 	Factor *string `form:"factor" json:"factor"`
 }
 
@@ -741,39 +741,39 @@ type V2BillingContractPricingOverrideActionAddOverwritePriceParams struct {
 
 // The start time for the pricing override.
 type V2BillingContractPricingOverrideActionAddStartsAtParams struct {
-	// The timestamp when the item starts.
+	// The timestamp when the pricing starts.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of start time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for adding a pricing override.
+// Add a pricing override.
 type V2BillingContractPricingOverrideActionAddParams struct {
 	// The end time for the pricing override.
 	EndsAt *V2BillingContractPricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
 	// A lookup key for the pricing override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// A multiplier override to add.
-	Multiplier *V2BillingContractPricingOverrideActionAddMultiplierParams `form:"multiplier" json:"multiplier,omitempty"`
+	// A multiply_pricing override to add.
+	MultiplyPricing *V2BillingContractPricingOverrideActionAddMultiplyPricingParams `form:"multiply_pricing" json:"multiply_pricing,omitempty"`
 	// An overwrite price override to add.
 	OverwritePrice *V2BillingContractPricingOverrideActionAddOverwritePriceParams `form:"overwrite_price" json:"overwrite_price,omitempty"`
 	// The priority for the pricing override. The highest priority is 0 and the lowest is 100.
-	Priority *int64 `form:"priority" json:"priority"`
+	Priority *int64 `form:"priority" json:"priority,omitempty"`
 	// The start time for the pricing override.
 	StartsAt *V2BillingContractPricingOverrideActionAddStartsAtParams `form:"starts_at" json:"starts_at"`
 	// The type of pricing override to add.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for removing a pricing override.
+// Remove a pricing override.
 type V2BillingContractPricingOverrideActionRemoveParams struct {
-	// The ID of the pricing override to remove.
+	// The id of the pricing override to remove.
 	ID *string `form:"id" json:"id"`
 }
 
 // The updated end time for the pricing override.
 type V2BillingContractPricingOverrideActionUpdateEndsAtParams struct {
-	// The timestamp when the item ends.
+	// The timestamp when the pricing ends.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of end time to apply.
 	Type *string `form:"type" json:"type"`
@@ -781,13 +781,13 @@ type V2BillingContractPricingOverrideActionUpdateEndsAtParams struct {
 
 // The updated start time for the pricing override.
 type V2BillingContractPricingOverrideActionUpdateStartsAtParams struct {
-	// The timestamp when the item starts.
+	// The timestamp when the pricing starts.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of start time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for updating a pricing override.
+// Update a pricing override.
 type V2BillingContractPricingOverrideActionUpdateParams struct {
 	// The updated end time for the pricing override.
 	EndsAt *V2BillingContractPricingOverrideActionUpdateEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
@@ -799,17 +799,17 @@ type V2BillingContractPricingOverrideActionUpdateParams struct {
 
 // Pricing override actions to apply.
 type V2BillingContractPricingOverrideActionParams struct {
-	// Parameters for adding a pricing override.
+	// Add a pricing override.
 	Add *V2BillingContractPricingOverrideActionAddParams `form:"add" json:"add,omitempty"`
-	// Parameters for removing a pricing override.
+	// Remove a pricing override.
 	Remove *V2BillingContractPricingOverrideActionRemoveParams `form:"remove" json:"remove,omitempty"`
 	// The type of pricing override action.
 	Type *string `form:"type" json:"type"`
-	// Parameters for updating a pricing override.
+	// Update a pricing override.
 	Update *V2BillingContractPricingOverrideActionUpdateParams `form:"update" json:"update,omitempty"`
 }
 
-// Activate a Draft Contract object by ID.
+// Activate a draft contract.
 type V2BillingContractActivateParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.
@@ -819,7 +819,7 @@ type V2BillingContractActivateParams struct {
 // Per-pricing-line proration behavior overrides. Falls back to `proration_behavior` if
 // not specified for a given line.
 type V2BillingContractCancelCancelPricingLineParams struct {
-	// The ID of the pricing line.
+	// The id of the pricing line.
 	ID *string `form:"id" json:"id,omitempty"`
 	// The lookup key of the pricing line.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
@@ -828,7 +828,7 @@ type V2BillingContractCancelCancelPricingLineParams struct {
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
 }
 
-// Cancel a Contract object by ID.
+// Cancel an active contract.
 type V2BillingContractCancelParams struct {
 	Params `form:"*"`
 	// Per-pricing-line proration behavior overrides. Falls back to `proration_behavior` if
@@ -877,7 +877,7 @@ type V2BillingContractCreateBillingSettingsBillSettingsDetailsCalculationParams 
 	Tax *V2BillingContractCreateBillingSettingsBillSettingsDetailsCalculationTaxParams `form:"tax" json:"tax,omitempty"`
 }
 
-// The number of time units before the invoice is past due.
+// How long the customer has to pay the invoice before it's past due.
 type V2BillingContractCreateBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueParams struct {
 	// The interval unit.
 	Interval *string `form:"interval" json:"interval"`
@@ -887,7 +887,7 @@ type V2BillingContractCreateBillingSettingsBillSettingsDetailsInvoiceTimeUntilDu
 
 // Invoice settings.
 type V2BillingContractCreateBillingSettingsBillSettingsDetailsInvoiceParams struct {
-	// The number of time units before the invoice is past due.
+	// How long the customer has to pay the invoice before it's past due.
 	TimeUntilDue *V2BillingContractCreateBillingSettingsBillSettingsDetailsInvoiceTimeUntilDueParams `form:"time_until_due" json:"time_until_due,omitempty"`
 }
 
@@ -909,7 +909,7 @@ type V2BillingContractCreateBillingSettingsBillingProfileDetailsParams struct {
 
 // The collection settings details configures how payments are collected on the contract.
 type V2BillingContractCreateBillingSettingsCollectionSettingsDetailsParams struct {
-	// The collection method.
+	// How payment is collected for the contract.
 	CollectionMethod *string `form:"collection_method" json:"collection_method"`
 	// The payment method configuration.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration" json:"payment_method_configuration,omitempty"`
@@ -941,7 +941,7 @@ type V2BillingContractCreateOneTimeFeeParams struct {
 	BillAt *V2BillingContractCreateOneTimeFeeBillAtParams `form:"bill_at" json:"bill_at"`
 	// A user-provided lookup key.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// The ID of the v1 Product for this fee.
+	// The id of the product for this fee.
 	Product *string `form:"product" json:"product"`
 }
 
@@ -1005,7 +1005,7 @@ type V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideParams 
 	Priority *int64 `form:"priority" json:"priority,omitempty"`
 	// When the override starts. Defaults to the pricing line's start if not specified.
 	StartsAt *V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
-	// The type of override. Currently only `overwrite_price` is supported.
+	// The type of override.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -1027,7 +1027,7 @@ type V2BillingContractCreatePricingLinePricingPriceDetailsQuantityChangeEffectiv
 }
 
 // Quantity changes for the pricing line. For now, at most one entry is allowed.
-// A quantity change clears all future quantity changes on this pricing line.
+// A quantity change clears all future quantity changes on this pricing line. Defaults to 1.
 type V2BillingContractCreatePricingLinePricingPriceDetailsQuantityChangeParams struct {
 	// When this quantity change takes effect.
 	EffectiveAt *V2BillingContractCreatePricingLinePricingPriceDetailsQuantityChangeEffectiveAtParams `form:"effective_at" json:"effective_at"`
@@ -1037,12 +1037,12 @@ type V2BillingContractCreatePricingLinePricingPriceDetailsQuantityChangeParams s
 
 // V1 price details. Required if `type` is `price`.
 type V2BillingContractCreatePricingLinePricingPriceDetailsParams struct {
-	// The ID of the V1 price.
+	// The id of the price.
 	Price *string `form:"price" json:"price"`
 	// Pricing overrides embedded directly on this pricing line.
 	PricingOverrides []*V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideParams `form:"pricing_overrides" json:"pricing_overrides,omitempty"`
 	// Quantity changes for the pricing line. For now, at most one entry is allowed.
-	// A quantity change clears all future quantity changes on this pricing line.
+	// A quantity change clears all future quantity changes on this pricing line. Defaults to 1.
 	QuantityChanges []*V2BillingContractCreatePricingLinePricingPriceDetailsQuantityChangeParams `form:"quantity_changes" json:"quantity_changes,omitempty"`
 }
 
@@ -1093,8 +1093,8 @@ type V2BillingContractCreatePricingOverrideEndsAtParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Criteria determining which rates the multiplier applies to.
-type V2BillingContractCreatePricingOverrideMultiplierCriterionParams struct {
+// Criteria determining which rates the multiply_pricing override applies to.
+type V2BillingContractCreatePricingOverrideMultiplyPricingCriterionParams struct {
 	// Filter by pricing line IDs.
 	PricingLineIDs []*string `form:"pricing_line_ids" json:"pricing_line_ids,omitempty"`
 	// Filter by pricing line lookup keys.
@@ -1103,11 +1103,11 @@ type V2BillingContractCreatePricingOverrideMultiplierCriterionParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for a multiplier override. Required if `type` is `multiplier`.
-type V2BillingContractCreatePricingOverrideMultiplierParams struct {
-	// Criteria determining which rates the multiplier applies to.
-	Criteria []*V2BillingContractCreatePricingOverrideMultiplierCriterionParams `form:"criteria" json:"criteria,omitempty"`
-	// The multiplier factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
+// Parameters for a multiply_pricing override. Required if `type` is `multiply_pricing`.
+type V2BillingContractCreatePricingOverrideMultiplyPricingParams struct {
+	// Criteria determining which rates the multiply_pricing override applies to.
+	Criteria []*V2BillingContractCreatePricingOverrideMultiplyPricingCriterionParams `form:"criteria" json:"criteria,omitempty"`
+	// The multiply_pricing factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
 	Factor *string `form:"factor" json:"factor"`
 }
 
@@ -1125,17 +1125,17 @@ type V2BillingContractCreatePricingOverrideParams struct {
 	EndsAt *V2BillingContractCreatePricingOverrideEndsAtParams `form:"ends_at" json:"ends_at"`
 	// A user-provided lookup key to reference this pricing override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Parameters for a multiplier override. Required if `type` is `multiplier`.
-	Multiplier *V2BillingContractCreatePricingOverrideMultiplierParams `form:"multiplier" json:"multiplier,omitempty"`
+	// Parameters for a multiply_pricing override. Required if `type` is `multiply_pricing`.
+	MultiplyPricing *V2BillingContractCreatePricingOverrideMultiplyPricingParams `form:"multiply_pricing" json:"multiply_pricing,omitempty"`
 	// The priority of this override relative to others. The highest priority is 0 and the lowest is 100.
-	Priority *int64 `form:"priority" json:"priority"`
+	Priority *int64 `form:"priority" json:"priority,omitempty"`
 	// When the pricing override starts.
 	StartsAt *V2BillingContractCreatePricingOverrideStartsAtParams `form:"starts_at" json:"starts_at"`
 	// The type of pricing override.
 	Type *string `form:"type" json:"type"`
 }
 
-// Create a Contract object.
+// Create a draft contract.
 type V2BillingContractCreateParams struct {
 	Params `form:"*"`
 	// The billing cycle anchor for the contract. If not provided, defaults to the pricing line start time.
@@ -1168,12 +1168,12 @@ func (p *V2BillingContractCreateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Delete a draft Contract object by ID.
+// Delete a draft contract.
 type V2BillingContractDeleteParams struct {
 	Params `form:"*"`
 }
 
-// Retrieve a Contract object by ID.
+// Retrieve a contract.
 type V2BillingContractRetrieveParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.
@@ -1182,7 +1182,7 @@ type V2BillingContractRetrieveParams struct {
 
 // The end time for the pricing line.
 type V2BillingContractUpdatePricingLineActionAddEndsAtParams struct {
-	// The timestamp when the item ends.
+	// The timestamp when the pricing ends.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of end time to apply.
 	Type *string `form:"type" json:"type"`
@@ -1240,7 +1240,7 @@ type V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsPricingOverri
 	Priority *int64 `form:"priority" json:"priority,omitempty"`
 	// When the override starts. Defaults to the pricing line's start if not specified.
 	StartsAt *V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsPricingOverrideStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
-	// The type of override. Currently only `overwrite_price` is supported.
+	// The type of override.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -1262,7 +1262,7 @@ type V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsQuantityChang
 }
 
 // Quantity changes for the pricing line. For now, at most one entry is allowed.
-// A quantity change clears all future quantity changes on this pricing line.
+// A quantity change clears all future quantity changes on this pricing line. Defaults to 1.
 type V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsQuantityChangeParams struct {
 	// When this quantity change takes effect.
 	EffectiveAt *V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsQuantityChangeEffectiveAtParams `form:"effective_at" json:"effective_at"`
@@ -1272,12 +1272,12 @@ type V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsQuantityChang
 
 // V1 price details. Required if `type` is `price`.
 type V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsParams struct {
-	// The ID of the V1 price.
+	// The id of the price.
 	Price *string `form:"price" json:"price"`
 	// Pricing overrides embedded directly on this pricing line.
 	PricingOverrides []*V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsPricingOverrideParams `form:"pricing_overrides" json:"pricing_overrides,omitempty"`
 	// Quantity changes for the pricing line. For now, at most one entry is allowed.
-	// A quantity change clears all future quantity changes on this pricing line.
+	// A quantity change clears all future quantity changes on this pricing line. Defaults to 1.
 	QuantityChanges []*V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsQuantityChangeParams `form:"quantity_changes" json:"quantity_changes,omitempty"`
 }
 
@@ -1291,13 +1291,13 @@ type V2BillingContractUpdatePricingLineActionAddPricingParams struct {
 
 // The start time for the pricing line.
 type V2BillingContractUpdatePricingLineActionAddStartsAtParams struct {
-	// The timestamp when the item starts.
+	// The timestamp when the pricing starts.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of start time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for adding a pricing line.
+// Add a pricing line.
 type V2BillingContractUpdatePricingLineActionAddParams struct {
 	// The end time for the pricing line.
 	EndsAt *V2BillingContractUpdatePricingLineActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
@@ -1320,15 +1320,15 @@ func (p *V2BillingContractUpdatePricingLineActionAddParams) AddMetadata(key stri
 	p.Metadata[key] = value
 }
 
-// Parameters for removing a pricing line.
+// Remove a pricing line.
 type V2BillingContractUpdatePricingLineActionRemoveParams struct {
-	// The ID of the pricing line to remove.
+	// The id of the pricing line to remove.
 	ID *string `form:"id" json:"id"`
 }
 
-// The updated end time for the pricing line.
+// Updated end time.
 type V2BillingContractUpdatePricingLineActionUpdateEndsAtParams struct {
-	// The timestamp when the item ends.
+	// The timestamp when the pricing ends.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of end time to apply.
 	Type *string `form:"type" json:"type"`
@@ -1336,7 +1336,7 @@ type V2BillingContractUpdatePricingLineActionUpdateEndsAtParams struct {
 
 // The end time for the override.
 type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddEndsAtParams struct {
-	// The timestamp when the item ends.
+	// The timestamp when the pricing ends.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of end time to apply.
 	Type *string `form:"type" json:"type"`
@@ -1366,19 +1366,19 @@ type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOve
 
 // The start time for the override.
 type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddStartsAtParams struct {
-	// The timestamp when the item starts.
+	// The timestamp when the pricing starts.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of start time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for adding a pricing line override.
+// Add a pricing line override.
 type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddParams struct {
 	// The end time for the override.
 	EndsAt *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
 	// A lookup key for the override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object.
+	// Metadata for the pricing override.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Parameters for an overwrite_price override. Required if `type` is `overwrite_price`.
 	OverwritePrice *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddOverwritePriceParams `form:"overwrite_price" json:"overwrite_price,omitempty"`
@@ -1399,41 +1399,41 @@ func (p *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricin
 	p.Metadata[key] = value
 }
 
-// Parameters for removing a pricing line override.
+// Remove a pricing line override.
 type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionRemoveParams struct {
-	// The ID of the pricing line override to remove.
+	// The id of the pricing override to remove.
 	ID *string `form:"id" json:"id,omitempty"`
-	// A lookup key for the override to remove.
+	// Lookup key of the override to remove.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
 }
 
-// The updated end time for the override.
+// Updated end time.
 type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateEndsAtParams struct {
-	// The timestamp when the item ends.
+	// The timestamp when the pricing ends.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of end time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// The updated start time for the override.
+// Updated start time.
 type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateStartsAtParams struct {
-	// The timestamp when the item starts.
+	// The timestamp when the pricing starts.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of start time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for updating a pricing line override.
+// Update a pricing line override.
 type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateParams struct {
-	// The updated end time for the override.
+	// Updated end time.
 	EndsAt *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
-	// The ID of the pricing line override to update.
+	// The id of the pricing override to update.
 	ID *string `form:"id" json:"id,omitempty"`
-	// A lookup key for the override to update.
+	// Updated lookup key.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object.
+	// Metadata for the pricing override.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// The updated start time for the override.
+	// Updated start time.
 	StartsAt *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
 }
 
@@ -1448,13 +1448,13 @@ func (p *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricin
 
 // Pricing override actions to apply to the overrides embedded on this pricing line.
 type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionParams struct {
-	// Parameters for adding a pricing line override.
+	// Add a pricing line override.
 	Add *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddParams `form:"add" json:"add,omitempty"`
-	// Parameters for removing a pricing line override.
+	// Remove a pricing line override.
 	Remove *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionRemoveParams `form:"remove" json:"remove,omitempty"`
 	// The type of pricing line override action.
 	Type *string `form:"type" json:"type"`
-	// Parameters for updating a pricing line override.
+	// Update a pricing line override.
 	Update *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateParams `form:"update" json:"update,omitempty"`
 }
 
@@ -1482,54 +1482,54 @@ type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsParams str
 	QuantityChanges []*V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsQuantityChangeParams `form:"quantity_changes" json:"quantity_changes,omitempty"`
 }
 
-// Pricing updates for the pricing line (quantity changes and pricing override actions).
+// Updated pricing configuration.
 type V2BillingContractUpdatePricingLineActionUpdatePricingParams struct {
 	// V1 price details. Present when the pricing line type is `price`.
 	PriceDetails *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsParams `form:"price_details" json:"price_details,omitempty"`
 }
 
-// The updated start time for the pricing line.
+// Updated start time.
 type V2BillingContractUpdatePricingLineActionUpdateStartsAtParams struct {
-	// The timestamp when the item starts.
+	// The timestamp when the pricing starts.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of start time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for updating a pricing line.
+// Update a pricing line.
 type V2BillingContractUpdatePricingLineActionUpdateParams struct {
-	// The updated end time for the pricing line.
+	// Updated end time.
 	EndsAt *V2BillingContractUpdatePricingLineActionUpdateEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
-	// The ID of the pricing line.
+	// The id of the pricing line.
 	ID *string `form:"id" json:"id"`
-	// Pricing updates for the pricing line (quantity changes and pricing override actions).
+	// Updated pricing configuration.
 	Pricing *V2BillingContractUpdatePricingLineActionUpdatePricingParams `form:"pricing" json:"pricing,omitempty"`
-	// The updated start time for the pricing line.
+	// Updated start time.
 	StartsAt *V2BillingContractUpdatePricingLineActionUpdateStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
 }
 
 // Pricing line actions to apply.
 type V2BillingContractUpdatePricingLineActionParams struct {
-	// Parameters for adding a pricing line.
+	// Add a pricing line.
 	Add *V2BillingContractUpdatePricingLineActionAddParams `form:"add" json:"add,omitempty"`
-	// Parameters for removing a pricing line.
+	// Remove a pricing line.
 	Remove *V2BillingContractUpdatePricingLineActionRemoveParams `form:"remove" json:"remove,omitempty"`
 	// The type of pricing line action.
 	Type *string `form:"type" json:"type"`
-	// Parameters for updating a pricing line.
+	// Update a pricing line.
 	Update *V2BillingContractUpdatePricingLineActionUpdateParams `form:"update" json:"update,omitempty"`
 }
 
 // The end time for the pricing override.
 type V2BillingContractUpdatePricingOverrideActionAddEndsAtParams struct {
-	// The timestamp when the item ends.
+	// The timestamp when the pricing ends.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of end time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Criteria determining which rates the multiplier applies to.
-type V2BillingContractUpdatePricingOverrideActionAddMultiplierCriterionParams struct {
+// Criteria determining which rates the multiply_pricing override applies to.
+type V2BillingContractUpdatePricingOverrideActionAddMultiplyPricingCriterionParams struct {
 	// Filter by pricing line IDs.
 	PricingLineIDs []*string `form:"pricing_line_ids" json:"pricing_line_ids,omitempty"`
 	// Filter by pricing line lookup keys.
@@ -1538,11 +1538,11 @@ type V2BillingContractUpdatePricingOverrideActionAddMultiplierCriterionParams st
 	Type *string `form:"type" json:"type"`
 }
 
-// A multiplier override to add.
-type V2BillingContractUpdatePricingOverrideActionAddMultiplierParams struct {
-	// Criteria determining which rates the multiplier applies to.
-	Criteria []*V2BillingContractUpdatePricingOverrideActionAddMultiplierCriterionParams `form:"criteria" json:"criteria"`
-	// The multiplier factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
+// A multiply_pricing override to add.
+type V2BillingContractUpdatePricingOverrideActionAddMultiplyPricingParams struct {
+	// Criteria determining which rates the multiply_pricing override applies to.
+	Criteria []*V2BillingContractUpdatePricingOverrideActionAddMultiplyPricingCriterionParams `form:"criteria" json:"criteria"`
+	// The multiply_pricing factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
 	Factor *string `form:"factor" json:"factor"`
 }
 
@@ -1570,39 +1570,39 @@ type V2BillingContractUpdatePricingOverrideActionAddOverwritePriceParams struct 
 
 // The start time for the pricing override.
 type V2BillingContractUpdatePricingOverrideActionAddStartsAtParams struct {
-	// The timestamp when the item starts.
+	// The timestamp when the pricing starts.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of start time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for adding a pricing override.
+// Add a pricing override.
 type V2BillingContractUpdatePricingOverrideActionAddParams struct {
 	// The end time for the pricing override.
 	EndsAt *V2BillingContractUpdatePricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
 	// A lookup key for the pricing override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// A multiplier override to add.
-	Multiplier *V2BillingContractUpdatePricingOverrideActionAddMultiplierParams `form:"multiplier" json:"multiplier,omitempty"`
+	// A multiply_pricing override to add.
+	MultiplyPricing *V2BillingContractUpdatePricingOverrideActionAddMultiplyPricingParams `form:"multiply_pricing" json:"multiply_pricing,omitempty"`
 	// An overwrite price override to add.
 	OverwritePrice *V2BillingContractUpdatePricingOverrideActionAddOverwritePriceParams `form:"overwrite_price" json:"overwrite_price,omitempty"`
 	// The priority for the pricing override. The highest priority is 0 and the lowest is 100.
-	Priority *int64 `form:"priority" json:"priority"`
+	Priority *int64 `form:"priority" json:"priority,omitempty"`
 	// The start time for the pricing override.
 	StartsAt *V2BillingContractUpdatePricingOverrideActionAddStartsAtParams `form:"starts_at" json:"starts_at"`
 	// The type of pricing override to add.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for removing a pricing override.
+// Remove a pricing override.
 type V2BillingContractUpdatePricingOverrideActionRemoveParams struct {
-	// The ID of the pricing override to remove.
+	// The id of the pricing override to remove.
 	ID *string `form:"id" json:"id"`
 }
 
 // The updated end time for the pricing override.
 type V2BillingContractUpdatePricingOverrideActionUpdateEndsAtParams struct {
-	// The timestamp when the item ends.
+	// The timestamp when the pricing ends.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of end time to apply.
 	Type *string `form:"type" json:"type"`
@@ -1610,13 +1610,13 @@ type V2BillingContractUpdatePricingOverrideActionUpdateEndsAtParams struct {
 
 // The updated start time for the pricing override.
 type V2BillingContractUpdatePricingOverrideActionUpdateStartsAtParams struct {
-	// The timestamp when the item starts.
+	// The timestamp when the pricing starts.
 	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
 	// The type of start time to apply.
 	Type *string `form:"type" json:"type"`
 }
 
-// Parameters for updating a pricing override.
+// Update a pricing override.
 type V2BillingContractUpdatePricingOverrideActionUpdateParams struct {
 	// The updated end time for the pricing override.
 	EndsAt *V2BillingContractUpdatePricingOverrideActionUpdateEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
@@ -1628,17 +1628,17 @@ type V2BillingContractUpdatePricingOverrideActionUpdateParams struct {
 
 // Pricing override actions to apply.
 type V2BillingContractUpdatePricingOverrideActionParams struct {
-	// Parameters for adding a pricing override.
+	// Add a pricing override.
 	Add *V2BillingContractUpdatePricingOverrideActionAddParams `form:"add" json:"add,omitempty"`
-	// Parameters for removing a pricing override.
+	// Remove a pricing override.
 	Remove *V2BillingContractUpdatePricingOverrideActionRemoveParams `form:"remove" json:"remove,omitempty"`
 	// The type of pricing override action.
 	Type *string `form:"type" json:"type"`
-	// Parameters for updating a pricing override.
+	// Update a pricing override.
 	Update *V2BillingContractUpdatePricingOverrideActionUpdateParams `form:"update" json:"update,omitempty"`
 }
 
-// Update a Contract object by ID.
+// Update a draft or active contract.
 type V2BillingContractUpdateParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.

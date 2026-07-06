@@ -13711,7 +13711,7 @@ func TestV2BillingContractPostService(t *testing.T) {
 			{
 				EndsAt: &stripe.V2BillingContractPricingLineEndsAtParams{
 					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("contract_end"),
+					Type:      stripe.String("timestamp"),
 				},
 				LookupKey: stripe.String("lookup_key"),
 				Metadata:  map[string]string{"key": "metadata"},
@@ -13722,7 +13722,7 @@ func TestV2BillingContractPostService(t *testing.T) {
 							{
 								EndsAt: &stripe.V2BillingContractPricingLinePricingPriceDetailsPricingOverrideEndsAtParams{
 									Timestamp: stripe.Time(time.Now()),
-									Type:      stripe.String("contract_end"),
+									Type:      stripe.String("timestamp"),
 								},
 								LookupKey: stripe.String("lookup_key"),
 								Metadata:  map[string]string{"key": "metadata"},
@@ -13741,7 +13741,7 @@ func TestV2BillingContractPostService(t *testing.T) {
 								Priority: stripe.Int64(1165461084),
 								StartsAt: &stripe.V2BillingContractPricingLinePricingPriceDetailsPricingOverrideStartsAtParams{
 									Timestamp: stripe.Time(time.Now()),
-									Type:      stripe.String("contract_start"),
+									Type:      stripe.String("timestamp"),
 								},
 								Type: stripe.String("overwrite_price"),
 							},
@@ -13760,7 +13760,7 @@ func TestV2BillingContractPostService(t *testing.T) {
 				},
 				StartsAt: &stripe.V2BillingContractPricingLineStartsAtParams{
 					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("contract_start"),
+					Type:      stripe.String("timestamp"),
 				},
 			},
 		},
@@ -13784,7 +13784,7 @@ func TestV2BillingContractPostClient(t *testing.T) {
 			{
 				EndsAt: &stripe.V2BillingContractCreatePricingLineEndsAtParams{
 					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("contract_end"),
+					Type:      stripe.String("timestamp"),
 				},
 				LookupKey: stripe.String("lookup_key"),
 				Metadata:  map[string]string{"key": "metadata"},
@@ -13795,7 +13795,7 @@ func TestV2BillingContractPostClient(t *testing.T) {
 							{
 								EndsAt: &stripe.V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideEndsAtParams{
 									Timestamp: stripe.Time(time.Now()),
-									Type:      stripe.String("contract_end"),
+									Type:      stripe.String("timestamp"),
 								},
 								LookupKey: stripe.String("lookup_key"),
 								Metadata:  map[string]string{"key": "metadata"},
@@ -13814,7 +13814,7 @@ func TestV2BillingContractPostClient(t *testing.T) {
 								Priority: stripe.Int64(1165461084),
 								StartsAt: &stripe.V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideStartsAtParams{
 									Timestamp: stripe.Time(time.Now()),
-									Type:      stripe.String("contract_start"),
+									Type:      stripe.String("timestamp"),
 								},
 								Type: stripe.String("overwrite_price"),
 							},
@@ -13833,7 +13833,7 @@ func TestV2BillingContractPostClient(t *testing.T) {
 				},
 				StartsAt: &stripe.V2BillingContractCreatePricingLineStartsAtParams{
 					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("contract_start"),
+					Type:      stripe.String("timestamp"),
 				},
 			},
 		},

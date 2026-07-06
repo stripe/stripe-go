@@ -31,7 +31,7 @@ type V2BillingContractPricingLineQuantityChange struct {
 	Created time.Time `json:"created"`
 	// The timestamp when this quantity change takes effect.
 	EffectiveAt time.Time `json:"effective_at"`
-	// The ID of the quantity change object.
+	// The id of the quantity change object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
@@ -39,7 +39,7 @@ type V2BillingContractPricingLineQuantityChange struct {
 	Object string `json:"object"`
 	// The pricing configuration for the associated pricing line.
 	Pricing *V2BillingContractPricingLineQuantityChangePricing `json:"pricing"`
-	// The ID of the pricing line associated with this quantity change.
+	// The id of the pricing line associated with this quantity change.
 	PricingLine string `json:"pricing_line"`
 	// The quantity at the effective time.
 	Quantity float64 `json:"quantity,string"`
