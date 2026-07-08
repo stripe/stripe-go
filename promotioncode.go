@@ -50,7 +50,7 @@ type PromotionCodePromotionParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies). Each currency must be different from the `minimum_amount_currency` set on the promotion code.
 type PromotionCodeRestrictionsCurrencyOptionsParams struct {
 	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
 	MinimumAmount *int64 `form:"minimum_amount" json:"minimum_amount,omitempty"`
@@ -58,7 +58,7 @@ type PromotionCodeRestrictionsCurrencyOptionsParams struct {
 
 // Settings that restrict the redemption of the promotion code.
 type PromotionCodeRestrictionsParams struct {
-	// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies). Each currency must be different from the `minimum_amount_currency` set on the promotion code.
 	CurrencyOptions map[string]*PromotionCodeRestrictionsCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
 	// A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
 	FirstTimeTransaction *bool `form:"first_time_transaction" json:"first_time_transaction,omitempty"`
@@ -130,7 +130,7 @@ type PromotionCodeCreatePromotionParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies). Each currency must be different from the `minimum_amount_currency` set on the promotion code.
 type PromotionCodeCreateRestrictionsCurrencyOptionsParams struct {
 	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
 	MinimumAmount *int64 `form:"minimum_amount" json:"minimum_amount,omitempty"`
@@ -138,7 +138,7 @@ type PromotionCodeCreateRestrictionsCurrencyOptionsParams struct {
 
 // Settings that restrict the redemption of the promotion code.
 type PromotionCodeCreateRestrictionsParams struct {
-	// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies). Each currency must be different from the `minimum_amount_currency` set on the promotion code.
 	CurrencyOptions map[string]*PromotionCodeCreateRestrictionsCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
 	// A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
 	FirstTimeTransaction *bool `form:"first_time_transaction" json:"first_time_transaction,omitempty"`
@@ -201,7 +201,7 @@ func (p *PromotionCodeRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies). Each currency must be different from the `minimum_amount_currency` set on the promotion code.
 type PromotionCodeUpdateRestrictionsCurrencyOptionsParams struct {
 	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
 	MinimumAmount *int64 `form:"minimum_amount" json:"minimum_amount,omitempty"`
@@ -209,7 +209,7 @@ type PromotionCodeUpdateRestrictionsCurrencyOptionsParams struct {
 
 // Settings that restrict the redemption of the promotion code.
 type PromotionCodeUpdateRestrictionsParams struct {
-	// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies). Each currency must be different from the `minimum_amount_currency` set on the promotion code.
 	CurrencyOptions map[string]*PromotionCodeUpdateRestrictionsCurrencyOptionsParams `form:"currency_options" json:"currency_options,omitempty"`
 }
 

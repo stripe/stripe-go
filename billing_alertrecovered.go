@@ -6,7 +6,16 @@
 
 package stripe
 
+// The aggregation period for which this alert recovered
+type BillingAlertRecoveredAggregationPeriod struct {
+	// End time of the aggregation period
+	EndsAt int64 `json:"ends_at"`
+	// Start time of the aggregation period
+	StartsAt int64 `json:"starts_at"`
+}
 type BillingAlertRecovered struct {
+	// The aggregation period for which this alert recovered
+	AggregationPeriod *BillingAlertRecoveredAggregationPeriod `json:"aggregation_period,omitempty"`
 	// A billing alert is a resource that notifies you when a certain usage threshold on a meter is crossed. For example, you might create a billing alert to notify you when a certain user made 100 API requests.
 	Alert *BillingAlert `json:"alert"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

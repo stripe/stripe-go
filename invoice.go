@@ -2976,7 +2976,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	PauseCollection *InvoiceCreatePreviewScheduleDetailsPhasePauseCollectionParams `form:"pause_collection" json:"pause_collection,omitempty"`
 	// Controls whether the subscription schedule should create [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://docs.stripe.com/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
-	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
+	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase. Prefer to specify `now` over an explicit timestamp when appropriate to avoid unexpected behavior due to request delays or clock skew resulting in the phase being slightly backdated or postdated.
 	StartDate    *int64 `form:"start_date" json:"start_date,omitempty"`
 	StartDateNow *bool  `form:"-"` // See custom AppendTo
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.

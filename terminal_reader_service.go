@@ -67,6 +67,18 @@ func (c v1TerminalReaderService) Delete(ctx context.Context, id string, params *
 	return reader, err
 }
 
+// Initiates a gift card activation flow on a Reader and optionally sets its balance.
+func (c v1TerminalReaderService) ActivateGiftCard(ctx context.Context, id string, params *TerminalReaderActivateGiftCardParams) (*TerminalReader, error) {
+	if params == nil {
+		params = &TerminalReaderActivateGiftCardParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/terminal/readers/%s/activate_gift_card", id)
+	reader := &TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
 // Cancels the current reader action. See [Programmatic Cancellation](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven#programmatic-cancellation) for more details.
 func (c v1TerminalReaderService) CancelAction(ctx context.Context, id string, params *TerminalReaderCancelActionParams) (*TerminalReader, error) {
 	if params == nil {
@@ -74,6 +86,30 @@ func (c v1TerminalReaderService) CancelAction(ctx context.Context, id string, pa
 	}
 	params.Context = ctx
 	path := FormatURLPath("/v1/terminal/readers/%s/cancel_action", id)
+	reader := &TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
+// Initiates a gift card cashout flow on a Reader. A cashout sets the gift card balance to 0.
+func (c v1TerminalReaderService) CashoutGiftCard(ctx context.Context, id string, params *TerminalReaderCashoutGiftCardParams) (*TerminalReader, error) {
+	if params == nil {
+		params = &TerminalReaderCashoutGiftCardParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/terminal/readers/%s/cashout_gift_card", id)
+	reader := &TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
+// Initiates a gift card balance check flow on a Reader.
+func (c v1TerminalReaderService) CheckGiftCardBalance(ctx context.Context, id string, params *TerminalReaderCheckGiftCardBalanceParams) (*TerminalReader, error) {
+	if params == nil {
+		params = &TerminalReaderCheckGiftCardBalanceParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/terminal/readers/%s/check_gift_card_balance", id)
 	reader := &TerminalReader{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
 	return reader, err
@@ -146,6 +182,18 @@ func (c v1TerminalReaderService) RefundPayment(ctx context.Context, id string, p
 	}
 	params.Context = ctx
 	path := FormatURLPath("/v1/terminal/readers/%s/refund_payment", id)
+	reader := &TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
+// Initiates a gift card reload flow on a Reader by adding the specified amount to its balance.
+func (c v1TerminalReaderService) ReloadGiftCard(ctx context.Context, id string, params *TerminalReaderReloadGiftCardParams) (*TerminalReader, error) {
+	if params == nil {
+		params = &TerminalReaderReloadGiftCardParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/terminal/readers/%s/reload_gift_card", id)
 	reader := &TerminalReader{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
 	return reader, err

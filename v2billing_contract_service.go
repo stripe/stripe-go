@@ -17,7 +17,7 @@ type v2BillingContractService struct {
 	Key string
 }
 
-// Create a Contract object.
+// Create a draft contract.
 func (c v2BillingContractService) Create(ctx context.Context, params *V2BillingContractCreateParams) (*V2BillingContract, error) {
 	if params == nil {
 		params = &V2BillingContractCreateParams{}
@@ -29,7 +29,7 @@ func (c v2BillingContractService) Create(ctx context.Context, params *V2BillingC
 	return contract, err
 }
 
-// Retrieve a Contract object by ID.
+// Retrieve a contract.
 func (c v2BillingContractService) Retrieve(ctx context.Context, id string, params *V2BillingContractRetrieveParams) (*V2BillingContract, error) {
 	if params == nil {
 		params = &V2BillingContractRetrieveParams{}
@@ -41,7 +41,7 @@ func (c v2BillingContractService) Retrieve(ctx context.Context, id string, param
 	return contract, err
 }
 
-// Update a Contract object by ID.
+// Update a draft or active contract.
 func (c v2BillingContractService) Update(ctx context.Context, id string, params *V2BillingContractUpdateParams) (*V2BillingContract, error) {
 	if params == nil {
 		params = &V2BillingContractUpdateParams{}
@@ -53,7 +53,7 @@ func (c v2BillingContractService) Update(ctx context.Context, id string, params 
 	return contract, err
 }
 
-// Delete a draft Contract object by ID.
+// Delete a draft contract.
 func (c v2BillingContractService) Delete(ctx context.Context, id string, params *V2BillingContractDeleteParams) (*V2DeletedObject, error) {
 	if params == nil {
 		params = &V2BillingContractDeleteParams{}
@@ -65,7 +65,7 @@ func (c v2BillingContractService) Delete(ctx context.Context, id string, params 
 	return deletedObj, err
 }
 
-// Activate a Draft Contract object by ID.
+// Activate a draft contract.
 func (c v2BillingContractService) Activate(ctx context.Context, id string, params *V2BillingContractActivateParams) (*V2BillingContract, error) {
 	if params == nil {
 		params = &V2BillingContractActivateParams{}
@@ -77,7 +77,7 @@ func (c v2BillingContractService) Activate(ctx context.Context, id string, param
 	return contract, err
 }
 
-// Cancel a Contract object by ID.
+// Cancel an active contract.
 func (c v2BillingContractService) Cancel(ctx context.Context, id string, params *V2BillingContractCancelParams) (*V2BillingContract, error) {
 	if params == nil {
 		params = &V2BillingContractCancelParams{}
@@ -89,7 +89,7 @@ func (c v2BillingContractService) Cancel(ctx context.Context, id string, params 
 	return contract, err
 }
 
-// List Contract objects with pagination.
+// List contracts.
 func (c v2BillingContractService) List(ctx context.Context, listParams *V2BillingContractListParams) *V2List[*V2BillingContract] {
 	if listParams == nil {
 		listParams = &V2BillingContractListParams{}

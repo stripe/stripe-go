@@ -60,6 +60,15 @@ const (
 	CheckoutSessionAutomaticSurchargeTaxBehaviorUnspecified CheckoutSessionAutomaticSurchargeTaxBehavior = "unspecified"
 )
 
+// Controls how much address information Checkout collects when automatic tax is enabled.
+type CheckoutSessionAutomaticTaxAddressCollectionPrecision string
+
+// List of values that CheckoutSessionAutomaticTaxAddressCollectionPrecision can take
+const (
+	CheckoutSessionAutomaticTaxAddressCollectionPrecisionFull    CheckoutSessionAutomaticTaxAddressCollectionPrecision = "full"
+	CheckoutSessionAutomaticTaxAddressCollectionPrecisionMinimal CheckoutSessionAutomaticTaxAddressCollectionPrecision = "minimal"
+)
+
 // Type of the account referenced.
 type CheckoutSessionAutomaticTaxLiabilityType string
 
@@ -1215,6 +1224,20 @@ const (
 // If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 //
 // When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsPaycoSetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPaycoSetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsPaycoSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsPaycoSetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 type CheckoutSessionPaymentMethodOptionsPayNowSetupFutureUsage string
 
 // List of values that CheckoutSessionPaymentMethodOptionsPayNowSetupFutureUsage can take
@@ -1385,6 +1408,20 @@ type CheckoutSessionPaymentMethodOptionsSamsungPayCaptureMethod string
 // List of values that CheckoutSessionPaymentMethodOptionsSamsungPayCaptureMethod can take
 const (
 	CheckoutSessionPaymentMethodOptionsSamsungPayCaptureMethodManual CheckoutSessionPaymentMethodOptionsSamsungPayCaptureMethod = "manual"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsSamsungPaySetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsSamsungPaySetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsSamsungPaySetupFutureUsageNone CheckoutSessionPaymentMethodOptionsSamsungPaySetupFutureUsage = "none"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -3911,7 +3948,7 @@ type CheckoutSessionSubscriptionDataTrialSettingsParams struct {
 type CheckoutSessionSubscriptionDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
-	// A future timestamp to anchor the subscription's billing cycle for new subscriptions. You can't set this parameter if `ui_mode` is `elements`.
+	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
 	BillingCycleAnchorConfig *CheckoutSessionSubscriptionDataBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config" json:"billing_cycle_anchor_config,omitempty"`
@@ -6409,7 +6446,7 @@ type CheckoutSessionCreateSubscriptionDataTrialSettingsParams struct {
 type CheckoutSessionCreateSubscriptionDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent" json:"application_fee_percent,omitempty"`
-	// A future timestamp to anchor the subscription's billing cycle for new subscriptions. You can't set this parameter if `ui_mode` is `elements`.
+	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
 	BillingCycleAnchorConfig *CheckoutSessionCreateSubscriptionDataBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config" json:"billing_cycle_anchor_config,omitempty"`
@@ -7203,6 +7240,8 @@ type CheckoutSessionAutomaticTaxLiability struct {
 	Type CheckoutSessionAutomaticTaxLiabilityType `json:"type"`
 }
 type CheckoutSessionAutomaticTax struct {
+	// Controls how much address information Checkout collects when automatic tax is enabled.
+	AddressCollectionPrecision CheckoutSessionAutomaticTaxAddressCollectionPrecision `json:"address_collection_precision,omitempty"`
 	// Indicates whether automatic tax is enabled for the session
 	Enabled bool `json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -7256,7 +7295,7 @@ type CheckoutSessionCollectedInformationShippingDetails struct {
 	Name string `json:"name"`
 }
 
-// Customer's tax ids for this Checkout Session.
+// Customer's tax id for this Checkout Session.
 type CheckoutSessionCollectedInformationTaxID struct {
 	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 	Type CheckoutSessionCollectedInformationTaxIDType `json:"type"`
@@ -7276,8 +7315,8 @@ type CheckoutSessionCollectedInformation struct {
 	Phone string `json:"phone,omitempty"`
 	// Shipping information for this Checkout Session.
 	ShippingDetails *CheckoutSessionCollectedInformationShippingDetails `json:"shipping_details"`
-	// Customer's tax ids for this Checkout Session.
-	TaxIDs []*CheckoutSessionCollectedInformationTaxID `json:"tax_ids,omitempty"`
+	// Customer's tax id for this Checkout Session.
+	TaxID *CheckoutSessionCollectedInformationTaxID `json:"tax_id,omitempty"`
 }
 
 // Results of `consent_collection` for this session.
@@ -8083,6 +8122,14 @@ type CheckoutSessionPaymentMethodOptionsP24 struct {
 type CheckoutSessionPaymentMethodOptionsPayco struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod CheckoutSessionPaymentMethodOptionsPaycoCaptureMethod `json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsPaycoSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type CheckoutSessionPaymentMethodOptionsPayNow struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -8187,6 +8234,14 @@ type CheckoutSessionPaymentMethodOptionsRevolutPay struct {
 type CheckoutSessionPaymentMethodOptionsSamsungPay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod CheckoutSessionPaymentMethodOptionsSamsungPayCaptureMethod `json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsSamsungPaySetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type CheckoutSessionPaymentMethodOptionsSatispay struct {
 	// Controls when the funds will be captured from the customer's account.

@@ -91,6 +91,23 @@ func (c Client) Del(id string, params *stripe.TerminalReaderParams) (*stripe.Ter
 	return reader, err
 }
 
+// Initiates a gift card activation flow on a Reader and optionally sets its balance.
+func ActivateGiftCard(id string, params *stripe.TerminalReaderActivateGiftCardParams) (*stripe.TerminalReader, error) {
+	return getC().ActivateGiftCard(id, params)
+}
+
+// Initiates a gift card activation flow on a Reader and optionally sets its balance.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) ActivateGiftCard(id string, params *stripe.TerminalReaderActivateGiftCardParams) (*stripe.TerminalReader, error) {
+	path := stripe.FormatURLPath("/v1/terminal/readers/%s/activate_gift_card", id)
+	reader := &stripe.TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
 // Cancels the current reader action. See [Programmatic Cancellation](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven#programmatic-cancellation) for more details.
 func CancelAction(id string, params *stripe.TerminalReaderCancelActionParams) (*stripe.TerminalReader, error) {
 	return getC().CancelAction(id, params)
@@ -103,6 +120,41 @@ func CancelAction(id string, params *stripe.TerminalReaderCancelActionParams) (*
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) CancelAction(id string, params *stripe.TerminalReaderCancelActionParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s/cancel_action", id)
+	reader := &stripe.TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
+// Initiates a gift card cashout flow on a Reader. A cashout sets the gift card balance to 0.
+func CashoutGiftCard(id string, params *stripe.TerminalReaderCashoutGiftCardParams) (*stripe.TerminalReader, error) {
+	return getC().CashoutGiftCard(id, params)
+}
+
+// Initiates a gift card cashout flow on a Reader. A cashout sets the gift card balance to 0.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) CashoutGiftCard(id string, params *stripe.TerminalReaderCashoutGiftCardParams) (*stripe.TerminalReader, error) {
+	path := stripe.FormatURLPath("/v1/terminal/readers/%s/cashout_gift_card", id)
+	reader := &stripe.TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
+// Initiates a gift card balance check flow on a Reader.
+func CheckGiftCardBalance(id string, params *stripe.TerminalReaderCheckGiftCardBalanceParams) (*stripe.TerminalReader, error) {
+	return getC().CheckGiftCardBalance(id, params)
+}
+
+// Initiates a gift card balance check flow on a Reader.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) CheckGiftCardBalance(id string, params *stripe.TerminalReaderCheckGiftCardBalanceParams) (*stripe.TerminalReader, error) {
+	path := stripe.FormatURLPath(
+		"/v1/terminal/readers/%s/check_gift_card_balance", id)
 	reader := &stripe.TerminalReader{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
 	return reader, err
@@ -209,6 +261,23 @@ func RefundPayment(id string, params *stripe.TerminalReaderRefundPaymentParams) 
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) RefundPayment(id string, params *stripe.TerminalReaderRefundPaymentParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s/refund_payment", id)
+	reader := &stripe.TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
+// Initiates a gift card reload flow on a Reader by adding the specified amount to its balance.
+func ReloadGiftCard(id string, params *stripe.TerminalReaderReloadGiftCardParams) (*stripe.TerminalReader, error) {
+	return getC().ReloadGiftCard(id, params)
+}
+
+// Initiates a gift card reload flow on a Reader by adding the specified amount to its balance.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) ReloadGiftCard(id string, params *stripe.TerminalReaderReloadGiftCardParams) (*stripe.TerminalReader, error) {
+	path := stripe.FormatURLPath("/v1/terminal/readers/%s/reload_gift_card", id)
 	reader := &stripe.TerminalReader{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
 	return reader, err

@@ -17,6 +17,8 @@ type V2CoreAccountListParams struct {
 	Closed *bool `form:"closed" json:"closed,omitempty"`
 	// The upper limit on the number of accounts returned by the List Account request.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
+	// Filter by the network object related to the account. If omitted, returns all Accounts regardless of the network object they have.
+	RelatedNetworkObject *string `form:"related_network_object" json:"related_network_object,omitempty"`
 }
 
 // Parameter to request psp_migration protection.

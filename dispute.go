@@ -819,6 +819,8 @@ type DisputePaymentMethodDetailsCard struct {
 	Brand string `json:"brand"`
 	// The type of dispute opened. Different case types may have varying fees and financial impact.
 	CaseType DisputePaymentMethodDetailsCardCaseType `json:"case_type"`
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Network string `json:"network"`
 	// The card network's specific dispute reason code, which maps to one of Stripe's primary dispute categories to simplify response guidance. The [Network code map](https://stripe.com/docs/disputes/categories#network-code-map) lists all available dispute reason codes by network.
 	NetworkReasonCode string `json:"network_reason_code"`
 }

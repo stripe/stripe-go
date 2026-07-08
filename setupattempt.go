@@ -302,6 +302,7 @@ type SetupAttemptPaymentMethodDetailsNaverPay struct {
 }
 type SetupAttemptPaymentMethodDetailsNzBankAccount struct{}
 type SetupAttemptPaymentMethodDetailsPaypal struct{}
+type SetupAttemptPaymentMethodDetailsPaypay struct{}
 type SetupAttemptPaymentMethodDetailsPayto struct{}
 type SetupAttemptPaymentMethodDetailsPix struct {
 	// Uniquely identifies this particular Pix account. You can use this attribute to check whether two Pix accounts are the same.
@@ -353,6 +354,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	NaverPay       *SetupAttemptPaymentMethodDetailsNaverPay       `json:"naver_pay,omitempty"`
 	NzBankAccount  *SetupAttemptPaymentMethodDetailsNzBankAccount  `json:"nz_bank_account,omitempty"`
 	Paypal         *SetupAttemptPaymentMethodDetailsPaypal         `json:"paypal,omitempty"`
+	Paypay         *SetupAttemptPaymentMethodDetailsPaypay         `json:"paypay,omitempty"`
 	Payto          *SetupAttemptPaymentMethodDetailsPayto          `json:"payto,omitempty"`
 	Pix            *SetupAttemptPaymentMethodDetailsPix            `json:"pix,omitempty"`
 	RevolutPay     *SetupAttemptPaymentMethodDetailsRevolutPay     `json:"revolut_pay,omitempty"`

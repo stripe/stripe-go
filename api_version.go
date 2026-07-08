@@ -7,5 +7,5 @@
 package stripe
 
 const (
-	APIVersion string = "2026-07-01.preview"
+	APIVersion string = "2026-07-08.preview"
 )

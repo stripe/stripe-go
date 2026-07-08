@@ -37,23 +37,6 @@ const (
 	V2BillingContractBillingSettingsCollectionSettingsDetailsCollectionMethodSendInvoice         V2BillingContractBillingSettingsCollectionSettingsDetailsCollectionMethod = "send_invoice"
 )
 
-// Defines whether the tiered price should be graduated or volume-based.
-type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringMode string
-
-// List of values that V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringMode can take
-const (
-	V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringModeGraduated V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringMode = "graduated"
-	V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringModeVolume    V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringMode = "volume"
-)
-
-// No upper bound to this tier.
-type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTierUpToInf string
-
-// List of values that V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTierUpToInf can take
-const (
-	V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTierUpToInfInf V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTierUpToInf = "inf"
-)
-
 // The type of override.
 type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataType string
 
@@ -71,12 +54,12 @@ const (
 )
 
 // Whether to include or exclude items matching these criteria.
-type V2BillingContractPricingOverridesDataMultiplierCriterionType string
+type V2BillingContractPricingOverridesDataMultiplyPricingCriterionType string
 
-// List of values that V2BillingContractPricingOverridesDataMultiplierCriterionType can take
+// List of values that V2BillingContractPricingOverridesDataMultiplyPricingCriterionType can take
 const (
-	V2BillingContractPricingOverridesDataMultiplierCriterionTypeExclude V2BillingContractPricingOverridesDataMultiplierCriterionType = "exclude"
-	V2BillingContractPricingOverridesDataMultiplierCriterionTypeInclude V2BillingContractPricingOverridesDataMultiplierCriterionType = "include"
+	V2BillingContractPricingOverridesDataMultiplyPricingCriterionTypeExclude V2BillingContractPricingOverridesDataMultiplyPricingCriterionType = "exclude"
+	V2BillingContractPricingOverridesDataMultiplyPricingCriterionTypeInclude V2BillingContractPricingOverridesDataMultiplyPricingCriterionType = "include"
 )
 
 // The type of pricing override.
@@ -84,7 +67,7 @@ type V2BillingContractPricingOverridesDataType string
 
 // List of values that V2BillingContractPricingOverridesDataType can take
 const (
-	V2BillingContractPricingOverridesDataTypeMultiplier V2BillingContractPricingOverridesDataType = "multiplier"
+	V2BillingContractPricingOverridesDataTypeMultiplyPricing V2BillingContractPricingOverridesDataType = "multiply_pricing"
 )
 
 // The current status of the contract.
@@ -98,7 +81,7 @@ const (
 	V2BillingContractStatusEnded    V2BillingContractStatus = "ended"
 )
 
-// The billing cycle anchor for the contract.
+// The billing cycle anchor.
 type V2BillingContractBillingCycleAnchor struct {
 	// The billing cycle anchor as a UTC timestamp.
 	Timestamp time.Time `json:"timestamp"`
@@ -154,7 +137,7 @@ type V2BillingContractBillingSettingsCollectionSettingsDetails struct {
 	PaymentMethodConfiguration string `json:"payment_method_configuration,omitempty"`
 }
 
-// The billing settings for the contract.
+// The billing settings.
 type V2BillingContractBillingSettings struct {
 	// The billing profile details configures who is charged for the contract.
 	BillingProfileDetails *V2BillingContractBillingSettingsBillingProfileDetails `json:"billing_profile_details"`
@@ -164,67 +147,25 @@ type V2BillingContractBillingSettings struct {
 	CollectionSettingsDetails *V2BillingContractBillingSettingsCollectionSettingsDetails `json:"collection_settings_details"`
 }
 
-// When this fee will be billed. Always contains a concrete timestamp.
-type V2BillingContractOneTimeFeesDataBillAt struct {
-	// The timestamp at which the fee will be billed.
-	Timestamp time.Time `json:"timestamp"`
-}
-
-// The one-time fees for this page.
-type V2BillingContractOneTimeFeesData struct {
-	// The amount billed for this fee.
-	Amount Amount `json:"amount"`
-	// When this fee will be billed. Always contains a concrete timestamp.
-	BillAt *V2BillingContractOneTimeFeesDataBillAt `json:"bill_at"`
-	// The ID of the one-time fee.
-	ID string `json:"id"`
-	// The user-provided lookup key.
-	LookupKey string `json:"lookup_key,omitempty"`
-	// The ID of the v1 Product for this fee.
-	Product string `json:"product"`
-}
-
-// The one-time fees of the contract. Only populated when `one_time_fees` is passed in the `include` parameter.
-type V2BillingContractOneTimeFees struct {
-	// The one-time fees for this page.
-	Data []*V2BillingContractOneTimeFeesData `json:"data"`
-}
-
-// Resolved timestamp when the pricing line ends.
+// Timestamp when the pricing line ends.
 type V2BillingContractPricingLinesDataEndsAt struct {
 	// The timestamp when the item ends.
 	Timestamp time.Time `json:"timestamp"`
 }
 
-// Resolved timestamp when this override ends.
+// Timestamp when this override ends.
 type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataEndsAt struct {
 	// The timestamp when the item ends.
 	Timestamp time.Time `json:"timestamp"`
 }
 
-// Each element represents a pricing tier.
-type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTier struct {
-	// Price for the entire tier, represented as a decimal string in minor currency units.
-	FlatAmount string `json:"flat_amount,omitempty"`
-	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units.
-	UnitAmount string `json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier.
-	UpToDecimal float64 `json:"up_to_decimal,string,omitempty"`
-	// No upper bound to this tier.
-	UpToInf V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTierUpToInf `json:"up_to_inf,omitempty"`
-}
-
 // Details for an overwrite_price override.
 type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePrice struct {
-	// Defines whether the tiered price should be graduated or volume-based.
-	TieringMode V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTieringMode `json:"tiering_mode,omitempty"`
-	// Each element represents a pricing tier.
-	Tiers []*V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePriceTier `json:"tiers"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
 	UnitAmount string `json:"unit_amount,omitempty"`
 }
 
-// Resolved timestamp when this override starts.
+// Timestamp when this override starts.
 type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataStartsAt struct {
 	// The timestamp when the item starts.
 	Timestamp time.Time `json:"timestamp"`
@@ -232,15 +173,17 @@ type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataSta
 
 // The pricing line overrides.
 type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesData struct {
-	// Resolved timestamp when this override ends.
+	// Timestamp when this override ends.
 	EndsAt *V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataEndsAt `json:"ends_at"`
+	// The ID of the pricing override.
+	ID string `json:"id"`
 	// The user-provided lookup key for this override.
 	LookupKey string `json:"lookup_key,omitempty"`
 	// Details for an overwrite_price override.
 	OverwritePrice *V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePrice `json:"overwrite_price,omitempty"`
-	// The ID of the pricing line override.
-	PricingOverride string `json:"pricing_override"`
-	// Resolved timestamp when this override starts.
+	// The priority of this override relative to others. Lower number = higher priority.
+	Priority int64 `json:"priority"`
+	// Timestamp when this override starts.
 	StartsAt *V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataStartsAt `json:"starts_at"`
 	// The type of override.
 	Type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataType `json:"type"`
@@ -270,7 +213,7 @@ type V2BillingContractPricingLinesDataPricing struct {
 	Type V2BillingContractPricingLinesDataPricingType `json:"type"`
 }
 
-// Resolved timestamp when the pricing line starts.
+// Timestamp when the pricing line starts.
 type V2BillingContractPricingLinesDataStartsAt struct {
 	// The timestamp when the item starts.
 	Timestamp time.Time `json:"timestamp"`
@@ -278,21 +221,21 @@ type V2BillingContractPricingLinesDataStartsAt struct {
 
 // The pricing lines for this page.
 type V2BillingContractPricingLinesData struct {
-	// Resolved timestamp when the pricing line ends.
+	// Timestamp when the pricing line ends.
 	EndsAt *V2BillingContractPricingLinesDataEndsAt `json:"ends_at"`
-	// The ID of the pricing line.
+	// The id of the pricing line.
 	ID string `json:"id"`
 	// The user-provided lookup key for the pricing line.
 	LookupKey string `json:"lookup_key,omitempty"`
-	// Set of key-value pairs that you can attach to an object.
+	// Set of key-value pairs.
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// The pricing configuration for the pricing line.
 	Pricing *V2BillingContractPricingLinesDataPricing `json:"pricing"`
-	// Resolved timestamp when the pricing line starts.
+	// Timestamp when the pricing line starts.
 	StartsAt *V2BillingContractPricingLinesDataStartsAt `json:"starts_at"`
 }
 
-// The pricing lines of the contract. Only populated when `pricing_lines` is passed in the `include` parameter.
+// The pricing lines. Only populated when `pricing_lines` is passed in the `include` parameter.
 type V2BillingContractPricingLines struct {
 	// The pricing lines for this page.
 	Data []*V2BillingContractPricingLinesData `json:"data"`
@@ -304,21 +247,21 @@ type V2BillingContractPricingOverridesDataEndsAt struct {
 	Timestamp time.Time `json:"timestamp"`
 }
 
-// Criteria determining which rates the multiplier applies to.
-type V2BillingContractPricingOverridesDataMultiplierCriterion struct {
+// Criteria determining which rates the multiply_pricing override applies to.
+type V2BillingContractPricingOverridesDataMultiplyPricingCriterion struct {
 	// Filter by pricing line IDs.
 	PricingLineIDs []string `json:"pricing_line_ids,omitempty"`
 	// Filter by pricing line lookup keys.
 	PricingLineLookupKeys []string `json:"pricing_line_lookup_keys,omitempty"`
 	// Whether to include or exclude items matching these criteria.
-	Type V2BillingContractPricingOverridesDataMultiplierCriterionType `json:"type"`
+	Type V2BillingContractPricingOverridesDataMultiplyPricingCriterionType `json:"type"`
 }
 
-// Details for a multiplier override.
-type V2BillingContractPricingOverridesDataMultiplier struct {
-	// Criteria determining which rates the multiplier applies to.
-	Criteria []*V2BillingContractPricingOverridesDataMultiplierCriterion `json:"criteria"`
-	// The multiplier factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
+// Details for a multiply_pricing override.
+type V2BillingContractPricingOverridesDataMultiplyPricing struct {
+	// Criteria determining which rates the multiply_pricing override applies to.
+	Criteria []*V2BillingContractPricingOverridesDataMultiplyPricingCriterion `json:"criteria"`
+	// The multiply_pricing factor, represented as a decimal string. e.g. "0.8" for a 20% reduction.
 	Factor string `json:"factor"`
 }
 
@@ -336,8 +279,8 @@ type V2BillingContractPricingOverridesData struct {
 	ID string `json:"id"`
 	// The user-provided lookup key for the pricing override.
 	LookupKey string `json:"lookup_key,omitempty"`
-	// Details for a multiplier override.
-	Multiplier *V2BillingContractPricingOverridesDataMultiplier `json:"multiplier,omitempty"`
+	// Details for a multiply_pricing override.
+	MultiplyPricing *V2BillingContractPricingOverridesDataMultiplyPricing `json:"multiply_pricing,omitempty"`
 	// The priority of this override relative to others. Lower number = higher priority.
 	Priority int64 `json:"priority"`
 	// Resolved timestamp when the pricing override starts.
@@ -346,63 +289,51 @@ type V2BillingContractPricingOverridesData struct {
 	Type V2BillingContractPricingOverridesDataType `json:"type"`
 }
 
-// The pricing overrides of the contract. Only populated when `pricing_overrides` is passed in the `include` parameter.
+// The pricing overrides. Only populated when `pricing_overrides` is passed in the `include` parameter.
 type V2BillingContractPricingOverrides struct {
 	// The pricing overrides for this page.
 	Data []*V2BillingContractPricingOverridesData `json:"data"`
 }
 
-// Details of the active contract status.
-type V2BillingContractStatusDetailsActive struct {
+// Historical timestamps of when the contract transitioned into each status.
+type V2BillingContractStatusTransitions struct {
 	// The timestamp when the contract was activated.
-	ActivatedAt time.Time `json:"activated_at"`
-}
-
-// Details of the canceled contract status.
-type V2BillingContractStatusDetailsCanceled struct {
+	ActivatedAt time.Time `json:"activated_at,omitempty"`
 	// The timestamp when the contract was canceled.
-	CanceledAt time.Time `json:"canceled_at"`
+	CanceledAt time.Time `json:"canceled_at,omitempty"`
+	// The timestamp when the contract ended.
+	EndedAt time.Time `json:"ended_at,omitempty"`
 }
 
-// Information about the contract status transitions.
-type V2BillingContractStatusDetails struct {
-	// Details of the active contract status.
-	Active *V2BillingContractStatusDetailsActive `json:"active,omitempty"`
-	// Details of the canceled contract status.
-	Canceled *V2BillingContractStatusDetailsCanceled `json:"canceled,omitempty"`
-}
-
-// Main Contract resource representing a comprehensive billing agreement
+// Contract resource representing a comprehensive sales agreement
 type V2BillingContract struct {
 	APIResource
-	// The billing cycle anchor for the contract.
+	// The billing cycle anchor.
 	BillingCycleAnchor *V2BillingContractBillingCycleAnchor `json:"billing_cycle_anchor,omitempty"`
-	// The billing settings for the contract.
+	// The billing settings.
 	BillingSettings *V2BillingContractBillingSettings `json:"billing_settings,omitempty"`
 	// A unique user-provided contract number e.g. C-2026-0001.
 	ContractNumber string `json:"contract_number"`
-	// Timestamp of when the object was created.
+	// Timestamp of when the contract was created.
 	Created time.Time `json:"created"`
-	// The currency of the contract.
+	// The currency.
 	Currency Currency `json:"currency"`
-	// The ID of the customer associated with the contract.
+	// The customer id.
 	Customer string `json:"customer"`
-	// The ID of the contract object.
+	// The contract id.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// Set of key-value pairs that you can attach to an object.
+	// Set of key-value pairs.
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// The one-time fees of the contract. Only populated when `one_time_fees` is passed in the `include` parameter.
-	OneTimeFees *V2BillingContractOneTimeFees `json:"one_time_fees,omitempty"`
-	// The pricing lines of the contract. Only populated when `pricing_lines` is passed in the `include` parameter.
+	// The pricing lines. Only populated when `pricing_lines` is passed in the `include` parameter.
 	PricingLines *V2BillingContractPricingLines `json:"pricing_lines,omitempty"`
-	// The pricing overrides of the contract. Only populated when `pricing_overrides` is passed in the `include` parameter.
+	// The pricing overrides. Only populated when `pricing_overrides` is passed in the `include` parameter.
 	PricingOverrides *V2BillingContractPricingOverrides `json:"pricing_overrides,omitempty"`
 	// The current status of the contract.
 	Status V2BillingContractStatus `json:"status"`
-	// Information about the contract status transitions.
-	StatusDetails *V2BillingContractStatusDetails `json:"status_details"`
+	// Historical timestamps of when the contract transitioned into each status.
+	StatusTransitions *V2BillingContractStatusTransitions `json:"status_transitions,omitempty"`
 }
