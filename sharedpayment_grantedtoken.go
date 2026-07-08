@@ -106,7 +106,7 @@ const (
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXAccountHolderTypeIndividual SharedPaymentGrantedTokenPaymentMethodDetailsFPXAccountHolderType = "individual"
 )
 
-// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
+// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bnp_paribas`, `bank_rakyat`, `bsn`, `cimb`, `citibank`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `mbsb_bank`, `pb_enterprise`, or `bank_of_china`.
 type SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank string
 
 // List of values that SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank can take
@@ -119,14 +119,17 @@ const (
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankBankMuamalat      SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "bank_muamalat"
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankBankOfChina       SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "bank_of_china"
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankBankRakyat        SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "bank_rakyat"
+	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankBnpParibas        SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "bnp_paribas"
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankBsn               SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "bsn"
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankCimb              SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "cimb"
+	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankCitibank          SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "citibank"
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankDeutscheBank      SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "deutsche_bank"
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankHongLeongBank     SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "hong_leong_bank"
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankHsbc              SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "hsbc"
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankKfh               SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "kfh"
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankMaybank2e         SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "maybank2e"
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankMaybank2u         SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "maybank2u"
+	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankMbsbBank          SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "mbsb_bank"
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankOcbc              SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "ocbc"
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankPbEnterprise      SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "pb_enterprise"
 	SharedPaymentGrantedTokenPaymentMethodDetailsFPXBankPublicBank        SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank = "public_bank"
@@ -691,7 +694,7 @@ type SharedPaymentGrantedTokenPaymentMethodDetailsEPS struct {
 type SharedPaymentGrantedTokenPaymentMethodDetailsFPX struct {
 	// Account holder type, if provided. Can be one of `individual` or `company`.
 	AccountHolderType SharedPaymentGrantedTokenPaymentMethodDetailsFPXAccountHolderType `json:"account_holder_type"`
-	// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
+	// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bnp_paribas`, `bank_rakyat`, `bsn`, `cimb`, `citibank`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `mbsb_bank`, `pb_enterprise`, or `bank_of_china`.
 	Bank SharedPaymentGrantedTokenPaymentMethodDetailsFPXBank `json:"bank"`
 }
 type SharedPaymentGrantedTokenPaymentMethodDetailsGiftCard struct {

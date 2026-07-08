@@ -87,13 +87,18 @@ type TerminalReaderActionType string
 
 // List of values that TerminalReaderActionType can take
 const (
+	TerminalReaderActionTypeActivateGiftCard     TerminalReaderActionType = "activate_gift_card"
+	TerminalReaderActionTypeCashoutGiftCard      TerminalReaderActionType = "cashout_gift_card"
+	TerminalReaderActionTypeCheckGiftCardBalance TerminalReaderActionType = "check_gift_card_balance"
 	TerminalReaderActionTypeCollectInputs        TerminalReaderActionType = "collect_inputs"
 	TerminalReaderActionTypeCollectPaymentMethod TerminalReaderActionType = "collect_payment_method"
 	TerminalReaderActionTypeConfirmPaymentIntent TerminalReaderActionType = "confirm_payment_intent"
+	TerminalReaderActionTypeDeactivateGiftCard   TerminalReaderActionType = "deactivate_gift_card"
 	TerminalReaderActionTypePrintContent         TerminalReaderActionType = "print_content"
 	TerminalReaderActionTypeProcessPaymentIntent TerminalReaderActionType = "process_payment_intent"
 	TerminalReaderActionTypeProcessSetupIntent   TerminalReaderActionType = "process_setup_intent"
 	TerminalReaderActionTypeRefundPayment        TerminalReaderActionType = "refund_payment"
+	TerminalReaderActionTypeReloadGiftCard       TerminalReaderActionType = "reload_gift_card"
 	TerminalReaderActionTypeSetReaderDisplay     TerminalReaderActionType = "set_reader_display"
 )
 
@@ -195,6 +200,32 @@ func (p *TerminalReaderListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The initial balance to set on the gift card.
+type TerminalReaderActivateGiftCardBalanceParams struct {
+	// The initial balance amount to be loaded when activating the gift card, in the smallest currency unit
+	Amount *int64 `form:"amount" json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+}
+
+// Initiates a gift card activation flow on a Reader and optionally sets its balance.
+type TerminalReaderActivateGiftCardParams struct {
+	Params `form:"*"`
+	// The initial balance to set on the gift card.
+	Balance *TerminalReaderActivateGiftCardBalanceParams `form:"balance" json:"balance,omitempty"`
+	// The brand of the gift card.
+	Brand *string `form:"brand" json:"brand"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// The Stripe account ID to process the gift card operation on behalf of.
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderActivateGiftCardParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Cancels the current reader action. See [Programmatic Cancellation](https://docs.stripe.com/docs/terminal/payments/collect-card-payment?terminal-sdk-platform=server-driven#programmatic-cancellation) for more details.
 type TerminalReaderCancelActionParams struct {
 	Params `form:"*"`
@@ -204,6 +235,38 @@ type TerminalReaderCancelActionParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *TerminalReaderCancelActionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Initiates a gift card cashout flow on a Reader. A cashout sets the gift card balance to 0.
+type TerminalReaderCashoutGiftCardParams struct {
+	Params `form:"*"`
+	// The brand of the gift card.
+	Brand *string `form:"brand" json:"brand"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// The Stripe account ID to process the gift card operation on behalf of.
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderCashoutGiftCardParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Initiates a gift card balance check flow on a Reader.
+type TerminalReaderCheckGiftCardBalanceParams struct {
+	Params `form:"*"`
+	// The brand of the gift card.
+	Brand *string `form:"brand" json:"brand"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// The Stripe account ID to process the gift card operation on behalf of.
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderCheckGiftCardBalanceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -296,6 +359,8 @@ type TerminalReaderCollectPaymentMethodCollectConfigParams struct {
 	AllowRedisplay *string `form:"allow_redisplay" json:"allow_redisplay,omitempty"`
 	// Enables cancel button on transaction screens.
 	EnableCustomerCancellation *bool `form:"enable_customer_cancellation" json:"enable_customer_cancellation,omitempty"`
+	// The gift card brand to use in the transaction.
+	GiftCardBrand *string `form:"gift_card_brand" json:"gift_card_brand,omitempty"`
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping *bool `form:"skip_tipping" json:"skip_tipping,omitempty"`
 	// Tipping configuration for this transaction.
@@ -352,6 +417,8 @@ type TerminalReaderProcessPaymentIntentProcessConfigParams struct {
 	AllowRedisplay *string `form:"allow_redisplay" json:"allow_redisplay,omitempty"`
 	// Enables cancel button on transaction screens.
 	EnableCustomerCancellation *bool `form:"enable_customer_cancellation" json:"enable_customer_cancellation,omitempty"`
+	// The gift card brand to use in the transaction.
+	GiftCardBrand *string `form:"gift_card_brand" json:"gift_card_brand,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme.
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// Override showing a tipping selection screen on this transaction.
@@ -439,6 +506,26 @@ func (p *TerminalReaderRefundPaymentParams) AddMetadata(key string, value string
 	}
 
 	p.Metadata[key] = value
+}
+
+// Initiates a gift card reload flow on a Reader by adding the specified amount to its balance.
+type TerminalReaderReloadGiftCardParams struct {
+	Params `form:"*"`
+	// The amount to add to the gift card balance, in the smallest currency unit.
+	Amount *int64 `form:"amount" json:"amount"`
+	// The brand of the gift card.
+	Brand *string `form:"brand" json:"brand"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// The Stripe account ID to process the gift card operation on behalf of.
+	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderReloadGiftCardParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Array of line items to display.
@@ -575,6 +662,30 @@ func (p *TerminalReaderCreateParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// Represents a reader action to activate a gift card
+type TerminalReaderActionActivateGiftCard struct {
+	// The gift card used in this reader action.
+	GiftCard *GiftCard `json:"gift_card,omitempty"`
+	// The GiftCardOperation created for this reader action.
+	GiftCardOperation *GiftCardOperation `json:"gift_card_operation,omitempty"`
+}
+
+// Represents a reader action to cash out a gift card
+type TerminalReaderActionCashoutGiftCard struct {
+	// The gift card used in this reader action.
+	GiftCard *GiftCard `json:"gift_card,omitempty"`
+	// The GiftCardOperation created for this reader action.
+	GiftCardOperation *GiftCardOperation `json:"gift_card_operation,omitempty"`
+}
+
+// Represents a reader action to check a gift card balance
+type TerminalReaderActionCheckGiftCardBalance struct {
+	// The gift card used in this reader action.
+	GiftCard *GiftCard `json:"gift_card,omitempty"`
+	// The GiftCardOperation created for this reader action.
+	GiftCardOperation *GiftCardOperation `json:"gift_card_operation,omitempty"`
 }
 
 // Default text of input being collected.
@@ -733,6 +844,14 @@ type TerminalReaderActionConfirmPaymentIntent struct {
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 }
 
+// Represents a reader action to deactivate a gift card
+type TerminalReaderActionDeactivateGiftCard struct {
+	// The gift card used in this reader action.
+	GiftCard *GiftCard `json:"gift_card,omitempty"`
+	// The GiftCardOperation created for this reader action.
+	GiftCardOperation *GiftCardOperation `json:"gift_card_operation,omitempty"`
+}
+
 // Metadata of an uploaded file
 type TerminalReaderActionPrintContentImage struct {
 	// Creation time of the object (in seconds since the Unix epoch).
@@ -827,6 +946,14 @@ type TerminalReaderActionRefundPayment struct {
 	ReverseTransfer bool `json:"reverse_transfer,omitempty"`
 }
 
+// Represents a reader action to reload a gift card
+type TerminalReaderActionReloadGiftCard struct {
+	// The gift card used in this reader action.
+	GiftCard *GiftCard `json:"gift_card,omitempty"`
+	// The GiftCardOperation created for this reader action.
+	GiftCardOperation *GiftCardOperation `json:"gift_card_operation,omitempty"`
+}
+
 // List of line items in the cart.
 type TerminalReaderActionSetReaderDisplayCartLineItem struct {
 	// The amount of the line item. A positive integer in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
@@ -859,14 +986,22 @@ type TerminalReaderActionSetReaderDisplay struct {
 
 // The most recent action performed by the reader.
 type TerminalReaderAction struct {
+	// Represents a reader action to activate a gift card
+	ActivateGiftCard *TerminalReaderActionActivateGiftCard `json:"activate_gift_card,omitempty"`
 	// The reader action failed due to an [API error](https://docs.stripe.com/api/errors). Only present when `status` is `failed` and the underlying failure was an API error. Avoid parsing the `message` field for programmatic logic; use `type` or `code` instead. The `message` field is for display to humans only and may be updated at anytime. Requires [reader version](https://docs.stripe.com/terminal/readers/stripe-reader-s700-s710#reader-software-version) 2.42 or later. Readers on older versions always return null.
 	APIError *Error `json:"api_error"`
+	// Represents a reader action to cash out a gift card
+	CashoutGiftCard *TerminalReaderActionCashoutGiftCard `json:"cashout_gift_card,omitempty"`
+	// Represents a reader action to check a gift card balance
+	CheckGiftCardBalance *TerminalReaderActionCheckGiftCardBalance `json:"check_gift_card_balance,omitempty"`
 	// Represents a reader action to collect customer inputs
 	CollectInputs *TerminalReaderActionCollectInputs `json:"collect_inputs,omitempty"`
 	// Represents a reader action to collect a payment method
 	CollectPaymentMethod *TerminalReaderActionCollectPaymentMethod `json:"collect_payment_method,omitempty"`
 	// Represents a reader action to confirm a payment
 	ConfirmPaymentIntent *TerminalReaderActionConfirmPaymentIntent `json:"confirm_payment_intent,omitempty"`
+	// Represents a reader action to deactivate a gift card
+	DeactivateGiftCard *TerminalReaderActionDeactivateGiftCard `json:"deactivate_gift_card,omitempty"`
 	// Failure code, only set if status is `failed`.
 	FailureCode string `json:"failure_code"`
 	// Detailed failure message, only set if status is `failed`.
@@ -879,6 +1014,8 @@ type TerminalReaderAction struct {
 	ProcessSetupIntent *TerminalReaderActionProcessSetupIntent `json:"process_setup_intent,omitempty"`
 	// Represents a reader action to refund a payment
 	RefundPayment *TerminalReaderActionRefundPayment `json:"refund_payment,omitempty"`
+	// Represents a reader action to reload a gift card
+	ReloadGiftCard *TerminalReaderActionReloadGiftCard `json:"reload_gift_card,omitempty"`
 	// Represents a reader action to set the reader display
 	SetReaderDisplay *TerminalReaderActionSetReaderDisplay `json:"set_reader_display,omitempty"`
 	// Status of the action performed by the reader.

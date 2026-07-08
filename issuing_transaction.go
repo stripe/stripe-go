@@ -8,6 +8,20 @@ package stripe
 
 import "encoding/json"
 
+// The card network over which Stripe received the transaction. This field may differ from the associated card's primary network.
+type IssuingTransactionNetworkDataRoutedNetwork string
+
+// List of values that IssuingTransactionNetworkDataRoutedNetwork can take
+const (
+	IssuingTransactionNetworkDataRoutedNetworkCirrus     IssuingTransactionNetworkDataRoutedNetwork = "cirrus"
+	IssuingTransactionNetworkDataRoutedNetworkInterlink  IssuingTransactionNetworkDataRoutedNetwork = "interlink"
+	IssuingTransactionNetworkDataRoutedNetworkMaestro    IssuingTransactionNetworkDataRoutedNetwork = "maestro"
+	IssuingTransactionNetworkDataRoutedNetworkMastercard IssuingTransactionNetworkDataRoutedNetwork = "mastercard"
+	IssuingTransactionNetworkDataRoutedNetworkOther      IssuingTransactionNetworkDataRoutedNetwork = "other"
+	IssuingTransactionNetworkDataRoutedNetworkPlus       IssuingTransactionNetworkDataRoutedNetwork = "plus"
+	IssuingTransactionNetworkDataRoutedNetworkVisa       IssuingTransactionNetworkDataRoutedNetwork = "visa"
+)
+
 // The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
 type IssuingTransactionPurchaseDetailsFuelType string
 
@@ -259,15 +273,32 @@ type IssuingTransactionCryptoTransaction struct {
 	// The crypto transaction variant for this array entry.
 	Type string `json:"type"`
 }
+type IssuingTransactionNetworkDataTraceID struct {
+	// The unique reference number within the specified financial network on the specified network date.
+	BanknetReferenceNumber string `json:"banknet_reference_number"`
+	// The identifier of the program or service.
+	FinancialNetworkCode string `json:"financial_network_code"`
+	// The card network's record date for this transaction.
+	NetworkDate string `json:"network_date"`
+}
 
 // Details about the transaction, such as processing dates, set by the card network.
 type IssuingTransactionNetworkData struct {
 	// The network-provided acquirer reference number for this transaction, if available. Use this value for downstream operational workflows such as filing disputes with the card network.
 	AcquirerReferenceNumber string `json:"acquirer_reference_number,omitempty"`
+	// The two-letter country code of the acquirer ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	AcquiringInstitutionCountry string `json:"acquiring_institution_country,omitempty"`
+	// Identifier assigned to the acquirer by the card network. Sometimes this value is not provided by the network; in this case, the value will be null.
+	AcquiringInstitutionID string `json:"acquiring_institution_id,omitempty"`
 	// A code created by Stripe which is shared with the merchant to validate the authorization. This field will be populated if the authorization message was approved. The code typically starts with the letter "S", followed by a six-digit number. For example, "S498162". Please note that the code is not guaranteed to be unique across authorizations.
 	AuthorizationCode string `json:"authorization_code"`
 	// The date the transaction was processed by the card network. This can be different from the date the seller recorded the transaction depending on when the acquirer submits the transaction to the network.
 	ProcessingDate string `json:"processing_date"`
+	// Identifier assigned by the acquirer to track all messages related to this transaction.
+	RetrievalReferenceNumber string `json:"retrieval_reference_number,omitempty"`
+	// The card network over which Stripe received the transaction. This field may differ from the associated card's primary network.
+	RoutedNetwork IssuingTransactionNetworkDataRoutedNetwork `json:"routed_network,omitempty"`
+	TraceID       *IssuingTransactionNetworkDataTraceID      `json:"trace_id,omitempty"`
 	// Unique identifier for the authorization assigned by the card network used to match subsequent messages, disputes, and transactions.
 	TransactionID string `json:"transaction_id"`
 }

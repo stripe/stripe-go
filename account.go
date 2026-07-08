@@ -4653,7 +4653,7 @@ type AccountCreateTOSAcceptanceParams struct {
 // With [Connect](https://docs.stripe.com/docs/connect), you can create Stripe accounts for your users.
 // To do this, you'll first need to [register your platform](https://dashboard.stripe.com/account/applications/settings).
 //
-// If you've already collected information for your connected accounts, you [can prefill that information](https://docs.stripe.com/docs/connect/best-practices#onboarding) when
+// If you've already collected information for your connected accounts, you [can prefill that information](https://docs.stripe.com/connect/marketplace/tasks/create#prefill-account-information) when
 // creating the account. Connect Onboarding won't ask for the prefilled information during account onboarding.
 // You can prefill any information on the account.
 type AccountCreateParams struct {
@@ -5032,7 +5032,8 @@ type AccountCompany struct {
 	// The Kana variation of the company's primary address (Japan only).
 	AddressKana *AccountCompanyAddressKana `json:"address_kana,omitempty"`
 	// The Kanji variation of the company's primary address (Japan only).
-	AddressKanji *AccountCompanyAddressKanji `json:"address_kanji,omitempty"`
+	AddressKanji          *AccountCompanyAddressKanji `json:"address_kanji,omitempty"`
+	AdministrativeAddress *Address                    `json:"administrative_address,omitempty"`
 	// This hash is used to attest that the director information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *AccountCompanyDirectorshipDeclaration `json:"directorship_declaration,omitempty"`
 	// Whether the company's directors have been provided. This Boolean will be `true` if you've manually indicated that all directors are provided via [the `directors_provided` parameter](https://docs.stripe.com/api/accounts/update#update_account-company-directors_provided).
@@ -5056,8 +5057,9 @@ type AccountCompany struct {
 	// Whether the company's owners have been provided. This Boolean will be `true` if you've manually indicated that all owners are provided via [the `owners_provided` parameter](https://docs.stripe.com/api/accounts/update#update_account-company-owners_provided), or if Stripe determined that sufficient owners were provided. Stripe determines ownership requirements using both the number of owners provided and their total percent ownership (calculated by adding the `percent_ownership` of each owner together).
 	OwnersProvided bool `json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
-	Phone            string                          `json:"phone,omitempty"`
-	RegistrationDate *AccountCompanyRegistrationDate `json:"registration_date,omitempty"`
+	Phone                    string                          `json:"phone,omitempty"`
+	PrincipalPlaceOfBusiness *Address                        `json:"principal_place_of_business,omitempty"`
+	RegistrationDate         *AccountCompanyRegistrationDate `json:"registration_date,omitempty"`
 	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
 	RepresentativeDeclaration *AccountCompanyRepresentativeDeclaration `json:"representative_declaration,omitempty"`
 	// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details.
@@ -5117,7 +5119,7 @@ type AccountFutureRequirementsAlternative struct {
 	OriginalFieldsDue []string `json:"original_fields_due"`
 }
 
-// Details about validation and verification failures for `due` requirements that must be resolved.
+// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type AccountFutureRequirementsError struct {
 	// The code for the type of error.
 	Code string `json:"code"`
@@ -5135,7 +5137,7 @@ type AccountFutureRequirements struct {
 	CurrentlyDue []string `json:"currently_due"`
 	// This is typed as an enum for consistency with `requirements.disabled_reason`.
 	DisabledReason AccountFutureRequirementsDisabledReason `json:"disabled_reason"`
-	// Details about validation and verification failures for `due` requirements that must be resolved.
+	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountFutureRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well.
 	EventuallyDue []string `json:"eventually_due"`
@@ -5159,7 +5161,7 @@ type AccountRequirementsAlternative struct {
 	OriginalFieldsDue []string `json:"original_fields_due"`
 }
 
-// Details about validation and verification failures for `due` requirements that must be resolved.
+// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type AccountRequirementsError struct {
 	// The code for the type of error.
 	Code string `json:"code"`
@@ -5177,7 +5179,7 @@ type AccountRequirements struct {
 	CurrentlyDue []string `json:"currently_due"`
 	// If the account is disabled, this enum describes why. [Learn more about handling verification issues](https://docs.stripe.com/connect/handling-api-verification).
 	DisabledReason AccountRequirementsDisabledReason `json:"disabled_reason"`
-	// Details about validation and verification failures for `due` requirements that must be resolved.
+	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and `current_deadline` becomes set.
 	EventuallyDue []string `json:"eventually_due"`

@@ -1124,7 +1124,7 @@ type PersonFutureRequirementsAlternative struct {
 	OriginalFieldsDue []string `json:"original_fields_due"`
 }
 
-// Details about validation and verification failures for `due` requirements that must be resolved.
+// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type PersonFutureRequirementsError struct {
 	// The code for the type of error.
 	Code string `json:"code"`
@@ -1140,7 +1140,7 @@ type PersonFutureRequirements struct {
 	Alternatives []*PersonFutureRequirementsAlternative `json:"alternatives"`
 	// Fields that need to be resolved to keep the person's account enabled. If not resolved by the account's `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash, and may immediately become `past_due`, but the account may also be given a grace period depending on the account's enablement state prior to transition.
 	CurrentlyDue []string `json:"currently_due"`
-	// Details about validation and verification failures for `due` requirements that must be resolved.
+	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*PersonFutureRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `future_requirements[current_deadline]` becomes set.
 	EventuallyDue []string `json:"eventually_due"`
@@ -1182,7 +1182,7 @@ type PersonRequirements struct {
 	Alternatives []*PersonRequirementsAlternative `json:"alternatives"`
 	// Fields that need to be resolved to keep the person's account enabled. If not resolved by the account's `current_deadline`, these fields will appear in `past_due` as well, and the account is disabled.
 	CurrentlyDue []string `json:"currently_due"`
-	// Details about validation and verification failures for `due` requirements that must be resolved.
+	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `current_deadline` becomes set.
 	EventuallyDue []string `json:"eventually_due"`

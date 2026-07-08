@@ -27,6 +27,16 @@ const (
 	FinancialConnectionsSessionFiltersAccountSubcategorySavings      FinancialConnectionsSessionFiltersAccountSubcategory = "savings"
 )
 
+// Whether the Session should require that linked accounts support payments and retrieve account numbers before completion.
+type FinancialConnectionsSessionFiltersRequirePaymentMethodSupport string
+
+// List of values that FinancialConnectionsSessionFiltersRequirePaymentMethodSupport can take
+const (
+	FinancialConnectionsSessionFiltersRequirePaymentMethodSupportAll        FinancialConnectionsSessionFiltersRequirePaymentMethodSupport = "all"
+	FinancialConnectionsSessionFiltersRequirePaymentMethodSupportAtLeastOne FinancialConnectionsSessionFiltersRequirePaymentMethodSupport = "at_least_one"
+	FinancialConnectionsSessionFiltersRequirePaymentMethodSupportNone       FinancialConnectionsSessionFiltersRequirePaymentMethodSupport = "none"
+)
+
 // How the user enters the hosted flow. You can only use the values `email` and `url` if you provide `relink_options`.
 type FinancialConnectionsSessionHostedDeliveryMethod string
 
@@ -316,6 +326,8 @@ type FinancialConnectionsSessionFilters struct {
 	Countries []string `json:"countries"`
 	// Stripe ID of the institution with which the customer should be directed to log in.
 	Institution string `json:"institution,omitempty"`
+	// Whether the Session should require that linked accounts support payments and retrieve account numbers before completion.
+	RequirePaymentMethodSupport FinancialConnectionsSessionFiltersRequirePaymentMethodSupport `json:"require_payment_method_support,omitempty"`
 }
 
 // Settings for the Hosted UI mode.

@@ -193,7 +193,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewFPXAccountHolderTypeIndividual ConfirmationTokenPaymentMethodPreviewFPXAccountHolderType = "individual"
 )
 
-// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
+// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bnp_paribas`, `bank_rakyat`, `bsn`, `cimb`, `citibank`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `mbsb_bank`, `pb_enterprise`, or `bank_of_china`.
 type ConfirmationTokenPaymentMethodPreviewFPXBank string
 
 // List of values that ConfirmationTokenPaymentMethodPreviewFPXBank can take
@@ -206,14 +206,17 @@ const (
 	ConfirmationTokenPaymentMethodPreviewFPXBankBankMuamalat      ConfirmationTokenPaymentMethodPreviewFPXBank = "bank_muamalat"
 	ConfirmationTokenPaymentMethodPreviewFPXBankBankOfChina       ConfirmationTokenPaymentMethodPreviewFPXBank = "bank_of_china"
 	ConfirmationTokenPaymentMethodPreviewFPXBankBankRakyat        ConfirmationTokenPaymentMethodPreviewFPXBank = "bank_rakyat"
+	ConfirmationTokenPaymentMethodPreviewFPXBankBnpParibas        ConfirmationTokenPaymentMethodPreviewFPXBank = "bnp_paribas"
 	ConfirmationTokenPaymentMethodPreviewFPXBankBsn               ConfirmationTokenPaymentMethodPreviewFPXBank = "bsn"
 	ConfirmationTokenPaymentMethodPreviewFPXBankCimb              ConfirmationTokenPaymentMethodPreviewFPXBank = "cimb"
+	ConfirmationTokenPaymentMethodPreviewFPXBankCitibank          ConfirmationTokenPaymentMethodPreviewFPXBank = "citibank"
 	ConfirmationTokenPaymentMethodPreviewFPXBankDeutscheBank      ConfirmationTokenPaymentMethodPreviewFPXBank = "deutsche_bank"
 	ConfirmationTokenPaymentMethodPreviewFPXBankHongLeongBank     ConfirmationTokenPaymentMethodPreviewFPXBank = "hong_leong_bank"
 	ConfirmationTokenPaymentMethodPreviewFPXBankHsbc              ConfirmationTokenPaymentMethodPreviewFPXBank = "hsbc"
 	ConfirmationTokenPaymentMethodPreviewFPXBankKfh               ConfirmationTokenPaymentMethodPreviewFPXBank = "kfh"
 	ConfirmationTokenPaymentMethodPreviewFPXBankMaybank2e         ConfirmationTokenPaymentMethodPreviewFPXBank = "maybank2e"
 	ConfirmationTokenPaymentMethodPreviewFPXBankMaybank2u         ConfirmationTokenPaymentMethodPreviewFPXBank = "maybank2u"
+	ConfirmationTokenPaymentMethodPreviewFPXBankMbsbBank          ConfirmationTokenPaymentMethodPreviewFPXBank = "mbsb_bank"
 	ConfirmationTokenPaymentMethodPreviewFPXBankOcbc              ConfirmationTokenPaymentMethodPreviewFPXBank = "ocbc"
 	ConfirmationTokenPaymentMethodPreviewFPXBankPbEnterprise      ConfirmationTokenPaymentMethodPreviewFPXBank = "pb_enterprise"
 	ConfirmationTokenPaymentMethodPreviewFPXBankPublicBank        ConfirmationTokenPaymentMethodPreviewFPXBank = "public_bank"
@@ -963,7 +966,7 @@ type ConfirmationTokenPaymentMethodPreviewEPS struct {
 type ConfirmationTokenPaymentMethodPreviewFPX struct {
 	// Account holder type, if provided. Can be one of `individual` or `company`.
 	AccountHolderType ConfirmationTokenPaymentMethodPreviewFPXAccountHolderType `json:"account_holder_type"`
-	// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
+	// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bnp_paribas`, `bank_rakyat`, `bsn`, `cimb`, `citibank`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `mbsb_bank`, `pb_enterprise`, or `bank_of_china`.
 	Bank ConfirmationTokenPaymentMethodPreviewFPXBank `json:"bank"`
 }
 type ConfirmationTokenPaymentMethodPreviewGiftCard struct {

@@ -1518,6 +1518,20 @@ const (
 // If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 //
 // When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsPaycoSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaycoSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsPaycoSetupFutureUsageNone PaymentIntentPaymentMethodOptionsPaycoSetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 type PaymentIntentPaymentMethodOptionsPayNowSetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsPayNowSetupFutureUsage can take
@@ -1565,6 +1579,22 @@ type PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage string
 const (
 	PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage = "off_session"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsageNone       PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsage = "off_session"
+	PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsage = "on_session"
 )
 
 // The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively. Defaults to `maximum`.
@@ -1735,6 +1765,20 @@ type PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethod string
 // List of values that PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethod can take
 const (
 	PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethodManual PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethod = "manual"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsSamsungPaySetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsSamsungPaySetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsSamsungPaySetupFutureUsageNone PaymentIntentPaymentMethodOptionsSamsungPaySetupFutureUsage = "none"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -5543,15 +5587,24 @@ type PaymentIntentPaymentMethodOptionsPaypayParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                   `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                   `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsPaypayParams.
 type PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField string
 
 const (
-	PaymentIntentPaymentMethodOptionsPaypayParamsUnsetFieldCaptureMethod PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField = "capture_method"
+	PaymentIntentPaymentMethodOptionsPaypayParamsUnsetFieldCaptureMethod    PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField = "capture_method"
+	PaymentIntentPaymentMethodOptionsPaypayParamsUnsetFieldSetupFutureUsage PaymentIntentPaymentMethodOptionsPaypayParamsUnsetField = "setup_future_usage"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -13444,15 +13497,24 @@ type PaymentIntentCreatePaymentMethodOptionsPaypayParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                         `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                         `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsPaypayParams.
 type PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField string
 
 const (
-	PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetFieldCaptureMethod PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField = "capture_method"
+	PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetFieldCaptureMethod    PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField = "capture_method"
+	PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetFieldSetupFutureUsage PaymentIntentCreatePaymentMethodOptionsPaypayParamsUnsetField = "setup_future_usage"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -17961,15 +18023,24 @@ type PaymentIntentUpdatePaymentMethodOptionsPaypayParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                         `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                         `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsPaypayParams.
 type PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField string
 
 const (
-	PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetFieldCaptureMethod PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField = "capture_method"
+	PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetFieldCaptureMethod    PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField = "capture_method"
+	PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetFieldSetupFutureUsage PaymentIntentUpdatePaymentMethodOptionsPaypayParamsUnsetField = "setup_future_usage"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -20834,6 +20905,14 @@ type PaymentIntentPaymentMethodOptionsPayByBank struct{}
 type PaymentIntentPaymentMethodOptionsPayco struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsPaycoCaptureMethod `json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsPaycoSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsPayNow struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -20892,7 +20971,16 @@ type PaymentIntentPaymentMethodOptionsPaypal struct {
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
 	Subsellers []string `json:"subsellers,omitempty"`
 }
-type PaymentIntentPaymentMethodOptionsPaypay struct{}
+type PaymentIntentPaymentMethodOptionsPaypay struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsPaypaySetupFutureUsage `json:"setup_future_usage,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsPaytoMandateOptions struct {
 	// Amount that will be collected. It is required when `amount_type` is `fixed`.
 	Amount int64 `json:"amount"`
@@ -20989,6 +21077,14 @@ type PaymentIntentPaymentMethodOptionsRevolutPay struct {
 type PaymentIntentPaymentMethodOptionsSamsungPay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethod `json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsSamsungPaySetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsSatispay struct {
 	// Controls when the funds will be captured from the customer's account.

@@ -35,7 +35,7 @@ const (
 // with the most recent transactions appearing first.
 type CapitalFinancingTransactionListParams struct {
 	ListParams `form:"*"`
-	// For transactions of type `paydown` and reason `automatic_withholding` only, only returns transactions that were created as a result of this charge.
+	// For transactions of type `payment` and reason `automatic_withholding` only, only returns transactions that were created as a result of this charge.
 	Charge *string `form:"charge" json:"charge,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -43,7 +43,7 @@ type CapitalFinancingTransactionListParams struct {
 	FinancingOffer *string `form:"financing_offer" json:"financing_offer,omitempty"`
 	// Only returns transactions that are responsible for reversing this financing transaction ID.
 	ReversedTransaction *string `form:"reversed_transaction" json:"reversed_transaction,omitempty"`
-	// For transactions of type `paydown` and reason `automatic_withholding` only, only returns transactions that were created as a result of this Treasury Transaction.
+	// For transactions of type `payment` and reason `automatic_withholding` only, only returns transactions that were created as a result of this Treasury Transaction.
 	TreasuryTransaction *string `form:"treasury_transaction" json:"treasury_transaction,omitempty"`
 }
 
@@ -92,7 +92,7 @@ type CapitalFinancingTransactionDetails struct {
 	Currency Currency `json:"currency"`
 	// The fee amount being repaid, paid out, or reversed in minor units.
 	FeeAmount int64 `json:"fee_amount"`
-	// The linked payment for the transaction. This field only applies to financing transactions of type `paydown` and reason `automatic_withholding`.
+	// The linked payment for the transaction. This field only applies to financing transactions of type `payment` and reason `automatic_withholding`.
 	LinkedPayment string `json:"linked_payment,omitempty"`
 	// The reason for the financing transaction (if applicable).
 	Reason CapitalFinancingTransactionDetailsReason `json:"reason,omitempty"`

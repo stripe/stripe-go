@@ -1329,6 +1329,22 @@ type IssuingAuthorizationRedaction struct {
 	Status IssuingAuthorizationRedactionStatus `json:"status"`
 }
 
+// Mastercard identifier for each authorization request.
+type IssuingAuthorizationRequestHistoryNetworkDataTraceID struct {
+	// The unique reference number within the specified financial network on the specified network date.
+	BanknetReferenceNumber string `json:"banknet_reference_number"`
+	// The identifier of the program or service.
+	FinancialNetworkCode string `json:"financial_network_code"`
+	// The card network's record date for this authorization.
+	NetworkDate string `json:"network_date"`
+}
+
+// Details about the authorization request, such as identifiers, set by the card network.
+type IssuingAuthorizationRequestHistoryNetworkData struct {
+	// Mastercard identifier for each authorization request.
+	TraceID *IssuingAuthorizationRequestHistoryNetworkDataTraceID `json:"trace_id"`
+}
+
 // History of every time a `pending_request` authorization was approved/declined, either by you directly or by Stripe (e.g. based on your spending_controls). If the merchant changes the authorization by performing an incremental authorization, you can look at this field to see the previous requests for the authorization. This field can be helpful in determining why a given authorization was approved/declined.
 type IssuingAuthorizationRequestHistory struct {
 	// The `pending_request.amount` at the time of the request, presented in your card's currency and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal). Stripe held this amount from your account to fund the authorization if the request was approved.
@@ -1347,6 +1363,8 @@ type IssuingAuthorizationRequestHistory struct {
 	MerchantAmount int64 `json:"merchant_amount"`
 	// The currency that was collected by the merchant and presented to the cardholder for the authorization. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	MerchantCurrency Currency `json:"merchant_currency"`
+	// Details about the authorization request, such as identifiers, set by the card network.
+	NetworkData *IssuingAuthorizationRequestHistoryNetworkData `json:"network_data,omitempty"`
 	// The card network's estimate of the likelihood that an authorization is fraudulent. Takes on values between 1 and 99.
 	NetworkRiskScore int64 `json:"network_risk_score"`
 	// When an authorization is approved or declined by you or by Stripe, this field provides additional detail on the reason for the outcome.
