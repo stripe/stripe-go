@@ -414,6 +414,16 @@ type IssuingTransactionRedaction struct {
 	Status IssuingTransactionRedactionStatus `json:"status"`
 }
 
+// Details about the transaction for settlement reconciliation.
+type IssuingTransactionSettlementDetails struct {
+	// `merchant_amount` in the settlement currency.
+	Amount int64 `json:"amount"`
+	// Settlement currency.
+	Currency Currency `json:"currency"`
+	// Exchange rate used by the network to convert the `merchant_amount` to `settlement_details.amount`. The `merchant_amount` multiplied with this rate will equal to the `settlement_details.amount`.
+	ExchangeRate float64 `json:"exchange_rate"`
+}
+
 // [Treasury](https://docs.stripe.com/api/treasury) details related to this transaction if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts
 type IssuingTransactionTreasury struct {
 	// The Treasury [ReceivedCredit](https://docs.stripe.com/api/treasury/received_credits) representing this Issuing transaction if it is a refund
@@ -472,6 +482,8 @@ type IssuingTransaction struct {
 	Redaction *IssuingTransactionRedaction `json:"redaction,omitempty"`
 	// The ID of the [settlement](https://docs.stripe.com/api/issuing/settlements) to which this transaction belongs.
 	Settlement *IssuingSettlement `json:"settlement,omitempty"`
+	// Details about the transaction for settlement reconciliation.
+	SettlementDetails *IssuingTransactionSettlementDetails `json:"settlement_details,omitempty"`
 	// [Token](https://docs.stripe.com/api/issuing/tokens/object) object used for this transaction. If a network token was not used for this transaction, this field will be null.
 	Token *IssuingToken `json:"token,omitempty"`
 	// [Treasury](https://docs.stripe.com/api/treasury) details related to this transaction if it was created on a [FinancialAccount](/docs/api/treasury/financial_accounts

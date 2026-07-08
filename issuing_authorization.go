@@ -474,6 +474,19 @@ const (
 	IssuingAuthorizationStatusReversed IssuingAuthorizationStatus = "reversed"
 )
 
+// The method used to confirm the cardholder's identity.
+type IssuingAuthorizationTerminalDataCardholderVerificationResult string
+
+// List of values that IssuingAuthorizationTerminalDataCardholderVerificationResult can take
+const (
+	IssuingAuthorizationTerminalDataCardholderVerificationResultFailed          IssuingAuthorizationTerminalDataCardholderVerificationResult = "failed"
+	IssuingAuthorizationTerminalDataCardholderVerificationResultNone            IssuingAuthorizationTerminalDataCardholderVerificationResult = "none"
+	IssuingAuthorizationTerminalDataCardholderVerificationResultPIN             IssuingAuthorizationTerminalDataCardholderVerificationResult = "pin"
+	IssuingAuthorizationTerminalDataCardholderVerificationResultPINAndSignature IssuingAuthorizationTerminalDataCardholderVerificationResult = "pin_and_signature"
+	IssuingAuthorizationTerminalDataCardholderVerificationResultSignature       IssuingAuthorizationTerminalDataCardholderVerificationResult = "signature"
+	IssuingAuthorizationTerminalDataCardholderVerificationResultUnknown         IssuingAuthorizationTerminalDataCardholderVerificationResult = "unknown"
+)
+
 // The ISO 639-1 language code of the device associated with the tokenization request.
 type IssuingAuthorizationTokenDetailsNetworkDataDeviceLanguage string
 
@@ -1280,8 +1293,12 @@ type IssuingAuthorizationMerchantData struct {
 
 // Details about the authorization, such as identifiers, set by the card network.
 type IssuingAuthorizationNetworkData struct {
+	// Country code of the acquirer assigned by the card network.
+	AcquiringInstitutionCountry string `json:"acquiring_institution_country,omitempty"`
 	// Identifier assigned to the acquirer by the card network. Sometimes this value is not provided by the network; in this case, the value will be `null`.
 	AcquiringInstitutionID string `json:"acquiring_institution_id"`
+	// Identifier assigned by the acquirer to track all messages related to this transaction.
+	RetrievalReferenceNumber string `json:"retrieval_reference_number,omitempty"`
 	// The System Trace Audit Number (STAN) is a 6-digit identifier assigned by the acquirer. Prefer `network_data.transaction_id` if present, unless you have special requirements.
 	SystemTraceAuditNumber string `json:"system_trace_audit_number"`
 	// Unique identifier for the authorization assigned by the card network used to match subsequent messages, disputes, and transactions.
@@ -1338,6 +1355,12 @@ type IssuingAuthorizationRequestHistory struct {
 	ReasonMessage string `json:"reason_message"`
 	// Time when the card network received an authorization request from the acquirer in UTC. Referred to by networks as transmission time.
 	RequestedAt int64 `json:"requested_at"`
+}
+
+// Details about the cardholder verification outcome at the terminal.
+type IssuingAuthorizationTerminalData struct {
+	// The method used to confirm the cardholder's identity.
+	CardholderVerificationResult IssuingAuthorizationTerminalDataCardholderVerificationResult `json:"cardholder_verification_result"`
 }
 type IssuingAuthorizationTokenDetailsNetworkDataDevice struct {
 	// An identifier for the device used during wallet provisioning.
@@ -1506,6 +1529,8 @@ type IssuingAuthorization struct {
 	RequestHistory []*IssuingAuthorizationRequestHistory `json:"request_history"`
 	// The current status of the authorization in its lifecycle.
 	Status IssuingAuthorizationStatus `json:"status"`
+	// Details about the cardholder verification outcome at the terminal.
+	TerminalData *IssuingAuthorizationTerminalData `json:"terminal_data,omitempty"`
 	// [Token](https://docs.stripe.com/api/issuing/tokens/object) object used for this authorization. If a network token was not used for this authorization, this field will be null.
 	Token        *IssuingToken                     `json:"token,omitempty"`
 	TokenDetails *IssuingAuthorizationTokenDetails `json:"token_details,omitempty"`
