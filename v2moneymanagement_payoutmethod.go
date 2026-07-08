@@ -58,9 +58,10 @@ type V2MoneyManagementPayoutMethodType string
 
 // List of values that V2MoneyManagementPayoutMethodType can take
 const (
-	V2MoneyManagementPayoutMethodTypeBankAccount  V2MoneyManagementPayoutMethodType = "bank_account"
-	V2MoneyManagementPayoutMethodTypeCard         V2MoneyManagementPayoutMethodType = "card"
-	V2MoneyManagementPayoutMethodTypeCryptoWallet V2MoneyManagementPayoutMethodType = "crypto_wallet"
+	V2MoneyManagementPayoutMethodTypeBankAccount                  V2MoneyManagementPayoutMethodType = "bank_account"
+	V2MoneyManagementPayoutMethodTypeCard                         V2MoneyManagementPayoutMethodType = "card"
+	V2MoneyManagementPayoutMethodTypeCryptoWallet                 V2MoneyManagementPayoutMethodType = "crypto_wallet"
+	V2MoneyManagementPayoutMethodTypeNetworkBusinessProfileWallet V2MoneyManagementPayoutMethodType = "network_business_profile_wallet"
 )
 
 // Payments status - used when sending OutboundPayments (sending funds to recipients).
@@ -152,6 +153,12 @@ type V2MoneyManagementPayoutMethodCryptoWallet struct {
 	Network V2MoneyManagementPayoutMethodCryptoWalletNetwork `json:"network"`
 }
 
+// The PayoutMethodNetworkBusinessProfileWallet object details.
+type V2MoneyManagementPayoutMethodNetworkBusinessProfileWallet struct {
+	// The Network ID of the Stripe profile.
+	NetworkBusinessProfile string `json:"network_business_profile"`
+}
+
 // Indicates whether the payout method has met the necessary requirements for outbound money movement.
 type V2MoneyManagementPayoutMethodUsageStatus struct {
 	// Payments status - used when sending OutboundPayments (sending funds to recipients).
@@ -181,6 +188,8 @@ type V2MoneyManagementPayoutMethod struct {
 	LatestOutboundSetupIntent string `json:"latest_outbound_setup_intent,omitempty"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// The PayoutMethodNetworkBusinessProfileWallet object details.
+	NetworkBusinessProfileWallet *V2MoneyManagementPayoutMethodNetworkBusinessProfileWallet `json:"network_business_profile_wallet,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// Whether the Payout Method is currently unusable for money movement, despite potentially being correctly set up.

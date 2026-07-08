@@ -144,17 +144,26 @@ const (
 	V2MoneyManagementReceivedCreditStatusDetailsReturnedReasonOriginatorInitiatedReversal V2MoneyManagementReceivedCreditStatusDetailsReturnedReason = "originator_initiated_reversal"
 )
 
+// Open Enum. The type of the sender.
+type V2MoneyManagementReceivedCreditStripeNetworkTransferFromType string
+
+// List of values that V2MoneyManagementReceivedCreditStripeNetworkTransferFromType can take
+const (
+	V2MoneyManagementReceivedCreditStripeNetworkTransferFromTypeNetworkBusinessProfile V2MoneyManagementReceivedCreditStripeNetworkTransferFromType = "network_business_profile"
+)
+
 // Open Enum. The type of flow that caused the ReceivedCredit.
 type V2MoneyManagementReceivedCreditType string
 
 // List of values that V2MoneyManagementReceivedCreditType can take
 const (
-	V2MoneyManagementReceivedCreditTypeBalanceTransfer      V2MoneyManagementReceivedCreditType = "balance_transfer"
-	V2MoneyManagementReceivedCreditTypeBankTransfer         V2MoneyManagementReceivedCreditType = "bank_transfer"
-	V2MoneyManagementReceivedCreditTypeCardSpend            V2MoneyManagementReceivedCreditType = "card_spend"
-	V2MoneyManagementReceivedCreditTypeCryptoWalletTransfer V2MoneyManagementReceivedCreditType = "crypto_wallet_transfer"
-	V2MoneyManagementReceivedCreditTypeExternalCredit       V2MoneyManagementReceivedCreditType = "external_credit"
-	V2MoneyManagementReceivedCreditTypeStripeBalancePayment V2MoneyManagementReceivedCreditType = "stripe_balance_payment"
+	V2MoneyManagementReceivedCreditTypeBalanceTransfer       V2MoneyManagementReceivedCreditType = "balance_transfer"
+	V2MoneyManagementReceivedCreditTypeBankTransfer          V2MoneyManagementReceivedCreditType = "bank_transfer"
+	V2MoneyManagementReceivedCreditTypeCardSpend             V2MoneyManagementReceivedCreditType = "card_spend"
+	V2MoneyManagementReceivedCreditTypeCryptoWalletTransfer  V2MoneyManagementReceivedCreditType = "crypto_wallet_transfer"
+	V2MoneyManagementReceivedCreditTypeExternalCredit        V2MoneyManagementReceivedCreditType = "external_credit"
+	V2MoneyManagementReceivedCreditTypeStripeBalancePayment  V2MoneyManagementReceivedCreditType = "stripe_balance_payment"
+	V2MoneyManagementReceivedCreditTypeStripeNetworkTransfer V2MoneyManagementReceivedCreditType = "stripe_network_transfer"
 )
 
 // This object stores details about the originating Stripe transaction that resulted in the ReceivedCredit. Present if `type` field value is `balance_transfer`.
@@ -363,6 +372,20 @@ type V2MoneyManagementReceivedCreditStripeBalancePayment struct {
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
 }
 
+// Information about the sender of the network transfer.
+type V2MoneyManagementReceivedCreditStripeNetworkTransferFrom struct {
+	// The network ID of the sender.
+	NetworkBusinessProfile string `json:"network_business_profile"`
+	// Open Enum. The type of the sender.
+	Type V2MoneyManagementReceivedCreditStripeNetworkTransferFromType `json:"type"`
+}
+
+// This object stores details about the Stripe network transfer that resulted in the ReceivedCredit. Present if `type` field value is `stripe_network_transfer`.
+type V2MoneyManagementReceivedCreditStripeNetworkTransfer struct {
+	// Information about the sender of the network transfer.
+	From *V2MoneyManagementReceivedCreditStripeNetworkTransferFrom `json:"from"`
+}
+
 // Use ReceivedCredits API to retrieve information on when, where, and how funds are sent into your FinancialAccount.
 type V2MoneyManagementReceivedCredit struct {
 	APIResource
@@ -401,6 +424,8 @@ type V2MoneyManagementReceivedCredit struct {
 	StatusTransitions *V2MoneyManagementReceivedCreditStatusTransitions `json:"status_transitions,omitempty"`
 	// This object stores details about the stripe balance pay refund that resulted in the ReceivedCredit. Present if `type` field value is `stripe_balance_payment`.
 	StripeBalancePayment *V2MoneyManagementReceivedCreditStripeBalancePayment `json:"stripe_balance_payment,omitempty"`
+	// This object stores details about the Stripe network transfer that resulted in the ReceivedCredit. Present if `type` field value is `stripe_network_transfer`.
+	StripeNetworkTransfer *V2MoneyManagementReceivedCreditStripeNetworkTransfer `json:"stripe_network_transfer,omitempty"`
 	// Open Enum. The type of flow that caused the ReceivedCredit.
 	Type V2MoneyManagementReceivedCreditType `json:"type"`
 }

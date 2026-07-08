@@ -104,26 +104,6 @@ type V2BillingContractBillingSettingsParams struct {
 	CollectionSettingsDetails *V2BillingContractBillingSettingsCollectionSettingsDetailsParams `form:"collection_settings_details" json:"collection_settings_details"`
 }
 
-// When this fee should be billed.
-type V2BillingContractOneTimeFeeBillAtParams struct {
-	// The timestamp at which the entry should be billed. Required if `type` is `timestamp`.
-	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
-	// The type of the bill_at.
-	Type *string `form:"type" json:"type"`
-}
-
-// A list of one-time fees to create with the contract. Each fee is billed as individual invoice items per its bill_schedule.
-type V2BillingContractOneTimeFeeParams struct {
-	// The amount to bill.
-	Amount *Amount `form:"amount" json:"amount"`
-	// When this fee should be billed.
-	BillAt *V2BillingContractOneTimeFeeBillAtParams `form:"bill_at" json:"bill_at"`
-	// A user-provided lookup key.
-	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// The id of the product for this fee.
-	Product *string `form:"product" json:"product"`
-}
-
 // When the pricing line ends.
 type V2BillingContractPricingLineEndsAtParams struct {
 	// The timestamp when the item ends. Required if `type` is `timestamp`.
@@ -140,24 +120,8 @@ type V2BillingContractPricingLinePricingPriceDetailsPricingOverrideEndsAtParams 
 	Type *string `form:"type" json:"type"`
 }
 
-// Each element represents a pricing tier.
-type V2BillingContractPricingLinePricingPriceDetailsPricingOverrideOverwritePriceTierParams struct {
-	// Price for the entire tier, represented as a decimal string in minor currency units.
-	FlatAmount *string `form:"flat_amount" json:"flat_amount,omitempty"`
-	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier.
-	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
-	// No upper bound to this tier.
-	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
-}
-
 // Parameters for the overwrite_price override. Required if `type` is `overwrite_price`.
 type V2BillingContractPricingLinePricingPriceDetailsPricingOverrideOverwritePriceParams struct {
-	// Defines whether the tiered price should be graduated or volume-based.
-	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
-	// Each element represents a pricing tier.
-	Tiers []*V2BillingContractPricingLinePricingPriceDetailsPricingOverrideOverwritePriceTierParams `form:"tiers" json:"tiers,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 }
@@ -330,8 +294,6 @@ type V2BillingContractParams struct {
 	Include []*string `form:"include" json:"include,omitempty"`
 	// Set of key-value pairs that you can attach to an object.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// A list of one-time fees to create with the contract. Each fee is billed as individual invoice items per its bill_schedule.
-	OneTimeFees []*V2BillingContractOneTimeFeeParams `form:"one_time_fees" json:"one_time_fees,omitempty"`
 	// Pricing line actions to apply.
 	PricingLineActions []*V2BillingContractPricingLineActionParams `form:"pricing_line_actions" json:"pricing_line_actions,omitempty"`
 	// A list of pricing lines to create with the contract.
@@ -367,24 +329,8 @@ type V2BillingContractPricingLineActionAddPricingPriceDetailsPricingOverrideEnds
 	Type *string `form:"type" json:"type"`
 }
 
-// Each element represents a pricing tier.
-type V2BillingContractPricingLineActionAddPricingPriceDetailsPricingOverrideOverwritePriceTierParams struct {
-	// Price for the entire tier, represented as a decimal string in minor currency units.
-	FlatAmount *string `form:"flat_amount" json:"flat_amount,omitempty"`
-	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier.
-	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
-	// No upper bound to this tier.
-	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
-}
-
 // Parameters for the overwrite_price override. Required if `type` is `overwrite_price`.
 type V2BillingContractPricingLineActionAddPricingPriceDetailsPricingOverrideOverwritePriceParams struct {
-	// Defines whether the tiered price should be graduated or volume-based.
-	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
-	// Each element represents a pricing tier.
-	Tiers []*V2BillingContractPricingLineActionAddPricingPriceDetailsPricingOverrideOverwritePriceTierParams `form:"tiers" json:"tiers,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 }
@@ -513,24 +459,8 @@ type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideA
 	Type *string `form:"type" json:"type"`
 }
 
-// Each element represents a pricing tier.
-type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddOverwritePriceTierParams struct {
-	// Price for the entire tier, represented as a decimal string in minor currency units.
-	FlatAmount *string `form:"flat_amount" json:"flat_amount,omitempty"`
-	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier.
-	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
-	// No upper bound to this tier.
-	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
-}
-
 // Parameters for an overwrite_price override. Required if `type` is `overwrite_price`.
 type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddOverwritePriceParams struct {
-	// Defines whether the tiered price should be graduated or volume-based.
-	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
-	// Each element represents a pricing tier.
-	Tiers []*V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddOverwritePriceTierParams `form:"tiers" json:"tiers,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 }
@@ -717,24 +647,8 @@ type V2BillingContractPricingOverrideActionAddMultiplyPricingParams struct {
 	Factor *string `form:"factor" json:"factor"`
 }
 
-// Each element represents a pricing tier.
-type V2BillingContractPricingOverrideActionAddOverwritePriceTierParams struct {
-	// Price for the entire tier, represented as a decimal string in minor currency units.
-	FlatAmount *string `form:"flat_amount" json:"flat_amount,omitempty"`
-	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier.
-	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
-	// No upper bound to this tier.
-	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
-}
-
 // An overwrite price override to add.
 type V2BillingContractPricingOverrideActionAddOverwritePriceParams struct {
-	// Defines whether the tiered price should be graduated or volume-based.
-	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
-	// Each element represents a pricing tier.
-	Tiers []*V2BillingContractPricingOverrideActionAddOverwritePriceTierParams `form:"tiers" json:"tiers"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 }
@@ -925,26 +839,6 @@ type V2BillingContractCreateBillingSettingsParams struct {
 	CollectionSettingsDetails *V2BillingContractCreateBillingSettingsCollectionSettingsDetailsParams `form:"collection_settings_details" json:"collection_settings_details"`
 }
 
-// When this fee should be billed.
-type V2BillingContractCreateOneTimeFeeBillAtParams struct {
-	// The timestamp at which the entry should be billed. Required if `type` is `timestamp`.
-	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
-	// The type of the bill_at.
-	Type *string `form:"type" json:"type"`
-}
-
-// A list of one-time fees to create with the contract. Each fee is billed as individual invoice items per its bill_schedule.
-type V2BillingContractCreateOneTimeFeeParams struct {
-	// The amount to bill.
-	Amount *Amount `form:"amount" json:"amount"`
-	// When this fee should be billed.
-	BillAt *V2BillingContractCreateOneTimeFeeBillAtParams `form:"bill_at" json:"bill_at"`
-	// A user-provided lookup key.
-	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// The id of the product for this fee.
-	Product *string `form:"product" json:"product"`
-}
-
 // When the pricing line ends.
 type V2BillingContractCreatePricingLineEndsAtParams struct {
 	// The timestamp when the item ends. Required if `type` is `timestamp`.
@@ -961,24 +855,8 @@ type V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideEndsAtP
 	Type *string `form:"type" json:"type"`
 }
 
-// Each element represents a pricing tier.
-type V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideOverwritePriceTierParams struct {
-	// Price for the entire tier, represented as a decimal string in minor currency units.
-	FlatAmount *string `form:"flat_amount" json:"flat_amount,omitempty"`
-	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier.
-	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
-	// No upper bound to this tier.
-	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
-}
-
 // Parameters for the overwrite_price override. Required if `type` is `overwrite_price`.
 type V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideOverwritePriceParams struct {
-	// Defines whether the tiered price should be graduated or volume-based.
-	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
-	// Each element represents a pricing tier.
-	Tiers []*V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideOverwritePriceTierParams `form:"tiers" json:"tiers,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 }
@@ -1151,8 +1029,6 @@ type V2BillingContractCreateParams struct {
 	Include []*string `form:"include" json:"include,omitempty"`
 	// Set of key-value pairs that you can attach to an object.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// A list of one-time fees to create with the contract. Each fee is billed as individual invoice items per its bill_schedule.
-	OneTimeFees []*V2BillingContractCreateOneTimeFeeParams `form:"one_time_fees" json:"one_time_fees,omitempty"`
 	// A list of pricing lines to create with the contract.
 	PricingLines []*V2BillingContractCreatePricingLineParams `form:"pricing_lines" json:"pricing_lines"`
 	// A list of pricing overrides to create with the contract.
@@ -1196,24 +1072,8 @@ type V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsPricingOverri
 	Type *string `form:"type" json:"type"`
 }
 
-// Each element represents a pricing tier.
-type V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsPricingOverrideOverwritePriceTierParams struct {
-	// Price for the entire tier, represented as a decimal string in minor currency units.
-	FlatAmount *string `form:"flat_amount" json:"flat_amount,omitempty"`
-	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier.
-	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
-	// No upper bound to this tier.
-	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
-}
-
 // Parameters for the overwrite_price override. Required if `type` is `overwrite_price`.
 type V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsPricingOverrideOverwritePriceParams struct {
-	// Defines whether the tiered price should be graduated or volume-based.
-	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
-	// Each element represents a pricing tier.
-	Tiers []*V2BillingContractUpdatePricingLineActionAddPricingPriceDetailsPricingOverrideOverwritePriceTierParams `form:"tiers" json:"tiers,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 }
@@ -1342,24 +1202,8 @@ type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOve
 	Type *string `form:"type" json:"type"`
 }
 
-// Each element represents a pricing tier.
-type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddOverwritePriceTierParams struct {
-	// Price for the entire tier, represented as a decimal string in minor currency units.
-	FlatAmount *string `form:"flat_amount" json:"flat_amount,omitempty"`
-	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier.
-	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
-	// No upper bound to this tier.
-	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
-}
-
 // Parameters for an overwrite_price override. Required if `type` is `overwrite_price`.
 type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddOverwritePriceParams struct {
-	// Defines whether the tiered price should be graduated or volume-based.
-	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
-	// Each element represents a pricing tier.
-	Tiers []*V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionAddOverwritePriceTierParams `form:"tiers" json:"tiers,omitempty"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 }
@@ -1546,24 +1390,8 @@ type V2BillingContractUpdatePricingOverrideActionAddMultiplyPricingParams struct
 	Factor *string `form:"factor" json:"factor"`
 }
 
-// Each element represents a pricing tier.
-type V2BillingContractUpdatePricingOverrideActionAddOverwritePriceTierParams struct {
-	// Price for the entire tier, represented as a decimal string in minor currency units.
-	FlatAmount *string `form:"flat_amount" json:"flat_amount,omitempty"`
-	// Per-unit price for units included in this tier, represented as a decimal string in minor currency units.
-	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
-	// Up to and including this quantity will be contained in the tier.
-	UpToDecimal *float64 `form:"up_to_decimal,high_precision" json:"up_to_decimal,string,omitempty"`
-	// No upper bound to this tier.
-	UpToInf *string `form:"up_to_inf" json:"up_to_inf,omitempty"`
-}
-
 // An overwrite price override to add.
 type V2BillingContractUpdatePricingOverrideActionAddOverwritePriceParams struct {
-	// Defines whether the tiered price should be graduated or volume-based.
-	TieringMode *string `form:"tiering_mode" json:"tiering_mode,omitempty"`
-	// Each element represents a pricing tier.
-	Tiers []*V2BillingContractUpdatePricingOverrideActionAddOverwritePriceTierParams `form:"tiers" json:"tiers"`
 	// The per-unit amount to be charged, represented as a decimal string in minor currency units.
 	UnitAmount *string `form:"unit_amount" json:"unit_amount,omitempty"`
 }
