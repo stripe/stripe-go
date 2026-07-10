@@ -2091,14 +2091,16 @@ func TestStripeClientUserAgentOmitsPlatformWithoutTelemetry(t *testing.T) {
 	assert.Empty(t, userAgent["platform"])
 }
 
-func TestStripeClientUserAgentSourceHash(t *testing.T) {
+func TestStripeClientUserAgentContainsTelemetryId(t *testing.T) {
 	originalEncoded := encodedStripeUserAgent
 	originalReady := encodedStripeUserAgentReady
 	defer func() {
 		encodedStripeUserAgent = originalEncoded
 		encodedStripeUserAgentReady = originalReady
+		resetTelemetryId()
 	}()
 
+	resetTelemetryId()
 	encodedStripeUserAgentReady = &sync.Once{}
 
 	encoded := getEncodedStripeUserAgent(true)
@@ -2106,37 +2108,35 @@ func TestStripeClientUserAgentSourceHash(t *testing.T) {
 	err := json.Unmarshal([]byte(encoded), &userAgent)
 	assert.NoError(t, err)
 
-	// stripeSourceHash is computed from `uname -a` in init(). On systems where
-	// uname is available (all CI environments), the field should be a non-empty
-	// 32-character hex MD5 digest. We validate format rather than value because
-	// the hash is machine-specific.
-	source, ok := userAgent["source"]
-	assert.True(t, ok, "expected 'source' field to be present in X-Stripe-Client-User-Agent")
-	sourceStr, isString := source.(string)
-	assert.True(t, isString, "expected 'source' field to be a string")
-	assert.Regexp(t, `^[0-9a-f]{32}$`, sourceStr, "expected 'source' to be a 32-char lowercase hex MD5 digest")
+	// telemetry_id should be present when telemetry is enabled. The value is a
+	// 32-character hex string (16 random bytes encoded as hex). We validate format
+	// rather than exact value because it is generated at runtime.
+	telemetryId, ok := userAgent["telemetry_id"]
+	assert.True(t, ok, "expected 'telemetry_id' field to be present in X-Stripe-Client-User-Agent when telemetry is enabled")
+	telemetryIdStr, isString := telemetryId.(string)
+	assert.True(t, isString, "expected 'telemetry_id' field to be a string")
+	assert.Regexp(t, `^[0-9a-f]{32}$`, telemetryIdStr, "expected 'telemetry_id' to be a 32-char lowercase hex string")
 }
 
-func TestStripeClientUserAgentOmitsSourceWhenEmpty(t *testing.T) {
+func TestStripeClientUserAgentOmitsTelemetryIdWhenDisabled(t *testing.T) {
 	originalEncoded := encodedStripeUserAgent
 	originalReady := encodedStripeUserAgentReady
-	originalSourceHash := stripeSourceHash
 	defer func() {
 		encodedStripeUserAgent = originalEncoded
 		encodedStripeUserAgentReady = originalReady
-		stripeSourceHash = originalSourceHash
+		resetTelemetryId()
 	}()
 
-	stripeSourceHash = ""
+	resetTelemetryId()
 	encodedStripeUserAgentReady = &sync.Once{}
 
-	encoded := getEncodedStripeUserAgent(true)
+	encoded := getEncodedStripeUserAgent(false)
 	var userAgent map[string]interface{}
 	err := json.Unmarshal([]byte(encoded), &userAgent)
 	assert.NoError(t, err)
 
-	_, ok := userAgent["source"]
-	assert.False(t, ok, "expected 'source' field to be absent from X-Stripe-Client-User-Agent when stripeSourceHash is empty")
+	_, ok := userAgent["telemetry_id"]
+	assert.False(t, ok, "expected 'telemetry_id' field to be absent from X-Stripe-Client-User-Agent when telemetry is disabled")
 }
 
 func TestResponseToError(t *testing.T) {

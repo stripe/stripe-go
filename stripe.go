@@ -4,9 +4,7 @@ package stripe
 import (
 	"bytes"
 	"context"
-	"crypto/md5"
 	"crypto/x509"
-	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -1812,7 +1810,7 @@ type stripeClientUserAgent struct {
 	Language        string   `json:"lang"`
 	LanguageVersion string   `json:"lang_version"`
 	Platform        string   `json:"platform,omitempty"`
-	Source          string   `json:"source,omitempty"`
+	TelemetryId     string   `json:"telemetry_id,omitempty"`
 }
 
 // requestMetrics contains the id and duration of the last request sent
@@ -1837,7 +1835,6 @@ var backends Backends
 var encodedStripeUserAgent string
 var encodedStripeUserAgentReady *sync.Once
 var encodedUserAgent string
-var stripeSourceHash string
 
 // The default HTTP client used for communication with any of Stripe's
 // backends.
@@ -1881,15 +1878,6 @@ func init() {
 	initUserAgent()
 }
 
-func init() {
-	parts := []string{runtime.GOOS, runtime.GOARCH, runtime.Version()}
-	if h, err := os.Hostname(); err == nil {
-		parts = append(parts, h)
-	}
-	hash := md5.Sum([]byte(strings.Join(parts, " ")))
-	stripeSourceHash = hex.EncodeToString(hash[:])
-}
-
 func initUserAgent() {
 	encodedUserAgent = "Stripe/v1 GoBindings/" + clientversion
 	if appInfo != nil {
@@ -1908,10 +1896,10 @@ func getEncodedStripeUserAgent(enableTelemetry bool) string {
 			BindingsVersion: clientversion,
 			Language:        "go",
 			LanguageVersion: runtime.Version(),
-			Source:          stripeSourceHash,
 		}
 		if enableTelemetry {
 			stripeUserAgent.Platform = runtime.GOOS + " " + runtime.GOARCH
+			stripeUserAgent.TelemetryId = getTelemetryId()
 		}
 		if agent, ok := detectAIAgent(os.LookupEnv); ok {
 			stripeUserAgent.AIAgent = agent
