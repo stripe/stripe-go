@@ -300,10 +300,42 @@ type redacter interface {
 type Error struct {
 	APIResource
 
-	ChargeID    string      `json:"charge,omitempty"`
-	Code        ErrorCode   `json:"code,omitempty"`
+	// errorFields: The beginning of the section generated from our OpenAPI spec
+	// For card errors resulting from a card issuer decline, a short string indicating [how to proceed with an error](https://docs.stripe.com/declines#retrying-issuer-declines) if they provide one.
+	AdviceCode string `json:"advice_code,omitempty"`
+	// For card errors, the ID of the failed charge.
+	ChargeID string `json:"charge,omitempty"`
+	// For some errors that could be handled programmatically, a short string indicating the [error code](https://docs.stripe.com/error-codes) reported.
+	Code ErrorCode `json:"code,omitempty"`
+	// For card errors resulting from a card issuer decline, a short string indicating the [card issuer's reason for the decline](https://docs.stripe.com/declines#issuer-declines) if they provide one.
 	DeclineCode DeclineCode `json:"decline_code,omitempty"`
-	DocURL      string      `json:"doc_url,omitempty"`
+	// A URL to more information about the [error code](https://docs.stripe.com/error-codes) reported.
+	DocURL string `json:"doc_url,omitempty"`
+	// A human-readable message providing more details about the error. For card errors, these messages can be shown to your users.
+	Msg string `json:"message,omitempty"`
+	// For card errors resulting from a card issuer decline, a 2 digit code which indicates the advice given to merchant by the card network on how to proceed with an error.
+	NetworkAdviceCode string `json:"network_advice_code,omitempty"`
+	// For payments declined by the network, an alphanumeric code which indicates the reason the payment failed.
+	NetworkDeclineCode string `json:"network_decline_code,omitempty"`
+	// If the error is parameter-specific, the parameter related to the error. For example, you can use this to display a message near the correct form field.
+	Param string `json:"param,omitempty"`
+	// The PaymentIntent object for errors returned on a request involving a PaymentIntent.
+	PaymentIntent *PaymentIntent `json:"payment_intent,omitempty"`
+	// The PaymentMethod object for errors returned on a request involving a PaymentMethod.
+	PaymentMethod *PaymentMethod `json:"payment_method,omitempty"`
+	// If the error is specific to the type of payment method, the payment method type that had a problem. This field is only populated for invoice-related errors.
+	PaymentMethodType PaymentMethodType `json:"payment_method_type,omitempty"`
+	// A URL to the request log entry in your dashboard.
+	RequestLogURL string `json:"request_log_url,omitempty"`
+	// The SetupIntent object for errors returned on a request involving a SetupIntent.
+	SetupIntent *SetupIntent `json:"setup_intent,omitempty"`
+	// The PaymentSource object for errors returned on a request involving a PaymentSource.
+	Source *PaymentSource `json:"source,omitempty"`
+	// The type of error returned. One of `api_error`, `card_error`, `idempotency_error`, or `invalid_request_error`
+	Type ErrorType `json:"type"`
+	// The user message associated with the error.
+	UserMessage string `json:"user_message,omitempty"`
+	// errorFields: The end of the section generated from our OpenAPI spec
 
 	// Err contains an internal error with an additional level of granularity
 	// that can be used in some cases to get more detailed information about
@@ -311,18 +343,9 @@ type Error struct {
 	// exactly what went wrong during charging a card.
 	Err error `json:"-"`
 
-	HTTPStatusCode    int               `json:"status,omitempty"`
-	Msg               string            `json:"message"`
-	DeveloperMsg      string            `json:"developer_message,omitempty"`
-	Param             string            `json:"param,omitempty"`
-	PaymentIntent     *PaymentIntent    `json:"payment_intent,omitempty"`
-	PaymentMethod     *PaymentMethod    `json:"payment_method,omitempty"`
-	PaymentMethodType PaymentMethodType `json:"payment_method_type,omitempty"`
-	RequestID         string            `json:"request_id,omitempty"`
-	RequestLogURL     string            `json:"request_log_url,omitempty"`
-	SetupIntent       *SetupIntent      `json:"setup_intent,omitempty"`
-	Source            *PaymentSource    `json:"source,omitempty"`
-	Type              ErrorType         `json:"type"`
+	HTTPStatusCode int    `json:"status,omitempty"`
+	DeveloperMsg   string `json:"developer_message,omitempty"`
+	RequestID      string `json:"request_id,omitempty"`
 
 	// OAuth specific Error properties. Named OAuthError because of name conflict.
 	OAuthError            string `json:"error,omitempty"`
