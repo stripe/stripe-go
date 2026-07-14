@@ -2091,16 +2091,17 @@ func TestStripeClientUserAgentOmitsPlatformWithoutTelemetry(t *testing.T) {
 	assert.Empty(t, userAgent["platform"])
 }
 
-func TestStripeClientUserAgentContainsTelemetryId(t *testing.T) {
+func TestStripeClientUserAgentContainsTelemetryID(t *testing.T) {
 	originalEncoded := encodedStripeUserAgent
 	originalReady := encodedStripeUserAgentReady
 	defer func() {
 		encodedStripeUserAgent = originalEncoded
 		encodedStripeUserAgentReady = originalReady
-		resetTelemetryId()
+		resetTelemetryID()
 	}()
 
-	resetTelemetryId()
+	resetTelemetryID()
+	configDirOverride = t.TempDir()
 	encodedStripeUserAgentReady = &sync.Once{}
 
 	encoded := getEncodedStripeUserAgent(true)
@@ -2111,23 +2112,23 @@ func TestStripeClientUserAgentContainsTelemetryId(t *testing.T) {
 	// telemetry_id should be present when telemetry is enabled. The value is a
 	// 32-character hex string (16 random bytes encoded as hex). We validate format
 	// rather than exact value because it is generated at runtime.
-	telemetryId, ok := userAgent["telemetry_id"]
+	telemetryID, ok := userAgent["telemetry_id"]
 	assert.True(t, ok, "expected 'telemetry_id' field to be present in X-Stripe-Client-User-Agent when telemetry is enabled")
-	telemetryIdStr, isString := telemetryId.(string)
+	telemetryIDStr, isString := telemetryID.(string)
 	assert.True(t, isString, "expected 'telemetry_id' field to be a string")
-	assert.Regexp(t, `^[0-9a-f]{32}$`, telemetryIdStr, "expected 'telemetry_id' to be a 32-char lowercase hex string")
+	assert.Regexp(t, `^[0-9a-f]{32}$`, telemetryIDStr, "expected 'telemetry_id' to be a 32-char lowercase hex string")
 }
 
-func TestStripeClientUserAgentOmitsTelemetryIdWhenDisabled(t *testing.T) {
+func TestStripeClientUserAgentOmitsTelemetryIDWhenDisabled(t *testing.T) {
 	originalEncoded := encodedStripeUserAgent
 	originalReady := encodedStripeUserAgentReady
 	defer func() {
 		encodedStripeUserAgent = originalEncoded
 		encodedStripeUserAgentReady = originalReady
-		resetTelemetryId()
+		resetTelemetryID()
 	}()
 
-	resetTelemetryId()
+	resetTelemetryID()
 	encodedStripeUserAgentReady = &sync.Once{}
 
 	encoded := getEncodedStripeUserAgent(false)

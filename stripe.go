@@ -1810,7 +1810,7 @@ type stripeClientUserAgent struct {
 	Language        string   `json:"lang"`
 	LanguageVersion string   `json:"lang_version"`
 	Platform        string   `json:"platform,omitempty"`
-	TelemetryId     string   `json:"telemetry_id,omitempty"`
+	TelemetryID     string   `json:"telemetry_id,omitempty"`
 }
 
 // requestMetrics contains the id and duration of the last request sent
@@ -1899,7 +1899,7 @@ func getEncodedStripeUserAgent(enableTelemetry bool) string {
 		}
 		if enableTelemetry {
 			stripeUserAgent.Platform = runtime.GOOS + " " + runtime.GOARCH
-			stripeUserAgent.TelemetryId = getTelemetryId()
+			stripeUserAgent.TelemetryID = getTelemetryID()
 		}
 		if agent, ok := detectAIAgent(os.LookupEnv); ok {
 			stripeUserAgent.AIAgent = agent

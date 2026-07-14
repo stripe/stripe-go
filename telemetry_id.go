@@ -11,8 +11,8 @@ import (
 )
 
 var (
-	telemetryIdOnce  sync.Once
-	telemetryIdValue string
+	telemetryIDOnce  sync.Once
+	telemetryIDValue string
 )
 
 func getConfigDir() string {
@@ -34,9 +34,15 @@ func getConfigDir() string {
 	return filepath.Join(home, ".config", "stripe")
 }
 
-func getTelemetryId() string {
-	telemetryIdOnce.Do(func() {
-		configDir := getConfigDir()
+// configDirOverride is used by tests to redirect file I/O to a temp directory.
+var configDirOverride string
+
+func getTelemetryID() string {
+	telemetryIDOnce.Do(func() {
+		configDir := configDirOverride
+		if configDir == "" {
+			configDir = getConfigDir()
+		}
 		if configDir == "" {
 			return
 		}
@@ -47,7 +53,7 @@ func getTelemetryId() string {
 		if err == nil {
 			content := strings.TrimSpace(string(data))
 			if content != "" {
-				telemetryIdValue = content
+				telemetryIDValue = content
 				return
 			}
 		}
@@ -56,22 +62,23 @@ func getTelemetryId() string {
 		if _, err := rand.Read(b); err != nil {
 			return
 		}
-		newId := hex.EncodeToString(b)
+		newID := hex.EncodeToString(b)
 
-		if err := os.MkdirAll(configDir, 0700); err != nil {
+		if err := os.MkdirAll(configDir, 0755); err != nil {
 			return
 		}
-		if err := os.WriteFile(filePath, []byte(newId), 0600); err != nil {
+		if err := os.WriteFile(filePath, []byte(newID), 0644); err != nil {
 			return
 		}
 
-		telemetryIdValue = newId
+		telemetryIDValue = newID
 	})
-	return telemetryIdValue
+	return telemetryIDValue
 }
 
-// resetTelemetryId resets the telemetry ID singleton for testing purposes.
-func resetTelemetryId() {
-	telemetryIdOnce = sync.Once{}
-	telemetryIdValue = ""
+// resetTelemetryID resets the telemetry ID singleton for testing purposes.
+func resetTelemetryID() {
+	telemetryIDOnce = sync.Once{}
+	telemetryIDValue = ""
+	configDirOverride = ""
 }
