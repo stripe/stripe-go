@@ -67,7 +67,7 @@ func TestGetTelemetryIDReturnsEmptyWhenConfigDirEmpty(t *testing.T) {
 	// getTelemetryID returns "" when it cannot persist the generated ID.
 	roDir := t.TempDir()
 	assert.NoError(t, os.Chmod(roDir, 0555))
-	t.Cleanup(func() { os.Chmod(roDir, 0755) })
+	t.Cleanup(func() { _ = os.Chmod(roDir, 0755) })
 	configDirOverride = filepath.Join(roDir, "stripe")
 
 	id := getTelemetryID()
