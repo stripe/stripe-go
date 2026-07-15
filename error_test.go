@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -41,6 +42,28 @@ func TestErrorResponse(t *testing.T) {
 	assert.Equal(t, 401, stripeErr.HTTPStatusCode)
 	var invalidRequestErr *InvalidRequestError
 	assert.True(t, errors.As(err, &invalidRequestErr))
+}
+
+func TestErrorNetworkAdviceCode(t *testing.T) {
+	raw := `{"error":{"type":"card_error","network_advice_code":"02"}}`
+	var wrapper struct {
+		Error *Error `json:"error"`
+	}
+	err := json.Unmarshal([]byte(raw), &wrapper)
+	assert.NoError(t, err)
+	assert.Equal(t, "02", wrapper.Error.NetworkAdviceCode)
+}
+
+func TestErrorPaymentIntent(t *testing.T) {
+	raw := `{"error":{"type":"card_error","payment_intent":{"id":"pi_123","amount":1000}}}`
+	var wrapper struct {
+		Error *Error `json:"error"`
+	}
+	err := json.Unmarshal([]byte(raw), &wrapper)
+	assert.NoError(t, err)
+	assert.NotNil(t, wrapper.Error.PaymentIntent)
+	assert.Equal(t, "pi_123", wrapper.Error.PaymentIntent.ID)
+	assert.Equal(t, int64(1000), wrapper.Error.PaymentIntent.Amount)
 }
 
 func TestErrorRedact(t *testing.T) {
