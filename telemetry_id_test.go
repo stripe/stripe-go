@@ -3,6 +3,7 @@ package stripe
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -60,6 +61,9 @@ func TestGetTelemetryIDGeneratesAndPersistsNewID(t *testing.T) {
 }
 
 func TestGetTelemetryIDReturnsEmptyWhenConfigDirEmpty(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod doesn't prevent writes on Windows")
+	}
 	resetTelemetryID()
 	t.Cleanup(resetTelemetryID)
 
@@ -75,6 +79,9 @@ func TestGetTelemetryIDReturnsEmptyWhenConfigDirEmpty(t *testing.T) {
 }
 
 func TestGetConfigDirRespectsXDGConfigHome(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("XDG is not used on Windows")
+	}
 	t.Setenv("XDG_CONFIG_HOME", "/custom/xdg")
 
 	dir := getConfigDir()
@@ -82,6 +89,9 @@ func TestGetConfigDirRespectsXDGConfigHome(t *testing.T) {
 }
 
 func TestGetConfigDirFallsBackToHomeConfig(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("XDG is not used on Windows")
+	}
 	t.Setenv("XDG_CONFIG_HOME", "")
 	t.Setenv("HOME", "/testhome")
 
