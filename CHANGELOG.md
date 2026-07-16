@@ -166,6 +166,10 @@ This release changes the pinned API version to 2026-06-24.preview.
   * Add support for error codes `us_bank_account_microdeposits_cannot_be_confirmed` and `us_bank_account_microdeposits_cannot_be_sent` on `ControlledByAlternateResourceError`
   * Add support for error code `payout_intent_not_cancelable` on `NotCancelableError`
 
+## 86.1.1 - 2026-07-15
+* [#2389](https://github.com/stripe/stripe-go/pull/2389) Replace source hash with Telemetry UUID
+* [#2385](https://github.com/stripe/stripe-go/pull/2385) Make Error fields generated
+
 ## 86.1.0 - 2026-06-24
 This release changes the pinned API version to 2026-06-24.dahlia.
 
