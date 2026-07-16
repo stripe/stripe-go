@@ -158,7 +158,10 @@ type V2SignalsAccountSignalMerchantDelinquency struct {
 	RiskLevel V2SignalsAccountSignalMerchantDelinquencyRiskLevel `json:"risk_level"`
 }
 
-// An automatically evaluated signal on a v2 account.
+// An automatically evaluated signal on an account. Each Account Signal object corresponds to
+// exactly one signal type, indicated by type. Only the type-specific field is populated; other
+// type-specific payload fields are null. If an account has multiple signals, Stripe creates
+// separate account signal objects.
 type V2SignalsAccountSignal struct {
 	APIResource
 	// The account or customer this signal is associated with.

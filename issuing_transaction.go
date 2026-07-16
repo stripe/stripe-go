@@ -273,6 +273,8 @@ type IssuingTransactionCryptoTransaction struct {
 	// The crypto transaction variant for this array entry.
 	Type string `json:"type"`
 }
+
+// Mastercard identifier assigned by the card network for the transaction.
 type IssuingTransactionNetworkDataTraceID struct {
 	// The unique reference number within the specified financial network on the specified network date.
 	BanknetReferenceNumber string `json:"banknet_reference_number"`
@@ -298,7 +300,8 @@ type IssuingTransactionNetworkData struct {
 	RetrievalReferenceNumber string `json:"retrieval_reference_number,omitempty"`
 	// The card network over which Stripe received the transaction. This field may differ from the associated card's primary network.
 	RoutedNetwork IssuingTransactionNetworkDataRoutedNetwork `json:"routed_network,omitempty"`
-	TraceID       *IssuingTransactionNetworkDataTraceID      `json:"trace_id,omitempty"`
+	// Mastercard identifier assigned by the card network for the transaction.
+	TraceID *IssuingTransactionNetworkDataTraceID `json:"trace_id,omitempty"`
 	// Unique identifier for the authorization assigned by the card network used to match subsequent messages, disputes, and transactions.
 	TransactionID string `json:"transaction_id"`
 }
@@ -319,7 +322,7 @@ type IssuingTransactionPurchaseDetailsFleetCardholderPromptData struct {
 
 // Breakdown of fuel portion of the purchase.
 type IssuingTransactionPurchaseDetailsFleetReportedBreakdownFuel struct {
-	// Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes.
+	// Gross fuel amount that should equal Fuel Volume multiplied by Fuel Unit Cost, inclusive of taxes.
 	GrossAmountDecimal float64 `json:"gross_amount_decimal,string"`
 }
 

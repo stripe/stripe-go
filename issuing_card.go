@@ -77,6 +77,7 @@ type IssuingCardShippingCarrier string
 
 // List of values that IssuingCardShippingCarrier can take
 const (
+	IssuingCardShippingCarrierCorreos   IssuingCardShippingCarrier = "correos"
 	IssuingCardShippingCarrierDHL       IssuingCardShippingCarrier = "dhl"
 	IssuingCardShippingCarrierFedEx     IssuingCardShippingCarrier = "fedex"
 	IssuingCardShippingCarrierRoyalMail IssuingCardShippingCarrier = "royal_mail"
@@ -698,6 +699,8 @@ type IssuingCardShipping struct {
 	Address *Address `json:"address"`
 	// Address validation details for the shipment.
 	AddressValidation *IssuingCardShippingAddressValidation `json:"address_validation"`
+	// The name of the business at the shipping address, used on the shipping label to ensure delivery when the card is shipped to a cardholder's workplace.
+	BusinessName string `json:"business_name"`
 	// The delivery company that shipped a card.
 	Carrier IssuingCardShippingCarrier `json:"carrier"`
 	// Additional information that may be required for clearing customs.

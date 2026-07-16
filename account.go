@@ -1259,6 +1259,8 @@ type AccountCompanyParams struct {
 	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure" json:"structure,omitempty"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
+	//
+	// Changing this value requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 	// The jurisdiction in which the `tax_id` is registered (Germany-based companies only).
 	TaxIDRegistrar *string `form:"tax_id_registrar" json:"tax_id_registrar,omitempty"`
@@ -2694,6 +2696,8 @@ type AccountUpdateCompanyParams struct {
 	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure" json:"structure,omitempty"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
+	//
+	// Changing this value requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 	// The jurisdiction in which the `tax_id` is registered (Germany-based companies only).
 	TaxIDRegistrar *string `form:"tax_id_registrar" json:"tax_id_registrar,omitempty"`
@@ -4123,6 +4127,8 @@ type AccountCreateCompanyParams struct {
 	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure" json:"structure,omitempty"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
+	//
+	// Changing this value requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 	// The jurisdiction in which the `tax_id` is registered (Germany-based companies only).
 	TaxIDRegistrar *string `form:"tax_id_registrar" json:"tax_id_registrar,omitempty"`

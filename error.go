@@ -342,6 +342,8 @@ type Error struct {
 	DeclineCode DeclineCode `json:"decline_code,omitempty"`
 	// A URL to more information about the [error code](https://docs.stripe.com/error-codes) reported.
 	DocURL string `json:"doc_url,omitempty"`
+	// The GiftCardOperation object for errors returned on a request involving a GiftCardOperation.
+	GiftCardOperation *GiftCardOperation `json:"gift_card_operation,omitempty"`
 	// A human-readable message providing more details about the error. For card errors, these messages can be shown to your users.
 	Msg string `json:"message,omitempty"`
 	// For card errors resulting from a card issuer decline, a 2 digit code which indicates the advice given to merchant by the card network on how to proceed with an error.

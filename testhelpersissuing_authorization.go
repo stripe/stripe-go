@@ -30,7 +30,7 @@ type TestHelpersIssuingAuthorizationFleetCardholderPromptDataParams struct {
 
 // Breakdown of fuel portion of the purchase.
 type TestHelpersIssuingAuthorizationFleetReportedBreakdownFuelParams struct {
-	// Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes.
+	// Gross fuel amount that should equal Fuel Volume multiplied by Fuel Unit Cost, inclusive of taxes.
 	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision" json:"gross_amount_decimal,string,omitempty"`
 }
 
@@ -248,7 +248,7 @@ type TestHelpersIssuingAuthorizationCapturePurchaseDetailsFleetCardholderPromptD
 
 // Breakdown of fuel portion of the purchase.
 type TestHelpersIssuingAuthorizationCapturePurchaseDetailsFleetReportedBreakdownFuelParams struct {
-	// Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes.
+	// Gross fuel amount that should equal Fuel Volume multiplied by Fuel Unit Cost, inclusive of taxes.
 	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision" json:"gross_amount_decimal,string,omitempty"`
 }
 
@@ -412,7 +412,7 @@ type TestHelpersIssuingAuthorizationFinalizeAmountFleetCardholderPromptDataParam
 
 // Breakdown of fuel portion of the purchase.
 type TestHelpersIssuingAuthorizationFinalizeAmountFleetReportedBreakdownFuelParams struct {
-	// Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes.
+	// Gross fuel amount that should equal Fuel Volume multiplied by Fuel Unit Cost, inclusive of taxes.
 	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision" json:"gross_amount_decimal,string,omitempty"`
 }
 
@@ -552,7 +552,7 @@ type TestHelpersIssuingAuthorizationCreateFleetCardholderPromptDataParams struct
 
 // Breakdown of fuel portion of the purchase.
 type TestHelpersIssuingAuthorizationCreateFleetReportedBreakdownFuelParams struct {
-	// Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes.
+	// Gross fuel amount that should equal Fuel Volume multiplied by Fuel Unit Cost, inclusive of taxes.
 	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision" json:"gross_amount_decimal,string,omitempty"`
 }
 

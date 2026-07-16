@@ -138,8 +138,6 @@ type Client struct {
 	V1FinancialConnectionsTransactions *v1FinancialConnectionsTransactionService
 	// V1ForwardingRequests is the service used to invoke /v1/forwarding/requests APIs.
 	V1ForwardingRequests *v1ForwardingRequestService
-	// V1FRMealVouchersOnboardings is the service used to invoke /v1/fr_meal_vouchers_onboardings APIs.
-	V1FRMealVouchersOnboardings *v1FRMealVouchersOnboardingService
 	// V1FxQuotes is the service used to invoke /v1/fx_quotes APIs.
 	V1FxQuotes *v1FxQuoteService
 	// V1GiftCardOperations is the service used to invoke /v1/gift_card_operations APIs.
@@ -672,7 +670,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1FinancialConnectionsSessions = &v1FinancialConnectionsSessionService{B: backends.API, Key: key}
 	client.V1FinancialConnectionsTransactions = &v1FinancialConnectionsTransactionService{B: backends.API, Key: key}
 	client.V1ForwardingRequests = &v1ForwardingRequestService{B: backends.API, Key: key}
-	client.V1FRMealVouchersOnboardings = &v1FRMealVouchersOnboardingService{B: backends.API, Key: key}
 	client.V1FxQuotes = &v1FxQuoteService{B: backends.API, Key: key}
 	client.V1GiftCardOperations = &v1GiftCardOperationService{B: backends.API, Key: key}
 	client.V1GiftCards = &v1GiftCardService{B: backends.API, Key: key}

@@ -29,7 +29,7 @@ func (c v2SignalsAccountSignalService) Retrieve(ctx context.Context, id string, 
 	return accountsignal, err
 }
 
-// Lists AccountSignals for a given account or customer, filtered by signal type.
+// Lists the latest AccountSignals for a given account or customer, filtered by signal type. Note that this endpoint returns only the latest signal for each requested signal type.
 func (c v2SignalsAccountSignalService) List(ctx context.Context, listParams *V2SignalsAccountSignalListParams) *V2List[*V2SignalsAccountSignal] {
 	if listParams == nil {
 		listParams = &V2SignalsAccountSignalListParams{}

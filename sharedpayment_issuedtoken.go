@@ -24,7 +24,8 @@ type SharedPaymentIssuedTokenNextActionType string
 
 // List of values that SharedPaymentIssuedTokenNextActionType can take
 const (
-	SharedPaymentIssuedTokenNextActionTypeUseStripeSDK SharedPaymentIssuedTokenNextActionType = "use_stripe_sdk"
+	SharedPaymentIssuedTokenNextActionTypeRedirectToURL SharedPaymentIssuedTokenNextActionType = "redirect_to_url"
+	SharedPaymentIssuedTokenNextActionTypeUseStripeSDK  SharedPaymentIssuedTokenNextActionType = "use_stripe_sdk"
 )
 
 // Indicates that you intend to save the PaymentMethod of this SharedPaymentToken to a customer later.
@@ -167,6 +168,14 @@ func (p *SharedPaymentIssuedTokenCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Contains details for handling the next action by redirecting the customer. Present when `next_action.type` is `redirect_to_url`.
+type SharedPaymentIssuedTokenNextActionRedirectToURL struct {
+	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
+	ReturnURL string `json:"return_url"`
+	// The URL you must redirect your customer to in order to authenticate the payment.
+	URL string `json:"url"`
+}
+
 // Contains details for handling the next action using Stripe.js, iOS, or Android SDKs. Present when `next_action.type` is `use_stripe_sdk`.
 type SharedPaymentIssuedTokenNextActionUseStripeSDK struct {
 	// A base64-encoded string used by Stripe.js and the iOS and Android client SDKs to handle the next action. Its content is subject to change.
@@ -175,6 +184,8 @@ type SharedPaymentIssuedTokenNextActionUseStripeSDK struct {
 
 // If present, describes the action required to make this `SharedPaymentIssuedToken` usable for payments. Present when the token is in `requires_action` state.
 type SharedPaymentIssuedTokenNextAction struct {
+	// Contains details for handling the next action by redirecting the customer. Present when `next_action.type` is `redirect_to_url`.
+	RedirectToURL *SharedPaymentIssuedTokenNextActionRedirectToURL `json:"redirect_to_url"`
 	// Specifies the type of next action required. Determines which child attribute contains action details.
 	Type SharedPaymentIssuedTokenNextActionType `json:"type"`
 	// Contains details for handling the next action using Stripe.js, iOS, or Android SDKs. Present when `next_action.type` is `use_stripe_sdk`.

@@ -113,7 +113,7 @@ const (
 	PersonVerificationStatusVerified   PersonVerificationStatus = "verified"
 )
 
-// Deletes an existing person's relationship to the account's legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the account_opener. If your integration is using the executive parameter, you cannot delete the only verified executive on file.
+// Deletes an existing person's relationship to the account's legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the representative. If your integration is using the executive parameter, you cannot delete the only verified executive on file.
 type PersonParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
@@ -146,8 +146,12 @@ type PersonParams struct {
 	// The person's gender (International regulations require either "male" or "female").
 	Gender *string `form:"gender" json:"gender,omitempty"`
 	// The person's ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	IDNumber *string `form:"id_number" json:"id_number,omitempty"`
 	// The person's secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	IDNumberSecondary *string `form:"id_number_secondary" json:"id_number_secondary,omitempty"`
 	// The person's last name.
 	LastName *string `form:"last_name" json:"last_name,omitempty"`
@@ -176,6 +180,8 @@ type PersonParams struct {
 	// The credit applicant's self-reported monthly housing payment in minor units.
 	SelfReportedMonthlyHousingPayment *PersonSelfReportedMonthlyHousingPaymentParams `form:"self_reported_monthly_housing_payment" json:"self_reported_monthly_housing_payment,omitempty"`
 	// The last four digits of the person's Social Security number (U.S. only).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	SSNLast4 *string `form:"ssn_last_4" json:"ssn_last_4,omitempty"`
 	// Demographic data related to the person.
 	USCfpbData *PersonUSCfpbDataParams `form:"us_cfpb_data" json:"us_cfpb_data,omitempty"`
@@ -437,7 +443,7 @@ func (p *PersonListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Deletes an existing person's relationship to the account's legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the account_opener. If your integration is using the executive parameter, you cannot delete the only verified executive on file.
+// Deletes an existing person's relationship to the account's legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the representative. If your integration is using the executive parameter, you cannot delete the only verified executive on file.
 type PersonDeleteParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
@@ -691,8 +697,12 @@ type PersonUpdateParams struct {
 	// The person's gender (International regulations require either "male" or "female").
 	Gender *string `form:"gender" json:"gender,omitempty"`
 	// The person's ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	IDNumber *string `form:"id_number" json:"id_number,omitempty"`
 	// The person's secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	IDNumberSecondary *string `form:"id_number_secondary" json:"id_number_secondary,omitempty"`
 	// The person's last name.
 	LastName *string `form:"last_name" json:"last_name,omitempty"`
@@ -721,6 +731,8 @@ type PersonUpdateParams struct {
 	// The credit applicant's self-reported monthly housing payment in minor units.
 	SelfReportedMonthlyHousingPayment *PersonUpdateSelfReportedMonthlyHousingPaymentParams `form:"self_reported_monthly_housing_payment" json:"self_reported_monthly_housing_payment,omitempty"`
 	// The last four digits of the person's Social Security number (U.S. only).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	SSNLast4 *string `form:"ssn_last_4" json:"ssn_last_4,omitempty"`
 	// Demographic data related to the person.
 	USCfpbData *PersonUpdateUSCfpbDataParams `form:"us_cfpb_data" json:"us_cfpb_data,omitempty"`
@@ -992,8 +1004,12 @@ type PersonCreateParams struct {
 	// The person's gender (International regulations require either "male" or "female").
 	Gender *string `form:"gender" json:"gender,omitempty"`
 	// The person's ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	IDNumber *string `form:"id_number" json:"id_number,omitempty"`
 	// The person's secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	IDNumberSecondary *string `form:"id_number_secondary" json:"id_number_secondary,omitempty"`
 	// The person's last name.
 	LastName *string `form:"last_name" json:"last_name,omitempty"`
@@ -1022,6 +1038,8 @@ type PersonCreateParams struct {
 	// The credit applicant's self-reported monthly housing payment in minor units.
 	SelfReportedMonthlyHousingPayment *PersonCreateSelfReportedMonthlyHousingPaymentParams `form:"self_reported_monthly_housing_payment" json:"self_reported_monthly_housing_payment,omitempty"`
 	// The last four digits of the person's Social Security number (U.S. only).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	SSNLast4 *string `form:"ssn_last_4" json:"ssn_last_4,omitempty"`
 	// Demographic data related to the person.
 	USCfpbData *PersonCreateUSCfpbDataParams `form:"us_cfpb_data" json:"us_cfpb_data,omitempty"`

@@ -257,6 +257,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeACHDebit           InvoicePaymentSettingsPaymentMethodType = "ach_debit"
 	InvoicePaymentSettingsPaymentMethodTypeACSSDebit          InvoicePaymentSettingsPaymentMethodType = "acss_debit"
 	InvoicePaymentSettingsPaymentMethodTypeAffirm             InvoicePaymentSettingsPaymentMethodType = "affirm"
+	InvoicePaymentSettingsPaymentMethodTypeAlipay             InvoicePaymentSettingsPaymentMethodType = "alipay"
 	InvoicePaymentSettingsPaymentMethodTypeAmazonPay          InvoicePaymentSettingsPaymentMethodType = "amazon_pay"
 	InvoicePaymentSettingsPaymentMethodTypeAUBECSDebit        InvoicePaymentSettingsPaymentMethodType = "au_becs_debit"
 	InvoicePaymentSettingsPaymentMethodTypeBACSDebit          InvoicePaymentSettingsPaymentMethodType = "bacs_debit"
@@ -298,6 +299,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeSatispay           InvoicePaymentSettingsPaymentMethodType = "satispay"
 	InvoicePaymentSettingsPaymentMethodTypeSEPACreditTransfer InvoicePaymentSettingsPaymentMethodType = "sepa_credit_transfer"
 	InvoicePaymentSettingsPaymentMethodTypeSEPADebit          InvoicePaymentSettingsPaymentMethodType = "sepa_debit"
+	InvoicePaymentSettingsPaymentMethodTypeSequra             InvoicePaymentSettingsPaymentMethodType = "sequra"
 	InvoicePaymentSettingsPaymentMethodTypeSofort             InvoicePaymentSettingsPaymentMethodType = "sofort"
 	InvoicePaymentSettingsPaymentMethodTypeStripeBalance      InvoicePaymentSettingsPaymentMethodType = "stripe_balance"
 	InvoicePaymentSettingsPaymentMethodTypeSwish              InvoicePaymentSettingsPaymentMethodType = "swish"
@@ -2985,7 +2987,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	Trial *bool `form:"trial" json:"trial,omitempty"`
 	// Specify trial behavior when crossing phase boundaries
 	TrialContinuation *string `form:"trial_continuation" json:"trial_continuation,omitempty"`
-	// Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`
+	// Sets the phase to trialing from the start date to this date. Must be within the phase. When previewing an update, if combined with `trial=true`, it must match the phase end date.
 	TrialEnd    *int64 `form:"trial_end" json:"trial_end,omitempty"`
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Settings related to subscription trials.
@@ -4758,7 +4760,7 @@ type InvoiceCustomField struct {
 
 // The customer's tax IDs. Until the invoice is finalized, this field will contain the same tax IDs as `customer.tax_ids`. Once the invoice is finalized, this field will no longer be updated.
 type InvoiceCustomerTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 	Type *TaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`

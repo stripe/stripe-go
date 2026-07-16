@@ -8,29 +8,48 @@ package stripe
 
 import "encoding/json"
 
+// Profile icon image.
 type ProfileBrandingIcon struct {
+	// The original image.
 	Original string `json:"original"`
 }
+
+// Profile logo image.
 type ProfileBrandingLogo struct {
+	// The original image.
 	Original string `json:"original"`
 }
+
+// Branding information for the Stripe profile.
 type ProfileBranding struct {
-	Icon           *ProfileBrandingIcon `json:"icon"`
-	Logo           *ProfileBrandingLogo `json:"logo"`
-	PrimaryColor   string               `json:"primary_color"`
-	SecondaryColor string               `json:"secondary_color"`
+	// Profile icon image.
+	Icon *ProfileBrandingIcon `json:"icon"`
+	// Profile logo image.
+	Logo *ProfileBrandingLogo `json:"logo"`
+	// The primary brand color for the profile.
+	PrimaryColor string `json:"primary_color"`
+	// The secondary brand color for the profile.
+	SecondaryColor string `json:"secondary_color"`
 }
 
 // A Stripe profile
 type Profile struct {
-	Branding    *ProfileBranding `json:"branding"`
-	Description string           `json:"description"`
-	DisplayName string           `json:"display_name"`
-	ID          string           `json:"id"`
-	Livemode    bool             `json:"livemode"`
-	Object      string           `json:"object"`
-	URL         string           `json:"url"`
-	Username    string           `json:"username"`
+	// Branding information for the Stripe profile.
+	Branding *ProfileBranding `json:"branding"`
+	// A description of the business or entity represented by the Stripe profile.
+	Description string `json:"description"`
+	// The display name shown for the Stripe profile.
+	DisplayName string `json:"display_name"`
+	// Unique identifier for the Stripe profile.
+	ID string `json:"id"`
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	Livemode bool `json:"livemode"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// The external website URL associated with the Stripe profile.
+	URL string `json:"url"`
+	// The unique username for the Stripe profile.
+	Username string `json:"username"`
 }
 
 // UnmarshalJSON handles deserialization of a Profile.
