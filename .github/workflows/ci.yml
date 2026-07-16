@@ -78,20 +78,28 @@ jobs:
         run: govulncheck ./...
 
   test:
-    runs-on: "ubuntu-24.04"
+    name: "Test: go v${{ matrix.go }} (${{ matrix.os }})"
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
     strategy:
+      fail-fast: false
       matrix:
+        os:
+          - "ubuntu-24.04"
         go:
           # most recent 4 versions, once we're on schedule
           # https://docs.stripe.com/sdks/versioning?lang=go#stripe-sdk-language-version-support-policy
+          # https://endoflife.date/go
           - "1.26"
           - "1.25"
           - "1.24"
           - "1.23"
           - "1.22"
-    name: "Test: go v${{ matrix.go }}"
+        include:
+          - os: windows-latest
+            # use any modern-ish version
+            go: "1.26"
     steps:
       - uses: extractions/setup-just@v2
       - uses: actions/checkout@v6
