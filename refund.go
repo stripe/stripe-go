@@ -117,6 +117,8 @@ type RefundParams struct {
 	PaymentAttemptRecord *string `form:"payment_attempt_record" json:"payment_attempt_record,omitempty"`
 	// The identifier of the PaymentIntent to refund.
 	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
+	// The identifier of the PaymentRecord to refund.
+	PaymentRecord *string `form:"payment_record" json:"payment_record,omitempty"`
 	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://docs.stripe.com/radar/lists), and will also help us improve our fraud detection algorithms.
 	Reason *string `form:"reason" json:"reason,omitempty"`
 	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
@@ -200,6 +202,8 @@ type RefundCreateParams struct {
 	PaymentAttemptRecord *string `form:"payment_attempt_record" json:"payment_attempt_record,omitempty"`
 	// The identifier of the PaymentIntent to refund.
 	PaymentIntent *string `form:"payment_intent" json:"payment_intent,omitempty"`
+	// The identifier of the PaymentRecord to refund.
+	PaymentRecord *string `form:"payment_record" json:"payment_record,omitempty"`
 	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://docs.stripe.com/radar/lists), and will also help us improve our fraud detection algorithms.
 	Reason *string `form:"reason" json:"reason,omitempty"`
 	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.

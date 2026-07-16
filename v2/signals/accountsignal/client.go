@@ -34,7 +34,7 @@ func (c Client) Get(id string, params *stripe.V2SignalsAccountSignalParams) (*st
 	return accountsignal, err
 }
 
-// Lists AccountSignals for a given account or customer, filtered by signal type.
+// Lists the latest AccountSignals for a given account or customer, filtered by signal type. Note that this endpoint returns only the latest signal for each requested signal type.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

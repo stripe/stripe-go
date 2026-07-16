@@ -46,6 +46,16 @@ const (
 	FinancialConnectionsSessionHostedDeliveryMethodURL   FinancialConnectionsSessionHostedDeliveryMethod = "url"
 )
 
+// Controls how manual entry of bank account details is presented to the user.
+type FinancialConnectionsSessionManualEntryMode string
+
+// List of values that FinancialConnectionsSessionManualEntryMode can take
+const (
+	FinancialConnectionsSessionManualEntryModeAutomatic FinancialConnectionsSessionManualEntryMode = "automatic"
+	FinancialConnectionsSessionManualEntryModeCustom    FinancialConnectionsSessionManualEntryMode = "custom"
+	FinancialConnectionsSessionManualEntryModeDisabled  FinancialConnectionsSessionManualEntryMode = "disabled"
+)
+
 // Permissions requested for accounts collected during this session.
 type FinancialConnectionsSessionPermission string
 
@@ -341,7 +351,10 @@ type FinancialConnectionsSessionLimits struct {
 	// The number of accounts that can be linked in this Session.
 	Accounts int64 `json:"accounts"`
 }
-type FinancialConnectionsSessionManualEntry struct{}
+type FinancialConnectionsSessionManualEntry struct {
+	// Controls how manual entry of bank account details is presented to the user.
+	Mode FinancialConnectionsSessionManualEntryMode `json:"mode,omitempty"`
+}
 type FinancialConnectionsSessionRelinkOptions struct {
 	// Requires the end user to repair this specific account during the authentication flow instead of connecting a different one.
 	Account string `json:"account,omitempty"`

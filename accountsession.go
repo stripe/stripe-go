@@ -268,18 +268,6 @@ type AccountSessionComponentsFinancialAccountTransactionsParams struct {
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionComponentsFinancialAccountTransactionsFeaturesParams `form:"features" json:"features,omitempty"`
 }
-type AccountSessionComponentsFinancialAccountsFeaturesParams struct{}
-
-// Configuration for the [financial accounts](https://docs.stripe.com/connect/supported-embedded-components/financial-accounts/) embedded component.
-type AccountSessionComponentsFinancialAccountsParams struct {
-	Features *AccountSessionComponentsFinancialAccountsFeaturesParams `form:"features" json:"features,omitempty"`
-}
-type AccountSessionComponentsFinancialAccountsTransactionsFeaturesParams struct{}
-
-// Configuration for the [financial accounts transactions](https://docs.stripe.com/connect/supported-embedded-components/financial-accounts-transactions/) embedded component.
-type AccountSessionComponentsFinancialAccountsTransactionsParams struct {
-	Features *AccountSessionComponentsFinancialAccountsTransactionsFeaturesParams `form:"features" json:"features,omitempty"`
-}
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsInstantPayoutsPromotionFeaturesParams struct {
@@ -502,12 +490,6 @@ type AccountSessionComponentsRecipientsParams struct {
 	Enabled  *bool                                             `form:"enabled" json:"enabled"`
 	Features *AccountSessionComponentsRecipientsFeaturesParams `form:"features" json:"features,omitempty"`
 }
-type AccountSessionComponentsRecipientsListFeaturesParams struct{}
-
-// Configuration for the [recipients list](https://docs.stripe.com/connect/supported-embedded-components/recipients-list/) embedded component.
-type AccountSessionComponentsRecipientsListParams struct {
-	Features *AccountSessionComponentsRecipientsListFeaturesParams `form:"features" json:"features,omitempty"`
-}
 
 // An empty list, because this embedded component has no features.
 type AccountSessionComponentsReportingChartFeaturesParams struct{}
@@ -609,10 +591,6 @@ type AccountSessionComponentsParams struct {
 	ExportTaxTransactions *AccountSessionComponentsExportTaxTransactionsParams `form:"export_tax_transactions" json:"export_tax_transactions,omitempty"`
 	// Configuration for the [financial account](https://docs.stripe.com/connect/supported-embedded-components/financial-account/) embedded component.
 	FinancialAccount *AccountSessionComponentsFinancialAccountParams `form:"financial_account" json:"financial_account,omitempty"`
-	// Configuration for the [financial accounts](https://docs.stripe.com/connect/supported-embedded-components/financial-accounts/) embedded component.
-	FinancialAccounts *AccountSessionComponentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
-	// Configuration for the [financial accounts transactions](https://docs.stripe.com/connect/supported-embedded-components/financial-accounts-transactions/) embedded component.
-	FinancialAccountsTransactions *AccountSessionComponentsFinancialAccountsTransactionsParams `form:"financial_accounts_transactions" json:"financial_accounts_transactions,omitempty"`
 	// Configuration for the [financial account transactions](https://docs.stripe.com/connect/supported-embedded-components/financial-account-transactions/) embedded component.
 	FinancialAccountTransactions *AccountSessionComponentsFinancialAccountTransactionsParams `form:"financial_account_transactions" json:"financial_account_transactions,omitempty"`
 	// Configuration for the [instant payouts promotion](https://docs.stripe.com/connect/supported-embedded-components/instant-payouts-promotion/) embedded component.
@@ -643,8 +621,6 @@ type AccountSessionComponentsParams struct {
 	ProductTaxCodeSelector *AccountSessionComponentsProductTaxCodeSelectorParams `form:"product_tax_code_selector" json:"product_tax_code_selector,omitempty"`
 	// Configuration for the [recipients](https://docs.stripe.com/connect/supported-embedded-components/recipients/) embedded component.
 	Recipients *AccountSessionComponentsRecipientsParams `form:"recipients" json:"recipients,omitempty"`
-	// Configuration for the [recipients list](https://docs.stripe.com/connect/supported-embedded-components/recipients-list/) embedded component.
-	RecipientsList *AccountSessionComponentsRecipientsListParams `form:"recipients_list" json:"recipients_list,omitempty"`
 	// Configuration for the [reporting chart](https://docs.stripe.com/connect/supported-embedded-components/reporting-chart/) embedded component.
 	ReportingChart *AccountSessionComponentsReportingChartParams `form:"reporting_chart" json:"reporting_chart,omitempty"`
 	// Configuration for the [tax registrations](https://docs.stripe.com/connect/supported-embedded-components/tax-registrations/) embedded component.
@@ -937,18 +913,6 @@ type AccountSessionCreateComponentsFinancialAccountTransactionsParams struct {
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionCreateComponentsFinancialAccountTransactionsFeaturesParams `form:"features" json:"features,omitempty"`
 }
-type AccountSessionCreateComponentsFinancialAccountsFeaturesParams struct{}
-
-// Configuration for the [financial accounts](https://docs.stripe.com/connect/supported-embedded-components/financial-accounts/) embedded component.
-type AccountSessionCreateComponentsFinancialAccountsParams struct {
-	Features *AccountSessionCreateComponentsFinancialAccountsFeaturesParams `form:"features" json:"features,omitempty"`
-}
-type AccountSessionCreateComponentsFinancialAccountsTransactionsFeaturesParams struct{}
-
-// Configuration for the [financial accounts transactions](https://docs.stripe.com/connect/supported-embedded-components/financial-accounts-transactions/) embedded component.
-type AccountSessionCreateComponentsFinancialAccountsTransactionsParams struct {
-	Features *AccountSessionCreateComponentsFinancialAccountsTransactionsFeaturesParams `form:"features" json:"features,omitempty"`
-}
 
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsInstantPayoutsPromotionFeaturesParams struct {
@@ -1171,12 +1135,6 @@ type AccountSessionCreateComponentsRecipientsParams struct {
 	Enabled  *bool                                                   `form:"enabled" json:"enabled"`
 	Features *AccountSessionCreateComponentsRecipientsFeaturesParams `form:"features" json:"features,omitempty"`
 }
-type AccountSessionCreateComponentsRecipientsListFeaturesParams struct{}
-
-// Configuration for the [recipients list](https://docs.stripe.com/connect/supported-embedded-components/recipients-list/) embedded component.
-type AccountSessionCreateComponentsRecipientsListParams struct {
-	Features *AccountSessionCreateComponentsRecipientsListFeaturesParams `form:"features" json:"features,omitempty"`
-}
 
 // An empty list, because this embedded component has no features.
 type AccountSessionCreateComponentsReportingChartFeaturesParams struct{}
@@ -1278,10 +1236,6 @@ type AccountSessionCreateComponentsParams struct {
 	ExportTaxTransactions *AccountSessionCreateComponentsExportTaxTransactionsParams `form:"export_tax_transactions" json:"export_tax_transactions,omitempty"`
 	// Configuration for the [financial account](https://docs.stripe.com/connect/supported-embedded-components/financial-account/) embedded component.
 	FinancialAccount *AccountSessionCreateComponentsFinancialAccountParams `form:"financial_account" json:"financial_account,omitempty"`
-	// Configuration for the [financial accounts](https://docs.stripe.com/connect/supported-embedded-components/financial-accounts/) embedded component.
-	FinancialAccounts *AccountSessionCreateComponentsFinancialAccountsParams `form:"financial_accounts" json:"financial_accounts,omitempty"`
-	// Configuration for the [financial accounts transactions](https://docs.stripe.com/connect/supported-embedded-components/financial-accounts-transactions/) embedded component.
-	FinancialAccountsTransactions *AccountSessionCreateComponentsFinancialAccountsTransactionsParams `form:"financial_accounts_transactions" json:"financial_accounts_transactions,omitempty"`
 	// Configuration for the [financial account transactions](https://docs.stripe.com/connect/supported-embedded-components/financial-account-transactions/) embedded component.
 	FinancialAccountTransactions *AccountSessionCreateComponentsFinancialAccountTransactionsParams `form:"financial_account_transactions" json:"financial_account_transactions,omitempty"`
 	// Configuration for the [instant payouts promotion](https://docs.stripe.com/connect/supported-embedded-components/instant-payouts-promotion/) embedded component.
@@ -1312,8 +1266,6 @@ type AccountSessionCreateComponentsParams struct {
 	ProductTaxCodeSelector *AccountSessionCreateComponentsProductTaxCodeSelectorParams `form:"product_tax_code_selector" json:"product_tax_code_selector,omitempty"`
 	// Configuration for the [recipients](https://docs.stripe.com/connect/supported-embedded-components/recipients/) embedded component.
 	Recipients *AccountSessionCreateComponentsRecipientsParams `form:"recipients" json:"recipients,omitempty"`
-	// Configuration for the [recipients list](https://docs.stripe.com/connect/supported-embedded-components/recipients-list/) embedded component.
-	RecipientsList *AccountSessionCreateComponentsRecipientsListParams `form:"recipients_list" json:"recipients_list,omitempty"`
 	// Configuration for the [reporting chart](https://docs.stripe.com/connect/supported-embedded-components/reporting-chart/) embedded component.
 	ReportingChart *AccountSessionCreateComponentsReportingChartParams `form:"reporting_chart" json:"reporting_chart,omitempty"`
 	// Configuration for the [tax registrations](https://docs.stripe.com/connect/supported-embedded-components/tax-registrations/) embedded component.
@@ -1447,6 +1399,8 @@ type AccountSessionComponentsDisputesListFeatures struct {
 	DisputeManagement bool `json:"dispute_management"`
 	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement bool `json:"refund_management"`
+	// Whether to allow connected accounts to submit disputes using Smart Disputes. Defaults to the value of `dispute_management`.
+	SmartDisputesManagement bool `json:"smart_disputes_management"`
 }
 type AccountSessionComponentsDisputesList struct {
 	// Whether the embedded component is enabled.
@@ -1612,6 +1566,8 @@ type AccountSessionComponentsPaymentDetailsFeatures struct {
 	DisputeManagement bool `json:"dispute_management"`
 	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement bool `json:"refund_management"`
+	// Whether to allow connected accounts to submit disputes using Smart Disputes. Defaults to the value of `dispute_management`.
+	SmartDisputesManagement bool `json:"smart_disputes_management"`
 }
 type AccountSessionComponentsPaymentDetails struct {
 	// Whether the embedded component is enabled.
@@ -1625,6 +1581,8 @@ type AccountSessionComponentsPaymentDisputesFeatures struct {
 	DisputeManagement bool `json:"dispute_management"`
 	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement bool `json:"refund_management"`
+	// Whether to allow connected accounts to submit disputes using Smart Disputes. Defaults to the value of `dispute_management`.
+	SmartDisputesManagement bool `json:"smart_disputes_management"`
 }
 type AccountSessionComponentsPaymentDisputes struct {
 	// Whether the embedded component is enabled.
@@ -1640,6 +1598,8 @@ type AccountSessionComponentsPaymentsFeatures struct {
 	DisputeManagement bool `json:"dispute_management"`
 	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement bool `json:"refund_management"`
+	// Whether to allow connected accounts to submit disputes using Smart Disputes. Defaults to the value of `dispute_management`.
+	SmartDisputesManagement bool `json:"smart_disputes_management"`
 }
 type AccountSessionComponentsPayments struct {
 	// Whether the embedded component is enabled.

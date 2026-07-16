@@ -15,7 +15,7 @@ type V2SignalsAccountSignalListAccountDetailsParams struct {
 	Customer *string `form:"customer" json:"customer,omitempty"`
 }
 
-// Lists AccountSignals for a given account or customer, filtered by signal type.
+// Lists the latest AccountSignals for a given account or customer, filtered by signal type. Note that this endpoint returns only the latest signal for each requested signal type.
 type V2SignalsAccountSignalListParams struct {
 	Params `form:"*"`
 	// The account or customer to list signals for. Exactly one of account_details.account or
