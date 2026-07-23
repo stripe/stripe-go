@@ -196,7 +196,7 @@ func (c v1AccountService) MarshalBatchUpdate(id string, params *AccountUpdatePar
 
 // With [Connect](https://docs.stripe.com/connect), you can reject accounts that you have flagged as suspicious.
 //
-// Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected. Test-mode accounts can be rejected at any time. Live-mode accounts can only be rejected after all balances are zero.
+// Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected.
 func (c v1AccountService) Reject(ctx context.Context, id string, params *AccountRejectParams) (*Account, error) {
 	if params == nil {
 		params = &AccountRejectParams{}

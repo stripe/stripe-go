@@ -1812,7 +1812,7 @@ type AccountControllerParams struct {
 
 // With [Connect](https://docs.stripe.com/connect), you can reject accounts that you have flagged as suspicious.
 //
-// Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected. Test-mode accounts can be rejected at any time. Live-mode accounts can only be rejected after all balances are zero.
+// Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected.
 type AccountRejectParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

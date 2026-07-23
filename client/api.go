@@ -27,6 +27,7 @@ import (
 	"github.com/stripe/stripe-go/v86/balancetransfer"
 	"github.com/stripe/stripe-go/v86/bankaccount"
 	billingalert "github.com/stripe/stripe-go/v86/billing/alert"
+	billingalertnotification "github.com/stripe/stripe-go/v86/billing/alertnotification"
 	billinganalyticsmeterusage "github.com/stripe/stripe-go/v86/billing/analytics/meterusage"
 	billingcreditbalancesummary "github.com/stripe/stripe-go/v86/billing/creditbalancesummary"
 	billingcreditbalancetransaction "github.com/stripe/stripe-go/v86/billing/creditbalancetransaction"
@@ -55,6 +56,7 @@ import (
 	cryptocustomer "github.com/stripe/stripe-go/v86/crypto/customer"
 	cryptocustomerconsumerwallet "github.com/stripe/stripe-go/v86/crypto/customerconsumerwallet"
 	cryptocustomerpaymenttoken "github.com/stripe/stripe-go/v86/crypto/customerpaymenttoken"
+	cryptodepositaddress "github.com/stripe/stripe-go/v86/crypto/depositaddress"
 	cryptoonrampsession "github.com/stripe/stripe-go/v86/crypto/onrampsession"
 	cryptoonramptransactionlimits "github.com/stripe/stripe-go/v86/crypto/onramptransactionlimits"
 	"github.com/stripe/stripe-go/v86/customer"
@@ -327,6 +329,8 @@ type API struct {
 	BalanceTransfers *balancetransfer.Client
 	// BankAccounts is the client used to invoke /v1/accounts/{account}/external_accounts APIs.
 	BankAccounts *bankaccount.Client
+	// BillingAlertNotifications is the client used to invoke /v1/billing/alerts/{id}/notifications APIs.
+	BillingAlertNotifications *billingalertnotification.Client
 	// BillingAlerts is the client used to invoke /v1/billing/alerts APIs.
 	BillingAlerts *billingalert.Client
 	// BillingAnalyticsMeterUsage is the client used to invoke /v1/billing/analytics/meter_usage APIs.
@@ -385,6 +389,8 @@ type API struct {
 	CryptoCustomerPaymentTokens *cryptocustomerpaymenttoken.Client
 	// CryptoCustomers is the client used to invoke /v1/crypto/customers APIs.
 	CryptoCustomers *cryptocustomer.Client
+	// CryptoDepositAddresses is the client used to invoke /v1/crypto/deposit_addresses APIs.
+	CryptoDepositAddresses *cryptodepositaddress.Client
 	// CryptoOnrampSessions is the client used to invoke /v1/crypto/onramp_sessions APIs.
 	CryptoOnrampSessions *cryptoonrampsession.Client
 	// CryptoOnrampTransactionLimits is the client used to invoke /v1/crypto/onramp_transaction_limits APIs.
@@ -890,6 +896,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BalanceTransactions = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BalanceTransfers = &balancetransfer.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
+	a.BillingAlertNotifications = &billingalertnotification.Client{B: backends.API, Key: key}
 	a.BillingAlerts = &billingalert.Client{B: backends.API, Key: key}
 	a.BillingAnalyticsMeterUsage = &billinganalyticsmeterusage.Client{B: backends.API, Key: key}
 	a.BillingCreditBalanceSummary = &billingcreditbalancesummary.Client{B: backends.API, Key: key}
@@ -919,6 +926,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.CryptoCustomerConsumerWallets = &cryptocustomerconsumerwallet.Client{B: backends.API, Key: key}
 	a.CryptoCustomerPaymentTokens = &cryptocustomerpaymenttoken.Client{B: backends.API, Key: key}
 	a.CryptoCustomers = &cryptocustomer.Client{B: backends.API, Key: key}
+	a.CryptoDepositAddresses = &cryptodepositaddress.Client{B: backends.API, Key: key}
 	a.CryptoOnrampSessions = &cryptoonrampsession.Client{B: backends.API, Key: key}
 	a.CryptoOnrampTransactionLimits = &cryptoonramptransactionlimits.Client{B: backends.API, Key: key}
 	a.CustomerBalanceTransactions = &customerbalancetransaction.Client{B: backends.API, Key: key}

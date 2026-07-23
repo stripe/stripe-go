@@ -29,6 +29,24 @@ func (p *PaymentIntentAmountDetailsLineItemListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardEvCharging struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 int64 `json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt int64 `json:"charging_ended_at,omitempty"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw int64 `json:"charging_power_output_capacity_kw,omitempty"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt int64 `json:"charging_started_at,omitempty"`
+	// The type of connector used for the charging session.
+	ConnectorType string `json:"connector_type,omitempty"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded int64 `json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft int64 `json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw int64 `json:"maximum_power_dispensed_kw,omitempty"`
+}
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetData struct {
 	// The type of product being purchased at this line item.
 	ProductType string `json:"product_type,omitempty"`
@@ -36,8 +54,9 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetData struct 
 	ServiceType string `json:"service_type,omitempty"`
 }
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCard struct {
-	CommodityCode string                                                               `json:"commodity_code"`
-	FleetData     *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetData `json:"fleet_data,omitempty"`
+	CommodityCode string                                                                `json:"commodity_code"`
+	EvCharging    *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardEvCharging `json:"ev_charging,omitempty"`
+	FleetData     *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetData  `json:"fleet_data,omitempty"`
 }
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresent struct {
 	CommodityCode string `json:"commodity_code"`

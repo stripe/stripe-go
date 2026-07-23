@@ -1166,6 +1166,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationVippsDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationVippsDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationVippsDisplayPreferencePreferenceNone PaymentMethodConfigurationVippsDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationVippsDisplayPreferencePreferenceOff  PaymentMethodConfigurationVippsDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationVippsDisplayPreferencePreferenceOn   PaymentMethodConfigurationVippsDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationVippsDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationVippsDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationVippsDisplayPreferenceValueOff PaymentMethodConfigurationVippsDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationVippsDisplayPreferenceValueOn  PaymentMethodConfigurationVippsDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationWeChatPayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationWeChatPayDisplayPreferencePreference can take
@@ -1976,6 +1995,18 @@ type PaymentMethodConfigurationUSBankAccountParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationVippsDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Vipps is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Norway. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Vipps app. Check this [page](https://docs.stripe.com/payments/vipps) for more details.
+type PaymentMethodConfigurationVippsParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationVippsDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationWeChatPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -2136,6 +2167,8 @@ type PaymentMethodConfigurationParams struct {
 	Upi *PaymentMethodConfigurationUpiParams `form:"upi" json:"upi,omitempty"`
 	// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
 	USBankAccount *PaymentMethodConfigurationUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// Vipps is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Norway. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Vipps app. Check this [page](https://docs.stripe.com/payments/vipps) for more details.
+	Vipps *PaymentMethodConfigurationVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
 	WeChatPay *PaymentMethodConfigurationWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
@@ -2904,6 +2937,18 @@ type PaymentMethodConfigurationCreateUSBankAccountParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateVippsDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Vipps is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Norway. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Vipps app. Check this [page](https://docs.stripe.com/payments/vipps) for more details.
+type PaymentMethodConfigurationCreateVippsParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateVippsDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateWeChatPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -3062,6 +3107,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Upi *PaymentMethodConfigurationCreateUpiParams `form:"upi" json:"upi,omitempty"`
 	// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
 	USBankAccount *PaymentMethodConfigurationCreateUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// Vipps is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Norway. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Vipps app. Check this [page](https://docs.stripe.com/payments/vipps) for more details.
+	Vipps *PaymentMethodConfigurationCreateVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
 	WeChatPay *PaymentMethodConfigurationCreateWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
@@ -3842,6 +3889,18 @@ type PaymentMethodConfigurationUpdateUSBankAccountParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateVippsDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference" json:"preference,omitempty"`
+}
+
+// Vipps is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Norway. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Vipps app. Check this [page](https://docs.stripe.com/payments/vipps) for more details.
+type PaymentMethodConfigurationUpdateVippsParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateVippsDisplayPreferenceParams `form:"display_preference" json:"display_preference,omitempty"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateWeChatPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference" json:"preference,omitempty"`
@@ -4000,6 +4059,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Upi *PaymentMethodConfigurationUpdateUpiParams `form:"upi" json:"upi,omitempty"`
 	// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://docs.stripe.com/payments/ach-direct-debit) for more details.
 	USBankAccount *PaymentMethodConfigurationUpdateUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// Vipps is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) card wallet payment method used in Norway. It allows customers to [authenticate and approve](https://docs.stripe.com/payments/payment-methods#customer-actions) payments using the Vipps app. Check this [page](https://docs.stripe.com/payments/vipps) for more details.
+	Vipps *PaymentMethodConfigurationUpdateVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://docs.stripe.com/payments/wechat-pay) for more details.
 	WeChatPay *PaymentMethodConfigurationUpdateWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://docs.stripe.com/payments/zip) for more details like country availability.
@@ -4804,6 +4865,19 @@ type PaymentMethodConfigurationUSBankAccount struct {
 	Available         bool                                                      `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationUSBankAccountDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationVippsDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationVippsDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationVippsDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationVipps struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                              `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationVippsDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationWeChatPayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -4924,6 +4998,7 @@ type PaymentMethodConfiguration struct {
 	TWINT         *PaymentMethodConfigurationTWINT         `json:"twint,omitempty"`
 	Upi           *PaymentMethodConfigurationUpi           `json:"upi,omitempty"`
 	USBankAccount *PaymentMethodConfigurationUSBankAccount `json:"us_bank_account,omitempty"`
+	Vipps         *PaymentMethodConfigurationVipps         `json:"vipps,omitempty"`
 	WeChatPay     *PaymentMethodConfigurationWeChatPay     `json:"wechat_pay,omitempty"`
 	Zip           *PaymentMethodConfigurationZip           `json:"zip,omitempty"`
 }

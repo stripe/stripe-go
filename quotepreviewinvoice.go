@@ -446,6 +446,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeKonbini            QuotePreviewInvoicePaymentSettingsPaymentMethodType = "konbini"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeKrCard             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "kr_card"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeLink               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "link"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeMbWay              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "mb_way"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeMomo               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "momo"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeMultibanco         QuotePreviewInvoicePaymentSettingsPaymentMethodType = "multibanco"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeNaverPay           QuotePreviewInvoicePaymentSettingsPaymentMethodType = "naver_pay"

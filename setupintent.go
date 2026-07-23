@@ -94,6 +94,7 @@ const (
 	SetupIntentExcludedPaymentMethodTypeTWINT            SetupIntentExcludedPaymentMethodType = "twint"
 	SetupIntentExcludedPaymentMethodTypeUpi              SetupIntentExcludedPaymentMethodType = "upi"
 	SetupIntentExcludedPaymentMethodTypeUSBankAccount    SetupIntentExcludedPaymentMethodType = "us_bank_account"
+	SetupIntentExcludedPaymentMethodTypeVipps            SetupIntentExcludedPaymentMethodType = "vipps"
 	SetupIntentExcludedPaymentMethodTypeWeChatPay        SetupIntentExcludedPaymentMethodType = "wechat_pay"
 	SetupIntentExcludedPaymentMethodTypeZip              SetupIntentExcludedPaymentMethodType = "zip"
 )
@@ -826,6 +827,9 @@ type SetupIntentPaymentMethodDataUSBankAccountParams struct {
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
 }
 
+// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+type SetupIntentPaymentMethodDataVippsParams struct{}
+
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type SetupIntentPaymentMethodDataWeChatPayParams struct{}
 
@@ -969,6 +973,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Upi *SetupIntentPaymentMethodDataUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *SetupIntentPaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+	Vipps *SetupIntentPaymentMethodDataVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *SetupIntentPaymentMethodDataWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -1964,6 +1970,9 @@ type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
 }
 
+// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+type SetupIntentConfirmPaymentMethodDataVippsParams struct{}
+
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type SetupIntentConfirmPaymentMethodDataWeChatPayParams struct{}
 
@@ -2107,6 +2116,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Upi *SetupIntentConfirmPaymentMethodDataUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *SetupIntentConfirmPaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+	Vipps *SetupIntentConfirmPaymentMethodDataVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *SetupIntentConfirmPaymentMethodDataWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -2612,6 +2623,9 @@ type SetupIntentCreatePaymentMethodDataUSBankAccountParams struct {
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
 }
 
+// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+type SetupIntentCreatePaymentMethodDataVippsParams struct{}
+
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type SetupIntentCreatePaymentMethodDataWeChatPayParams struct{}
 
@@ -2755,6 +2769,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	Upi *SetupIntentCreatePaymentMethodDataUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *SetupIntentCreatePaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+	Vipps *SetupIntentCreatePaymentMethodDataVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *SetupIntentCreatePaymentMethodDataWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -3748,6 +3764,9 @@ type SetupIntentUpdatePaymentMethodDataUSBankAccountParams struct {
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
 }
 
+// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+type SetupIntentUpdatePaymentMethodDataVippsParams struct{}
+
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type SetupIntentUpdatePaymentMethodDataWeChatPayParams struct{}
 
@@ -3891,6 +3910,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	Upi *SetupIntentUpdatePaymentMethodDataUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *SetupIntentUpdatePaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+	Vipps *SetupIntentUpdatePaymentMethodDataVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *SetupIntentUpdatePaymentMethodDataWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
