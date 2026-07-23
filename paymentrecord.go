@@ -184,6 +184,7 @@ type PaymentRecordPaymentMethodDetailsCardThreeDSecureResult string
 const (
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultAuthenticated       PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "authenticated"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultDataShareOnly       PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "data_share_only"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultExempted            PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "exempted"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultFailed              PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "failed"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultNotSupported        PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "not_supported"
@@ -1491,11 +1492,11 @@ type PaymentRecordCreateParams struct {
 	// The amount that has been lost to the customer due to disputes on this payment.
 	Amount *PaymentRecordCreateAmountParams `form:"amount" json:"amount"`
 	// Information about the dispute closing.
-	Closed *PaymentRecordCreateClosedParams `form:"closed" json:"closed"`
+	Closed *PaymentRecordCreateClosedParams `form:"closed" json:"closed,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Information about the dispute funding event.
-	Funded *PaymentRecordCreateFundedParams `form:"funded" json:"funded"`
+	Funded *PaymentRecordCreateFundedParams `form:"funded" json:"funded,omitempty"`
 	// When the reported payment was initiated. Measured in seconds since the Unix epoch.
 	InitiatedAt *int64 `form:"initiated_at" json:"initiated_at,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.

@@ -100,8 +100,9 @@ type V2SignalsAccountSignalType string
 
 // List of values that V2SignalsAccountSignalType can take
 const (
-	V2SignalsAccountSignalTypeFraudulentMerchant  V2SignalsAccountSignalType = "fraudulent_merchant"
-	V2SignalsAccountSignalTypeMerchantDelinquency V2SignalsAccountSignalType = "merchant_delinquency"
+	V2SignalsAccountSignalTypeFraudulentMerchant         V2SignalsAccountSignalType = "fraudulent_merchant"
+	V2SignalsAccountSignalTypeMerchantDelinquency        V2SignalsAccountSignalType = "merchant_delinquency"
+	V2SignalsAccountSignalTypePaymentDelinquencyExposure V2SignalsAccountSignalType = "payment_delinquency_exposure"
 )
 
 // The account or customer this signal is associated with.

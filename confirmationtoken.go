@@ -453,6 +453,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeTWINT            ConfirmationTokenPaymentMethodPreviewType = "twint"
 	ConfirmationTokenPaymentMethodPreviewTypeUpi              ConfirmationTokenPaymentMethodPreviewType = "upi"
 	ConfirmationTokenPaymentMethodPreviewTypeUSBankAccount    ConfirmationTokenPaymentMethodPreviewType = "us_bank_account"
+	ConfirmationTokenPaymentMethodPreviewTypeVipps            ConfirmationTokenPaymentMethodPreviewType = "vipps"
 	ConfirmationTokenPaymentMethodPreviewTypeWeChatPay        ConfirmationTokenPaymentMethodPreviewType = "wechat_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeZip              ConfirmationTokenPaymentMethodPreviewType = "zip"
 )
@@ -1222,6 +1223,7 @@ type ConfirmationTokenPaymentMethodPreviewUSBankAccount struct {
 	// Contains information about the future reusability of this PaymentMethod.
 	StatusDetails *ConfirmationTokenPaymentMethodPreviewUSBankAccountStatusDetails `json:"status_details"`
 }
+type ConfirmationTokenPaymentMethodPreviewVipps struct{}
 type ConfirmationTokenPaymentMethodPreviewWeChatPay struct{}
 type ConfirmationTokenPaymentMethodPreviewZip struct{}
 
@@ -1298,6 +1300,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Type          ConfirmationTokenPaymentMethodPreviewType           `json:"type"`
 	Upi           *ConfirmationTokenPaymentMethodPreviewUpi           `json:"upi,omitempty"`
 	USBankAccount *ConfirmationTokenPaymentMethodPreviewUSBankAccount `json:"us_bank_account,omitempty"`
+	Vipps         *ConfirmationTokenPaymentMethodPreviewVipps         `json:"vipps,omitempty"`
 	WeChatPay     *ConfirmationTokenPaymentMethodPreviewWeChatPay     `json:"wechat_pay,omitempty"`
 	Zip           *ConfirmationTokenPaymentMethodPreviewZip           `json:"zip,omitempty"`
 }

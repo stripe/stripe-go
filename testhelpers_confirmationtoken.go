@@ -348,6 +348,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams struct {
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
 }
 
+// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataVippsParams struct{}
+
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataWeChatPayParams struct{}
 
@@ -490,6 +493,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Upi *TestHelpersConfirmationTokenPaymentMethodDataUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *TestHelpersConfirmationTokenPaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+	Vipps *TestHelpersConfirmationTokenPaymentMethodDataVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *TestHelpersConfirmationTokenPaymentMethodDataWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -927,6 +932,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams stru
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
 }
 
+// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataVippsParams struct{}
+
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataWeChatPayParams struct{}
 
@@ -1069,6 +1077,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Upi *TestHelpersConfirmationTokenCreatePaymentMethodDataUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *TestHelpersConfirmationTokenCreatePaymentMethodDataUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+	Vipps *TestHelpersConfirmationTokenCreatePaymentMethodDataVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *TestHelpersConfirmationTokenCreatePaymentMethodDataWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.

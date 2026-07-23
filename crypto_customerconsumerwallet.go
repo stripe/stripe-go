@@ -20,6 +20,7 @@ const (
 	CryptoCustomerConsumerWalletNetworkPolygon    CryptoCustomerConsumerWalletNetwork = "polygon"
 	CryptoCustomerConsumerWalletNetworkSolana     CryptoCustomerConsumerWalletNetwork = "solana"
 	CryptoCustomerConsumerWalletNetworkStellar    CryptoCustomerConsumerWalletNetwork = "stellar"
+	CryptoCustomerConsumerWalletNetworkSui        CryptoCustomerConsumerWalletNetwork = "sui"
 	CryptoCustomerConsumerWalletNetworkWorldchain CryptoCustomerConsumerWalletNetwork = "worldchain"
 )
 

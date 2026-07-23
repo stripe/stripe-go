@@ -32,6 +32,8 @@ type Client struct {
 	V1BalanceTransfers *v1BalanceTransferService
 	// V1BankAccounts is the service used to invoke /v1/accounts/{account}/external_accounts APIs.
 	V1BankAccounts *v1BankAccountService
+	// V1BillingAlertNotifications is the service used to invoke /v1/billing/alerts/{id}/notifications APIs.
+	V1BillingAlertNotifications *v1BillingAlertNotificationService
 	// V1BillingAlerts is the service used to invoke /v1/billing/alerts APIs.
 	V1BillingAlerts *v1BillingAlertService
 	// V1BillingAnalyticsMeterUsage is the service used to invoke /v1/billing/analytics/meter_usage APIs.
@@ -90,6 +92,8 @@ type Client struct {
 	V1CryptoCustomerPaymentTokens *v1CryptoCustomerPaymentTokenService
 	// V1CryptoCustomers is the service used to invoke /v1/crypto/customers APIs.
 	V1CryptoCustomers *v1CryptoCustomerService
+	// V1CryptoDepositAddresses is the service used to invoke /v1/crypto/deposit_addresses APIs.
+	V1CryptoDepositAddresses *v1CryptoDepositAddressService
 	// V1CryptoOnrampSessions is the service used to invoke /v1/crypto/onramp_sessions APIs.
 	V1CryptoOnrampSessions *v1CryptoOnrampSessionService
 	// V1CryptoOnrampTransactionLimits is the service used to invoke /v1/crypto/onramp_transaction_limits APIs.
@@ -617,6 +621,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1BalanceTransactions = &v1BalanceTransactionService{B: backends.API, Key: key}
 	client.V1BalanceTransfers = &v1BalanceTransferService{B: backends.API, Key: key}
 	client.V1BankAccounts = &v1BankAccountService{B: backends.API, Key: key}
+	client.V1BillingAlertNotifications = &v1BillingAlertNotificationService{B: backends.API, Key: key}
 	client.V1BillingAlerts = &v1BillingAlertService{B: backends.API, Key: key}
 	client.V1BillingAnalyticsMeterUsage = &v1BillingAnalyticsMeterUsageService{B: backends.API, Key: key}
 	client.V1BillingCreditBalanceSummary = &v1BillingCreditBalanceSummaryService{B: backends.API, Key: key}
@@ -646,6 +651,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1CryptoCustomerConsumerWallets = &v1CryptoCustomerConsumerWalletService{B: backends.API, Key: key}
 	client.V1CryptoCustomerPaymentTokens = &v1CryptoCustomerPaymentTokenService{B: backends.API, Key: key}
 	client.V1CryptoCustomers = &v1CryptoCustomerService{B: backends.API, Key: key}
+	client.V1CryptoDepositAddresses = &v1CryptoDepositAddressService{B: backends.API, Key: key}
 	client.V1CryptoOnrampSessions = &v1CryptoOnrampSessionService{B: backends.API, Key: key}
 	client.V1CryptoOnrampTransactionLimits = &v1CryptoOnrampTransactionLimitsService{B: backends.API, Key: key}
 	client.V1CustomerBalanceTransactions = &v1CustomerBalanceTransactionService{B: backends.API, Key: key}

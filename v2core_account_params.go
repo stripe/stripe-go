@@ -231,12 +231,34 @@ type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCar
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can create commercial issuing spend cards with Stripe as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can create commercial issuing cards with Stripe as BIN sponsor.
 type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeParams struct {
 	// Can create commercial issuing charge cards with Stripe as BIN sponsor.
 	ChargeCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
 	// Can create commercial issuing prepaid cards with Stripe as BIN sponsor.
 	PrepaidCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+	// Can create commercial issuing spend cards with Stripe as BIN sponsor.
+	SpendCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardParams `form:"spend_card" json:"spend_card,omitempty"`
 }
 
 // Can create cards for commercial issuing use cases.
@@ -4325,12 +4347,34 @@ type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialStripePrep
 	Requested *bool `form:"requested" json:"requested"`
 }
 
+// Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can create commercial issuing spend cards with Stripe as BIN sponsor.
+type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
 // Can create commercial issuing cards with Stripe as BIN sponsor.
 type V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialStripeParams struct {
 	// Can create commercial issuing charge cards with Stripe as BIN sponsor.
 	ChargeCard *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
 	// Can create commercial issuing prepaid cards with Stripe as BIN sponsor.
 	PrepaidCard *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+	// Can create commercial issuing spend cards with Stripe as BIN sponsor.
+	SpendCard *V2CoreAccountCreateConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardParams `form:"spend_card" json:"spend_card,omitempty"`
 }
 
 // Can create cards for commercial issuing use cases.
@@ -8391,12 +8435,34 @@ type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialStripePrep
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
+// Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Can create commercial issuing spend cards with Stripe as BIN sponsor.
+type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
 // Can create commercial issuing cards with Stripe as BIN sponsor.
 type V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialStripeParams struct {
 	// Can create commercial issuing charge cards with Stripe as BIN sponsor.
 	ChargeCard *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialStripeChargeCardParams `form:"charge_card" json:"charge_card,omitempty"`
 	// Can create commercial issuing prepaid cards with Stripe as BIN sponsor.
 	PrepaidCard *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardParams `form:"prepaid_card" json:"prepaid_card,omitempty"`
+	// Can create commercial issuing spend cards with Stripe as BIN sponsor.
+	SpendCard *V2CoreAccountUpdateConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardParams `form:"spend_card" json:"spend_card,omitempty"`
 }
 
 // Can create cards for commercial issuing use cases.

@@ -53,6 +53,109 @@ const (
 	PaymentIntentAdvancedFeatureDetailsOvercaptureStatusUnavailable PaymentIntentAdvancedFeatureDetailsOvercaptureStatus = "unavailable"
 )
 
+// The list of payment method types allowed for use with this payment. Stripe automatically returns compatible payment methods from this list in the `payment_method_types` field of the response, based on the other PaymentIntent parameters, such as `currency`, `amount`, and `customer`.
+type PaymentIntentAllowedPaymentMethodType string
+
+// List of values that PaymentIntentAllowedPaymentMethodType can take
+const (
+	PaymentIntentAllowedPaymentMethodTypeACSSDebit            PaymentIntentAllowedPaymentMethodType = "acss_debit"
+	PaymentIntentAllowedPaymentMethodTypeAffirm               PaymentIntentAllowedPaymentMethodType = "affirm"
+	PaymentIntentAllowedPaymentMethodTypeAfterpayClearpay     PaymentIntentAllowedPaymentMethodType = "afterpay_clearpay"
+	PaymentIntentAllowedPaymentMethodTypeAlipay               PaymentIntentAllowedPaymentMethodType = "alipay"
+	PaymentIntentAllowedPaymentMethodTypeAlma                 PaymentIntentAllowedPaymentMethodType = "alma"
+	PaymentIntentAllowedPaymentMethodTypeAmazonPay            PaymentIntentAllowedPaymentMethodType = "amazon_pay"
+	PaymentIntentAllowedPaymentMethodTypeAUBECSDebit          PaymentIntentAllowedPaymentMethodType = "au_becs_debit"
+	PaymentIntentAllowedPaymentMethodTypeBACSDebit            PaymentIntentAllowedPaymentMethodType = "bacs_debit"
+	PaymentIntentAllowedPaymentMethodTypeBancontact           PaymentIntentAllowedPaymentMethodType = "bancontact"
+	PaymentIntentAllowedPaymentMethodTypeBillie               PaymentIntentAllowedPaymentMethodType = "billie"
+	PaymentIntentAllowedPaymentMethodTypeBizum                PaymentIntentAllowedPaymentMethodType = "bizum"
+	PaymentIntentAllowedPaymentMethodTypeBLIK                 PaymentIntentAllowedPaymentMethodType = "blik"
+	PaymentIntentAllowedPaymentMethodTypeBokuPromptPay        PaymentIntentAllowedPaymentMethodType = "boku_promptpay"
+	PaymentIntentAllowedPaymentMethodTypeBoleto               PaymentIntentAllowedPaymentMethodType = "boleto"
+	PaymentIntentAllowedPaymentMethodTypeCapchasePay          PaymentIntentAllowedPaymentMethodType = "capchase_pay"
+	PaymentIntentAllowedPaymentMethodTypeCard                 PaymentIntentAllowedPaymentMethodType = "card"
+	PaymentIntentAllowedPaymentMethodTypeCashApp              PaymentIntentAllowedPaymentMethodType = "cashapp"
+	PaymentIntentAllowedPaymentMethodTypeCheckScan            PaymentIntentAllowedPaymentMethodType = "check_scan"
+	PaymentIntentAllowedPaymentMethodTypeClickToPay           PaymentIntentAllowedPaymentMethodType = "click_to_pay"
+	PaymentIntentAllowedPaymentMethodTypeCrypto               PaymentIntentAllowedPaymentMethodType = "crypto"
+	PaymentIntentAllowedPaymentMethodTypeCustomerBalance      PaymentIntentAllowedPaymentMethodType = "customer_balance"
+	PaymentIntentAllowedPaymentMethodTypeDemoPay              PaymentIntentAllowedPaymentMethodType = "demo_pay"
+	PaymentIntentAllowedPaymentMethodTypeDuitnow              PaymentIntentAllowedPaymentMethodType = "duitnow"
+	PaymentIntentAllowedPaymentMethodTypeDummyAuthPush        PaymentIntentAllowedPaymentMethodType = "dummy_auth_push"
+	PaymentIntentAllowedPaymentMethodTypeDummyPassthroughCard PaymentIntentAllowedPaymentMethodType = "dummy_passthrough_card"
+	PaymentIntentAllowedPaymentMethodTypeEdenred              PaymentIntentAllowedPaymentMethodType = "edenred"
+	PaymentIntentAllowedPaymentMethodTypeEPS                  PaymentIntentAllowedPaymentMethodType = "eps"
+	PaymentIntentAllowedPaymentMethodTypeFPX                  PaymentIntentAllowedPaymentMethodType = "fpx"
+	PaymentIntentAllowedPaymentMethodTypeGcash                PaymentIntentAllowedPaymentMethodType = "gcash"
+	PaymentIntentAllowedPaymentMethodTypeGetbalance           PaymentIntentAllowedPaymentMethodType = "getbalance"
+	PaymentIntentAllowedPaymentMethodTypeGiftCard             PaymentIntentAllowedPaymentMethodType = "gift_card"
+	PaymentIntentAllowedPaymentMethodTypeGiropay              PaymentIntentAllowedPaymentMethodType = "giropay"
+	PaymentIntentAllowedPaymentMethodTypeGopay                PaymentIntentAllowedPaymentMethodType = "gopay"
+	PaymentIntentAllowedPaymentMethodTypeGrabpay              PaymentIntentAllowedPaymentMethodType = "grabpay"
+	PaymentIntentAllowedPaymentMethodTypeIDBankTransfer       PaymentIntentAllowedPaymentMethodType = "id_bank_transfer"
+	PaymentIntentAllowedPaymentMethodTypeIDEAL                PaymentIntentAllowedPaymentMethodType = "ideal"
+	PaymentIntentAllowedPaymentMethodTypeKakaoPay             PaymentIntentAllowedPaymentMethodType = "kakao_pay"
+	PaymentIntentAllowedPaymentMethodTypeKlarna               PaymentIntentAllowedPaymentMethodType = "klarna"
+	PaymentIntentAllowedPaymentMethodTypeKnet                 PaymentIntentAllowedPaymentMethodType = "knet"
+	PaymentIntentAllowedPaymentMethodTypeKonbini              PaymentIntentAllowedPaymentMethodType = "konbini"
+	PaymentIntentAllowedPaymentMethodTypeKrCard               PaymentIntentAllowedPaymentMethodType = "kr_card"
+	PaymentIntentAllowedPaymentMethodTypeKrMarket             PaymentIntentAllowedPaymentMethodType = "kr_market"
+	PaymentIntentAllowedPaymentMethodTypeKriya                PaymentIntentAllowedPaymentMethodType = "kriya"
+	PaymentIntentAllowedPaymentMethodTypeLink                 PaymentIntentAllowedPaymentMethodType = "link"
+	PaymentIntentAllowedPaymentMethodTypeMbWay                PaymentIntentAllowedPaymentMethodType = "mb_way"
+	PaymentIntentAllowedPaymentMethodTypeMobilepay            PaymentIntentAllowedPaymentMethodType = "mobilepay"
+	PaymentIntentAllowedPaymentMethodTypeMomo                 PaymentIntentAllowedPaymentMethodType = "momo"
+	PaymentIntentAllowedPaymentMethodTypeMondu                PaymentIntentAllowedPaymentMethodType = "mondu"
+	PaymentIntentAllowedPaymentMethodTypeMultibanco           PaymentIntentAllowedPaymentMethodType = "multibanco"
+	PaymentIntentAllowedPaymentMethodTypeNaverPay             PaymentIntentAllowedPaymentMethodType = "naver_pay"
+	PaymentIntentAllowedPaymentMethodTypeNetbanking           PaymentIntentAllowedPaymentMethodType = "netbanking"
+	PaymentIntentAllowedPaymentMethodTypeNgBank               PaymentIntentAllowedPaymentMethodType = "ng_bank"
+	PaymentIntentAllowedPaymentMethodTypeNgBankTransfer       PaymentIntentAllowedPaymentMethodType = "ng_bank_transfer"
+	PaymentIntentAllowedPaymentMethodTypeNgCard               PaymentIntentAllowedPaymentMethodType = "ng_card"
+	PaymentIntentAllowedPaymentMethodTypeNgMarket             PaymentIntentAllowedPaymentMethodType = "ng_market"
+	PaymentIntentAllowedPaymentMethodTypeNgUssd               PaymentIntentAllowedPaymentMethodType = "ng_ussd"
+	PaymentIntentAllowedPaymentMethodTypeNgWallet             PaymentIntentAllowedPaymentMethodType = "ng_wallet"
+	PaymentIntentAllowedPaymentMethodTypeNzBankAccount        PaymentIntentAllowedPaymentMethodType = "nz_bank_account"
+	PaymentIntentAllowedPaymentMethodTypeOctopus              PaymentIntentAllowedPaymentMethodType = "octopus"
+	PaymentIntentAllowedPaymentMethodTypeOXXO                 PaymentIntentAllowedPaymentMethodType = "oxxo"
+	PaymentIntentAllowedPaymentMethodTypeP24                  PaymentIntentAllowedPaymentMethodType = "p24"
+	PaymentIntentAllowedPaymentMethodTypePaperCheck           PaymentIntentAllowedPaymentMethodType = "paper_check"
+	PaymentIntentAllowedPaymentMethodTypePayByBank            PaymentIntentAllowedPaymentMethodType = "pay_by_bank"
+	PaymentIntentAllowedPaymentMethodTypePayco                PaymentIntentAllowedPaymentMethodType = "payco"
+	PaymentIntentAllowedPaymentMethodTypePayNow               PaymentIntentAllowedPaymentMethodType = "paynow"
+	PaymentIntentAllowedPaymentMethodTypePaypal               PaymentIntentAllowedPaymentMethodType = "paypal"
+	PaymentIntentAllowedPaymentMethodTypePaypay               PaymentIntentAllowedPaymentMethodType = "paypay"
+	PaymentIntentAllowedPaymentMethodTypePayto                PaymentIntentAllowedPaymentMethodType = "payto"
+	PaymentIntentAllowedPaymentMethodTypePix                  PaymentIntentAllowedPaymentMethodType = "pix"
+	PaymentIntentAllowedPaymentMethodTypePromptPay            PaymentIntentAllowedPaymentMethodType = "promptpay"
+	PaymentIntentAllowedPaymentMethodTypeQris                 PaymentIntentAllowedPaymentMethodType = "qris"
+	PaymentIntentAllowedPaymentMethodTypeRechnung             PaymentIntentAllowedPaymentMethodType = "rechnung"
+	PaymentIntentAllowedPaymentMethodTypeRevolutPay           PaymentIntentAllowedPaymentMethodType = "revolut_pay"
+	PaymentIntentAllowedPaymentMethodTypeSamsungPay           PaymentIntentAllowedPaymentMethodType = "samsung_pay"
+	PaymentIntentAllowedPaymentMethodTypeSatispay             PaymentIntentAllowedPaymentMethodType = "satispay"
+	PaymentIntentAllowedPaymentMethodTypeScalapay             PaymentIntentAllowedPaymentMethodType = "scalapay"
+	PaymentIntentAllowedPaymentMethodTypeSEPADebit            PaymentIntentAllowedPaymentMethodType = "sepa_debit"
+	PaymentIntentAllowedPaymentMethodTypeSequra               PaymentIntentAllowedPaymentMethodType = "sequra"
+	PaymentIntentAllowedPaymentMethodTypeShopPay              PaymentIntentAllowedPaymentMethodType = "shop_pay"
+	PaymentIntentAllowedPaymentMethodTypeShopeepay            PaymentIntentAllowedPaymentMethodType = "shopeepay"
+	PaymentIntentAllowedPaymentMethodTypeSofort               PaymentIntentAllowedPaymentMethodType = "sofort"
+	PaymentIntentAllowedPaymentMethodTypeSouthKoreaMarket     PaymentIntentAllowedPaymentMethodType = "south_korea_market"
+	PaymentIntentAllowedPaymentMethodTypeStripeBalance        PaymentIntentAllowedPaymentMethodType = "stripe_balance"
+	PaymentIntentAllowedPaymentMethodTypeSunbit               PaymentIntentAllowedPaymentMethodType = "sunbit"
+	PaymentIntentAllowedPaymentMethodTypeSwish                PaymentIntentAllowedPaymentMethodType = "swish"
+	PaymentIntentAllowedPaymentMethodTypeTamara               PaymentIntentAllowedPaymentMethodType = "tamara"
+	PaymentIntentAllowedPaymentMethodTypeTestPay              PaymentIntentAllowedPaymentMethodType = "test_pay"
+	PaymentIntentAllowedPaymentMethodTypeTruemoney            PaymentIntentAllowedPaymentMethodType = "truemoney"
+	PaymentIntentAllowedPaymentMethodTypeTWINT                PaymentIntentAllowedPaymentMethodType = "twint"
+	PaymentIntentAllowedPaymentMethodTypeUpi                  PaymentIntentAllowedPaymentMethodType = "upi"
+	PaymentIntentAllowedPaymentMethodTypeUSBankAccount        PaymentIntentAllowedPaymentMethodType = "us_bank_account"
+	PaymentIntentAllowedPaymentMethodTypeUSCashVoucher        PaymentIntentAllowedPaymentMethodType = "us_cash_voucher"
+	PaymentIntentAllowedPaymentMethodTypeVipps                PaymentIntentAllowedPaymentMethodType = "vipps"
+	PaymentIntentAllowedPaymentMethodTypeWeChatPay            PaymentIntentAllowedPaymentMethodType = "wechat_pay"
+	PaymentIntentAllowedPaymentMethodTypeWero                 PaymentIntentAllowedPaymentMethodType = "wero"
+	PaymentIntentAllowedPaymentMethodTypeZip                  PaymentIntentAllowedPaymentMethodType = "zip"
+)
+
 // The code of the error that occurred when validating the current amount details.
 type PaymentIntentAmountDetailsErrorCode string
 
@@ -182,6 +285,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeTWINT            PaymentIntentExcludedPaymentMethodType = "twint"
 	PaymentIntentExcludedPaymentMethodTypeUpi              PaymentIntentExcludedPaymentMethodType = "upi"
 	PaymentIntentExcludedPaymentMethodTypeUSBankAccount    PaymentIntentExcludedPaymentMethodType = "us_bank_account"
+	PaymentIntentExcludedPaymentMethodTypeVipps            PaymentIntentExcludedPaymentMethodType = "vipps"
 	PaymentIntentExcludedPaymentMethodTypeWeChatPay        PaymentIntentExcludedPaymentMethodType = "wechat_pay"
 	PaymentIntentExcludedPaymentMethodTypeZip              PaymentIntentExcludedPaymentMethodType = "zip"
 )
@@ -2025,6 +2129,39 @@ const (
 	PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsVippsCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsVippsCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsVippsCaptureMethodManual PaymentIntentPaymentMethodOptionsVippsCaptureMethod = "manual"
+)
+
+// The category of digital asset being acquired through this account funding transaction.
+type PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory string
+
+// List of values that PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory can take
+const (
+	PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryBlockchainNative PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "blockchain_native"
+	PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryNft              PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "nft"
+	PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryOtherNonFiat     PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "other_non_fiat"
+	PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategoryStablecoin       PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory = "stablecoin"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsVippsSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsVippsSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsVippsSetupFutureUsageNone PaymentIntentPaymentMethodOptionsVippsSetupFutureUsage = "none"
+)
+
 // The client type that the end customer will pay from
 type PaymentIntentPaymentMethodOptionsWeChatPayClient string
 
@@ -2148,6 +2285,26 @@ type PaymentIntentAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// EV charging data for this line item.
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
 // Fleet data for this line item.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
 	// The type of product being purchased at this line item.
@@ -2160,6 +2317,8 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams s
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
 	// Fleet data for this line item.
 	FleetData *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
@@ -3608,6 +3767,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Upi *PaymentMethodUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+	Vipps *PaymentMethodVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -6185,6 +6346,59 @@ func (p *PaymentIntentPaymentMethodOptionsUSBankAccountParams) AddUnsetField(fie
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Payment method specific account funding transaction details.
+type PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// The category of digital asset being acquired through this account funding transaction.
+	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
+}
+
+// Money services details for payment method specific funding fields.
+type PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesParams struct {
+	// Payment method specific account funding transaction details.
+	AccountFunding *PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+}
+
+// Payment details for payment method specific funding transaction fields.
+type PaymentIntentPaymentMethodOptionsVippsPaymentDetailsParams struct {
+	// Money services details for payment method specific funding fields.
+	MoneyServices *PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
+}
+
+// If this is a `Vipps` PaymentMethod, this sub-hash contains details about the Vipps payment method options.
+type PaymentIntentPaymentMethodOptionsVippsParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Payment details for payment method specific funding transaction fields.
+	PaymentDetails *PaymentIntentPaymentMethodOptionsVippsPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string                                                  `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentPaymentMethodOptionsVippsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsVippsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsVippsParams.
+type PaymentIntentPaymentMethodOptionsVippsParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsVippsParamsUnsetFieldCaptureMethod PaymentIntentPaymentMethodOptionsVippsParamsUnsetField = "capture_method"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsVippsParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsVippsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
 type PaymentIntentPaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios, android, or mini_program.
@@ -6345,6 +6559,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Upi *PaymentIntentPaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *PaymentIntentPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `Vipps` PaymentMethod, this sub-hash contains details about the Vipps payment method options.
+	Vipps *PaymentIntentPaymentMethodOptionsVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
 	WeChatPay *PaymentIntentPaymentMethodOptionsWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this sub-hash contains details about the Zip payment method options.
@@ -6418,6 +6634,7 @@ const (
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldTWINT            PaymentIntentPaymentMethodOptionsParamsUnsetField = "twint"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentPaymentMethodOptionsParamsUnsetField = "upi"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldUSBankAccount    PaymentIntentPaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	PaymentIntentPaymentMethodOptionsParamsUnsetFieldVipps            PaymentIntentPaymentMethodOptionsParamsUnsetField = "vipps"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldWeChatPay        PaymentIntentPaymentMethodOptionsParamsUnsetField = "wechat_pay"
 	PaymentIntentPaymentMethodOptionsParamsUnsetFieldZip              PaymentIntentPaymentMethodOptionsParamsUnsetField = "zip"
 )
@@ -6734,6 +6951,26 @@ func (p *PaymentIntentCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// EV charging data for this line item.
+type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
 // Fleet data for this line item.
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
 	// The type of product being purchased at this line item.
@@ -6746,6 +6983,8 @@ type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardFleetDataP
 type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
 	// Fleet data for this line item.
 	FleetData *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
@@ -7917,6 +8156,26 @@ type PaymentIntentConfirmAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// EV charging data for this line item.
+type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
 // Fleet data for this line item.
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
 	// The type of product being purchased at this line item.
@@ -7929,6 +8188,8 @@ type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardFleetDataP
 type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
 	// Fleet data for this line item.
 	FleetData *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
@@ -9244,7 +9505,7 @@ type PaymentIntentConfirmParams struct {
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// The list of payment method types (for example, a card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
+	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 	RadarOptions *PaymentIntentConfirmRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
@@ -9294,6 +9555,26 @@ func (p *PaymentIntentConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// EV charging data for this line item.
+type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
 // Fleet data for this line item.
 type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
 	// The type of product being purchased at this line item.
@@ -9306,6 +9587,8 @@ type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOption
 type PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
 	// Fleet data for this line item.
 	FleetData *PaymentIntentDecrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
@@ -9617,6 +9900,26 @@ func (p *PaymentIntentDecrementAuthorizationParams) AddMetadata(key string, valu
 	p.Metadata[key] = value
 }
 
+// EV charging data for this line item.
+type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
 // Fleet data for this line item.
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
 	// The type of product being purchased at this line item.
@@ -9629,6 +9932,8 @@ type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOption
 type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
 	// Fleet data for this line item.
 	FleetData *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
@@ -10058,6 +10363,26 @@ type PaymentIntentCreateAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// EV charging data for this line item.
+type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
 // Fleet data for this line item.
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
 	// The type of product being purchased at this line item.
@@ -10070,6 +10395,8 @@ type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataPa
 type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
 	// Fleet data for this line item.
 	FleetData *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
@@ -11518,6 +11845,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Upi *PaymentMethodUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+	Vipps *PaymentMethodVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -14095,6 +14424,59 @@ func (p *PaymentIntentCreatePaymentMethodOptionsUSBankAccountParams) AddUnsetFie
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Payment method specific account funding transaction details.
+type PaymentIntentCreatePaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// The category of digital asset being acquired through this account funding transaction.
+	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
+}
+
+// Money services details for payment method specific funding fields.
+type PaymentIntentCreatePaymentMethodOptionsVippsPaymentDetailsMoneyServicesParams struct {
+	// Payment method specific account funding transaction details.
+	AccountFunding *PaymentIntentCreatePaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+}
+
+// Payment details for payment method specific funding transaction fields.
+type PaymentIntentCreatePaymentMethodOptionsVippsPaymentDetailsParams struct {
+	// Money services details for payment method specific funding fields.
+	MoneyServices *PaymentIntentCreatePaymentMethodOptionsVippsPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
+}
+
+// If this is a `Vipps` PaymentMethod, this sub-hash contains details about the Vipps payment method options.
+type PaymentIntentCreatePaymentMethodOptionsVippsParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Payment details for payment method specific funding transaction fields.
+	PaymentDetails *PaymentIntentCreatePaymentMethodOptionsVippsPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string                                                        `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsVippsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsVippsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsVippsParams.
+type PaymentIntentCreatePaymentMethodOptionsVippsParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsVippsParamsUnsetFieldCaptureMethod PaymentIntentCreatePaymentMethodOptionsVippsParamsUnsetField = "capture_method"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsVippsParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsVippsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
 type PaymentIntentCreatePaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios, android, or mini_program.
@@ -14255,6 +14637,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	Upi *PaymentIntentCreatePaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *PaymentIntentCreatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `Vipps` PaymentMethod, this sub-hash contains details about the Vipps payment method options.
+	Vipps *PaymentIntentCreatePaymentMethodOptionsVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
 	WeChatPay *PaymentIntentCreatePaymentMethodOptionsWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this sub-hash contains details about the Zip payment method options.
@@ -14328,6 +14712,7 @@ const (
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldTWINT            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "twint"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "upi"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldUSBankAccount    PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldVipps            PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "vipps"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldWeChatPay        PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "wechat_pay"
 	PaymentIntentCreatePaymentMethodOptionsParamsUnsetFieldZip              PaymentIntentCreatePaymentMethodOptionsParamsUnsetField = "zip"
 )
@@ -14601,6 +14986,26 @@ type PaymentIntentUpdateAllocatedFundsParams struct {
 	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
+// EV charging data for this line item.
+type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams struct {
+	// The carbon footprint avoided by the charging session, in grams of CO2.
+	CarbonFootprintAvoidedGramsCo2 *int64 `form:"carbon_footprint_avoided_grams_co2" json:"carbon_footprint_avoided_grams_co2,omitempty"`
+	// The time the charging session ended, measured in seconds since the Unix epoch.
+	ChargingEndedAt *int64 `form:"charging_ended_at" json:"charging_ended_at"`
+	// The power output capacity of the charging station, in kilowatts (kW).
+	ChargingPowerOutputCapacityKw *int64 `form:"charging_power_output_capacity_kw" json:"charging_power_output_capacity_kw"`
+	// The time the charging session started, measured in seconds since the Unix epoch.
+	ChargingStartedAt *int64 `form:"charging_started_at" json:"charging_started_at"`
+	// The type of connector used for the charging session.
+	ConnectorType *string `form:"connector_type" json:"connector_type"`
+	// The estimated distance in kilometers or miles added to the vehicle during the charging session.
+	EstimatedRangeAdded *int64 `form:"estimated_range_added" json:"estimated_range_added,omitempty"`
+	// The estimated distance in kilometers or miles remaining in the vehicle after the charging session.
+	EstimatedRangeLeft *int64 `form:"estimated_range_left" json:"estimated_range_left,omitempty"`
+	// The maximum power dispensed during the charging session, in kilowatts (kW).
+	MaximumPowerDispensedKw *int64 `form:"maximum_power_dispensed_kw" json:"maximum_power_dispensed_kw"`
+}
+
 // Fleet data for this line item.
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams struct {
 	// The type of product being purchased at this line item.
@@ -14613,6 +15018,8 @@ type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataPa
 type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
 	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, and so on.
 	CommodityCode *string `form:"commodity_code" json:"commodity_code,omitempty"`
+	// EV charging data for this line item.
+	EvCharging *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardEvChargingParams `form:"ev_charging" json:"ev_charging,omitempty"`
 	// Fleet data for this line item.
 	FleetData *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardFleetDataParams `form:"fleet_data" json:"fleet_data,omitempty"`
 }
@@ -16044,6 +16451,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Upi *PaymentMethodUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+	Vipps *PaymentMethodVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -18621,6 +19030,59 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsUSBankAccountParams) AddUnsetFie
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Payment method specific account funding transaction details.
+type PaymentIntentUpdatePaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingParams struct {
+	// The category of digital asset being acquired through this account funding transaction.
+	DigitalAssetCategory *string `form:"digital_asset_category" json:"digital_asset_category,omitempty"`
+}
+
+// Money services details for payment method specific funding fields.
+type PaymentIntentUpdatePaymentMethodOptionsVippsPaymentDetailsMoneyServicesParams struct {
+	// Payment method specific account funding transaction details.
+	AccountFunding *PaymentIntentUpdatePaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingParams `form:"account_funding" json:"account_funding,omitempty"`
+}
+
+// Payment details for payment method specific funding transaction fields.
+type PaymentIntentUpdatePaymentMethodOptionsVippsPaymentDetailsParams struct {
+	// Money services details for payment method specific funding fields.
+	MoneyServices *PaymentIntentUpdatePaymentMethodOptionsVippsPaymentDetailsMoneyServicesParams `form:"money_services" json:"money_services,omitempty"`
+}
+
+// If this is a `Vipps` PaymentMethod, this sub-hash contains details about the Vipps payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsVippsParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Payment details for payment method specific funding transaction fields.
+	PaymentDetails *PaymentIntentUpdatePaymentMethodOptionsVippsPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string                                                        `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsVippsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsVippsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsVippsParams.
+type PaymentIntentUpdatePaymentMethodOptionsVippsParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsVippsParamsUnsetFieldCaptureMethod PaymentIntentUpdatePaymentMethodOptionsVippsParamsUnsetField = "capture_method"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsVippsParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsVippsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsWeChatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios, android, or mini_program.
@@ -18781,6 +19243,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	Upi *PaymentIntentUpdatePaymentMethodOptionsUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *PaymentIntentUpdatePaymentMethodOptionsUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `Vipps` PaymentMethod, this sub-hash contains details about the Vipps payment method options.
+	Vipps *PaymentIntentUpdatePaymentMethodOptionsVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
 	WeChatPay *PaymentIntentUpdatePaymentMethodOptionsWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this sub-hash contains details about the Zip payment method options.
@@ -18854,6 +19318,7 @@ const (
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldTWINT            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "twint"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldUpi              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "upi"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldUSBankAccount    PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "us_bank_account"
+	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldVipps            PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "vipps"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldWeChatPay        PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "wechat_pay"
 	PaymentIntentUpdatePaymentMethodOptionsParamsUnsetFieldZip              PaymentIntentUpdatePaymentMethodOptionsParamsUnsetField = "zip"
 )
@@ -19819,7 +20284,7 @@ type PaymentIntentPaymentDetailsCarRentalDatumTotalExtraCharge struct {
 }
 
 // Tax details.
-type PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTax struct {
+type PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTaxItem struct {
 	// Tax amount.
 	Amount int64 `json:"amount,omitempty"`
 	// Tax rate.
@@ -19828,10 +20293,10 @@ type PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTax struct {
 	Type string `json:"type,omitempty"`
 }
 type PaymentIntentPaymentDetailsCarRentalDatumTotalTax struct {
-	// Tax details.
-	Taxes []*PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTax `json:"taxes,omitempty"`
 	// Indicates whether the rental is tax-exempt.
 	TaxExemptIndicator bool `json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTaxItem `json:"tax_items,omitempty"`
 }
 type PaymentIntentPaymentDetailsCarRentalDatumTotal struct {
 	// Total amount.
@@ -20039,7 +20504,7 @@ type PaymentIntentPaymentDetailsFlightDatumTotalExtraCharge struct {
 }
 
 // Tax details.
-type PaymentIntentPaymentDetailsFlightDatumTotalTaxTax struct {
+type PaymentIntentPaymentDetailsFlightDatumTotalTaxTaxItem struct {
 	// Tax amount.
 	Amount int64 `json:"amount,omitempty"`
 	// Tax rate.
@@ -20049,7 +20514,7 @@ type PaymentIntentPaymentDetailsFlightDatumTotalTaxTax struct {
 }
 type PaymentIntentPaymentDetailsFlightDatumTotalTax struct {
 	// Tax details.
-	Taxes []*PaymentIntentPaymentDetailsFlightDatumTotalTaxTax `json:"taxes,omitempty"`
+	TaxItems []*PaymentIntentPaymentDetailsFlightDatumTotalTaxTaxItem `json:"tax_items,omitempty"`
 }
 type PaymentIntentPaymentDetailsFlightDatumTotal struct {
 	// Total amount.
@@ -20156,7 +20621,7 @@ type PaymentIntentPaymentDetailsLodgingDatumTotalExtraCharge struct {
 }
 
 // Tax details.
-type PaymentIntentPaymentDetailsLodgingDatumTotalTaxTax struct {
+type PaymentIntentPaymentDetailsLodgingDatumTotalTaxTaxItem struct {
 	// Tax amount in cents.
 	Amount int64 `json:"amount,omitempty"`
 	// Tax rate.
@@ -20165,10 +20630,10 @@ type PaymentIntentPaymentDetailsLodgingDatumTotalTaxTax struct {
 	Type string `json:"type,omitempty"`
 }
 type PaymentIntentPaymentDetailsLodgingDatumTotalTax struct {
-	// Tax details.
-	Taxes []*PaymentIntentPaymentDetailsLodgingDatumTotalTaxTax `json:"taxes,omitempty"`
 	// Indicates whether the transaction is tax exempt.
 	TaxExemptIndicator bool `json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentPaymentDetailsLodgingDatumTotalTaxTaxItem `json:"tax_items,omitempty"`
 }
 type PaymentIntentPaymentDetailsLodgingDatumTotal struct {
 	// Total price of the lodging reservation in cents.
@@ -21243,6 +21708,29 @@ type PaymentIntentPaymentMethodOptionsUSBankAccount struct {
 	// Bank account verification method. The default value is `automatic`.
 	VerificationMethod PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFunding struct {
+	// The category of digital asset being acquired through this account funding transaction.
+	DigitalAssetCategory PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFundingDigitalAssetCategory `json:"digital_asset_category,omitempty"`
+}
+type PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServices struct {
+	AccountFunding *PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServicesAccountFunding `json:"account_funding,omitempty"`
+}
+type PaymentIntentPaymentMethodOptionsVippsPaymentDetails struct {
+	MoneyServices *PaymentIntentPaymentMethodOptionsVippsPaymentDetailsMoneyServices `json:"money_services,omitempty"`
+}
+type PaymentIntentPaymentMethodOptionsVipps struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod  PaymentIntentPaymentMethodOptionsVippsCaptureMethod   `json:"capture_method,omitempty"`
+	PaymentDetails *PaymentIntentPaymentMethodOptionsVippsPaymentDetails `json:"payment_details,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsVippsSetupFutureUsage `json:"setup_future_usage,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsWeChatPay struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios, android, or mini_program.
 	AppID string `json:"app_id"`
@@ -21334,6 +21822,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	TWINT            *PaymentIntentPaymentMethodOptionsTWINT            `json:"twint,omitempty"`
 	Upi              *PaymentIntentPaymentMethodOptionsUpi              `json:"upi,omitempty"`
 	USBankAccount    *PaymentIntentPaymentMethodOptionsUSBankAccount    `json:"us_bank_account,omitempty"`
+	Vipps            *PaymentIntentPaymentMethodOptionsVipps            `json:"vipps,omitempty"`
 	WeChatPay        *PaymentIntentPaymentMethodOptionsWeChatPay        `json:"wechat_pay,omitempty"`
 	Zip              *PaymentIntentPaymentMethodOptionsZip              `json:"zip,omitempty"`
 }
@@ -21412,7 +21901,7 @@ type PaymentIntent struct {
 	// Allocated Funds configuration for this PaymentIntent.
 	AllocatedFunds *PaymentIntentAllocatedFunds `json:"allocated_funds,omitempty"`
 	// The list of payment method types allowed for use with this payment. Stripe automatically returns compatible payment methods from this list in the `payment_method_types` field of the response, based on the other PaymentIntent parameters, such as `currency`, `amount`, and `customer`.
-	AllowedPaymentMethodTypes []string `json:"allowed_payment_method_types,omitempty"`
+	AllowedPaymentMethodTypes []PaymentIntentAllowedPaymentMethodType `json:"allowed_payment_method_types,omitempty"`
 	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount int64 `json:"amount"`
 	// Amount that can be captured from this PaymentIntent.

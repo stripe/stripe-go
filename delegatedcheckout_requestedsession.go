@@ -499,7 +499,9 @@ type DelegatedCheckoutRequestedSessionConfirmParams struct {
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// Risk details/signals associated with the requested session
 	RiskDetails *DelegatedCheckoutRequestedSessionConfirmRiskDetailsParams `form:"risk_details" json:"risk_details,omitempty"`
-	UnsetFields []DelegatedCheckoutRequestedSessionConfirmParamsUnsetField `form:"-" json:"-"`
+	// Set to true when using Stripe.js, iOS, or Android client-side SDKs to handle next actions.
+	UseStripeSDK *bool                                                      `form:"use_stripe_sdk" json:"use_stripe_sdk,omitempty"`
+	UnsetFields  []DelegatedCheckoutRequestedSessionConfirmParamsUnsetField `form:"-" json:"-"`
 }
 
 // DelegatedCheckoutRequestedSessionConfirmParamsUnsetField is the list of fields that can be cleared/unset on DelegatedCheckoutRequestedSessionConfirmParams.

@@ -435,6 +435,52 @@ const (
 )
 
 // The current status of the protection.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationStatus string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationStatus can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationStatusActive    V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationStatus = "active"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationStatusDisrupted V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationStatus = "disrupted"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationStatusExpired   V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationStatus = "expired"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationStatusInactive  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationStatus = "inactive"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatus string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatus can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusActive      V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatus = "active"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusPending     V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatus = "pending"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusRestricted  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatus = "restricted"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusUnsupported V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailResolutionContactStripe V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailResolutionNoResolution  V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailResolution = "provide_info"
+)
+
+// The current status of the protection.
 type V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerCelticRevolvingCreditCardProtectionsPspMigrationStatus string
 
 // List of values that V2CoreAccountConfigurationCardCreatorCapabilitiesConsumerCelticRevolvingCreditCardProtectionsPspMigrationStatus can take
@@ -5340,6 +5386,7 @@ const (
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialLeadPrepaidCard           V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.lead.prepaid_card"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripeChargeCard          V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.charge_card"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripePrepaidCard         V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.prepaid_card"
+	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripeSpendCard           V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.spend_card"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerCelticRevolvingCreditCard   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.celtic.revolving_credit_card"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerCrossRiverBankPrepaidCard   V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.cross_river_bank.prepaid_card"
 	V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerHoldsCurrenciesUSD          V2CoreAccountFutureRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.holds_currencies.usd"
@@ -6089,6 +6136,7 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialLeadPrepaidCard           V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.lead.prepaid_card"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripeChargeCard          V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.charge_card"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripePrepaidCard         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.prepaid_card"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityCommercialStripeSpendCard           V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "commercial.stripe.spend_card"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerCelticRevolvingCreditCard   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.celtic.revolving_credit_card"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerCrossRiverBankPrepaidCard   V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.cross_river_bank.prepaid_card"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityConsumerHoldsCurrenciesUSD          V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "consumer.holds_currencies.usd"
@@ -6544,12 +6592,48 @@ type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCar
 	StatusDetails []*V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCardStatusDetail `json:"status_details"`
 }
 
+// Protection details for PSP migration.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigration struct {
+	// The time until which the protection will expire, as a Unix timestamp.
+	ExpiresAt int64 `json:"expires_at,string,omitempty"`
+	// The time at which the protection was requested, as a Unix timestamp.
+	RequestedAt int64 `json:"requested_at,string"`
+	// The current status of the protection.
+	Status V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigrationStatus `json:"status"`
+}
+
+// Protections applied to this capability, keyed by protection type (e.g. "psp_migration").
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtections struct {
+	// Protection details for PSP migration.
+	PspMigration *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtectionsPspMigration `json:"psp_migration"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetailResolution `json:"resolution"`
+}
+
+// Can create commercial issuing spend cards with Stripe as BIN sponsor.
+type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCard struct {
+	// Protections applied to this capability, keyed by protection type (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardProtections `json:"protections"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCardStatusDetail `json:"status_details"`
+}
+
 // Can create commercial issuing cards with Stripe as a BIN sponsor.
 type V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripe struct {
 	// Can create commercial issuing charge cards with Stripe as BIN sponsor.
 	ChargeCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeChargeCard `json:"charge_card,omitempty"`
 	// Can create commercial issuing prepaid cards with Stripe as BIN sponsor.
 	PrepaidCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripePrepaidCard `json:"prepaid_card,omitempty"`
+	// Can create commercial issuing spend cards with Stripe as BIN sponsor.
+	SpendCard *V2CoreAccountConfigurationCardCreatorCapabilitiesCommercialStripeSpendCard `json:"spend_card,omitempty"`
 }
 
 // Can create cards for commercial issuing use cases.

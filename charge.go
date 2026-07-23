@@ -215,6 +215,7 @@ type ChargePaymentMethodDetailsCardThreeDSecureResult string
 const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged ChargePaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
 	ChargePaymentMethodDetailsCardThreeDSecureResultAuthenticated       ChargePaymentMethodDetailsCardThreeDSecureResult = "authenticated"
+	ChargePaymentMethodDetailsCardThreeDSecureResultDataShareOnly       ChargePaymentMethodDetailsCardThreeDSecureResult = "data_share_only"
 	ChargePaymentMethodDetailsCardThreeDSecureResultExempted            ChargePaymentMethodDetailsCardThreeDSecureResult = "exempted"
 	ChargePaymentMethodDetailsCardThreeDSecureResultFailed              ChargePaymentMethodDetailsCardThreeDSecureResult = "failed"
 	ChargePaymentMethodDetailsCardThreeDSecureResultNotSupported        ChargePaymentMethodDetailsCardThreeDSecureResult = "not_supported"
@@ -3719,7 +3720,7 @@ type ChargePaymentMethodDetailsAlma struct {
 	TransactionID string `json:"transaction_id"`
 }
 type ChargePaymentMethodDetailsAmazonPayFundingCard struct {
-	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
+	// Card brand. Can be `American Express`, `Cartes Bancaires`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card. (For internal use only and not typically available in standard API requests.)
 	BrandProduct string `json:"brand_product,omitempty"`
@@ -4500,7 +4501,7 @@ type ChargePaymentMethodDetailsRechnung struct {
 	PaymentPortalURL string `json:"payment_portal_url"`
 }
 type ChargePaymentMethodDetailsRevolutPayFundingCard struct {
-	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
+	// Card brand. Can be `American Express`, `Cartes Bancaires`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card. (For internal use only and not typically available in standard API requests.)
 	BrandProduct string `json:"brand_product,omitempty"`

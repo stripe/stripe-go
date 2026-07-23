@@ -381,6 +381,7 @@ const (
 	PaymentMethodTypeTWINT            PaymentMethodType = "twint"
 	PaymentMethodTypeUpi              PaymentMethodType = "upi"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
+	PaymentMethodTypeVipps            PaymentMethodType = "vipps"
 	PaymentMethodTypeWeChatPay        PaymentMethodType = "wechat_pay"
 	PaymentMethodTypeZip              PaymentMethodType = "zip"
 )
@@ -852,6 +853,9 @@ type PaymentMethodUSBankAccountParams struct {
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
 }
 
+// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+type PaymentMethodVippsParams struct{}
+
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type PaymentMethodWeChatPayParams struct{}
 
@@ -1001,6 +1005,8 @@ type PaymentMethodParams struct {
 	Upi *PaymentMethodUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+	Vipps *PaymentMethodVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -1461,6 +1467,9 @@ type PaymentMethodCreateUSBankAccountParams struct {
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
 }
 
+// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+type PaymentMethodCreateVippsParams struct{}
+
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 type PaymentMethodCreateWeChatPayParams struct{}
 
@@ -1614,6 +1623,8 @@ type PaymentMethodCreateParams struct {
 	Upi *PaymentMethodCreateUpiParams `form:"upi" json:"upi,omitempty"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodCreateUSBankAccountParams `form:"us_bank_account" json:"us_bank_account,omitempty"`
+	// If this is a `vipps` PaymentMethod, this hash contains details about the Vipps payment method.
+	Vipps *PaymentMethodCreateVippsParams `form:"vipps" json:"vipps,omitempty"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodCreateWeChatPayParams `form:"wechat_pay" json:"wechat_pay,omitempty"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
@@ -2434,6 +2445,7 @@ type PaymentMethodUSBankAccount struct {
 	// Contains information about the future reusability of this PaymentMethod.
 	StatusDetails *PaymentMethodUSBankAccountStatusDetails `json:"status_details"`
 }
+type PaymentMethodVipps struct{}
 type PaymentMethodWeChatPay struct{}
 type PaymentMethodZip struct{}
 
@@ -2534,6 +2546,7 @@ type PaymentMethod struct {
 	Type          PaymentMethodType           `json:"type"`
 	Upi           *PaymentMethodUpi           `json:"upi,omitempty"`
 	USBankAccount *PaymentMethodUSBankAccount `json:"us_bank_account,omitempty"`
+	Vipps         *PaymentMethodVipps         `json:"vipps,omitempty"`
 	WeChatPay     *PaymentMethodWeChatPay     `json:"wechat_pay,omitempty"`
 	Zip           *PaymentMethodZip           `json:"zip,omitempty"`
 }

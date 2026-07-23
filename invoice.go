@@ -283,6 +283,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeKonbini            InvoicePaymentSettingsPaymentMethodType = "konbini"
 	InvoicePaymentSettingsPaymentMethodTypeKrCard             InvoicePaymentSettingsPaymentMethodType = "kr_card"
 	InvoicePaymentSettingsPaymentMethodTypeLink               InvoicePaymentSettingsPaymentMethodType = "link"
+	InvoicePaymentSettingsPaymentMethodTypeMbWay              InvoicePaymentSettingsPaymentMethodType = "mb_way"
 	InvoicePaymentSettingsPaymentMethodTypeMomo               InvoicePaymentSettingsPaymentMethodType = "momo"
 	InvoicePaymentSettingsPaymentMethodTypeMultibanco         InvoicePaymentSettingsPaymentMethodType = "multibanco"
 	InvoicePaymentSettingsPaymentMethodTypeNaverPay           InvoicePaymentSettingsPaymentMethodType = "naver_pay"
