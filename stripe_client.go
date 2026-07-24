@@ -549,3 +549,26 @@ func (c *Client) ParseEventNotification(payload []byte, header string, secret st
 func (c *Client) ConstructEvent(payload []byte, header string, secret string, opts ...WebhookOption) (Event, error) {
 	return ConstructEvent(payload, header, secret, opts...)
 }
+
+// ConstructEventFromCloudProvider constructs an Event from an AWS EventBridge
+// (https://docs.stripe.com/event-destinations/eventbridge) or Azure Event Grid
+// (https://docs.stripe.com/event-destinations/eventgrid) payload.
+func (c *Client) ConstructEventFromCloudProvider(payload []byte) (*Event, error) {
+	innerBytes, err := extractFromCloudProviderEnvelope(payload)
+	if err != nil {
+		return nil, err
+	}
+	return unmarshalAndValidateEvent(innerBytes)
+}
+
+// ParseEventNotificationFromCloudProvider parses an EventNotification from an
+// AWS EventBridge (https://docs.stripe.com/event-destinations/eventbridge) or
+// Azure Event Grid (https://docs.stripe.com/event-destinations/eventgrid) payload.
+func (c *Client) ParseEventNotificationFromCloudProvider(payload []byte) (EventNotificationContainer, error) {
+	innerBytes, err := extractFromCloudProviderEnvelope(payload)
+	if err != nil {
+		return nil, err
+	}
+
+	return EventNotificationFromJSON(innerBytes, *c)
+}

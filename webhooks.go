@@ -169,13 +169,11 @@ func constructEvent(payload []byte, sigHeader string, secret string, cfg webhook
 		return e, err
 	}
 
-	if err := checkEventNotification(payload); err != nil {
+	event, err := unmarshalAndValidateEvent(payload)
+	if err != nil {
 		return e, err
 	}
-
-	if err := json.Unmarshal(payload, &e); err != nil {
-		return e, fmt.Errorf("failed to parse webhook body json: %s", err.Error())
-	}
+	e = *event
 
 	if !cfg.IgnoreAPIVersionMismatch && !isCompatibleAPIVersion(APIVersion, e.APIVersion) {
 		return e, fmt.Errorf("received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized", e.APIVersion, ClientVersion, APIVersion)
@@ -184,19 +182,21 @@ func constructEvent(payload []byte, sigHeader string, secret string, cfg webhook
 	return e, nil
 }
 
-func checkEventNotification(payload []byte) error {
-	e := struct {
+func unmarshalAndValidateEvent(payload []byte) (*Event, error) {
+	var peek struct {
 		Object string `json:"object"`
-	}{}
-	if err := json.Unmarshal(payload, &e); err != nil {
-		return fmt.Errorf("failed to parse webhook body json: %s", err.Error())
 	}
-
-	if e.Object != "event" {
-		return fmt.Errorf("did you use ConstructEvent to parse a thin event notification? If so, use ParseEventNotification instead")
+	if err := json.Unmarshal(payload, &peek); err != nil {
+		return nil, fmt.Errorf("failed to parse webhook body json: %s", err.Error())
 	}
-
-	return nil
+	if peek.Object != "event" {
+		return nil, fmt.Errorf("you passed a thin event notification to a function that expects a webhook; use the corresponding EventNotification function instead")
+	}
+	var event Event
+	if err := json.Unmarshal(payload, &event); err != nil {
+		return nil, fmt.Errorf("failed to parse webhook body json: %s", err.Error())
+	}
+	return &event, nil
 }
 
 func parseSignatureHeader(header string) (*signedHeader, error) {

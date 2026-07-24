@@ -1633,7 +1633,7 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 	}
 
 	if result.Object == "event" {
-		return nil, fmt.Errorf("did you use EventNotificationFromJSON to parse a webhook payload? If so, use ConstructEvent instead")
+		return nil, fmt.Errorf("did you use an EventNotification function to parse a webhook payload? If so, use the corresponding ConstructEvent function instead")
 	}
 
 	// V2EventNotificationTypes: The beginning of the section generated from our OpenAPI spec
