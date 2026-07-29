@@ -309,6 +309,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeACHDebit           SubscriptionPaymentSettingsPaymentMethodType = "ach_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeACSSDebit          SubscriptionPaymentSettingsPaymentMethodType = "acss_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeAffirm             SubscriptionPaymentSettingsPaymentMethodType = "affirm"
+	SubscriptionPaymentSettingsPaymentMethodTypeAlipay             SubscriptionPaymentSettingsPaymentMethodType = "alipay"
 	SubscriptionPaymentSettingsPaymentMethodTypeAmazonPay          SubscriptionPaymentSettingsPaymentMethodType = "amazon_pay"
 	SubscriptionPaymentSettingsPaymentMethodTypeAUBECSDebit        SubscriptionPaymentSettingsPaymentMethodType = "au_becs_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeBACSDebit          SubscriptionPaymentSettingsPaymentMethodType = "bacs_debit"
@@ -332,6 +333,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeKonbini            SubscriptionPaymentSettingsPaymentMethodType = "konbini"
 	SubscriptionPaymentSettingsPaymentMethodTypeKrCard             SubscriptionPaymentSettingsPaymentMethodType = "kr_card"
 	SubscriptionPaymentSettingsPaymentMethodTypeLink               SubscriptionPaymentSettingsPaymentMethodType = "link"
+	SubscriptionPaymentSettingsPaymentMethodTypeMbWay              SubscriptionPaymentSettingsPaymentMethodType = "mb_way"
 	SubscriptionPaymentSettingsPaymentMethodTypeMultibanco         SubscriptionPaymentSettingsPaymentMethodType = "multibanco"
 	SubscriptionPaymentSettingsPaymentMethodTypeNaverPay           SubscriptionPaymentSettingsPaymentMethodType = "naver_pay"
 	SubscriptionPaymentSettingsPaymentMethodTypeNzBankAccount      SubscriptionPaymentSettingsPaymentMethodType = "nz_bank_account"
@@ -2126,7 +2128,7 @@ type SubscriptionUpdateParams struct {
 	CancelAtMaxBilledUntil *bool  `form:"-"` // See custom AppendTo
 	CancelAtMaxPeriodEnd   *bool  `form:"-"` // See custom AppendTo
 	CancelAtMinPeriodEnd   *bool  `form:"-"` // See custom AppendTo
-	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`).
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end" json:"cancel_at_period_end,omitempty"`
 	// Details about why this subscription was cancelled
 	CancellationDetails *SubscriptionUpdateCancellationDetailsParams `form:"cancellation_details" json:"cancellation_details,omitempty"`

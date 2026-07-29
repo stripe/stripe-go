@@ -182,6 +182,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult string
 const (
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultAuthenticated       PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult = "authenticated"
+	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultDataShareOnly       PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult = "data_share_only"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultExempted            PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult = "exempted"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultFailed              PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult = "failed"
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResultNotSupported        PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureResult = "not_supported"
@@ -324,7 +325,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsFPXAccountHolderTypeIndividual PaymentAttemptRecordPaymentMethodDetailsFPXAccountHolderType = "individual"
 )
 
-// The customer's bank. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
+// The customer's bank. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bnp_paribas`, `bank_rakyat`, `bsn`, `cimb`, `citibank`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `mbsb_bank`, `pb_enterprise`, or `bank_of_china`.
 type PaymentAttemptRecordPaymentMethodDetailsFPXBank string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsFPXBank can take
@@ -337,14 +338,17 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankBankMuamalat      PaymentAttemptRecordPaymentMethodDetailsFPXBank = "bank_muamalat"
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankBankOfChina       PaymentAttemptRecordPaymentMethodDetailsFPXBank = "bank_of_china"
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankBankRakyat        PaymentAttemptRecordPaymentMethodDetailsFPXBank = "bank_rakyat"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankBnpParibas        PaymentAttemptRecordPaymentMethodDetailsFPXBank = "bnp_paribas"
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankBsn               PaymentAttemptRecordPaymentMethodDetailsFPXBank = "bsn"
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankCimb              PaymentAttemptRecordPaymentMethodDetailsFPXBank = "cimb"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankCitibank          PaymentAttemptRecordPaymentMethodDetailsFPXBank = "citibank"
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankDeutscheBank      PaymentAttemptRecordPaymentMethodDetailsFPXBank = "deutsche_bank"
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankHongLeongBank     PaymentAttemptRecordPaymentMethodDetailsFPXBank = "hong_leong_bank"
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankHsbc              PaymentAttemptRecordPaymentMethodDetailsFPXBank = "hsbc"
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankKfh               PaymentAttemptRecordPaymentMethodDetailsFPXBank = "kfh"
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankMaybank2e         PaymentAttemptRecordPaymentMethodDetailsFPXBank = "maybank2e"
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankMaybank2u         PaymentAttemptRecordPaymentMethodDetailsFPXBank = "maybank2u"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankMbsbBank          PaymentAttemptRecordPaymentMethodDetailsFPXBank = "mbsb_bank"
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankOcbc              PaymentAttemptRecordPaymentMethodDetailsFPXBank = "ocbc"
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankPbEnterprise      PaymentAttemptRecordPaymentMethodDetailsFPXBank = "pb_enterprise"
 	PaymentAttemptRecordPaymentMethodDetailsFPXBankPublicBank        PaymentAttemptRecordPaymentMethodDetailsFPXBank = "public_bank"
@@ -768,7 +772,7 @@ type PaymentAttemptRecordPaymentMethodDetailsAlma struct {
 	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsAmazonPayFundingCard struct {
-	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
+	// Card brand. Can be `American Express`, `Cartes Bancaires`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card. (For internal use only and not typically available in standard API requests.)
 	BrandProduct string `json:"brand_product,omitempty"`
@@ -1111,7 +1115,7 @@ type PaymentAttemptRecordPaymentMethodDetailsEPS struct {
 type PaymentAttemptRecordPaymentMethodDetailsFPX struct {
 	// Account holder type, if provided. Can be one of `individual` or `company`.
 	AccountHolderType PaymentAttemptRecordPaymentMethodDetailsFPXAccountHolderType `json:"account_holder_type"`
-	// The customer's bank. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
+	// The customer's bank. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bnp_paribas`, `bank_rakyat`, `bsn`, `cimb`, `citibank`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `mbsb_bank`, `pb_enterprise`, or `bank_of_china`.
 	Bank PaymentAttemptRecordPaymentMethodDetailsFPXBank `json:"bank"`
 	// Unique transaction id generated by FPX for every request from the merchant
 	TransactionID string `json:"transaction_id"`

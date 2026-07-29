@@ -1209,7 +1209,8 @@ type AccountCompanyParams struct {
 	// The Kana variation of the company's primary address (Japan only).
 	AddressKana *AccountCompanyAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the company's primary address (Japan only).
-	AddressKanji *AccountCompanyAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
+	AddressKanji          *AccountCompanyAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
+	AdministrativeAddress *AddressParams                    `form:"administrative_address" json:"administrative_address,omitempty"`
 	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *AccountCompanyDirectorshipDeclarationParams `form:"directorship_declaration" json:"directorship_declaration,omitempty"`
 	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
@@ -1235,7 +1236,8 @@ type AccountCompanyParams struct {
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided" json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
-	Phone *string `form:"phone" json:"phone,omitempty"`
+	Phone                    *string        `form:"phone" json:"phone,omitempty"`
+	PrincipalPlaceOfBusiness *AddressParams `form:"principal_place_of_business" json:"principal_place_of_business,omitempty"`
 	// When the business was incorporated or registered.
 	RegistrationDate *AccountCompanyRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
@@ -1245,6 +1247,8 @@ type AccountCompanyParams struct {
 	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure" json:"structure,omitempty"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
+	//
+	// Changing this value requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 	// The jurisdiction in which the `tax_id` is registered (Germany-based companies only).
 	TaxIDRegistrar *string `form:"tax_id_registrar" json:"tax_id_registrar,omitempty"`
@@ -1639,6 +1643,12 @@ type AccountSettingsPaypayPaymentsParams struct {
 	Site *AccountSettingsPaypayPaymentsSiteParams `form:"site" json:"site,omitempty"`
 }
 
+// Settings specific to SEPA Direct Debit payments.
+type AccountSettingsSEPADebitPaymentsParams struct {
+	// The business creditor id for european payments.
+	CreditorID *string `form:"creditor_id" json:"creditor_id,omitempty"`
+}
+
 // Smart Disputes auto-respond settings for the account.
 type AccountSettingsSmartDisputesAutoRespondParams struct {
 	// The preference setting for auto-respond. Can be 'on', 'off', or 'inherit'.
@@ -1708,6 +1718,8 @@ type AccountSettingsParams struct {
 	Payouts *AccountSettingsPayoutsParams `form:"payouts" json:"payouts,omitempty"`
 	// Settings specific to the PayPay payments method.
 	PaypayPayments *AccountSettingsPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
+	// Settings specific to SEPA Direct Debit payments.
+	SEPADebitPayments *AccountSettingsSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
 	// Settings specific to the account's use of Smart Disputes.
 	SmartDisputes *AccountSettingsSmartDisputesParams `form:"smart_disputes" json:"smart_disputes,omitempty"`
 	// Settings specific to the account's tax forms.
@@ -1796,17 +1808,35 @@ type AccountControllerParams struct {
 
 // With [Connect](https://docs.stripe.com/connect), you can reject accounts that you have flagged as suspicious.
 //
-// Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected. Test-mode accounts can be rejected at any time. Live-mode accounts can only be rejected after all balances are zero.
+// Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected.
 type AccountRejectParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Whether to pause payouts on the account as part of the rejection. Defaults to `pause`. Use `none` to leave payouts enabled.
+	PayoutsAction *string `form:"payouts_action" json:"payouts_action,omitempty"`
 	// The reason for rejecting the account. Can be `fraud`, `terms_of_service`, or `other`.
 	Reason *string `form:"reason" json:"reason"`
 }
 
 // AddExpand appends a new field to expand.
 func (p *AccountRejectParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// With Connect, you can unreject accounts that you have previously rejected.
+//
+// Only accounts that were rejected by your platform can be unrejected. This API cannot be used to unreject accounts that were rejected by Stripe.
+//
+// Unreject will only enable charges and/or payouts if there are no other restrictions other than those placed by a previous rejection. If you have separately paused charges and/or payouts outside of rejection, those pauses will remain in place after unrejection.
+type AccountUnrejectParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *AccountUnrejectParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -2633,7 +2663,8 @@ type AccountUpdateCompanyParams struct {
 	// The Kana variation of the company's primary address (Japan only).
 	AddressKana *AccountUpdateCompanyAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the company's primary address (Japan only).
-	AddressKanji *AccountUpdateCompanyAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
+	AddressKanji          *AccountUpdateCompanyAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
+	AdministrativeAddress *AddressParams                          `form:"administrative_address" json:"administrative_address,omitempty"`
 	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *AccountUpdateCompanyDirectorshipDeclarationParams `form:"directorship_declaration" json:"directorship_declaration,omitempty"`
 	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
@@ -2657,8 +2688,9 @@ type AccountUpdateCompanyParams struct {
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided" json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
-	Phone            *string                                     `form:"phone" json:"phone,omitempty"`
-	RegistrationDate *AccountUpdateCompanyRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
+	Phone                    *string                                     `form:"phone" json:"phone,omitempty"`
+	PrincipalPlaceOfBusiness *AddressParams                              `form:"principal_place_of_business" json:"principal_place_of_business,omitempty"`
+	RegistrationDate         *AccountUpdateCompanyRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number" json:"registration_number,omitempty"`
 	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
@@ -2666,6 +2698,8 @@ type AccountUpdateCompanyParams struct {
 	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure" json:"structure,omitempty"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
+	//
+	// Changing this value requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 	// The jurisdiction in which the `tax_id` is registered (Germany-based companies only).
 	TaxIDRegistrar *string `form:"tax_id_registrar" json:"tax_id_registrar,omitempty"`
@@ -3069,6 +3103,12 @@ type AccountUpdateSettingsPaypayPaymentsParams struct {
 	Site *AccountUpdateSettingsPaypayPaymentsSiteParams `form:"site" json:"site,omitempty"`
 }
 
+// Settings specific to SEPA Direct Debit payments.
+type AccountUpdateSettingsSEPADebitPaymentsParams struct {
+	// The business creditor id for european payments.
+	CreditorID *string `form:"creditor_id" json:"creditor_id,omitempty"`
+}
+
 // Smart Disputes auto-respond settings for the account.
 type AccountUpdateSettingsSmartDisputesAutoRespondParams struct {
 	// The preference setting for auto-respond. Can be 'on', 'off', or 'inherit'.
@@ -3138,6 +3178,8 @@ type AccountUpdateSettingsParams struct {
 	Payouts *AccountUpdateSettingsPayoutsParams `form:"payouts" json:"payouts,omitempty"`
 	// Settings specific to the PayPay payments method.
 	PaypayPayments *AccountUpdateSettingsPaypayPaymentsParams `form:"paypay_payments" json:"paypay_payments,omitempty"`
+	// Settings specific to SEPA Direct Debit payments.
+	SEPADebitPayments *AccountUpdateSettingsSEPADebitPaymentsParams `form:"sepa_debit_payments" json:"sepa_debit_payments,omitempty"`
 	// Settings specific to the account's use of Smart Disputes.
 	SmartDisputes *AccountUpdateSettingsSmartDisputesParams `form:"smart_disputes" json:"smart_disputes,omitempty"`
 	// Settings specific to the account's tax forms.
@@ -4046,7 +4088,8 @@ type AccountCreateCompanyParams struct {
 	// The Kana variation of the company's primary address (Japan only).
 	AddressKana *AccountCreateCompanyAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the company's primary address (Japan only).
-	AddressKanji *AccountCreateCompanyAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
+	AddressKanji          *AccountCreateCompanyAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
+	AdministrativeAddress *AddressParams                          `form:"administrative_address" json:"administrative_address,omitempty"`
 	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *AccountCreateCompanyDirectorshipDeclarationParams `form:"directorship_declaration" json:"directorship_declaration,omitempty"`
 	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
@@ -4071,7 +4114,8 @@ type AccountCreateCompanyParams struct {
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided" json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
-	Phone *string `form:"phone" json:"phone,omitempty"`
+	Phone                    *string        `form:"phone" json:"phone,omitempty"`
+	PrincipalPlaceOfBusiness *AddressParams `form:"principal_place_of_business" json:"principal_place_of_business,omitempty"`
 	// When the business was incorporated or registered.
 	RegistrationDate *AccountCreateCompanyRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
@@ -4081,6 +4125,8 @@ type AccountCreateCompanyParams struct {
 	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure" json:"structure,omitempty"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
+	//
+	// Changing this value requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 	// The jurisdiction in which the `tax_id` is registered (Germany-based companies only).
 	TaxIDRegistrar *string `form:"tax_id_registrar" json:"tax_id_registrar,omitempty"`
@@ -4198,20 +4244,6 @@ type AccountCreateDocumentsProofOfAddressParams struct {
 }
 
 // Information regarding the person signing the document if applicable.
-type AccountCreateDocumentsProofOfRegistrationSignerParams struct {
-	// The token of the person signing the document, if applicable.
-	Person *string `form:"person" json:"person,omitempty"`
-}
-
-// One or more documents showing the company's proof of registration with the national business registry.
-type AccountCreateDocumentsProofOfRegistrationParams struct {
-	// One or more document ids returned by a [file upload](https://api.stripe.com#create_file) with a `purpose` value of `account_requirement`.
-	Files []*string `form:"files" json:"files,omitempty"`
-	// Information regarding the person signing the document if applicable.
-	Signer *AccountCreateDocumentsProofOfRegistrationSignerParams `form:"signer" json:"signer,omitempty"`
-}
-
-// Information regarding the person signing the document if applicable.
 type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipSignerParams struct {
 	// The token of the person signing the document, if applicable.
 	Person *string `form:"person" json:"person,omitempty"`
@@ -4241,8 +4273,6 @@ type AccountCreateDocumentsParams struct {
 	CompanyTaxIDVerification *AccountCreateDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification" json:"company_tax_id_verification,omitempty"`
 	// One or more documents that demonstrate proof of address.
 	ProofOfAddress *AccountCreateDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
-	// One or more documents showing the company's proof of registration with the national business registry.
-	ProofOfRegistration *AccountCreateDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
 	ProofOfUltimateBeneficialOwnership *AccountCreateDocumentsProofOfUltimateBeneficialOwnershipParams `form:"proof_of_ultimate_beneficial_ownership" json:"proof_of_ultimate_beneficial_ownership,omitempty"`
 }
@@ -4611,7 +4641,7 @@ type AccountCreateTOSAcceptanceParams struct {
 // With [Connect](https://docs.stripe.com/docs/connect), you can create Stripe accounts for your users.
 // To do this, you'll first need to [register your platform](https://dashboard.stripe.com/account/applications/settings).
 //
-// If you've already collected information for your connected accounts, you [can prefill that information](https://docs.stripe.com/docs/connect/best-practices#onboarding) when
+// If you've already collected information for your connected accounts, you [can prefill that information](https://docs.stripe.com/connect/marketplace/tasks/create#prefill-account-information) when
 // creating the account. Connect Onboarding won't ask for the prefilled information during account onboarding.
 // You can prefill any information on the account.
 type AccountCreateParams struct {
@@ -4990,7 +5020,8 @@ type AccountCompany struct {
 	// The Kana variation of the company's primary address (Japan only).
 	AddressKana *AccountCompanyAddressKana `json:"address_kana,omitempty"`
 	// The Kanji variation of the company's primary address (Japan only).
-	AddressKanji *AccountCompanyAddressKanji `json:"address_kanji,omitempty"`
+	AddressKanji          *AccountCompanyAddressKanji `json:"address_kanji,omitempty"`
+	AdministrativeAddress *Address                    `json:"administrative_address,omitempty"`
 	// This hash is used to attest that the director information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *AccountCompanyDirectorshipDeclaration `json:"directorship_declaration,omitempty"`
 	// Whether the company's directors have been provided. This Boolean will be `true` if you've manually indicated that all directors are provided via [the `directors_provided` parameter](https://docs.stripe.com/api/accounts/update#update_account-company-directors_provided).
@@ -5014,8 +5045,9 @@ type AccountCompany struct {
 	// Whether the company's owners have been provided. This Boolean will be `true` if you've manually indicated that all owners are provided via [the `owners_provided` parameter](https://docs.stripe.com/api/accounts/update#update_account-company-owners_provided), or if Stripe determined that sufficient owners were provided. Stripe determines ownership requirements using both the number of owners provided and their total percent ownership (calculated by adding the `percent_ownership` of each owner together).
 	OwnersProvided bool `json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
-	Phone            string                          `json:"phone,omitempty"`
-	RegistrationDate *AccountCompanyRegistrationDate `json:"registration_date,omitempty"`
+	Phone                    string                          `json:"phone,omitempty"`
+	PrincipalPlaceOfBusiness *Address                        `json:"principal_place_of_business,omitempty"`
+	RegistrationDate         *AccountCompanyRegistrationDate `json:"registration_date,omitempty"`
 	// This hash is used to attest that the representative is authorized to act as the representative of their legal entity.
 	RepresentativeDeclaration *AccountCompanyRepresentativeDeclaration `json:"representative_declaration,omitempty"`
 	// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details.
@@ -5075,7 +5107,7 @@ type AccountFutureRequirementsAlternative struct {
 	OriginalFieldsDue []string `json:"original_fields_due"`
 }
 
-// Details about validation and verification failures for `due` requirements that must be resolved.
+// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type AccountFutureRequirementsError struct {
 	// The code for the type of error.
 	Code string `json:"code"`
@@ -5093,7 +5125,7 @@ type AccountFutureRequirements struct {
 	CurrentlyDue []string `json:"currently_due"`
 	// This is typed as an enum for consistency with `requirements.disabled_reason`.
 	DisabledReason AccountFutureRequirementsDisabledReason `json:"disabled_reason"`
-	// Details about validation and verification failures for `due` requirements that must be resolved.
+	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountFutureRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well.
 	EventuallyDue []string `json:"eventually_due"`
@@ -5117,7 +5149,7 @@ type AccountRequirementsAlternative struct {
 	OriginalFieldsDue []string `json:"original_fields_due"`
 }
 
-// Details about validation and verification failures for `due` requirements that must be resolved.
+// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type AccountRequirementsError struct {
 	// The code for the type of error.
 	Code string `json:"code"`
@@ -5131,11 +5163,11 @@ type AccountRequirements struct {
 	Alternatives []*AccountRequirementsAlternative `json:"alternatives"`
 	// Date by which the fields in `currently_due` must be collected to keep the account enabled. These fields may disable the account sooner if the next threshold is reached before they are collected.
 	CurrentDeadline int64 `json:"current_deadline"`
-	// Fields that need to be resolved to keep the account enabled. If not resolved by `current_deadline`, these fields will appear in `past_due` as well, and the account is disabled.
+	// Fields that need to be resolved to keep the account enabled. If not resolved by `current_deadline`, these fields will appear in `past_due` as well, and the account will be disabled.
 	CurrentlyDue []string `json:"currently_due"`
 	// If the account is disabled, this enum describes why. [Learn more about handling verification issues](https://docs.stripe.com/connect/handling-api-verification).
 	DisabledReason AccountRequirementsDisabledReason `json:"disabled_reason"`
-	// Details about validation and verification failures for `due` requirements that must be resolved.
+	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and `current_deadline` becomes set.
 	EventuallyDue []string `json:"eventually_due"`

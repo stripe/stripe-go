@@ -15,7 +15,7 @@ const (
 	TaxCalculationCustomerDetailsAddressSourceShipping TaxCalculationCustomerDetailsAddressSource = "shipping"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 type TaxCalculationCustomerDetailsTaxIDType string
 
 // List of values that TaxCalculationCustomerDetailsTaxIDType can take
@@ -73,6 +73,7 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeHKBR     TaxCalculationCustomerDetailsTaxIDType = "hk_br"
 	TaxCalculationCustomerDetailsTaxIDTypeHROIB    TaxCalculationCustomerDetailsTaxIDType = "hr_oib"
 	TaxCalculationCustomerDetailsTaxIDTypeHUTIN    TaxCalculationCustomerDetailsTaxIDType = "hu_tin"
+	TaxCalculationCustomerDetailsTaxIDTypeIcNif    TaxCalculationCustomerDetailsTaxIDType = "ic_nif"
 	TaxCalculationCustomerDetailsTaxIDTypeIDNPWP   TaxCalculationCustomerDetailsTaxIDType = "id_npwp"
 	TaxCalculationCustomerDetailsTaxIDTypeILVAT    TaxCalculationCustomerDetailsTaxIDType = "il_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeINGST    TaxCalculationCustomerDetailsTaxIDType = "in_gst"
@@ -185,28 +186,30 @@ type TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType string
 
 // List of values that TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType can take
 const (
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeAdmissionsTax     TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "admissions_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeAmusementTax      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeAttendanceTax     TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "attendance_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeEntertainmentTax  TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "entertainment_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeGrossReceiptsTax  TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "gross_receipts_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeGST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "gst"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeHospitalityTax    TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "hospitality_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeHST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "hst"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeIGST              TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "igst"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeJCT               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "jct"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeLuxuryTax         TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "luxury_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "pst"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "qst"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeResortTax         TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "resort_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "rst"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeServiceTax        TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "service_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeTourismTax        TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "tourism_tax"
-	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "vat"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeAdmissionsTax         TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "admissions_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeAmusementTax          TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeAttendanceTax         TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "attendance_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax     TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeEntertainmentTax      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "entertainment_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeGrossReceiptsTax      TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "gross_receipts_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeGST                   TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "gst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeHospitalityTax        TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "hospitality_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeHST                   TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "hst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeIGST                  TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "igst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeJCT                   TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "jct"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeLeaseTax              TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeLuxuryTax             TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "luxury_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeMassTransitParkingTax TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "mass_transit_parking_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeParkingTax            TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "parking_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypePST                   TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "pst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeQST                   TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeResortTax             TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "resort_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee     TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRST                   TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "rst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeSalesTax              TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeServiceTax            TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "service_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeTourismTax            TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "tourism_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeVAT                   TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
@@ -245,28 +248,30 @@ type TaxCalculationTaxBreakdownTaxRateDetailsTaxType string
 
 // List of values that TaxCalculationTaxBreakdownTaxRateDetailsTaxType can take
 const (
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeAdmissionsTax     TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "admissions_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeAmusementTax      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeAttendanceTax     TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "attendance_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeEntertainmentTax  TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "entertainment_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeGrossReceiptsTax  TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "gross_receipts_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeGST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "gst"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeHospitalityTax    TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "hospitality_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeHST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "hst"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeIGST              TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "igst"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeJCT               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "jct"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeLuxuryTax         TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "luxury_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "pst"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "qst"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeResortTax         TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "resort_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "rst"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeServiceTax        TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "service_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeTourismTax        TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "tourism_tax"
-	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "vat"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeAdmissionsTax         TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "admissions_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeAmusementTax          TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeAttendanceTax         TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "attendance_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax     TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeEntertainmentTax      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "entertainment_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeGrossReceiptsTax      TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "gross_receipts_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeGST                   TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "gst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeHospitalityTax        TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "hospitality_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeHST                   TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "hst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeIGST                  TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "igst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeJCT                   TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "jct"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeLeaseTax              TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeLuxuryTax             TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "luxury_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeMassTransitParkingTax TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "mass_transit_parking_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeParkingTax            TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "parking_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypePST                   TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "pst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeQST                   TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeResortTax             TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "resort_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee     TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRST                   TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "rst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeSalesTax              TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeServiceTax            TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "service_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeTourismTax            TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "tourism_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeVAT                   TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
 // The reasoning behind this tax, for example, if the product is tax exempt. We might extend the possible values for this field to support new tax rules.
@@ -308,7 +313,7 @@ type TaxCalculationParams struct {
 	ShipFromDetails *TaxCalculationShipFromDetailsParams `form:"ship_from_details" json:"ship_from_details,omitempty"`
 	// Shipping cost details to be used for the calculation.
 	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
-	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
+	// The calculation uses the tax rules and rates that are in effect at this timestamp. You can use a date up to 31 days in the past or up to 31 days in the future. If you use a future date, Stripe doesn't guarantee that the expected tax rules and rate being used match the actual rules and rate that will be in effect on that date. We deploy tax changes before their effective date, but not within a fixed window.
 	TaxDate *int64 `form:"tax_date" json:"tax_date,omitempty"`
 }
 
@@ -332,7 +337,7 @@ func (p *TaxCalculationListLineItemsParams) AddExpand(f string) {
 
 // The customer's tax IDs. Stripe Tax might consider a transaction with applicable tax IDs to be B2B, which might affect the tax calculation result. Stripe Tax doesn't validate tax IDs for correctness.
 type TaxCalculationCustomerDetailsTaxIDParams struct {
-	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `fo_vat`, `gb_vat`, `ge_vat`, `gi_tin`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `it_cf`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `py_ruc`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `fo_vat`, `gb_vat`, `ge_vat`, `gi_tin`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `ic_nif`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `it_cf`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `py_ruc`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
 	Type *string `form:"type" json:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value" json:"value"`
@@ -414,7 +419,7 @@ func (p *TaxCalculationRetrieveParams) AddExpand(f string) {
 
 // The customer's tax IDs. Stripe Tax might consider a transaction with applicable tax IDs to be B2B, which might affect the tax calculation result. Stripe Tax doesn't validate tax IDs for correctness.
 type TaxCalculationCreateCustomerDetailsTaxIDParams struct {
-	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `fo_vat`, `gb_vat`, `ge_vat`, `gi_tin`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `it_cf`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `py_ruc`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `fo_vat`, `gb_vat`, `ge_vat`, `gi_tin`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `ic_nif`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `it_cf`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `py_ruc`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
 	Type *string `form:"type" json:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value" json:"value"`
@@ -499,7 +504,7 @@ type TaxCalculationCreateParams struct {
 	ShipFromDetails *TaxCalculationCreateShipFromDetailsParams `form:"ship_from_details" json:"ship_from_details,omitempty"`
 	// Shipping cost details to be used for the calculation.
 	ShippingCost *TaxCalculationCreateShippingCostParams `form:"shipping_cost" json:"shipping_cost,omitempty"`
-	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
+	// The calculation uses the tax rules and rates that are in effect at this timestamp. You can use a date up to 31 days in the past or up to 31 days in the future. If you use a future date, Stripe doesn't guarantee that the expected tax rules and rate being used match the actual rules and rate that will be in effect on that date. We deploy tax changes before their effective date, but not within a fixed window.
 	TaxDate *int64 `form:"tax_date" json:"tax_date,omitempty"`
 }
 
@@ -510,7 +515,7 @@ func (p *TaxCalculationCreateParams) AddExpand(f string) {
 
 // The customer's tax IDs (for example, EU VAT numbers).
 type TaxCalculationCustomerDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 	Type TaxCalculationCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`

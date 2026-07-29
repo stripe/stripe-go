@@ -1208,6 +1208,8 @@ const (
 	TaxRegistrationCountryOptionsUSTypeLocalAmusementTax      TaxRegistrationCountryOptionsUSType = "local_amusement_tax"
 	TaxRegistrationCountryOptionsUSTypeLocalLeaseTax          TaxRegistrationCountryOptionsUSType = "local_lease_tax"
 	TaxRegistrationCountryOptionsUSTypeLuxuryTax              TaxRegistrationCountryOptionsUSType = "luxury_tax"
+	TaxRegistrationCountryOptionsUSTypeMassTransitParkingTax  TaxRegistrationCountryOptionsUSType = "mass_transit_parking_tax"
+	TaxRegistrationCountryOptionsUSTypeParkingTax             TaxRegistrationCountryOptionsUSType = "parking_tax"
 	TaxRegistrationCountryOptionsUSTypeResortTax              TaxRegistrationCountryOptionsUSType = "resort_tax"
 	TaxRegistrationCountryOptionsUSTypeStateCommunicationsTax TaxRegistrationCountryOptionsUSType = "state_communications_tax"
 	TaxRegistrationCountryOptionsUSTypeStateRetailDeliveryFee TaxRegistrationCountryOptionsUSType = "state_retail_delivery_fee"
@@ -2339,6 +2341,18 @@ type TaxRegistrationCountryOptionsUSLuxuryTaxParams struct {
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
+// Options for the mass transit parking tax registration.
+type TaxRegistrationCountryOptionsUSMassTransitParkingTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=mass_transit_parking_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the parking tax registration.
+type TaxRegistrationCountryOptionsUSParkingTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=parking_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
 // Options for the resort tax registration.
 type TaxRegistrationCountryOptionsUSResortTaxParams struct {
 	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=resort_tax#registration-types).
@@ -2383,6 +2397,10 @@ type TaxRegistrationCountryOptionsUSParams struct {
 	LocalLeaseTax *TaxRegistrationCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax" json:"local_lease_tax,omitempty"`
 	// Options for the luxury tax registration.
 	LuxuryTax *TaxRegistrationCountryOptionsUSLuxuryTaxParams `form:"luxury_tax" json:"luxury_tax,omitempty"`
+	// Options for the mass transit parking tax registration.
+	MassTransitParkingTax *TaxRegistrationCountryOptionsUSMassTransitParkingTaxParams `form:"mass_transit_parking_tax" json:"mass_transit_parking_tax,omitempty"`
+	// Options for the parking tax registration.
+	ParkingTax *TaxRegistrationCountryOptionsUSParkingTaxParams `form:"parking_tax" json:"parking_tax,omitempty"`
 	// Options for the resort tax registration.
 	ResortTax *TaxRegistrationCountryOptionsUSResortTaxParams `form:"resort_tax" json:"resort_tax,omitempty"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
@@ -3758,6 +3776,18 @@ type TaxRegistrationCreateCountryOptionsUSLuxuryTaxParams struct {
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
+// Options for the mass transit parking tax registration.
+type TaxRegistrationCreateCountryOptionsUSMassTransitParkingTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=mass_transit_parking_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the parking tax registration.
+type TaxRegistrationCreateCountryOptionsUSParkingTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=parking_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
 // Options for the resort tax registration.
 type TaxRegistrationCreateCountryOptionsUSResortTaxParams struct {
 	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=resort_tax#registration-types).
@@ -3802,6 +3832,10 @@ type TaxRegistrationCreateCountryOptionsUSParams struct {
 	LocalLeaseTax *TaxRegistrationCreateCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax" json:"local_lease_tax,omitempty"`
 	// Options for the luxury tax registration.
 	LuxuryTax *TaxRegistrationCreateCountryOptionsUSLuxuryTaxParams `form:"luxury_tax" json:"luxury_tax,omitempty"`
+	// Options for the mass transit parking tax registration.
+	MassTransitParkingTax *TaxRegistrationCreateCountryOptionsUSMassTransitParkingTaxParams `form:"mass_transit_parking_tax" json:"mass_transit_parking_tax,omitempty"`
+	// Options for the parking tax registration.
+	ParkingTax *TaxRegistrationCreateCountryOptionsUSParkingTaxParams `form:"parking_tax" json:"parking_tax,omitempty"`
 	// Options for the resort tax registration.
 	ResortTax *TaxRegistrationCreateCountryOptionsUSResortTaxParams `form:"resort_tax" json:"resort_tax,omitempty"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
@@ -4751,6 +4785,14 @@ type TaxRegistrationCountryOptionsUSLuxuryTax struct {
 	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=luxury_tax#registration-types) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
 }
+type TaxRegistrationCountryOptionsUSMassTransitParkingTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=mass_transit_parking_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
+type TaxRegistrationCountryOptionsUSParkingTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=parking_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
 type TaxRegistrationCountryOptionsUSResortTax struct {
 	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=resort_tax#registration-types) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
@@ -4772,15 +4814,17 @@ type TaxRegistrationCountryOptionsUSTourismTax struct {
 	Jurisdiction string `json:"jurisdiction"`
 }
 type TaxRegistrationCountryOptionsUS struct {
-	AdmissionsTax     *TaxRegistrationCountryOptionsUSAdmissionsTax     `json:"admissions_tax,omitempty"`
-	AttendanceTax     *TaxRegistrationCountryOptionsUSAttendanceTax     `json:"attendance_tax,omitempty"`
-	EntertainmentTax  *TaxRegistrationCountryOptionsUSEntertainmentTax  `json:"entertainment_tax,omitempty"`
-	GrossReceiptsTax  *TaxRegistrationCountryOptionsUSGrossReceiptsTax  `json:"gross_receipts_tax,omitempty"`
-	HospitalityTax    *TaxRegistrationCountryOptionsUSHospitalityTax    `json:"hospitality_tax,omitempty"`
-	LocalAmusementTax *TaxRegistrationCountryOptionsUSLocalAmusementTax `json:"local_amusement_tax,omitempty"`
-	LocalLeaseTax     *TaxRegistrationCountryOptionsUSLocalLeaseTax     `json:"local_lease_tax,omitempty"`
-	LuxuryTax         *TaxRegistrationCountryOptionsUSLuxuryTax         `json:"luxury_tax,omitempty"`
-	ResortTax         *TaxRegistrationCountryOptionsUSResortTax         `json:"resort_tax,omitempty"`
+	AdmissionsTax         *TaxRegistrationCountryOptionsUSAdmissionsTax         `json:"admissions_tax,omitempty"`
+	AttendanceTax         *TaxRegistrationCountryOptionsUSAttendanceTax         `json:"attendance_tax,omitempty"`
+	EntertainmentTax      *TaxRegistrationCountryOptionsUSEntertainmentTax      `json:"entertainment_tax,omitempty"`
+	GrossReceiptsTax      *TaxRegistrationCountryOptionsUSGrossReceiptsTax      `json:"gross_receipts_tax,omitempty"`
+	HospitalityTax        *TaxRegistrationCountryOptionsUSHospitalityTax        `json:"hospitality_tax,omitempty"`
+	LocalAmusementTax     *TaxRegistrationCountryOptionsUSLocalAmusementTax     `json:"local_amusement_tax,omitempty"`
+	LocalLeaseTax         *TaxRegistrationCountryOptionsUSLocalLeaseTax         `json:"local_lease_tax,omitempty"`
+	LuxuryTax             *TaxRegistrationCountryOptionsUSLuxuryTax             `json:"luxury_tax,omitempty"`
+	MassTransitParkingTax *TaxRegistrationCountryOptionsUSMassTransitParkingTax `json:"mass_transit_parking_tax,omitempty"`
+	ParkingTax            *TaxRegistrationCountryOptionsUSParkingTax            `json:"parking_tax,omitempty"`
+	ResortTax             *TaxRegistrationCountryOptionsUSResortTax             `json:"resort_tax,omitempty"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
 	State         string                                        `json:"state"`
 	StateSalesTax *TaxRegistrationCountryOptionsUSStateSalesTax `json:"state_sales_tax,omitempty"`

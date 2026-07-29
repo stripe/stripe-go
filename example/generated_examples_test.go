@@ -16899,28 +16899,29 @@ func TestCannotProceedErrorClient(t *testing.T) {
 }
 
 func TestControlledByAlternateResourceErrorService(t *testing.T) {
-	params := &stripe.V2MoneyManagementOutboundSetupIntentParams{}
+	params := &stripe.V2CoreVaultUSBankAccountConfirmMicrodepositsParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/outbound_setup_intents", params, "{\"error\":{\"type\":\"controlled_by_alternate_resource\",\"code\":\"payout_method_cannot_be_archived\"}}")
+		t, http.MethodPost, "/v2/core/vault/us_bank_accounts/id_123/confirm_microdeposits", params, "{\"error\":{\"type\":\"controlled_by_alternate_resource\",\"code\":\"payout_method_cannot_be_archived\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2MoneyManagementOutboundSetupIntents.New(params)
+	result, err := sc.V2CoreVaultUSBankAccounts.ConfirmMicrodeposits(
+		"id_123", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
 }
 
 func TestControlledByAlternateResourceErrorClient(t *testing.T) {
-	params := &stripe.V2MoneyManagementOutboundSetupIntentCreateParams{}
+	params := &stripe.V2CoreVaultUSBankAccountConfirmMicrodepositsParams{}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/money_management/outbound_setup_intents", params, "{\"error\":{\"type\":\"controlled_by_alternate_resource\",\"code\":\"payout_method_cannot_be_archived\"}}")
+		t, http.MethodPost, "/v2/core/vault/us_bank_accounts/id_123/confirm_microdeposits", params, "{\"error\":{\"type\":\"controlled_by_alternate_resource\",\"code\":\"payout_method_cannot_be_archived\"}}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2MoneyManagementOutboundSetupIntents.Create(
-		context.TODO(), params)
+	result, err := sc.V2CoreVaultUSBankAccounts.ConfirmMicrodeposits(
+		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)
 }

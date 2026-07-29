@@ -98,7 +98,7 @@ type V2MoneyManagementInboundTransferTransferHistoryBankDebitReturned struct {
 // The history entry for a succeeded InboundTransfer.
 type V2MoneyManagementInboundTransferTransferHistoryBankDebitSucceeded struct{}
 
-// A list of history objects, representing changes in the state of the InboundTransfer.
+// A list of history objects, representing changes in the state of the InboundTransfer. The most recent entry's type indicates the current status of the InboundTransfer.
 type V2MoneyManagementInboundTransferTransferHistory struct {
 	// The history entry for a failed InboundTransfer.
 	BankDebitFailed *V2MoneyManagementInboundTransferTransferHistoryBankDebitFailed `json:"bank_debit_failed,omitempty"`
@@ -144,6 +144,6 @@ type V2MoneyManagementInboundTransfer struct {
 	ReceiptURL string `json:"receipt_url,omitempty"`
 	// A nested object containing information about the destination of the InboundTransfer.
 	To *V2MoneyManagementInboundTransferTo `json:"to"`
-	// A list of history objects, representing changes in the state of the InboundTransfer.
+	// A list of history objects, representing changes in the state of the InboundTransfer. The most recent entry's type indicates the current status of the InboundTransfer.
 	TransferHistory []*V2MoneyManagementInboundTransferTransferHistory `json:"transfer_history"`
 }

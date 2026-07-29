@@ -2948,6 +2948,15 @@ const (
 	V2CoreAccountIdentityAttestationsPersonsProvidedOwnershipExemptionReasonQualifiesAsFinancialInstitution          V2CoreAccountIdentityAttestationsPersonsProvidedOwnershipExemptionReason = "qualifies_as_financial_institution"
 )
 
+// Purpose of additional address.
+type V2CoreAccountIdentityBusinessDetailsAdditionalAddressPurpose string
+
+// List of values that V2CoreAccountIdentityBusinessDetailsAdditionalAddressPurpose can take
+const (
+	V2CoreAccountIdentityBusinessDetailsAdditionalAddressPurposeAdministrative           V2CoreAccountIdentityBusinessDetailsAdditionalAddressPurpose = "administrative"
+	V2CoreAccountIdentityBusinessDetailsAdditionalAddressPurposePrincipalPlaceOfBusiness V2CoreAccountIdentityBusinessDetailsAdditionalAddressPurpose = "principal_place_of_business"
+)
+
 // The format of the document. Currently supports `files` only.
 type V2CoreAccountIdentityBusinessDetailsDocumentsBankAccountOwnershipVerificationType string
 
@@ -5448,6 +5457,26 @@ type V2CoreAccountIdentityAttestations struct {
 	TermsOfService *V2CoreAccountIdentityAttestationsTermsOfService `json:"terms_of_service,omitempty"`
 }
 
+// Additional addresses associated with the business.
+type V2CoreAccountIdentityBusinessDetailsAdditionalAddress struct {
+	// City, district, suburb, town, or village.
+	City string `json:"city,omitempty"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country string `json:"country,omitempty"`
+	// Address line 1 (e.g., street, PO Box, or company name).
+	Line1 string `json:"line1,omitempty"`
+	// Address line 2 (e.g., apartment, suite, unit, or building).
+	Line2 string `json:"line2,omitempty"`
+	// ZIP or postal code.
+	PostalCode string `json:"postal_code,omitempty"`
+	// Purpose of additional address.
+	Purpose V2CoreAccountIdentityBusinessDetailsAdditionalAddressPurpose `json:"purpose"`
+	// State, county, province, or region.
+	State string `json:"state,omitempty"`
+	// Town or district.
+	Town string `json:"town,omitempty"`
+}
+
 // The company's primary address.
 type V2CoreAccountIdentityBusinessDetailsAddress struct {
 	// City, district, suburb, town, or village.
@@ -5692,6 +5721,8 @@ type V2CoreAccountIdentityBusinessDetailsScriptNames struct {
 
 // Information about the company or business.
 type V2CoreAccountIdentityBusinessDetails struct {
+	// Additional addresses associated with the business.
+	AdditionalAddresses []*V2CoreAccountIdentityBusinessDetailsAdditionalAddress `json:"additional_addresses,omitempty"`
 	// The company's primary address.
 	Address *V2CoreAccountIdentityBusinessDetailsAddress `json:"address,omitempty"`
 	// The business gross annual revenue for its preceding fiscal year.

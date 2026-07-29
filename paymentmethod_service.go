@@ -81,7 +81,7 @@ func (c v1PaymentMethodService) Attach(ctx context.Context, id string, params *P
 	return paymentmethod, err
 }
 
-// Detaches a PaymentMethod object from a Customer. After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.
+// Detaches a PaymentMethod object from a Customer. Detachment is permanent and irreversible — once detached, a PaymentMethod can no longer be used for payments or re-attached to a Customer.
 func (c v1PaymentMethodService) Detach(ctx context.Context, id string, params *PaymentMethodDetachParams) (*PaymentMethod, error) {
 	if params == nil {
 		params = &PaymentMethodDetachParams{}

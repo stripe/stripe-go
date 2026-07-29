@@ -119,7 +119,7 @@ type CapabilityFutureRequirementsAlternative struct {
 	OriginalFieldsDue []string `json:"original_fields_due"`
 }
 
-// Details about validation and verification failures for `due` requirements that must be resolved.
+// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type CapabilityFutureRequirementsError struct {
 	// The code for the type of error.
 	Code string `json:"code"`
@@ -137,7 +137,7 @@ type CapabilityFutureRequirements struct {
 	CurrentlyDue []string `json:"currently_due"`
 	// This is typed as an enum for consistency with `requirements.disabled_reason`, but it safe to assume `future_requirements.disabled_reason` is null because fields in `future_requirements` will never disable the account.
 	DisabledReason CapabilityFutureRequirementsDisabledReason `json:"disabled_reason"`
-	// Details about validation and verification failures for `due` requirements that must be resolved.
+	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*CapabilityFutureRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well.
 	EventuallyDue []string `json:"eventually_due"`
@@ -163,7 +163,7 @@ type CapabilityRequirements struct {
 	CurrentlyDue []string `json:"currently_due"`
 	// Description of why the capability is disabled. [Learn more about handling verification issues](https://docs.stripe.com/connect/handling-api-verification).
 	DisabledReason CapabilityDisabledReason `json:"disabled_reason"`
-	// Details about validation and verification failures for `due` requirements that must be resolved.
+	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and `current_deadline` becomes set.
 	EventuallyDue []string `json:"eventually_due"`
