@@ -67,6 +67,7 @@ type IssuingCardShippingCarrier string
 
 // List of values that IssuingCardShippingCarrier can take
 const (
+	IssuingCardShippingCarrierCorreos   IssuingCardShippingCarrier = "correos"
 	IssuingCardShippingCarrierDHL       IssuingCardShippingCarrier = "dhl"
 	IssuingCardShippingCarrierFedEx     IssuingCardShippingCarrier = "fedex"
 	IssuingCardShippingCarrierRoyalMail IssuingCardShippingCarrier = "royal_mail"
@@ -241,6 +242,8 @@ type IssuingCardShippingParams struct {
 	Address *AddressParams `form:"address" json:"address"`
 	// Address validation settings.
 	AddressValidation *IssuingCardShippingAddressValidationParams `form:"address_validation" json:"address_validation,omitempty"`
+	// The name of the business at the shipping address, used on the shipping label to ensure delivery when the card is shipped to a cardholder's workplace. Allowed characters: `A-Z`, `a-z`, `0-9`, ` `, `.`, `-`. All other characters are stripped or ASCII-normalized when printed.
+	BusinessName *string `form:"business_name" json:"business_name,omitempty"`
 	// Customs information for the shipment.
 	Customs *IssuingCardShippingCustomsParams `form:"customs" json:"customs,omitempty"`
 	// The name printed on the shipping label when shipping the card.
@@ -389,6 +392,8 @@ type IssuingCardCreateShippingParams struct {
 	Address *AddressParams `form:"address" json:"address"`
 	// Address validation settings.
 	AddressValidation *IssuingCardCreateShippingAddressValidationParams `form:"address_validation" json:"address_validation,omitempty"`
+	// The name of the business at the shipping address, used on the shipping label to ensure delivery when the card is shipped to a cardholder's workplace. Allowed characters: `A-Z`, `a-z`, `0-9`, ` `, `.`, `-`. All other characters are stripped or ASCII-normalized when printed.
+	BusinessName *string `form:"business_name" json:"business_name,omitempty"`
 	// Customs information for the shipment.
 	Customs *IssuingCardCreateShippingCustomsParams `form:"customs" json:"customs,omitempty"`
 	// The name printed on the shipping label when shipping the card.
@@ -533,6 +538,8 @@ type IssuingCardUpdateShippingParams struct {
 	Address *AddressParams `form:"address" json:"address"`
 	// Address validation settings.
 	AddressValidation *IssuingCardUpdateShippingAddressValidationParams `form:"address_validation" json:"address_validation,omitempty"`
+	// The name of the business at the shipping address, used on the shipping label to ensure delivery when the card is shipped to a cardholder's workplace. Allowed characters: `A-Z`, `a-z`, `0-9`, ` `, `.`, `-`. All other characters are stripped or ASCII-normalized when printed.
+	BusinessName *string `form:"business_name" json:"business_name,omitempty"`
 	// Customs information for the shipment.
 	Customs *IssuingCardUpdateShippingCustomsParams `form:"customs" json:"customs,omitempty"`
 	// The name printed on the shipping label when shipping the card.
@@ -660,6 +667,8 @@ type IssuingCardShipping struct {
 	Address *Address `json:"address"`
 	// Address validation details for the shipment.
 	AddressValidation *IssuingCardShippingAddressValidation `json:"address_validation"`
+	// The name of the business at the shipping address, used on the shipping label to ensure delivery when the card is shipped to a cardholder's workplace.
+	BusinessName string `json:"business_name"`
 	// The delivery company that shipped a card.
 	Carrier IssuingCardShippingCarrier `json:"carrier"`
 	// Additional information that may be required for clearing customs.

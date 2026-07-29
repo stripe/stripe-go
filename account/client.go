@@ -26,7 +26,7 @@ type Client struct {
 // With [Connect](https://docs.stripe.com/docs/connect), you can create Stripe accounts for your users.
 // To do this, you'll first need to [register your platform](https://dashboard.stripe.com/account/applications/settings).
 //
-// If you've already collected information for your connected accounts, you [can prefill that information](https://docs.stripe.com/docs/connect/best-practices#onboarding) when
+// If you've already collected information for your connected accounts, you [can prefill that information](https://docs.stripe.com/connect/marketplace/tasks/create#prefill-account-information) when
 // creating the account. Connect Onboarding won't ask for the prefilled information during account onboarding.
 // You can prefill any information on the account.
 func New(params *stripe.AccountParams) (*stripe.Account, error) {
@@ -36,7 +36,7 @@ func New(params *stripe.AccountParams) (*stripe.Account, error) {
 // With [Connect](https://docs.stripe.com/docs/connect), you can create Stripe accounts for your users.
 // To do this, you'll first need to [register your platform](https://dashboard.stripe.com/account/applications/settings).
 //
-// If you've already collected information for your connected accounts, you [can prefill that information](https://docs.stripe.com/docs/connect/best-practices#onboarding) when
+// If you've already collected information for your connected accounts, you [can prefill that information](https://docs.stripe.com/connect/marketplace/tasks/create#prefill-account-information) when
 // creating the account. Connect Onboarding won't ask for the prefilled information during account onboarding.
 // You can prefill any information on the account.
 //
@@ -150,20 +150,45 @@ func (c Client) Del(id string, params *stripe.AccountParams) (*stripe.Account, e
 
 // With [Connect](https://docs.stripe.com/connect), you can reject accounts that you have flagged as suspicious.
 //
-// Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected. Test-mode accounts can be rejected at any time. Live-mode accounts can only be rejected after all balances are zero.
+// Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected.
 func Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
 	return getC().Reject(id, params)
 }
 
 // With [Connect](https://docs.stripe.com/connect), you can reject accounts that you have flagged as suspicious.
 //
-// Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected. Test-mode accounts can be rejected at any time. Live-mode accounts can only be rejected after all balances are zero.
+// Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
 // [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
 	path := stripe.FormatURLPath("/v1/accounts/%s/reject", id)
+	account := &stripe.Account{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	return account, err
+}
+
+// With Connect, you can unreject accounts that you have previously rejected.
+//
+// Only accounts that were rejected by your platform can be unrejected. This API cannot be used to unreject accounts that were rejected by Stripe.
+//
+// Unreject will only enable charges and/or payouts if there are no other restrictions other than those placed by a previous rejection. If you have separately paused charges and/or payouts outside of rejection, those pauses will remain in place after unrejection.
+func Unreject(id string, params *stripe.AccountUnrejectParams) (*stripe.Account, error) {
+	return getC().Unreject(id, params)
+}
+
+// With Connect, you can unreject accounts that you have previously rejected.
+//
+// Only accounts that were rejected by your platform can be unrejected. This API cannot be used to unreject accounts that were rejected by Stripe.
+//
+// Unreject will only enable charges and/or payouts if there are no other restrictions other than those placed by a previous rejection. If you have separately paused charges and/or payouts outside of rejection, those pauses will remain in place after unrejection.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Unreject(id string, params *stripe.AccountUnrejectParams) (*stripe.Account, error) {
+	path := stripe.FormatURLPath("/v1/accounts/%s/unreject", id)
 	account := &stripe.Account{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
 	return account, err

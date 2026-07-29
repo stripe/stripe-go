@@ -667,6 +667,7 @@ type PaymentLinkPaymentIntentDataParamsUnsetField string
 const (
 	PaymentLinkPaymentIntentDataParamsUnsetFieldDescription               PaymentLinkPaymentIntentDataParamsUnsetField = "description"
 	PaymentLinkPaymentIntentDataParamsUnsetFieldMetadata                  PaymentLinkPaymentIntentDataParamsUnsetField = "metadata"
+	PaymentLinkPaymentIntentDataParamsUnsetFieldSetupFutureUsage          PaymentLinkPaymentIntentDataParamsUnsetField = "setup_future_usage"
 	PaymentLinkPaymentIntentDataParamsUnsetFieldStatementDescriptor       PaymentLinkPaymentIntentDataParamsUnsetField = "statement_descriptor"
 	PaymentLinkPaymentIntentDataParamsUnsetFieldStatementDescriptorSuffix PaymentLinkPaymentIntentDataParamsUnsetField = "statement_descriptor_suffix"
 	PaymentLinkPaymentIntentDataParamsUnsetFieldTransferGroup             PaymentLinkPaymentIntentDataParamsUnsetField = "transfer_group"
@@ -951,6 +952,7 @@ const (
 	PaymentLinkParamsUnsetFieldPaymentMethodTypes        PaymentLinkParamsUnsetField = "payment_method_types"
 	PaymentLinkParamsUnsetFieldRestrictions              PaymentLinkParamsUnsetField = "restrictions"
 	PaymentLinkParamsUnsetFieldShippingAddressCollection PaymentLinkParamsUnsetField = "shipping_address_collection"
+	PaymentLinkParamsUnsetFieldShippingOptions           PaymentLinkParamsUnsetField = "shipping_options"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -1673,6 +1675,26 @@ type PaymentLinkUpdateAutomaticTaxParams struct {
 	Liability *PaymentLinkUpdateAutomaticTaxLiabilityParams `form:"liability" json:"liability,omitempty"`
 }
 
+// Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
+type PaymentLinkUpdateConsentCollectionPaymentMethodReuseAgreementParams struct {
+	// Determines the position and visibility of the payment method reuse agreement in the UI. When set to `auto`, Stripe's
+	// defaults will be used. When set to `hidden`, the payment method reuse agreement text will always be hidden in the UI.
+	Position *string `form:"position" json:"position"`
+}
+
+// Configure fields to gather active consent from customers.
+type PaymentLinkUpdateConsentCollectionParams struct {
+	// Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
+	PaymentMethodReuseAgreement *PaymentLinkUpdateConsentCollectionPaymentMethodReuseAgreementParams `form:"payment_method_reuse_agreement" json:"payment_method_reuse_agreement,omitempty"`
+	// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
+	// Session will determine whether to display an option to opt into promotional communication
+	// from the merchant depending on the customer's locale. Only available to US merchants and US customers.
+	Promotions *string `form:"promotions" json:"promotions,omitempty"`
+	// If set to `required`, it requires customers to check a terms of service checkbox before being able to pay.
+	// There must be a valid terms of service URL set in your [Dashboard settings](https://dashboard.stripe.com/settings/public).
+	TermsOfService *string `form:"terms_of_service" json:"terms_of_service,omitempty"`
+}
+
 // The options available for the customer to select. Up to 200 options allowed.
 type PaymentLinkUpdateCustomFieldDropdownOptionParams struct {
 	// The label for the option, displayed to the customer. Up to 100 characters.
@@ -1947,6 +1969,18 @@ type PaymentLinkUpdatePaymentIntentDataParams struct {
 	Description *string `form:"description" json:"description,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that will declaratively set metadata on [Payment Intents](https://docs.stripe.com/api/payment_intents) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
+	//
+	// When setting this to `on_session`, Checkout will show a notice to the customer that their payment details will be saved.
+	//
+	// When setting this to `off_session`, Checkout will show a notice to the customer that their payment details will be saved and used for future payments.
+	//
+	// If a Customer has been provided or Checkout creates a new Customer,Checkout will attach the payment method to the Customer.
+	//
+	// If Checkout does not create a Customer, the payment method is not attached to a Customer. To reuse the payment method, you can retrieve it from the Checkout Session's PaymentIntent.
+	//
+	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	//
 	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
@@ -1964,6 +1998,7 @@ type PaymentLinkUpdatePaymentIntentDataParamsUnsetField string
 const (
 	PaymentLinkUpdatePaymentIntentDataParamsUnsetFieldDescription               PaymentLinkUpdatePaymentIntentDataParamsUnsetField = "description"
 	PaymentLinkUpdatePaymentIntentDataParamsUnsetFieldMetadata                  PaymentLinkUpdatePaymentIntentDataParamsUnsetField = "metadata"
+	PaymentLinkUpdatePaymentIntentDataParamsUnsetFieldSetupFutureUsage          PaymentLinkUpdatePaymentIntentDataParamsUnsetField = "setup_future_usage"
 	PaymentLinkUpdatePaymentIntentDataParamsUnsetFieldStatementDescriptor       PaymentLinkUpdatePaymentIntentDataParamsUnsetField = "statement_descriptor"
 	PaymentLinkUpdatePaymentIntentDataParamsUnsetFieldStatementDescriptorSuffix PaymentLinkUpdatePaymentIntentDataParamsUnsetField = "statement_descriptor_suffix"
 	PaymentLinkUpdatePaymentIntentDataParamsUnsetFieldTransferGroup             PaymentLinkUpdatePaymentIntentDataParamsUnsetField = "transfer_group"
@@ -2067,6 +2102,12 @@ type PaymentLinkUpdateShippingAddressCollectionParams struct {
 	AllowedCountries []*string `form:"allowed_countries" json:"allowed_countries"`
 }
 
+// The shipping rate options to apply to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
+type PaymentLinkUpdateShippingOptionParams struct {
+	// The ID of the Shipping Rate to use for this shipping option.
+	ShippingRate *string `form:"shipping_rate" json:"shipping_rate,omitempty"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type PaymentLinkUpdateSubscriptionDataInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -2150,6 +2191,8 @@ type PaymentLinkUpdateParams struct {
 	AutomaticTax *PaymentLinkUpdateAutomaticTaxParams `form:"automatic_tax" json:"automatic_tax,omitempty"`
 	// Configuration for collecting the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection" json:"billing_address_collection,omitempty"`
+	// Configure fields to gather active consent from customers.
+	ConsentCollection *PaymentLinkUpdateConsentCollectionParams `form:"consent_collection" json:"consent_collection,omitempty"`
 	// Configures whether [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link create a [Customer](https://docs.stripe.com/api/customers).
 	CustomerCreation *string `form:"customer_creation" json:"customer_creation,omitempty"`
 	// Collect additional information from your customer using custom fields. Up to 3 fields are supported. You can't set this parameter if `ui_mode` is `custom`.
@@ -2192,6 +2235,8 @@ type PaymentLinkUpdateParams struct {
 	Restrictions *PaymentLinkUpdateRestrictionsParams `form:"restrictions" json:"restrictions,omitempty"`
 	// Configuration for collecting the customer's shipping address.
 	ShippingAddressCollection *PaymentLinkUpdateShippingAddressCollectionParams `form:"shipping_address_collection" json:"shipping_address_collection,omitempty"`
+	// The shipping rate options to apply to [checkout sessions](https://docs.stripe.com/api/checkout/sessions) created by this payment link.
+	ShippingOptions []*PaymentLinkUpdateShippingOptionParams `form:"shipping_options" json:"shipping_options,omitempty"`
 	// Describes the type of transaction being performed in order to customize relevant text on the page, such as the submit button. Changing this value will also affect the hostname in the [url](https://docs.stripe.com/api/payment_links/payment_links/object#url) property (example: `donate.stripe.com`).
 	SubmitType *string `form:"submit_type" json:"submit_type,omitempty"`
 	// When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
@@ -2213,6 +2258,7 @@ const (
 	PaymentLinkUpdateParamsUnsetFieldPaymentMethodTypes        PaymentLinkUpdateParamsUnsetField = "payment_method_types"
 	PaymentLinkUpdateParamsUnsetFieldRestrictions              PaymentLinkUpdateParamsUnsetField = "restrictions"
 	PaymentLinkUpdateParamsUnsetFieldShippingAddressCollection PaymentLinkUpdateParamsUnsetField = "shipping_address_collection"
+	PaymentLinkUpdateParamsUnsetFieldShippingOptions           PaymentLinkUpdateParamsUnsetField = "shipping_options"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.

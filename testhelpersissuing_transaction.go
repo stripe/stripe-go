@@ -58,7 +58,7 @@ type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetCardhold
 
 // Breakdown of fuel portion of the purchase.
 type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetReportedBreakdownFuelParams struct {
-	// Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes.
+	// Gross fuel amount that should equal Fuel Volume multiplied by Fuel Unit Cost, inclusive of taxes.
 	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision" json:"gross_amount_decimal,string,omitempty"`
 }
 
@@ -234,7 +234,7 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetCardho
 
 // Breakdown of fuel portion of the purchase.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetReportedBreakdownFuelParams struct {
-	// Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes.
+	// Gross fuel amount that should equal Fuel Volume multiplied by Fuel Unit Cost, inclusive of taxes.
 	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision" json:"gross_amount_decimal,string,omitempty"`
 }
 
