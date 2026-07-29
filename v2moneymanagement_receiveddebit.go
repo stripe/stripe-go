@@ -56,7 +56,8 @@ const (
 	V2MoneyManagementReceivedDebitTypeExternalDebit V2MoneyManagementReceivedDebitType = "external_debit"
 )
 
-// The payment method used to originate the debit.
+// Object containing details of the US Bank Account that originated the debit.
+// Present when the debit was originated via ACH.
 type V2MoneyManagementReceivedDebitBankTransferUSBankAccount struct {
 	// The name of the bank the debit originated from.
 	BankName string `json:"bank_name,omitempty"`
@@ -74,8 +75,9 @@ type V2MoneyManagementReceivedDebitBankTransfer struct {
 	PaymentMethodType V2MoneyManagementReceivedDebitBankTransferPaymentMethodType `json:"payment_method_type"`
 	// The statement descriptor set by the originator of the debit.
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
-	// The payment method used to originate the debit.
-	USBankAccount *V2MoneyManagementReceivedDebitBankTransferUSBankAccount `json:"us_bank_account"`
+	// Object containing details of the US Bank Account that originated the debit.
+	// Present when the debit was originated via ACH.
+	USBankAccount *V2MoneyManagementReceivedDebitBankTransferUSBankAccount `json:"us_bank_account,omitempty"`
 }
 
 // Information that elaborates on the `failed` status of a ReceivedDebit.

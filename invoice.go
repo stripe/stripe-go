@@ -242,6 +242,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeACHDebit           InvoicePaymentSettingsPaymentMethodType = "ach_debit"
 	InvoicePaymentSettingsPaymentMethodTypeACSSDebit          InvoicePaymentSettingsPaymentMethodType = "acss_debit"
 	InvoicePaymentSettingsPaymentMethodTypeAffirm             InvoicePaymentSettingsPaymentMethodType = "affirm"
+	InvoicePaymentSettingsPaymentMethodTypeAlipay             InvoicePaymentSettingsPaymentMethodType = "alipay"
 	InvoicePaymentSettingsPaymentMethodTypeAmazonPay          InvoicePaymentSettingsPaymentMethodType = "amazon_pay"
 	InvoicePaymentSettingsPaymentMethodTypeAUBECSDebit        InvoicePaymentSettingsPaymentMethodType = "au_becs_debit"
 	InvoicePaymentSettingsPaymentMethodTypeBACSDebit          InvoicePaymentSettingsPaymentMethodType = "bacs_debit"
@@ -265,6 +266,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeKonbini            InvoicePaymentSettingsPaymentMethodType = "konbini"
 	InvoicePaymentSettingsPaymentMethodTypeKrCard             InvoicePaymentSettingsPaymentMethodType = "kr_card"
 	InvoicePaymentSettingsPaymentMethodTypeLink               InvoicePaymentSettingsPaymentMethodType = "link"
+	InvoicePaymentSettingsPaymentMethodTypeMbWay              InvoicePaymentSettingsPaymentMethodType = "mb_way"
 	InvoicePaymentSettingsPaymentMethodTypeMultibanco         InvoicePaymentSettingsPaymentMethodType = "multibanco"
 	InvoicePaymentSettingsPaymentMethodTypeNaverPay           InvoicePaymentSettingsPaymentMethodType = "naver_pay"
 	InvoicePaymentSettingsPaymentMethodTypeNzBankAccount      InvoicePaymentSettingsPaymentMethodType = "nz_bank_account"
@@ -1732,7 +1734,7 @@ func (p *InvoiceCreatePreviewCustomerDetailsTaxParams) AddUnsetField(field Invoi
 
 // The customer's tax IDs.
 type InvoiceCreatePreviewCustomerDetailsTaxIDParams struct {
-	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `fo_vat`, `gb_vat`, `ge_vat`, `gi_tin`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `it_cf`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `py_ruc`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `aw_tin`, `az_tin`, `ba_tin`, `bb_tin`, `bd_bin`, `bf_ifu`, `bg_uic`, `bh_vat`, `bj_ifu`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cm_niu`, `cn_tin`, `co_nit`, `cr_tin`, `cv_nif`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `et_tin`, `eu_oss_vat`, `eu_vat`, `fo_vat`, `gb_vat`, `ge_vat`, `gi_tin`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `ic_nif`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `it_cf`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kg_tin`, `kh_tin`, `kr_brn`, `kz_bin`, `la_tin`, `li_uid`, `li_vat`, `lk_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `pl_nip`, `py_ruc`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
 	Type *string `form:"type" json:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value" json:"value"`
@@ -2645,7 +2647,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	PauseCollection *InvoiceCreatePreviewScheduleDetailsPhasePauseCollectionParams `form:"pause_collection" json:"pause_collection,omitempty"`
 	// Controls whether the subscription schedule should create [prorations](https://docs.stripe.com/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://docs.stripe.com/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
-	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
+	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase. Prefer to specify `now` over an explicit timestamp when appropriate to avoid unexpected behavior due to request delays or clock skew resulting in the phase being slightly backdated or postdated.
 	StartDate    *int64 `form:"start_date" json:"start_date,omitempty"`
 	StartDateNow *bool  `form:"-"` // See custom AppendTo
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
@@ -2654,7 +2656,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	Trial *bool `form:"trial" json:"trial,omitempty"`
 	// Specify trial behavior when crossing phase boundaries
 	TrialContinuation *string `form:"trial_continuation" json:"trial_continuation,omitempty"`
-	// Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`
+	// Sets the phase to trialing from the start date to this date. Must be within the phase. When previewing an update, if combined with `trial=true`, it must match the phase end date.
 	TrialEnd    *int64 `form:"trial_end" json:"trial_end,omitempty"`
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Settings related to subscription trials.
@@ -2998,6 +3000,8 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	DefaultTaxRates []*string `form:"default_tax_rates" json:"default_tax_rates,omitempty"`
 	// A list of up to 20 subscription items, each with an attached price.
 	Items []*InvoiceCreatePreviewSubscriptionDetailsItemParams `form:"items" json:"items,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Previews the invoice that would be generated when pausing the subscription. Passing an empty hash won't preview pausing and instead returns the next invoice.
 	//
 	// To receive a preview invoice, set `invoicing_behavior` to `invoice`. A preview isn't available if the `bill_for` options produce no billable amounts.
@@ -3027,11 +3031,21 @@ const (
 	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldBillingSchedules InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "billing_schedules"
 	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldCancelAt         InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "cancel_at"
 	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldDefaultTaxRates  InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "default_tax_rates"
+	InvoiceCreatePreviewSubscriptionDetailsParamsUnsetFieldMetadata         InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField = "metadata"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
 func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AddUnsetField(field InvoiceCreatePreviewSubscriptionDetailsParamsUnsetField) {
 	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // AppendTo implements custom encoding logic for InvoiceCreatePreviewSubscriptionDetailsParams.
@@ -4342,7 +4356,7 @@ type InvoiceCustomField struct {
 
 // The customer's tax IDs. Until the invoice is finalized, this field will contain the same tax IDs as `customer.tax_ids`. Once the invoice is finalized, this field will no longer be updated.
 type InvoiceCustomerTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
 	Type *TaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`

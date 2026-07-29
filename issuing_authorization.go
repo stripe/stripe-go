@@ -134,6 +134,7 @@ const (
 	IssuingAuthorizationRequestHistoryReasonNotAllowed                     IssuingAuthorizationRequestHistoryReason = "not_allowed"
 	IssuingAuthorizationRequestHistoryReasonPINBlocked                     IssuingAuthorizationRequestHistoryReason = "pin_blocked"
 	IssuingAuthorizationRequestHistoryReasonSpendingControls               IssuingAuthorizationRequestHistoryReason = "spending_controls"
+	IssuingAuthorizationRequestHistoryReasonStripeInternalError            IssuingAuthorizationRequestHistoryReason = "stripe_internal_error"
 	IssuingAuthorizationRequestHistoryReasonSuspectedFraud                 IssuingAuthorizationRequestHistoryReason = "suspected_fraud"
 	IssuingAuthorizationRequestHistoryReasonVerificationFailed             IssuingAuthorizationRequestHistoryReason = "verification_failed"
 	IssuingAuthorizationRequestHistoryReasonWebhookApproved                IssuingAuthorizationRequestHistoryReason = "webhook_approved"

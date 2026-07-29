@@ -206,7 +206,7 @@ type IssuingTransactionPurchaseDetailsFleetCardholderPromptData struct {
 
 // Breakdown of fuel portion of the purchase.
 type IssuingTransactionPurchaseDetailsFleetReportedBreakdownFuel struct {
-	// Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes.
+	// Gross fuel amount that should equal Fuel Volume multiplied by Fuel Unit Cost, inclusive of taxes.
 	GrossAmountDecimal float64 `json:"gross_amount_decimal,string"`
 }
 

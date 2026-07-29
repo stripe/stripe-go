@@ -44,6 +44,16 @@ const (
 	V2IamActivityLogDetailsTypeUserRoles  V2IamActivityLogDetailsType = "user_roles"
 )
 
+// Source of the role change.
+type V2IamActivityLogDetailsUserRolesSource string
+
+// List of values that V2IamActivityLogDetailsUserRolesSource can take
+const (
+	V2IamActivityLogDetailsUserRolesSourceDashboard V2IamActivityLogDetailsUserRolesSource = "dashboard"
+	V2IamActivityLogDetailsUserRolesSourceScim      V2IamActivityLogDetailsUserRolesSource = "scim"
+	V2IamActivityLogDetailsUserRolesSourceSso       V2IamActivityLogDetailsUserRolesSource = "sso"
+)
+
 // The type of action that was performed.
 type V2IamActivityLogType string
 
@@ -132,6 +142,8 @@ type V2IamActivityLogDetailsUserRoles struct {
 	NewRoles []string `json:"new_roles"`
 	// Roles the user had before the change.
 	OldRoles []string `json:"old_roles"`
+	// Source of the role change.
+	Source V2IamActivityLogDetailsUserRolesSource `json:"source"`
 	// Email address of the user whose roles were changed.
 	UserEmail string `json:"user_email"`
 }

@@ -6,7 +6,7 @@
 
 package stripe
 
-// The duration the exchange rate quote remains valid from creation time. Allowed values are none, hour, and day. Note that for the test mode API available in alpha, you can request an extended quote, but it won't be usable for any transactions.
+// The duration that the quote is locked for, from creation time. The quote will be usable for the duration specified.
 type FxQuoteLockDuration string
 
 // List of values that FxQuoteLockDuration can take
@@ -48,7 +48,7 @@ const (
 	FxQuoteUsageTypeTransfer FxQuoteUsageType = "transfer"
 )
 
-// Returns a list of FX quotes that have been issued. The FX quotes are returned in sorted order, with the most recent FX quotes appearing first.
+// Returns a list of active FX quotes. The FX quotes are returned in sorted order, with the most recent FX quotes appearing first.
 type FxQuoteListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -228,7 +228,7 @@ type FxQuoteUsage struct {
 
 // The FX Quotes API provides three functions:
 // - View Stripe's current exchange rate for any given currency pair.
-// - Extend quoted rates for a 1-hour period or a 24-hour period, minimizing uncertainty from FX fluctuations.
+// - Extend quoted rates for up to a 24-hour period, minimizing uncertainty from FX fluctuations.
 // - Preview the FX fees Stripe will charge on your FX transaction, allowing you to anticipate specific settlement amounts before payment costs.
 //
 // [View the docs](https://docs.stripe.com/payments/currencies/localize-prices/fx-quotes-api)
@@ -238,7 +238,7 @@ type FxQuote struct {
 	Created int64 `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// The duration the exchange rate quote remains valid from creation time. Allowed values are none, hour, and day. Note that for the test mode API available in alpha, you can request an extended quote, but it won't be usable for any transactions.
+	// The duration that the quote is locked for, from creation time. The quote will be usable for the duration specified.
 	LockDuration FxQuoteLockDuration `json:"lock_duration"`
 	// Time at which the quote will expire, measured in seconds since the Unix epoch.
 	//
