@@ -1202,6 +1202,8 @@ type TaxRegistrationCountryOptionsUSType string
 const (
 	TaxRegistrationCountryOptionsUSTypeLocalAmusementTax      TaxRegistrationCountryOptionsUSType = "local_amusement_tax"
 	TaxRegistrationCountryOptionsUSTypeLocalLeaseTax          TaxRegistrationCountryOptionsUSType = "local_lease_tax"
+	TaxRegistrationCountryOptionsUSTypeMassTransitParkingTax  TaxRegistrationCountryOptionsUSType = "mass_transit_parking_tax"
+	TaxRegistrationCountryOptionsUSTypeParkingTax             TaxRegistrationCountryOptionsUSType = "parking_tax"
 	TaxRegistrationCountryOptionsUSTypeStateCommunicationsTax TaxRegistrationCountryOptionsUSType = "state_communications_tax"
 	TaxRegistrationCountryOptionsUSTypeStateRetailDeliveryFee TaxRegistrationCountryOptionsUSType = "state_retail_delivery_fee"
 	TaxRegistrationCountryOptionsUSTypeStateSalesTax          TaxRegistrationCountryOptionsUSType = "state_sales_tax"
@@ -2295,6 +2297,18 @@ type TaxRegistrationCountryOptionsUSLocalLeaseTaxParams struct {
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
+// Options for the mass transit parking tax registration.
+type TaxRegistrationCountryOptionsUSMassTransitParkingTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=mass_transit_parking_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the parking tax registration.
+type TaxRegistrationCountryOptionsUSParkingTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=parking_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
 // Elections for the state sales tax registration.
 type TaxRegistrationCountryOptionsUSStateSalesTaxElectionParams struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `003` (Allegheny County) and `60000` (Philadelphia City).
@@ -2315,6 +2329,10 @@ type TaxRegistrationCountryOptionsUSParams struct {
 	LocalAmusementTax *TaxRegistrationCountryOptionsUSLocalAmusementTaxParams `form:"local_amusement_tax" json:"local_amusement_tax,omitempty"`
 	// Options for the local lease tax registration.
 	LocalLeaseTax *TaxRegistrationCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax" json:"local_lease_tax,omitempty"`
+	// Options for the mass transit parking tax registration.
+	MassTransitParkingTax *TaxRegistrationCountryOptionsUSMassTransitParkingTaxParams `form:"mass_transit_parking_tax" json:"mass_transit_parking_tax,omitempty"`
+	// Options for the parking tax registration.
+	ParkingTax *TaxRegistrationCountryOptionsUSParkingTaxParams `form:"parking_tax" json:"parking_tax,omitempty"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
 	State *string `form:"state" json:"state"`
 	// Options for the state sales tax registration.
@@ -3650,6 +3668,18 @@ type TaxRegistrationCreateCountryOptionsUSLocalLeaseTaxParams struct {
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
+// Options for the mass transit parking tax registration.
+type TaxRegistrationCreateCountryOptionsUSMassTransitParkingTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=mass_transit_parking_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the parking tax registration.
+type TaxRegistrationCreateCountryOptionsUSParkingTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=parking_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
 // Elections for the state sales tax registration.
 type TaxRegistrationCreateCountryOptionsUSStateSalesTaxElectionParams struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `003` (Allegheny County) and `60000` (Philadelphia City).
@@ -3670,6 +3700,10 @@ type TaxRegistrationCreateCountryOptionsUSParams struct {
 	LocalAmusementTax *TaxRegistrationCreateCountryOptionsUSLocalAmusementTaxParams `form:"local_amusement_tax" json:"local_amusement_tax,omitempty"`
 	// Options for the local lease tax registration.
 	LocalLeaseTax *TaxRegistrationCreateCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax" json:"local_lease_tax,omitempty"`
+	// Options for the mass transit parking tax registration.
+	MassTransitParkingTax *TaxRegistrationCreateCountryOptionsUSMassTransitParkingTaxParams `form:"mass_transit_parking_tax" json:"mass_transit_parking_tax,omitempty"`
+	// Options for the parking tax registration.
+	ParkingTax *TaxRegistrationCreateCountryOptionsUSParkingTaxParams `form:"parking_tax" json:"parking_tax,omitempty"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
 	State *string `form:"state" json:"state"`
 	// Options for the state sales tax registration.
@@ -4591,6 +4625,14 @@ type TaxRegistrationCountryOptionsUSLocalLeaseTax struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
 }
+type TaxRegistrationCountryOptionsUSMassTransitParkingTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=mass_transit_parking_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
+type TaxRegistrationCountryOptionsUSParkingTax struct {
+	// A [jurisdiction code](https://docs.stripe.com/tax/registering?type=parking_tax#registration-types) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+}
 
 // Elections for the state sales tax registration.
 type TaxRegistrationCountryOptionsUSStateSalesTaxElection struct {
@@ -4604,8 +4646,10 @@ type TaxRegistrationCountryOptionsUSStateSalesTax struct {
 	Elections []*TaxRegistrationCountryOptionsUSStateSalesTaxElection `json:"elections,omitempty"`
 }
 type TaxRegistrationCountryOptionsUS struct {
-	LocalAmusementTax *TaxRegistrationCountryOptionsUSLocalAmusementTax `json:"local_amusement_tax,omitempty"`
-	LocalLeaseTax     *TaxRegistrationCountryOptionsUSLocalLeaseTax     `json:"local_lease_tax,omitempty"`
+	LocalAmusementTax     *TaxRegistrationCountryOptionsUSLocalAmusementTax     `json:"local_amusement_tax,omitempty"`
+	LocalLeaseTax         *TaxRegistrationCountryOptionsUSLocalLeaseTax         `json:"local_lease_tax,omitempty"`
+	MassTransitParkingTax *TaxRegistrationCountryOptionsUSMassTransitParkingTax `json:"mass_transit_parking_tax,omitempty"`
+	ParkingTax            *TaxRegistrationCountryOptionsUSParkingTax            `json:"parking_tax,omitempty"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
 	State         string                                        `json:"state"`
 	StateSalesTax *TaxRegistrationCountryOptionsUSStateSalesTax `json:"state_sales_tax,omitempty"`

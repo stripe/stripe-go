@@ -113,7 +113,7 @@ const (
 	PersonVerificationStatusVerified   PersonVerificationStatus = "verified"
 )
 
-// Deletes an existing person's relationship to the account's legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the account_opener. If your integration is using the executive parameter, you cannot delete the only verified executive on file.
+// Deletes an existing person's relationship to the account's legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the representative. If your integration is using the executive parameter, you cannot delete the only verified executive on file.
 type PersonParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
@@ -144,8 +144,12 @@ type PersonParams struct {
 	// The person's gender (International regulations require either "male" or "female").
 	Gender *string `form:"gender" json:"gender,omitempty"`
 	// The person's ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	IDNumber *string `form:"id_number" json:"id_number,omitempty"`
 	// The person's secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	IDNumberSecondary *string `form:"id_number_secondary" json:"id_number_secondary,omitempty"`
 	// The person's last name.
 	LastName *string `form:"last_name" json:"last_name,omitempty"`
@@ -170,6 +174,8 @@ type PersonParams struct {
 	// The relationship that this person has with the account's legal entity.
 	Relationship *PersonRelationshipParams `form:"relationship" json:"relationship,omitempty"`
 	// The last four digits of the person's Social Security number (U.S. only).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	SSNLast4 *string `form:"ssn_last_4" json:"ssn_last_4,omitempty"`
 	// Demographic data related to the person.
 	USCfpbData *PersonUSCfpbDataParams `form:"us_cfpb_data" json:"us_cfpb_data,omitempty"`
@@ -415,7 +421,7 @@ func (p *PersonListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Deletes an existing person's relationship to the account's legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the account_opener. If your integration is using the executive parameter, you cannot delete the only verified executive on file.
+// Deletes an existing person's relationship to the account's legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the representative. If your integration is using the executive parameter, you cannot delete the only verified executive on file.
 type PersonDeleteParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
@@ -651,8 +657,12 @@ type PersonUpdateParams struct {
 	// The person's gender (International regulations require either "male" or "female").
 	Gender *string `form:"gender" json:"gender,omitempty"`
 	// The person's ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	IDNumber *string `form:"id_number" json:"id_number,omitempty"`
 	// The person's secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	IDNumberSecondary *string `form:"id_number_secondary" json:"id_number_secondary,omitempty"`
 	// The person's last name.
 	LastName *string `form:"last_name" json:"last_name,omitempty"`
@@ -677,6 +687,8 @@ type PersonUpdateParams struct {
 	// The relationship that this person has with the account's legal entity.
 	Relationship *PersonUpdateRelationshipParams `form:"relationship" json:"relationship,omitempty"`
 	// The last four digits of the person's Social Security number (U.S. only).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	SSNLast4 *string `form:"ssn_last_4" json:"ssn_last_4,omitempty"`
 	// Demographic data related to the person.
 	USCfpbData *PersonUpdateUSCfpbDataParams `form:"us_cfpb_data" json:"us_cfpb_data,omitempty"`
@@ -930,8 +942,12 @@ type PersonCreateParams struct {
 	// The person's gender (International regulations require either "male" or "female").
 	Gender *string `form:"gender" json:"gender,omitempty"`
 	// The person's ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	IDNumber *string `form:"id_number" json:"id_number,omitempty"`
 	// The person's secondary ID number, as appropriate for their country, will be used for enhanced verification checks. In Thailand, this would be the laser code found on the back of an ID card. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https://docs.stripe.com/js/tokens/create_token?type=pii).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	IDNumberSecondary *string `form:"id_number_secondary" json:"id_number_secondary,omitempty"`
 	// The person's last name.
 	LastName *string `form:"last_name" json:"last_name,omitempty"`
@@ -956,6 +972,8 @@ type PersonCreateParams struct {
 	// The relationship that this person has with the account's legal entity.
 	Relationship *PersonCreateRelationshipParams `form:"relationship" json:"relationship,omitempty"`
 	// The last four digits of the person's Social Security number (U.S. only).
+	//
+	// Changing this value for the account's representative requires that the account re-accept the [terms of service](https://docs.stripe.com/api/accounts/object#account_object-tos_acceptance).
 	SSNLast4 *string `form:"ssn_last_4" json:"ssn_last_4,omitempty"`
 	// Demographic data related to the person.
 	USCfpbData *PersonCreateUSCfpbDataParams `form:"us_cfpb_data" json:"us_cfpb_data,omitempty"`
@@ -1058,7 +1076,7 @@ type PersonFutureRequirementsAlternative struct {
 	OriginalFieldsDue []string `json:"original_fields_due"`
 }
 
-// Details about validation and verification failures for `due` requirements that must be resolved.
+// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type PersonFutureRequirementsError struct {
 	// The code for the type of error.
 	Code string `json:"code"`
@@ -1074,7 +1092,7 @@ type PersonFutureRequirements struct {
 	Alternatives []*PersonFutureRequirementsAlternative `json:"alternatives"`
 	// Fields that need to be resolved to keep the person's account enabled. If not resolved by the account's `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash, and may immediately become `past_due`, but the account may also be given a grace period depending on the account's enablement state prior to transition.
 	CurrentlyDue []string `json:"currently_due"`
-	// Details about validation and verification failures for `due` requirements that must be resolved.
+	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*PersonFutureRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `future_requirements[current_deadline]` becomes set.
 	EventuallyDue []string `json:"eventually_due"`
@@ -1116,7 +1134,7 @@ type PersonRequirements struct {
 	Alternatives []*PersonRequirementsAlternative `json:"alternatives"`
 	// Fields that need to be resolved to keep the person's account enabled. If not resolved by the account's `current_deadline`, these fields will appear in `past_due` as well, and the account is disabled.
 	CurrentlyDue []string `json:"currently_due"`
-	// Details about validation and verification failures for `due` requirements that must be resolved.
+	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountRequirementsError `json:"errors"`
 	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `current_deadline` becomes set.
 	EventuallyDue []string `json:"eventually_due"`

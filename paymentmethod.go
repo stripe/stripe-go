@@ -930,7 +930,7 @@ func (p *PaymentMethodAttachParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Detaches a PaymentMethod object from a Customer. After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.
+// Detaches a PaymentMethod object from a Customer. Detachment is permanent and irreversible — once detached, a PaymentMethod can no longer be used for payments or re-attached to a Customer.
 type PaymentMethodDetachParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -1912,7 +1912,7 @@ type PaymentMethodEPS struct {
 type PaymentMethodFPX struct {
 	// Account holder type, if provided. Can be one of `individual` or `company`.
 	AccountHolderType PaymentMethodFPXAccountHolderType `json:"account_holder_type"`
-	// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
+	// The customer's bank, if provided. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bnp_paribas`, `bank_rakyat`, `bsn`, `cimb`, `citibank`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `mbsb_bank`, `pb_enterprise`, or `bank_of_china`.
 	Bank string `json:"bank"`
 }
 type PaymentMethodGiropay struct{}

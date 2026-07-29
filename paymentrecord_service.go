@@ -9,6 +9,8 @@ package stripe
 import (
 	"context"
 	"net/http"
+
+	"github.com/stripe/stripe-go/v86/form"
 )
 
 // v1PaymentRecordService is used to invoke /v1/payment_records APIs.
@@ -128,4 +130,21 @@ func (c v1PaymentRecordService) ReportRefund(ctx context.Context, id string, par
 	paymentrecord := &PaymentRecord{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
+}
+
+// List all the Payment Records for a given merchant.
+func (c v1PaymentRecordService) List(ctx context.Context, listParams *PaymentRecordListParams) *V1List[*PaymentRecord] {
+	if listParams == nil {
+		listParams = &PaymentRecordListParams{}
+	}
+	listParams.Context = ctx
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentRecord], error) {
+		list := &v1Page[*PaymentRecord]{}
+		if p == nil {
+			p = &Params{}
+		}
+		p.Context = ctx
+		err := c.B.CallRaw(http.MethodGet, "/v1/payment_records", c.Key, []byte(b.Encode()), p, list)
+		return list, err
+	})
 }

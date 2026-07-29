@@ -678,7 +678,7 @@ type BankAccountRetrieveParams struct {
 	Account  *string `form:"-"` // Included in URL
 }
 
-// Details about validation and verification failures for `due` requirements that must be resolved.
+// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type BankAccountFutureRequirementsError struct {
 	// The code for the type of error.
 	Code BankAccountFutureRequirementsErrorCode `json:"code"`
@@ -692,7 +692,7 @@ type BankAccountFutureRequirementsError struct {
 type BankAccountFutureRequirements struct {
 	// Fields that need to be resolved to keep the external account enabled. If not resolved by `current_deadline`, these fields will appear in `past_due` as well, and the account is disabled.
 	CurrentlyDue []string `json:"currently_due"`
-	// Details about validation and verification failures for `due` requirements that must be resolved.
+	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*BankAccountFutureRequirementsError `json:"errors"`
 	// Fields that haven't been resolved by `current_deadline`. These fields need to be resolved to enable the external account.
 	PastDue []string `json:"past_due"`
@@ -700,7 +700,7 @@ type BankAccountFutureRequirements struct {
 	PendingVerification []string `json:"pending_verification"`
 }
 
-// Details about validation and verification failures for `due` requirements that must be resolved.
+// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type BankAccountRequirementsError struct {
 	// The code for the type of error.
 	Code BankAccountRequirementsErrorCode `json:"code"`
@@ -714,7 +714,7 @@ type BankAccountRequirementsError struct {
 type BankAccountRequirements struct {
 	// Fields that need to be resolved to keep the external account enabled. If not resolved by `current_deadline`, these fields will appear in `past_due` as well, and the account is disabled.
 	CurrentlyDue []string `json:"currently_due"`
-	// Details about validation and verification failures for `due` requirements that must be resolved.
+	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*BankAccountRequirementsError `json:"errors"`
 	// Fields that haven't been resolved by `current_deadline`. These fields need to be resolved to enable the external account.
 	PastDue []string `json:"past_due"`

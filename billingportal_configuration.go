@@ -330,7 +330,7 @@ type BillingPortalConfigurationParams struct {
 	Active *bool `form:"active" json:"active,omitempty"`
 	// The business information shown to customers in the portal.
 	BusinessProfile *BillingPortalConfigurationBusinessProfileParams `form:"business_profile" json:"business_profile,omitempty"`
-	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
+	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overridden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
 	DefaultReturnURL *string `form:"default_return_url" json:"default_return_url,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -566,7 +566,7 @@ type BillingPortalConfigurationCreateParams struct {
 	Params `form:"*"`
 	// The business information shown to customers in the portal.
 	BusinessProfile *BillingPortalConfigurationCreateBusinessProfileParams `form:"business_profile" json:"business_profile,omitempty"`
-	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
+	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overridden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
 	DefaultReturnURL *string `form:"default_return_url" json:"default_return_url,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -832,7 +832,7 @@ type BillingPortalConfigurationUpdateParams struct {
 	Active *bool `form:"active" json:"active,omitempty"`
 	// The business information shown to customers in the portal.
 	BusinessProfile *BillingPortalConfigurationUpdateBusinessProfileParams `form:"business_profile" json:"business_profile,omitempty"`
-	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
+	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overridden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
 	DefaultReturnURL *string `form:"default_return_url" json:"default_return_url,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
@@ -982,7 +982,7 @@ type BillingPortalConfiguration struct {
 	BusinessProfile *BillingPortalConfigurationBusinessProfile `json:"business_profile"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
+	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overridden](https://docs.stripe.com/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
 	DefaultReturnURL string                              `json:"default_return_url"`
 	Features         *BillingPortalConfigurationFeatures `json:"features"`
 	// Unique identifier for the object.

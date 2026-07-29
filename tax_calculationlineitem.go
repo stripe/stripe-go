@@ -41,20 +41,22 @@ type TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType string
 
 // List of values that TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType can take
 const (
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeAmusementTax      TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeGST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "gst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeHST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "hst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeIGST              TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "igst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeJCT               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "jct"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "pst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "qst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "rst"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeServiceTax        TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "service_tax"
-	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "vat"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeAmusementTax          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "amusement_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeCommunicationsTax     TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "communications_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeGST                   TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "gst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeHST                   TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "hst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeIGST                  TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "igst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeJCT                   TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "jct"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeLeaseTax              TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeMassTransitParkingTax TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "mass_transit_parking_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeParkingTax            TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "parking_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypePST                   TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "pst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeQST                   TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee     TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRST                   TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "rst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeSalesTax              TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeServiceTax            TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "service_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeVAT                   TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
