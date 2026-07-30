@@ -56,12 +56,12 @@ func (c Client) Get(id string, params *stripe.FxQuoteParams) (*stripe.FxQuote, e
 	return fxquote, err
 }
 
-// Returns a list of FX quotes that have been issued. The FX quotes are returned in sorted order, with the most recent FX quotes appearing first.
+// Returns a list of active FX quotes. The FX quotes are returned in sorted order, with the most recent FX quotes appearing first.
 func List(params *stripe.FxQuoteListParams) *Iter {
 	return getC().List(params)
 }
 
-// Returns a list of FX quotes that have been issued. The FX quotes are returned in sorted order, with the most recent FX quotes appearing first.
+// Returns a list of active FX quotes. The FX quotes are returned in sorted order, with the most recent FX quotes appearing first.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

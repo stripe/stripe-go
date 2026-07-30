@@ -1529,6 +1529,14 @@ type V2CoreAccountConfigurationMerchantCardPaymentsParams struct {
 	DeclineOn *V2CoreAccountConfigurationMerchantCardPaymentsDeclineOnParams `form:"decline_on" json:"decline_on,omitempty"`
 }
 
+// Settings for gross settlement.
+type V2CoreAccountConfigurationMerchantGrossSettlementParams struct {
+	// The ID of the payment method to use for gross settlement payouts.
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
+	// Whether to collect a payment method for gross settlement.
+	PaymentMethodCollection *string `form:"payment_method_collection" json:"payment_method_collection,omitempty"`
+}
+
 // Support hours for Konbini payments.
 type V2CoreAccountConfigurationMerchantKonbiniPaymentsSupportHoursParams struct {
 	// Support hours end time (JST time of day) for in `HH:MM` format.
@@ -1639,6 +1647,8 @@ type V2CoreAccountConfigurationMerchantParams struct {
 	Capabilities *V2CoreAccountConfigurationMerchantCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 	// Card payments settings.
 	CardPayments *V2CoreAccountConfigurationMerchantCardPaymentsParams `form:"card_payments" json:"card_payments,omitempty"`
+	// Settings for gross settlement.
+	GrossSettlement *V2CoreAccountConfigurationMerchantGrossSettlementParams `form:"gross_settlement" json:"gross_settlement,omitempty"`
 	// Settings specific to Konbini payments on the account.
 	KonbiniPayments *V2CoreAccountConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
 	// The Merchant Category Code (MCC) for the Merchant Configuration. MCCs classify businesses based on the goods or services they provide.
@@ -3531,6 +3541,26 @@ type V2CoreAccountIdentityAttestationsParams struct {
 	TermsOfService *V2CoreAccountIdentityAttestationsTermsOfServiceParams `form:"terms_of_service" json:"terms_of_service,omitempty"`
 }
 
+// Additional addresses associated with the business.
+type V2CoreAccountIdentityBusinessDetailsAdditionalAddressParams struct {
+	// City, district, suburb, town, or village.
+	City *string `form:"city" json:"city,omitempty"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country" json:"country,omitempty"`
+	// Address line 1 (e.g., street, PO Box, or company name).
+	Line1 *string `form:"line1" json:"line1,omitempty"`
+	// Address line 2 (e.g., apartment, suite, unit, or building).
+	Line2 *string `form:"line2" json:"line2,omitempty"`
+	// ZIP or postal code.
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
+	// Purpose of additional address.
+	Purpose *string `form:"purpose" json:"purpose"`
+	// State, county, province, or region.
+	State *string `form:"state" json:"state,omitempty"`
+	// Town or district.
+	Town *string `form:"town" json:"town,omitempty"`
+}
+
 // The business registration address of the business entity.
 type V2CoreAccountIdentityBusinessDetailsAddressParams struct {
 	// City, district, suburb, town, or village.
@@ -3777,6 +3807,8 @@ type V2CoreAccountIdentityBusinessDetailsScriptNamesParams struct {
 
 // Information about the company or business.
 type V2CoreAccountIdentityBusinessDetailsParams struct {
+	// Additional addresses associated with the business.
+	AdditionalAddresses []*V2CoreAccountIdentityBusinessDetailsAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
 	// The business registration address of the business entity.
 	Address *V2CoreAccountIdentityBusinessDetailsAddressParams `form:"address" json:"address,omitempty"`
 	// The business gross annual revenue for its preceding fiscal year.
@@ -5637,6 +5669,14 @@ type V2CoreAccountCreateConfigurationMerchantCardPaymentsParams struct {
 	DeclineOn *V2CoreAccountCreateConfigurationMerchantCardPaymentsDeclineOnParams `form:"decline_on" json:"decline_on,omitempty"`
 }
 
+// Settings for gross settlement.
+type V2CoreAccountCreateConfigurationMerchantGrossSettlementParams struct {
+	// The ID of the payment method to use for gross settlement payouts.
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
+	// Whether to collect a payment method for gross settlement.
+	PaymentMethodCollection *string `form:"payment_method_collection" json:"payment_method_collection,omitempty"`
+}
+
 // Support hours for Konbini payments.
 type V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsSupportHoursParams struct {
 	// Support hours end time (JST time of day) for in `HH:MM` format.
@@ -5745,6 +5785,8 @@ type V2CoreAccountCreateConfigurationMerchantParams struct {
 	Capabilities *V2CoreAccountCreateConfigurationMerchantCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 	// Card payments settings.
 	CardPayments *V2CoreAccountCreateConfigurationMerchantCardPaymentsParams `form:"card_payments" json:"card_payments,omitempty"`
+	// Settings for gross settlement.
+	GrossSettlement *V2CoreAccountCreateConfigurationMerchantGrossSettlementParams `form:"gross_settlement" json:"gross_settlement,omitempty"`
 	// Settings specific to Konbini payments on the account.
 	KonbiniPayments *V2CoreAccountCreateConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
 	// The Merchant Category Code (MCC) for the Merchant Configuration. MCCs classify businesses based on the goods or services they provide.
@@ -7629,6 +7671,26 @@ type V2CoreAccountCreateIdentityAttestationsParams struct {
 	TermsOfService *V2CoreAccountCreateIdentityAttestationsTermsOfServiceParams `form:"terms_of_service" json:"terms_of_service,omitempty"`
 }
 
+// Additional addresses associated with the business.
+type V2CoreAccountCreateIdentityBusinessDetailsAdditionalAddressParams struct {
+	// City, district, suburb, town, or village.
+	City *string `form:"city" json:"city,omitempty"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country" json:"country,omitempty"`
+	// Address line 1 (e.g., street, PO Box, or company name).
+	Line1 *string `form:"line1" json:"line1,omitempty"`
+	// Address line 2 (e.g., apartment, suite, unit, or building).
+	Line2 *string `form:"line2" json:"line2,omitempty"`
+	// ZIP or postal code.
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
+	// Purpose of additional address.
+	Purpose *string `form:"purpose" json:"purpose"`
+	// State, county, province, or region.
+	State *string `form:"state" json:"state,omitempty"`
+	// Town or district.
+	Town *string `form:"town" json:"town,omitempty"`
+}
+
 // The business registration address of the business entity.
 type V2CoreAccountCreateIdentityBusinessDetailsAddressParams struct {
 	// City, district, suburb, town, or village.
@@ -7875,6 +7937,8 @@ type V2CoreAccountCreateIdentityBusinessDetailsScriptNamesParams struct {
 
 // Information about the company or business.
 type V2CoreAccountCreateIdentityBusinessDetailsParams struct {
+	// Additional addresses associated with the business.
+	AdditionalAddresses []*V2CoreAccountCreateIdentityBusinessDetailsAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
 	// The business registration address of the business entity.
 	Address *V2CoreAccountCreateIdentityBusinessDetailsAddressParams `form:"address" json:"address,omitempty"`
 	// The business gross annual revenue for its preceding fiscal year.
@@ -9733,6 +9797,14 @@ type V2CoreAccountUpdateConfigurationMerchantCardPaymentsParams struct {
 	DeclineOn *V2CoreAccountUpdateConfigurationMerchantCardPaymentsDeclineOnParams `form:"decline_on" json:"decline_on,omitempty"`
 }
 
+// Settings for gross settlement.
+type V2CoreAccountUpdateConfigurationMerchantGrossSettlementParams struct {
+	// The ID of the payment method to use for gross settlement payouts.
+	PaymentMethod *string `form:"payment_method" json:"payment_method,omitempty"`
+	// Whether to collect a payment method for gross settlement.
+	PaymentMethodCollection *string `form:"payment_method_collection" json:"payment_method_collection,omitempty"`
+}
+
 // Support hours for Konbini payments.
 type V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsSupportHoursParams struct {
 	// Support hours end time (JST time of day) for in `HH:MM` format.
@@ -9843,6 +9915,8 @@ type V2CoreAccountUpdateConfigurationMerchantParams struct {
 	Capabilities *V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 	// Card payments settings.
 	CardPayments *V2CoreAccountUpdateConfigurationMerchantCardPaymentsParams `form:"card_payments" json:"card_payments,omitempty"`
+	// Settings for gross settlement.
+	GrossSettlement *V2CoreAccountUpdateConfigurationMerchantGrossSettlementParams `form:"gross_settlement" json:"gross_settlement,omitempty"`
 	// Settings specific to Konbini payments on the account.
 	KonbiniPayments *V2CoreAccountUpdateConfigurationMerchantKonbiniPaymentsParams `form:"konbini_payments" json:"konbini_payments,omitempty"`
 	// The Merchant Category Code (MCC) for the merchant. MCCs classify businesses based on the goods or services they provide.
@@ -11733,6 +11807,26 @@ type V2CoreAccountUpdateIdentityAttestationsParams struct {
 	TermsOfService *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams `form:"terms_of_service" json:"terms_of_service,omitempty"`
 }
 
+// Additional addresses associated with the business.
+type V2CoreAccountUpdateIdentityBusinessDetailsAdditionalAddressParams struct {
+	// City, district, suburb, town, or village.
+	City *string `form:"city" json:"city,omitempty"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country" json:"country,omitempty"`
+	// Address line 1 (e.g., street, PO Box, or company name).
+	Line1 *string `form:"line1" json:"line1,omitempty"`
+	// Address line 2 (e.g., apartment, suite, unit, or building).
+	Line2 *string `form:"line2" json:"line2,omitempty"`
+	// ZIP or postal code.
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
+	// Purpose of additional address.
+	Purpose *string `form:"purpose" json:"purpose"`
+	// State, county, province, or region.
+	State *string `form:"state" json:"state,omitempty"`
+	// Town or district.
+	Town *string `form:"town" json:"town,omitempty"`
+}
+
 // The business registration address of the business entity.
 type V2CoreAccountUpdateIdentityBusinessDetailsAddressParams struct {
 	// City, district, suburb, town, or village.
@@ -11979,6 +12073,8 @@ type V2CoreAccountUpdateIdentityBusinessDetailsScriptNamesParams struct {
 
 // Information about the company or business.
 type V2CoreAccountUpdateIdentityBusinessDetailsParams struct {
+	// Additional addresses associated with the business.
+	AdditionalAddresses []*V2CoreAccountUpdateIdentityBusinessDetailsAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
 	// The business registration address of the business entity.
 	Address *V2CoreAccountUpdateIdentityBusinessDetailsAddressParams `form:"address" json:"address,omitempty"`
 	// The business gross annual revenue for its preceding fiscal year.

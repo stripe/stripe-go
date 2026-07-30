@@ -13,7 +13,8 @@ type V2MoneyManagementDebitDisputeBankTransferNetwork string
 
 // List of values that V2MoneyManagementDebitDisputeBankTransferNetwork can take
 const (
-	V2MoneyManagementDebitDisputeBankTransferNetworkACH V2MoneyManagementDebitDisputeBankTransferNetwork = "ach"
+	V2MoneyManagementDebitDisputeBankTransferNetworkACH  V2MoneyManagementDebitDisputeBankTransferNetwork = "ach"
+	V2MoneyManagementDebitDisputeBankTransferNetworkBACS V2MoneyManagementDebitDisputeBankTransferNetwork = "bacs"
 )
 
 // The reason for the dispute.
@@ -21,8 +22,14 @@ type V2MoneyManagementDebitDisputeBankTransferReason string
 
 // List of values that V2MoneyManagementDebitDisputeBankTransferReason can take
 const (
-	V2MoneyManagementDebitDisputeBankTransferReasonIncorrectAmountOrDate V2MoneyManagementDebitDisputeBankTransferReason = "incorrect_amount_or_date"
-	V2MoneyManagementDebitDisputeBankTransferReasonUnauthorized          V2MoneyManagementDebitDisputeBankTransferReason = "unauthorized"
+	V2MoneyManagementDebitDisputeBankTransferReasonBeneficiaryUnrecognized V2MoneyManagementDebitDisputeBankTransferReason = "beneficiary_unrecognized"
+	V2MoneyManagementDebitDisputeBankTransferReasonIncorrectAmountOrDate   V2MoneyManagementDebitDisputeBankTransferReason = "incorrect_amount_or_date"
+	V2MoneyManagementDebitDisputeBankTransferReasonMandateCanceled         V2MoneyManagementDebitDisputeBankTransferReason = "mandate_canceled"
+	V2MoneyManagementDebitDisputeBankTransferReasonMandateCanceledByStripe V2MoneyManagementDebitDisputeBankTransferReason = "mandate_canceled_by_stripe"
+	V2MoneyManagementDebitDisputeBankTransferReasonNoAdvanceNotice         V2MoneyManagementDebitDisputeBankTransferReason = "no_advance_notice"
+	V2MoneyManagementDebitDisputeBankTransferReasonOriginatorRequested     V2MoneyManagementDebitDisputeBankTransferReason = "originator_requested"
+	V2MoneyManagementDebitDisputeBankTransferReasonSignatureInvalid        V2MoneyManagementDebitDisputeBankTransferReason = "signature_invalid"
+	V2MoneyManagementDebitDisputeBankTransferReasonUnauthorized            V2MoneyManagementDebitDisputeBankTransferReason = "unauthorized"
 )
 
 // The status of the DebitDispute.

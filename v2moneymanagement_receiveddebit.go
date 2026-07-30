@@ -16,11 +16,20 @@ const (
 	V2MoneyManagementReceivedDebitBalanceTransferTypeTopup V2MoneyManagementReceivedDebitBalanceTransferType = "topup"
 )
 
+// Open Enum. The bank network the debit was originated on.
+type V2MoneyManagementReceivedDebitBankTransferGBBankAccountNetwork string
+
+// List of values that V2MoneyManagementReceivedDebitBankTransferGBBankAccountNetwork can take
+const (
+	V2MoneyManagementReceivedDebitBankTransferGBBankAccountNetworkBACS V2MoneyManagementReceivedDebitBankTransferGBBankAccountNetwork = "bacs"
+)
+
 // Open Enum. Indicates the origin type through which this debit was initiated.
 type V2MoneyManagementReceivedDebitBankTransferOriginType string
 
 // List of values that V2MoneyManagementReceivedDebitBankTransferOriginType can take
 const (
+	V2MoneyManagementReceivedDebitBankTransferOriginTypeGBBankAccount V2MoneyManagementReceivedDebitBankTransferOriginType = "gb_bank_account"
 	V2MoneyManagementReceivedDebitBankTransferOriginTypeUSBankAccount V2MoneyManagementReceivedDebitBankTransferOriginType = "us_bank_account"
 )
 
@@ -29,6 +38,7 @@ type V2MoneyManagementReceivedDebitBankTransferPaymentMethodType string
 
 // List of values that V2MoneyManagementReceivedDebitBankTransferPaymentMethodType can take
 const (
+	V2MoneyManagementReceivedDebitBankTransferPaymentMethodTypeGBBankAccount V2MoneyManagementReceivedDebitBankTransferPaymentMethodType = "gb_bank_account"
 	V2MoneyManagementReceivedDebitBankTransferPaymentMethodTypeUSBankAccount V2MoneyManagementReceivedDebitBankTransferPaymentMethodType = "us_bank_account"
 )
 
@@ -49,6 +59,7 @@ const (
 	V2MoneyManagementReceivedDebitStatusFailed    V2MoneyManagementReceivedDebitStatus = "failed"
 	V2MoneyManagementReceivedDebitStatusPending   V2MoneyManagementReceivedDebitStatus = "pending"
 	V2MoneyManagementReceivedDebitStatusReturned  V2MoneyManagementReceivedDebitStatus = "returned"
+	V2MoneyManagementReceivedDebitStatusScheduled V2MoneyManagementReceivedDebitStatus = "scheduled"
 	V2MoneyManagementReceivedDebitStatusSucceeded V2MoneyManagementReceivedDebitStatus = "succeeded"
 )
 
@@ -60,6 +71,7 @@ const (
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonCapabilityInactive       V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "capability_inactive"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonFinancialAddressInactive V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "financial_address_inactive"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonInsufficientFunds        V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "insufficient_funds"
+	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonNoMandate                V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "no_mandate"
 	V2MoneyManagementReceivedDebitStatusDetailsFailedReasonStripeRejected           V2MoneyManagementReceivedDebitStatusDetailsFailedReason = "stripe_rejected"
 )
 
@@ -91,7 +103,25 @@ type V2MoneyManagementReceivedDebitBalanceTransfer struct {
 	Type V2MoneyManagementReceivedDebitBalanceTransferType `json:"type"`
 }
 
-// The payment method used to originate the debit.
+// Object containing details of the GB Bank Account that originated the debit.
+// Present when the debit was originated via BACS.
+type V2MoneyManagementReceivedDebitBankTransferGBBankAccount struct {
+	// The name of the account holder that originated the debit.
+	AccountHolderName string `json:"account_holder_name,omitempty"`
+	// The name of the bank the debit originated from.
+	BankName string `json:"bank_name,omitempty"`
+	// Last 4 digits of the bank account number.
+	Last4 string `json:"last4,omitempty"`
+	// Open Enum. The bank network the debit was originated on.
+	Network V2MoneyManagementReceivedDebitBankTransferGBBankAccountNetwork `json:"network"`
+	// The ID of the mandate associated with this debit.
+	ReceivedDebitMandate string `json:"received_debit_mandate,omitempty"`
+	// The sort code of the bank that originated the debit.
+	SortCode string `json:"sort_code,omitempty"`
+}
+
+// Object containing details of the US Bank Account that originated the debit.
+// Present when the debit was originated via ACH.
 type V2MoneyManagementReceivedDebitBankTransferUSBankAccount struct {
 	// The name of the bank the debit originated from.
 	BankName string `json:"bank_name,omitempty"`
@@ -105,14 +135,18 @@ type V2MoneyManagementReceivedDebitBankTransferUSBankAccount struct {
 type V2MoneyManagementReceivedDebitBankTransfer struct {
 	// The Financial Address that was debited.
 	FinancialAddress string `json:"financial_address"`
+	// Object containing details of the GB Bank Account that originated the debit.
+	// Present when the debit was originated via BACS.
+	GBBankAccount *V2MoneyManagementReceivedDebitBankTransferGBBankAccount `json:"gb_bank_account,omitempty"`
 	// Open Enum. Indicates the origin type through which this debit was initiated.
 	OriginType V2MoneyManagementReceivedDebitBankTransferOriginType `json:"origin_type"`
 	// Open Enum. The type of the payment method used to originate the debit.
 	PaymentMethodType V2MoneyManagementReceivedDebitBankTransferPaymentMethodType `json:"payment_method_type"`
 	// The statement descriptor set by the originator of the debit.
 	StatementDescriptor string `json:"statement_descriptor,omitempty"`
-	// The payment method used to originate the debit.
-	USBankAccount *V2MoneyManagementReceivedDebitBankTransferUSBankAccount `json:"us_bank_account"`
+	// Object containing details of the US Bank Account that originated the debit.
+	// Present when the debit was originated via ACH.
+	USBankAccount *V2MoneyManagementReceivedDebitBankTransferUSBankAccount `json:"us_bank_account,omitempty"`
 }
 
 // The Issuing Authorization for this card_spend. Contains the reference id and the amount.
@@ -227,6 +261,10 @@ type V2MoneyManagementReceivedDebit struct {
 	Object string `json:"object"`
 	// A link to the Stripe-hosted receipt for this ReceivedDebit.
 	ReceiptURL string `json:"receipt_url,omitempty"`
+	// The time at which the scheduled ReceivedDebit is expected to settle.
+	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
+	// Only present when status is `scheduled`.
+	SettlesAt time.Time `json:"settles_at,omitempty"`
 	// Open Enum. The status of the ReceivedDebit.
 	Status V2MoneyManagementReceivedDebitStatus `json:"status"`
 	// Detailed information about the status of the ReceivedDebit.

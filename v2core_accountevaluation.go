@@ -13,7 +13,9 @@ type V2CoreAccountEvaluationEvaluationsTriggered string
 
 // List of values that V2CoreAccountEvaluationEvaluationsTriggered can take
 const (
-	V2CoreAccountEvaluationEvaluationsTriggeredFraudulentWebsite V2CoreAccountEvaluationEvaluationsTriggered = "fraudulent_website"
+	V2CoreAccountEvaluationEvaluationsTriggeredFraudulentWebsite   V2CoreAccountEvaluationEvaluationsTriggered = "fraudulent_website"
+	V2CoreAccountEvaluationEvaluationsTriggeredUserAccountSharing  V2CoreAccountEvaluationEvaluationsTriggered = "user_account_sharing"
+	V2CoreAccountEvaluationEvaluationsTriggeredUserMultiAccounting V2CoreAccountEvaluationEvaluationsTriggered = "user_multi_accounting"
 )
 
 // Account profile data.

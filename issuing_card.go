@@ -30,6 +30,16 @@ const (
 	IssuingCardLatestFraudWarningTypeUserIndicatedFraud  IssuingCardLatestFraudWarningType = "user_indicated_fraud"
 )
 
+// Status of the product graduation request. `pending` while awaiting card network confirmation, `succeeded` once confirmed, `failed` if rejected.
+type IssuingCardProductGraduationStateState string
+
+// List of values that IssuingCardProductGraduationStateState can take
+const (
+	IssuingCardProductGraduationStateStateFailed    IssuingCardProductGraduationStateState = "failed"
+	IssuingCardProductGraduationStateStatePending   IssuingCardProductGraduationStateState = "pending"
+	IssuingCardProductGraduationStateStateSucceeded IssuingCardProductGraduationStateState = "succeeded"
+)
+
 // Indicates whether this object and its related objects have been redacted or not.
 type IssuingCardRedactionStatus string
 
@@ -274,6 +284,8 @@ type IssuingCardShippingParams struct {
 	Address *AddressParams `form:"address" json:"address"`
 	// Address validation settings.
 	AddressValidation *IssuingCardShippingAddressValidationParams `form:"address_validation" json:"address_validation,omitempty"`
+	// The name of the business at the shipping address, used on the shipping label to ensure delivery when the card is shipped to a cardholder's workplace. Allowed characters: `A-Z`, `a-z`, `0-9`, ` `, `.`, `-`. All other characters are stripped or ASCII-normalized when printed.
+	BusinessName *string `form:"business_name" json:"business_name,omitempty"`
 	// Customs information for the shipment.
 	Customs *IssuingCardShippingCustomsParams `form:"customs" json:"customs,omitempty"`
 	// The name printed on the shipping label when shipping the card.
@@ -339,6 +351,8 @@ type IssuingCardParams struct {
 	PersonalizationDesign *string `form:"personalization_design" json:"personalization_design,omitempty"`
 	// The desired new PIN for this card.
 	PIN *IssuingCardPINParams `form:"pin" json:"pin,omitempty"`
+	// The product code to request via product graduation.
+	ProductCode *string `form:"product_code" json:"product_code,omitempty"`
 	// The card this is meant to be a replacement for (if any).
 	ReplacementFor *string `form:"replacement_for" json:"replacement_for,omitempty"`
 	// If `replacement_for` is specified, this should indicate why that card is being replaced.
@@ -422,6 +436,8 @@ type IssuingCardCreateShippingParams struct {
 	Address *AddressParams `form:"address" json:"address"`
 	// Address validation settings.
 	AddressValidation *IssuingCardCreateShippingAddressValidationParams `form:"address_validation" json:"address_validation,omitempty"`
+	// The name of the business at the shipping address, used on the shipping label to ensure delivery when the card is shipped to a cardholder's workplace. Allowed characters: `A-Z`, `a-z`, `0-9`, ` `, `.`, `-`. All other characters are stripped or ASCII-normalized when printed.
+	BusinessName *string `form:"business_name" json:"business_name,omitempty"`
 	// Customs information for the shipment.
 	Customs *IssuingCardCreateShippingCustomsParams `form:"customs" json:"customs,omitempty"`
 	// The name printed on the shipping label when shipping the card.
@@ -487,6 +503,8 @@ type IssuingCardCreateParams struct {
 	PersonalizationDesign *string `form:"personalization_design" json:"personalization_design,omitempty"`
 	// The desired PIN for this card.
 	PIN *IssuingCardCreatePINParams `form:"pin" json:"pin,omitempty"`
+	// The product code to request via product graduation.
+	ProductCode *string `form:"product_code" json:"product_code,omitempty"`
 	// The card this is meant to be a replacement for (if any).
 	ReplacementFor *string `form:"replacement_for" json:"replacement_for,omitempty"`
 	// If `replacement_for` is specified, this should indicate why that card is being replaced.
@@ -566,6 +584,8 @@ type IssuingCardUpdateShippingParams struct {
 	Address *AddressParams `form:"address" json:"address"`
 	// Address validation settings.
 	AddressValidation *IssuingCardUpdateShippingAddressValidationParams `form:"address_validation" json:"address_validation,omitempty"`
+	// The name of the business at the shipping address, used on the shipping label to ensure delivery when the card is shipped to a cardholder's workplace. Allowed characters: `A-Z`, `a-z`, `0-9`, ` `, `.`, `-`. All other characters are stripped or ASCII-normalized when printed.
+	BusinessName *string `form:"business_name" json:"business_name,omitempty"`
 	// Customs information for the shipment.
 	Customs *IssuingCardUpdateShippingCustomsParams `form:"customs" json:"customs,omitempty"`
 	// The name printed on the shipping label when shipping the card.
@@ -620,6 +640,8 @@ type IssuingCardUpdateParams struct {
 	PersonalizationDesign *string           `form:"personalization_design" json:"personalization_design,omitempty"`
 	// The desired new PIN for this card.
 	PIN *IssuingCardUpdatePINParams `form:"pin" json:"pin,omitempty"`
+	// The product code to request via product graduation.
+	ProductCode *string `form:"product_code" json:"product_code,omitempty"`
 	// Updated shipping information for the card.
 	Shipping *IssuingCardUpdateShippingParams `form:"shipping" json:"shipping,omitempty"`
 	// Rules that control spending for this card. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
@@ -670,6 +692,14 @@ type IssuingCardLifecycleControlsCancelAfter struct {
 // Rules that control the lifecycle of this card, such as automatic cancellation. Refer to our [documentation](https://docs.stripe.com/issuing/controls/lifecycle-controls) for more details.
 type IssuingCardLifecycleControls struct {
 	CancelAfter *IssuingCardLifecycleControlsCancelAfter `json:"cancel_after"`
+}
+
+// State of the product graduation request on this card. Only present when a product graduation has been requested.
+type IssuingCardProductGraduationState struct {
+	// Status of the product graduation request. `pending` while awaiting card network confirmation, `succeeded` once confirmed, `failed` if rejected.
+	State IssuingCardProductGraduationStateState `json:"state"`
+	// The product code the card graduation is targeting.
+	TargetProductCode string `json:"target_product_code"`
 }
 
 // Redaction status of this card. If not null, this card is associated to a redaction job.
@@ -818,6 +848,10 @@ type IssuingCard struct {
 	Object string `json:"object"`
 	// The personalization design object belonging to this card.
 	PersonalizationDesign *IssuingPersonalizationDesign `json:"personalization_design"`
+	// The product code the card is currently enrolled under. `product_graduation_state` reflects any in-flight product graduation and whether the card network has confirmed it.
+	ProductCode string `json:"product_code,omitempty"`
+	// State of the product graduation request on this card. Only present when a product graduation has been requested.
+	ProductGraduationState *IssuingCardProductGraduationState `json:"product_graduation_state,omitempty"`
 	// The program that this card belongs to — will not be nil.
 	Program string `json:"program,omitempty"`
 	// Redaction status of this card. If not null, this card is associated to a redaction job.

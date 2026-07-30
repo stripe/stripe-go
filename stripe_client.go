@@ -538,6 +538,8 @@ type Client struct {
 	V2MoneyManagementPayoutMethodsBankAccountSpecs *v2MoneyManagementPayoutMethodsBankAccountSpecService
 	// V2MoneyManagementReceivedCredits is the service used to invoke /v2/money_management/received_credits APIs.
 	V2MoneyManagementReceivedCredits *v2MoneyManagementReceivedCreditService
+	// V2MoneyManagementReceivedDebitMandates is the service used to invoke /v2/money_management/received_debit_mandates APIs.
+	V2MoneyManagementReceivedDebitMandates *v2MoneyManagementReceivedDebitMandateService
 	// V2MoneyManagementReceivedDebits is the service used to invoke /v2/money_management/received_debits APIs.
 	V2MoneyManagementReceivedDebits *v2MoneyManagementReceivedDebitService
 	// V2MoneyManagementRecipientVerifications is the service used to invoke /v2/money_management/recipient_verifications APIs.
@@ -562,6 +564,12 @@ type Client struct {
 	V2ReportingReportRuns *v2ReportingReportRunService
 	// V2ReportingReports is the service used to invoke report related APIs.
 	V2ReportingReports *v2ReportingReportService
+	// V2RiskInquiries is the service used to invoke /v2/risk/inquiries APIs.
+	V2RiskInquiries *v2RiskInquiryService
+	// V2SignalsAccountActivities is the service used to invoke /v2/signals/account_activity APIs.
+	V2SignalsAccountActivities *v2SignalsAccountActivityService
+	// V2SignalsAccountEvaluations is the service used to invoke /v2/signals/account_evaluations APIs.
+	V2SignalsAccountEvaluations *v2SignalsAccountEvaluationService
 	// V2SignalsAccountSignals is the service used to invoke /v2/signals/account_signals APIs.
 	V2SignalsAccountSignals *v2SignalsAccountSignalService
 	// V2TaxManualRules is the service used to invoke /v2/tax/manual_rules APIs.
@@ -874,6 +882,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementPayoutMethods = &v2MoneyManagementPayoutMethodService{B: backends.API, Key: key}
 	client.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2MoneyManagementPayoutMethodsBankAccountSpecService{B: backends.API, Key: key}
 	client.V2MoneyManagementReceivedCredits = &v2MoneyManagementReceivedCreditService{B: backends.API, Key: key}
+	client.V2MoneyManagementReceivedDebitMandates = &v2MoneyManagementReceivedDebitMandateService{B: backends.API, Key: key}
 	client.V2MoneyManagementReceivedDebits = &v2MoneyManagementReceivedDebitService{B: backends.API, Key: key}
 	client.V2MoneyManagementRecipientVerifications = &v2MoneyManagementRecipientVerificationService{B: backends.API, Key: key}
 	client.V2MoneyManagementTestHelpersFinancialAddresses = &v2MoneyManagementTestHelpersFinancialAddressService{B: backends.API, Key: key}
@@ -886,6 +895,9 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2PaymentsSettlementAllocationIntentsSplits = &v2PaymentsSettlementAllocationIntentsSplitService{B: backends.API, Key: key}
 	client.V2ReportingReportRuns = &v2ReportingReportRunService{B: backends.API, Key: key}
 	client.V2ReportingReports = &v2ReportingReportService{B: backends.API, Key: key}
+	client.V2RiskInquiries = &v2RiskInquiryService{B: backends.API, Key: key}
+	client.V2SignalsAccountActivities = &v2SignalsAccountActivityService{B: backends.API, Key: key}
+	client.V2SignalsAccountEvaluations = &v2SignalsAccountEvaluationService{B: backends.API, Key: key}
 	client.V2SignalsAccountSignals = &v2SignalsAccountSignalService{B: backends.API, Key: key}
 	client.V2TaxManualRules = &v2TaxManualRuleService{B: backends.API, Key: key}
 	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}

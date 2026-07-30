@@ -236,9 +236,7 @@ type PaymentMethodGiftCardBrand string
 
 // List of values that PaymentMethodGiftCardBrand can take
 const (
-	PaymentMethodGiftCardBrandFiservValuelink PaymentMethodGiftCardBrand = "fiserv_valuelink"
-	PaymentMethodGiftCardBrandGivex           PaymentMethodGiftCardBrand = "givex"
-	PaymentMethodGiftCardBrandSvs             PaymentMethodGiftCardBrand = "svs"
+	PaymentMethodGiftCardBrandSvs PaymentMethodGiftCardBrand = "svs"
 )
 
 type PaymentMethodIDBankTransferBank string

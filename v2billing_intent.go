@@ -32,8 +32,12 @@ const (
 
 // Breakdown of the amount for this Billing Intent.
 type V2BillingIntentAmountDetails struct {
+	// The outstanding amount after discount, tax, and customer balance application.
+	AmountDue string `json:"amount_due"`
 	// Three-letter ISO currency code, in lowercase. Must be a supported currency.
 	Currency Currency `json:"currency"`
+	// The customer's account balance applied to the amount.
+	CustomerBalanceApplied string `json:"customer_balance_applied"`
 	// Amount of discount applied.
 	Discount string `json:"discount"`
 	// Amount of shipping charges.

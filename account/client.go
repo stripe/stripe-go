@@ -169,6 +169,31 @@ func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.A
 	return account, err
 }
 
+// With Connect, you can unreject accounts that you have previously rejected.
+//
+// Only accounts that were rejected by your platform can be unrejected. This API cannot be used to unreject accounts that were rejected by Stripe.
+//
+// Unreject will only enable charges and/or payouts if there are no other restrictions other than those placed by a previous rejection. If you have separately paused charges and/or payouts outside of rejection, those pauses will remain in place after unrejection.
+func Unreject(id string, params *stripe.AccountUnrejectParams) (*stripe.Account, error) {
+	return getC().Unreject(id, params)
+}
+
+// With Connect, you can unreject accounts that you have previously rejected.
+//
+// Only accounts that were rejected by your platform can be unrejected. This API cannot be used to unreject accounts that were rejected by Stripe.
+//
+// Unreject will only enable charges and/or payouts if there are no other restrictions other than those placed by a previous rejection. If you have separately paused charges and/or payouts outside of rejection, those pauses will remain in place after unrejection.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Unreject(id string, params *stripe.AccountUnrejectParams) (*stripe.Account, error) {
+	path := stripe.FormatURLPath("/v1/accounts/%s/unreject", id)
+	account := &stripe.Account{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	return account, err
+}
+
 // Returns a list of accounts connected to your platform via [Connect](https://docs.stripe.com/docs/connect). If you're not a platform, the list is empty.
 func List(params *stripe.AccountListParams) *Iter {
 	return getC().List(params)

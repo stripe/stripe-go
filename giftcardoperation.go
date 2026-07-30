@@ -34,6 +34,7 @@ const (
 	GiftCardOperationFailureCodeStolenCard           GiftCardOperationFailureCode = "stolen_card"
 	GiftCardOperationFailureCodeSuspectedFraud       GiftCardOperationFailureCode = "suspected_fraud"
 	GiftCardOperationFailureCodeTimeout              GiftCardOperationFailureCode = "timeout"
+	GiftCardOperationFailureCodeTryAgainLater        GiftCardOperationFailureCode = "try_again_later"
 )
 
 // The status of the operation.

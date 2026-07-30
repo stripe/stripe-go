@@ -2337,7 +2337,7 @@ type SubscriptionUpdateParams struct {
 	CancelAtMaxBilledUntil *bool  `form:"-"` // See custom AppendTo
 	CancelAtMaxPeriodEnd   *bool  `form:"-"` // See custom AppendTo
 	CancelAtMinPeriodEnd   *bool  `form:"-"` // See custom AppendTo
-	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`).
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end" json:"cancel_at_period_end,omitempty"`
 	// Details about why this subscription was cancelled
 	CancellationDetails *SubscriptionUpdateCancellationDetailsParams `form:"cancellation_details" json:"cancellation_details,omitempty"`

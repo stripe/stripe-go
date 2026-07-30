@@ -28,8 +28,7 @@ const (
 // Lists sent billing alert triggered and recovered notifications for a billing alert.
 type BillingAlertNotificationListParams struct {
 	ListParams `form:"*"`
-	// The billing alert ID.
-	ID *string `form:"-"` // Included in URL
+	ID         *string `form:"-"` // Included in URL
 	// Filter results to only include triggered or recovered notifications.
 	Action *string `form:"action" json:"action,omitempty"`
 	// Filter results to only include notifications for the given billing cadence.

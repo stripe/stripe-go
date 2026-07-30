@@ -13,9 +13,7 @@ type GiftCardBrand string
 
 // List of values that GiftCardBrand can take
 const (
-	GiftCardBrandFiservValuelink GiftCardBrand = "fiserv_valuelink"
-	GiftCardBrandGivex           GiftCardBrand = "givex"
-	GiftCardBrandSvs             GiftCardBrand = "svs"
+	GiftCardBrandSvs GiftCardBrand = "svs"
 )
 
 // Retrieves a third-party gift card object.

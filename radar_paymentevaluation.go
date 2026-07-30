@@ -312,23 +312,27 @@ type RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsBillingDetailsParam
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// Masked PAN card details to use as an alternative to a payment_method token.
+// Masked/raw PAN card details to use as an alternative to a payment_method token.
 type RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsCardParams struct {
+	// The CVC of the card.
+	CVC *string `form:"cvc" json:"cvc,omitempty"`
 	// Two-digit number representing the card's expiration month.
 	ExpMonth *int64 `form:"exp_month" json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
 	ExpYear *int64 `form:"exp_year" json:"exp_year"`
 	// First six digits of the card number.
-	First6 *string `form:"first6" json:"first6"`
+	First6 *string `form:"first6" json:"first6,omitempty"`
 	// Last four digits of the card number.
-	Last4 *string `form:"last4" json:"last4"`
+	Last4 *string `form:"last4" json:"last4,omitempty"`
+	// The card number, as a string without any separators.
+	Number *string `form:"number" json:"number,omitempty"`
 }
 
 // Details about the payment method to use for the payment.
 type RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsParams struct {
 	// Billing information associated with the payment evaluation.
 	BillingDetails *RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
-	// Masked PAN card details to use as an alternative to a payment_method token.
+	// Masked/raw PAN card details to use as an alternative to a payment_method token.
 	Card *RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
 	// ID of the payment method used in this payment evaluation.
 	PaymentMethod *string `form:"payment_method" json:"payment_method"`
@@ -455,23 +459,27 @@ type RadarPaymentEvaluationCreatePaymentDetailsPaymentMethodDetailsBillingDetail
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// Masked PAN card details to use as an alternative to a payment_method token.
+// Masked/raw PAN card details to use as an alternative to a payment_method token.
 type RadarPaymentEvaluationCreatePaymentDetailsPaymentMethodDetailsCardParams struct {
+	// The CVC of the card.
+	CVC *string `form:"cvc" json:"cvc,omitempty"`
 	// Two-digit number representing the card's expiration month.
 	ExpMonth *int64 `form:"exp_month" json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
 	ExpYear *int64 `form:"exp_year" json:"exp_year"`
 	// First six digits of the card number.
-	First6 *string `form:"first6" json:"first6"`
+	First6 *string `form:"first6" json:"first6,omitempty"`
 	// Last four digits of the card number.
-	Last4 *string `form:"last4" json:"last4"`
+	Last4 *string `form:"last4" json:"last4,omitempty"`
+	// The card number, as a string without any separators.
+	Number *string `form:"number" json:"number,omitempty"`
 }
 
 // Details about the payment method to use for the payment.
 type RadarPaymentEvaluationCreatePaymentDetailsPaymentMethodDetailsParams struct {
 	// Billing information associated with the payment evaluation.
 	BillingDetails *RadarPaymentEvaluationCreatePaymentDetailsPaymentMethodDetailsBillingDetailsParams `form:"billing_details" json:"billing_details,omitempty"`
-	// Masked PAN card details to use as an alternative to a payment_method token.
+	// Masked/raw PAN card details to use as an alternative to a payment_method token.
 	Card *RadarPaymentEvaluationCreatePaymentDetailsPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
 	// ID of the payment method used in this payment evaluation.
 	PaymentMethod *string `form:"payment_method" json:"payment_method"`
@@ -720,10 +728,24 @@ type RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsBillingDetails stru
 	Phone string `json:"phone"`
 }
 
+// Card details associated with the payment evaluation.
+type RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsCard struct {
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// First six digits of the card number.
+	First6 string `json:"first6,omitempty"`
+	// Last four digits of the card number.
+	Last4 string `json:"last4,omitempty"`
+}
+
 // Details about the payment method used for the payment.
 type RadarPaymentEvaluationPaymentDetailsPaymentMethodDetails struct {
 	// Billing information associated with the payment evaluation.
 	BillingDetails *RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsBillingDetails `json:"billing_details"`
+	// Card details associated with the payment evaluation.
+	Card *RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsCard `json:"card,omitempty"`
 	// The payment method used in this payment evaluation.
 	PaymentMethod *PaymentMethod `json:"payment_method"`
 }

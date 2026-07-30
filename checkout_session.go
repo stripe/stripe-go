@@ -2512,8 +2512,6 @@ type CheckoutSessionLineItemPriceDataParams struct {
 type CheckoutSessionLineItemParams struct {
 	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 	AdjustableQuantity *CheckoutSessionLineItemAdjustableQuantityParams `form:"adjustable_quantity" json:"adjustable_quantity,omitempty"`
-	// The [tax rates](https://docs.stripe.com/api/tax_rates) that will be applied to this line item depending on the customer's billing/shipping address. We currently support the following countries: US, GB, AU, and all countries in the EU. You can't set this parameter if `ui_mode` is `custom`.
-	DynamicTaxRates []*string `form:"dynamic_tax_rates" json:"dynamic_tax_rates,omitempty"`
 	// ID of an existing line item.
 	ID *string `form:"id" json:"id,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -3278,6 +3276,14 @@ type CheckoutSessionPaymentMethodOptionsPayByBankParams struct{}
 type CheckoutSessionPaymentMethodOptionsPaycoParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // contains details about the PayNow payment method options.
@@ -3439,6 +3445,14 @@ type CheckoutSessionPaymentMethodOptionsRevolutPayParams struct {
 type CheckoutSessionPaymentMethodOptionsSamsungPayParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // contains details about the Satispay payment method options.
@@ -5026,8 +5040,6 @@ type CheckoutSessionCreateLineItemPriceDataParams struct {
 type CheckoutSessionCreateLineItemParams struct {
 	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 	AdjustableQuantity *CheckoutSessionCreateLineItemAdjustableQuantityParams `form:"adjustable_quantity" json:"adjustable_quantity,omitempty"`
-	// The [tax rates](https://docs.stripe.com/api/tax_rates) that will be applied to this line item depending on the customer's billing/shipping address. We currently support the following countries: US, GB, AU, and all countries in the EU. You can't set this parameter if `ui_mode` is `custom`.
-	DynamicTaxRates []*string `form:"dynamic_tax_rates" json:"dynamic_tax_rates,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The ID of the [Price](https://docs.stripe.com/api/prices) or [Plan](https://docs.stripe.com/api/plans) object. One of `price` or `price_data` is required.
@@ -5776,6 +5788,14 @@ type CheckoutSessionCreatePaymentMethodOptionsPayByBankParams struct{}
 type CheckoutSessionCreatePaymentMethodOptionsPaycoParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // contains details about the PayNow payment method options.
@@ -5937,6 +5957,14 @@ type CheckoutSessionCreatePaymentMethodOptionsRevolutPayParams struct {
 type CheckoutSessionCreatePaymentMethodOptionsSamsungPayParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 }
 
 // contains details about the Satispay payment method options.

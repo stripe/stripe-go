@@ -426,6 +426,26 @@ const (
 	IssuingAuthorizationFuelUnitUSGallon       IssuingAuthorizationFuelUnit = "us_gallon"
 )
 
+// The type of healthcare transaction. `medical` for FSA/HSA-eligible healthcare purchases; `transit_for_healthcare` for FSA/HSA-eligible transit for healthcare purchases.
+type IssuingAuthorizationHealthcarePurchaseType string
+
+// List of values that IssuingAuthorizationHealthcarePurchaseType can take
+const (
+	IssuingAuthorizationHealthcarePurchaseTypeMedical              IssuingAuthorizationHealthcarePurchaseType = "medical"
+	IssuingAuthorizationHealthcarePurchaseTypeTransitForHealthcare IssuingAuthorizationHealthcarePurchaseType = "transit_for_healthcare"
+)
+
+// IIAS verification status from the merchant terminal. For Visa, this value will always be iias_verified.
+type IssuingAuthorizationHealthcareVerificationStatus string
+
+// List of values that IssuingAuthorizationHealthcareVerificationStatus can take
+const (
+	IssuingAuthorizationHealthcareVerificationStatusIiasMerchantExempt       IssuingAuthorizationHealthcareVerificationStatus = "iias_merchant_exempt"
+	IssuingAuthorizationHealthcareVerificationStatusIiasMerchantNotCertified IssuingAuthorizationHealthcareVerificationStatus = "iias_merchant_not_certified"
+	IssuingAuthorizationHealthcareVerificationStatusIiasVerified             IssuingAuthorizationHealthcareVerificationStatus = "iias_verified"
+	IssuingAuthorizationHealthcareVerificationStatusNotVerified              IssuingAuthorizationHealthcareVerificationStatus = "not_verified"
+)
+
 // Indicates whether this object and its related objects have been redacted or not.
 type IssuingAuthorizationRedactionStatus string
 
@@ -1263,6 +1283,26 @@ type IssuingAuthorizationFuel struct {
 	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
 	UnitCostDecimal float64 `json:"unit_cost_decimal,string"`
 }
+
+// Details about the IIAS FSA/HSA healthcare amounts on this authorization.
+type IssuingAuthorizationHealthcare struct {
+	// Clinic and urgent care sub-amount for Visa only. Null if the merchant did not include this amount.
+	ClinicAmount int64 `json:"clinic_amount,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency,omitempty"`
+	// Dental care sub-amount for Visa only. Null if the merchant did not include this amount.
+	DentalAmount int64 `json:"dental_amount,omitempty"`
+	// Prescription drug sub-amount. Null if the merchant did not include this amount.
+	PrescriptionAmount int64 `json:"prescription_amount,omitempty"`
+	// The type of healthcare transaction. `medical` for FSA/HSA-eligible healthcare purchases; `transit_for_healthcare` for FSA/HSA-eligible transit for healthcare purchases.
+	PurchaseType IssuingAuthorizationHealthcarePurchaseType `json:"purchase_type,omitempty"`
+	// Total FSA/HSA-eligible amount in the smallest currency unit.
+	TotalQualifiedAmount int64 `json:"total_qualified_amount,omitempty"`
+	// IIAS verification status from the merchant terminal. For Visa, this value will always be iias_verified.
+	VerificationStatus IssuingAuthorizationHealthcareVerificationStatus `json:"verification_status,omitempty"`
+	// Vision/optical sub-amount. Null if the merchant did not include this amount.
+	VisionAmount int64 `json:"vision_amount,omitempty"`
+}
 type IssuingAuthorizationMerchantData struct {
 	// A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values.
 	Category string `json:"category"`
@@ -1523,6 +1563,8 @@ type IssuingAuthorization struct {
 	FraudChallenges []*IssuingAuthorizationFraudChallenge `json:"fraud_challenges,omitempty"`
 	// Information about fuel that was purchased with this transaction. Typically this information is received from the merchant after the authorization has been approved and the fuel dispensed.
 	Fuel *IssuingAuthorizationFuel `json:"fuel"`
+	// Details about the IIAS FSA/HSA healthcare amounts on this authorization.
+	Healthcare *IssuingAuthorizationHealthcare `json:"healthcare,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.

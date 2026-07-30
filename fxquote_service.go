@@ -42,7 +42,7 @@ func (c v1FxQuoteService) Retrieve(ctx context.Context, id string, params *FxQuo
 	return fxquote, err
 }
 
-// Returns a list of FX quotes that have been issued. The FX quotes are returned in sorted order, with the most recent FX quotes appearing first.
+// Returns a list of active FX quotes. The FX quotes are returned in sorted order, with the most recent FX quotes appearing first.
 func (c v1FxQuoteService) List(ctx context.Context, listParams *FxQuoteListParams) *V1List[*FxQuote] {
 	if listParams == nil {
 		listParams = &FxQuoteListParams{}

@@ -366,6 +366,8 @@ type V2MoneyManagementOutboundPayment struct {
 	Object string `json:"object"`
 	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
 	OutboundPaymentQuote string `json:"outbound_payment_quote,omitempty"`
+	// The PayoutIntent ID that triggered this OutboundPayment.
+	PayoutIntent string `json:"payout_intent,omitempty"`
 	// The purpose of the OutboundPayment.
 	Purpose V2MoneyManagementOutboundPaymentPurpose `json:"purpose,omitempty"`
 	// A link to the Stripe-hosted receipt for this OutboundPayment. The receipt link remains active for 60 days from the OutboundPayment creation date. After this period, the link will expire and the receipt url value will be null.

@@ -230,6 +230,26 @@ type V2CoreAccountTokenIdentityAttestationsParams struct {
 	TermsOfService *V2CoreAccountTokenIdentityAttestationsTermsOfServiceParams `form:"terms_of_service" json:"terms_of_service,omitempty"`
 }
 
+// Additional addresses associated with the business.
+type V2CoreAccountTokenIdentityBusinessDetailsAdditionalAddressParams struct {
+	// City, district, suburb, town, or village.
+	City *string `form:"city" json:"city,omitempty"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country" json:"country,omitempty"`
+	// Address line 1 (e.g., street, PO Box, or company name).
+	Line1 *string `form:"line1" json:"line1,omitempty"`
+	// Address line 2 (e.g., apartment, suite, unit, or building).
+	Line2 *string `form:"line2" json:"line2,omitempty"`
+	// ZIP or postal code.
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
+	// Purpose of additional address.
+	Purpose *string `form:"purpose" json:"purpose"`
+	// State, county, province, or region.
+	State *string `form:"state" json:"state,omitempty"`
+	// Town or district.
+	Town *string `form:"town" json:"town,omitempty"`
+}
+
 // The business registration address of the business entity.
 type V2CoreAccountTokenIdentityBusinessDetailsAddressParams struct {
 	// City, district, suburb, town, or village.
@@ -476,6 +496,8 @@ type V2CoreAccountTokenIdentityBusinessDetailsScriptNamesParams struct {
 
 // Information about the company or business.
 type V2CoreAccountTokenIdentityBusinessDetailsParams struct {
+	// Additional addresses associated with the business.
+	AdditionalAddresses []*V2CoreAccountTokenIdentityBusinessDetailsAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
 	// The business registration address of the business entity.
 	Address *V2CoreAccountTokenIdentityBusinessDetailsAddressParams `form:"address" json:"address,omitempty"`
 	// The business gross annual revenue for its preceding fiscal year.
@@ -1024,6 +1046,26 @@ type V2CoreAccountTokenCreateIdentityAttestationsParams struct {
 	TermsOfService *V2CoreAccountTokenCreateIdentityAttestationsTermsOfServiceParams `form:"terms_of_service" json:"terms_of_service,omitempty"`
 }
 
+// Additional addresses associated with the business.
+type V2CoreAccountTokenCreateIdentityBusinessDetailsAdditionalAddressParams struct {
+	// City, district, suburb, town, or village.
+	City *string `form:"city" json:"city,omitempty"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country" json:"country,omitempty"`
+	// Address line 1 (e.g., street, PO Box, or company name).
+	Line1 *string `form:"line1" json:"line1,omitempty"`
+	// Address line 2 (e.g., apartment, suite, unit, or building).
+	Line2 *string `form:"line2" json:"line2,omitempty"`
+	// ZIP or postal code.
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
+	// Purpose of additional address.
+	Purpose *string `form:"purpose" json:"purpose"`
+	// State, county, province, or region.
+	State *string `form:"state" json:"state,omitempty"`
+	// Town or district.
+	Town *string `form:"town" json:"town,omitempty"`
+}
+
 // The business registration address of the business entity.
 type V2CoreAccountTokenCreateIdentityBusinessDetailsAddressParams struct {
 	// City, district, suburb, town, or village.
@@ -1270,6 +1312,8 @@ type V2CoreAccountTokenCreateIdentityBusinessDetailsScriptNamesParams struct {
 
 // Information about the company or business.
 type V2CoreAccountTokenCreateIdentityBusinessDetailsParams struct {
+	// Additional addresses associated with the business.
+	AdditionalAddresses []*V2CoreAccountTokenCreateIdentityBusinessDetailsAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
 	// The business registration address of the business entity.
 	Address *V2CoreAccountTokenCreateIdentityBusinessDetailsAddressParams `form:"address" json:"address,omitempty"`
 	// The business gross annual revenue for its preceding fiscal year.

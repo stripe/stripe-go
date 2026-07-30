@@ -23,6 +23,24 @@ const (
 	ProductCatalogTrialOfferEndBehaviorTypeTransition ProductCatalogTrialOfferEndBehaviorType = "transition"
 )
 
+// Returns a list of trial offers.
+type ProductCatalogTrialOfferListParams struct {
+	ListParams `form:"*"`
+	// Only return trial offers that were created during the given date interval.
+	Created *int64 `form:"created" json:"created,omitempty"`
+	// Only return trial offers that were created during the given date interval.
+	CreatedRange *RangeQueryParams `form:"created" json:"-"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Only return trial offers that reference these prices (during the trial period).
+	Prices []*string `form:"prices" json:"prices,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ProductCatalogTrialOfferListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The relative duration of the trial period computed as the number of recurring price intervals.
 type ProductCatalogTrialOfferDurationRelativeParams struct {
 	// The number of recurring price's interval to apply for the trial period.
@@ -53,15 +71,15 @@ type ProductCatalogTrialOfferEndBehaviorParams struct {
 type ProductCatalogTrialOfferParams struct {
 	Params `form:"*"`
 	// Duration of one service period of the trial.
-	Duration *ProductCatalogTrialOfferDurationParams `form:"duration" json:"duration"`
+	Duration *ProductCatalogTrialOfferDurationParams `form:"duration" json:"duration,omitempty"`
 	// Define behavior that occurs at the end of the trial.
-	EndBehavior *ProductCatalogTrialOfferEndBehaviorParams `form:"end_behavior" json:"end_behavior"`
+	EndBehavior *ProductCatalogTrialOfferEndBehaviorParams `form:"end_behavior" json:"end_behavior,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// A brief, user-friendly name for the trial offer-for identification purposes.
 	Name *string `form:"name" json:"name,omitempty"`
 	// Price configuration during the trial period (amount, billing scheme, etc).
-	Price *string `form:"price" json:"price"`
+	Price *string `form:"price" json:"price,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -115,6 +133,18 @@ func (p *ProductCatalogTrialOfferCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves the trial offer with the given ID.
+type ProductCatalogTrialOfferRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ProductCatalogTrialOfferRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type ProductCatalogTrialOfferDurationRelative struct {
 	// The number of iterations of the price's interval for this trial offer.
 	Iterations int64 `json:"iterations"`
@@ -153,4 +183,11 @@ type ProductCatalogTrialOffer struct {
 	Object string `json:"object"`
 	// The price during the trial offer.
 	Price *Price `json:"price"`
+}
+
+// ProductCatalogTrialOfferList is a list of TrialOffers as retrieved from a list endpoint.
+type ProductCatalogTrialOfferList struct {
+	APIResource
+	ListMeta
+	Data []*ProductCatalogTrialOffer `json:"data"`
 }

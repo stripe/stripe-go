@@ -36,6 +36,12 @@ type BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams struct {
 	ID *string `form:"id" json:"id"`
 }
 
+// A list of rate cards that the credit grant can apply to. The credit grant applies to any metered item billed under one of these rate cards. Cannot be used in combination with `price_type`, `prices`, or `billable_items`.
+type BillingCreditBalanceSummaryFilterApplicabilityScopeRateCardParams struct {
+	// The rate card ID this credit grant should apply to.
+	ID *string `form:"id" json:"id"`
+}
+
 // The billing credit applicability scope for which to fetch credit balance summary.
 type BillingCreditBalanceSummaryFilterApplicabilityScopeParams struct {
 	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
@@ -44,6 +50,8 @@ type BillingCreditBalanceSummaryFilterApplicabilityScopeParams struct {
 	Prices []*BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
+	// A list of rate cards that the credit grant can apply to. The credit grant applies to any metered item billed under one of these rate cards. Cannot be used in combination with `price_type`, `prices`, or `billable_items`.
+	RateCards []*BillingCreditBalanceSummaryFilterApplicabilityScopeRateCardParams `form:"rate_cards" json:"rate_cards,omitempty"`
 }
 
 // The filter criteria for the credit balance summary.
@@ -86,6 +94,12 @@ type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopePriceParams stru
 	ID *string `form:"id" json:"id"`
 }
 
+// A list of rate cards that the credit grant can apply to. The credit grant applies to any metered item billed under one of these rate cards. Cannot be used in combination with `price_type`, `prices`, or `billable_items`.
+type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopeRateCardParams struct {
+	// The rate card ID this credit grant should apply to.
+	ID *string `form:"id" json:"id"`
+}
+
 // The billing credit applicability scope for which to fetch credit balance summary.
 type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopeParams struct {
 	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
@@ -94,6 +108,8 @@ type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopeParams struct {
 	Prices []*BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
+	// A list of rate cards that the credit grant can apply to. The credit grant applies to any metered item billed under one of these rate cards. Cannot be used in combination with `price_type`, `prices`, or `billable_items`.
+	RateCards []*BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopeRateCardParams `form:"rate_cards" json:"rate_cards,omitempty"`
 }
 
 // The filter criteria for the credit balance summary.

@@ -256,6 +256,8 @@ type V2PaymentsOffSessionPayment struct {
 	// Status of this OffSessionPayment, one of `pending`, `pending_retry`, `processing`,
 	// `failed`, `canceled`, `requires_capture`, or `succeeded`.
 	Status V2PaymentsOffSessionPaymentStatus `json:"status"`
+	// Provides a way to schedule deferred payments for cards and debits, in YYYY-MM-DD format.
+	TargetDate string `json:"target_date,omitempty"`
 	// Test clock that can be used to advance the retry attempts in a sandbox.
 	TestClock string `json:"test_clock,omitempty"`
 	// The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.stripe.com/payments/connected-accounts).

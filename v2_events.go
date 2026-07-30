@@ -15295,6 +15295,47 @@ func (n *V2MoneyManagementReceivedDebitCanceledEventNotification) FetchRelatedOb
 	return relatedObj, err
 }
 
+// V2MoneyManagementReceivedDebitCreatedEvent is the Go struct for the "v2.money_management.received_debit.created" event.
+// Occurs when a ReceivedDebit is created.
+type V2MoneyManagementReceivedDebitCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (e *V2MoneyManagementReceivedDebitCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedDebitCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit.created"
+// Occurs when a ReceivedDebit is created.
+type V2MoneyManagementReceivedDebitCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedDebitCreatedEvent that created this Notification
+func (n *V2MoneyManagementReceivedDebitCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedDebitCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (n *V2MoneyManagementReceivedDebitCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementReceivedDebit{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2MoneyManagementReceivedDebitFailedEvent is the Go struct for the "v2.money_management.received_debit.failed" event.
 // Occurs when a ReceivedDebit fails.
 type V2MoneyManagementReceivedDebitFailedEvent struct {
@@ -15367,6 +15408,47 @@ func (n *V2MoneyManagementReceivedDebitPendingEventNotification) FetchEvent(ctx 
 
 // FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
 func (n *V2MoneyManagementReceivedDebitPendingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementReceivedDebit{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementReceivedDebitScheduledEvent is the Go struct for the "v2.money_management.received_debit.scheduled" event.
+// Occurs when a ReceivedDebit is scheduled for future settlement.
+type V2MoneyManagementReceivedDebitScheduledEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (e *V2MoneyManagementReceivedDebitScheduledEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedDebitScheduledEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit.scheduled"
+// Occurs when a ReceivedDebit is scheduled for future settlement.
+type V2MoneyManagementReceivedDebitScheduledEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedDebitScheduledEvent that created this Notification
+func (n *V2MoneyManagementReceivedDebitScheduledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitScheduledEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedDebitScheduledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebit related to the event.
+func (n *V2MoneyManagementReceivedDebitScheduledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebit, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -15454,6 +15536,211 @@ func (n *V2MoneyManagementReceivedDebitUpdatedEventNotification) FetchRelatedObj
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementReceivedDebit{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementReceivedDebitMandateCanceledEvent is the Go struct for the "v2.money_management.received_debit_mandate.canceled" event.
+// Occurs when a ReceivedDebitMandate is successfully canceled.
+type V2MoneyManagementReceivedDebitMandateCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementReceivedDebitMandate, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebitMandate related to the event.
+func (e *V2MoneyManagementReceivedDebitMandateCanceledEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebitMandate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedDebitMandateCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit_mandate.canceled"
+// Occurs when a ReceivedDebitMandate is successfully canceled.
+type V2MoneyManagementReceivedDebitMandateCanceledEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedDebitMandateCanceledEvent that created this Notification
+func (n *V2MoneyManagementReceivedDebitMandateCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitMandateCanceledEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedDebitMandateCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebitMandate related to the event.
+func (n *V2MoneyManagementReceivedDebitMandateCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebitMandate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementReceivedDebitMandate{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementReceivedDebitMandateCreatedEvent is the Go struct for the "v2.money_management.received_debit_mandate.created" event.
+// Occurs when a ReceivedDebitMandate is created by an external party.
+type V2MoneyManagementReceivedDebitMandateCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementReceivedDebitMandate, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebitMandate related to the event.
+func (e *V2MoneyManagementReceivedDebitMandateCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebitMandate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedDebitMandateCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit_mandate.created"
+// Occurs when a ReceivedDebitMandate is created by an external party.
+type V2MoneyManagementReceivedDebitMandateCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedDebitMandateCreatedEvent that created this Notification
+func (n *V2MoneyManagementReceivedDebitMandateCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitMandateCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedDebitMandateCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebitMandate related to the event.
+func (n *V2MoneyManagementReceivedDebitMandateCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebitMandate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementReceivedDebitMandate{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementReceivedDebitMandateExpiredEvent is the Go struct for the "v2.money_management.received_debit_mandate.expired" event.
+// Occurs when a ReceivedDebitMandate expires.
+type V2MoneyManagementReceivedDebitMandateExpiredEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementReceivedDebitMandate, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebitMandate related to the event.
+func (e *V2MoneyManagementReceivedDebitMandateExpiredEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebitMandate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedDebitMandateExpiredEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit_mandate.expired"
+// Occurs when a ReceivedDebitMandate expires.
+type V2MoneyManagementReceivedDebitMandateExpiredEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedDebitMandateExpiredEvent that created this Notification
+func (n *V2MoneyManagementReceivedDebitMandateExpiredEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitMandateExpiredEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedDebitMandateExpiredEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebitMandate related to the event.
+func (n *V2MoneyManagementReceivedDebitMandateExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebitMandate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementReceivedDebitMandate{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementReceivedDebitMandatePendingCancellationEvent is the Go struct for the "v2.money_management.received_debit_mandate.pending_cancellation" event.
+// Occurs when a ReceivedDebitMandate transitions to pending_cancellation status.
+type V2MoneyManagementReceivedDebitMandatePendingCancellationEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementReceivedDebitMandate, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebitMandate related to the event.
+func (e *V2MoneyManagementReceivedDebitMandatePendingCancellationEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebitMandate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedDebitMandatePendingCancellationEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit_mandate.pending_cancellation"
+// Occurs when a ReceivedDebitMandate transitions to pending_cancellation status.
+type V2MoneyManagementReceivedDebitMandatePendingCancellationEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedDebitMandatePendingCancellationEvent that created this Notification
+func (n *V2MoneyManagementReceivedDebitMandatePendingCancellationEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitMandatePendingCancellationEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedDebitMandatePendingCancellationEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebitMandate related to the event.
+func (n *V2MoneyManagementReceivedDebitMandatePendingCancellationEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebitMandate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementReceivedDebitMandate{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementReceivedDebitMandateUpdatedEvent is the Go struct for the "v2.money_management.received_debit_mandate.updated" event.
+// Occurs when a ReceivedDebitMandate is updated.
+type V2MoneyManagementReceivedDebitMandateUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementReceivedDebitMandate, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebitMandate related to the event.
+func (e *V2MoneyManagementReceivedDebitMandateUpdatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebitMandate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementReceivedDebitMandateUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.received_debit_mandate.updated"
+// Occurs when a ReceivedDebitMandate is updated.
+type V2MoneyManagementReceivedDebitMandateUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementReceivedDebitMandateUpdatedEvent that created this Notification
+func (n *V2MoneyManagementReceivedDebitMandateUpdatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementReceivedDebitMandateUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementReceivedDebitMandateUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementReceivedDebitMandate related to the event.
+func (n *V2MoneyManagementReceivedDebitMandateUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementReceivedDebitMandate, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementReceivedDebitMandate{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -16853,17 +17140,66 @@ func (n *V2ReportingReportRunUpdatedEventNotification) FetchRelatedObject(ctx co
 	return relatedObj, err
 }
 
+// V2SignalsAccountEvaluationCompleteEvent is the Go struct for the "v2.signals.account_evaluation.complete" event.
+// Occurs when all requested signals for an account evaluation are complete.
+type V2SignalsAccountEvaluationCompleteEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2SignalsAccountEvaluation, error)
+}
+
+// FetchRelatedObject fetches the V2SignalsAccountEvaluation related to the event.
+func (e *V2SignalsAccountEvaluationCompleteEvent) FetchRelatedObject(ctx context.Context) (*V2SignalsAccountEvaluation, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2SignalsAccountEvaluationCompleteEventNotification is the webhook payload you'll get when handling an event with type "v2.signals.account_evaluation.complete"
+// Occurs when all requested signals for an account evaluation are complete.
+type V2SignalsAccountEvaluationCompleteEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2SignalsAccountEvaluationCompleteEvent that created this Notification
+func (n *V2SignalsAccountEvaluationCompleteEventNotification) FetchEvent(ctx context.Context) (*V2SignalsAccountEvaluationCompleteEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2SignalsAccountEvaluationCompleteEvent), nil
+}
+
+// FetchRelatedObject fetches the V2SignalsAccountEvaluation related to the event.
+func (n *V2SignalsAccountEvaluationCompleteEventNotification) FetchRelatedObject(ctx context.Context) (*V2SignalsAccountEvaluation, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2SignalsAccountEvaluation{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2SignalsAccountSignalFraudulentMerchantReadyEvent is the Go struct for the "v2.signals.account_signal.fraudulent_merchant_ready" event.
 // Occurs when a fraudulent merchant signal is ready for an account.
 type V2SignalsAccountSignalFraudulentMerchantReadyEvent struct {
 	V2BaseEvent
-	Data V2SignalsAccountSignalFraudulentMerchantReadyEventData `json:"data"`
+	Data               V2SignalsAccountSignalFraudulentMerchantReadyEventData `json:"data"`
+	RelatedObject      V2CoreEventRelatedObject                               `json:"related_object"`
+	fetchRelatedObject func() (*V2SignalsAccountSignal, error)
+}
+
+// FetchRelatedObject fetches the V2SignalsAccountSignal related to the event.
+func (e *V2SignalsAccountSignalFraudulentMerchantReadyEvent) FetchRelatedObject(ctx context.Context) (*V2SignalsAccountSignal, error) {
+	return e.fetchRelatedObject()
 }
 
 // V2SignalsAccountSignalFraudulentMerchantReadyEventNotification is the webhook payload you'll get when handling an event with type "v2.signals.account_signal.fraudulent_merchant_ready"
 // Occurs when a fraudulent merchant signal is ready for an account.
 type V2SignalsAccountSignalFraudulentMerchantReadyEventNotification struct {
 	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
 }
 
 // FetchEvent retrieves the V2SignalsAccountSignalFraudulentMerchantReadyEvent that created this Notification
@@ -16873,6 +17209,59 @@ func (n *V2SignalsAccountSignalFraudulentMerchantReadyEventNotification) FetchEv
 		return nil, err
 	}
 	return evt.(*V2SignalsAccountSignalFraudulentMerchantReadyEvent), nil
+}
+
+// FetchRelatedObject fetches the V2SignalsAccountSignal related to the event.
+func (n *V2SignalsAccountSignalFraudulentMerchantReadyEventNotification) FetchRelatedObject(ctx context.Context) (*V2SignalsAccountSignal, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2SignalsAccountSignal{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2SignalsAccountSignalFraudulentWebsiteReadyEvent is the Go struct for the "v2.signals.account_signal.fraudulent_website_ready" event.
+// Occurs when a fraudulent website signal is ready for an account.
+type V2SignalsAccountSignalFraudulentWebsiteReadyEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2SignalsAccountSignal, error)
+}
+
+// FetchRelatedObject fetches the V2SignalsAccountSignal related to the event.
+func (e *V2SignalsAccountSignalFraudulentWebsiteReadyEvent) FetchRelatedObject(ctx context.Context) (*V2SignalsAccountSignal, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2SignalsAccountSignalFraudulentWebsiteReadyEventNotification is the webhook payload you'll get when handling an event with type "v2.signals.account_signal.fraudulent_website_ready"
+// Occurs when a fraudulent website signal is ready for an account.
+type V2SignalsAccountSignalFraudulentWebsiteReadyEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2SignalsAccountSignalFraudulentWebsiteReadyEvent that created this Notification
+func (n *V2SignalsAccountSignalFraudulentWebsiteReadyEventNotification) FetchEvent(ctx context.Context) (*V2SignalsAccountSignalFraudulentWebsiteReadyEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2SignalsAccountSignalFraudulentWebsiteReadyEvent), nil
+}
+
+// FetchRelatedObject fetches the V2SignalsAccountSignal related to the event.
+func (n *V2SignalsAccountSignalFraudulentWebsiteReadyEventNotification) FetchRelatedObject(ctx context.Context) (*V2SignalsAccountSignal, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2SignalsAccountSignal{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
 }
 
 // V2SignalsAccountSignalMerchantDelinquencyReadyEvent is the Go struct for the "v2.signals.account_signal.merchant_delinquency_ready" event.
@@ -16906,6 +17295,47 @@ func (n *V2SignalsAccountSignalMerchantDelinquencyReadyEventNotification) FetchE
 
 // FetchRelatedObject fetches the V2SignalsAccountSignal related to the event.
 func (n *V2SignalsAccountSignalMerchantDelinquencyReadyEventNotification) FetchRelatedObject(ctx context.Context) (*V2SignalsAccountSignal, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2SignalsAccountSignal{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2SignalsAccountSignalPaymentDelinquencyExposureReadyEvent is the Go struct for the "v2.signals.account_signal.payment_delinquency_exposure_ready" event.
+// Occurs when a loss exposure signal is ready for an account.
+type V2SignalsAccountSignalPaymentDelinquencyExposureReadyEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2SignalsAccountSignal, error)
+}
+
+// FetchRelatedObject fetches the V2SignalsAccountSignal related to the event.
+func (e *V2SignalsAccountSignalPaymentDelinquencyExposureReadyEvent) FetchRelatedObject(ctx context.Context) (*V2SignalsAccountSignal, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2SignalsAccountSignalPaymentDelinquencyExposureReadyEventNotification is the webhook payload you'll get when handling an event with type "v2.signals.account_signal.payment_delinquency_exposure_ready"
+// Occurs when a loss exposure signal is ready for an account.
+type V2SignalsAccountSignalPaymentDelinquencyExposureReadyEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2SignalsAccountSignalPaymentDelinquencyExposureReadyEvent that created this Notification
+func (n *V2SignalsAccountSignalPaymentDelinquencyExposureReadyEventNotification) FetchEvent(ctx context.Context) (*V2SignalsAccountSignalPaymentDelinquencyExposureReadyEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2SignalsAccountSignalPaymentDelinquencyExposureReadyEvent), nil
+}
+
+// FetchRelatedObject fetches the V2SignalsAccountSignal related to the event.
+func (n *V2SignalsAccountSignalPaymentDelinquencyExposureReadyEventNotification) FetchRelatedObject(ctx context.Context) (*V2SignalsAccountSignal, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -18278,8 +18708,6 @@ type V2SignalsAccountSignalFraudulentMerchantReadyEventData struct {
 	EvaluatedAt time.Time `json:"evaluated_at"`
 	// Fraudulent merchant signal data. Present when type is fraudulent_merchant.
 	FraudulentMerchant *V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchant `json:"fraudulent_merchant,omitempty"`
-	// Unique identifier for this account signal.
-	ID string `json:"id"`
 	// The type of account signal. Currently only fraudulent_merchant is supported.
 	Type V2SignalsAccountSignalFraudulentMerchantReadyEventDataType `json:"type"`
 }
@@ -23594,6 +24022,21 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.money_management.received_debit.created":
+		result := &V2MoneyManagementReceivedDebitCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
+			v := &V2MoneyManagementReceivedDebit{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.money_management.received_debit.failed":
 		result := &V2MoneyManagementReceivedDebitFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -23611,6 +24054,21 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v2.money_management.received_debit.pending":
 		result := &V2MoneyManagementReceivedDebitPendingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
+			v := &V2MoneyManagementReceivedDebit{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.received_debit.scheduled":
+		result := &V2MoneyManagementReceivedDebitScheduledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
@@ -23645,6 +24103,81 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.received_debit_mandate.canceled":
+		result := &V2MoneyManagementReceivedDebitMandateCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebitMandate, error) {
+			v := &V2MoneyManagementReceivedDebitMandate{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.received_debit_mandate.created":
+		result := &V2MoneyManagementReceivedDebitMandateCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebitMandate, error) {
+			v := &V2MoneyManagementReceivedDebitMandate{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.received_debit_mandate.expired":
+		result := &V2MoneyManagementReceivedDebitMandateExpiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebitMandate, error) {
+			v := &V2MoneyManagementReceivedDebitMandate{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.received_debit_mandate.pending_cancellation":
+		result := &V2MoneyManagementReceivedDebitMandatePendingCancellationEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebitMandate, error) {
+			v := &V2MoneyManagementReceivedDebitMandate{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.received_debit_mandate.updated":
+		result := &V2MoneyManagementReceivedDebitMandateUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebitMandate, error) {
+			v := &V2MoneyManagementReceivedDebitMandate{}
 			params := &Params{}
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -24189,15 +24722,71 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v2.signals.account_evaluation.complete":
+		result := &V2SignalsAccountEvaluationCompleteEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2SignalsAccountEvaluation, error) {
+			v := &V2SignalsAccountEvaluation{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.signals.account_signal.fraudulent_merchant_ready":
 		result := &V2SignalsAccountSignalFraudulentMerchantReadyEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2SignalsAccountSignal, error) {
+			v := &V2SignalsAccountSignal{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
+	case "v2.signals.account_signal.fraudulent_website_ready":
+		result := &V2SignalsAccountSignalFraudulentWebsiteReadyEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2SignalsAccountSignal, error) {
+			v := &V2SignalsAccountSignal{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v2.signals.account_signal.merchant_delinquency_ready":
 		result := &V2SignalsAccountSignalMerchantDelinquencyReadyEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2SignalsAccountSignal, error) {
+			v := &V2SignalsAccountSignal{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.signals.account_signal.payment_delinquency_exposure_ready":
+		result := &V2SignalsAccountSignalPaymentDelinquencyExposureReadyEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2SignalsAccountSignal, error) {
@@ -26875,6 +27464,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.money_management.received_debit.created":
+		evt := V2MoneyManagementReceivedDebitCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.money_management.received_debit.failed":
 		evt := V2MoneyManagementReceivedDebitFailedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -26889,6 +27485,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.money_management.received_debit.scheduled":
+		evt := V2MoneyManagementReceivedDebitScheduledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.money_management.received_debit.succeeded":
 		evt := V2MoneyManagementReceivedDebitSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -26898,6 +27501,41 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.money_management.received_debit.updated":
 		evt := V2MoneyManagementReceivedDebitUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_debit_mandate.canceled":
+		evt := V2MoneyManagementReceivedDebitMandateCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_debit_mandate.created":
+		evt := V2MoneyManagementReceivedDebitMandateCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_debit_mandate.expired":
+		evt := V2MoneyManagementReceivedDebitMandateExpiredEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_debit_mandate.pending_cancellation":
+		evt := V2MoneyManagementReceivedDebitMandatePendingCancellationEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.received_debit_mandate.updated":
+		evt := V2MoneyManagementReceivedDebitMandateUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -27141,6 +27779,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.signals.account_evaluation.complete":
+		evt := V2SignalsAccountEvaluationCompleteEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.signals.account_signal.fraudulent_merchant_ready":
 		evt := V2SignalsAccountSignalFraudulentMerchantReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -27148,8 +27793,22 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.signals.account_signal.fraudulent_website_ready":
+		evt := V2SignalsAccountSignalFraudulentWebsiteReadyEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.signals.account_signal.merchant_delinquency_ready":
 		evt := V2SignalsAccountSignalMerchantDelinquencyReadyEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.signals.account_signal.payment_delinquency_exposure_ready":
+		evt := V2SignalsAccountSignalPaymentDelinquencyExposureReadyEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
