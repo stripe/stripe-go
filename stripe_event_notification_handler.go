@@ -2124,6 +2124,12 @@ func (h *EventNotificationHandler) OnV2MoneyManagementReceivedDebitCanceled(call
 		h, "v2.money_management.received_debit.canceled", callback)
 }
 
+// OnV2MoneyManagementReceivedDebitCreated registers a callback to handle notifications about the "v2.money_management.received_debit.created" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementReceivedDebitCreated(callback func(ctx context.Context, notif *V2MoneyManagementReceivedDebitCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.received_debit.created", callback)
+}
+
 // OnV2MoneyManagementReceivedDebitFailed registers a callback to handle notifications about the "v2.money_management.received_debit.failed" event.
 func (h *EventNotificationHandler) OnV2MoneyManagementReceivedDebitFailed(callback func(ctx context.Context, notif *V2MoneyManagementReceivedDebitFailedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
@@ -2136,6 +2142,12 @@ func (h *EventNotificationHandler) OnV2MoneyManagementReceivedDebitPending(callb
 		h, "v2.money_management.received_debit.pending", callback)
 }
 
+// OnV2MoneyManagementReceivedDebitScheduled registers a callback to handle notifications about the "v2.money_management.received_debit.scheduled" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementReceivedDebitScheduled(callback func(ctx context.Context, notif *V2MoneyManagementReceivedDebitScheduledEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.received_debit.scheduled", callback)
+}
+
 // OnV2MoneyManagementReceivedDebitSucceeded registers a callback to handle notifications about the "v2.money_management.received_debit.succeeded" event.
 func (h *EventNotificationHandler) OnV2MoneyManagementReceivedDebitSucceeded(callback func(ctx context.Context, notif *V2MoneyManagementReceivedDebitSucceededEventNotification, client *Client) error) error {
 	return registerTypedHandler(
@@ -2146,6 +2158,36 @@ func (h *EventNotificationHandler) OnV2MoneyManagementReceivedDebitSucceeded(cal
 func (h *EventNotificationHandler) OnV2MoneyManagementReceivedDebitUpdated(callback func(ctx context.Context, notif *V2MoneyManagementReceivedDebitUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.money_management.received_debit.updated", callback)
+}
+
+// OnV2MoneyManagementReceivedDebitMandateCanceled registers a callback to handle notifications about the "v2.money_management.received_debit_mandate.canceled" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementReceivedDebitMandateCanceled(callback func(ctx context.Context, notif *V2MoneyManagementReceivedDebitMandateCanceledEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.received_debit_mandate.canceled", callback)
+}
+
+// OnV2MoneyManagementReceivedDebitMandateCreated registers a callback to handle notifications about the "v2.money_management.received_debit_mandate.created" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementReceivedDebitMandateCreated(callback func(ctx context.Context, notif *V2MoneyManagementReceivedDebitMandateCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.received_debit_mandate.created", callback)
+}
+
+// OnV2MoneyManagementReceivedDebitMandateExpired registers a callback to handle notifications about the "v2.money_management.received_debit_mandate.expired" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementReceivedDebitMandateExpired(callback func(ctx context.Context, notif *V2MoneyManagementReceivedDebitMandateExpiredEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.received_debit_mandate.expired", callback)
+}
+
+// OnV2MoneyManagementReceivedDebitMandatePendingCancellation registers a callback to handle notifications about the "v2.money_management.received_debit_mandate.pending_cancellation" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementReceivedDebitMandatePendingCancellation(callback func(ctx context.Context, notif *V2MoneyManagementReceivedDebitMandatePendingCancellationEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.received_debit_mandate.pending_cancellation", callback)
+}
+
+// OnV2MoneyManagementReceivedDebitMandateUpdated registers a callback to handle notifications about the "v2.money_management.received_debit_mandate.updated" event.
+func (h *EventNotificationHandler) OnV2MoneyManagementReceivedDebitMandateUpdated(callback func(ctx context.Context, notif *V2MoneyManagementReceivedDebitMandateUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.money_management.received_debit_mandate.updated", callback)
 }
 
 // OnV2MoneyManagementRecipientVerificationCreated registers a callback to handle notifications about the "v2.money_management.recipient_verification.created" event.
@@ -2348,16 +2390,34 @@ func (h *EventNotificationHandler) OnV2ReportingReportRunUpdated(callback func(c
 	return registerTypedHandler(h, "v2.reporting.report_run.updated", callback)
 }
 
+// OnV2SignalsAccountEvaluationComplete registers a callback to handle notifications about the "v2.signals.account_evaluation.complete" event.
+func (h *EventNotificationHandler) OnV2SignalsAccountEvaluationComplete(callback func(ctx context.Context, notif *V2SignalsAccountEvaluationCompleteEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.signals.account_evaluation.complete", callback)
+}
+
 // OnV2SignalsAccountSignalFraudulentMerchantReady registers a callback to handle notifications about the "v2.signals.account_signal.fraudulent_merchant_ready" event.
 func (h *EventNotificationHandler) OnV2SignalsAccountSignalFraudulentMerchantReady(callback func(ctx context.Context, notif *V2SignalsAccountSignalFraudulentMerchantReadyEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.signals.account_signal.fraudulent_merchant_ready", callback)
 }
 
+// OnV2SignalsAccountSignalFraudulentWebsiteReady registers a callback to handle notifications about the "v2.signals.account_signal.fraudulent_website_ready" event.
+func (h *EventNotificationHandler) OnV2SignalsAccountSignalFraudulentWebsiteReady(callback func(ctx context.Context, notif *V2SignalsAccountSignalFraudulentWebsiteReadyEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.signals.account_signal.fraudulent_website_ready", callback)
+}
+
 // OnV2SignalsAccountSignalMerchantDelinquencyReady registers a callback to handle notifications about the "v2.signals.account_signal.merchant_delinquency_ready" event.
 func (h *EventNotificationHandler) OnV2SignalsAccountSignalMerchantDelinquencyReady(callback func(ctx context.Context, notif *V2SignalsAccountSignalMerchantDelinquencyReadyEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v2.signals.account_signal.merchant_delinquency_ready", callback)
+}
+
+// OnV2SignalsAccountSignalPaymentDelinquencyExposureReady registers a callback to handle notifications about the "v2.signals.account_signal.payment_delinquency_exposure_ready" event.
+func (h *EventNotificationHandler) OnV2SignalsAccountSignalPaymentDelinquencyExposureReady(callback func(ctx context.Context, notif *V2SignalsAccountSignalPaymentDelinquencyExposureReadyEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.signals.account_signal.payment_delinquency_exposure_ready", callback)
 }
 
 // event-handler-methods: The end of the section generated from our OpenAPI spec

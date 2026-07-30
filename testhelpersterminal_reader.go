@@ -24,6 +24,14 @@ type TestHelpersTerminalReaderPresentPaymentMethodCardPresentParams struct {
 	Number *string `form:"number" json:"number,omitempty"`
 }
 
+// Simulated data for the gift_card payment method.
+type TestHelpersTerminalReaderPresentPaymentMethodGiftCardParams struct {
+	// The brand of the gift card.
+	Brand *string `form:"brand" json:"brand"`
+	// Simulated track 2 data for the gift card payment method.
+	Track2 *string `form:"track_2" json:"track_2"`
+}
+
 // Simulated data for the interac_present payment method.
 type TestHelpersTerminalReaderPresentPaymentMethodInteracPresentParams struct {
 	// The Interac card number.
@@ -41,6 +49,8 @@ type TestHelpersTerminalReaderPresentPaymentMethodParams struct {
 	CardPresent *TestHelpersTerminalReaderPresentPaymentMethodCardPresentParams `form:"card_present" json:"card_present,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Simulated data for the gift_card payment method.
+	GiftCard *TestHelpersTerminalReaderPresentPaymentMethodGiftCardParams `form:"gift_card" json:"gift_card,omitempty"`
 	// Simulated data for the interac_present payment method.
 	InteracPresent *TestHelpersTerminalReaderPresentPaymentMethodInteracPresentParams `form:"interac_present" json:"interac_present,omitempty"`
 	// Simulated payment type.

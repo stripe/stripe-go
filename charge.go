@@ -848,7 +848,7 @@ type ChargePaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
 }
 
 // Array of tax details.
-type ChargePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
+type ChargePaymentDetailsCarRentalDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate applied.
@@ -859,10 +859,10 @@ type ChargePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the rental.
 type ChargePaymentDetailsCarRentalDatumTotalTaxParams struct {
-	// Array of tax details.
-	Taxes []*ChargePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates if the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Array of tax details.
+	TaxItems []*ChargePaymentDetailsCarRentalDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown for the rental.
@@ -1186,7 +1186,7 @@ type ChargePaymentDetailsFlightDatumTotalExtraChargeParams struct {
 }
 
 // Array of tax details.
-type ChargePaymentDetailsFlightDatumTotalTaxTaxParams struct {
+type ChargePaymentDetailsFlightDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -1198,7 +1198,7 @@ type ChargePaymentDetailsFlightDatumTotalTaxTaxParams struct {
 // Tax breakdown.
 type ChargePaymentDetailsFlightDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*ChargePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
+	TaxItems []*ChargePaymentDetailsFlightDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown.
@@ -1398,7 +1398,7 @@ type ChargePaymentDetailsLodgingDatumTotalExtraChargeParams struct {
 }
 
 // Tax details.
-type ChargePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
+type ChargePaymentDetailsLodgingDatumTotalTaxTaxItemParams struct {
 	// Tax amount in cents.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -1409,10 +1409,10 @@ type ChargePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the lodging reservation.
 type ChargePaymentDetailsLodgingDatumTotalTaxParams struct {
-	// Tax details.
-	Taxes []*ChargePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates whether the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*ChargePaymentDetailsLodgingDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total details for the lodging.
@@ -1743,7 +1743,7 @@ type ChargeCapturePaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
 }
 
 // Array of tax details.
-type ChargeCapturePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
+type ChargeCapturePaymentDetailsCarRentalDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate applied.
@@ -1754,10 +1754,10 @@ type ChargeCapturePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the rental.
 type ChargeCapturePaymentDetailsCarRentalDatumTotalTaxParams struct {
-	// Array of tax details.
-	Taxes []*ChargeCapturePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates if the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Array of tax details.
+	TaxItems []*ChargeCapturePaymentDetailsCarRentalDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown for the rental.
@@ -2081,7 +2081,7 @@ type ChargeCapturePaymentDetailsFlightDatumTotalExtraChargeParams struct {
 }
 
 // Array of tax details.
-type ChargeCapturePaymentDetailsFlightDatumTotalTaxTaxParams struct {
+type ChargeCapturePaymentDetailsFlightDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -2093,7 +2093,7 @@ type ChargeCapturePaymentDetailsFlightDatumTotalTaxTaxParams struct {
 // Tax breakdown.
 type ChargeCapturePaymentDetailsFlightDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*ChargeCapturePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
+	TaxItems []*ChargeCapturePaymentDetailsFlightDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown.
@@ -2293,7 +2293,7 @@ type ChargeCapturePaymentDetailsLodgingDatumTotalExtraChargeParams struct {
 }
 
 // Tax details.
-type ChargeCapturePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
+type ChargeCapturePaymentDetailsLodgingDatumTotalTaxTaxItemParams struct {
 	// Tax amount in cents.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -2304,10 +2304,10 @@ type ChargeCapturePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the lodging reservation.
 type ChargeCapturePaymentDetailsLodgingDatumTotalTaxParams struct {
-	// Tax details.
-	Taxes []*ChargeCapturePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates whether the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*ChargeCapturePaymentDetailsLodgingDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total details for the lodging.
@@ -2815,7 +2815,7 @@ type ChargeUpdatePaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
 }
 
 // Array of tax details.
-type ChargeUpdatePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
+type ChargeUpdatePaymentDetailsCarRentalDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate applied.
@@ -2826,10 +2826,10 @@ type ChargeUpdatePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the rental.
 type ChargeUpdatePaymentDetailsCarRentalDatumTotalTaxParams struct {
-	// Array of tax details.
-	Taxes []*ChargeUpdatePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates if the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Array of tax details.
+	TaxItems []*ChargeUpdatePaymentDetailsCarRentalDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown for the rental.
@@ -3153,7 +3153,7 @@ type ChargeUpdatePaymentDetailsFlightDatumTotalExtraChargeParams struct {
 }
 
 // Array of tax details.
-type ChargeUpdatePaymentDetailsFlightDatumTotalTaxTaxParams struct {
+type ChargeUpdatePaymentDetailsFlightDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -3165,7 +3165,7 @@ type ChargeUpdatePaymentDetailsFlightDatumTotalTaxTaxParams struct {
 // Tax breakdown.
 type ChargeUpdatePaymentDetailsFlightDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*ChargeUpdatePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
+	TaxItems []*ChargeUpdatePaymentDetailsFlightDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown.
@@ -3365,7 +3365,7 @@ type ChargeUpdatePaymentDetailsLodgingDatumTotalExtraChargeParams struct {
 }
 
 // Tax details.
-type ChargeUpdatePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
+type ChargeUpdatePaymentDetailsLodgingDatumTotalTaxTaxItemParams struct {
 	// Tax amount in cents.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -3376,10 +3376,10 @@ type ChargeUpdatePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the lodging reservation.
 type ChargeUpdatePaymentDetailsLodgingDatumTotalTaxParams struct {
-	// Tax details.
-	Taxes []*ChargeUpdatePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates whether the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*ChargeUpdatePaymentDetailsLodgingDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total details for the lodging.

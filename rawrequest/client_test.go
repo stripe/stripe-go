@@ -142,9 +142,11 @@ func TestV2GetRequestWithAdditionalHeaders(t *testing.T) {
 func TestRawRequestTimeout_NilResponsePanic(t *testing.T) {
 	// Create a test server that deliberately times out by never responding
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Simulate a slow endpoint that exceeds the timeout
-		// Don't write any response, causing the client to timeout
-		select {}
+		// Block until the client disconnects or the server is closed.
+		// Using r.Context().Done() instead of select{} ensures the handler
+		// exits when the connection is closed, allowing httptest.Server.Close()
+		// to drain cleanly.
+		<-r.Context().Done()
 	}))
 	defer testServer.Close()
 

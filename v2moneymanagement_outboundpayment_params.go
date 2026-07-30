@@ -132,8 +132,6 @@ type V2MoneyManagementOutboundPaymentParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
 	OutboundPaymentQuote *string `form:"outbound_payment_quote" json:"outbound_payment_quote,omitempty"`
-	// The PayoutIntent ID that triggered this OutboundPayment.
-	PayoutIntent *string `form:"payout_intent" json:"payout_intent,omitempty"`
 	// The purpose of the OutboundPayment.
 	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 	// Details about the notification settings for the OutboundPayment recipient.
@@ -258,8 +256,6 @@ type V2MoneyManagementOutboundPaymentCreateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
 	OutboundPaymentQuote *string `form:"outbound_payment_quote" json:"outbound_payment_quote,omitempty"`
-	// The PayoutIntent ID that triggered this OutboundPayment.
-	PayoutIntent *string `form:"payout_intent" json:"payout_intent,omitempty"`
 	// The purpose of the OutboundPayment.
 	Purpose *string `form:"purpose" json:"purpose,omitempty"`
 	// Details about the notification settings for the OutboundPayment recipient.

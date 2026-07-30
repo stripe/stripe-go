@@ -36,11 +36,10 @@ type SharedPaymentGrantedTokenPaymentMethodDetailsType string
 
 // List of values that SharedPaymentGrantedTokenPaymentMethodDetailsType can take
 const (
-	SharedPaymentGrantedTokenPaymentMethodDetailsTypeAffirm  SharedPaymentGrantedTokenPaymentMethodDetailsType = "affirm"
-	SharedPaymentGrantedTokenPaymentMethodDetailsTypeCard    SharedPaymentGrantedTokenPaymentMethodDetailsType = "card"
-	SharedPaymentGrantedTokenPaymentMethodDetailsTypeKlarna  SharedPaymentGrantedTokenPaymentMethodDetailsType = "klarna"
-	SharedPaymentGrantedTokenPaymentMethodDetailsTypeLink    SharedPaymentGrantedTokenPaymentMethodDetailsType = "link"
-	SharedPaymentGrantedTokenPaymentMethodDetailsTypeShopPay SharedPaymentGrantedTokenPaymentMethodDetailsType = "shop_pay"
+	SharedPaymentGrantedTokenPaymentMethodDetailsTypeAffirm SharedPaymentGrantedTokenPaymentMethodDetailsType = "affirm"
+	SharedPaymentGrantedTokenPaymentMethodDetailsTypeCard   SharedPaymentGrantedTokenPaymentMethodDetailsType = "card"
+	SharedPaymentGrantedTokenPaymentMethodDetailsTypeKlarna SharedPaymentGrantedTokenPaymentMethodDetailsType = "klarna"
+	SharedPaymentGrantedTokenPaymentMethodDetailsTypeLink   SharedPaymentGrantedTokenPaymentMethodDetailsType = "link"
 )
 
 // The recurring interval at which the shared payment token's amount usage restrictions reset.

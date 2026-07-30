@@ -26,14 +26,6 @@ const (
 	V2MoneyManagementFinancialAccountCreditFundedByTypeStripe   V2MoneyManagementFinancialAccountCreditFundedByType = "stripe"
 )
 
-// Enum describing the Stripe product that is managing this FinancialAccount.
-type V2MoneyManagementFinancialAccountManagedByType string
-
-// List of values that V2MoneyManagementFinancialAccountManagedByType can take
-const (
-	V2MoneyManagementFinancialAccountManagedByTypeMultiprocessorSettlement V2MoneyManagementFinancialAccountManagedByType = "multiprocessor_settlement"
-)
-
 // Closed Enum. An enum representing the status of the FinancialAccount. This indicates whether or not the FinancialAccount can be used for any money movement flows.
 type V2MoneyManagementFinancialAccountStatus string
 
@@ -115,13 +107,6 @@ type V2MoneyManagementFinancialAccountCredit struct {
 	FundedBy *V2MoneyManagementFinancialAccountCreditFundedBy `json:"funded_by,omitempty"`
 	// The currencies supported by this credit FinancialAccount.
 	SupportedCurrencies []Currency `json:"supported_currencies"`
-}
-
-// If this is a managed FinancialAccount, `managed_by` indicates the product that created and manages this FinancialAccount. For managed FinancialAccounts,
-// creation of money management resources can only be orchestrated by the managing product.
-type V2MoneyManagementFinancialAccountManagedBy struct {
-	// Enum describing the Stripe product that is managing this FinancialAccount.
-	Type V2MoneyManagementFinancialAccountManagedByType `json:"type"`
 }
 
 // If this is a `multiprocessor_settlement` FinancialAccount, this hash includes details specific to `multiprocessor_settlement` FinancialAccounts.
@@ -235,9 +220,6 @@ type V2MoneyManagementFinancialAccount struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// If this is a managed FinancialAccount, `managed_by` indicates the product that created and manages this FinancialAccount. For managed FinancialAccounts,
-	// creation of money management resources can only be orchestrated by the managing product.
-	ManagedBy *V2MoneyManagementFinancialAccountManagedBy `json:"managed_by,omitempty"`
 	// Metadata associated with the FinancialAccount.
 	Metadata map[string]string `json:"metadata,omitempty"`
 	// If this is a `multiprocessor_settlement` FinancialAccount, this hash includes details specific to `multiprocessor_settlement` FinancialAccounts.

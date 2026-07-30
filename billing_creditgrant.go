@@ -88,6 +88,12 @@ type BillingCreditGrantApplicabilityConfigScopePriceParams struct {
 	ID *string `form:"id" json:"id"`
 }
 
+// A list of rate cards that the credit grant can apply to. The credit grant applies to any metered item billed under one of these rate cards. Cannot be used in combination with `price_type`, `prices`, or `billable_items`.
+type BillingCreditGrantApplicabilityConfigScopeRateCardParams struct {
+	// The rate card ID this credit grant should apply to.
+	ID *string `form:"id" json:"id"`
+}
+
 // Specify the scope of this applicability config.
 type BillingCreditGrantApplicabilityConfigScopeParams struct {
 	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
@@ -96,6 +102,8 @@ type BillingCreditGrantApplicabilityConfigScopeParams struct {
 	Prices []*BillingCreditGrantApplicabilityConfigScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
+	// A list of rate cards that the credit grant can apply to. The credit grant applies to any metered item billed under one of these rate cards. Cannot be used in combination with `price_type`, `prices`, or `billable_items`.
+	RateCards []*BillingCreditGrantApplicabilityConfigScopeRateCardParams `form:"rate_cards" json:"rate_cards,omitempty"`
 }
 
 // Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
@@ -220,6 +228,12 @@ type BillingCreditGrantCreateApplicabilityConfigScopePriceParams struct {
 	ID *string `form:"id" json:"id"`
 }
 
+// A list of rate cards that the credit grant can apply to. The credit grant applies to any metered item billed under one of these rate cards. Cannot be used in combination with `price_type`, `prices`, or `billable_items`.
+type BillingCreditGrantCreateApplicabilityConfigScopeRateCardParams struct {
+	// The rate card ID this credit grant should apply to.
+	ID *string `form:"id" json:"id"`
+}
+
 // Specify the scope of this applicability config.
 type BillingCreditGrantCreateApplicabilityConfigScopeParams struct {
 	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
@@ -228,6 +242,8 @@ type BillingCreditGrantCreateApplicabilityConfigScopeParams struct {
 	Prices []*BillingCreditGrantCreateApplicabilityConfigScopePriceParams `form:"prices" json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
 	PriceType *string `form:"price_type" json:"price_type,omitempty"`
+	// A list of rate cards that the credit grant can apply to. The credit grant applies to any metered item billed under one of these rate cards. Cannot be used in combination with `price_type`, `prices`, or `billable_items`.
+	RateCards []*BillingCreditGrantCreateApplicabilityConfigScopeRateCardParams `form:"rate_cards" json:"rate_cards,omitempty"`
 }
 
 // Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
@@ -380,6 +396,12 @@ type BillingCreditGrantApplicabilityConfigScopePrice struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 }
+
+// The rate cards that credit grants can apply to. The credit grant applies to any metered item billed under one of these rate cards. Cannot be used in combination with `price_type`, `prices`, or `billable_items`.
+type BillingCreditGrantApplicabilityConfigScopeRateCard struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
 type BillingCreditGrantApplicabilityConfigScope struct {
 	// The billable items that credit grants can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
 	BillableItems []*BillingCreditGrantApplicabilityConfigScopeBillableItem `json:"billable_items,omitempty"`
@@ -387,6 +409,8 @@ type BillingCreditGrantApplicabilityConfigScope struct {
 	Prices []*BillingCreditGrantApplicabilityConfigScopePrice `json:"prices,omitempty"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `prices`.
 	PriceType BillingCreditGrantApplicabilityConfigScopePriceType `json:"price_type,omitempty"`
+	// The rate cards that credit grants can apply to. The credit grant applies to any metered item billed under one of these rate cards. Cannot be used in combination with `price_type`, `prices`, or `billable_items`.
+	RateCards []*BillingCreditGrantApplicabilityConfigScopeRateCard `json:"rate_cards,omitempty"`
 }
 type BillingCreditGrantApplicabilityConfig struct {
 	Scope *BillingCreditGrantApplicabilityConfigScope `json:"scope"`

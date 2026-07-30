@@ -247,6 +247,8 @@ type V2PaymentsOffSessionPaymentParams struct {
 	// [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static)
 	// to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
+	// Provides a way to schedule deferred payments for cards and debits, in YYYY-MM-DD format.
+	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
 	// Test clock that can be used to advance the retry attempts in a sandbox.
 	TestClock *string `form:"test_clock" json:"test_clock,omitempty"`
 	// The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.stripe.com/payments/connected-accounts).
@@ -555,6 +557,8 @@ type V2PaymentsOffSessionPaymentCreateParams struct {
 	// [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static)
 	// to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix" json:"statement_descriptor_suffix,omitempty"`
+	// Provides a way to schedule deferred payments for cards and debits, in YYYY-MM-DD format.
+	TargetDate *string `form:"target_date" json:"target_date,omitempty"`
 	// Test clock that can be used to advance the retry attempts in a sandbox.
 	TestClock *string `form:"test_clock" json:"test_clock,omitempty"`
 	// The data that automatically creates a Transfer after the payment finalizes. Learn more about the use case for [connected accounts](https://docs.stripe.com/payments/connected-accounts).

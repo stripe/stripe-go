@@ -208,6 +208,22 @@ func (c v1AccountService) Reject(ctx context.Context, id string, params *Account
 	return account, err
 }
 
+// With Connect, you can unreject accounts that you have previously rejected.
+//
+// Only accounts that were rejected by your platform can be unrejected. This API cannot be used to unreject accounts that were rejected by Stripe.
+//
+// Unreject will only enable charges and/or payouts if there are no other restrictions other than those placed by a previous rejection. If you have separately paused charges and/or payouts outside of rejection, those pauses will remain in place after unrejection.
+func (c v1AccountService) Unreject(ctx context.Context, id string, params *AccountUnrejectParams) (*Account, error) {
+	if params == nil {
+		params = &AccountUnrejectParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/accounts/%s/unreject", id)
+	account := &Account{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	return account, err
+}
+
 // Returns a list of accounts connected to your platform via [Connect](https://docs.stripe.com/docs/connect). If you're not a platform, the list is empty.
 func (c v1AccountService) List(ctx context.Context, listParams *AccountListParams) *V1List[*Account] {
 	if listParams == nil {

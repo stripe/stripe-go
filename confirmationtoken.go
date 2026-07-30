@@ -230,9 +230,7 @@ type ConfirmationTokenPaymentMethodPreviewGiftCardBrand string
 
 // List of values that ConfirmationTokenPaymentMethodPreviewGiftCardBrand can take
 const (
-	ConfirmationTokenPaymentMethodPreviewGiftCardBrandFiservValuelink ConfirmationTokenPaymentMethodPreviewGiftCardBrand = "fiserv_valuelink"
-	ConfirmationTokenPaymentMethodPreviewGiftCardBrandGivex           ConfirmationTokenPaymentMethodPreviewGiftCardBrand = "givex"
-	ConfirmationTokenPaymentMethodPreviewGiftCardBrandSvs             ConfirmationTokenPaymentMethodPreviewGiftCardBrand = "svs"
+	ConfirmationTokenPaymentMethodPreviewGiftCardBrandSvs ConfirmationTokenPaymentMethodPreviewGiftCardBrand = "svs"
 )
 
 type ConfirmationTokenPaymentMethodPreviewIDBankTransferBank string

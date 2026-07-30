@@ -73,6 +73,8 @@ type SharedPaymentIssuedTokenParams struct {
 	SharedMetadata map[string]string `form:"shared_metadata" json:"shared_metadata,omitempty"`
 	// Limits on how this SharedPaymentToken can be used.
 	UsageLimits *SharedPaymentIssuedTokenUsageLimitsParams `form:"usage_limits" json:"usage_limits,omitempty"`
+	// Set to true when using Stripe.js, iOS, or Android client-side SDKs to handle next actions.
+	UseStripeSDK *bool `form:"use_stripe_sdk" json:"use_stripe_sdk,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -161,6 +163,8 @@ type SharedPaymentIssuedTokenCreateParams struct {
 	SharedMetadata map[string]string `form:"shared_metadata" json:"shared_metadata,omitempty"`
 	// Limits on how this SharedPaymentToken can be used.
 	UsageLimits *SharedPaymentIssuedTokenCreateUsageLimitsParams `form:"usage_limits" json:"usage_limits"`
+	// Set to true when using Stripe.js, iOS, or Android client-side SDKs to handle next actions.
+	UseStripeSDK *bool `form:"use_stripe_sdk" json:"use_stripe_sdk,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -321,6 +325,8 @@ type SharedPaymentIssuedToken struct {
 	UsageDetails *SharedPaymentIssuedTokenUsageDetails `json:"usage_details"`
 	// Usage limits of the SharedPaymentIssuedToken.
 	UsageLimits *SharedPaymentIssuedTokenUsageLimits `json:"usage_limits"`
+	// Set to true when using Stripe.js, iOS, or Android client-side SDKs to handle next actions.
+	UseStripeSDK bool `json:"use_stripe_sdk"`
 }
 
 // UnmarshalJSON handles deserialization of a SharedPaymentIssuedToken.

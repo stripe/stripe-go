@@ -212,6 +212,49 @@ func (c Client) ReportRefund(id string, params *stripe.PaymentRecordReportRefund
 	return paymentrecord, err
 }
 
+// List all the Payment Records for a given merchant.
+func List(params *stripe.PaymentRecordListParams) *Iter {
+	return getC().List(params)
+}
+
+// List all the Payment Records for a given merchant.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) List(listParams *stripe.PaymentRecordListParams) *Iter {
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.PaymentRecordList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/payment_records", c.Key, []byte(b.Encode()), p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// Iter is an iterator for payment records.
+type Iter struct {
+	*stripe.Iter
+}
+
+// PaymentRecord returns the payment record which the iterator is currently pointing to.
+func (i *Iter) PaymentRecord() *stripe.PaymentRecord {
+	return i.Current().(*stripe.PaymentRecord)
+}
+
+// PaymentRecordList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) PaymentRecordList() *stripe.PaymentRecordList {
+	return i.List().(*stripe.PaymentRecordList)
+}
+
 // Search for PaymentRecords you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up

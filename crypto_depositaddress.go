@@ -6,6 +6,7 @@
 
 package stripe
 
+// The blockchain network where this address can accept funds.
 type CryptoDepositAddressNetwork string
 
 // List of values that CryptoDepositAddressNetwork can take
@@ -26,13 +27,17 @@ const (
 // Lists crypto deposit addresses for the authenticated merchant.
 // Supports cursor-based pagination and optional filtering by customer, network, or on-chain address.
 type CryptoDepositAddressListParams struct {
-	ListParams      `form:"*"`
-	Address         *string `form:"address" json:"address,omitempty"`
-	Customer        *string `form:"customer" json:"customer,omitempty"`
+	ListParams `form:"*"`
+	// Only return the deposit address matching this on-chain address.
+	Address *string `form:"address" json:"address,omitempty"`
+	// Only return deposit addresses scoped to this [Customer](https://docs.stripe.com/api/customers/object).
+	Customer *string `form:"customer" json:"customer,omitempty"`
+	// Only return deposit addresses belonging to this customer account.
 	CustomerAccount *string `form:"customer_account" json:"customer_account,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand  []*string `form:"expand" json:"expand,omitempty"`
-	Network *string   `form:"network" json:"network,omitempty"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Only return deposit addresses for this blockchain network.
+	Network *string `form:"network" json:"network,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -43,12 +48,15 @@ func (p *CryptoDepositAddressListParams) AddExpand(f string) {
 // Creates a new crypto deposit address for the authenticated merchant on the specified network.
 // The returned address can be used across multiple PaymentIntents.
 type CryptoDepositAddressParams struct {
-	Params   `form:"*"`
+	Params `form:"*"`
+	// If set, this deposit address is scoped to a [Customer](https://docs.stripe.com/api/customers/object) and can only receive funds from that customer. Otherwise, this deposit address can receive funds from any customer.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand   []*string         `form:"expand" json:"expand,omitempty"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	Network  *string           `form:"network" json:"network,omitempty"`
+	// The blockchain network to generate a deposit address for.
+	Network *string `form:"network" json:"network,omitempty"`
 }
 
 // AddExpand appends a new field to expand.
@@ -68,12 +76,15 @@ func (p *CryptoDepositAddressParams) AddMetadata(key string, value string) {
 // Creates a new crypto deposit address for the authenticated merchant on the specified network.
 // The returned address can be used across multiple PaymentIntents.
 type CryptoDepositAddressCreateParams struct {
-	Params   `form:"*"`
+	Params `form:"*"`
+	// If set, this deposit address is scoped to a [Customer](https://docs.stripe.com/api/customers/object) and can only receive funds from that customer. Otherwise, this deposit address can receive funds from any customer.
 	Customer *string `form:"customer" json:"customer,omitempty"`
 	// Specifies which fields in the response should be expanded.
-	Expand   []*string         `form:"expand" json:"expand,omitempty"`
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	Network  *string           `form:"network" json:"network"`
+	// The blockchain network to generate a deposit address for.
+	Network *string `form:"network" json:"network"`
 }
 
 // AddExpand appends a new field to expand.
@@ -102,6 +113,7 @@ func (p *CryptoDepositAddressRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The tokens that can be sent to this deposit address on its network.
 type CryptoDepositAddressSupportedToken struct {
 	// The on-chain contract address for the supported token currency on this specific network.
 	TokenContractAddress string `json:"token_contract_address"`
@@ -110,19 +122,27 @@ type CryptoDepositAddressSupportedToken struct {
 }
 
 // A crypto deposit address is a blockchain address that can be used by a merchant for deposit mode crypto payments.
+//
+// Related guide: [Machine payments](https://docs.stripe.com/payments/machine)
 type CryptoDepositAddress struct {
 	APIResource
-	Address  string `json:"address"`
-	Created  int64  `json:"created"`
+	// The on-chain address where funds can be received.
+	Address string `json:"address"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// If set, this deposit address is scoped to a [Customer](https://docs.stripe.com/api/customers/object) and can only receive funds from that customer. Otherwise, this deposit address can receive funds from any customer.
 	Customer string `json:"customer,omitempty"`
 	// Unique identifier for the object.
-	ID       string `json:"id"`
-	Livemode bool   `json:"livemode"`
+	ID string `json:"id"`
+	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
+	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string           `json:"metadata"`
-	Network  CryptoDepositAddressNetwork `json:"network"`
+	Metadata map[string]string `json:"metadata"`
+	// The blockchain network where this address can accept funds.
+	Network CryptoDepositAddressNetwork `json:"network"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object          string                                `json:"object"`
+	Object string `json:"object"`
+	// The tokens that can be sent to this deposit address on its network.
 	SupportedTokens []*CryptoDepositAddressSupportedToken `json:"supported_tokens"`
 }
 

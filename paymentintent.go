@@ -2793,7 +2793,7 @@ type PaymentIntentPaymentDetailsCarRentalDatumTotalExtraChargeParams struct {
 }
 
 // Array of tax details.
-type PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
+type PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate applied.
@@ -2804,10 +2804,10 @@ type PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the rental.
 type PaymentIntentPaymentDetailsCarRentalDatumTotalTaxParams struct {
-	// Array of tax details.
-	Taxes []*PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates if the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Array of tax details.
+	TaxItems []*PaymentIntentPaymentDetailsCarRentalDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown for the rental.
@@ -3131,7 +3131,7 @@ type PaymentIntentPaymentDetailsFlightDatumTotalExtraChargeParams struct {
 }
 
 // Array of tax details.
-type PaymentIntentPaymentDetailsFlightDatumTotalTaxTaxParams struct {
+type PaymentIntentPaymentDetailsFlightDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -3143,7 +3143,7 @@ type PaymentIntentPaymentDetailsFlightDatumTotalTaxTaxParams struct {
 // Tax breakdown.
 type PaymentIntentPaymentDetailsFlightDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*PaymentIntentPaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
+	TaxItems []*PaymentIntentPaymentDetailsFlightDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown.
@@ -3343,7 +3343,7 @@ type PaymentIntentPaymentDetailsLodgingDatumTotalExtraChargeParams struct {
 }
 
 // Tax details.
-type PaymentIntentPaymentDetailsLodgingDatumTotalTaxTaxParams struct {
+type PaymentIntentPaymentDetailsLodgingDatumTotalTaxTaxItemParams struct {
 	// Tax amount in cents.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -3354,10 +3354,10 @@ type PaymentIntentPaymentDetailsLodgingDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the lodging reservation.
 type PaymentIntentPaymentDetailsLodgingDatumTotalTaxParams struct {
-	// Tax details.
-	Taxes []*PaymentIntentPaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates whether the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentPaymentDetailsLodgingDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total details for the lodging.
@@ -5642,8 +5642,16 @@ type PaymentIntentPaymentMethodOptionsPaycoParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                  `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentPaymentMethodOptionsPaycoParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                  `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentPaymentMethodOptionsPaycoParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentPaymentMethodOptionsPaycoParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsPaycoParams.
@@ -5947,8 +5955,16 @@ type PaymentIntentPaymentMethodOptionsSamsungPayParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                       `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentPaymentMethodOptionsSamsungPayParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                       `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentPaymentMethodOptionsSamsungPayParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentPaymentMethodOptionsSamsungPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsSamsungPayParams.
@@ -6654,8 +6670,23 @@ type PaymentIntentPaymentsOrchestrationParams struct {
 
 // Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 type PaymentIntentRadarOptionsParams struct {
+	// The referrer URL of the current checkout session. You can use this to supply session-level referrer data when a Radar Session isn't available or doesn't contain a referrer.
+	Referrer *string `form:"referrer" json:"referrer,omitempty"`
 	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
-	Session *string `form:"session" json:"session,omitempty"`
+	Session     *string                                     `form:"session" json:"session,omitempty"`
+	UnsetFields []PaymentIntentRadarOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentRadarOptionsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentRadarOptionsParams.
+type PaymentIntentRadarOptionsParamsUnsetField string
+
+const (
+	PaymentIntentRadarOptionsParamsUnsetFieldReferrer PaymentIntentRadarOptionsParamsUnsetField = "referrer"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentRadarOptionsParams) AddUnsetField(field PaymentIntentRadarOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The data with which to populate the destination payment.
@@ -7393,7 +7424,7 @@ type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalExtraChargeParams stru
 }
 
 // Array of tax details.
-type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
+type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate applied.
@@ -7404,10 +7435,10 @@ type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the rental.
 type PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxParams struct {
-	// Array of tax details.
-	Taxes []*PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates if the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Array of tax details.
+	TaxItems []*PaymentIntentCapturePaymentDetailsCarRentalDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown for the rental.
@@ -7731,7 +7762,7 @@ type PaymentIntentCapturePaymentDetailsFlightDatumTotalExtraChargeParams struct 
 }
 
 // Array of tax details.
-type PaymentIntentCapturePaymentDetailsFlightDatumTotalTaxTaxParams struct {
+type PaymentIntentCapturePaymentDetailsFlightDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -7743,7 +7774,7 @@ type PaymentIntentCapturePaymentDetailsFlightDatumTotalTaxTaxParams struct {
 // Tax breakdown.
 type PaymentIntentCapturePaymentDetailsFlightDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*PaymentIntentCapturePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
+	TaxItems []*PaymentIntentCapturePaymentDetailsFlightDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown.
@@ -7943,7 +7974,7 @@ type PaymentIntentCapturePaymentDetailsLodgingDatumTotalExtraChargeParams struct
 }
 
 // Tax details.
-type PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
+type PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxTaxItemParams struct {
 	// Tax amount in cents.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -7954,10 +7985,10 @@ type PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the lodging reservation.
 type PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxParams struct {
-	// Tax details.
-	Taxes []*PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates whether the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentCapturePaymentDetailsLodgingDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total details for the lodging.
@@ -8625,7 +8656,7 @@ type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalExtraChargeParams stru
 }
 
 // Array of tax details.
-type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
+type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate applied.
@@ -8636,10 +8667,10 @@ type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the rental.
 type PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxParams struct {
-	// Array of tax details.
-	Taxes []*PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates if the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Array of tax details.
+	TaxItems []*PaymentIntentConfirmPaymentDetailsCarRentalDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown for the rental.
@@ -8963,7 +8994,7 @@ type PaymentIntentConfirmPaymentDetailsFlightDatumTotalExtraChargeParams struct 
 }
 
 // Array of tax details.
-type PaymentIntentConfirmPaymentDetailsFlightDatumTotalTaxTaxParams struct {
+type PaymentIntentConfirmPaymentDetailsFlightDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -8975,7 +9006,7 @@ type PaymentIntentConfirmPaymentDetailsFlightDatumTotalTaxTaxParams struct {
 // Tax breakdown.
 type PaymentIntentConfirmPaymentDetailsFlightDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*PaymentIntentConfirmPaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
+	TaxItems []*PaymentIntentConfirmPaymentDetailsFlightDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown.
@@ -9175,7 +9206,7 @@ type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalExtraChargeParams struct
 }
 
 // Tax details.
-type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxTaxParams struct {
+type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxTaxItemParams struct {
 	// Tax amount in cents.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -9186,10 +9217,10 @@ type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the lodging reservation.
 type PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxParams struct {
-	// Tax details.
-	Taxes []*PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates whether the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentConfirmPaymentDetailsLodgingDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total details for the lodging.
@@ -9427,8 +9458,23 @@ func (p *PaymentIntentConfirmPaymentDetailsParams) AddUnsetField(field PaymentIn
 
 // Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 type PaymentIntentConfirmRadarOptionsParams struct {
+	// The referrer URL of the current checkout session. You can use this to supply session-level referrer data when a Radar Session isn't available or doesn't contain a referrer.
+	Referrer *string `form:"referrer" json:"referrer,omitempty"`
 	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
-	Session *string `form:"session" json:"session,omitempty"`
+	Session     *string                                            `form:"session" json:"session,omitempty"`
+	UnsetFields []PaymentIntentConfirmRadarOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentConfirmRadarOptionsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentConfirmRadarOptionsParams.
+type PaymentIntentConfirmRadarOptionsParamsUnsetField string
+
+const (
+	PaymentIntentConfirmRadarOptionsParamsUnsetFieldReferrer PaymentIntentConfirmRadarOptionsParamsUnsetField = "referrer"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentConfirmRadarOptionsParams) AddUnsetField(field PaymentIntentConfirmRadarOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Confirm that your customer intends to pay with current or provided
@@ -10871,7 +10917,7 @@ type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalExtraChargeParams struc
 }
 
 // Array of tax details.
-type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
+type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate applied.
@@ -10882,10 +10928,10 @@ type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the rental.
 type PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxParams struct {
-	// Array of tax details.
-	Taxes []*PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates if the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Array of tax details.
+	TaxItems []*PaymentIntentCreatePaymentDetailsCarRentalDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown for the rental.
@@ -11209,7 +11255,7 @@ type PaymentIntentCreatePaymentDetailsFlightDatumTotalExtraChargeParams struct {
 }
 
 // Array of tax details.
-type PaymentIntentCreatePaymentDetailsFlightDatumTotalTaxTaxParams struct {
+type PaymentIntentCreatePaymentDetailsFlightDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -11221,7 +11267,7 @@ type PaymentIntentCreatePaymentDetailsFlightDatumTotalTaxTaxParams struct {
 // Tax breakdown.
 type PaymentIntentCreatePaymentDetailsFlightDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*PaymentIntentCreatePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
+	TaxItems []*PaymentIntentCreatePaymentDetailsFlightDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown.
@@ -11421,7 +11467,7 @@ type PaymentIntentCreatePaymentDetailsLodgingDatumTotalExtraChargeParams struct 
 }
 
 // Tax details.
-type PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
+type PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxTaxItemParams struct {
 	// Tax amount in cents.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -11432,10 +11478,10 @@ type PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the lodging reservation.
 type PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxParams struct {
-	// Tax details.
-	Taxes []*PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates whether the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentCreatePaymentDetailsLodgingDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total details for the lodging.
@@ -13720,8 +13766,16 @@ type PaymentIntentCreatePaymentMethodOptionsPaycoParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                        `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentCreatePaymentMethodOptionsPaycoParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                        `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsPaycoParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentCreatePaymentMethodOptionsPaycoParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsPaycoParams.
@@ -14025,8 +14079,16 @@ type PaymentIntentCreatePaymentMethodOptionsSamsungPayParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                             `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentCreatePaymentMethodOptionsSamsungPayParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                             `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentCreatePaymentMethodOptionsSamsungPayParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentCreatePaymentMethodOptionsSamsungPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsSamsungPayParams.
@@ -14732,8 +14794,23 @@ type PaymentIntentCreatePaymentsOrchestrationParams struct {
 
 // Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 type PaymentIntentCreateRadarOptionsParams struct {
+	// The referrer URL of the current checkout session. You can use this to supply session-level referrer data when a Radar Session isn't available or doesn't contain a referrer.
+	Referrer *string `form:"referrer" json:"referrer,omitempty"`
 	// A [Radar Session](https://docs.stripe.com/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
-	Session *string `form:"session" json:"session,omitempty"`
+	Session     *string                                           `form:"session" json:"session,omitempty"`
+	UnsetFields []PaymentIntentCreateRadarOptionsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreateRadarOptionsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreateRadarOptionsParams.
+type PaymentIntentCreateRadarOptionsParamsUnsetField string
+
+const (
+	PaymentIntentCreateRadarOptionsParamsUnsetFieldReferrer PaymentIntentCreateRadarOptionsParamsUnsetField = "referrer"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreateRadarOptionsParams) AddUnsetField(field PaymentIntentCreateRadarOptionsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The data with which to populate the destination payment.
@@ -15477,7 +15554,7 @@ type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalExtraChargeParams struc
 }
 
 // Array of tax details.
-type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
+type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate applied.
@@ -15488,10 +15565,10 @@ type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the rental.
 type PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxParams struct {
-	// Array of tax details.
-	Taxes []*PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates if the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Array of tax details.
+	TaxItems []*PaymentIntentUpdatePaymentDetailsCarRentalDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown for the rental.
@@ -15815,7 +15892,7 @@ type PaymentIntentUpdatePaymentDetailsFlightDatumTotalExtraChargeParams struct {
 }
 
 // Array of tax details.
-type PaymentIntentUpdatePaymentDetailsFlightDatumTotalTaxTaxParams struct {
+type PaymentIntentUpdatePaymentDetailsFlightDatumTotalTaxTaxItemParams struct {
 	// Tax amount.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -15827,7 +15904,7 @@ type PaymentIntentUpdatePaymentDetailsFlightDatumTotalTaxTaxParams struct {
 // Tax breakdown.
 type PaymentIntentUpdatePaymentDetailsFlightDatumTotalTaxParams struct {
 	// Array of tax details.
-	Taxes []*PaymentIntentUpdatePaymentDetailsFlightDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
+	TaxItems []*PaymentIntentUpdatePaymentDetailsFlightDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total cost breakdown.
@@ -16027,7 +16104,7 @@ type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalExtraChargeParams struct 
 }
 
 // Tax details.
-type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
+type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxTaxItemParams struct {
 	// Tax amount in cents.
 	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// Tax rate.
@@ -16038,10 +16115,10 @@ type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxTaxParams struct {
 
 // Tax breakdown for the lodging reservation.
 type PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxParams struct {
-	// Tax details.
-	Taxes []*PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxTaxParams `form:"taxes" json:"taxes,omitempty"`
 	// Indicates whether the transaction is tax exempt.
 	TaxExemptIndicator *bool `form:"tax_exempt_indicator" json:"tax_exempt_indicator,omitempty"`
+	// Tax details.
+	TaxItems []*PaymentIntentUpdatePaymentDetailsLodgingDatumTotalTaxTaxItemParams `form:"tax_items" json:"tax_items,omitempty"`
 }
 
 // Total details for the lodging.
@@ -18326,8 +18403,16 @@ type PaymentIntentUpdatePaymentMethodOptionsPaycoParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                        `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentUpdatePaymentMethodOptionsPaycoParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                        `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsPaycoParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentUpdatePaymentMethodOptionsPaycoParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsPaycoParams.
@@ -18631,8 +18716,16 @@ type PaymentIntentUpdatePaymentMethodOptionsSamsungPayParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                             `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentUpdatePaymentMethodOptionsSamsungPayParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string                                                             `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
+	UnsetFields      []PaymentIntentUpdatePaymentMethodOptionsSamsungPayParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentUpdatePaymentMethodOptionsSamsungPayParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsSamsungPayParams.

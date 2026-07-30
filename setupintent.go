@@ -8,6 +8,109 @@ package stripe
 
 import "encoding/json"
 
+// The list of payment method types to allow for this SetupIntent. Stripe will only use methods in this list when determining the payment methods to offer.
+type SetupIntentAllowedPaymentMethodType string
+
+// List of values that SetupIntentAllowedPaymentMethodType can take
+const (
+	SetupIntentAllowedPaymentMethodTypeACSSDebit            SetupIntentAllowedPaymentMethodType = "acss_debit"
+	SetupIntentAllowedPaymentMethodTypeAffirm               SetupIntentAllowedPaymentMethodType = "affirm"
+	SetupIntentAllowedPaymentMethodTypeAfterpayClearpay     SetupIntentAllowedPaymentMethodType = "afterpay_clearpay"
+	SetupIntentAllowedPaymentMethodTypeAlipay               SetupIntentAllowedPaymentMethodType = "alipay"
+	SetupIntentAllowedPaymentMethodTypeAlma                 SetupIntentAllowedPaymentMethodType = "alma"
+	SetupIntentAllowedPaymentMethodTypeAmazonPay            SetupIntentAllowedPaymentMethodType = "amazon_pay"
+	SetupIntentAllowedPaymentMethodTypeAUBECSDebit          SetupIntentAllowedPaymentMethodType = "au_becs_debit"
+	SetupIntentAllowedPaymentMethodTypeBACSDebit            SetupIntentAllowedPaymentMethodType = "bacs_debit"
+	SetupIntentAllowedPaymentMethodTypeBancontact           SetupIntentAllowedPaymentMethodType = "bancontact"
+	SetupIntentAllowedPaymentMethodTypeBillie               SetupIntentAllowedPaymentMethodType = "billie"
+	SetupIntentAllowedPaymentMethodTypeBizum                SetupIntentAllowedPaymentMethodType = "bizum"
+	SetupIntentAllowedPaymentMethodTypeBLIK                 SetupIntentAllowedPaymentMethodType = "blik"
+	SetupIntentAllowedPaymentMethodTypeBokuPromptPay        SetupIntentAllowedPaymentMethodType = "boku_promptpay"
+	SetupIntentAllowedPaymentMethodTypeBoleto               SetupIntentAllowedPaymentMethodType = "boleto"
+	SetupIntentAllowedPaymentMethodTypeCapchasePay          SetupIntentAllowedPaymentMethodType = "capchase_pay"
+	SetupIntentAllowedPaymentMethodTypeCard                 SetupIntentAllowedPaymentMethodType = "card"
+	SetupIntentAllowedPaymentMethodTypeCashApp              SetupIntentAllowedPaymentMethodType = "cashapp"
+	SetupIntentAllowedPaymentMethodTypeCheckScan            SetupIntentAllowedPaymentMethodType = "check_scan"
+	SetupIntentAllowedPaymentMethodTypeClickToPay           SetupIntentAllowedPaymentMethodType = "click_to_pay"
+	SetupIntentAllowedPaymentMethodTypeCrypto               SetupIntentAllowedPaymentMethodType = "crypto"
+	SetupIntentAllowedPaymentMethodTypeCustomerBalance      SetupIntentAllowedPaymentMethodType = "customer_balance"
+	SetupIntentAllowedPaymentMethodTypeDemoPay              SetupIntentAllowedPaymentMethodType = "demo_pay"
+	SetupIntentAllowedPaymentMethodTypeDuitnow              SetupIntentAllowedPaymentMethodType = "duitnow"
+	SetupIntentAllowedPaymentMethodTypeDummyAuthPush        SetupIntentAllowedPaymentMethodType = "dummy_auth_push"
+	SetupIntentAllowedPaymentMethodTypeDummyPassthroughCard SetupIntentAllowedPaymentMethodType = "dummy_passthrough_card"
+	SetupIntentAllowedPaymentMethodTypeEdenred              SetupIntentAllowedPaymentMethodType = "edenred"
+	SetupIntentAllowedPaymentMethodTypeEPS                  SetupIntentAllowedPaymentMethodType = "eps"
+	SetupIntentAllowedPaymentMethodTypeFPX                  SetupIntentAllowedPaymentMethodType = "fpx"
+	SetupIntentAllowedPaymentMethodTypeGcash                SetupIntentAllowedPaymentMethodType = "gcash"
+	SetupIntentAllowedPaymentMethodTypeGetbalance           SetupIntentAllowedPaymentMethodType = "getbalance"
+	SetupIntentAllowedPaymentMethodTypeGiftCard             SetupIntentAllowedPaymentMethodType = "gift_card"
+	SetupIntentAllowedPaymentMethodTypeGiropay              SetupIntentAllowedPaymentMethodType = "giropay"
+	SetupIntentAllowedPaymentMethodTypeGopay                SetupIntentAllowedPaymentMethodType = "gopay"
+	SetupIntentAllowedPaymentMethodTypeGrabpay              SetupIntentAllowedPaymentMethodType = "grabpay"
+	SetupIntentAllowedPaymentMethodTypeIDBankTransfer       SetupIntentAllowedPaymentMethodType = "id_bank_transfer"
+	SetupIntentAllowedPaymentMethodTypeIDEAL                SetupIntentAllowedPaymentMethodType = "ideal"
+	SetupIntentAllowedPaymentMethodTypeKakaoPay             SetupIntentAllowedPaymentMethodType = "kakao_pay"
+	SetupIntentAllowedPaymentMethodTypeKlarna               SetupIntentAllowedPaymentMethodType = "klarna"
+	SetupIntentAllowedPaymentMethodTypeKnet                 SetupIntentAllowedPaymentMethodType = "knet"
+	SetupIntentAllowedPaymentMethodTypeKonbini              SetupIntentAllowedPaymentMethodType = "konbini"
+	SetupIntentAllowedPaymentMethodTypeKrCard               SetupIntentAllowedPaymentMethodType = "kr_card"
+	SetupIntentAllowedPaymentMethodTypeKrMarket             SetupIntentAllowedPaymentMethodType = "kr_market"
+	SetupIntentAllowedPaymentMethodTypeKriya                SetupIntentAllowedPaymentMethodType = "kriya"
+	SetupIntentAllowedPaymentMethodTypeLink                 SetupIntentAllowedPaymentMethodType = "link"
+	SetupIntentAllowedPaymentMethodTypeMbWay                SetupIntentAllowedPaymentMethodType = "mb_way"
+	SetupIntentAllowedPaymentMethodTypeMobilepay            SetupIntentAllowedPaymentMethodType = "mobilepay"
+	SetupIntentAllowedPaymentMethodTypeMomo                 SetupIntentAllowedPaymentMethodType = "momo"
+	SetupIntentAllowedPaymentMethodTypeMondu                SetupIntentAllowedPaymentMethodType = "mondu"
+	SetupIntentAllowedPaymentMethodTypeMultibanco           SetupIntentAllowedPaymentMethodType = "multibanco"
+	SetupIntentAllowedPaymentMethodTypeNaverPay             SetupIntentAllowedPaymentMethodType = "naver_pay"
+	SetupIntentAllowedPaymentMethodTypeNetbanking           SetupIntentAllowedPaymentMethodType = "netbanking"
+	SetupIntentAllowedPaymentMethodTypeNgBank               SetupIntentAllowedPaymentMethodType = "ng_bank"
+	SetupIntentAllowedPaymentMethodTypeNgBankTransfer       SetupIntentAllowedPaymentMethodType = "ng_bank_transfer"
+	SetupIntentAllowedPaymentMethodTypeNgCard               SetupIntentAllowedPaymentMethodType = "ng_card"
+	SetupIntentAllowedPaymentMethodTypeNgMarket             SetupIntentAllowedPaymentMethodType = "ng_market"
+	SetupIntentAllowedPaymentMethodTypeNgUssd               SetupIntentAllowedPaymentMethodType = "ng_ussd"
+	SetupIntentAllowedPaymentMethodTypeNgWallet             SetupIntentAllowedPaymentMethodType = "ng_wallet"
+	SetupIntentAllowedPaymentMethodTypeNzBankAccount        SetupIntentAllowedPaymentMethodType = "nz_bank_account"
+	SetupIntentAllowedPaymentMethodTypeOctopus              SetupIntentAllowedPaymentMethodType = "octopus"
+	SetupIntentAllowedPaymentMethodTypeOXXO                 SetupIntentAllowedPaymentMethodType = "oxxo"
+	SetupIntentAllowedPaymentMethodTypeP24                  SetupIntentAllowedPaymentMethodType = "p24"
+	SetupIntentAllowedPaymentMethodTypePaperCheck           SetupIntentAllowedPaymentMethodType = "paper_check"
+	SetupIntentAllowedPaymentMethodTypePayByBank            SetupIntentAllowedPaymentMethodType = "pay_by_bank"
+	SetupIntentAllowedPaymentMethodTypePayco                SetupIntentAllowedPaymentMethodType = "payco"
+	SetupIntentAllowedPaymentMethodTypePayNow               SetupIntentAllowedPaymentMethodType = "paynow"
+	SetupIntentAllowedPaymentMethodTypePaypal               SetupIntentAllowedPaymentMethodType = "paypal"
+	SetupIntentAllowedPaymentMethodTypePaypay               SetupIntentAllowedPaymentMethodType = "paypay"
+	SetupIntentAllowedPaymentMethodTypePayto                SetupIntentAllowedPaymentMethodType = "payto"
+	SetupIntentAllowedPaymentMethodTypePix                  SetupIntentAllowedPaymentMethodType = "pix"
+	SetupIntentAllowedPaymentMethodTypePromptPay            SetupIntentAllowedPaymentMethodType = "promptpay"
+	SetupIntentAllowedPaymentMethodTypeQris                 SetupIntentAllowedPaymentMethodType = "qris"
+	SetupIntentAllowedPaymentMethodTypeRechnung             SetupIntentAllowedPaymentMethodType = "rechnung"
+	SetupIntentAllowedPaymentMethodTypeRevolutPay           SetupIntentAllowedPaymentMethodType = "revolut_pay"
+	SetupIntentAllowedPaymentMethodTypeSamsungPay           SetupIntentAllowedPaymentMethodType = "samsung_pay"
+	SetupIntentAllowedPaymentMethodTypeSatispay             SetupIntentAllowedPaymentMethodType = "satispay"
+	SetupIntentAllowedPaymentMethodTypeScalapay             SetupIntentAllowedPaymentMethodType = "scalapay"
+	SetupIntentAllowedPaymentMethodTypeSEPADebit            SetupIntentAllowedPaymentMethodType = "sepa_debit"
+	SetupIntentAllowedPaymentMethodTypeSequra               SetupIntentAllowedPaymentMethodType = "sequra"
+	SetupIntentAllowedPaymentMethodTypeShopPay              SetupIntentAllowedPaymentMethodType = "shop_pay"
+	SetupIntentAllowedPaymentMethodTypeShopeepay            SetupIntentAllowedPaymentMethodType = "shopeepay"
+	SetupIntentAllowedPaymentMethodTypeSofort               SetupIntentAllowedPaymentMethodType = "sofort"
+	SetupIntentAllowedPaymentMethodTypeSouthKoreaMarket     SetupIntentAllowedPaymentMethodType = "south_korea_market"
+	SetupIntentAllowedPaymentMethodTypeStripeBalance        SetupIntentAllowedPaymentMethodType = "stripe_balance"
+	SetupIntentAllowedPaymentMethodTypeSunbit               SetupIntentAllowedPaymentMethodType = "sunbit"
+	SetupIntentAllowedPaymentMethodTypeSwish                SetupIntentAllowedPaymentMethodType = "swish"
+	SetupIntentAllowedPaymentMethodTypeTamara               SetupIntentAllowedPaymentMethodType = "tamara"
+	SetupIntentAllowedPaymentMethodTypeTestPay              SetupIntentAllowedPaymentMethodType = "test_pay"
+	SetupIntentAllowedPaymentMethodTypeTruemoney            SetupIntentAllowedPaymentMethodType = "truemoney"
+	SetupIntentAllowedPaymentMethodTypeTWINT                SetupIntentAllowedPaymentMethodType = "twint"
+	SetupIntentAllowedPaymentMethodTypeUpi                  SetupIntentAllowedPaymentMethodType = "upi"
+	SetupIntentAllowedPaymentMethodTypeUSBankAccount        SetupIntentAllowedPaymentMethodType = "us_bank_account"
+	SetupIntentAllowedPaymentMethodTypeUSCashVoucher        SetupIntentAllowedPaymentMethodType = "us_cash_voucher"
+	SetupIntentAllowedPaymentMethodTypeVipps                SetupIntentAllowedPaymentMethodType = "vipps"
+	SetupIntentAllowedPaymentMethodTypeWeChatPay            SetupIntentAllowedPaymentMethodType = "wechat_pay"
+	SetupIntentAllowedPaymentMethodTypeWero                 SetupIntentAllowedPaymentMethodType = "wero"
+	SetupIntentAllowedPaymentMethodTypeZip                  SetupIntentAllowedPaymentMethodType = "zip"
+)
+
 // Controls whether this SetupIntent will accept redirect-based payment methods.
 //
 // Redirect-based payment methods may require your customer to be redirected to a payment method's app or site for authentication or additional steps. To [confirm](https://docs.stripe.com/api/setup_intents/confirm) this SetupIntent, you may be required to provide a `return_url` to redirect customers back to your site after they authenticate or complete the setup.
@@ -1520,6 +1623,8 @@ type SetupIntentSingleUseParams struct {
 // it to collect any required permissions to charge the payment method later.
 type SetupIntentParams struct {
 	Params `form:"*"`
+	// The list of payment method types to allow for this SetupIntent. Stripe will only use methods in this list when determining the payment methods to offer. A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
+	AllowedPaymentMethodTypes []*string `form:"allowed_payment_method_types" json:"allowed_payment_method_types,omitempty"`
 	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
 	//
 	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
@@ -1588,6 +1693,7 @@ type SetupIntentParams struct {
 type SetupIntentParamsUnsetField string
 
 const (
+	SetupIntentParamsUnsetFieldAllowedPaymentMethodTypes  SetupIntentParamsUnsetField = "allowed_payment_method_types"
 	SetupIntentParamsUnsetFieldExcludedPaymentMethodTypes SetupIntentParamsUnsetField = "excluded_payment_method_types"
 	SetupIntentParamsUnsetFieldMandateData                SetupIntentParamsUnsetField = "mandate_data"
 	SetupIntentParamsUnsetFieldMetadata                   SetupIntentParamsUnsetField = "metadata"
@@ -2184,6 +2290,8 @@ type SetupIntentConfirmSetupDetailsParams struct {
 // confirmation limit is reached.
 type SetupIntentConfirmParams struct {
 	Params `form:"*"`
+	// The list of payment method types to allow for this SetupIntent. Stripe will only use methods in this list when determining the payment methods to offer. A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
+	AllowedPaymentMethodTypes []*string `form:"allowed_payment_method_types" json:"allowed_payment_method_types,omitempty"`
 	// ID of the ConfirmationToken used to confirm this SetupIntent.
 	//
 	// If the provided ConfirmationToken contains properties that are also being provided in this request, such as `payment_method`, then the values in this request will take precedence.
@@ -3316,6 +3424,8 @@ type SetupIntentCreateSingleUseParams struct {
 // it to collect any required permissions to charge the payment method later.
 type SetupIntentCreateParams struct {
 	Params `form:"*"`
+	// The list of payment method types to allow for this SetupIntent. Stripe will only use methods in this list when determining the payment methods to offer. A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
+	AllowedPaymentMethodTypes []*string `form:"allowed_payment_method_types" json:"allowed_payment_method_types,omitempty"`
 	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
 	//
 	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
@@ -4444,6 +4554,8 @@ type SetupIntentUpdateSetupDetailsParams struct {
 // Updates a SetupIntent object.
 type SetupIntentUpdateParams struct {
 	Params `form:"*"`
+	// The list of payment method types to allow for this SetupIntent. Stripe will only use methods in this list when determining the payment methods to offer. A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
+	AllowedPaymentMethodTypes []*string `form:"allowed_payment_method_types" json:"allowed_payment_method_types,omitempty"`
 	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
 	//
 	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
@@ -4488,6 +4600,7 @@ type SetupIntentUpdateParams struct {
 type SetupIntentUpdateParamsUnsetField string
 
 const (
+	SetupIntentUpdateParamsUnsetFieldAllowedPaymentMethodTypes  SetupIntentUpdateParamsUnsetField = "allowed_payment_method_types"
 	SetupIntentUpdateParamsUnsetFieldExcludedPaymentMethodTypes SetupIntentUpdateParamsUnsetField = "excluded_payment_method_types"
 	SetupIntentUpdateParamsUnsetFieldMetadata                   SetupIntentUpdateParamsUnsetField = "metadata"
 )
@@ -4849,6 +4962,8 @@ type SetupIntentSetupDetails struct {
 // Related guide: [Setup Intents API](https://docs.stripe.com/payments/setup-intents)
 type SetupIntent struct {
 	APIResource
+	// The list of payment method types to allow for this SetupIntent. Stripe will only use methods in this list when determining the payment methods to offer.
+	AllowedPaymentMethodTypes []SetupIntentAllowedPaymentMethodType `json:"allowed_payment_method_types,omitempty"`
 	// ID of the Connect application that created the SetupIntent.
 	Application *Application `json:"application"`
 	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.

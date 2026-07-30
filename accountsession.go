@@ -203,6 +203,8 @@ type AccountSessionComponentsDisputesListFeaturesParams struct {
 	DisputeManagement *bool `form:"dispute_management" json:"dispute_management,omitempty"`
 	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management" json:"refund_management,omitempty"`
+	// Whether to allow connected accounts to submit disputes using Smart Disputes. Defaults to the value of `dispute_management`.
+	SmartDisputesManagement *bool `form:"smart_disputes_management" json:"smart_disputes_management,omitempty"`
 }
 
 // Configuration for the [disputes list](https://docs.stripe.com/connect/supported-embedded-components/disputes-list/) embedded component.
@@ -355,6 +357,8 @@ type AccountSessionComponentsPaymentDetailsFeaturesParams struct {
 	DisputeManagement *bool `form:"dispute_management" json:"dispute_management,omitempty"`
 	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management" json:"refund_management,omitempty"`
+	// Whether to allow connected accounts to submit disputes using Smart Disputes. Defaults to the value of `dispute_management`.
+	SmartDisputesManagement *bool `form:"smart_disputes_management" json:"smart_disputes_management,omitempty"`
 }
 
 // Configuration for the [payment details](https://docs.stripe.com/connect/supported-embedded-components/payment-details/) embedded component.
@@ -373,6 +377,8 @@ type AccountSessionComponentsPaymentDisputesFeaturesParams struct {
 	DisputeManagement *bool `form:"dispute_management" json:"dispute_management,omitempty"`
 	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management" json:"refund_management,omitempty"`
+	// Whether to allow connected accounts to submit disputes using Smart Disputes. Defaults to the value of `dispute_management`.
+	SmartDisputesManagement *bool `form:"smart_disputes_management" json:"smart_disputes_management,omitempty"`
 }
 
 // Configuration for the [payment disputes](https://docs.stripe.com/connect/supported-embedded-components/payment-disputes/) embedded component.
@@ -404,6 +410,8 @@ type AccountSessionComponentsPaymentsFeaturesParams struct {
 	DisputeManagement *bool `form:"dispute_management" json:"dispute_management,omitempty"`
 	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management" json:"refund_management,omitempty"`
+	// Whether to allow connected accounts to submit disputes using Smart Disputes. Defaults to the value of `dispute_management`.
+	SmartDisputesManagement *bool `form:"smart_disputes_management" json:"smart_disputes_management,omitempty"`
 }
 
 // Configuration for the [payments](https://docs.stripe.com/connect/supported-embedded-components/payments/) embedded component.
@@ -848,6 +856,8 @@ type AccountSessionCreateComponentsDisputesListFeaturesParams struct {
 	DisputeManagement *bool `form:"dispute_management" json:"dispute_management,omitempty"`
 	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management" json:"refund_management,omitempty"`
+	// Whether to allow connected accounts to submit disputes using Smart Disputes. Defaults to the value of `dispute_management`.
+	SmartDisputesManagement *bool `form:"smart_disputes_management" json:"smart_disputes_management,omitempty"`
 }
 
 // Configuration for the [disputes list](https://docs.stripe.com/connect/supported-embedded-components/disputes-list/) embedded component.
@@ -1000,6 +1010,8 @@ type AccountSessionCreateComponentsPaymentDetailsFeaturesParams struct {
 	DisputeManagement *bool `form:"dispute_management" json:"dispute_management,omitempty"`
 	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management" json:"refund_management,omitempty"`
+	// Whether to allow connected accounts to submit disputes using Smart Disputes. Defaults to the value of `dispute_management`.
+	SmartDisputesManagement *bool `form:"smart_disputes_management" json:"smart_disputes_management,omitempty"`
 }
 
 // Configuration for the [payment details](https://docs.stripe.com/connect/supported-embedded-components/payment-details/) embedded component.
@@ -1018,6 +1030,8 @@ type AccountSessionCreateComponentsPaymentDisputesFeaturesParams struct {
 	DisputeManagement *bool `form:"dispute_management" json:"dispute_management,omitempty"`
 	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management" json:"refund_management,omitempty"`
+	// Whether to allow connected accounts to submit disputes using Smart Disputes. Defaults to the value of `dispute_management`.
+	SmartDisputesManagement *bool `form:"smart_disputes_management" json:"smart_disputes_management,omitempty"`
 }
 
 // Configuration for the [payment disputes](https://docs.stripe.com/connect/supported-embedded-components/payment-disputes/) embedded component.
@@ -1049,6 +1063,8 @@ type AccountSessionCreateComponentsPaymentsFeaturesParams struct {
 	DisputeManagement *bool `form:"dispute_management" json:"dispute_management,omitempty"`
 	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management" json:"refund_management,omitempty"`
+	// Whether to allow connected accounts to submit disputes using Smart Disputes. Defaults to the value of `dispute_management`.
+	SmartDisputesManagement *bool `form:"smart_disputes_management" json:"smart_disputes_management,omitempty"`
 }
 
 // Configuration for the [payments](https://docs.stripe.com/connect/supported-embedded-components/payments/) embedded component.

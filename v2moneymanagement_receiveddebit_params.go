@@ -11,6 +11,8 @@ type V2MoneyManagementReceivedDebitListParams struct {
 	Params `form:"*"`
 	// The page limit.
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
+	// Filter by the received debit mandate ID.
+	ReceivedDebitMandate *string `form:"received_debit_mandate" json:"received_debit_mandate,omitempty"`
 }
 
 // Retrieves a single ReceivedDebit by ID.

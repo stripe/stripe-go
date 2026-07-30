@@ -35,6 +35,7 @@ const (
 	CryptoOnrampSessionTransactionDetailsDestinationNetworkSolana     CryptoOnrampSessionTransactionDetailsDestinationNetwork = "solana"
 	CryptoOnrampSessionTransactionDetailsDestinationNetworkStellar    CryptoOnrampSessionTransactionDetailsDestinationNetwork = "stellar"
 	CryptoOnrampSessionTransactionDetailsDestinationNetworkSui        CryptoOnrampSessionTransactionDetailsDestinationNetwork = "sui"
+	CryptoOnrampSessionTransactionDetailsDestinationNetworkTempo      CryptoOnrampSessionTransactionDetailsDestinationNetwork = "tempo"
 	CryptoOnrampSessionTransactionDetailsDestinationNetworkWorldchain CryptoOnrampSessionTransactionDetailsDestinationNetwork = "worldchain"
 )
 
@@ -402,6 +403,8 @@ type CryptoOnrampSessionTransactionDetailsWalletAddresses struct {
 	Stellar string `json:"stellar"`
 	// A Sui address
 	Sui string `json:"sui"`
+	// A Tempo address
+	Tempo string `json:"tempo"`
 	// A worldchain address
 	Worldchain string `json:"worldchain"`
 }

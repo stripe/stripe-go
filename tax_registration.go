@@ -2348,6 +2348,18 @@ type TaxRegistrationCountryOptionsUSLuxuryTaxParams struct {
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
+// Options for the mass transit parking tax registration.
+type TaxRegistrationCountryOptionsUSMassTransitParkingTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=mass_transit_parking_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the parking tax registration.
+type TaxRegistrationCountryOptionsUSParkingTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=parking_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
 // Options for the resort tax registration.
 type TaxRegistrationCountryOptionsUSResortTaxParams struct {
 	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=resort_tax#registration-types).
@@ -2394,6 +2406,10 @@ type TaxRegistrationCountryOptionsUSParams struct {
 	LocalLeaseTax *TaxRegistrationCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax" json:"local_lease_tax,omitempty"`
 	// Options for the luxury tax registration.
 	LuxuryTax *TaxRegistrationCountryOptionsUSLuxuryTaxParams `form:"luxury_tax" json:"luxury_tax,omitempty"`
+	// Options for the mass transit parking tax registration.
+	MassTransitParkingTax *TaxRegistrationCountryOptionsUSMassTransitParkingTaxParams `form:"mass_transit_parking_tax" json:"mass_transit_parking_tax,omitempty"`
+	// Options for the parking tax registration.
+	ParkingTax *TaxRegistrationCountryOptionsUSParkingTaxParams `form:"parking_tax" json:"parking_tax,omitempty"`
 	// Options for the resort tax registration.
 	ResortTax *TaxRegistrationCountryOptionsUSResortTaxParams `form:"resort_tax" json:"resort_tax,omitempty"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
@@ -3775,6 +3791,18 @@ type TaxRegistrationCreateCountryOptionsUSLuxuryTaxParams struct {
 	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
 }
 
+// Options for the mass transit parking tax registration.
+type TaxRegistrationCreateCountryOptionsUSMassTransitParkingTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=mass_transit_parking_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
+// Options for the parking tax registration.
+type TaxRegistrationCreateCountryOptionsUSParkingTaxParams struct {
+	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=parking_tax#registration-types).
+	Jurisdiction *string `form:"jurisdiction" json:"jurisdiction"`
+}
+
 // Options for the resort tax registration.
 type TaxRegistrationCreateCountryOptionsUSResortTaxParams struct {
 	// A jurisdiction code representing the [local jurisdiction](https://docs.stripe.com/tax/registering?type=resort_tax#registration-types).
@@ -3821,6 +3849,10 @@ type TaxRegistrationCreateCountryOptionsUSParams struct {
 	LocalLeaseTax *TaxRegistrationCreateCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax" json:"local_lease_tax,omitempty"`
 	// Options for the luxury tax registration.
 	LuxuryTax *TaxRegistrationCreateCountryOptionsUSLuxuryTaxParams `form:"luxury_tax" json:"luxury_tax,omitempty"`
+	// Options for the mass transit parking tax registration.
+	MassTransitParkingTax *TaxRegistrationCreateCountryOptionsUSMassTransitParkingTaxParams `form:"mass_transit_parking_tax" json:"mass_transit_parking_tax,omitempty"`
+	// Options for the parking tax registration.
+	ParkingTax *TaxRegistrationCreateCountryOptionsUSParkingTaxParams `form:"parking_tax" json:"parking_tax,omitempty"`
 	// Options for the resort tax registration.
 	ResortTax *TaxRegistrationCreateCountryOptionsUSResortTaxParams `form:"resort_tax" json:"resort_tax,omitempty"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).

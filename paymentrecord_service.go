@@ -147,6 +147,23 @@ func (c v1PaymentRecordService) ReportRefund(ctx context.Context, id string, par
 	return paymentrecord, err
 }
 
+// List all the Payment Records for a given merchant.
+func (c v1PaymentRecordService) List(ctx context.Context, listParams *PaymentRecordListParams) *V1List[*PaymentRecord] {
+	if listParams == nil {
+		listParams = &PaymentRecordListParams{}
+	}
+	listParams.Context = ctx
+	return newV1List(ctx, listParams, func(ctx context.Context, p *Params, b *form.Values) (*v1Page[*PaymentRecord], error) {
+		list := &v1Page[*PaymentRecord]{}
+		if p == nil {
+			p = &Params{}
+		}
+		p.Context = ctx
+		err := c.B.CallRaw(http.MethodGet, "/v1/payment_records", c.Key, []byte(b.Encode()), p, list)
+		return list, err
+	})
+}
+
 // Search for PaymentRecords you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up

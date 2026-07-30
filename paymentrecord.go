@@ -628,6 +628,22 @@ const (
 	PaymentRecordReportedByStripe PaymentRecordReportedBy = "stripe"
 )
 
+// List all the Payment Records for a given merchant.
+type PaymentRecordListParams struct {
+	ListParams `form:"*"`
+	// Only return Payment Records that were created after this unix timestamp.
+	CreatedAfter *int64 `form:"created_after" json:"created_after,omitempty"`
+	// Only return Payment Records that were created before this unix timestamp.
+	CreatedBefore *int64 `form:"created_before" json:"created_before,omitempty"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentRecordListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves a Payment Record with the given ID
 type PaymentRecordParams struct {
 	Params `form:"*"`
@@ -2705,6 +2721,13 @@ type PaymentRecord struct {
 	ReportedBy PaymentRecordReportedBy `json:"reported_by"`
 	// Shipping information for this payment.
 	ShippingDetails *PaymentRecordShippingDetails `json:"shipping_details"`
+}
+
+// PaymentRecordList is a list of PaymentRecords as retrieved from a list endpoint.
+type PaymentRecordList struct {
+	APIResource
+	ListMeta
+	Data []*PaymentRecord `json:"data"`
 }
 
 // PaymentRecordSearchResult is a list of PaymentRecord search results as retrieved from a search endpoint.
