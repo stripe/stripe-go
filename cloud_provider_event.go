@@ -29,7 +29,7 @@ func maybeExtractFromCloudProviderEnvelope(payload []byte) (json.RawMessage, err
 		data, dataOk := raw["data"]
 		if !dataOk {
 			return nil, fmt.Errorf(
-				"Thought we had an Azure envelope, but couldn't find `data`")
+				"thought we had an Azure envelope, but couldn't find `data`")
 		}
 		return data, nil
 	}
