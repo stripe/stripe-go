@@ -79,9 +79,9 @@ var eventGridNotificationPayload = []byte(`{
 	}
 }`)
 
-func TestConstructEventFromCloudProvider_EventBridge(t *testing.T) {
+func TestConstructEventWithoutVerification_EventBridge(t *testing.T) {
 	client := &Client{}
-	event, err := client.ConstructEventFromCloudProvider([]byte(testEventBridgePayload))
+	event, err := client.ConstructEventWithoutVerification([]byte(testEventBridgePayload))
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -93,9 +93,9 @@ func TestConstructEventFromCloudProvider_EventBridge(t *testing.T) {
 	}
 }
 
-func TestConstructEventFromCloudProvider_EventGrid(t *testing.T) {
+func TestConstructEventWithoutVerification_EventGrid(t *testing.T) {
 	client := &Client{}
-	event, err := client.ConstructEventFromCloudProvider([]byte(testEventGridPayload))
+	event, err := client.ConstructEventWithoutVerification([]byte(testEventGridPayload))
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -107,29 +107,42 @@ func TestConstructEventFromCloudProvider_EventGrid(t *testing.T) {
 	}
 }
 
-func TestConstructEventFromCloudProvider_InvalidJSON(t *testing.T) {
+func TestConstructEventWithoutVerification_RawEvent(t *testing.T) {
+	rawEvent := `{"id":"evt_test_123","object":"event","type":"customer.created","api_version":"2023-10-16","created":1709836076,"data":{"object":{}},"livemode":false,"pending_webhooks":0,"request":null}`
+	event, err := ConstructEventWithoutVerification([]byte(rawEvent))
+	if err != nil {
+		t.Fatalf("unexpected error for raw Stripe Event: %v", err)
+	}
+	if event.ID != "evt_test_123" {
+		t.Errorf("expected event ID 'evt_test_123', got '%s'", event.ID)
+	}
+	if event.Type != "customer.created" {
+		t.Errorf("expected event type 'customer.created', got '%s'", event.Type)
+	}
+}
+
+func TestConstructEventWithoutVerification_RejectsV2ThinEvent(t *testing.T) {
 	client := &Client{}
-	_, err := client.ConstructEventFromCloudProvider([]byte("not valid json"))
+	_, err := client.ConstructEventWithoutVerification(eventBridgeNotificationPayload)
+	if err == nil {
+		t.Fatal("expected error when EventBridge envelope contains a v2 thin event")
+	}
+	if !strings.Contains(err.Error(), "EventNotification") {
+		t.Errorf("expected error to mention EventNotification, got: %s", err.Error())
+	}
+}
+
+func TestConstructEventWithoutVerification_InvalidJSON(t *testing.T) {
+	client := &Client{}
+	_, err := client.ConstructEventWithoutVerification([]byte("not valid json"))
 	if err == nil {
 		t.Fatal("expected error for invalid JSON")
 	}
 }
 
-func TestConstructEventFromCloudProvider_RawEventFromClient(t *testing.T) {
-	rawEvent := `{"id":"evt_test_123","object":"event","type":"customer.created"}`
+func TestConstructEventWithoutVerification_UnrecognizedFormat(t *testing.T) {
 	client := &Client{}
-	_, err := client.ConstructEventFromCloudProvider([]byte(rawEvent))
-	if err == nil {
-		t.Fatal("expected error for raw Stripe Event")
-	}
-	if !strings.Contains(err.Error(), "ConstructEvent") {
-		t.Errorf("expected error to mention ConstructEvent, got: %s", err.Error())
-	}
-}
-
-func TestConstructEventFromCloudProvider_UnrecognizedFormat(t *testing.T) {
-	client := &Client{}
-	_, err := client.ConstructEventFromCloudProvider([]byte(`{"foo":"bar"}`))
+	_, err := client.ConstructEventWithoutVerification([]byte(`{"foo":"bar"}`))
 	if err == nil {
 		t.Fatal("expected error for unrecognized format")
 	}
@@ -138,9 +151,9 @@ func TestConstructEventFromCloudProvider_UnrecognizedFormat(t *testing.T) {
 	}
 }
 
-func TestParseEventNotificationFromCloudProvider_EventBridge(t *testing.T) {
+func TestParseEventNotificationWithoutVerification_EventBridge(t *testing.T) {
 	client := &Client{}
-	notification, err := client.ParseEventNotificationFromCloudProvider(eventBridgeNotificationPayload)
+	notification, err := client.ParseEventNotificationWithoutVerification(eventBridgeNotificationPayload)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -153,9 +166,9 @@ func TestParseEventNotificationFromCloudProvider_EventBridge(t *testing.T) {
 	}
 }
 
-func TestParseEventNotificationFromCloudProvider_EventGrid(t *testing.T) {
+func TestParseEventNotificationWithoutVerification_EventGrid(t *testing.T) {
 	client := &Client{}
-	notification, err := client.ParseEventNotificationFromCloudProvider(eventGridNotificationPayload)
+	notification, err := client.ParseEventNotificationWithoutVerification(eventGridNotificationPayload)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -168,13 +181,45 @@ func TestParseEventNotificationFromCloudProvider_EventGrid(t *testing.T) {
 	}
 }
 
-func TestParseEventNotificationFromCloudProvider_V1EventError(t *testing.T) {
+func TestParseEventNotificationWithoutVerification_V1EventError(t *testing.T) {
 	client := &Client{}
-	_, err := client.ParseEventNotificationFromCloudProvider([]byte(testEventBridgePayload))
+	_, err := client.ParseEventNotificationWithoutVerification([]byte(testEventBridgePayload))
 	if err == nil {
 		t.Fatal("expected error when cloud envelope contains a v1 Event")
 	}
 	if !strings.Contains(err.Error(), "ConstructEvent") {
-		t.Errorf("expected error to mention ConstructEventFromCloudProvider, got: %s", err.Error())
+		t.Errorf("expected error to mention ConstructEvent, got: %s", err.Error())
+	}
+}
+
+func TestParseEventNotificationWithoutVerification_InvalidJSON(t *testing.T) {
+	client := &Client{}
+	_, err := client.ParseEventNotificationWithoutVerification([]byte("not valid json"))
+	if err == nil {
+		t.Fatal("expected error for invalid JSON")
+	}
+}
+
+func TestParseEventNotificationWithoutVerification_UnrecognizedFormat(t *testing.T) {
+	client := &Client{}
+	_, err := client.ParseEventNotificationWithoutVerification([]byte(`{"foo": "bar"}`))
+	if err == nil {
+		t.Fatal("expected error for unrecognized format")
+	}
+	if !strings.Contains(err.Error(), "unrecognized cloud event format") {
+		t.Errorf("expected error about unrecognized format, got: %s", err.Error())
+	}
+}
+
+func TestParseEventNotificationWithoutVerification_RawNotificationPassthrough(t *testing.T) {
+	rawNotification := []byte(`{"id": "evt_234", "object": "v2.core.event", "type": "v2.core.event_destination.ping", "created": "2024-03-07T18:27:56.000Z", "livemode": true}`)
+	client := &Client{}
+	notification, err := client.ParseEventNotificationWithoutVerification(rawNotification)
+	if err != nil {
+		t.Fatalf("unexpected error for raw v2 notification: %v", err)
+	}
+	inner := notification.GetEventNotification()
+	if inner.ID != "evt_234" {
+		t.Errorf("expected notification ID 'evt_234', got '%s'", inner.ID)
 	}
 }
