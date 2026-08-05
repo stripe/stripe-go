@@ -1223,8 +1223,9 @@ type AccountCompanyParams struct {
 	// The Kana variation of the company's primary address (Japan only).
 	AddressKana *AccountCompanyAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the company's primary address (Japan only).
-	AddressKanji          *AccountCompanyAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
-	AdministrativeAddress *AddressParams                    `form:"administrative_address" json:"administrative_address,omitempty"`
+	AddressKanji *AccountCompanyAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
+	// The location where the business is administered.
+	AdministrativeAddress *AddressParams `form:"administrative_address" json:"administrative_address,omitempty"`
 	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *AccountCompanyDirectorshipDeclarationParams `form:"directorship_declaration" json:"directorship_declaration,omitempty"`
 	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
@@ -1250,7 +1251,8 @@ type AccountCompanyParams struct {
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided" json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
-	Phone                    *string        `form:"phone" json:"phone,omitempty"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
+	// The primary location where the business conducts operations.
 	PrincipalPlaceOfBusiness *AddressParams `form:"principal_place_of_business" json:"principal_place_of_business,omitempty"`
 	// When the business was incorporated or registered.
 	RegistrationDate *AccountCompanyRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
@@ -2691,8 +2693,9 @@ type AccountUpdateCompanyParams struct {
 	// The Kana variation of the company's primary address (Japan only).
 	AddressKana *AccountUpdateCompanyAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the company's primary address (Japan only).
-	AddressKanji          *AccountUpdateCompanyAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
-	AdministrativeAddress *AddressParams                          `form:"administrative_address" json:"administrative_address,omitempty"`
+	AddressKanji *AccountUpdateCompanyAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
+	// The location where the business is administered.
+	AdministrativeAddress *AddressParams `form:"administrative_address" json:"administrative_address,omitempty"`
 	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *AccountUpdateCompanyDirectorshipDeclarationParams `form:"directorship_declaration" json:"directorship_declaration,omitempty"`
 	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
@@ -2716,7 +2719,8 @@ type AccountUpdateCompanyParams struct {
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided" json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
-	Phone                    *string                                     `form:"phone" json:"phone,omitempty"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
+	// The primary location where the business conducts operations.
 	PrincipalPlaceOfBusiness *AddressParams                              `form:"principal_place_of_business" json:"principal_place_of_business,omitempty"`
 	RegistrationDate         *AccountUpdateCompanyRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
@@ -4130,8 +4134,9 @@ type AccountCreateCompanyParams struct {
 	// The Kana variation of the company's primary address (Japan only).
 	AddressKana *AccountCreateCompanyAddressKanaParams `form:"address_kana" json:"address_kana,omitempty"`
 	// The Kanji variation of the company's primary address (Japan only).
-	AddressKanji          *AccountCreateCompanyAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
-	AdministrativeAddress *AddressParams                          `form:"administrative_address" json:"administrative_address,omitempty"`
+	AddressKanji *AccountCreateCompanyAddressKanjiParams `form:"address_kanji" json:"address_kanji,omitempty"`
+	// The location where the business is administered.
+	AdministrativeAddress *AddressParams `form:"administrative_address" json:"administrative_address,omitempty"`
 	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *AccountCreateCompanyDirectorshipDeclarationParams `form:"directorship_declaration" json:"directorship_declaration,omitempty"`
 	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
@@ -4156,7 +4161,8 @@ type AccountCreateCompanyParams struct {
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided" json:"owners_provided,omitempty"`
 	// The company's phone number (used for verification).
-	Phone                    *string        `form:"phone" json:"phone,omitempty"`
+	Phone *string `form:"phone" json:"phone,omitempty"`
+	// The primary location where the business conducts operations.
 	PrincipalPlaceOfBusiness *AddressParams `form:"principal_place_of_business" json:"principal_place_of_business,omitempty"`
 	// When the business was incorporated or registered.
 	RegistrationDate *AccountCreateCompanyRegistrationDateParams `form:"registration_date" json:"registration_date,omitempty"`
@@ -4933,6 +4939,8 @@ type AccountCapabilities struct {
 	SEPABankTransferPayments AccountCapabilityStatus `json:"sepa_bank_transfer_payments,omitempty"`
 	// The status of the SEPA Direct Debits payments capability of the account, or whether the account can directly process SEPA Direct Debits charges.
 	SEPADebitPayments AccountCapabilityStatus `json:"sepa_debit_payments,omitempty"`
+	// The status of the Sequra capability of the account, or whether the account can directly process Sequra payments.
+	SequraPayments AccountCapabilityStatus `json:"sequra_payments,omitempty"`
 	// The status of the ShopeePay capability of the account, or whether the account can directly process ShopeePay payments.
 	ShopeepayPayments AccountCapabilityStatus `json:"shopeepay_payments,omitempty"`
 	// The status of the Sofort payments capability of the account, or whether the account can directly process Sofort charges.

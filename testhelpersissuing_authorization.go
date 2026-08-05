@@ -84,6 +84,26 @@ type TestHelpersIssuingAuthorizationFuelParams struct {
 	UnitCostDecimal *float64 `form:"unit_cost_decimal,high_precision" json:"unit_cost_decimal,string,omitempty"`
 }
 
+// Healthcare-specific information for IIAS-eligible authorizations.
+type TestHelpersIssuingAuthorizationHealthcareParams struct {
+	// Clinic and urgent care sub-amount for Visa only.
+	ClinicAmount *int64 `form:"clinic_amount" json:"clinic_amount,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// Dental care sub-amount for Visa only.
+	DentalAmount *int64 `form:"dental_amount" json:"dental_amount,omitempty"`
+	// Prescription drug sub-amount. Null if the merchant did not send this amount.
+	PrescriptionAmount *int64 `form:"prescription_amount" json:"prescription_amount,omitempty"`
+	// The type of healthcare transaction. `medical` for FSA/HSA-eligible healthcare purchases; `transit_for_healthcare` for FSA/HSA-eligible transit for healthcare purchases.
+	PurchaseType *string `form:"purchase_type" json:"purchase_type,omitempty"`
+	// Total FSA/HSA-eligible amount in the smallest currency unit.
+	TotalQualifiedAmount *int64 `form:"total_qualified_amount" json:"total_qualified_amount"`
+	// IIAS verification status from the merchant terminal. For Visa, this is always iias_verified.
+	VerificationStatus *string `form:"verification_status" json:"verification_status"`
+	// Vision/optical sub-amount. Null if the merchant did not send this amount.
+	VisionAmount *int64 `form:"vision_amount" json:"vision_amount,omitempty"`
+}
+
 // Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 type TestHelpersIssuingAuthorizationMerchantDataParams struct {
 	// A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values.
@@ -203,6 +223,8 @@ type TestHelpersIssuingAuthorizationParams struct {
 	FraudDisputabilityLikelihood *string `form:"fraud_disputability_likelihood" json:"fraud_disputability_likelihood,omitempty"`
 	// Information about fuel that was purchased with this transaction.
 	Fuel *TestHelpersIssuingAuthorizationFuelParams `form:"fuel" json:"fuel,omitempty"`
+	// Healthcare-specific information for IIAS-eligible authorizations.
+	Healthcare *TestHelpersIssuingAuthorizationHealthcareParams `form:"healthcare" json:"healthcare,omitempty"`
 	// If set `true`, you may provide [amount](https://docs.stripe.com/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
 	IsAmountControllable *bool `form:"is_amount_controllable" json:"is_amount_controllable,omitempty"`
 	// The total amount to attempt to authorize. This amount is in the provided merchant currency, and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
@@ -332,6 +354,26 @@ type TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams struct {
 	UnitCostDecimal *float64 `form:"unit_cost_decimal,high_precision" json:"unit_cost_decimal,string,omitempty"`
 }
 
+// Healthcare sub-amounts for IIAS-eligible transactions.
+type TestHelpersIssuingAuthorizationCapturePurchaseDetailsHealthcareParams struct {
+	// Clinic and urgent care sub-amount for Visa only.
+	ClinicAmount *int64 `form:"clinic_amount" json:"clinic_amount,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// Dental care sub-amount for Visa only.
+	DentalAmount *int64 `form:"dental_amount" json:"dental_amount,omitempty"`
+	// Prescription drug sub-amount. Null if the merchant did not send this amount.
+	PrescriptionAmount *int64 `form:"prescription_amount" json:"prescription_amount,omitempty"`
+	// The type of healthcare transaction. `medical` for FSA/HSA-eligible healthcare purchases; `transit_for_healthcare` for FSA/HSA-eligible transit for healthcare purchases.
+	PurchaseType *string `form:"purchase_type" json:"purchase_type,omitempty"`
+	// Total FSA/HSA-eligible amount in the smallest currency unit.
+	TotalQualifiedAmount *int64 `form:"total_qualified_amount" json:"total_qualified_amount"`
+	// IIAS verification status from the merchant terminal. For Visa, this is always iias_verified.
+	VerificationStatus *string `form:"verification_status" json:"verification_status"`
+	// Vision/optical sub-amount. Null if the merchant did not send this amount.
+	VisionAmount *int64 `form:"vision_amount" json:"vision_amount,omitempty"`
+}
+
 // Information about lodging that was purchased with this transaction.
 type TestHelpersIssuingAuthorizationCapturePurchaseDetailsLodgingParams struct {
 	// The time of checking into the lodging.
@@ -356,6 +398,8 @@ type TestHelpersIssuingAuthorizationCapturePurchaseDetailsParams struct {
 	Flight *TestHelpersIssuingAuthorizationCapturePurchaseDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Information about fuel that was purchased with this transaction.
 	Fuel *TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams `form:"fuel" json:"fuel,omitempty"`
+	// Healthcare sub-amounts for IIAS-eligible transactions.
+	Healthcare *TestHelpersIssuingAuthorizationCapturePurchaseDetailsHealthcareParams `form:"healthcare" json:"healthcare,omitempty"`
 	// Information about lodging that was purchased with this transaction.
 	Lodging *TestHelpersIssuingAuthorizationCapturePurchaseDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// The line items in the purchase.
@@ -606,6 +650,26 @@ type TestHelpersIssuingAuthorizationCreateFuelParams struct {
 	UnitCostDecimal *float64 `form:"unit_cost_decimal,high_precision" json:"unit_cost_decimal,string,omitempty"`
 }
 
+// Healthcare-specific information for IIAS-eligible authorizations.
+type TestHelpersIssuingAuthorizationCreateHealthcareParams struct {
+	// Clinic and urgent care sub-amount for Visa only.
+	ClinicAmount *int64 `form:"clinic_amount" json:"clinic_amount,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// Dental care sub-amount for Visa only.
+	DentalAmount *int64 `form:"dental_amount" json:"dental_amount,omitempty"`
+	// Prescription drug sub-amount. Null if the merchant did not send this amount.
+	PrescriptionAmount *int64 `form:"prescription_amount" json:"prescription_amount,omitempty"`
+	// The type of healthcare transaction. `medical` for FSA/HSA-eligible healthcare purchases; `transit_for_healthcare` for FSA/HSA-eligible transit for healthcare purchases.
+	PurchaseType *string `form:"purchase_type" json:"purchase_type,omitempty"`
+	// Total FSA/HSA-eligible amount in the smallest currency unit.
+	TotalQualifiedAmount *int64 `form:"total_qualified_amount" json:"total_qualified_amount"`
+	// IIAS verification status from the merchant terminal. For Visa, this is always iias_verified.
+	VerificationStatus *string `form:"verification_status" json:"verification_status"`
+	// Vision/optical sub-amount. Null if the merchant did not send this amount.
+	VisionAmount *int64 `form:"vision_amount" json:"vision_amount,omitempty"`
+}
+
 // Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 type TestHelpersIssuingAuthorizationCreateMerchantDataParams struct {
 	// A categorization of the seller's type of business. See our [merchant categories guide](https://docs.stripe.com/issuing/merchant-categories) for a list of possible values.
@@ -725,6 +789,8 @@ type TestHelpersIssuingAuthorizationCreateParams struct {
 	FraudDisputabilityLikelihood *string `form:"fraud_disputability_likelihood" json:"fraud_disputability_likelihood,omitempty"`
 	// Information about fuel that was purchased with this transaction.
 	Fuel *TestHelpersIssuingAuthorizationCreateFuelParams `form:"fuel" json:"fuel,omitempty"`
+	// Healthcare-specific information for IIAS-eligible authorizations.
+	Healthcare *TestHelpersIssuingAuthorizationCreateHealthcareParams `form:"healthcare" json:"healthcare,omitempty"`
 	// If set `true`, you may provide [amount](https://docs.stripe.com/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
 	IsAmountControllable *bool `form:"is_amount_controllable" json:"is_amount_controllable,omitempty"`
 	// The total amount to attempt to authorize. This amount is in the provided merchant currency, and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).

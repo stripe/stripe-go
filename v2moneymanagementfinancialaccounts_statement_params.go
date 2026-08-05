@@ -15,6 +15,8 @@ type V2MoneyManagementFinancialAccountsStatementListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 	// The field by which to sort results. Defaults to "created".
 	OrderBy *string `form:"order_by" json:"order_by,omitempty"`
+	// Filter results by status. If omitted, statements of all statuses are returned.
+	Status *string `form:"status" json:"status,omitempty"`
 }
 
 // Retrieves the details of a Financial Account Statement.

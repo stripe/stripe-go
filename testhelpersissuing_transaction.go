@@ -152,6 +152,26 @@ type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams st
 	UnitCostDecimal *float64 `form:"unit_cost_decimal,high_precision" json:"unit_cost_decimal,string,omitempty"`
 }
 
+// Healthcare sub-amounts for IIAS-eligible transactions.
+type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsHealthcareParams struct {
+	// Clinic and urgent care sub-amount for Visa only.
+	ClinicAmount *int64 `form:"clinic_amount" json:"clinic_amount,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// Dental care sub-amount for Visa only.
+	DentalAmount *int64 `form:"dental_amount" json:"dental_amount,omitempty"`
+	// Prescription drug sub-amount. Null if the merchant did not send this amount.
+	PrescriptionAmount *int64 `form:"prescription_amount" json:"prescription_amount,omitempty"`
+	// The type of healthcare transaction. `medical` for FSA/HSA-eligible healthcare purchases; `transit_for_healthcare` for FSA/HSA-eligible transit for healthcare purchases.
+	PurchaseType *string `form:"purchase_type" json:"purchase_type,omitempty"`
+	// Total FSA/HSA-eligible amount in the smallest currency unit.
+	TotalQualifiedAmount *int64 `form:"total_qualified_amount" json:"total_qualified_amount"`
+	// IIAS verification status from the merchant terminal. For Visa, this is always iias_verified.
+	VerificationStatus *string `form:"verification_status" json:"verification_status"`
+	// Vision/optical sub-amount. Null if the merchant did not send this amount.
+	VisionAmount *int64 `form:"vision_amount" json:"vision_amount,omitempty"`
+}
+
 // Information about lodging that was purchased with this transaction.
 type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsLodgingParams struct {
 	// The time of checking into the lodging.
@@ -176,6 +196,8 @@ type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsParams struct
 	Flight *TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Information about fuel that was purchased with this transaction.
 	Fuel *TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams `form:"fuel" json:"fuel,omitempty"`
+	// Healthcare sub-amounts for IIAS-eligible transactions.
+	Healthcare *TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsHealthcareParams `form:"healthcare" json:"healthcare,omitempty"`
 	// Information about lodging that was purchased with this transaction.
 	Lodging *TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// The line items in the purchase.
@@ -334,6 +356,26 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams 
 	UnitCostDecimal *float64 `form:"unit_cost_decimal,high_precision" json:"unit_cost_decimal,string,omitempty"`
 }
 
+// Healthcare sub-amounts for IIAS-eligible transactions.
+type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsHealthcareParams struct {
+	// Clinic and urgent care sub-amount for Visa only.
+	ClinicAmount *int64 `form:"clinic_amount" json:"clinic_amount,omitempty"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency" json:"currency"`
+	// Dental care sub-amount for Visa only.
+	DentalAmount *int64 `form:"dental_amount" json:"dental_amount,omitempty"`
+	// Prescription drug sub-amount. Null if the merchant did not send this amount.
+	PrescriptionAmount *int64 `form:"prescription_amount" json:"prescription_amount,omitempty"`
+	// The type of healthcare transaction. `medical` for FSA/HSA-eligible healthcare purchases; `transit_for_healthcare` for FSA/HSA-eligible transit for healthcare purchases.
+	PurchaseType *string `form:"purchase_type" json:"purchase_type,omitempty"`
+	// Total FSA/HSA-eligible amount in the smallest currency unit.
+	TotalQualifiedAmount *int64 `form:"total_qualified_amount" json:"total_qualified_amount"`
+	// IIAS verification status from the merchant terminal. For Visa, this is always iias_verified.
+	VerificationStatus *string `form:"verification_status" json:"verification_status"`
+	// Vision/optical sub-amount. Null if the merchant did not send this amount.
+	VisionAmount *int64 `form:"vision_amount" json:"vision_amount,omitempty"`
+}
+
 // Information about lodging that was purchased with this transaction.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsLodgingParams struct {
 	// The time of checking into the lodging.
@@ -358,6 +400,8 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsParams stru
 	Flight *TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightParams `form:"flight" json:"flight,omitempty"`
 	// Information about fuel that was purchased with this transaction.
 	Fuel *TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams `form:"fuel" json:"fuel,omitempty"`
+	// Healthcare sub-amounts for IIAS-eligible transactions.
+	Healthcare *TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsHealthcareParams `form:"healthcare" json:"healthcare,omitempty"`
 	// Information about lodging that was purchased with this transaction.
 	Lodging *TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsLodgingParams `form:"lodging" json:"lodging,omitempty"`
 	// The line items in the purchase.

@@ -735,9 +735,9 @@ type RadarPaymentEvaluationPaymentDetailsPaymentMethodDetailsCard struct {
 	// Four-digit number representing the card's expiration year.
 	ExpYear int64 `json:"exp_year"`
 	// First six digits of the card number.
-	First6 string `json:"first6,omitempty"`
+	First6 string `json:"first6"`
 	// Last four digits of the card number.
-	Last4 string `json:"last4,omitempty"`
+	Last4 string `json:"last4"`
 }
 
 // Details about the payment method used for the payment.

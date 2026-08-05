@@ -1632,7 +1632,7 @@ type SubscriptionScheduleAmendAmendmentParams struct {
 	AmendmentEnd *SubscriptionScheduleAmendAmendmentAmendmentEndParams `form:"amendment_end" json:"amendment_end,omitempty"`
 	// Details to identify the earliest timestamp where the proposed change should take effect.
 	AmendmentStart *SubscriptionScheduleAmendAmendmentAmendmentStartParams `form:"amendment_start" json:"amendment_start"`
-	// For point-in-time amendments (having no `amendment_end`), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the `amendment_start` timestamp.For time-span based amendments (having both `amendment_start` and `amendment_end`), the only value valid is `automatic`, which removes any previously configured billing cycle anchor resets scheduled to occur during the window of time spanned by the amendment.
+	// For point-in-time amendments (having no `amendment_end`), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the `amendment_start` timestamp. For time-span based amendments (having both `amendment_start` and `amendment_end`), the only value valid is `automatic`, which removes any previously configured billing cycle anchor resets scheduled to occur during the window of time spanned by the amendment.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// Actions to apply to the billing schedules.
 	BillingSchedulesActions []*SubscriptionScheduleAmendAmendmentBillingSchedulesActionParams `form:"billing_schedules_actions" json:"billing_schedules_actions,omitempty"`

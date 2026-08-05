@@ -35,6 +35,7 @@ type CheckoutSessionAutomaticSurchargeProvider string
 
 // List of values that CheckoutSessionAutomaticSurchargeProvider can take
 const (
+	CheckoutSessionAutomaticSurchargeProviderDaikin        CheckoutSessionAutomaticSurchargeProvider = "daikin"
 	CheckoutSessionAutomaticSurchargeProviderInterpayments CheckoutSessionAutomaticSurchargeProvider = "interpayments"
 	CheckoutSessionAutomaticSurchargeProviderProserv       CheckoutSessionAutomaticSurchargeProvider = "proserv"
 	CheckoutSessionAutomaticSurchargeProviderYeeld         CheckoutSessionAutomaticSurchargeProvider = "yeeld"
@@ -859,6 +860,16 @@ const (
 	CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlockedVisa                  CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked = "visa"
 )
 
+// Card funding types to block for this Checkout Session. Supported values are `credit`, `debit`, and `prepaid`.
+type CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlocked string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlocked can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlockedCredit  CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlocked = "credit"
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlockedDebit   CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlocked = "debit"
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlockedPrepaid CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlocked = "prepaid"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1458,6 +1469,14 @@ const (
 	CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage = "on_session"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type CheckoutSessionPaymentMethodOptionsSequraCaptureMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsSequraCaptureMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsSequraCaptureMethodManual CheckoutSessionPaymentMethodOptionsSequraCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1996,7 +2015,7 @@ type CheckoutSessionCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type CheckoutSessionCustomFieldDropdownParams struct {
-	// The value that pre-fills the field on the payment page.Must match a `value` in the `options` array.
+	// The value that pre-fills the field on the payment page. Must match a `value` in the `options` array.
 	DefaultValue *string `form:"default_value" json:"default_value,omitempty"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*CheckoutSessionCustomFieldDropdownOptionParams `form:"options" json:"options"`
@@ -2331,7 +2350,7 @@ type CheckoutSessionItemSubscriptionItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new Price object inline.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 type CheckoutSessionItemSubscriptionItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -2351,9 +2370,9 @@ type CheckoutSessionItemSubscriptionItemPriceDataParams struct {
 
 // The list of items for the subscription.
 type CheckoutSessionItemSubscriptionItemParams struct {
-	// The ID of the price for this subscription item.
+	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price` or `price_data` is required.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new Price object inline.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *CheckoutSessionItemSubscriptionItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -3888,6 +3907,21 @@ type CheckoutSessionShippingOptionParams struct {
 	ShippingRate *string `form:"shipping_rate" json:"shipping_rate,omitempty"`
 	// Parameters to be passed to Shipping Rate creation for this shipping option.
 	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data" json:"shipping_rate_data,omitempty"`
+	// The tax rates that will be applied to this shipping option. This parameter is only supported for Checkout Sessions with `ui_mode` set to `form` or `elements`.
+	TaxRates    []*string                                       `form:"tax_rates" json:"tax_rates,omitempty"`
+	UnsetFields []CheckoutSessionShippingOptionParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionShippingOptionParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionShippingOptionParams.
+type CheckoutSessionShippingOptionParamsUnsetField string
+
+const (
+	CheckoutSessionShippingOptionParamsUnsetFieldTaxRates CheckoutSessionShippingOptionParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionShippingOptionParams) AddUnsetField(field CheckoutSessionShippingOptionParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
@@ -4524,7 +4558,7 @@ type CheckoutSessionCreateCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type CheckoutSessionCreateCustomFieldDropdownParams struct {
-	// The value that pre-fills the field on the payment page.Must match a `value` in the `options` array.
+	// The value that pre-fills the field on the payment page. Must match a `value` in the `options` array.
 	DefaultValue *string `form:"default_value" json:"default_value,omitempty"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*CheckoutSessionCreateCustomFieldDropdownOptionParams `form:"options" json:"options"`
@@ -4859,7 +4893,7 @@ type CheckoutSessionCreateItemSubscriptionItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// Data used to generate a new Price object inline.
+// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 type CheckoutSessionCreateItemSubscriptionItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
@@ -4879,9 +4913,9 @@ type CheckoutSessionCreateItemSubscriptionItemPriceDataParams struct {
 
 // The list of items for the subscription.
 type CheckoutSessionCreateItemSubscriptionItemParams struct {
-	// The ID of the price for this subscription item.
+	// The ID of the [Price](https://docs.stripe.com/api/prices). One of `price` or `price_data` is required.
 	Price *string `form:"price" json:"price,omitempty"`
-	// Data used to generate a new Price object inline.
+	// Data used to generate a new [Price](https://docs.stripe.com/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *CheckoutSessionCreateItemSubscriptionItemPriceDataParams `form:"price_data" json:"price_data,omitempty"`
 	// Quantity for this item.
 	Quantity *int64 `form:"quantity" json:"quantity,omitempty"`
@@ -6400,6 +6434,8 @@ type CheckoutSessionCreateShippingOptionParams struct {
 	ShippingRate *string `form:"shipping_rate" json:"shipping_rate,omitempty"`
 	// Parameters to be passed to Shipping Rate creation for this shipping option.
 	ShippingRateData *CheckoutSessionCreateShippingOptionShippingRateDataParams `form:"shipping_rate_data" json:"shipping_rate_data,omitempty"`
+	// The tax rates that will be applied to this shipping option. This parameter is only supported for Checkout Sessions with `ui_mode` set to `form` or `elements`.
+	TaxRates []*string `form:"tax_rates" json:"tax_rates,omitempty"`
 }
 
 // Configures when the subscription schedule's billing cycle anchors to a specific day of the week or month.
@@ -7108,6 +7144,21 @@ type CheckoutSessionUpdateShippingOptionParams struct {
 	ShippingRate *string `form:"shipping_rate" json:"shipping_rate,omitempty"`
 	// Parameters to be passed to Shipping Rate creation for this shipping option.
 	ShippingRateData *CheckoutSessionUpdateShippingOptionShippingRateDataParams `form:"shipping_rate_data" json:"shipping_rate_data,omitempty"`
+	// The tax rates that will be applied to this shipping option. This parameter is only supported for Checkout Sessions with `ui_mode` set to `form` or `elements`.
+	TaxRates    []*string                                             `form:"tax_rates" json:"tax_rates,omitempty"`
+	UnsetFields []CheckoutSessionUpdateShippingOptionParamsUnsetField `form:"-" json:"-"`
+}
+
+// CheckoutSessionUpdateShippingOptionParamsUnsetField is the list of fields that can be cleared/unset on CheckoutSessionUpdateShippingOptionParams.
+type CheckoutSessionUpdateShippingOptionParamsUnsetField string
+
+const (
+	CheckoutSessionUpdateShippingOptionParamsUnsetFieldTaxRates CheckoutSessionUpdateShippingOptionParamsUnsetField = "tax_rates"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *CheckoutSessionUpdateShippingOptionParams) AddUnsetField(field CheckoutSessionUpdateShippingOptionParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
@@ -7914,6 +7965,8 @@ type CheckoutSessionPaymentMethodOptionsCardInstallments struct {
 type CheckoutSessionPaymentMethodOptionsCardRestrictions struct {
 	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 	BrandsBlocked []CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked `json:"brands_blocked,omitempty"`
+	// Card funding types to block for this Checkout Session. Supported values are `credit`, `debit`, and `prepaid`.
+	FundingTypesBlocked []CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlocked `json:"funding_types_blocked,omitempty"`
 }
 type CheckoutSessionPaymentMethodOptionsCard struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -8298,6 +8351,10 @@ type CheckoutSessionPaymentMethodOptionsSEPADebit struct {
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date,omitempty"`
 }
+type CheckoutSessionPaymentMethodOptionsSequra struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod CheckoutSessionPaymentMethodOptionsSequraCaptureMethod `json:"capture_method,omitempty"`
+}
 type CheckoutSessionPaymentMethodOptionsSofort struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -8447,6 +8504,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	Satispay         *CheckoutSessionPaymentMethodOptionsSatispay         `json:"satispay,omitempty"`
 	Scalapay         *CheckoutSessionPaymentMethodOptionsScalapay         `json:"scalapay,omitempty"`
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit,omitempty"`
+	Sequra           *CheckoutSessionPaymentMethodOptionsSequra           `json:"sequra,omitempty"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort,omitempty"`
 	Sunbit           *CheckoutSessionPaymentMethodOptionsSunbit           `json:"sunbit,omitempty"`
 	Swish            *CheckoutSessionPaymentMethodOptionsSwish            `json:"swish,omitempty"`
@@ -8559,6 +8617,8 @@ type CheckoutSessionShippingOption struct {
 	ShippingAmount int64 `json:"shipping_amount"`
 	// The shipping rate.
 	ShippingRate *ShippingRate `json:"shipping_rate"`
+	// The tax rates applied to this shipping option.
+	TaxRates []string `json:"tax_rates,omitempty"`
 }
 type CheckoutSessionSurchargeCost struct {
 	// Total surcharge cost before taxes are applied.

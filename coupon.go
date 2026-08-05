@@ -28,7 +28,7 @@ const (
 	CouponServicePeriodIterationsTypeForever CouponServicePeriodIterationsType = "forever"
 )
 
-// One of `amount_off`, `percent_off`, or `script`. Describes the type of coupon logic used to calculate the discount.
+// The type of coupon logic used to calculate the discount.
 type CouponType string
 
 // List of values that CouponType can take
@@ -402,7 +402,7 @@ type Coupon struct {
 	ServicePeriod *CouponServicePeriod `json:"service_period,omitempty"`
 	// Number of times this coupon has been applied to a customer.
 	TimesRedeemed int64 `json:"times_redeemed"`
-	// One of `amount_off`, `percent_off`, or `script`. Describes the type of coupon logic used to calculate the discount.
+	// The type of coupon logic used to calculate the discount.
 	Type CouponType `json:"type,omitempty"`
 	// Taking account of the above properties, whether this coupon can still be applied to a customer.
 	Valid bool `json:"valid"`
