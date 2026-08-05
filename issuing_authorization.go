@@ -435,7 +435,7 @@ const (
 	IssuingAuthorizationHealthcarePurchaseTypeTransitForHealthcare IssuingAuthorizationHealthcarePurchaseType = "transit_for_healthcare"
 )
 
-// IIAS verification status from the merchant terminal. For Visa, this value will always be iias_verified.
+// IIAS verification status from the merchant terminal. For Visa, this value will always be iias_verified. Defaults to not_verified when the network does not provide IIAS status.
 type IssuingAuthorizationHealthcareVerificationStatus string
 
 // List of values that IssuingAuthorizationHealthcareVerificationStatus can take
@@ -1298,7 +1298,7 @@ type IssuingAuthorizationHealthcare struct {
 	PurchaseType IssuingAuthorizationHealthcarePurchaseType `json:"purchase_type,omitempty"`
 	// Total FSA/HSA-eligible amount in the smallest currency unit.
 	TotalQualifiedAmount int64 `json:"total_qualified_amount,omitempty"`
-	// IIAS verification status from the merchant terminal. For Visa, this value will always be iias_verified.
+	// IIAS verification status from the merchant terminal. For Visa, this value will always be iias_verified. Defaults to not_verified when the network does not provide IIAS status.
 	VerificationStatus IssuingAuthorizationHealthcareVerificationStatus `json:"verification_status,omitempty"`
 	// Vision/optical sub-amount. Null if the merchant did not include this amount.
 	VisionAmount int64 `json:"vision_amount,omitempty"`

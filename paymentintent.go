@@ -276,6 +276,7 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeSatispay         PaymentIntentExcludedPaymentMethodType = "satispay"
 	PaymentIntentExcludedPaymentMethodTypeScalapay         PaymentIntentExcludedPaymentMethodType = "scalapay"
 	PaymentIntentExcludedPaymentMethodTypeSEPADebit        PaymentIntentExcludedPaymentMethodType = "sepa_debit"
+	PaymentIntentExcludedPaymentMethodTypeSequra           PaymentIntentExcludedPaymentMethodType = "sequra"
 	PaymentIntentExcludedPaymentMethodTypeShopeepay        PaymentIntentExcludedPaymentMethodType = "shopeepay"
 	PaymentIntentExcludedPaymentMethodTypeSofort           PaymentIntentExcludedPaymentMethodType = "sofort"
 	PaymentIntentExcludedPaymentMethodTypeStripeBalance    PaymentIntentExcludedPaymentMethodType = "stripe_balance"
@@ -1077,6 +1078,25 @@ const (
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "off_session"
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "on_session"
+)
+
+// The e-invoicing mode under which the mark was generated.
+type PaymentIntentPaymentMethodOptionsCardPresentAadeDataMode string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPresentAadeDataMode can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentAadeDataModeAutonomous PaymentIntentPaymentMethodOptionsCardPresentAadeDataMode = "autonomous"
+	PaymentIntentPaymentMethodOptionsCardPresentAadeDataModeStandard   PaymentIntentPaymentMethodOptionsCardPresentAadeDataMode = "standard"
+)
+
+// The reason for entering autonomous mode. Required when `mode` is `autonomous`.
+type PaymentIntentPaymentMethodOptionsCardPresentAadeDataUnboundPos string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPresentAadeDataUnboundPos can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentAadeDataUnboundPosInterconnectionLoss   PaymentIntentPaymentMethodOptionsCardPresentAadeDataUnboundPos = "interconnection_loss"
+	PaymentIntentPaymentMethodOptionsCardPresentAadeDataUnboundPosLock                  PaymentIntentPaymentMethodOptionsCardPresentAadeDataUnboundPos = "lock"
+	PaymentIntentPaymentMethodOptionsCardPresentAadeDataUnboundPosReplacementCashSystem PaymentIntentPaymentMethodOptionsCardPresentAadeDataUnboundPos = "replacement_cash_system"
 )
 
 // Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
@@ -1932,6 +1952,14 @@ const (
 	PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage = "off_session"
 	PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage = "on_session"
+)
+
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsSequraCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsSequraCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsSequraCaptureMethodManual PaymentIntentPaymentMethodOptionsSequraCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -21127,6 +21155,18 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	StatementDescriptorSuffixKanji string                                                 `json:"statement_descriptor_suffix_kanji,omitempty"`
 	StatementDetails               *PaymentIntentPaymentMethodOptionsCardStatementDetails `json:"statement_details,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsCardPresentAadeData struct {
+	// The canonical string that was signed by the e-invoicing provider to produce `signed_mark`, formatted per Appendix A of A.1155/2023. Required when `mode` is `standard`.
+	MarkData string `json:"mark_data,omitempty"`
+	// The e-invoicing mode under which the mark was generated.
+	Mode PaymentIntentPaymentMethodOptionsCardPresentAadeDataMode `json:"mode"`
+	// The AADE-assigned approval number of the e-invoicing provider that generated the mark. Required when `mode` is `standard`.
+	ProviderID int64 `json:"provider_id,omitempty"`
+	// The cryptographic signature returned by the e-invoicing provider for this transaction, hex-encoded. Required when `mode` is `standard`.
+	SignedMark string `json:"signed_mark,omitempty"`
+	// The reason for entering autonomous mode. Required when `mode` is `autonomous`.
+	UnboundPos PaymentIntentPaymentMethodOptionsCardPresentAadeDataUnboundPos `json:"unbound_pos,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsCardPresentCaptureDelay struct {
 	// The number of days to delay the capture of the funds.
 	//
@@ -21142,6 +21182,7 @@ type PaymentIntentPaymentMethodOptionsCardPresentRouting struct {
 	RequestedPriority PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority `json:"requested_priority"`
 }
 type PaymentIntentPaymentMethodOptionsCardPresent struct {
+	AadeData *PaymentIntentPaymentMethodOptionsCardPresentAadeData `json:"aade_data,omitempty"`
 	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
 	//
 	// If omitted, funds are captured before the authorization expires.
@@ -21678,6 +21719,10 @@ type PaymentIntentPaymentMethodOptionsSEPADebit struct {
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsSequra struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsSequraCaptureMethod `json:"capture_method,omitempty"`
+}
 type PaymentIntentPaymentMethodOptionsShopeepay struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -21907,6 +21952,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Satispay         *PaymentIntentPaymentMethodOptionsSatispay         `json:"satispay,omitempty"`
 	Scalapay         *PaymentIntentPaymentMethodOptionsScalapay         `json:"scalapay,omitempty"`
 	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit,omitempty"`
+	Sequra           *PaymentIntentPaymentMethodOptionsSequra           `json:"sequra,omitempty"`
 	Shopeepay        *PaymentIntentPaymentMethodOptionsShopeepay        `json:"shopeepay,omitempty"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort,omitempty"`
 	StripeBalance    *PaymentIntentPaymentMethodOptionsStripeBalance    `json:"stripe_balance,omitempty"`

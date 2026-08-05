@@ -955,6 +955,8 @@ type PaymentAttemptRecordReportGuaranteedParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// When the reported payment was guaranteed. Measured in seconds since the Unix epoch.
 	GuaranteedAt *int64 `form:"guaranteed_at" json:"guaranteed_at,omitempty"`
+	// Set to `true` to enable writing an anomalous guaranteed payment to an outdated PaymentAttemptRecord. This parameter defaults to `false`.
+	IsAnomalous *bool `form:"is_anomalous" json:"is_anomalous,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Payment evaluations associated with this reported payment.
@@ -1615,7 +1617,9 @@ type PaymentAttemptRecordPaymentMethodDetailsCardPresent struct {
 	ReauthorizeBefore int64 `json:"reauthorize_before,omitempty"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *PaymentAttemptRecordPaymentMethodDetailsCardPresentReceipt `json:"receipt"`
-	Wallet  *PaymentAttemptRecordPaymentMethodDetailsCardPresentWallet  `json:"wallet,omitempty"`
+	// The retrieval reference number assigned to this transaction.
+	RetrievalReferenceNumber string                                                     `json:"retrieval_reference_number,omitempty"`
+	Wallet                   *PaymentAttemptRecordPaymentMethodDetailsCardPresentWallet `json:"wallet,omitempty"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsCashApp struct {
 	// A unique and immutable identifier assigned by Cash App to every buyer.
@@ -2059,6 +2063,10 @@ type PaymentAttemptRecordPaymentMethodDetailsSEPADebit struct {
 	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://docs.stripe.com/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsSequra struct {
+	// The Sequra transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsShopeepay struct{}
 type PaymentAttemptRecordPaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -2210,6 +2218,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	Scalapay           *PaymentAttemptRecordPaymentMethodDetailsScalapay           `json:"scalapay,omitempty"`
 	SEPACreditTransfer *PaymentAttemptRecordPaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *PaymentAttemptRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
+	Sequra             *PaymentAttemptRecordPaymentMethodDetailsSequra             `json:"sequra,omitempty"`
 	Shopeepay          *PaymentAttemptRecordPaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
 	Sofort             *PaymentAttemptRecordPaymentMethodDetailsSofort             `json:"sofort,omitempty"`
 	StripeAccount      *PaymentAttemptRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`

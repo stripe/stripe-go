@@ -2299,7 +2299,7 @@ type SubscriptionUpdateTrialSettingsParams struct {
 // When changing prices or quantities, we optionally prorate the price we charge next month to make up for any price changes.
 // To preview how the proration is calculated, use the [create preview](https://docs.stripe.com/docs/api/invoices/create_preview) endpoint.
 //
-// By default, we prorate subscription changes. For example, if a customer signs up on May 1 for a 100 price, they'll be billed 100 immediately. If on May 15 they switch to a 200 price, then on June 1 they'll be billed 250 (200 for a renewal of her subscription, plus a 50 prorating adjustment for half of the previous month's 100 difference). Similarly, a downgrade generates a credit that is applied to the next invoice. We also prorate when you make quantity changes.
+// By default, we prorate subscription changes. For example, if a customer signs up on May 1 for a 100 price, they'll be billed 100 immediately. If on May 15 they switch to a 200 price, then on June 1 they'll be billed 250 (200 for a renewal of her subscription, plus a 50 prorating adjustment for half of the previous month's 100 difference). Similarly, a downgrade generates a credit that is applied to the next invoice. We also prorate when you make quantity changes. You can also [use scripts to prorate your billing. To learn more, see <a href="/billing/subscriptions/prorations">Prorations](https://docs.stripe.com/billing/scripts/stripe-authored/proration).
 //
 // Switching prices does not normally change the billing date or generate an immediate charge unless:
 //
@@ -3453,6 +3453,8 @@ type SubscriptionCancellationDetails struct {
 	Comment string `json:"comment"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
 	Feedback SubscriptionCancellationDetailsFeedback `json:"feedback"`
+	// Customized feedback options that provide deeper insight into why the subscription was canceled, if the subscription was canceled explicitly by the user.
+	FeedbackOption *BillingFeedbackOptions `json:"feedback_option,omitempty"`
 	// Why this subscription was canceled.
 	Reason SubscriptionCancellationDetailsReason `json:"reason"`
 }

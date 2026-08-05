@@ -370,6 +370,7 @@ const (
 	PaymentMethodTypeSatispay         PaymentMethodType = "satispay"
 	PaymentMethodTypeScalapay         PaymentMethodType = "scalapay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
+	PaymentMethodTypeSequra           PaymentMethodType = "sequra"
 	PaymentMethodTypeShopeepay        PaymentMethodType = "shopeepay"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeStripeBalance    PaymentMethodType = "stripe_balance"
@@ -1969,7 +1970,9 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	ReauthorizeBefore int64 `json:"reauthorize_before,omitempty"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceipt `json:"receipt"`
-	Wallet  *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWallet  `json:"wallet,omitempty"`
+	// The retrieval reference number assigned to this transaction.
+	RetrievalReferenceNumber string                                                               `json:"retrieval_reference_number,omitempty"`
+	Wallet                   *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWallet `json:"wallet,omitempty"`
 }
 
 // Transaction-specific details of the payment method used in the payment.

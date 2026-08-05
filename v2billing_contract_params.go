@@ -1030,7 +1030,7 @@ type V2BillingContractCreateParams struct {
 	// Set of key-value pairs that you can attach to an object.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A list of pricing lines to create with the contract.
-	PricingLines []*V2BillingContractCreatePricingLineParams `form:"pricing_lines" json:"pricing_lines"`
+	PricingLines []*V2BillingContractCreatePricingLineParams `form:"pricing_lines" json:"pricing_lines,omitempty"`
 	// A list of pricing overrides to create with the contract.
 	PricingOverrides []*V2BillingContractCreatePricingOverrideParams `form:"pricing_overrides" json:"pricing_overrides,omitempty"`
 }

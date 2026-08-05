@@ -4111,7 +4111,9 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	ReauthorizeBefore int64 `json:"reauthorize_before,omitempty"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *ChargePaymentMethodDetailsCardPresentReceipt `json:"receipt"`
-	Wallet  *ChargePaymentMethodDetailsCardPresentWallet  `json:"wallet,omitempty"`
+	// The retrieval reference number assigned to this transaction.
+	RetrievalReferenceNumber string                                       `json:"retrieval_reference_number,omitempty"`
+	Wallet                   *ChargePaymentMethodDetailsCardPresentWallet `json:"wallet,omitempty"`
 	// Please note that the fields below are for internal use only and are not returned
 	// as part of standard API requests.
 	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
@@ -4357,6 +4359,8 @@ type ChargePaymentMethodDetailsLink struct {
 	// Two-letter ISO code representing the funding source country beneath the Link payment.
 	// You could use this attribute to get a sense of international fees.
 	Country string `json:"country"`
+	// The pricing bundle applied to this Link payment at confirmation time. Maps to a bundle in your Stripe pricing contract and on Stripe's published pricing page. Omitted if bundle lookup failed at confirmation time.
+	PricingGroup string `json:"pricing_group,omitempty"`
 }
 type ChargePaymentMethodDetailsMbWay struct{}
 
@@ -4564,6 +4568,10 @@ type ChargePaymentMethodDetailsSEPADebit struct {
 	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://docs.stripe.com/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
+type ChargePaymentMethodDetailsSequra struct {
+	// The Sequra transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type ChargePaymentMethodDetailsShopeepay struct{}
 type ChargePaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -4708,6 +4716,7 @@ type ChargePaymentMethodDetails struct {
 	Scalapay           *ChargePaymentMethodDetailsScalapay           `json:"scalapay,omitempty"`
 	SEPACreditTransfer *ChargePaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *ChargePaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
+	Sequra             *ChargePaymentMethodDetailsSequra             `json:"sequra,omitempty"`
 	Shopeepay          *ChargePaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
 	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort,omitempty"`
 	StripeAccount      *ChargePaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`

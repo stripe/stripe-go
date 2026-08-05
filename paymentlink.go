@@ -31,6 +31,7 @@ type PaymentLinkAutomaticSurchargeProvider string
 
 // List of values that PaymentLinkAutomaticSurchargeProvider can take
 const (
+	PaymentLinkAutomaticSurchargeProviderDaikin        PaymentLinkAutomaticSurchargeProvider = "daikin"
 	PaymentLinkAutomaticSurchargeProviderInterpayments PaymentLinkAutomaticSurchargeProvider = "interpayments"
 	PaymentLinkAutomaticSurchargeProviderProserv       PaymentLinkAutomaticSurchargeProvider = "proserv"
 	PaymentLinkAutomaticSurchargeProviderYeeld         PaymentLinkAutomaticSurchargeProvider = "yeeld"
@@ -358,7 +359,7 @@ type PaymentLinkCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type PaymentLinkCustomFieldDropdownParams struct {
-	// The value that pre-fills the field on the payment page.Must match a `value` in the `options` array.
+	// The value that pre-fills the field on the payment page. Must match a `value` in the `options` array.
 	DefaultValue *string `form:"default_value" json:"default_value,omitempty"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*PaymentLinkCustomFieldDropdownOptionParams `form:"options" json:"options"`
@@ -1139,7 +1140,7 @@ type PaymentLinkCreateCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type PaymentLinkCreateCustomFieldDropdownParams struct {
-	// The value that pre-fills the field on the payment page.Must match a `value` in the `options` array.
+	// The value that pre-fills the field on the payment page. Must match a `value` in the `options` array.
 	DefaultValue *string `form:"default_value" json:"default_value,omitempty"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*PaymentLinkCreateCustomFieldDropdownOptionParams `form:"options" json:"options"`
@@ -1812,7 +1813,7 @@ type PaymentLinkUpdateCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type PaymentLinkUpdateCustomFieldDropdownParams struct {
-	// The value that pre-fills the field on the payment page.Must match a `value` in the `options` array.
+	// The value that pre-fills the field on the payment page. Must match a `value` in the `options` array.
 	DefaultValue *string `form:"default_value" json:"default_value,omitempty"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*PaymentLinkUpdateCustomFieldDropdownOptionParams `form:"options" json:"options"`

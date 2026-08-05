@@ -13707,54 +13707,6 @@ func TestV2BillingContractPostService(t *testing.T) {
 	params := &stripe.V2BillingContractParams{
 		ContractNumber: stripe.String("contract_number"),
 		Currency:       stripe.String(stripe.CurrencyUSD),
-		PricingLines: []*stripe.V2BillingContractPricingLineParams{
-			{
-				EndsAt: &stripe.V2BillingContractPricingLineEndsAtParams{
-					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("timestamp"),
-				},
-				LookupKey: stripe.String("lookup_key"),
-				Metadata:  map[string]string{"key": "metadata"},
-				Pricing: &stripe.V2BillingContractPricingLinePricingParams{
-					PriceDetails: &stripe.V2BillingContractPricingLinePricingPriceDetailsParams{
-						Price: stripe.String("price"),
-						PricingOverrides: []*stripe.V2BillingContractPricingLinePricingPriceDetailsPricingOverrideParams{
-							{
-								EndsAt: &stripe.V2BillingContractPricingLinePricingPriceDetailsPricingOverrideEndsAtParams{
-									Timestamp: stripe.Time(time.Now()),
-									Type:      stripe.String("timestamp"),
-								},
-								LookupKey: stripe.String("lookup_key"),
-								Metadata:  map[string]string{"key": "metadata"},
-								OverwritePrice: &stripe.V2BillingContractPricingLinePricingPriceDetailsPricingOverrideOverwritePriceParams{
-									UnitAmount: stripe.String("unit_amount"),
-								},
-								Priority: stripe.Int64(1165461084),
-								StartsAt: &stripe.V2BillingContractPricingLinePricingPriceDetailsPricingOverrideStartsAtParams{
-									Timestamp: stripe.Time(time.Now()),
-									Type:      stripe.String("timestamp"),
-								},
-								Type: stripe.String("overwrite_price"),
-							},
-						},
-						QuantityChanges: []*stripe.V2BillingContractPricingLinePricingPriceDetailsQuantityChangeParams{
-							{
-								EffectiveAt: &stripe.V2BillingContractPricingLinePricingPriceDetailsQuantityChangeEffectiveAtParams{
-									Timestamp: stripe.Time(time.Now()),
-									Type:      stripe.String("timestamp"),
-								},
-								Set: stripe.Float64(75841.33333333333),
-							},
-						},
-					},
-					Type: stripe.String("price"),
-				},
-				StartsAt: &stripe.V2BillingContractPricingLineStartsAtParams{
-					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("timestamp"),
-				},
-			},
-		},
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/billing/contracts", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}")
@@ -13771,54 +13723,6 @@ func TestV2BillingContractPostClient(t *testing.T) {
 	params := &stripe.V2BillingContractCreateParams{
 		ContractNumber: stripe.String("contract_number"),
 		Currency:       stripe.String(stripe.CurrencyUSD),
-		PricingLines: []*stripe.V2BillingContractCreatePricingLineParams{
-			{
-				EndsAt: &stripe.V2BillingContractCreatePricingLineEndsAtParams{
-					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("timestamp"),
-				},
-				LookupKey: stripe.String("lookup_key"),
-				Metadata:  map[string]string{"key": "metadata"},
-				Pricing: &stripe.V2BillingContractCreatePricingLinePricingParams{
-					PriceDetails: &stripe.V2BillingContractCreatePricingLinePricingPriceDetailsParams{
-						Price: stripe.String("price"),
-						PricingOverrides: []*stripe.V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideParams{
-							{
-								EndsAt: &stripe.V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideEndsAtParams{
-									Timestamp: stripe.Time(time.Now()),
-									Type:      stripe.String("timestamp"),
-								},
-								LookupKey: stripe.String("lookup_key"),
-								Metadata:  map[string]string{"key": "metadata"},
-								OverwritePrice: &stripe.V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideOverwritePriceParams{
-									UnitAmount: stripe.String("unit_amount"),
-								},
-								Priority: stripe.Int64(1165461084),
-								StartsAt: &stripe.V2BillingContractCreatePricingLinePricingPriceDetailsPricingOverrideStartsAtParams{
-									Timestamp: stripe.Time(time.Now()),
-									Type:      stripe.String("timestamp"),
-								},
-								Type: stripe.String("overwrite_price"),
-							},
-						},
-						QuantityChanges: []*stripe.V2BillingContractCreatePricingLinePricingPriceDetailsQuantityChangeParams{
-							{
-								EffectiveAt: &stripe.V2BillingContractCreatePricingLinePricingPriceDetailsQuantityChangeEffectiveAtParams{
-									Timestamp: stripe.Time(time.Now()),
-									Type:      stripe.String("timestamp"),
-								},
-								Set: stripe.Float64(75841.33333333333),
-							},
-						},
-					},
-					Type: stripe.String("price"),
-				},
-				StartsAt: &stripe.V2BillingContractCreatePricingLineStartsAtParams{
-					Timestamp: stripe.Time(time.Now()),
-					Type:      stripe.String("timestamp"),
-				},
-			},
-		},
 	}
 	testServer := MockServer(
 		t, http.MethodPost, "/v2/billing/contracts", params, "{\"object\":\"v2.billing.contract\",\"contract_number\":\"contract_number\",\"created\":\"1970-01-12T21:42:34.472Z\",\"currency\":\"usd\",\"customer\":\"customer\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"draft\"}")

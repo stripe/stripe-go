@@ -2007,7 +2007,9 @@ type PaymentRecordPaymentMethodDetailsCardPresent struct {
 	ReauthorizeBefore int64 `json:"reauthorize_before,omitempty"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *PaymentRecordPaymentMethodDetailsCardPresentReceipt `json:"receipt"`
-	Wallet  *PaymentRecordPaymentMethodDetailsCardPresentWallet  `json:"wallet,omitempty"`
+	// The retrieval reference number assigned to this transaction.
+	RetrievalReferenceNumber string                                              `json:"retrieval_reference_number,omitempty"`
+	Wallet                   *PaymentRecordPaymentMethodDetailsCardPresentWallet `json:"wallet,omitempty"`
 }
 type PaymentRecordPaymentMethodDetailsCashApp struct {
 	// A unique and immutable identifier assigned by Cash App to every buyer.
@@ -2451,6 +2453,10 @@ type PaymentRecordPaymentMethodDetailsSEPADebit struct {
 	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://docs.stripe.com/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
+type PaymentRecordPaymentMethodDetailsSequra struct {
+	// The Sequra transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type PaymentRecordPaymentMethodDetailsShopeepay struct{}
 type PaymentRecordPaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -2602,6 +2608,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	Scalapay           *PaymentRecordPaymentMethodDetailsScalapay           `json:"scalapay,omitempty"`
 	SEPACreditTransfer *PaymentRecordPaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *PaymentRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
+	Sequra             *PaymentRecordPaymentMethodDetailsSequra             `json:"sequra,omitempty"`
 	Shopeepay          *PaymentRecordPaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
 	Sofort             *PaymentRecordPaymentMethodDetailsSofort             `json:"sofort,omitempty"`
 	StripeAccount      *PaymentRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`

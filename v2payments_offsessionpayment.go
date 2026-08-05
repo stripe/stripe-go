@@ -202,6 +202,8 @@ type V2PaymentsOffSessionPayment struct {
 	AmountDetails *V2PaymentsOffSessionPaymentAmountDetails `json:"amount_details,omitempty"`
 	// The “presentment amount” to be collected from the customer.
 	AmountRequested Amount `json:"amount_requested"`
+	// The application associated with this OffSessionPayment.
+	Application string `json:"application,omitempty"`
 	// The amount of the application fee requested to be applied to the payment.
 	ApplicationFeeAmountRequested Amount `json:"application_fee_amount_requested,omitempty"`
 	// The frequency of the underlying payment.

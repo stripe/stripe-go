@@ -902,6 +902,8 @@ type BillingPortalConfigurationFeaturesPaymentMethodUpdate struct {
 type BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReason struct {
 	// Whether the feature is enabled.
 	Enabled bool `json:"enabled"`
+	// The IDs of custom feedback options configured for this cancellation reason.
+	FeedbackOptions []*BillingFeedbackOptions `json:"feedback_options,omitempty"`
 	// Which cancellation reasons will be given as options to the customer.
 	Options []BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption `json:"options"`
 }
