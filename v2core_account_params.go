@@ -753,6 +753,26 @@ type V2CoreAccountIdentityAttestationsParams struct {
 	TermsOfService *V2CoreAccountIdentityAttestationsTermsOfServiceParams `form:"terms_of_service" json:"terms_of_service,omitempty"`
 }
 
+// Additional addresses associated with the business.
+type V2CoreAccountIdentityBusinessDetailsAdditionalAddressParams struct {
+	// City, district, suburb, town, or village.
+	City *string `form:"city" json:"city,omitempty"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country" json:"country,omitempty"`
+	// Address line 1 (e.g., street, PO Box, or company name).
+	Line1 *string `form:"line1" json:"line1,omitempty"`
+	// Address line 2 (e.g., apartment, suite, unit, or building).
+	Line2 *string `form:"line2" json:"line2,omitempty"`
+	// ZIP or postal code.
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
+	// Purpose of additional address.
+	Purpose *string `form:"purpose" json:"purpose"`
+	// State, county, province, or region.
+	State *string `form:"state" json:"state,omitempty"`
+	// Town or district.
+	Town *string `form:"town" json:"town,omitempty"`
+}
+
 // The business registration address of the business entity.
 type V2CoreAccountIdentityBusinessDetailsAddressParams struct {
 	// City, district, suburb, town, or village.
@@ -999,6 +1019,8 @@ type V2CoreAccountIdentityBusinessDetailsScriptNamesParams struct {
 
 // Information about the company or business.
 type V2CoreAccountIdentityBusinessDetailsParams struct {
+	// Additional addresses associated with the business.
+	AdditionalAddresses []*V2CoreAccountIdentityBusinessDetailsAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
 	// The business registration address of the business entity.
 	Address *V2CoreAccountIdentityBusinessDetailsAddressParams `form:"address" json:"address,omitempty"`
 	// The business gross annual revenue for its preceding fiscal year.
@@ -2087,6 +2109,26 @@ type V2CoreAccountCreateIdentityAttestationsParams struct {
 	TermsOfService *V2CoreAccountCreateIdentityAttestationsTermsOfServiceParams `form:"terms_of_service" json:"terms_of_service,omitempty"`
 }
 
+// Additional addresses associated with the business.
+type V2CoreAccountCreateIdentityBusinessDetailsAdditionalAddressParams struct {
+	// City, district, suburb, town, or village.
+	City *string `form:"city" json:"city,omitempty"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country" json:"country,omitempty"`
+	// Address line 1 (e.g., street, PO Box, or company name).
+	Line1 *string `form:"line1" json:"line1,omitempty"`
+	// Address line 2 (e.g., apartment, suite, unit, or building).
+	Line2 *string `form:"line2" json:"line2,omitempty"`
+	// ZIP or postal code.
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
+	// Purpose of additional address.
+	Purpose *string `form:"purpose" json:"purpose"`
+	// State, county, province, or region.
+	State *string `form:"state" json:"state,omitempty"`
+	// Town or district.
+	Town *string `form:"town" json:"town,omitempty"`
+}
+
 // The business registration address of the business entity.
 type V2CoreAccountCreateIdentityBusinessDetailsAddressParams struct {
 	// City, district, suburb, town, or village.
@@ -2333,6 +2375,8 @@ type V2CoreAccountCreateIdentityBusinessDetailsScriptNamesParams struct {
 
 // Information about the company or business.
 type V2CoreAccountCreateIdentityBusinessDetailsParams struct {
+	// Additional addresses associated with the business.
+	AdditionalAddresses []*V2CoreAccountCreateIdentityBusinessDetailsAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
 	// The business registration address of the business entity.
 	Address *V2CoreAccountCreateIdentityBusinessDetailsAddressParams `form:"address" json:"address,omitempty"`
 	// The business gross annual revenue for its preceding fiscal year.
@@ -3435,6 +3479,26 @@ type V2CoreAccountUpdateIdentityAttestationsParams struct {
 	TermsOfService *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams `form:"terms_of_service" json:"terms_of_service,omitempty"`
 }
 
+// Additional addresses associated with the business.
+type V2CoreAccountUpdateIdentityBusinessDetailsAdditionalAddressParams struct {
+	// City, district, suburb, town, or village.
+	City *string `form:"city" json:"city,omitempty"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country" json:"country,omitempty"`
+	// Address line 1 (e.g., street, PO Box, or company name).
+	Line1 *string `form:"line1" json:"line1,omitempty"`
+	// Address line 2 (e.g., apartment, suite, unit, or building).
+	Line2 *string `form:"line2" json:"line2,omitempty"`
+	// ZIP or postal code.
+	PostalCode *string `form:"postal_code" json:"postal_code,omitempty"`
+	// Purpose of additional address.
+	Purpose *string `form:"purpose" json:"purpose"`
+	// State, county, province, or region.
+	State *string `form:"state" json:"state,omitempty"`
+	// Town or district.
+	Town *string `form:"town" json:"town,omitempty"`
+}
+
 // The business registration address of the business entity.
 type V2CoreAccountUpdateIdentityBusinessDetailsAddressParams struct {
 	// City, district, suburb, town, or village.
@@ -3681,6 +3745,8 @@ type V2CoreAccountUpdateIdentityBusinessDetailsScriptNamesParams struct {
 
 // Information about the company or business.
 type V2CoreAccountUpdateIdentityBusinessDetailsParams struct {
+	// Additional addresses associated with the business.
+	AdditionalAddresses []*V2CoreAccountUpdateIdentityBusinessDetailsAdditionalAddressParams `form:"additional_addresses" json:"additional_addresses,omitempty"`
 	// The business registration address of the business entity.
 	Address *V2CoreAccountUpdateIdentityBusinessDetailsAddressParams `form:"address" json:"address,omitempty"`
 	// The business gross annual revenue for its preceding fiscal year.

@@ -184,6 +184,7 @@ type PaymentRecordPaymentMethodDetailsCardThreeDSecureResult string
 const (
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultAuthenticated       PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "authenticated"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultDataShareOnly       PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "data_share_only"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultExempted            PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "exempted"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultFailed              PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "failed"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultNotSupported        PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "not_supported"
@@ -326,7 +327,7 @@ const (
 	PaymentRecordPaymentMethodDetailsFPXAccountHolderTypeIndividual PaymentRecordPaymentMethodDetailsFPXAccountHolderType = "individual"
 )
 
-// The customer's bank. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
+// The customer's bank. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bnp_paribas`, `bank_rakyat`, `bsn`, `cimb`, `citibank`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `mbsb_bank`, `pb_enterprise`, or `bank_of_china`.
 type PaymentRecordPaymentMethodDetailsFPXBank string
 
 // List of values that PaymentRecordPaymentMethodDetailsFPXBank can take
@@ -339,14 +340,17 @@ const (
 	PaymentRecordPaymentMethodDetailsFPXBankBankMuamalat      PaymentRecordPaymentMethodDetailsFPXBank = "bank_muamalat"
 	PaymentRecordPaymentMethodDetailsFPXBankBankOfChina       PaymentRecordPaymentMethodDetailsFPXBank = "bank_of_china"
 	PaymentRecordPaymentMethodDetailsFPXBankBankRakyat        PaymentRecordPaymentMethodDetailsFPXBank = "bank_rakyat"
+	PaymentRecordPaymentMethodDetailsFPXBankBnpParibas        PaymentRecordPaymentMethodDetailsFPXBank = "bnp_paribas"
 	PaymentRecordPaymentMethodDetailsFPXBankBsn               PaymentRecordPaymentMethodDetailsFPXBank = "bsn"
 	PaymentRecordPaymentMethodDetailsFPXBankCimb              PaymentRecordPaymentMethodDetailsFPXBank = "cimb"
+	PaymentRecordPaymentMethodDetailsFPXBankCitibank          PaymentRecordPaymentMethodDetailsFPXBank = "citibank"
 	PaymentRecordPaymentMethodDetailsFPXBankDeutscheBank      PaymentRecordPaymentMethodDetailsFPXBank = "deutsche_bank"
 	PaymentRecordPaymentMethodDetailsFPXBankHongLeongBank     PaymentRecordPaymentMethodDetailsFPXBank = "hong_leong_bank"
 	PaymentRecordPaymentMethodDetailsFPXBankHsbc              PaymentRecordPaymentMethodDetailsFPXBank = "hsbc"
 	PaymentRecordPaymentMethodDetailsFPXBankKfh               PaymentRecordPaymentMethodDetailsFPXBank = "kfh"
 	PaymentRecordPaymentMethodDetailsFPXBankMaybank2e         PaymentRecordPaymentMethodDetailsFPXBank = "maybank2e"
 	PaymentRecordPaymentMethodDetailsFPXBankMaybank2u         PaymentRecordPaymentMethodDetailsFPXBank = "maybank2u"
+	PaymentRecordPaymentMethodDetailsFPXBankMbsbBank          PaymentRecordPaymentMethodDetailsFPXBank = "mbsb_bank"
 	PaymentRecordPaymentMethodDetailsFPXBankOcbc              PaymentRecordPaymentMethodDetailsFPXBank = "ocbc"
 	PaymentRecordPaymentMethodDetailsFPXBankPbEnterprise      PaymentRecordPaymentMethodDetailsFPXBank = "pb_enterprise"
 	PaymentRecordPaymentMethodDetailsFPXBankPublicBank        PaymentRecordPaymentMethodDetailsFPXBank = "public_bank"
@@ -580,6 +584,22 @@ const (
 	PaymentRecordReportedBySelf   PaymentRecordReportedBy = "self"
 	PaymentRecordReportedByStripe PaymentRecordReportedBy = "stripe"
 )
+
+// List all the Payment Records for a given merchant.
+type PaymentRecordListParams struct {
+	ListParams `form:"*"`
+	// Only return Payment Records that were created after this unix timestamp.
+	CreatedAfter *int64 `form:"created_after" json:"created_after,omitempty"`
+	// Only return Payment Records that were created before this unix timestamp.
+	CreatedBefore *int64 `form:"created_before" json:"created_before,omitempty"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentRecordListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
 
 // Retrieves a Payment Record with the given ID
 type PaymentRecordParams struct {
@@ -1245,7 +1265,7 @@ type PaymentRecordPaymentMethodDetailsAlma struct {
 	TransactionID string `json:"transaction_id"`
 }
 type PaymentRecordPaymentMethodDetailsAmazonPayFundingCard struct {
-	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
+	// Card brand. Can be `American Express`, `Cartes Bancaires`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
 	Brand string `json:"brand"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
@@ -1586,7 +1606,7 @@ type PaymentRecordPaymentMethodDetailsEPS struct {
 type PaymentRecordPaymentMethodDetailsFPX struct {
 	// Account holder type, if provided. Can be one of `individual` or `company`.
 	AccountHolderType PaymentRecordPaymentMethodDetailsFPXAccountHolderType `json:"account_holder_type"`
-	// The customer's bank. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
+	// The customer's bank. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bnp_paribas`, `bank_rakyat`, `bsn`, `cimb`, `citibank`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `mbsb_bank`, `pb_enterprise`, or `bank_of_china`.
 	Bank PaymentRecordPaymentMethodDetailsFPXBank `json:"bank"`
 	// Unique transaction id generated by FPX for every request from the merchant
 	TransactionID string `json:"transaction_id"`
@@ -2149,6 +2169,13 @@ type PaymentRecord struct {
 	ReportedBy PaymentRecordReportedBy `json:"reported_by"`
 	// Shipping information for this payment.
 	ShippingDetails *PaymentRecordShippingDetails `json:"shipping_details"`
+}
+
+// PaymentRecordList is a list of PaymentRecords as retrieved from a list endpoint.
+type PaymentRecordList struct {
+	APIResource
+	ListMeta
+	Data []*PaymentRecord `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a PaymentRecord.

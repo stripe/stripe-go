@@ -27,6 +27,25 @@ const (
 	FinancialConnectionsSessionFiltersAccountSubcategorySavings      FinancialConnectionsSessionFiltersAccountSubcategory = "savings"
 )
 
+// Whether the Session should require that linked accounts support payments and retrieve account numbers before completion.
+type FinancialConnectionsSessionFiltersRequirePaymentMethodSupport string
+
+// List of values that FinancialConnectionsSessionFiltersRequirePaymentMethodSupport can take
+const (
+	FinancialConnectionsSessionFiltersRequirePaymentMethodSupportAll        FinancialConnectionsSessionFiltersRequirePaymentMethodSupport = "all"
+	FinancialConnectionsSessionFiltersRequirePaymentMethodSupportAtLeastOne FinancialConnectionsSessionFiltersRequirePaymentMethodSupport = "at_least_one"
+	FinancialConnectionsSessionFiltersRequirePaymentMethodSupportNone       FinancialConnectionsSessionFiltersRequirePaymentMethodSupport = "none"
+)
+
+// Controls how manual entry of bank account details is presented to the user.
+type FinancialConnectionsSessionManualEntryMode string
+
+// List of values that FinancialConnectionsSessionManualEntryMode can take
+const (
+	FinancialConnectionsSessionManualEntryModeAutomatic FinancialConnectionsSessionManualEntryMode = "automatic"
+	FinancialConnectionsSessionManualEntryModeDisabled  FinancialConnectionsSessionManualEntryMode = "disabled"
+)
+
 // Permissions requested for accounts collected during this session.
 type FinancialConnectionsSessionPermission string
 
@@ -57,6 +76,10 @@ type FinancialConnectionsSessionParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Filters to restrict the kinds of accounts to collect.
 	Filters *FinancialConnectionsSessionFiltersParams `form:"filters" json:"filters,omitempty"`
+	// Settings for configuring Session-specific limits.
+	Limits *FinancialConnectionsSessionLimitsParams `form:"limits" json:"limits,omitempty"`
+	// Customize manual entry behavior
+	ManualEntry *FinancialConnectionsSessionManualEntryParams `form:"manual_entry" json:"manual_entry,omitempty"`
 	// List of data features that you would like to request access to.
 	//
 	// Possible values are `balances`, `transactions`, `ownership`, and `payment_method`.
@@ -90,6 +113,33 @@ type FinancialConnectionsSessionFiltersParams struct {
 	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
 	// List of countries from which to collect accounts.
 	Countries []*string `form:"countries" json:"countries,omitempty"`
+	// Whether the session should require payment method support and successful account number retrieval before completion.
+	RequirePaymentMethodSupport *string `form:"require_payment_method_support" json:"require_payment_method_support,omitempty"`
+}
+
+// Settings for configuring Session-specific limits.
+type FinancialConnectionsSessionLimitsParams struct {
+	// The number of accounts that can be linked in this Session. Pass an empty value to allow any number of accounts.
+	Accounts    *int64                                              `form:"accounts" json:"accounts"`
+	UnsetFields []FinancialConnectionsSessionLimitsParamsUnsetField `form:"-" json:"-"`
+}
+
+// FinancialConnectionsSessionLimitsParamsUnsetField is the list of fields that can be cleared/unset on FinancialConnectionsSessionLimitsParams.
+type FinancialConnectionsSessionLimitsParamsUnsetField string
+
+const (
+	FinancialConnectionsSessionLimitsParamsUnsetFieldAccounts FinancialConnectionsSessionLimitsParamsUnsetField = "accounts"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *FinancialConnectionsSessionLimitsParams) AddUnsetField(field FinancialConnectionsSessionLimitsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Customize manual entry behavior
+type FinancialConnectionsSessionManualEntryParams struct {
+	// How manual entry should be handled.
+	Mode *string `form:"mode" json:"mode,omitempty"`
 }
 
 // Retrieves the details of a Financial Connections Session
@@ -122,6 +172,33 @@ type FinancialConnectionsSessionCreateFiltersParams struct {
 	AccountSubcategories []*string `form:"account_subcategories" json:"account_subcategories,omitempty"`
 	// List of countries from which to collect accounts.
 	Countries []*string `form:"countries" json:"countries,omitempty"`
+	// Whether the session should require payment method support and successful account number retrieval before completion.
+	RequirePaymentMethodSupport *string `form:"require_payment_method_support" json:"require_payment_method_support,omitempty"`
+}
+
+// Settings for configuring Session-specific limits.
+type FinancialConnectionsSessionCreateLimitsParams struct {
+	// The number of accounts that can be linked in this Session. Pass an empty value to allow any number of accounts.
+	Accounts    *int64                                                    `form:"accounts" json:"accounts"`
+	UnsetFields []FinancialConnectionsSessionCreateLimitsParamsUnsetField `form:"-" json:"-"`
+}
+
+// FinancialConnectionsSessionCreateLimitsParamsUnsetField is the list of fields that can be cleared/unset on FinancialConnectionsSessionCreateLimitsParams.
+type FinancialConnectionsSessionCreateLimitsParamsUnsetField string
+
+const (
+	FinancialConnectionsSessionCreateLimitsParamsUnsetFieldAccounts FinancialConnectionsSessionCreateLimitsParamsUnsetField = "accounts"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *FinancialConnectionsSessionCreateLimitsParams) AddUnsetField(field FinancialConnectionsSessionCreateLimitsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// Customize manual entry behavior
+type FinancialConnectionsSessionCreateManualEntryParams struct {
+	// How manual entry should be handled.
+	Mode *string `form:"mode" json:"mode,omitempty"`
 }
 
 // To launch the Financial Connections authorization flow, create a Session. The session's client_secret can be used to launch the flow using Stripe.js.
@@ -133,6 +210,10 @@ type FinancialConnectionsSessionCreateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Filters to restrict the kinds of accounts to collect.
 	Filters *FinancialConnectionsSessionCreateFiltersParams `form:"filters" json:"filters,omitempty"`
+	// Settings for configuring Session-specific limits.
+	Limits *FinancialConnectionsSessionCreateLimitsParams `form:"limits" json:"limits,omitempty"`
+	// Customize manual entry behavior
+	ManualEntry *FinancialConnectionsSessionCreateManualEntryParams `form:"manual_entry" json:"manual_entry,omitempty"`
 	// List of data features that you would like to request access to.
 	//
 	// Possible values are `balances`, `transactions`, `ownership`, and `payment_method`.
@@ -163,6 +244,16 @@ type FinancialConnectionsSessionFilters struct {
 	AccountSubcategories []FinancialConnectionsSessionFiltersAccountSubcategory `json:"account_subcategories"`
 	// List of countries from which to filter accounts.
 	Countries []string `json:"countries"`
+	// Whether the Session should require that linked accounts support payments and retrieve account numbers before completion.
+	RequirePaymentMethodSupport FinancialConnectionsSessionFiltersRequirePaymentMethodSupport `json:"require_payment_method_support,omitempty"`
+}
+type FinancialConnectionsSessionLimits struct {
+	// The number of accounts that can be linked in this Session.
+	Accounts int64 `json:"accounts"`
+}
+type FinancialConnectionsSessionManualEntry struct {
+	// Controls how manual entry of bank account details is presented to the user.
+	Mode FinancialConnectionsSessionManualEntryMode `json:"mode,omitempty"`
 }
 
 // A Financial Connections Session is the secure way to programmatically launch the client-side Stripe.js modal that lets your users link their accounts.
@@ -172,13 +263,36 @@ type FinancialConnectionsSession struct {
 	AccountHolder *FinancialConnectionsSessionAccountHolder `json:"account_holder"`
 	// The accounts that were collected as part of this Session.
 	Accounts *FinancialConnectionsAccountList `json:"accounts"`
+	// Tokenization is the process Stripe uses to collect sensitive card or bank
+	// account details, or personally identifiable information (PII), directly from
+	// your customers in a secure manner. A token representing this information is
+	// returned to your server to use. Use our
+	// [recommended payments integrations](https://docs.stripe.com/payments) to perform this process
+	// on the client-side. This guarantees that no sensitive card data touches your server,
+	// and allows your integration to operate in a PCI-compliant way.
+	//
+	// If you can't use client-side tokenization, you can also create tokens using
+	// the API with either your publishable or secret API key. If
+	// your integration uses this method, you're responsible for any PCI compliance
+	// that it might require, and you must keep your secret API key safe. Unlike with
+	// client-side tokenization, your customer's information isn't sent directly to
+	// Stripe, so we can't determine how it's handled or stored.
+	//
+	// You can't store or use tokens more than once. To store card or bank account
+	// information for later use, create [Customer](https://docs.stripe.com/api#customers)
+	// objects or [External accounts](https://docs.stripe.com/api#external_accounts).
+	// [Radar](https://docs.stripe.com/radar), our integrated solution for automatic fraud protection,
+	// performs best with integrations that use client-side tokenization.
+	BankAccountToken *Token `json:"bank_account_token,omitempty"`
 	// A value that will be passed to the client to launch the authentication flow.
 	ClientSecret string                              `json:"client_secret"`
 	Filters      *FinancialConnectionsSessionFilters `json:"filters,omitempty"`
 	// Unique identifier for the object.
-	ID string `json:"id"`
+	ID     string                             `json:"id"`
+	Limits *FinancialConnectionsSessionLimits `json:"limits,omitempty"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
-	Livemode bool `json:"livemode"`
+	Livemode    bool                                    `json:"livemode"`
+	ManualEntry *FinancialConnectionsSessionManualEntry `json:"manual_entry,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Permissions requested for accounts collected during this session.

@@ -13,6 +13,7 @@ type FundingInstructionsBankTransferFinancialAddressSupportedNetwork string
 const (
 	FundingInstructionsBankTransferFinancialAddressSupportedNetworkACH            FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "ach"
 	FundingInstructionsBankTransferFinancialAddressSupportedNetworkBACS           FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "bacs"
+	FundingInstructionsBankTransferFinancialAddressSupportedNetworkChaps          FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "chaps"
 	FundingInstructionsBankTransferFinancialAddressSupportedNetworkDomesticWireUS FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "domestic_wire_us"
 	FundingInstructionsBankTransferFinancialAddressSupportedNetworkFPS            FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "fps"
 	FundingInstructionsBankTransferFinancialAddressSupportedNetworkSEPA           FundingInstructionsBankTransferFinancialAddressSupportedNetwork = "sepa"
