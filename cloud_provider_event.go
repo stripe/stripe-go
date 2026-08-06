@@ -26,12 +26,9 @@ func maybeExtractFromCloudProviderEnvelope(payload []byte) (json.RawMessage, err
 	if _, ok := raw["specversion"]; ok {
 		// Azure
 		// https://docs.stripe.com/event-destinations/eventgrid#event-structure
-		data, dataOk := raw["data"]
-		if !dataOk {
-			return nil, fmt.Errorf(
-				"thought we had an Azure envelope, but couldn't find `data`")
+		if data, dataOk := raw["data"]; dataOk {
+			return data, nil
 		}
-		return data, nil
 	}
 	if objRaw, ok := raw["object"]; ok {
 		var obj string
@@ -42,6 +39,6 @@ func maybeExtractFromCloudProviderEnvelope(payload []byte) (json.RawMessage, err
 	}
 
 	return nil, fmt.Errorf(
-		"unrecognized cloud event format; the payload must be an " +
-			"AWS EventBridge or Azure Event Grid event envelope")
+		"Unrecognized event format. The payload must be an " +
+			"AWS EventBridge/Azure Event Grid event envelope or a Stripe webhook (thin event notification or snapshot).")
 }

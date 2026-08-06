@@ -146,7 +146,7 @@ func TestConstructEventWithoutVerification_UnrecognizedFormat(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected error for unrecognized format")
 	}
-	if !strings.Contains(err.Error(), "unrecognized cloud event format") {
+	if !strings.Contains(err.Error(), "Unrecognized event format") {
 		t.Errorf("expected error about unrecognized format, got: %s", err.Error())
 	}
 }
@@ -206,8 +206,45 @@ func TestParseEventNotificationWithoutVerification_UnrecognizedFormat(t *testing
 	if err == nil {
 		t.Fatal("expected error for unrecognized format")
 	}
-	if !strings.Contains(err.Error(), "unrecognized cloud event format") {
+	if !strings.Contains(err.Error(), "Unrecognized event format") {
 		t.Errorf("expected error about unrecognized format, got: %s", err.Error())
+	}
+}
+
+func TestConstructEventWithoutVerification_EventGridMissingData(t *testing.T) {
+	client := &Client{}
+	payload := []byte(`{"specversion":"1.0","type":"customer.created","source":"/providers/stripe/ed_test_123","id":"test-missing-data"}`)
+	_, err := client.ConstructEventWithoutVerification(payload)
+	if err == nil {
+		t.Fatal("expected error for Azure envelope missing data field")
+	}
+	if !strings.Contains(err.Error(), "Unrecognized event format") {
+		t.Errorf("expected unrecognized format error, got: %s", err.Error())
+	}
+}
+
+func TestParseEventNotificationWithoutVerification_UnexpectedObjectType(t *testing.T) {
+	client := &Client{}
+	// Wrap in EventBridge envelope so the inner payload reaches EventNotificationFromJSON
+	payload := []byte(`{"version":"0","id":"test","detail-type":"customer.created","source":"aws.partner/stripe.com/ed_123","detail":{"object":"customer","type":"customer.created","id":"cus_123"}}`)
+	_, err := client.ParseEventNotificationWithoutVerification(payload)
+	if err == nil {
+		t.Fatal("expected error for unexpected object type")
+	}
+	if !strings.Contains(err.Error(), "unexpected object type") {
+		t.Errorf("expected error about unexpected object type, got: %s", err.Error())
+	}
+}
+
+func TestParseEventNotificationWithoutVerification_EventGridMissingData(t *testing.T) {
+	client := &Client{}
+	payload := []byte(`{"specversion":"1.0","type":"v2.core.event_destination.ping","source":"/providers/stripe/ed_test_123","id":"test-missing-data"}`)
+	_, err := client.ParseEventNotificationWithoutVerification(payload)
+	if err == nil {
+		t.Fatal("expected error for Azure envelope missing data field")
+	}
+	if !strings.Contains(err.Error(), "Unrecognized event format") {
+		t.Errorf("expected unrecognized format error, got: %s", err.Error())
 	}
 }
 
