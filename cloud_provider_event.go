@@ -40,5 +40,5 @@ func maybeExtractFromCloudProviderEnvelope(payload []byte) (json.RawMessage, err
 
 	return nil, fmt.Errorf(
 		"unrecognized event format. The payload must be an " +
-			"AWS EventBridge/Azure Event Grid event envelope or a Stripe webhook (thin event notification or snapshot).")
+			"AWS EventBridge/Azure Event Grid event envelope or a Stripe webhook (thin event notification or snapshot)")
 }

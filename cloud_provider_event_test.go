@@ -146,7 +146,7 @@ func TestConstructEventWithoutVerification_UnrecognizedFormat(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected error for unrecognized format")
 	}
-	if !strings.Contains(err.Error(), "Unrecognized event format") {
+	if !strings.Contains(err.Error(), "unrecognized event format") {
 		t.Errorf("expected error about unrecognized format, got: %s", err.Error())
 	}
 }
@@ -206,7 +206,7 @@ func TestParseEventNotificationWithoutVerification_UnrecognizedFormat(t *testing
 	if err == nil {
 		t.Fatal("expected error for unrecognized format")
 	}
-	if !strings.Contains(err.Error(), "Unrecognized event format") {
+	if !strings.Contains(err.Error(), "unrecognized event format") {
 		t.Errorf("expected error about unrecognized format, got: %s", err.Error())
 	}
 }
@@ -218,7 +218,7 @@ func TestConstructEventWithoutVerification_EventGridMissingData(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected error for Azure envelope missing data field")
 	}
-	if !strings.Contains(err.Error(), "Unrecognized event format") {
+	if !strings.Contains(err.Error(), "unrecognized event format") {
 		t.Errorf("expected unrecognized format error, got: %s", err.Error())
 	}
 }
@@ -243,7 +243,7 @@ func TestParseEventNotificationWithoutVerification_EventGridMissingData(t *testi
 	if err == nil {
 		t.Fatal("expected error for Azure envelope missing data field")
 	}
-	if !strings.Contains(err.Error(), "Unrecognized event format") {
+	if !strings.Contains(err.Error(), "unrecognized event format") {
 		t.Errorf("expected unrecognized format error, got: %s", err.Error())
 	}
 }
