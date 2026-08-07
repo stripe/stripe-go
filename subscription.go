@@ -335,6 +335,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeAUBECSDebit        SubscriptionPaymentSettingsPaymentMethodType = "au_becs_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeBACSDebit          SubscriptionPaymentSettingsPaymentMethodType = "bacs_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeBancontact         SubscriptionPaymentSettingsPaymentMethodType = "bancontact"
+	SubscriptionPaymentSettingsPaymentMethodTypeBillie             SubscriptionPaymentSettingsPaymentMethodType = "billie"
 	SubscriptionPaymentSettingsPaymentMethodTypeBizum              SubscriptionPaymentSettingsPaymentMethodType = "bizum"
 	SubscriptionPaymentSettingsPaymentMethodTypeBLIK               SubscriptionPaymentSettingsPaymentMethodType = "blik"
 	SubscriptionPaymentSettingsPaymentMethodTypeBoleto             SubscriptionPaymentSettingsPaymentMethodType = "boleto"
@@ -366,6 +367,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypePayco              SubscriptionPaymentSettingsPaymentMethodType = "payco"
 	SubscriptionPaymentSettingsPaymentMethodTypePayNow             SubscriptionPaymentSettingsPaymentMethodType = "paynow"
 	SubscriptionPaymentSettingsPaymentMethodTypePaypal             SubscriptionPaymentSettingsPaymentMethodType = "paypal"
+	SubscriptionPaymentSettingsPaymentMethodTypePaypay             SubscriptionPaymentSettingsPaymentMethodType = "paypay"
 	SubscriptionPaymentSettingsPaymentMethodTypePayto              SubscriptionPaymentSettingsPaymentMethodType = "payto"
 	SubscriptionPaymentSettingsPaymentMethodTypePix                SubscriptionPaymentSettingsPaymentMethodType = "pix"
 	SubscriptionPaymentSettingsPaymentMethodTypePromptPay          SubscriptionPaymentSettingsPaymentMethodType = "promptpay"
@@ -380,6 +382,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeTWINT              SubscriptionPaymentSettingsPaymentMethodType = "twint"
 	SubscriptionPaymentSettingsPaymentMethodTypeUpi                SubscriptionPaymentSettingsPaymentMethodType = "upi"
 	SubscriptionPaymentSettingsPaymentMethodTypeUSBankAccount      SubscriptionPaymentSettingsPaymentMethodType = "us_bank_account"
+	SubscriptionPaymentSettingsPaymentMethodTypeVipps              SubscriptionPaymentSettingsPaymentMethodType = "vipps"
 	SubscriptionPaymentSettingsPaymentMethodTypeWeChatPay          SubscriptionPaymentSettingsPaymentMethodType = "wechat_pay"
 )
 
@@ -3532,6 +3535,9 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage string `json:"preferred_language"`
 }
+
+// This sub-hash contains details about the Billie payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBillie struct{}
 type SubscriptionPaymentSettingsPaymentMethodOptionsBizumMandateOptions struct {
 	// Amount to be charged for future payments. Required when `amount_type=fixed`.
 	Amount int64 `json:"amount,omitempty"`
@@ -3677,6 +3683,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	ACSSDebit *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to invoices created by the subscription.
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
+	// This sub-hash contains details about the Billie payment method options to pass to invoices created by the subscription.
+	Billie *SubscriptionPaymentSettingsPaymentMethodOptionsBillie `json:"billie,omitempty"`
 	// This sub-hash contains details about the Bizum payment method options to pass to invoices created by the subscription.
 	Bizum *SubscriptionPaymentSettingsPaymentMethodOptionsBizum `json:"bizum,omitempty"`
 	// This sub-hash contains details about the Blik payment method options to pass to invoices created by the subscription.

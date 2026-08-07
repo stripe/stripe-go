@@ -332,6 +332,45 @@ func TestApiVersionCompatibility(t *testing.T) {
 	}
 }
 
+func TestGenerateTestSignedPayload(t *testing.T) {
+	payload := []byte(`{"id":"evt_test"}`)
+	signed := GenerateTestSignedPayload(&UnsignedPayload{
+		Payload: payload,
+		Secret:  "whsec_test",
+	})
+	if signed.Header == "" {
+		t.Fatal("expected non-empty header")
+	}
+	if !strings.HasPrefix(signed.Header, "t=") {
+		t.Errorf("expected header to start with 't=', got %q", signed.Header)
+	}
+	if !strings.Contains(signed.Header, ",v1=") {
+		t.Errorf("expected header to contain ',v1=', got %q", signed.Header)
+	}
+	err := ValidatePayload(payload, signed.Header, "whsec_test", WithIgnoreTolerance())
+	if err != nil {
+		t.Fatalf("expected valid payload, got error: %v", err)
+	}
+}
+
+func TestValidatePayload_ValidPayload(t *testing.T) {
+	p := newSignedPayload()
+	err := ValidatePayload(p.Payload, p.Header, p.Secret, WithIgnoreTolerance())
+	if err != nil {
+		t.Errorf("expected nil error for valid payload, got: %v", err)
+	}
+}
+
+func TestValidatePayload_BadSignature(t *testing.T) {
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.Signature = []byte("deadbeef")
+	})
+	err := ValidatePayload(p.Payload, p.Header, p.Secret, WithIgnoreTolerance())
+	if err != ErrWebhookNoValidSignature {
+		t.Errorf("expected ErrWebhookNoValidSignature for bad signature, got: %v", err)
+	}
+}
+
 func TestConstructEvent_ErrorOnEventNotification(t *testing.T) {
 	p := newSignedPayload(func(p *SignedPayload) {
 		p.Payload = testPayloadWithISO8601Timestamp
@@ -340,5 +379,5 @@ func TestConstructEvent_ErrorOnEventNotification(t *testing.T) {
 	_, err := ConstructEvent(p.Payload, p.Header, p.Secret)
 
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "ParseEventNotification")
+	assert.Contains(t, err.Error(), "EventNotification")
 }

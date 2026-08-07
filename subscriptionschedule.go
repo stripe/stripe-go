@@ -149,6 +149,16 @@ const (
 	SubscriptionSchedulePauseSchedulePauseSettingsTypeSubscription SubscriptionSchedulePauseSchedulePauseSettingsType = "subscription"
 )
 
+// The lifecycle state of the pause operation.
+type SubscriptionSchedulePauseSchedulePauseStatusType string
+
+// List of values that SubscriptionSchedulePauseSchedulePauseStatusType can take
+const (
+	SubscriptionSchedulePauseSchedulePauseStatusTypeError     SubscriptionSchedulePauseSchedulePauseStatusType = "error"
+	SubscriptionSchedulePauseSchedulePauseStatusTypeScheduled SubscriptionSchedulePauseSchedulePauseStatusType = "scheduled"
+	SubscriptionSchedulePauseSchedulePauseStatusTypeSucceeded SubscriptionSchedulePauseSchedulePauseStatusType = "succeeded"
+)
+
 // The billing cycle anchor that applies when the subscription is resumed.
 type SubscriptionSchedulePauseScheduleResumeSettingsBillingCycleAnchor string
 
@@ -175,6 +185,18 @@ const (
 	SubscriptionSchedulePauseScheduleResumeSettingsProrationBehaviorAlwaysInvoice    SubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior = "always_invoice"
 	SubscriptionSchedulePauseScheduleResumeSettingsProrationBehaviorCreateProrations SubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior = "create_prorations"
 	SubscriptionSchedulePauseScheduleResumeSettingsProrationBehaviorNone             SubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior = "none"
+)
+
+// The lifecycle state of the resume operation.
+type SubscriptionSchedulePauseScheduleResumeStatusType string
+
+// List of values that SubscriptionSchedulePauseScheduleResumeStatusType can take
+const (
+	SubscriptionSchedulePauseScheduleResumeStatusTypeError          SubscriptionSchedulePauseScheduleResumeStatusType = "error"
+	SubscriptionSchedulePauseScheduleResumeStatusTypePending        SubscriptionSchedulePauseScheduleResumeStatusType = "pending"
+	SubscriptionSchedulePauseScheduleResumeStatusTypeRequiresAction SubscriptionSchedulePauseScheduleResumeStatusType = "requires_action"
+	SubscriptionSchedulePauseScheduleResumeStatusTypeScheduled      SubscriptionSchedulePauseScheduleResumeStatusType = "scheduled"
+	SubscriptionSchedulePauseScheduleResumeStatusTypeSucceeded      SubscriptionSchedulePauseScheduleResumeStatusType = "succeeded"
 )
 
 // The discount end type.
@@ -600,7 +622,7 @@ type SubscriptionSchedulePauseScheduleResumeResumeAtParams struct {
 type SubscriptionSchedulePauseScheduleResumeSettingsParams struct {
 	// Controls the billing cycle anchor when the subscription resumes.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
-	// Controls whether Stripe attempts payment on the resumption invoice and how payment affects the subscription's status. The default is `resume_on_payment_attempt`.
+	// Controls whether Stripe attempts payment on the resumption invoice and how payment affects the subscription's status. The default is `resume_on_payment_success`.
 	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// Determines how to handle prorations when the subscription resumes. The default is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
@@ -614,14 +636,27 @@ type SubscriptionSchedulePauseScheduleResumeParams struct {
 	Settings *SubscriptionSchedulePauseScheduleResumeSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
-// Sets the pause schedules for the subscription schedule. Each entry configures when and how the subscription pauses and optionally when and how it resumes.
+// Configures the subscription's pause behavior and, optionally, its resume behavior. Only one entry is supported.
 type SubscriptionSchedulePauseScheduleParams struct {
 	// A unique identifier for this pause schedule entry.
 	Key *string `form:"key" json:"key,omitempty"`
 	// Configuration for when and how the subscription pauses.
 	Pause *SubscriptionSchedulePauseSchedulePauseParams `form:"pause" json:"pause,omitempty"`
 	// Configuration for when and how the subscription resumes.
-	Resume *SubscriptionSchedulePauseScheduleResumeParams `form:"resume" json:"resume,omitempty"`
+	Resume      *SubscriptionSchedulePauseScheduleResumeParams      `form:"resume" json:"resume,omitempty"`
+	UnsetFields []SubscriptionSchedulePauseScheduleParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionSchedulePauseScheduleParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionSchedulePauseScheduleParams.
+type SubscriptionSchedulePauseScheduleParamsUnsetField string
+
+const (
+	SubscriptionSchedulePauseScheduleParamsUnsetFieldResume SubscriptionSchedulePauseScheduleParamsUnsetField = "resume"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionSchedulePauseScheduleParams) AddUnsetField(field SubscriptionSchedulePauseScheduleParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Time span for the redeemed discount.
@@ -1132,7 +1167,7 @@ type SubscriptionScheduleParams struct {
 	FromSubscription *string `form:"from_subscription" json:"from_subscription,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// Sets the pause schedules for the subscription schedule. Include a `key` to update an existing entry or omit it to add a new one. Pass `""` to clear all entries or `[]` to leave them unchanged.
+	// Configures the subscription's pause behavior and, optionally, its resume behavior. Only one entry is supported. Include a key to update an existing entry. Omit to leave an existing pause schedule unchanged, or pass "" to clear it.
 	PauseSchedules []*SubscriptionSchedulePauseScheduleParams `form:"pause_schedules" json:"pause_schedules,omitempty"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase. Note that past phases can be omitted.
 	Phases []*SubscriptionSchedulePhaseParams `form:"phases" json:"phases,omitempty"`
@@ -1988,7 +2023,7 @@ type SubscriptionScheduleCreatePauseScheduleResumeResumeAtParams struct {
 type SubscriptionScheduleCreatePauseScheduleResumeSettingsParams struct {
 	// Controls the billing cycle anchor when the subscription resumes.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
-	// Controls whether Stripe attempts payment on the resumption invoice and how payment affects the subscription's status. The default is `resume_on_payment_attempt`.
+	// Controls whether Stripe attempts payment on the resumption invoice and how payment affects the subscription's status. The default is `resume_on_payment_success`.
 	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// Determines how to handle prorations when the subscription resumes. The default is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
@@ -2002,12 +2037,12 @@ type SubscriptionScheduleCreatePauseScheduleResumeParams struct {
 	Settings *SubscriptionScheduleCreatePauseScheduleResumeSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
-// Sets the pause schedules for the subscription schedule. Each entry configures when and how the subscription pauses and optionally when and how it resumes.
+// Configures the subscription's pause behavior and, optionally, its resume behavior. Only one entry is supported.
 type SubscriptionScheduleCreatePauseScheduleParams struct {
 	// A unique identifier for this pause schedule entry.
 	Key *string `form:"key" json:"key,omitempty"`
 	// Configuration for when and how the subscription pauses.
-	Pause *SubscriptionScheduleCreatePauseSchedulePauseParams `form:"pause" json:"pause"`
+	Pause *SubscriptionScheduleCreatePauseSchedulePauseParams `form:"pause" json:"pause,omitempty"`
 	// Configuration for when and how the subscription resumes.
 	Resume *SubscriptionScheduleCreatePauseScheduleResumeParams `form:"resume" json:"resume,omitempty"`
 }
@@ -2502,7 +2537,7 @@ type SubscriptionScheduleCreateParams struct {
 	FromSubscription *string `form:"from_subscription" json:"from_subscription,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// Sets the pause schedules for the subscription schedule. Each entry configures when and how the subscription pauses and optionally when and how it resumes.
+	// Configures the subscription's pause behavior and, optionally, its resume behavior. Only one entry is supported.
 	PauseSchedules []*SubscriptionScheduleCreatePauseScheduleParams `form:"pause_schedules" json:"pause_schedules,omitempty"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 	Phases []*SubscriptionScheduleCreatePhaseParams `form:"phases" json:"phases,omitempty"`
@@ -2755,7 +2790,7 @@ type SubscriptionScheduleUpdatePauseScheduleResumeResumeAtParams struct {
 type SubscriptionScheduleUpdatePauseScheduleResumeSettingsParams struct {
 	// Controls the billing cycle anchor when the subscription resumes.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
-	// Controls whether Stripe attempts payment on the resumption invoice and how payment affects the subscription's status. The default is `resume_on_payment_attempt`.
+	// Controls whether Stripe attempts payment on the resumption invoice and how payment affects the subscription's status. The default is `resume_on_payment_success`.
 	PaymentBehavior *string `form:"payment_behavior" json:"payment_behavior,omitempty"`
 	// Determines how to handle prorations when the subscription resumes. The default is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior" json:"proration_behavior,omitempty"`
@@ -2769,14 +2804,27 @@ type SubscriptionScheduleUpdatePauseScheduleResumeParams struct {
 	Settings *SubscriptionScheduleUpdatePauseScheduleResumeSettingsParams `form:"settings" json:"settings,omitempty"`
 }
 
-// Sets the pause schedules for the subscription schedule. Include a `key` to update an existing entry or omit it to add a new one. Pass `""` to clear all entries or `[]` to leave them unchanged.
+// Configures the subscription's pause behavior and, optionally, its resume behavior. Only one entry is supported. Include a key to update an existing entry. Omit to leave an existing pause schedule unchanged, or pass "" to clear it.
 type SubscriptionScheduleUpdatePauseScheduleParams struct {
 	// A unique identifier for this pause schedule entry.
 	Key *string `form:"key" json:"key,omitempty"`
 	// Configuration for when and how the subscription pauses.
 	Pause *SubscriptionScheduleUpdatePauseSchedulePauseParams `form:"pause" json:"pause,omitempty"`
 	// Configuration for when and how the subscription resumes.
-	Resume *SubscriptionScheduleUpdatePauseScheduleResumeParams `form:"resume" json:"resume,omitempty"`
+	Resume      *SubscriptionScheduleUpdatePauseScheduleResumeParams      `form:"resume" json:"resume,omitempty"`
+	UnsetFields []SubscriptionScheduleUpdatePauseScheduleParamsUnsetField `form:"-" json:"-"`
+}
+
+// SubscriptionScheduleUpdatePauseScheduleParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionScheduleUpdatePauseScheduleParams.
+type SubscriptionScheduleUpdatePauseScheduleParamsUnsetField string
+
+const (
+	SubscriptionScheduleUpdatePauseScheduleParamsUnsetFieldResume SubscriptionScheduleUpdatePauseScheduleParamsUnsetField = "resume"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *SubscriptionScheduleUpdatePauseScheduleParams) AddUnsetField(field SubscriptionScheduleUpdatePauseScheduleParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // Time span for the redeemed discount.
@@ -3279,7 +3327,7 @@ type SubscriptionScheduleUpdateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// Sets the pause schedules for the subscription schedule. Include a `key` to update an existing entry or omit it to add a new one. Pass `""` to clear all entries or `[]` to leave them unchanged.
+	// Configures the subscription's pause behavior and, optionally, its resume behavior. Only one entry is supported. Include a key to update an existing entry. Omit to leave an existing pause schedule unchanged, or pass "" to clear it.
 	PauseSchedules []*SubscriptionScheduleUpdatePauseScheduleParams `form:"pause_schedules" json:"pause_schedules,omitempty"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase. Note that past phases can be omitted.
 	Phases []*SubscriptionScheduleUpdatePhaseParams `form:"phases" json:"phases,omitempty"`
@@ -3475,11 +3523,23 @@ type SubscriptionSchedulePauseSchedulePauseSettings struct {
 	// The type of pause settings.
 	Type SubscriptionSchedulePauseSchedulePauseSettingsType `json:"type"`
 }
+type SubscriptionSchedulePauseSchedulePauseStatusError struct {
+	// A machine-readable error code.
+	Code string `json:"code,omitempty"`
+	// A description of the error.
+	Message string `json:"message"`
+}
+type SubscriptionSchedulePauseSchedulePauseStatus struct {
+	Error *SubscriptionSchedulePauseSchedulePauseStatusError `json:"error,omitempty"`
+	// The lifecycle state of the pause operation.
+	Type SubscriptionSchedulePauseSchedulePauseStatusType `json:"type"`
+}
 type SubscriptionSchedulePauseSchedulePause struct {
 	// Time at which the subscription pauses.
 	PauseAt int64 `json:"pause_at"`
 	// Settings controlling billing behavior during the pause.
 	Settings *SubscriptionSchedulePauseSchedulePauseSettings `json:"settings"`
+	Status   *SubscriptionSchedulePauseSchedulePauseStatus   `json:"status"`
 }
 type SubscriptionSchedulePauseScheduleResumeSettings struct {
 	// The billing cycle anchor that applies when the subscription is resumed.
@@ -3489,12 +3549,24 @@ type SubscriptionSchedulePauseScheduleResumeSettings struct {
 	// Determines how to handle prorations resulting from the billing_cycle_anchor change on resume.
 	ProrationBehavior SubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior `json:"proration_behavior"`
 }
+type SubscriptionSchedulePauseScheduleResumeStatusError struct {
+	// A machine-readable error code.
+	Code string `json:"code,omitempty"`
+	// A description of the error.
+	Message string `json:"message"`
+}
+type SubscriptionSchedulePauseScheduleResumeStatus struct {
+	Error *SubscriptionSchedulePauseScheduleResumeStatusError `json:"error,omitempty"`
+	// The lifecycle state of the resume operation.
+	Type SubscriptionSchedulePauseScheduleResumeStatusType `json:"type"`
+}
 
 // Details about when and how the subscription resumes.
 type SubscriptionSchedulePauseScheduleResume struct {
 	// Time at which the subscription resumes.
 	ResumeAt int64                                            `json:"resume_at"`
 	Settings *SubscriptionSchedulePauseScheduleResumeSettings `json:"settings"`
+	Status   *SubscriptionSchedulePauseScheduleResumeStatus   `json:"status"`
 }
 
 // The pause schedules for this subscription schedule.

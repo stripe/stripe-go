@@ -462,6 +462,12 @@ type CustomerSessionComponentsBuyButton struct {
 	Enabled bool `json:"enabled"`
 }
 
+// This hash contains whether the customer portal is enabled.
+type CustomerSessionComponentsCustomerPortal struct {
+	// Whether the customer portal is enabled.
+	Enabled bool `json:"enabled"`
+}
+
 // This hash defines whether the customer sheet supports certain features.
 type CustomerSessionComponentsCustomerSheetFeatures struct {
 	// A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the customer sheet displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
@@ -574,6 +580,8 @@ type CustomerSessionComponentsTaxIDElement struct {
 type CustomerSessionComponents struct {
 	// This hash contains whether the buy button is enabled.
 	BuyButton *CustomerSessionComponentsBuyButton `json:"buy_button"`
+	// This hash contains whether the customer portal is enabled.
+	CustomerPortal *CustomerSessionComponentsCustomerPortal `json:"customer_portal"`
 	// This hash contains whether the customer sheet is enabled and the features it supports.
 	CustomerSheet *CustomerSessionComponentsCustomerSheet `json:"customer_sheet"`
 	// This hash contains whether the mobile payment element is enabled and the features it supports.
