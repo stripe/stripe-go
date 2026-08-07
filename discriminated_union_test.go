@@ -18,8 +18,9 @@ const (
 )
 
 // colorUnion is the struct-with-pointers pattern Go uses for discriminated
-// unions on the response side. Only one variant field is populated at a time,
-// based on the value of Model.
+// unions on the response side. The caller populates the variant matching Model;
+// encoding/json itself does not enforce mutual exclusion (that is a contract
+// upheld by the API and the generated SDK code, not the JSON decoder).
 type colorUnion struct {
 	Model colorModel  `json:"model"`
 	RGB   *rgbVariant `json:"rgb_color,omitempty"`
@@ -46,19 +47,32 @@ type hslVariant struct {
 }
 
 // colorParams mirrors the form-encoded request side for a standalone
-// discriminated union: a single flat struct with the discriminator field and
-// all variant fields as optional pointers. The caller sets exactly one
-// variant's fields alongside the discriminator.
+// discriminated union: a wrapper struct with the discriminator field and one
+// nullable pointer per variant. The caller sets exactly one variant pointer
+// alongside the discriminator.
 type colorParams struct {
-	Model *string `form:"model"`
-	// RGB variant fields
+	Model *string          `form:"model"`
+	RGB   *rgbVariantParams `form:"rgb"`
+	HSV   *hsvVariantParams `form:"hsv"`
+	HSL   *hslVariantParams `form:"hsl"`
+}
+
+type rgbVariantParams struct {
 	R *int64 `form:"r"`
 	G *int64 `form:"g"`
 	B *int64 `form:"b"`
-	// HSV variant fields
+}
+
+type hsvVariantParams struct {
 	H *int64 `form:"h"`
 	S *int64 `form:"s"`
 	V *int64 `form:"v"`
+}
+
+type hslVariantParams struct {
+	H *int64 `form:"h"`
+	S *int64 `form:"s"`
+	L *int64 `form:"l"`
 }
 
 // llamaParams demonstrates the inline union pattern: the discriminator lives
@@ -74,8 +88,8 @@ type llamaParams struct {
 }
 
 type alienLlamaParams struct {
-	Planet    *string `form:"planet"`
-	Telepathic *bool  `form:"telepathic"`
+	Planet     *string `form:"planet"`
+	Telepathic *bool   `form:"telepathic"`
 }
 
 type earthLlamaParams struct {
@@ -88,7 +102,7 @@ type magicLlamaParams struct {
 
 // TestDiscriminatedUnion_RequestParams_RGBVariant verifies that a standalone
 // discriminated union params struct encodes its discriminator and the chosen
-// variant's fields, while omitting unset variant fields.
+// variant's nested fields, while omitting unset variant structs.
 func TestDiscriminatedUnion_RequestParams_RGBVariant(t *testing.T) {
 	model := "rgb"
 	r := int64(255)
@@ -97,9 +111,11 @@ func TestDiscriminatedUnion_RequestParams_RGBVariant(t *testing.T) {
 
 	params := &colorParams{
 		Model: &model,
-		R:     &r,
-		G:     &g,
-		B:     &b,
+		RGB: &rgbVariantParams{
+			R: &r,
+			G: &g,
+			B: &b,
+		},
 	}
 
 	body := &form.Values{}
@@ -109,19 +125,22 @@ func TestDiscriminatedUnion_RequestParams_RGBVariant(t *testing.T) {
 	// Discriminator is encoded.
 	assert.Equal(t, []string{"rgb"}, values["model"])
 
-	// RGB variant fields are encoded.
-	assert.Equal(t, []string{"255"}, values["r"])
-	assert.Equal(t, []string{"128"}, values["g"])
-	assert.Equal(t, []string{"0"}, values["b"])
+	// RGB variant fields are encoded under the variant key.
+	assert.Equal(t, []string{"255"}, values["rgb[r]"])
+	assert.Equal(t, []string{"128"}, values["rgb[g]"])
+	assert.Equal(t, []string{"0"}, values["rgb[b]"])
 
-	// HSV variant fields are absent (nil pointers omitted).
-	assert.Nil(t, values["h"])
-	assert.Nil(t, values["s"])
-	assert.Nil(t, values["v"])
+	// Other variant structs are absent.
+	assert.Nil(t, values["hsv[h]"])
+	assert.Nil(t, values["hsv[s]"])
+	assert.Nil(t, values["hsv[v]"])
+	assert.Nil(t, values["hsl[h]"])
+	assert.Nil(t, values["hsl[s]"])
+	assert.Nil(t, values["hsl[l]"])
 }
 
 // TestDiscriminatedUnion_RequestParams_HSVVariant verifies that switching to
-// the HSV variant encodes the correct discriminator and fields.
+// the HSV variant encodes the correct discriminator and nested fields.
 func TestDiscriminatedUnion_RequestParams_HSVVariant(t *testing.T) {
 	model := "hsv"
 	h := int64(180)
@@ -130,9 +149,11 @@ func TestDiscriminatedUnion_RequestParams_HSVVariant(t *testing.T) {
 
 	params := &colorParams{
 		Model: &model,
-		H:     &h,
-		S:     &s,
-		V:     &v,
+		HSV: &hsvVariantParams{
+			H: &h,
+			S: &s,
+			V: &v,
+		},
 	}
 
 	body := &form.Values{}
@@ -140,24 +161,27 @@ func TestDiscriminatedUnion_RequestParams_HSVVariant(t *testing.T) {
 	values := body.ToValues()
 
 	assert.Equal(t, []string{"hsv"}, values["model"])
-	assert.Equal(t, []string{"180"}, values["h"])
-	assert.Equal(t, []string{"100"}, values["s"])
-	assert.Equal(t, []string{"50"}, values["v"])
+	assert.Equal(t, []string{"180"}, values["hsv[h]"])
+	assert.Equal(t, []string{"100"}, values["hsv[s]"])
+	assert.Equal(t, []string{"50"}, values["hsv[v]"])
 
-	// RGB variant fields are absent.
-	assert.Nil(t, values["r"])
-	assert.Nil(t, values["g"])
-	assert.Nil(t, values["b"])
+	// RGB and HSL variant structs are absent.
+	assert.Nil(t, values["rgb[r]"])
+	assert.Nil(t, values["rgb[g]"])
+	assert.Nil(t, values["rgb[b]"])
+	assert.Nil(t, values["hsl[h]"])
+	assert.Nil(t, values["hsl[s]"])
+	assert.Nil(t, values["hsl[l]"])
 }
 
 // TestDiscriminatedUnion_RequestParams_NilVariantFieldsOmitted verifies that
-// when only a discriminator is set (no variant fields), only the discriminator
+// when only a discriminator is set (no variant structs), only the discriminator
 // appears in the encoded output.
 func TestDiscriminatedUnion_RequestParams_NilVariantFieldsOmitted(t *testing.T) {
 	model := "rgb"
 	params := &colorParams{
 		Model: &model,
-		// All variant fields nil — none should appear.
+		// All variant struct pointers nil — none should appear.
 	}
 
 	body := &form.Values{}
@@ -165,13 +189,15 @@ func TestDiscriminatedUnion_RequestParams_NilVariantFieldsOmitted(t *testing.T) 
 	values := body.ToValues()
 
 	assert.Equal(t, []string{"rgb"}, values["model"])
-	assert.Nil(t, values["r"])
-	assert.Nil(t, values["g"])
-	assert.Nil(t, values["b"])
-	assert.Nil(t, values["h"])
-	assert.Nil(t, values["s"])
-	assert.Nil(t, values["v"])
-	assert.Nil(t, values["l"])
+	assert.Nil(t, values["rgb[r]"])
+	assert.Nil(t, values["rgb[g]"])
+	assert.Nil(t, values["rgb[b]"])
+	assert.Nil(t, values["hsv[h]"])
+	assert.Nil(t, values["hsv[s]"])
+	assert.Nil(t, values["hsv[v]"])
+	assert.Nil(t, values["hsl[h]"])
+	assert.Nil(t, values["hsl[s]"])
+	assert.Nil(t, values["hsl[l]"])
 }
 
 // TestDiscriminatedUnion_RequestParams_UnsetDiscriminatorOmitted verifies that
