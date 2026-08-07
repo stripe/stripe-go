@@ -1622,7 +1622,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 
 // EventNotificationFromJSON is a helper for constructing an Event Notification. Doesn't perform signature validation,
 // so you should use [Client.ParseEventNotification] instead for initial handling.
-// This is useful in unit tests and working with EventNotifications that you've already validated the authenticity of.
+// This is useful in unit tests and working with EventNotifications whose authenticity you've already validated.
 func EventNotificationFromJSON(payload []byte, client Client) (EventNotificationContainer, error) {
 	var result = &struct {
 		Type   string `json:"type"`
@@ -1633,7 +1633,10 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 	}
 
 	if result.Object == "event" {
-		return nil, fmt.Errorf("did you use EventNotificationFromJSON to parse a webhook payload? If so, use ConstructEvent instead")
+		return nil, fmt.Errorf("did you use an EventNotification function to parse a webhook payload? If so, use the corresponding ConstructEvent function instead")
+	}
+	if result.Object != "" && result.Object != "v2.core.event" {
+		return nil, fmt.Errorf("unexpected object type '%s'; expected 'v2.core.event' for an event notification", result.Object)
 	}
 
 	// V2EventNotificationTypes: The beginning of the section generated from our OpenAPI spec
