@@ -180,6 +180,16 @@ const (
 	QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsTypeSubscription QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsType = "subscription"
 )
 
+// The lifecycle state of the pause operation.
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusType string
+
+// List of values that QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusType can take
+const (
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusTypeError     QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusType = "error"
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusTypeScheduled QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusType = "scheduled"
+	QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusTypeSucceeded QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusType = "succeeded"
+)
+
 // The billing cycle anchor that applies when the subscription is resumed.
 type QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsBillingCycleAnchor string
 
@@ -206,6 +216,18 @@ const (
 	QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehaviorAlwaysInvoice    QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior = "always_invoice"
 	QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehaviorCreateProrations QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior = "create_prorations"
 	QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehaviorNone             QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior = "none"
+)
+
+// The lifecycle state of the resume operation.
+type QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType string
+
+// List of values that QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType can take
+const (
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusTypeError          QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType = "error"
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusTypePending        QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType = "pending"
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusTypeRequiresAction QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType = "requires_action"
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusTypeScheduled      QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType = "scheduled"
+	QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusTypeSucceeded      QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType = "succeeded"
 )
 
 // The discount end type.
@@ -616,11 +638,23 @@ type QuotePreviewSubscriptionSchedulePauseSchedulePauseSettings struct {
 	// The type of pause settings.
 	Type QuotePreviewSubscriptionSchedulePauseSchedulePauseSettingsType `json:"type"`
 }
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusError struct {
+	// A machine-readable error code.
+	Code string `json:"code,omitempty"`
+	// A description of the error.
+	Message string `json:"message"`
+}
+type QuotePreviewSubscriptionSchedulePauseSchedulePauseStatus struct {
+	Error *QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusError `json:"error,omitempty"`
+	// The lifecycle state of the pause operation.
+	Type QuotePreviewSubscriptionSchedulePauseSchedulePauseStatusType `json:"type"`
+}
 type QuotePreviewSubscriptionSchedulePauseSchedulePause struct {
 	// Time at which the subscription pauses.
 	PauseAt int64 `json:"pause_at"`
 	// Settings controlling billing behavior during the pause.
 	Settings *QuotePreviewSubscriptionSchedulePauseSchedulePauseSettings `json:"settings"`
+	Status   *QuotePreviewSubscriptionSchedulePauseSchedulePauseStatus   `json:"status"`
 }
 type QuotePreviewSubscriptionSchedulePauseScheduleResumeSettings struct {
 	// The billing cycle anchor that applies when the subscription is resumed.
@@ -630,12 +664,24 @@ type QuotePreviewSubscriptionSchedulePauseScheduleResumeSettings struct {
 	// Determines how to handle prorations resulting from the billing_cycle_anchor change on resume.
 	ProrationBehavior QuotePreviewSubscriptionSchedulePauseScheduleResumeSettingsProrationBehavior `json:"proration_behavior"`
 }
+type QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusError struct {
+	// A machine-readable error code.
+	Code string `json:"code,omitempty"`
+	// A description of the error.
+	Message string `json:"message"`
+}
+type QuotePreviewSubscriptionSchedulePauseScheduleResumeStatus struct {
+	Error *QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusError `json:"error,omitempty"`
+	// The lifecycle state of the resume operation.
+	Type QuotePreviewSubscriptionSchedulePauseScheduleResumeStatusType `json:"type"`
+}
 
 // Details about when and how the subscription resumes.
 type QuotePreviewSubscriptionSchedulePauseScheduleResume struct {
 	// Time at which the subscription resumes.
 	ResumeAt int64                                                        `json:"resume_at"`
 	Settings *QuotePreviewSubscriptionSchedulePauseScheduleResumeSettings `json:"settings"`
+	Status   *QuotePreviewSubscriptionSchedulePauseScheduleResumeStatus   `json:"status"`
 }
 
 // The pause schedules for this subscription schedule.

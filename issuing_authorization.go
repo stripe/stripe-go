@@ -1346,6 +1346,35 @@ type IssuingAuthorizationNetworkData struct {
 	TransactionID string `json:"transaction_id"`
 }
 
+// The total amount to be held for this authorization request.
+type IssuingAuthorizationPendingRequestHoldAmount struct {
+	// Three-letter ISO currency code.
+	Currency Currency `json:"currency"`
+	// The amount in the smallest currency unit.
+	Value int64 `json:"value"`
+}
+type IssuingAuthorizationPendingRequestHoldAmountDetailsNetwork struct {
+	// Three-letter ISO currency code.
+	Currency Currency `json:"currency"`
+	// The amount in the smallest currency unit.
+	Value int64 `json:"value"`
+}
+
+// The reserve amount held for this authorization. Present for certain MCCs that may have overcaptures.
+type IssuingAuthorizationPendingRequestHoldAmountDetailsReserve struct {
+	// Three-letter ISO currency code.
+	Currency Currency `json:"currency"`
+	// The amount in the smallest currency unit.
+	Value int64 `json:"value"`
+}
+
+// Breakdown of the amounts contributing to hold_amount.
+type IssuingAuthorizationPendingRequestHoldAmountDetails struct {
+	Network *IssuingAuthorizationPendingRequestHoldAmountDetailsNetwork `json:"network"`
+	// The reserve amount held for this authorization. Present for certain MCCs that may have overcaptures.
+	Reserve *IssuingAuthorizationPendingRequestHoldAmountDetailsReserve `json:"reserve"`
+}
+
 // The pending authorization request. This field will only be non-null during an `issuing_authorization.request` webhook.
 type IssuingAuthorizationPendingRequest struct {
 	// The additional amount Stripe will hold if the authorization is approved, in the card's [currency](https://docs.stripe.com/api#issuing_authorization_object-pending-request-currency) and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
@@ -1354,6 +1383,10 @@ type IssuingAuthorizationPendingRequest struct {
 	AmountDetails *IssuingAuthorizationAmountDetails `json:"amount_details"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
+	// The total amount to be held for this authorization request.
+	HoldAmount *IssuingAuthorizationPendingRequestHoldAmount `json:"hold_amount,omitempty"`
+	// Breakdown of the amounts contributing to hold_amount.
+	HoldAmountDetails *IssuingAuthorizationPendingRequestHoldAmountDetails `json:"hold_amount_details,omitempty"`
 	// If set `true`, you may provide [amount](https://docs.stripe.com/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
 	IsAmountControllable bool `json:"is_amount_controllable"`
 	// The amount the merchant is requesting to be authorized in the `merchant_currency`. The amount is in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
@@ -1368,6 +1401,35 @@ type IssuingAuthorizationPendingRequest struct {
 type IssuingAuthorizationRedaction struct {
 	// Indicates whether this object and its related objects have been redacted or not.
 	Status IssuingAuthorizationRedactionStatus `json:"status"`
+}
+
+// The total amount that was held for this authorization request.
+type IssuingAuthorizationRequestHistoryHoldAmount struct {
+	// Three-letter ISO currency code.
+	Currency Currency `json:"currency"`
+	// The amount in the smallest currency unit.
+	Value int64 `json:"value"`
+}
+type IssuingAuthorizationRequestHistoryHoldAmountDetailsNetwork struct {
+	// Three-letter ISO currency code.
+	Currency Currency `json:"currency"`
+	// The amount in the smallest currency unit.
+	Value int64 `json:"value"`
+}
+
+// The reserve amount held for this authorization. Present for certain MCCs that may have overcaptures.
+type IssuingAuthorizationRequestHistoryHoldAmountDetailsReserve struct {
+	// Three-letter ISO currency code.
+	Currency Currency `json:"currency"`
+	// The amount in the smallest currency unit.
+	Value int64 `json:"value"`
+}
+
+// Breakdown of the amounts contributing to hold_amount.
+type IssuingAuthorizationRequestHistoryHoldAmountDetails struct {
+	Network *IssuingAuthorizationRequestHistoryHoldAmountDetailsNetwork `json:"network"`
+	// The reserve amount held for this authorization. Present for certain MCCs that may have overcaptures.
+	Reserve *IssuingAuthorizationRequestHistoryHoldAmountDetailsReserve `json:"reserve"`
 }
 
 // Mastercard identifier for each authorization request.
@@ -1400,6 +1462,10 @@ type IssuingAuthorizationRequestHistory struct {
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
+	// The total amount that was held for this authorization request.
+	HoldAmount *IssuingAuthorizationRequestHistoryHoldAmount `json:"hold_amount,omitempty"`
+	// Breakdown of the amounts contributing to hold_amount.
+	HoldAmountDetails *IssuingAuthorizationRequestHistoryHoldAmountDetails `json:"hold_amount_details,omitempty"`
 	// The `pending_request.merchant_amount` at the time of the request, presented in the `merchant_currency` and in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	MerchantAmount int64 `json:"merchant_amount"`
 	// The currency that was collected by the merchant and presented to the cardholder for the authorization. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).

@@ -29,6 +29,7 @@ const (
 	CryptoOnrampSessionTransactionDetailsDestinationNetworkAvalanche  CryptoOnrampSessionTransactionDetailsDestinationNetwork = "avalanche"
 	CryptoOnrampSessionTransactionDetailsDestinationNetworkBase       CryptoOnrampSessionTransactionDetailsDestinationNetwork = "base"
 	CryptoOnrampSessionTransactionDetailsDestinationNetworkBitcoin    CryptoOnrampSessionTransactionDetailsDestinationNetwork = "bitcoin"
+	CryptoOnrampSessionTransactionDetailsDestinationNetworkCelo       CryptoOnrampSessionTransactionDetailsDestinationNetwork = "celo"
 	CryptoOnrampSessionTransactionDetailsDestinationNetworkEthereum   CryptoOnrampSessionTransactionDetailsDestinationNetwork = "ethereum"
 	CryptoOnrampSessionTransactionDetailsDestinationNetworkOptimism   CryptoOnrampSessionTransactionDetailsDestinationNetwork = "optimism"
 	CryptoOnrampSessionTransactionDetailsDestinationNetworkPolygon    CryptoOnrampSessionTransactionDetailsDestinationNetwork = "polygon"
@@ -389,6 +390,8 @@ type CryptoOnrampSessionTransactionDetailsWalletAddresses struct {
 	BaseNetwork string `json:"base_network"`
 	// A bitcoin address
 	Bitcoin string `json:"bitcoin"`
+	// A Celo address
+	Celo string `json:"celo"`
 	// The end customer's crypto wallet destination tag (for each network) to use for this transaction.
 	DestinationTags *CryptoOnrampSessionTransactionDetailsWalletAddressesDestinationTags `json:"destination_tags"`
 	// An ethereum address

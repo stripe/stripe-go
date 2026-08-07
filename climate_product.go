@@ -62,7 +62,7 @@ type ClimateProduct struct {
 	Created int64 `json:"created"`
 	// Current prices for a metric ton of carbon removal in a currency's smallest unit.
 	CurrentPricesPerMetricTon map[string]*ClimateProductCurrentPricesPerMetricTon `json:"current_prices_per_metric_ton"`
-	// The year in which the carbon removal is expected to be delivered.
+	// The year in which the carbon removal is expected to be delivered. If the year is in the past, this represents spot inventory with guaranteed delivery.
 	DeliveryYear int64 `json:"delivery_year"`
 	// Unique identifier for the object. For convenience, Climate product IDs are human-readable strings
 	// that start with `climsku_`. See [carbon removal inventory](https://stripe.com/docs/climate/orders/carbon-removal-inventory)

@@ -21798,6 +21798,48 @@ func TestV2TaxManualRulePost3Client(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestV2TaxOperationPostService(t *testing.T) {
+	params := &stripe.V2TaxOperationResolveAddressParams{
+		Address: &stripe.V2TaxOperationResolveAddressAddressParams{
+			City:       stripe.String("city"),
+			Country:    stripe.String("country"),
+			Line1:      stripe.String("line1"),
+			PostalCode: stripe.String("postal_code"),
+			State:      stripe.String("state"),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/tax/operations/resolve_address", params, "{\"object\":\"v2.tax.operations_resolve_address_result\",\"address\":{},\"livemode\":true,\"precision\":\"none\",\"precision_details\":{\"issues\":[{\"code\":\"required_for_improved_precision\",\"field\":\"country\"}]}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2TaxOperations.ResolveAddress(params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2TaxOperationPostClient(t *testing.T) {
+	params := &stripe.V2TaxOperationResolveAddressParams{
+		Address: &stripe.V2TaxOperationResolveAddressAddressParams{
+			City:       stripe.String("city"),
+			Country:    stripe.String("country"),
+			Line1:      stripe.String("line1"),
+			PostalCode: stripe.String("postal_code"),
+			State:      stripe.String("state"),
+		},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/tax/operations/resolve_address", params, "{\"object\":\"v2.tax.operations_resolve_address_result\",\"address\":{},\"livemode\":true,\"precision\":\"none\",\"precision_details\":{\"issues\":[{\"code\":\"required_for_improved_precision\",\"field\":\"country\"}]}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2TaxOperations.ResolveAddress(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
 func TestV2TestHelpersFinancialAddressPostService(t *testing.T) {
 	params := &stripe.V2TestHelpersFinancialAddressCreditParams{
 		Amount:  &stripe.Amount{Value: 96, Currency: stripe.CurrencyUSD},

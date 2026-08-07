@@ -6,6 +6,39 @@
 
 package stripe
 
+// Stripe's confidence in this classification.
+type FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevel string
+
+// List of values that FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevel can take
+const (
+	FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevelHigh     FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevel = "high"
+	FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevelLow      FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevel = "low"
+	FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevelMedium   FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevel = "medium"
+	FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevelVeryHigh FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevel = "very_high"
+)
+
+// Stripe's confidence in this classification.
+type FinancialConnectionsTransactionClassificationPersonalFinanceConfidenceLevel string
+
+// List of values that FinancialConnectionsTransactionClassificationPersonalFinanceConfidenceLevel can take
+const (
+	FinancialConnectionsTransactionClassificationPersonalFinanceConfidenceLevelHigh     FinancialConnectionsTransactionClassificationPersonalFinanceConfidenceLevel = "high"
+	FinancialConnectionsTransactionClassificationPersonalFinanceConfidenceLevelLow      FinancialConnectionsTransactionClassificationPersonalFinanceConfidenceLevel = "low"
+	FinancialConnectionsTransactionClassificationPersonalFinanceConfidenceLevelMedium   FinancialConnectionsTransactionClassificationPersonalFinanceConfidenceLevel = "medium"
+	FinancialConnectionsTransactionClassificationPersonalFinanceConfidenceLevelVeryHigh FinancialConnectionsTransactionClassificationPersonalFinanceConfidenceLevel = "very_high"
+)
+
+// Stripe's confidence in the enriched merchant name.
+type FinancialConnectionsTransactionEnrichmentsMerchantConfidenceLevel string
+
+// List of values that FinancialConnectionsTransactionEnrichmentsMerchantConfidenceLevel can take
+const (
+	FinancialConnectionsTransactionEnrichmentsMerchantConfidenceLevelHigh     FinancialConnectionsTransactionEnrichmentsMerchantConfidenceLevel = "high"
+	FinancialConnectionsTransactionEnrichmentsMerchantConfidenceLevelLow      FinancialConnectionsTransactionEnrichmentsMerchantConfidenceLevel = "low"
+	FinancialConnectionsTransactionEnrichmentsMerchantConfidenceLevelMedium   FinancialConnectionsTransactionEnrichmentsMerchantConfidenceLevel = "medium"
+	FinancialConnectionsTransactionEnrichmentsMerchantConfidenceLevelVeryHigh FinancialConnectionsTransactionEnrichmentsMerchantConfidenceLevel = "very_high"
+)
+
 // The status of the transaction.
 type FinancialConnectionsTransactionStatus string
 
@@ -66,6 +99,46 @@ func (p *FinancialConnectionsTransactionRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Money movement classification labels for this transaction.
+type FinancialConnectionsTransactionClassificationMoneyMovement struct {
+	// Stripe's confidence in this classification.
+	ConfidenceLevel FinancialConnectionsTransactionClassificationMoneyMovementConfidenceLevel `json:"confidence_level"`
+	// The detailed category label for this transaction.
+	DetailedLabel string `json:"detailed_label"`
+	// The primary category label for this transaction.
+	PrimaryLabel string `json:"primary_label"`
+}
+
+// Personal finance classification labels for this transaction.
+type FinancialConnectionsTransactionClassificationPersonalFinance struct {
+	// Stripe's confidence in this classification.
+	ConfidenceLevel FinancialConnectionsTransactionClassificationPersonalFinanceConfidenceLevel `json:"confidence_level"`
+	// The detailed category label for this transaction.
+	DetailedLabel string `json:"detailed_label"`
+	// The primary category label for this transaction.
+	PrimaryLabel string `json:"primary_label"`
+}
+
+// Classification labels for this transaction, one entry per subscribed use case.
+type FinancialConnectionsTransactionClassification struct {
+	// Money movement classification labels for this transaction.
+	MoneyMovement *FinancialConnectionsTransactionClassificationMoneyMovement `json:"money_movement"`
+	// Personal finance classification labels for this transaction.
+	PersonalFinance *FinancialConnectionsTransactionClassificationPersonalFinance `json:"personal_finance"`
+	// The taxonomy type for this classification entry.
+	Type string `json:"type"`
+}
+type FinancialConnectionsTransactionEnrichmentsMerchant struct {
+	// Stripe's confidence in the enriched merchant name.
+	ConfidenceLevel FinancialConnectionsTransactionEnrichmentsMerchantConfidenceLevel `json:"confidence_level"`
+	// The normalized merchant name for this transaction.
+	Name string `json:"name"`
+}
+
+// Enriched merchant information for this transaction.
+type FinancialConnectionsTransactionEnrichments struct {
+	Merchant *FinancialConnectionsTransactionEnrichmentsMerchant `json:"merchant"`
+}
 type FinancialConnectionsTransactionStatusTransitions struct {
 	// Time at which this transaction posted. Measured in seconds since the Unix epoch.
 	PostedAt int64 `json:"posted_at"`
@@ -80,10 +153,14 @@ type FinancialConnectionsTransaction struct {
 	Account string `json:"account"`
 	// The amount of this transaction, in cents (or local equivalent).
 	Amount int64 `json:"amount"`
+	// Classification labels for this transaction, one entry per subscribed use case.
+	Classifications []*FinancialConnectionsTransactionClassification `json:"classifications,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The description of this transaction.
 	Description string `json:"description"`
+	// Enriched merchant information for this transaction.
+	Enrichments *FinancialConnectionsTransactionEnrichments `json:"enrichments,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.

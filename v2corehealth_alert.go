@@ -39,12 +39,13 @@ const (
 	V2CoreHealthAlertAuthorizationRateDropChargeTypeValidation  V2CoreHealthAlertAuthorizationRateDropChargeType = "validation"
 )
 
-// The type of the dimension. Determines which field in dimension_details is populated.
+// The type of the dimension. Determines which field is populated.
 type V2CoreHealthAlertAuthorizationRateDropDimensionType string
 
 // List of values that V2CoreHealthAlertAuthorizationRateDropDimensionType can take
 const (
-	V2CoreHealthAlertAuthorizationRateDropDimensionTypeIssuer V2CoreHealthAlertAuthorizationRateDropDimensionType = "issuer"
+	V2CoreHealthAlertAuthorizationRateDropDimensionTypeAcquirer V2CoreHealthAlertAuthorizationRateDropDimensionType = "acquirer"
+	V2CoreHealthAlertAuthorizationRateDropDimensionTypeIssuer   V2CoreHealthAlertAuthorizationRateDropDimensionType = "issuer"
 )
 
 // The type of the payment method.
@@ -341,9 +342,11 @@ type V2CoreHealthAlertAPILatency struct {
 
 // Dimensions that describe what subset of payments are impacted.
 type V2CoreHealthAlertAuthorizationRateDropDimension struct {
+	// Populated when type is acquirer.
+	Acquirer string `json:"acquirer,omitempty"`
 	// Populated when type is issuer.
 	Issuer string `json:"issuer,omitempty"`
-	// The type of the dimension. Determines which field in dimension_details is populated.
+	// The type of the dimension. Determines which field is populated.
 	Type V2CoreHealthAlertAuthorizationRateDropDimensionType `json:"type"`
 }
 
