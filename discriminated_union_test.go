@@ -376,3 +376,120 @@ func TestDiscriminatedUnion_Response_RoundTrip(t *testing.T) {
 	assert.Nil(t, roundTripped.HSV)
 	assert.Nil(t, roundTripped.HSL)
 }
+
+// llamaType is the discriminator enum for the inline union on a resource.
+type llamaType string
+
+const (
+	llamaTypeAlienLlama llamaType = "alien_llama"
+	llamaTypeEarthLlama llamaType = "earth_llama"
+	llamaTypeMagicLlama llamaType = "magic_llama"
+)
+
+// llamaResource demonstrates the response-side inline union pattern: the
+// discriminator and variant pointers are sibling fields alongside base resource
+// fields. Only json tags are used (no form tags on response types).
+type llamaResource struct {
+	Name       string              `json:"name"`
+	Type       llamaType           `json:"type"`
+	AlienLlama *alienLlamaResource `json:"alien_llama,omitempty"`
+	EarthLlama *earthLlamaResource `json:"earth_llama,omitempty"`
+	MagicLlama *magicLlamaResource `json:"magic_llama,omitempty"`
+}
+
+type alienLlamaResource struct {
+	Planet     string `json:"planet"`
+	Telepathic bool   `json:"telepathic"`
+}
+
+type earthLlamaResource struct {
+	Country string `json:"country"`
+}
+
+type magicLlamaResource struct {
+	Spell string `json:"spell"`
+}
+
+// TestDiscriminatedUnion_ResponseInline_AlienLlama verifies that a response-side
+// inline discriminated union (discriminator + variant payload as sibling fields
+// on the resource struct) unmarshals correctly.
+func TestDiscriminatedUnion_ResponseInline_AlienLlama(t *testing.T) {
+	data := []byte(`{"name":"Cosmo","type":"alien_llama","alien_llama":{"planet":"Mars","telepathic":true}}`)
+
+	var l llamaResource
+	err := json.Unmarshal(data, &l)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "Cosmo", l.Name)
+	assert.Equal(t, llamaTypeAlienLlama, l.Type)
+	assert.NotNil(t, l.AlienLlama)
+	assert.Equal(t, "Mars", l.AlienLlama.Planet)
+	assert.Equal(t, true, l.AlienLlama.Telepathic)
+
+	// Other variants are nil.
+	assert.Nil(t, l.EarthLlama)
+	assert.Nil(t, l.MagicLlama)
+}
+
+// TestDiscriminatedUnion_ResponseInline_EarthLlama verifies the earth llama
+// variant of the response-side inline union.
+func TestDiscriminatedUnion_ResponseInline_EarthLlama(t *testing.T) {
+	data := []byte(`{"name":"Llama Del Rey","type":"earth_llama","earth_llama":{"country":"Peru"}}`)
+
+	var l llamaResource
+	err := json.Unmarshal(data, &l)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "Llama Del Rey", l.Name)
+	assert.Equal(t, llamaTypeEarthLlama, l.Type)
+	assert.NotNil(t, l.EarthLlama)
+	assert.Equal(t, "Peru", l.EarthLlama.Country)
+
+	assert.Nil(t, l.AlienLlama)
+	assert.Nil(t, l.MagicLlama)
+}
+
+// TestDiscriminatedUnion_ResponseInline_DiscriminatorOnly verifies that a
+// response with only the discriminator (no variant payload) leaves all variant
+// pointers nil.
+func TestDiscriminatedUnion_ResponseInline_DiscriminatorOnly(t *testing.T) {
+	data := []byte(`{"name":"Mystery","type":"magic_llama"}`)
+
+	var l llamaResource
+	err := json.Unmarshal(data, &l)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "Mystery", l.Name)
+	assert.Equal(t, llamaTypeMagicLlama, l.Type)
+	assert.Nil(t, l.AlienLlama)
+	assert.Nil(t, l.EarthLlama)
+	assert.Nil(t, l.MagicLlama)
+}
+
+// TestDiscriminatedUnion_ResponseInline_RoundTrip verifies that a response-side
+// inline union can be marshaled and unmarshaled without data loss.
+func TestDiscriminatedUnion_ResponseInline_RoundTrip(t *testing.T) {
+	original := llamaResource{
+		Name: "Cosmo",
+		Type: llamaTypeAlienLlama,
+		AlienLlama: &alienLlamaResource{
+			Planet:     "Mars",
+			Telepathic: true,
+		},
+	}
+
+	data, err := json.Marshal(&original)
+	assert.NoError(t, err)
+
+	var roundTripped llamaResource
+	err = json.Unmarshal(data, &roundTripped)
+	assert.NoError(t, err)
+
+	assert.Equal(t, original.Name, roundTripped.Name)
+	assert.Equal(t, original.Type, roundTripped.Type)
+	assert.NotNil(t, roundTripped.AlienLlama)
+	assert.Equal(t, original.AlienLlama.Planet, roundTripped.AlienLlama.Planet)
+	assert.Equal(t, original.AlienLlama.Telepathic, roundTripped.AlienLlama.Telepathic)
+	assert.Nil(t, roundTripped.EarthLlama)
+	assert.Nil(t, roundTripped.MagicLlama)
+}
