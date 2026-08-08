@@ -51,7 +51,7 @@ type hslVariant struct {
 // nullable pointer per variant. The caller sets exactly one variant pointer
 // alongside the discriminator.
 type colorParams struct {
-	Model *string          `form:"model"`
+	Model *string           `form:"model"`
 	RGB   *rgbVariantParams `form:"rgb"`
 	HSV   *hsvVariantParams `form:"hsv"`
 	HSL   *hslVariantParams `form:"hsl"`
