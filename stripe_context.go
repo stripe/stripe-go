@@ -73,7 +73,7 @@ func (c *Context) Pop() (*Context, error) {
 
 // StringPtr returns the string representation of the stripe.Context. Returns nil if the context is nil.
 //
-//	Otherwise, segments are joined with "/" as the separator.
+// Otherwise, segments are joined with "/" as the separator.
 func (c *Context) StringPtr() *string {
 	if c == nil {
 		return nil

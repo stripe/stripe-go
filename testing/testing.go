@@ -66,7 +66,7 @@ func init() {
 		Transport: transport,
 	}
 
-	resp, err := httpClient.Get("https://localhost:" + port)
+	resp, err := httpClient.Get("https://127.0.0.1:" + port)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Couldn't reach stripe-mock at `localhost:%s` (%v). Is "+
 			"it running? Please see README for setup instructions.\n", port, err)
@@ -95,7 +95,7 @@ func init() {
 	stripeMockBackend := stripe.GetBackendWithConfig(
 		stripe.APIBackend,
 		&stripe.BackendConfig{
-			URL:           stripe.String("https://localhost:" + port),
+			URL:           stripe.String("https://127.0.0.1:" + port),
 			HTTPClient:    httpClient,
 			LeveledLogger: stripe.DefaultLeveledLogger,
 		},
