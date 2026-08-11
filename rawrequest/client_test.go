@@ -140,15 +140,21 @@ func TestV2GetRequestWithAdditionalHeaders(t *testing.T) {
 // times out, causing http.Client.Do to return a nil response with an error,
 // which then leads to a nil pointer dereference in handleResponseBufferingErrors.
 func TestRawRequestTimeout_NilResponsePanic(t *testing.T) {
-	// Create a test server that deliberately times out by never responding
+	// Create a test server that deliberately times out by never responding.
+	// We use an explicit channel rather than r.Context().Done() because on
+	// Windows the server often fails to detect the client's TCP close, leaving
+	// the handler blocked and httptest.Server.Close() hanging indefinitely.
+	done := make(chan struct{})
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Block until the client disconnects or the server is closed.
-		// Using r.Context().Done() instead of select{} ensures the handler
-		// exits when the connection is closed, allowing httptest.Server.Close()
-		// to drain cleanly.
-		<-r.Context().Done()
+		select {
+		case <-r.Context().Done():
+		case <-done:
+		}
 	}))
-	defer testServer.Close()
+	defer func() {
+		close(done)
+		testServer.Close()
+	}()
 
 	// Create a backend with a very short timeout
 	backend := stripe.GetBackendWithConfig(
