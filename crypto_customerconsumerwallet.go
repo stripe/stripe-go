@@ -15,6 +15,7 @@ const (
 	CryptoCustomerConsumerWalletNetworkAvalanche  CryptoCustomerConsumerWalletNetwork = "avalanche"
 	CryptoCustomerConsumerWalletNetworkBase       CryptoCustomerConsumerWalletNetwork = "base"
 	CryptoCustomerConsumerWalletNetworkBitcoin    CryptoCustomerConsumerWalletNetwork = "bitcoin"
+	CryptoCustomerConsumerWalletNetworkCelo       CryptoCustomerConsumerWalletNetwork = "celo"
 	CryptoCustomerConsumerWalletNetworkEthereum   CryptoCustomerConsumerWalletNetwork = "ethereum"
 	CryptoCustomerConsumerWalletNetworkOptimism   CryptoCustomerConsumerWalletNetwork = "optimism"
 	CryptoCustomerConsumerWalletNetworkPolygon    CryptoCustomerConsumerWalletNetwork = "polygon"

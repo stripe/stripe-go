@@ -403,7 +403,7 @@ type V2CoreAccountConfigurationCardCreatorParams struct {
 
 // Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxParams struct {
-	// Describes the customer's tax exemption status, which is `none`, `exempt`, or `reverse`. When set to reverse, invoice and receipt PDFs include the following text: “Reverse charge”.
+	// Describes the customer's tax exemption status, which is `none`, `exempt`, or `reverse`. When set to reverse, invoice and receipt PDFs include the following text: "Reverse charge".
 	Exempt *string `form:"exempt" json:"exempt,omitempty"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
@@ -4549,7 +4549,7 @@ type V2CoreAccountCreateConfigurationCardCreatorParams struct {
 
 // Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
 type V2CoreAccountCreateConfigurationCustomerAutomaticIndirectTaxParams struct {
-	// Describes the customer's tax exemption status, which is `none`, `exempt`, or `reverse`. When set to reverse, invoice and receipt PDFs include the following text: “Reverse charge”.
+	// Describes the customer's tax exemption status, which is `none`, `exempt`, or `reverse`. When set to reverse, invoice and receipt PDFs include the following text: "Reverse charge".
 	Exempt *string `form:"exempt" json:"exempt,omitempty"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`

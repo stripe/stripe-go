@@ -296,6 +296,7 @@ import (
 	v2signalsaccountevaluation "github.com/stripe/stripe-go/v86/v2/signals/accountevaluation"
 	v2signalsaccountsignal "github.com/stripe/stripe-go/v86/v2/signals/accountsignal"
 	v2taxmanualrule "github.com/stripe/stripe-go/v86/v2/tax/manualrule"
+	v2taxoperation "github.com/stripe/stripe-go/v86/v2/tax/operation"
 	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v86/v2/testhelpers/financialaddress"
 	v2testhelpersmoneymanagement "github.com/stripe/stripe-go/v86/v2/testhelpers/moneymanagement"
 	"github.com/stripe/stripe-go/v86/webhookendpoint"
@@ -873,6 +874,8 @@ type API struct {
 	V2SignalsAccountSignals *v2signalsaccountsignal.Client
 	// V2TaxManualRules is the client used to invoke /v2/tax/manual_rules APIs.
 	V2TaxManualRules *v2taxmanualrule.Client
+	// V2TaxOperations is the client used to invoke operation related APIs.
+	V2TaxOperations *v2taxoperation.Client
 	// V2TestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2testhelpersfinancialaddress.Client
 	// V2TestHelpersMoneyManagements is the client used to invoke moneymanagement related APIs.
@@ -1178,6 +1181,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2SignalsAccountEvaluations = &v2signalsaccountevaluation.Client{B: backends.API, Key: key}
 	a.V2SignalsAccountSignals = &v2signalsaccountsignal.Client{B: backends.API, Key: key}
 	a.V2TaxManualRules = &v2taxmanualrule.Client{B: backends.API, Key: key}
+	a.V2TaxOperations = &v2taxoperation.Client{B: backends.API, Key: key}
 	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2TestHelpersMoneyManagements = &v2testhelpersmoneymanagement.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}

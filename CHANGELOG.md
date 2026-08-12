@@ -1,5 +1,13 @@
 # Changelog
 
+## 86.3.0 - 2026-08-10
+* [#2399](https://github.com/stripe/stripe-go/pull/2399) add/adjust event parsing helpers
+  
+  - Added methods that return their respective `Event`/`EventNotification` structs without verifying authenticity. Use them when you've previously verified an event (e.g. you verified, put the event in a queue, and are now processing). Supports events from [AWS EventBridge](https://docs.stripe.com/event-destinations/eventbridge) and [Azure Event Grid](https://docs.stripe.com/event-destinations/eventgrid) natively.
+    - `stripe.ConstructEventWithoutVerification(payload, opts ...WebhookOption)`
+    - `Client.ConstructEventWithoutVerification(payload, opts ...WebhookOption)`
+    - `Client.ParseEventNotificationWithoutVerification(payload)`
+
 ## 86.3.0-alpha.2 - 2026-08-05
 * [#2402](https://github.com/stripe/stripe-go/pull/2402) Update generated code for private-preview
   * Add support for new resource `BillingFeedbackOptions`

@@ -574,6 +574,8 @@ type Client struct {
 	V2SignalsAccountSignals *v2SignalsAccountSignalService
 	// V2TaxManualRules is the service used to invoke /v2/tax/manual_rules APIs.
 	V2TaxManualRules *v2TaxManualRuleService
+	// V2TaxOperations is the service used to invoke operation related APIs.
+	V2TaxOperations *v2TaxOperationService
 	// V2TestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2TestHelpersFinancialAddressService
 	// V2TestHelpersMoneyManagements is the service used to invoke moneymanagement related APIs.
@@ -900,6 +902,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2SignalsAccountEvaluations = &v2SignalsAccountEvaluationService{B: backends.API, Key: key}
 	client.V2SignalsAccountSignals = &v2SignalsAccountSignalService{B: backends.API, Key: key}
 	client.V2TaxManualRules = &v2TaxManualRuleService{B: backends.API, Key: key}
+	client.V2TaxOperations = &v2TaxOperationService{B: backends.API, Key: key}
 	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}
 	client.V2TestHelpersMoneyManagements = &v2TestHelpersMoneyManagementService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
@@ -923,8 +926,44 @@ func WithBackends(backends *Backends) ClientOption {
 	}
 }
 
-// ParseEventNotification parses a Stripe event from the payload and verifies its signature.
+// ConstructEvent constructs a [snapshot event] from an incoming webhook after
+// verifying its authenticity. To work with a webhook that has already been
+// verified (i.e. one from a cloud provider, an asynchronous queue, or during
+// testing), see [Client.ConstructEventWithoutVerification]. Returns an error
+// if the body or Stripe-Signature header provided are unreadable, if the
+// signature doesn't match, or if the timestamp for the signature is older than
+// WebhookDefaultTolerance.
+//
+// This will return an error if the event API version does not match the
+// APIVersion constant.
+//
+// [snapshot event]: https://docs.stripe.com/event-destinations#snapshot-payload
+func (c *Client) ConstructEvent(payload []byte, header string, secret string, opts ...WebhookOption) (Event, error) {
+	return ConstructEvent(payload, header, secret, opts...)
+}
+
+// ConstructEventWithoutVerification constructs a [snapshot event] from an
+// incoming webhook without first verifying its authenticity. Should be used
+// after calling [ValidatePayload] or with input from a trusted source (such as
+// [AWS EventBridge], or [Azure Event Grid] payload). Or, to verify & construct
+// in a single call, use [ConstructEvent] instead.
+//
+// [snapshot event]: https://docs.stripe.com/event-destinations#snapshot-payload
+// [AWS EventBridge]: https://docs.stripe.com/event-destinations/eventbridge
+// [Azure Event Grid]: https://docs.stripe.com/event-destinations/eventgrid
+func (c *Client) ConstructEventWithoutVerification(payload []byte, opts ...WebhookOption) (Event, error) {
+	return ConstructEventWithoutVerification(payload, opts...)
+}
+
+// ParseEventNotification constructs a [thin event notification] from an
+// incoming webhook after verifying its authenticity. To work with a webhook
+// that has already been verified (i.e. one from a cloud provider, an
+// asynchronous queue, or during testing), see
+// [Client.ParseEventNotificationWithoutVerification].
+//
 // It returns a union of all possible event notification types that implement EventNotificationContainer.
+//
+// [thin event notification]: https://docs.stripe.com/event-destinations#thin-payload
 func (c *Client) ParseEventNotification(payload []byte, header string, secret string, opts ...WebhookOption) (EventNotificationContainer, error) {
 	if err := ValidatePayload(payload, header, secret, opts...); err != nil {
 		return nil, err
@@ -933,18 +972,21 @@ func (c *Client) ParseEventNotification(payload []byte, header string, secret st
 	return EventNotificationFromJSON(payload, *c)
 }
 
-// ConstructEvent initializes an Event object from a JSON webhook payload, validating
-// the Stripe-Signature header using the specified signing secret. Returns an error
-// if the body or Stripe-Signature header provided are unreadable, if the
-// signature doesn't match, or if the timestamp for the signature is older than
-// WebhookDefaultTolerance.
+// ParseEventNotificationWithoutVerification constructs a [thin event
+// notification] from an incoming webhook without first verifying its
+// authenticity. Should be used after calling [ValidatePayload] or with input
+// from a trusted source (such as [AWS EventBridge], or [Azure Event Grid]
+// payload). Or, to verify & parse in a single call, use
+// [Client.ParseEventNotification] instead.
 //
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-//
-// This will return an error if the event API version does not match the
-// APIVersion constant.
-func (c *Client) ConstructEvent(payload []byte, header string, secret string, opts ...WebhookOption) (Event, error) {
-	return ConstructEvent(payload, header, secret, opts...)
+// [thin event notification]: https://docs.stripe.com/event-destinations#thin-payload
+// [AWS EventBridge]: https://docs.stripe.com/event-destinations/eventbridge
+// [Azure Event Grid]: https://docs.stripe.com/event-destinations/eventgrid
+func (c *Client) ParseEventNotificationWithoutVerification(payload []byte) (EventNotificationContainer, error) {
+	innerBytes, err := maybeExtractFromCloudProviderEnvelope(payload)
+	if err != nil {
+		return nil, err
+	}
+
+	return EventNotificationFromJSON(innerBytes, *c)
 }

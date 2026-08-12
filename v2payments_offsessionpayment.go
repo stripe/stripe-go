@@ -200,7 +200,7 @@ type V2PaymentsOffSessionPayment struct {
 	AmountCapturable Amount `json:"amount_capturable,omitempty"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *V2PaymentsOffSessionPaymentAmountDetails `json:"amount_details,omitempty"`
-	// The “presentment amount” to be collected from the customer.
+	// The "presentment amount" to be collected from the customer.
 	AmountRequested Amount `json:"amount_requested"`
 	// The application associated with this OffSessionPayment.
 	Application string `json:"application,omitempty"`

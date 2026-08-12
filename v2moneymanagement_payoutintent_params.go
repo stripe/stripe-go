@@ -79,6 +79,8 @@ type V2MoneyManagementPayoutIntentParams struct {
 	Params `form:"*"`
 	// The monetary amount to be sent.
 	Amount *Amount `form:"amount" json:"amount,omitempty"`
+	// Controls whether the intent requires explicit confirmation before transitioning to pending. Defaults to automatic.
+	ConfirmationMethod *string `form:"confirmation_method" json:"confirmation_method,omitempty"`
 	// An arbitrary string attached to the PayoutIntent. Often useful for displaying to users.
 	Description *string `form:"description" json:"description,omitempty"`
 	// The FinancialAccount that funds are pulled from.
@@ -104,8 +106,18 @@ func (p *V2MoneyManagementPayoutIntentParams) AddMetadata(key string, value stri
 	p.Metadata[key] = value
 }
 
-// Cancels a PayoutIntent. Only pending PayoutIntents or processing PayoutIntents with cancelable OutboundPayment/Transfer can be canceled.
+// Cancels a PayoutIntent. Only pending PayoutIntents, processing PayoutIntents with cancelable OutboundPayment/Transfer, or requires_action PayoutIntents can be canceled.
 type V2MoneyManagementPayoutIntentCancelParams struct {
+	Params `form:"*"`
+}
+
+// Confirms a PayoutIntent that is in the requires_action state, transitioning it to pending.
+type V2MoneyManagementPayoutIntentConfirmParams struct {
+	Params `form:"*"`
+}
+
+// Refreshes FX quote for a PayoutIntent.
+type V2MoneyManagementPayoutIntentFxQuoteParams struct {
 	Params `form:"*"`
 }
 
@@ -175,6 +187,8 @@ type V2MoneyManagementPayoutIntentCreateParams struct {
 	Params `form:"*"`
 	// The monetary amount to be sent.
 	Amount *Amount `form:"amount" json:"amount"`
+	// Controls whether the intent requires explicit confirmation before transitioning to pending. Defaults to automatic.
+	ConfirmationMethod *string `form:"confirmation_method" json:"confirmation_method,omitempty"`
 	// An arbitrary string attached to the PayoutIntent. Often useful for displaying to users.
 	Description *string `form:"description" json:"description,omitempty"`
 	// The FinancialAccount that funds are pulled from.
