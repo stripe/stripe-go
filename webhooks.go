@@ -52,18 +52,17 @@ func ComputeSignature(t time.Time, payload []byte, secret string) []byte {
 	return mac.Sum(nil)
 }
 
-// ConstructEvent initializes an Event object from a JSON webhook payload, validating
-// the Stripe-Signature header using the specified signing secret. Returns an error
+// ConstructEvent constructs a [snapshot event] from an incoming webhook after
+// verifying its authenticity. To work with a webhook that has already been
+// verified (i.e. one from a cloud provider, an asynchronous queue, or during
+// testing), see [ConstructEventWithoutVerification]. Returns an error
 // if the body or Stripe-Signature header provided are unreadable, if the
 // signature doesn't match, or if the timestamp for the signature is older than
 // DefaultTolerance.
-//
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-//
 // This will return an error if the event API version does not match the
 // APIVersion constant.
+//
+// [snapshot event]: https://docs.stripe.com/event-destinations#snapshot-payload
 func ConstructEvent(payload []byte, header string, secret string, opts ...WebhookOption) (Event, error) {
 	cfg := webhookConfig{
 		Tolerance: WebhookDefaultTolerance,
@@ -77,14 +76,37 @@ func ConstructEvent(payload []byte, header string, secret string, opts ...Webhoo
 	return constructEvent(payload, header, secret, cfg)
 }
 
-// ValidatePayload validates the payload against the Stripe-Signature header
-// using the specified signing secret. Returns an error if the body or
-// Stripe-Signature header provided are unreadable, if the signature doesn't
-// match, or if the timestamp for the signature is older than DefaultTolerance.
+// ConstructEventWithoutVerification constructs a [snapshot event] from an
+// incoming webhook without first verifying its authenticity. Should be used
+// after calling [ValidatePayload] or with input from a trusted source (such as
+// [AWS EventBridge], or [Azure Event Grid] payload). Or, to verify & construct
+// in a single call, use [ConstructEvent] instead.
 //
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
+// [snapshot event]: https://docs.stripe.com/event-destinations#snapshot-payload
+// [AWS EventBridge]: https://docs.stripe.com/event-destinations/eventbridge
+// [Azure Event Grid]: https://docs.stripe.com/event-destinations/eventgrid
+func ConstructEventWithoutVerification(payload []byte, opts ...WebhookOption) (Event, error) {
+	cfg := webhookConfig{
+		IgnoreAPIVersionMismatch: true,
+	}
+	for _, opt := range opts {
+		if opt == nil {
+			continue
+		}
+		opt(&cfg)
+	}
+
+	innerBytes, err := maybeExtractFromCloudProviderEnvelope(payload)
+	if err != nil {
+		return Event{}, err
+	}
+	return buildV1Event(innerBytes, cfg.IgnoreAPIVersionMismatch)
+}
+
+// ValidatePayload verifies the authenticity (and recency) of a webhook,
+// returning an error if there's a mismatch. Useful for quickly validating
+// incoming webhooks before storing them for later processing (at which time
+// you can use the *WithoutVerification functions for parsing).
 func ValidatePayload(payload []byte, header string, secret string, opts ...WebhookOption) error {
 	cfg := webhookConfig{
 		Tolerance: WebhookDefaultTolerance,
@@ -169,34 +191,29 @@ func constructEvent(payload []byte, sigHeader string, secret string, cfg webhook
 		return e, err
 	}
 
-	if err := checkEventNotification(payload); err != nil {
-		return e, err
-	}
-
-	if err := json.Unmarshal(payload, &e); err != nil {
-		return e, fmt.Errorf("failed to parse webhook body json: %s", err.Error())
-	}
-
-	if !cfg.IgnoreAPIVersionMismatch && !isCompatibleAPIVersion(APIVersion, e.APIVersion) {
-		return e, fmt.Errorf("received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized", e.APIVersion, ClientVersion, APIVersion)
-	}
-
-	return e, nil
+	return buildV1Event(payload, cfg.IgnoreAPIVersionMismatch)
 }
 
-func checkEventNotification(payload []byte) error {
-	e := struct {
+func buildV1Event(payload []byte, ignoreAPIVersionMismatch bool) (Event, error) {
+	var peek struct {
 		Object string `json:"object"`
-	}{}
-	if err := json.Unmarshal(payload, &e); err != nil {
-		return fmt.Errorf("failed to parse webhook body json: %s", err.Error())
+	}
+	if err := json.Unmarshal(payload, &peek); err != nil {
+		return Event{}, fmt.Errorf("failed to parse webhook body json: %s", err.Error())
+	}
+	if peek.Object != "event" {
+		return Event{}, fmt.Errorf("you passed a thin event notification to a function that expects a webhook; use an EventNotification function instead")
+	}
+	var event Event
+	if err := json.Unmarshal(payload, &event); err != nil {
+		return Event{}, fmt.Errorf("failed to parse webhook body json: %s", err.Error())
 	}
 
-	if e.Object != "event" {
-		return fmt.Errorf("did you use ConstructEvent to parse a thin event notification? If so, use ParseEventNotification instead")
+	if !ignoreAPIVersionMismatch && !isCompatibleAPIVersion(APIVersion, event.APIVersion) {
+		return event, fmt.Errorf("received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized", event.APIVersion, ClientVersion, APIVersion)
 	}
 
-	return nil
+	return event, nil
 }
 
 func parseSignatureHeader(header string) (*signedHeader, error) {
@@ -280,6 +297,8 @@ type SignedPayload struct {
 	Header    string
 }
 
+// GenerateTestSignedPayload computes the Stripe-Signature header for a given
+// webhook body & secret. Useful for signing payloads in unit tests.
 func GenerateTestSignedPayload(options *UnsignedPayload) *SignedPayload {
 	signedPayload := &SignedPayload{UnsignedPayload: *options}
 

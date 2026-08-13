@@ -204,7 +204,7 @@ type V2PaymentsOffSessionPaymentTransferDataParams struct {
 // Creates an OffSessionPayment object.
 type V2PaymentsOffSessionPaymentParams struct {
 	Params `form:"*"`
-	// The “presentment amount” to be collected from the customer.
+	// The "presentment amount" to be collected from the customer.
 	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *V2PaymentsOffSessionPaymentAmountDetailsParams `form:"amount_details" json:"amount_details,omitempty"`
@@ -514,7 +514,7 @@ type V2PaymentsOffSessionPaymentCreateTransferDataParams struct {
 // Creates an OffSessionPayment object.
 type V2PaymentsOffSessionPaymentCreateParams struct {
 	Params `form:"*"`
-	// The “presentment amount” to be collected from the customer.
+	// The "presentment amount" to be collected from the customer.
 	Amount *Amount `form:"amount" json:"amount"`
 	// Provides industry-specific information about the amount.
 	AmountDetails *V2PaymentsOffSessionPaymentCreateAmountDetailsParams `form:"amount_details" json:"amount_details,omitempty"`

@@ -146,9 +146,40 @@ func (h *EventNotificationHandler) OnV1BalanceAvailable(callback func(ctx contex
 	return registerTypedHandler(h, "v1.balance.available", callback)
 }
 
+// OnV1BalanceSettingsUpdated registers a callback to handle notifications about the "v1.balance_settings.updated" event.
+func (h *EventNotificationHandler) OnV1BalanceSettingsUpdated(callback func(ctx context.Context, notif *V1BalanceSettingsUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.balance_settings.updated", callback)
+}
+
 // OnV1BillingAlertTriggered registers a callback to handle notifications about the "v1.billing.alert.triggered" event.
 func (h *EventNotificationHandler) OnV1BillingAlertTriggered(callback func(ctx context.Context, notif *V1BillingAlertTriggeredEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v1.billing.alert.triggered", callback)
+}
+
+// OnV1BillingCreditBalanceTransactionCreated registers a callback to handle notifications about the "v1.billing.credit_balance_transaction.created" event.
+func (h *EventNotificationHandler) OnV1BillingCreditBalanceTransactionCreated(callback func(ctx context.Context, notif *V1BillingCreditBalanceTransactionCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v1.billing.credit_balance_transaction.created", callback)
+}
+
+// OnV1BillingCreditGrantCreated registers a callback to handle notifications about the "v1.billing.credit_grant.created" event.
+func (h *EventNotificationHandler) OnV1BillingCreditGrantCreated(callback func(ctx context.Context, notif *V1BillingCreditGrantCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.billing.credit_grant.created", callback)
+}
+
+// OnV1BillingCreditGrantUpdated registers a callback to handle notifications about the "v1.billing.credit_grant.updated" event.
+func (h *EventNotificationHandler) OnV1BillingCreditGrantUpdated(callback func(ctx context.Context, notif *V1BillingCreditGrantUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.billing.credit_grant.updated", callback)
+}
+
+// OnV1BillingMeterCreated registers a callback to handle notifications about the "v1.billing.meter.created" event.
+func (h *EventNotificationHandler) OnV1BillingMeterCreated(callback func(ctx context.Context, notif *V1BillingMeterCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.billing.meter.created", callback)
+}
+
+// OnV1BillingMeterDeactivated registers a callback to handle notifications about the "v1.billing.meter.deactivated" event.
+func (h *EventNotificationHandler) OnV1BillingMeterDeactivated(callback func(ctx context.Context, notif *V1BillingMeterDeactivatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.billing.meter.deactivated", callback)
 }
 
 // OnV1BillingMeterErrorReportTriggered registers a callback to handle notifications about the "v1.billing.meter.error_report_triggered" event.
@@ -160,6 +191,16 @@ func (h *EventNotificationHandler) OnV1BillingMeterErrorReportTriggered(callback
 // OnV1BillingMeterNoMeterFound registers a callback to handle notifications about the "v1.billing.meter.no_meter_found" event.
 func (h *EventNotificationHandler) OnV1BillingMeterNoMeterFound(callback func(ctx context.Context, notif *V1BillingMeterNoMeterFoundEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v1.billing.meter.no_meter_found", callback)
+}
+
+// OnV1BillingMeterReactivated registers a callback to handle notifications about the "v1.billing.meter.reactivated" event.
+func (h *EventNotificationHandler) OnV1BillingMeterReactivated(callback func(ctx context.Context, notif *V1BillingMeterReactivatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.billing.meter.reactivated", callback)
+}
+
+// OnV1BillingMeterUpdated registers a callback to handle notifications about the "v1.billing.meter.updated" event.
+func (h *EventNotificationHandler) OnV1BillingMeterUpdated(callback func(ctx context.Context, notif *V1BillingMeterUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v1.billing.meter.updated", callback)
 }
 
 // OnV1BillingPortalConfigurationCreated registers a callback to handle notifications about the "v1.billing_portal.configuration.created" event.
@@ -432,6 +473,12 @@ func (h *EventNotificationHandler) OnV1FileCreated(callback func(ctx context.Con
 	return registerTypedHandler(h, "v1.file.created", callback)
 }
 
+// OnV1FinancialConnectionsAccountAccountNumbersUpdated registers a callback to handle notifications about the "v1.financial_connections.account.account_numbers_updated" event.
+func (h *EventNotificationHandler) OnV1FinancialConnectionsAccountAccountNumbersUpdated(callback func(ctx context.Context, notif *V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v1.financial_connections.account.account_numbers_updated", callback)
+}
+
 // OnV1FinancialConnectionsAccountCreated registers a callback to handle notifications about the "v1.financial_connections.account.created" event.
 func (h *EventNotificationHandler) OnV1FinancialConnectionsAccountCreated(callback func(ctx context.Context, notif *V1FinancialConnectionsAccountCreatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
@@ -448,6 +495,12 @@ func (h *EventNotificationHandler) OnV1FinancialConnectionsAccountDeactivated(ca
 func (h *EventNotificationHandler) OnV1FinancialConnectionsAccountDisconnected(callback func(ctx context.Context, notif *V1FinancialConnectionsAccountDisconnectedEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v1.financial_connections.account.disconnected", callback)
+}
+
+// OnV1FinancialConnectionsAccountExpectedDeactivationDateUpdated registers a callback to handle notifications about the "v1.financial_connections.account.expected_deactivation_date_updated" event.
+func (h *EventNotificationHandler) OnV1FinancialConnectionsAccountExpectedDeactivationDateUpdated(callback func(ctx context.Context, notif *V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v1.financial_connections.account.expected_deactivation_date_updated", callback)
 }
 
 // OnV1FinancialConnectionsAccountReactivated registers a callback to handle notifications about the "v1.financial_connections.account.reactivated" event.
@@ -472,6 +525,24 @@ func (h *EventNotificationHandler) OnV1FinancialConnectionsAccountRefreshedOwner
 func (h *EventNotificationHandler) OnV1FinancialConnectionsAccountRefreshedTransactions(callback func(ctx context.Context, notif *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification, client *Client) error) error {
 	return registerTypedHandler(
 		h, "v1.financial_connections.account.refreshed_transactions", callback)
+}
+
+// OnV1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdated registers a callback to handle notifications about the "v1.financial_connections.account.supported_payment_method_types_updated" event.
+func (h *EventNotificationHandler) OnV1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdated(callback func(ctx context.Context, notif *V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v1.financial_connections.account.supported_payment_method_types_updated", callback)
+}
+
+// OnV1FinancialConnectionsAccountUpcomingAccountNumberExpiry registers a callback to handle notifications about the "v1.financial_connections.account.upcoming_account_number_expiry" event.
+func (h *EventNotificationHandler) OnV1FinancialConnectionsAccountUpcomingAccountNumberExpiry(callback func(ctx context.Context, notif *V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v1.financial_connections.account.upcoming_account_number_expiry", callback)
+}
+
+// OnV1FinancialConnectionsAccountUpcomingDeactivation registers a callback to handle notifications about the "v1.financial_connections.account.upcoming_deactivation" event.
+func (h *EventNotificationHandler) OnV1FinancialConnectionsAccountUpcomingDeactivation(callback func(ctx context.Context, notif *V1FinancialConnectionsAccountUpcomingDeactivationEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v1.financial_connections.account.upcoming_deactivation", callback)
 }
 
 // OnV1IdentityVerificationSessionCanceled registers a callback to handle notifications about the "v1.identity.verification_session.canceled" event.
@@ -553,6 +624,12 @@ func (h *EventNotificationHandler) OnV1InvoicePaid(callback func(ctx context.Con
 // OnV1InvoicePaymentActionRequired registers a callback to handle notifications about the "v1.invoice.payment_action_required" event.
 func (h *EventNotificationHandler) OnV1InvoicePaymentActionRequired(callback func(ctx context.Context, notif *V1InvoicePaymentActionRequiredEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v1.invoice.payment_action_required", callback)
+}
+
+// OnV1InvoicePaymentAttemptRequired registers a callback to handle notifications about the "v1.invoice.payment_attempt_required" event.
+func (h *EventNotificationHandler) OnV1InvoicePaymentAttemptRequired(callback func(ctx context.Context, notif *V1InvoicePaymentAttemptRequiredEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v1.invoice.payment_attempt_required", callback)
 }
 
 // OnV1InvoicePaymentFailed registers a callback to handle notifications about the "v1.invoice.payment_failed" event.

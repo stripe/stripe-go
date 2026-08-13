@@ -71,6 +71,24 @@ const (
 	FinancialConnectionsAccountCategoryOther      FinancialConnectionsAccountCategory = "other"
 )
 
+// The taxonomy classification status for this account. One of 'pending' or 'completed'.
+type FinancialConnectionsAccountClassificationStateStatus string
+
+// List of values that FinancialConnectionsAccountClassificationStateStatus can take
+const (
+	FinancialConnectionsAccountClassificationStateStatusCompleted FinancialConnectionsAccountClassificationStateStatus = "completed"
+	FinancialConnectionsAccountClassificationStateStatusPending   FinancialConnectionsAccountClassificationStateStatus = "pending"
+)
+
+// The merchant enrichment status for this account. One of 'pending' or 'completed'.
+type FinancialConnectionsAccountEnrichmentStateMerchantStatus string
+
+// List of values that FinancialConnectionsAccountEnrichmentStateMerchantStatus can take
+const (
+	FinancialConnectionsAccountEnrichmentStateMerchantStatusCompleted FinancialConnectionsAccountEnrichmentStateMerchantStatus = "completed"
+	FinancialConnectionsAccountEnrichmentStateMerchantStatusPending   FinancialConnectionsAccountEnrichmentStateMerchantStatus = "pending"
+)
+
 // The status of the last refresh attempt.
 type FinancialConnectionsAccountInferredBalancesRefreshStatus string
 
@@ -392,6 +410,24 @@ type FinancialConnectionsAccountBalanceRefresh struct {
 	Status FinancialConnectionsAccountBalanceRefreshStatus `json:"status"`
 }
 
+// Per-taxonomy processing state for this account. One entry per subscribed taxonomy.
+type FinancialConnectionsAccountClassificationState struct {
+	// The taxonomy classification status for this account. One of 'pending' or 'completed'.
+	Status FinancialConnectionsAccountClassificationStateStatus `json:"status"`
+}
+
+// The enrichment status for merchant name normalization.
+type FinancialConnectionsAccountEnrichmentStateMerchant struct {
+	// The merchant enrichment status for this account. One of 'pending' or 'completed'.
+	Status FinancialConnectionsAccountEnrichmentStateMerchantStatus `json:"status"`
+}
+
+// The state of merchant name enrichment for this account.
+type FinancialConnectionsAccountEnrichmentState struct {
+	// The enrichment status for merchant name normalization.
+	Merchant *FinancialConnectionsAccountEnrichmentStateMerchant `json:"merchant"`
+}
+
 // The state of the most recent attempt to refresh the account's inferred balance history.
 type FinancialConnectionsAccountInferredBalancesRefresh struct {
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
@@ -457,10 +493,14 @@ type FinancialConnectionsAccount struct {
 	BalanceRefresh *FinancialConnectionsAccountBalanceRefresh `json:"balance_refresh"`
 	// The type of the account. Account category is further divided in `subcategory`.
 	Category FinancialConnectionsAccountCategory `json:"category"`
+	// Per-taxonomy processing state for this account. One entry per subscribed taxonomy.
+	ClassificationState map[string]*FinancialConnectionsAccountClassificationState `json:"classification_state,omitempty"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// A human-readable name that has been assigned to this account, either by the account holder or by the institution.
 	DisplayName string `json:"display_name"`
+	// The state of merchant name enrichment for this account.
+	EnrichmentState *FinancialConnectionsAccountEnrichmentState `json:"enrichment_state,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The state of the most recent attempt to refresh the account's inferred balance history.

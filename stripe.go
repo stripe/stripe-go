@@ -1302,6 +1302,17 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
+	case "fx_quote_needs_refresh":
+		tmp := struct {
+			Error *FxQuoteNeedsRefreshError `json:"error"`
+		}{
+			Error: &FxQuoteNeedsRefreshError{},
+		}
+		if err := s.unmarshalJSONVerbose(ctx, res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
 	case "insufficient_funds":
 		tmp := struct {
 			Error *InsufficientFundsError `json:"error"`

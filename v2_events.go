@@ -323,7 +323,8 @@ type V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionType string
 
 // List of values that V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionType can take
 const (
-	V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionTypeIssuer V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionType = "issuer"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionTypeAcquirer V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionType = "acquirer"
+	V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionTypeIssuer   V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimensionType = "issuer"
 )
 
 // The type of the payment method.
@@ -416,7 +417,8 @@ type V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionType strin
 
 // List of values that V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionType can take
 const (
-	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionTypeIssuer V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionType = "issuer"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionTypeAcquirer V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionType = "acquirer"
+	V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionTypeIssuer   V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimensionType = "issuer"
 )
 
 // The type of the payment method.
@@ -1107,6 +1109,47 @@ func (n *V1BalanceAvailableEventNotification) FetchRelatedObject(ctx context.Con
 	return relatedObj, err
 }
 
+// V1BalanceSettingsUpdatedEvent is the Go struct for the "v1.balance_settings.updated" event.
+// Occurs whenever a balance settings status or property has changed.
+type V1BalanceSettingsUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*BalanceSettings, error)
+}
+
+// FetchRelatedObject fetches the BalanceSettings related to the event.
+func (e *V1BalanceSettingsUpdatedEvent) FetchRelatedObject(ctx context.Context) (*BalanceSettings, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1BalanceSettingsUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.balance_settings.updated"
+// Occurs whenever a balance settings status or property has changed.
+type V1BalanceSettingsUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1BalanceSettingsUpdatedEvent that created this Notification
+func (n *V1BalanceSettingsUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1BalanceSettingsUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1BalanceSettingsUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the BalanceSettings related to the event.
+func (n *V1BalanceSettingsUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*BalanceSettings, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &BalanceSettings{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V1BillingAlertTriggeredEvent is the Go struct for the "v1.billing.alert.triggered" event.
 // Occurs whenever your custom alert threshold is met.
 type V1BillingAlertTriggeredEvent struct {
@@ -1143,6 +1186,211 @@ func (n *V1BillingAlertTriggeredEventNotification) FetchRelatedObject(ctx contex
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &BillingAlert{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1BillingCreditBalanceTransactionCreatedEvent is the Go struct for the "v1.billing.credit_balance_transaction.created" event.
+// Occurs when a credit balance transaction is created.
+type V1BillingCreditBalanceTransactionCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*BillingCreditBalanceTransaction, error)
+}
+
+// FetchRelatedObject fetches the BillingCreditBalanceTransaction related to the event.
+func (e *V1BillingCreditBalanceTransactionCreatedEvent) FetchRelatedObject(ctx context.Context) (*BillingCreditBalanceTransaction, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1BillingCreditBalanceTransactionCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.credit_balance_transaction.created"
+// Occurs when a credit balance transaction is created.
+type V1BillingCreditBalanceTransactionCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1BillingCreditBalanceTransactionCreatedEvent that created this Notification
+func (n *V1BillingCreditBalanceTransactionCreatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingCreditBalanceTransactionCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1BillingCreditBalanceTransactionCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the BillingCreditBalanceTransaction related to the event.
+func (n *V1BillingCreditBalanceTransactionCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*BillingCreditBalanceTransaction, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &BillingCreditBalanceTransaction{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1BillingCreditGrantCreatedEvent is the Go struct for the "v1.billing.credit_grant.created" event.
+// Occurs when a credit grant is created.
+type V1BillingCreditGrantCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*BillingCreditGrant, error)
+}
+
+// FetchRelatedObject fetches the BillingCreditGrant related to the event.
+func (e *V1BillingCreditGrantCreatedEvent) FetchRelatedObject(ctx context.Context) (*BillingCreditGrant, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1BillingCreditGrantCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.credit_grant.created"
+// Occurs when a credit grant is created.
+type V1BillingCreditGrantCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1BillingCreditGrantCreatedEvent that created this Notification
+func (n *V1BillingCreditGrantCreatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingCreditGrantCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1BillingCreditGrantCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the BillingCreditGrant related to the event.
+func (n *V1BillingCreditGrantCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*BillingCreditGrant, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &BillingCreditGrant{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1BillingCreditGrantUpdatedEvent is the Go struct for the "v1.billing.credit_grant.updated" event.
+// Occurs when a credit grant is updated.
+type V1BillingCreditGrantUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*BillingCreditGrant, error)
+}
+
+// FetchRelatedObject fetches the BillingCreditGrant related to the event.
+func (e *V1BillingCreditGrantUpdatedEvent) FetchRelatedObject(ctx context.Context) (*BillingCreditGrant, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1BillingCreditGrantUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.credit_grant.updated"
+// Occurs when a credit grant is updated.
+type V1BillingCreditGrantUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1BillingCreditGrantUpdatedEvent that created this Notification
+func (n *V1BillingCreditGrantUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingCreditGrantUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1BillingCreditGrantUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the BillingCreditGrant related to the event.
+func (n *V1BillingCreditGrantUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*BillingCreditGrant, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &BillingCreditGrant{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1BillingMeterCreatedEvent is the Go struct for the "v1.billing.meter.created" event.
+// Occurs when a meter is created.
+type V1BillingMeterCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*BillingMeter, error)
+}
+
+// FetchRelatedObject fetches the BillingMeter related to the event.
+func (e *V1BillingMeterCreatedEvent) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1BillingMeterCreatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.created"
+// Occurs when a meter is created.
+type V1BillingMeterCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1BillingMeterCreatedEvent that created this Notification
+func (n *V1BillingMeterCreatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1BillingMeterCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the BillingMeter related to the event.
+func (n *V1BillingMeterCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &BillingMeter{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1BillingMeterDeactivatedEvent is the Go struct for the "v1.billing.meter.deactivated" event.
+// Occurs when a meter is deactivated.
+type V1BillingMeterDeactivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*BillingMeter, error)
+}
+
+// FetchRelatedObject fetches the BillingMeter related to the event.
+func (e *V1BillingMeterDeactivatedEvent) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1BillingMeterDeactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.deactivated"
+// Occurs when a meter is deactivated.
+type V1BillingMeterDeactivatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1BillingMeterDeactivatedEvent that created this Notification
+func (n *V1BillingMeterDeactivatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterDeactivatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1BillingMeterDeactivatedEvent), nil
+}
+
+// FetchRelatedObject fetches the BillingMeter related to the event.
+func (n *V1BillingMeterDeactivatedEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &BillingMeter{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -1210,6 +1458,88 @@ func (n *V1BillingMeterNoMeterFoundEventNotification) FetchEvent(ctx context.Con
 		return nil, err
 	}
 	return evt.(*V1BillingMeterNoMeterFoundEvent), nil
+}
+
+// V1BillingMeterReactivatedEvent is the Go struct for the "v1.billing.meter.reactivated" event.
+// Occurs when a meter is reactivated.
+type V1BillingMeterReactivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*BillingMeter, error)
+}
+
+// FetchRelatedObject fetches the BillingMeter related to the event.
+func (e *V1BillingMeterReactivatedEvent) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1BillingMeterReactivatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.reactivated"
+// Occurs when a meter is reactivated.
+type V1BillingMeterReactivatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1BillingMeterReactivatedEvent that created this Notification
+func (n *V1BillingMeterReactivatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterReactivatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1BillingMeterReactivatedEvent), nil
+}
+
+// FetchRelatedObject fetches the BillingMeter related to the event.
+func (n *V1BillingMeterReactivatedEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &BillingMeter{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1BillingMeterUpdatedEvent is the Go struct for the "v1.billing.meter.updated" event.
+// Occurs when a meter is updated.
+type V1BillingMeterUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*BillingMeter, error)
+}
+
+// FetchRelatedObject fetches the BillingMeter related to the event.
+func (e *V1BillingMeterUpdatedEvent) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1BillingMeterUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.billing.meter.updated"
+// Occurs when a meter is updated.
+type V1BillingMeterUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1BillingMeterUpdatedEvent that created this Notification
+func (n *V1BillingMeterUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1BillingMeterUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1BillingMeterUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the BillingMeter related to the event.
+func (n *V1BillingMeterUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*BillingMeter, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &BillingMeter{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
 }
 
 // V1BillingPortalConfigurationCreatedEvent is the Go struct for the "v1.billing_portal.configuration.created" event.
@@ -2954,7 +3284,7 @@ func (n *V1CustomerSubscriptionResumedEventNotification) FetchRelatedObject(ctx 
 }
 
 // V1CustomerSubscriptionTrialWillEndEvent is the Go struct for the "v1.customer.subscription.trial_will_end" event.
-// Occurs three days before a subscription's trial period is scheduled to end, or when a trial is ended immediately (using `trial_end=now`).
+// Occurs three days before a subscription's trial period is scheduled to end, or immediately when a trial is ended early (for example, with `trial_end=now` or when a Customer Portal plan change ends a trial). If a trial is shortened so that fewer than three days remain, this event can fire immediately, including during the same transaction that collects payment. Before sending payment-reminder communications from this webhook, check the subscription status and latest invoice to determine whether payment has already been collected.
 type V1CustomerSubscriptionTrialWillEndEvent struct {
 	V2BaseEvent
 	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
@@ -2967,7 +3297,7 @@ func (e *V1CustomerSubscriptionTrialWillEndEvent) FetchRelatedObject(ctx context
 }
 
 // V1CustomerSubscriptionTrialWillEndEventNotification is the webhook payload you'll get when handling an event with type "v1.customer.subscription.trial_will_end"
-// Occurs three days before a subscription's trial period is scheduled to end, or when a trial is ended immediately (using `trial_end=now`).
+// Occurs three days before a subscription's trial period is scheduled to end, or immediately when a trial is ended early (for example, with `trial_end=now` or when a Customer Portal plan change ends a trial). If a trial is shortened so that fewer than three days remain, this event can fire immediately, including during the same transaction that collects payment. Before sending payment-reminder communications from this webhook, check the subscription status and latest invoice to determine whether payment has already been collected.
 type V1CustomerSubscriptionTrialWillEndEventNotification struct {
 	V2CoreEventNotification
 	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
@@ -3300,6 +3630,47 @@ func (n *V1FileCreatedEventNotification) FetchRelatedObject(ctx context.Context)
 	return relatedObj, err
 }
 
+// V1FinancialConnectionsAccountAccountNumbersUpdatedEvent is the Go struct for the "v1.financial_connections.account.account_numbers_updated" event.
+// Occurs when a Financial Connections account's account numbers are updated.
+type V1FinancialConnectionsAccountAccountNumbersUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountAccountNumbersUpdatedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.account_numbers_updated"
+// Occurs when a Financial Connections account's account numbers are updated.
+type V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountAccountNumbersUpdatedEvent that created this Notification
+func (n *V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountAccountNumbersUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountAccountNumbersUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V1FinancialConnectionsAccountCreatedEvent is the Go struct for the "v1.financial_connections.account.created" event.
 // Occurs when a new Financial Connections account is created.
 type V1FinancialConnectionsAccountCreatedEvent struct {
@@ -3413,6 +3784,47 @@ func (n *V1FinancialConnectionsAccountDisconnectedEventNotification) FetchEvent(
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (n *V1FinancialConnectionsAccountDisconnectedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEvent is the Go struct for the "v1.financial_connections.account.expected_deactivation_date_updated" event.
+// Occurs when a Financial Connections account’s `expected_deactivation_date` changes.
+type V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.expected_deactivation_date_updated"
+// Occurs when a Financial Connections account’s `expected_deactivation_date` changes.
+type V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEvent that created this Notification
+func (n *V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -3577,6 +3989,129 @@ func (n *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) Fe
 
 // FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
 func (n *V1FinancialConnectionsAccountRefreshedTransactionsEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent is the Go struct for the "v1.financial_connections.account.supported_payment_method_types_updated" event.
+// Occurs when the supported_payment_method_types array on a Financial Connections account changes.
+type V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.supported_payment_method_types_updated"
+// Occurs when the supported_payment_method_types array on a Financial Connections account changes.
+type V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent that created this Notification
+func (n *V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEvent is the Go struct for the "v1.financial_connections.account.upcoming_account_number_expiry" event.
+// Occurs when an Account’s tokenized account number is about to expire.
+type V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.upcoming_account_number_expiry"
+// Occurs when an Account’s tokenized account number is about to expire.
+type V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEvent that created this Notification
+func (n *V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &FinancialConnectionsAccount{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1FinancialConnectionsAccountUpcomingDeactivationEvent is the Go struct for the "v1.financial_connections.account.upcoming_deactivation" event.
+// Occurs when a Financial Connections account is about to become `inactive`.
+type V1FinancialConnectionsAccountUpcomingDeactivationEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*FinancialConnectionsAccount, error)
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (e *V1FinancialConnectionsAccountUpcomingDeactivationEvent) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1FinancialConnectionsAccountUpcomingDeactivationEventNotification is the webhook payload you'll get when handling an event with type "v1.financial_connections.account.upcoming_deactivation"
+// Occurs when a Financial Connections account is about to become `inactive`.
+type V1FinancialConnectionsAccountUpcomingDeactivationEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1FinancialConnectionsAccountUpcomingDeactivationEvent that created this Notification
+func (n *V1FinancialConnectionsAccountUpcomingDeactivationEventNotification) FetchEvent(ctx context.Context) (*V1FinancialConnectionsAccountUpcomingDeactivationEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1FinancialConnectionsAccountUpcomingDeactivationEvent), nil
+}
+
+// FetchRelatedObject fetches the FinancialConnectionsAccount related to the event.
+func (n *V1FinancialConnectionsAccountUpcomingDeactivationEventNotification) FetchRelatedObject(ctx context.Context) (*FinancialConnectionsAccount, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -4192,6 +4727,47 @@ func (n *V1InvoicePaymentActionRequiredEventNotification) FetchEvent(ctx context
 
 // FetchRelatedObject fetches the Invoice related to the event.
 func (n *V1InvoicePaymentActionRequiredEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &Invoice{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V1InvoicePaymentAttemptRequiredEvent is the Go struct for the "v1.invoice.payment_attempt_required" event.
+// Occurs when an invoice requires a payment using a payment method that cannot be processed by Stripe.
+type V1InvoicePaymentAttemptRequiredEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*Invoice, error)
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (e *V1InvoicePaymentAttemptRequiredEvent) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
+	return e.fetchRelatedObject()
+}
+
+// V1InvoicePaymentAttemptRequiredEventNotification is the webhook payload you'll get when handling an event with type "v1.invoice.payment_attempt_required"
+// Occurs when an invoice requires a payment using a payment method that cannot be processed by Stripe.
+type V1InvoicePaymentAttemptRequiredEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V1InvoicePaymentAttemptRequiredEvent that created this Notification
+func (n *V1InvoicePaymentAttemptRequiredEventNotification) FetchEvent(ctx context.Context) (*V1InvoicePaymentAttemptRequiredEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V1InvoicePaymentAttemptRequiredEvent), nil
+}
+
+// FetchRelatedObject fetches the Invoice related to the event.
+func (n *V1InvoicePaymentAttemptRequiredEventNotification) FetchRelatedObject(ctx context.Context) (*Invoice, error) {
 	params := &eventNotificationParams{Params: Params{Context: ctx}}
 	params.SetStripeContextFrom(n.Context)
 	params.Headers = make(http.Header)
@@ -17776,6 +18352,8 @@ type V2CoreHealthAPILatencyResolvedEventData struct {
 
 // Dimensions that describe what subset of payments are impacted.
 type V2CoreHealthAuthorizationRateDropFiringEventDataImpactDimension struct {
+	// The acquirer dimension.
+	Acquirer string `json:"acquirer,omitempty"`
 	// The issuer dimension.
 	Issuer string `json:"issuer,omitempty"`
 	// The type of the dimension.
@@ -17812,6 +18390,8 @@ type V2CoreHealthAuthorizationRateDropFiringEventData struct {
 
 // Dimensions that describe what subset of payments are impacted.
 type V2CoreHealthAuthorizationRateDropResolvedEventDataImpactDimension struct {
+	// The acquirer dimension.
+	Acquirer string `json:"acquirer,omitempty"`
 	// The issuer dimension.
 	Issuer string `json:"issuer,omitempty"`
 	// The type of the dimension.
@@ -18818,12 +19398,102 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v1.balance_settings.updated":
+		result := &V1BalanceSettingsUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*BalanceSettings, error) {
+			v := &BalanceSettings{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v1.billing.alert.triggered":
 		result := &V1BillingAlertTriggeredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*BillingAlert, error) {
 			v := &BillingAlert{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.billing.credit_balance_transaction.created":
+		result := &V1BillingCreditBalanceTransactionCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*BillingCreditBalanceTransaction, error) {
+			v := &BillingCreditBalanceTransaction{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.billing.credit_grant.created":
+		result := &V1BillingCreditGrantCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*BillingCreditGrant, error) {
+			v := &BillingCreditGrant{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.billing.credit_grant.updated":
+		result := &V1BillingCreditGrantUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*BillingCreditGrant, error) {
+			v := &BillingCreditGrant{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.billing.meter.created":
+		result := &V1BillingMeterCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*BillingMeter, error) {
+			v := &BillingMeter{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.billing.meter.deactivated":
+		result := &V1BillingMeterDeactivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*BillingMeter, error) {
+			v := &BillingMeter{}
 			params := &Params{}
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -18856,6 +19526,36 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.V2BaseEvent = event.V2BaseEvent
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
+		}
+		return result, nil
+	case "v1.billing.meter.reactivated":
+		result := &V1BillingMeterReactivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*BillingMeter, error) {
+			v := &BillingMeter{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.billing.meter.updated":
+		result := &V1BillingMeterUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*BillingMeter, error) {
+			v := &BillingMeter{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
 		}
 		return result, nil
 	case "v1.billing_portal.configuration.created":
@@ -19616,6 +20316,21 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return v, err
 		}
 		return result, nil
+	case "v1.financial_connections.account.account_numbers_updated":
+		result := &V1FinancialConnectionsAccountAccountNumbersUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	case "v1.financial_connections.account.created":
 		result := &V1FinancialConnectionsAccountCreatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -19648,6 +20363,21 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v1.financial_connections.account.disconnected":
 		result := &V1FinancialConnectionsAccountDisconnectedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.expected_deactivation_date_updated":
+		result := &V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
@@ -19708,6 +20438,51 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v1.financial_connections.account.refreshed_transactions":
 		result := &V1FinancialConnectionsAccountRefreshedTransactionsEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.supported_payment_method_types_updated":
+		result := &V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.upcoming_account_number_expiry":
+		result := &V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
+			v := &FinancialConnectionsAccount{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.financial_connections.account.upcoming_deactivation":
+		result := &V1FinancialConnectionsAccountUpcomingDeactivationEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*FinancialConnectionsAccount, error) {
@@ -19933,6 +20708,21 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		return result, nil
 	case "v1.invoice.payment_action_required":
 		result := &V1InvoicePaymentActionRequiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*Invoice, error) {
+			v := &Invoice{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v1.invoice.payment_attempt_required":
+		result := &V1InvoicePaymentAttemptRequiredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*Invoice, error) {
@@ -24809,7 +25599,7 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 
 // EventNotificationFromJSON is a helper for constructing an Event Notification. Doesn't perform signature validation,
 // so you should use [Client.ParseEventNotification] instead for initial handling.
-// This is useful in unit tests and working with EventNotifications that you've already validated the authenticity of.
+// This is useful in unit tests and working with EventNotifications whose authenticity you've already validated.
 func EventNotificationFromJSON(payload []byte, client Client) (EventNotificationContainer, error) {
 	var result = &struct {
 		Type   string `json:"type"`
@@ -24820,7 +25610,10 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 	}
 
 	if result.Object == "event" {
-		return nil, fmt.Errorf("did you use EventNotificationFromJSON to parse a webhook payload? If so, use ConstructEvent instead")
+		return nil, fmt.Errorf("did you use an EventNotification function to parse a webhook payload? If so, use the corresponding ConstructEvent function instead")
+	}
+	if result.Object != "" && result.Object != "v2.core.event" {
+		return nil, fmt.Errorf("unexpected object type '%s'; expected 'v2.core.event' for an event notification", result.Object)
 	}
 
 	// V2EventNotificationTypes: The beginning of the section generated from our OpenAPI spec
@@ -24902,8 +25695,50 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v1.balance_settings.updated":
+		evt := V1BalanceSettingsUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.billing.alert.triggered":
 		evt := V1BillingAlertTriggeredEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.billing.credit_balance_transaction.created":
+		evt := V1BillingCreditBalanceTransactionCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.billing.credit_grant.created":
+		evt := V1BillingCreditGrantCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.billing.credit_grant.updated":
+		evt := V1BillingCreditGrantUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.billing.meter.created":
+		evt := V1BillingMeterCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.billing.meter.deactivated":
+		evt := V1BillingMeterDeactivatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -24918,6 +25753,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.billing.meter.no_meter_found":
 		evt := V1BillingMeterNoMeterFoundEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.billing.meter.reactivated":
+		evt := V1BillingMeterReactivatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.billing.meter.updated":
+		evt := V1BillingMeterUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -25287,6 +26136,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v1.financial_connections.account.account_numbers_updated":
+		evt := V1FinancialConnectionsAccountAccountNumbersUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v1.financial_connections.account.created":
 		evt := V1FinancialConnectionsAccountCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -25303,6 +26159,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.financial_connections.account.disconnected":
 		evt := V1FinancialConnectionsAccountDisconnectedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.financial_connections.account.expected_deactivation_date_updated":
+		evt := V1FinancialConnectionsAccountExpectedDeactivationDateUpdatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -25331,6 +26194,27 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.financial_connections.account.refreshed_transactions":
 		evt := V1FinancialConnectionsAccountRefreshedTransactionsEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.financial_connections.account.supported_payment_method_types_updated":
+		evt := V1FinancialConnectionsAccountSupportedPaymentMethodTypesUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.financial_connections.account.upcoming_account_number_expiry":
+		evt := V1FinancialConnectionsAccountUpcomingAccountNumberExpiryEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.financial_connections.account.upcoming_deactivation":
+		evt := V1FinancialConnectionsAccountUpcomingDeactivationEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -25436,6 +26320,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v1.invoice.payment_action_required":
 		evt := V1InvoicePaymentActionRequiredEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v1.invoice.payment_attempt_required":
+		evt := V1InvoicePaymentAttemptRequiredEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

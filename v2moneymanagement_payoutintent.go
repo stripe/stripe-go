@@ -8,6 +8,50 @@ package stripe
 
 import "time"
 
+// Controls whether the intent requires explicit confirmation before transitioning to pending.
+type V2MoneyManagementPayoutIntentConfirmationMethod string
+
+// List of values that V2MoneyManagementPayoutIntentConfirmationMethod can take
+const (
+	V2MoneyManagementPayoutIntentConfirmationMethodAutomatic V2MoneyManagementPayoutIntentConfirmationMethod = "automatic"
+	V2MoneyManagementPayoutIntentConfirmationMethodManual    V2MoneyManagementPayoutIntentConfirmationMethod = "manual"
+)
+
+// Open Enum. The type of fee.
+type V2MoneyManagementPayoutIntentEstimatedFeeType string
+
+// List of values that V2MoneyManagementPayoutIntentEstimatedFeeType can take
+const (
+	V2MoneyManagementPayoutIntentEstimatedFeeTypeCrossBorderFee       V2MoneyManagementPayoutIntentEstimatedFeeType = "cross_border_fee"
+	V2MoneyManagementPayoutIntentEstimatedFeeTypeForeignExchangeFee   V2MoneyManagementPayoutIntentEstimatedFeeType = "foreign_exchange_fee"
+	V2MoneyManagementPayoutIntentEstimatedFeeTypeInstantCardPayoutFee V2MoneyManagementPayoutIntentEstimatedFeeType = "instant_card_payout_fee"
+	V2MoneyManagementPayoutIntentEstimatedFeeTypeNextDayPayoutFee     V2MoneyManagementPayoutIntentEstimatedFeeType = "next_day_payout_fee"
+	V2MoneyManagementPayoutIntentEstimatedFeeTypeRealTimePayoutFee    V2MoneyManagementPayoutIntentEstimatedFeeType = "real_time_payout_fee"
+	V2MoneyManagementPayoutIntentEstimatedFeeTypeStablecoinPayoutFee  V2MoneyManagementPayoutIntentEstimatedFeeType = "stablecoin_payout_fee"
+	V2MoneyManagementPayoutIntentEstimatedFeeTypeStablecoinRoutingFee V2MoneyManagementPayoutIntentEstimatedFeeType = "stablecoin_routing_fee"
+	V2MoneyManagementPayoutIntentEstimatedFeeTypeStandardPayoutFee    V2MoneyManagementPayoutIntentEstimatedFeeType = "standard_payout_fee"
+	V2MoneyManagementPayoutIntentEstimatedFeeTypeWirePayoutFee        V2MoneyManagementPayoutIntentEstimatedFeeType = "wire_payout_fee"
+)
+
+// Open Enum. Duration of the FX rate lock.
+type V2MoneyManagementPayoutIntentFxQuoteLockDuration string
+
+// List of values that V2MoneyManagementPayoutIntentFxQuoteLockDuration can take
+const (
+	V2MoneyManagementPayoutIntentFxQuoteLockDurationFiveMinutes V2MoneyManagementPayoutIntentFxQuoteLockDuration = "five_minutes"
+	V2MoneyManagementPayoutIntentFxQuoteLockDurationNone        V2MoneyManagementPayoutIntentFxQuoteLockDuration = "none"
+)
+
+// Open Enum. Lock status of the FX rate.
+type V2MoneyManagementPayoutIntentFxQuoteLockStatus string
+
+// List of values that V2MoneyManagementPayoutIntentFxQuoteLockStatus can take
+const (
+	V2MoneyManagementPayoutIntentFxQuoteLockStatusActive  V2MoneyManagementPayoutIntentFxQuoteLockStatus = "active"
+	V2MoneyManagementPayoutIntentFxQuoteLockStatusExpired V2MoneyManagementPayoutIntentFxQuoteLockStatus = "expired"
+	V2MoneyManagementPayoutIntentFxQuoteLockStatusNone    V2MoneyManagementPayoutIntentFxQuoteLockStatus = "none"
+)
+
 // The type of payout.
 type V2MoneyManagementPayoutIntentLatestPayoutType string
 
@@ -15,6 +59,15 @@ type V2MoneyManagementPayoutIntentLatestPayoutType string
 const (
 	V2MoneyManagementPayoutIntentLatestPayoutTypeOutboundPayment  V2MoneyManagementPayoutIntentLatestPayoutType = "outbound_payment"
 	V2MoneyManagementPayoutIntentLatestPayoutTypeOutboundTransfer V2MoneyManagementPayoutIntentLatestPayoutType = "outbound_transfer"
+)
+
+// Open Enum. The reason the PayoutIntent requires confirmation.
+type V2MoneyManagementPayoutIntentNextActionConfirmReason string
+
+// List of values that V2MoneyManagementPayoutIntentNextActionConfirmReason can take
+const (
+	V2MoneyManagementPayoutIntentNextActionConfirmReasonAutomaticallyRequired V2MoneyManagementPayoutIntentNextActionConfirmReason = "automatically_required"
+	V2MoneyManagementPayoutIntentNextActionConfirmReasonManuallyRequested     V2MoneyManagementPayoutIntentNextActionConfirmReason = "manually_requested"
 )
 
 // Open Enum. The reason for the failure.
@@ -54,6 +107,7 @@ type V2MoneyManagementPayoutIntentNextActionType string
 
 // List of values that V2MoneyManagementPayoutIntentNextActionType can take
 const (
+	V2MoneyManagementPayoutIntentNextActionTypeConfirm       V2MoneyManagementPayoutIntentNextActionType = "confirm"
 	V2MoneyManagementPayoutIntentNextActionTypeHandleFailure V2MoneyManagementPayoutIntentNextActionType = "handle_failure"
 )
 
@@ -113,12 +167,53 @@ const (
 	V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetworkSwift       V2MoneyManagementPayoutIntentToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
 )
 
+// Tax charged for this fee, if applicable. Value expressed as a decimal string in major units.
+type V2MoneyManagementPayoutIntentEstimatedFeeTaxAmount struct {
+	// Currency code.
+	Currency Currency `json:"currency"`
+	// Tax amount value represented as a decimal string in major units.
+	ValueDecimal string `json:"value_decimal"`
+}
+
+// Estimated fees and taxes.
+type V2MoneyManagementPayoutIntentEstimatedFee struct {
+	// The fee amount.
+	Amount Amount `json:"amount"`
+	// Tax charged for this fee, if applicable. Value expressed as a decimal string in major units.
+	TaxAmount *V2MoneyManagementPayoutIntentEstimatedFeeTaxAmount `json:"tax_amount,omitempty"`
+	// Open Enum. The type of fee.
+	Type V2MoneyManagementPayoutIntentEstimatedFeeType `json:"type"`
+}
+
 // The FinancialAccount that funds are pulled from.
 type V2MoneyManagementPayoutIntentFrom struct {
 	// The currency of the financial account.
 	Currency Currency `json:"currency"`
+	// Estimated amount to be debited from the financial account.
+	Debited Amount `json:"debited,omitempty"`
 	// The FinancialAccount that funds are pulled from.
 	FinancialAccount string `json:"financial_account"`
+}
+
+// Key: source currency. Value: exchange rate from source currency to to_currency.
+type V2MoneyManagementPayoutIntentFxQuoteRates struct {
+	// The exchange rate going from_currency -> to_currency, represented as a decimal string
+	// (e.g., "1.1520") to preserve the full precision of the rate.
+	ExchangeRate string `json:"exchange_rate"`
+}
+
+// FX rate information for fee transparency.
+type V2MoneyManagementPayoutIntentFxQuote struct {
+	// Open Enum. Duration of the FX rate lock.
+	LockDuration V2MoneyManagementPayoutIntentFxQuoteLockDuration `json:"lock_duration"`
+	// Timestamp when the rate lock expires. Null when rate locking is not supported.
+	LockExpiresAt time.Time `json:"lock_expires_at,omitempty"`
+	// Open Enum. Lock status of the FX rate.
+	LockStatus V2MoneyManagementPayoutIntentFxQuoteLockStatus `json:"lock_status"`
+	// Key: source currency. Value: exchange rate from source currency to to_currency.
+	Rates map[string]*V2MoneyManagementPayoutIntentFxQuoteRates `json:"rates"`
+	// The destination currency.
+	ToCurrency Currency `json:"to_currency"`
 }
 
 // Details about the latest payout associated with this PayoutIntent.
@@ -131,6 +226,12 @@ type V2MoneyManagementPayoutIntentLatestPayout struct {
 	Type V2MoneyManagementPayoutIntentLatestPayoutType `json:"type"`
 }
 
+// Details about a confirmation required. Populated when type is confirm.
+type V2MoneyManagementPayoutIntentNextActionConfirm struct {
+	// Open Enum. The reason the PayoutIntent requires confirmation.
+	Reason V2MoneyManagementPayoutIntentNextActionConfirmReason `json:"reason"`
+}
+
 // Details about a failure that requires user action. Populated when type is handle_failure.
 type V2MoneyManagementPayoutIntentNextActionHandleFailure struct {
 	// Open Enum. The reason for the failure.
@@ -139,6 +240,8 @@ type V2MoneyManagementPayoutIntentNextActionHandleFailure struct {
 
 // Next action required for a PayoutIntent in the requires_action state. Populated when status is requires_action.
 type V2MoneyManagementPayoutIntentNextAction struct {
+	// Details about a confirmation required. Populated when type is confirm.
+	Confirm *V2MoneyManagementPayoutIntentNextActionConfirm `json:"confirm,omitempty"`
 	// Details about a failure that requires user action. Populated when type is handle_failure.
 	HandleFailure *V2MoneyManagementPayoutIntentNextActionHandleFailure `json:"handle_failure,omitempty"`
 	// Open Enum. The type of next action required.
@@ -204,6 +307,8 @@ type V2MoneyManagementPayoutIntentToPayoutMethodOptions struct {
 
 // To which payout method the payout is sent.
 type V2MoneyManagementPayoutIntentTo struct {
+	// Estimated amount to be credited to the recipient in the destination currency.
+	Credited Amount `json:"credited,omitempty"`
 	// The currency to send to the recipient.
 	Currency Currency `json:"currency,omitempty"`
 	// The payout method ID. Optional for OutboundPayment if recipient has default payment method. Required for OutboundTransfer.
@@ -219,13 +324,19 @@ type V2MoneyManagementPayoutIntent struct {
 	APIResource
 	// The monetary amount to be sent.
 	Amount Amount `json:"amount"`
+	// Controls whether the intent requires explicit confirmation before transitioning to pending.
+	ConfirmationMethod V2MoneyManagementPayoutIntentConfirmationMethod `json:"confirmation_method"`
 	// Time at which the PayoutIntent was created.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`
 	// An arbitrary string attached to the PayoutIntent. Often useful for displaying to users.
 	Description string `json:"description,omitempty"`
+	// Estimated fees and taxes.
+	EstimatedFees []*V2MoneyManagementPayoutIntentEstimatedFee `json:"estimated_fees,omitempty"`
 	// The FinancialAccount that funds are pulled from.
 	From *V2MoneyManagementPayoutIntentFrom `json:"from"`
+	// FX rate information for fee transparency.
+	FxQuote *V2MoneyManagementPayoutIntentFxQuote `json:"fx_quote,omitempty"`
 	// Unique identifier for the PayoutIntent.
 	ID string `json:"id"`
 	// Details about the latest payout associated with this PayoutIntent.

@@ -425,6 +425,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeAUBECSDebit        QuotePreviewInvoicePaymentSettingsPaymentMethodType = "au_becs_debit"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBACSDebit          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "bacs_debit"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBancontact         QuotePreviewInvoicePaymentSettingsPaymentMethodType = "bancontact"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBillie             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "billie"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBizum              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "bizum"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBLIK               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "blik"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBoleto             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "boleto"
@@ -456,6 +457,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayco              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "payco"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayNow             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "paynow"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePaypal             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "paypal"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePaypay             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "paypay"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayto              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "payto"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePix                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "pix"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePromptPay          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "promptpay"
@@ -470,6 +472,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeTWINT              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "twint"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeUpi                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "upi"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeUSBankAccount      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "us_bank_account"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeVipps              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "vipps"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeWeChatPay          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "wechat_pay"
 )
 
@@ -644,6 +647,16 @@ type QuotePreviewInvoiceCustomField struct {
 	Value string `json:"value"`
 }
 
+// The customer balance amounts applied to this invoice.
+type QuotePreviewInvoiceCustomerBalance struct {
+	// The total amount of customer balance applied to this invoice (automatically + manually).
+	AppliedBalance int64 `json:"applied_balance"`
+	// The amount of customer balance automatically applied during invoice finalization.
+	AutomaticallyAppliedBalance int64 `json:"automatically_applied_balance"`
+	// The total amount of customer balance manually applied after finalization.
+	ManuallyAppliedBalance int64 `json:"manually_applied_balance"`
+}
+
 // The customer's tax IDs. Until the invoice is finalized, this field will contain the same tax IDs as `customer.tax_ids`. Once the invoice is finalized, this field will no longer be updated.
 type QuotePreviewInvoiceCustomerTaxID struct {
 	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `pl_nip`, `it_cf`, `fo_vat`, `gi_tin`, `py_ruc`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `lk_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, `ic_nif`, or `unknown`
@@ -737,6 +750,9 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage `json:"preferred_language"`
 }
+
+// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillie struct{}
 
 // If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBizum struct{}
@@ -853,6 +869,8 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	ACSSDebit *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
+	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+	Billie *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillie `json:"billie,omitempty"`
 	// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 	Bizum *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBizum `json:"bizum,omitempty"`
 	// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
@@ -1096,6 +1114,8 @@ type QuotePreviewInvoice struct {
 	CustomerAccount string `json:"customer_account"`
 	// The customer's address. Until the invoice is finalized, this field will equal `customer.address`. Once the invoice is finalized, this field will no longer be updated.
 	CustomerAddress *Address `json:"customer_address"`
+	// The customer balance amounts applied to this invoice.
+	CustomerBalance *QuotePreviewInvoiceCustomerBalance `json:"customer_balance,omitempty"`
 	// The customer's email. Until the invoice is finalized, this field will equal `customer.email`. Once the invoice is finalized, this field will no longer be updated.
 	CustomerEmail string `json:"customer_email"`
 	// The customer's name. Until the invoice is finalized, this field will equal `customer.name`. Once the invoice is finalized, this field will no longer be updated.

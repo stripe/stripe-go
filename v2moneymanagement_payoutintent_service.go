@@ -53,13 +53,37 @@ func (c v2MoneyManagementPayoutIntentService) Update(ctx context.Context, id str
 	return payoutintent, err
 }
 
-// Cancels a PayoutIntent. Only pending PayoutIntents or processing PayoutIntents with cancelable OutboundPayment/Transfer can be canceled.
+// Cancels a PayoutIntent. Only pending PayoutIntents, processing PayoutIntents with cancelable OutboundPayment/Transfer, or requires_action PayoutIntents can be canceled.
 func (c v2MoneyManagementPayoutIntentService) Cancel(ctx context.Context, id string, params *V2MoneyManagementPayoutIntentCancelParams) (*V2MoneyManagementPayoutIntent, error) {
 	if params == nil {
 		params = &V2MoneyManagementPayoutIntentCancelParams{}
 	}
 	params.Context = ctx
 	path := FormatURLPath("/v2/money_management/payout_intents/%s/cancel", id)
+	payoutintent := &V2MoneyManagementPayoutIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, payoutintent)
+	return payoutintent, err
+}
+
+// Confirms a PayoutIntent that is in the requires_action state, transitioning it to pending.
+func (c v2MoneyManagementPayoutIntentService) Confirm(ctx context.Context, id string, params *V2MoneyManagementPayoutIntentConfirmParams) (*V2MoneyManagementPayoutIntent, error) {
+	if params == nil {
+		params = &V2MoneyManagementPayoutIntentConfirmParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/payout_intents/%s/confirm", id)
+	payoutintent := &V2MoneyManagementPayoutIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, payoutintent)
+	return payoutintent, err
+}
+
+// Refreshes FX quote for a PayoutIntent.
+func (c v2MoneyManagementPayoutIntentService) FxQuote(ctx context.Context, id string, params *V2MoneyManagementPayoutIntentFxQuoteParams) (*V2MoneyManagementPayoutIntent, error) {
+	if params == nil {
+		params = &V2MoneyManagementPayoutIntentFxQuoteParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/payout_intents/%s/fx_quote", id)
 	payoutintent := &V2MoneyManagementPayoutIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, payoutintent)
 	return payoutintent, err
