@@ -32,14 +32,24 @@ type EventNotificationHandler struct {
 	fallbackCallback FallbackCallbackFunc
 }
 
-func NewEventNotificationHandler(client *Client, webhookSecret string, fallbackCallback FallbackCallbackFunc) *EventNotificationHandler {
+// newEventNotificationHandler builds the shared handler state used by both the
+// verifying and non-verifying constructors.
+func newEventNotificationHandler(client *Client, fallbackCallback FallbackCallbackFunc) *EventNotificationHandler {
 	return &EventNotificationHandler{
 		client:           client,
-		webhookSecret:    webhookSecret,
 		eventHandlers:    make(map[string]CallbackFunc),
 		hasHandledEvent:  false,
 		fallbackCallback: fallbackCallback,
 	}
+}
+
+func NewEventNotificationHandler(client *Client, webhookSecret string, fallbackCallback FallbackCallbackFunc) *EventNotificationHandler {
+	if webhookSecret == "" {
+		panic("webhookSecret must be a non-empty string")
+	}
+	h := newEventNotificationHandler(client, fallbackCallback)
+	h.webhookSecret = webhookSecret
+	return h
 }
 
 func (h *EventNotificationHandler) register(eventType string, callback CallbackFunc) error {
@@ -604,6 +614,10 @@ func (h *EventNotificationHandler) Handle(ctx context.Context, webhookBody []byt
 		return err
 	}
 
+	return h.dispatch(ctx, notif)
+}
+
+func (h *EventNotificationHandler) dispatch(ctx context.Context, notif EventNotificationContainer) error {
 	n := notif.GetEventNotification()
 	eventType := n.Type
 
@@ -624,4 +638,34 @@ func (h *EventNotificationHandler) Handle(ctx context.Context, webhookBody []byt
 	}
 
 	return callback(ctx, notif, clientWithContext)
+}
+
+// EventNotificationHandlerWithoutVerification routes incoming Stripe event
+// notifications to registered handlers without verifying webhook signatures.
+// Intended for pre-authenticated channels like AWS EventBridge or Azure Event Grid.
+//
+// Use NewEventNotificationHandlerWithoutVerification to create an instance.
+type EventNotificationHandlerWithoutVerification struct {
+	*EventNotificationHandler
+}
+
+// NewEventNotificationHandlerWithoutVerification creates a handler that processes
+// events without webhook signature verification.
+func NewEventNotificationHandlerWithoutVerification(client *Client, fallbackCallback FallbackCallbackFunc) *EventNotificationHandlerWithoutVerification {
+	return &EventNotificationHandlerWithoutVerification{
+		EventNotificationHandler: newEventNotificationHandler(client, fallbackCallback),
+	}
+}
+
+// Handle processes an incoming webhook payload without signature verification,
+// routing it to the appropriate CallbackFunc (or the FallbackCallbackFunc if none is available).
+func (h *EventNotificationHandlerWithoutVerification) Handle(ctx context.Context, webhookBody []byte) error {
+	h.hasHandledEvent = true
+
+	notif, err := h.client.ParseEventNotificationWithoutVerification(webhookBody)
+	if err != nil {
+		return err
+	}
+
+	return h.dispatch(ctx, notif)
 }
