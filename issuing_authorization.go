@@ -1353,6 +1353,40 @@ type IssuingAuthorizationPendingRequestHoldAmount struct {
 	// The amount in the smallest currency unit.
 	Value int64 `json:"value"`
 }
+
+// Advisory estimate of total fees for this authorization request.
+type IssuingAuthorizationPendingRequestHoldAmountDetailsEstimatedFee struct {
+	// Three-letter ISO currency code.
+	Currency Currency `json:"currency"`
+	// The amount in the smallest currency unit.
+	Value int64 `json:"value"`
+}
+type IssuingAuthorizationPendingRequestHoldAmountDetailsEstimatedFeeDetailAmount struct {
+	// Three-letter ISO currency code.
+	Currency Currency `json:"currency"`
+	// The amount in the smallest currency unit.
+	Value int64 `json:"value"`
+}
+
+// Details for a fee charged by a Connect application.
+type IssuingAuthorizationPendingRequestHoldAmountDetailsEstimatedFeeDetailChargedByApplication struct {
+	// Human-readable product name.
+	FeatureName string `json:"feature_name"`
+}
+type IssuingAuthorizationPendingRequestHoldAmountDetailsEstimatedFeeDetailChargedBy struct {
+	// Details for a fee charged by a Connect application.
+	Application *IssuingAuthorizationPendingRequestHoldAmountDetailsEstimatedFeeDetailChargedByApplication `json:"application"`
+	// The type of entity that charged this fee.
+	Type string `json:"type"`
+}
+
+// Per-fee-type breakdown of the estimated fees for this authorization request.
+type IssuingAuthorizationPendingRequestHoldAmountDetailsEstimatedFeeDetail struct {
+	Amount    *IssuingAuthorizationPendingRequestHoldAmountDetailsEstimatedFeeDetailAmount    `json:"amount"`
+	ChargedBy *IssuingAuthorizationPendingRequestHoldAmountDetailsEstimatedFeeDetailChargedBy `json:"charged_by"`
+	// The category of this fee.
+	Type string `json:"type"`
+}
 type IssuingAuthorizationPendingRequestHoldAmountDetailsNetwork struct {
 	// Three-letter ISO currency code.
 	Currency Currency `json:"currency"`
@@ -1370,7 +1404,11 @@ type IssuingAuthorizationPendingRequestHoldAmountDetailsReserve struct {
 
 // Breakdown of the amounts contributing to hold_amount.
 type IssuingAuthorizationPendingRequestHoldAmountDetails struct {
-	Network *IssuingAuthorizationPendingRequestHoldAmountDetailsNetwork `json:"network"`
+	// Advisory estimate of total fees for this authorization request.
+	EstimatedFee *IssuingAuthorizationPendingRequestHoldAmountDetailsEstimatedFee `json:"estimated_fee"`
+	// Per-fee-type breakdown of the estimated fees for this authorization request.
+	EstimatedFeeDetails []*IssuingAuthorizationPendingRequestHoldAmountDetailsEstimatedFeeDetail `json:"estimated_fee_details"`
+	Network             *IssuingAuthorizationPendingRequestHoldAmountDetailsNetwork              `json:"network"`
 	// The reserve amount held for this authorization. Present for certain MCCs that may have overcaptures.
 	Reserve *IssuingAuthorizationPendingRequestHoldAmountDetailsReserve `json:"reserve"`
 }
@@ -1410,6 +1448,40 @@ type IssuingAuthorizationRequestHistoryHoldAmount struct {
 	// The amount in the smallest currency unit.
 	Value int64 `json:"value"`
 }
+
+// Advisory estimate of total fees for this authorization request.
+type IssuingAuthorizationRequestHistoryHoldAmountDetailsEstimatedFee struct {
+	// Three-letter ISO currency code.
+	Currency Currency `json:"currency"`
+	// The amount in the smallest currency unit.
+	Value int64 `json:"value"`
+}
+type IssuingAuthorizationRequestHistoryHoldAmountDetailsEstimatedFeeDetailAmount struct {
+	// Three-letter ISO currency code.
+	Currency Currency `json:"currency"`
+	// The amount in the smallest currency unit.
+	Value int64 `json:"value"`
+}
+
+// Details for a fee charged by a Connect application.
+type IssuingAuthorizationRequestHistoryHoldAmountDetailsEstimatedFeeDetailChargedByApplication struct {
+	// Human-readable product name.
+	FeatureName string `json:"feature_name"`
+}
+type IssuingAuthorizationRequestHistoryHoldAmountDetailsEstimatedFeeDetailChargedBy struct {
+	// Details for a fee charged by a Connect application.
+	Application *IssuingAuthorizationRequestHistoryHoldAmountDetailsEstimatedFeeDetailChargedByApplication `json:"application"`
+	// The type of entity that charged this fee.
+	Type string `json:"type"`
+}
+
+// Per-fee-type breakdown of the estimated fees for this authorization request.
+type IssuingAuthorizationRequestHistoryHoldAmountDetailsEstimatedFeeDetail struct {
+	Amount    *IssuingAuthorizationRequestHistoryHoldAmountDetailsEstimatedFeeDetailAmount    `json:"amount"`
+	ChargedBy *IssuingAuthorizationRequestHistoryHoldAmountDetailsEstimatedFeeDetailChargedBy `json:"charged_by"`
+	// The category of this fee.
+	Type string `json:"type"`
+}
 type IssuingAuthorizationRequestHistoryHoldAmountDetailsNetwork struct {
 	// Three-letter ISO currency code.
 	Currency Currency `json:"currency"`
@@ -1427,7 +1499,11 @@ type IssuingAuthorizationRequestHistoryHoldAmountDetailsReserve struct {
 
 // Breakdown of the amounts contributing to hold_amount.
 type IssuingAuthorizationRequestHistoryHoldAmountDetails struct {
-	Network *IssuingAuthorizationRequestHistoryHoldAmountDetailsNetwork `json:"network"`
+	// Advisory estimate of total fees for this authorization request.
+	EstimatedFee *IssuingAuthorizationRequestHistoryHoldAmountDetailsEstimatedFee `json:"estimated_fee"`
+	// Per-fee-type breakdown of the estimated fees for this authorization request.
+	EstimatedFeeDetails []*IssuingAuthorizationRequestHistoryHoldAmountDetailsEstimatedFeeDetail `json:"estimated_fee_details"`
+	Network             *IssuingAuthorizationRequestHistoryHoldAmountDetailsNetwork              `json:"network"`
 	// The reserve amount held for this authorization. Present for certain MCCs that may have overcaptures.
 	Reserve *IssuingAuthorizationRequestHistoryHoldAmountDetailsReserve `json:"reserve"`
 }

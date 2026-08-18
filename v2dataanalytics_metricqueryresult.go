@@ -32,7 +32,7 @@ type V2DataAnalyticsMetricQueryResultData struct {
 	Timestamp time.Time `json:"timestamp"`
 }
 
-// The result of a metric query.
+// The result of a metric query. For the full list of supported metrics, see [Supported metrics](https://docs.stripe.com/data/analytics/supported-metrics).
 type V2DataAnalyticsMetricQueryResult struct {
 	APIResource
 	// The timestamp at which this metric query result was created.

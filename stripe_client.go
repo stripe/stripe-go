@@ -216,6 +216,8 @@ type Client struct {
 	V1PaymentMethodDomains *v1PaymentMethodDomainService
 	// V1PaymentMethods is the service used to invoke /v1/payment_methods APIs.
 	V1PaymentMethods *v1PaymentMethodService
+	// V1PaymentPlans is the service used to invoke /v1/payment_plans APIs.
+	V1PaymentPlans *v1PaymentPlanService
 	// V1PaymentRecords is the service used to invoke /v1/payment_records APIs.
 	V1PaymentRecords *v1PaymentRecordService
 	// V1PaymentSources is the service used to invoke /v1/customers/{customer}/sources APIs.
@@ -723,6 +725,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1PaymentMethodConfigurations = &v1PaymentMethodConfigurationService{B: backends.API, Key: key}
 	client.V1PaymentMethodDomains = &v1PaymentMethodDomainService{B: backends.API, Key: key}
 	client.V1PaymentMethods = &v1PaymentMethodService{B: backends.API, Key: key}
+	client.V1PaymentPlans = &v1PaymentPlanService{B: backends.API, Key: key}
 	client.V1PaymentRecords = &v1PaymentRecordService{B: backends.API, Key: key}
 	client.V1PaymentSources = &v1PaymentSourceService{B: backends.API, Key: key}
 	client.V1Payouts = &v1PayoutService{B: backends.API, Key: key}

@@ -61,6 +61,40 @@ const (
 	V2MoneyManagementOutboundPaymentQuoteFxQuoteLockStatusNone    V2MoneyManagementOutboundPaymentQuoteFxQuoteLockStatus = "none"
 )
 
+// Open Enum. ACH submission timing.
+type V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission string
+
+// List of values that V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission can take
+const (
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmissionNextDay V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission = "next_day"
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmissionSameDay V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission = "same_day"
+)
+
+// The transaction purpose for this ACH payment.
+type V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurpose string
+
+// List of values that V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurpose can take
+const (
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurposePayroll V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurpose = "payroll"
+)
+
+// The preferred networks to use for this OutboundPayment.
+type V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork string
+
+// List of values that V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork can take
+const (
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkACH         V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "ach"
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkBECS        V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "becs"
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkEft         V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "eft"
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkFedwire     V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "fedwire"
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkFPS         V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "fps"
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkNpp         V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "npp"
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkRTP         V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "rtp"
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkSEPACredit  V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_credit"
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkSEPAInstant V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "sepa_instant"
+	V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkSwift       V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork = "swift"
+)
+
 // Delivery options to be used to send the OutboundPayment.
 type V2MoneyManagementOutboundPaymentQuoteDeliveryOptions struct {
 	// Open Enum. Method for bank account.
@@ -69,10 +103,20 @@ type V2MoneyManagementOutboundPaymentQuoteDeliveryOptions struct {
 	Speed V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsSpeed `json:"speed,omitempty"`
 }
 
+// Tax charged for this fee, if applicable. Value expressed as a decimal string in major units.
+type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTaxAmount struct {
+	// Currency code.
+	Currency Currency `json:"currency"`
+	// Tax amount value represented as a decimal string in major units.
+	ValueDecimal string `json:"value_decimal"`
+}
+
 // The estimated fees for the OutboundPaymentQuote.
 type V2MoneyManagementOutboundPaymentQuoteEstimatedFee struct {
 	// The fee amount for corresponding fee type.
 	Amount Amount `json:"amount"`
+	// Tax charged for this fee, if applicable. Value expressed as a decimal string in major units.
+	TaxAmount *V2MoneyManagementOutboundPaymentQuoteEstimatedFeeTaxAmount `json:"tax_amount,omitempty"`
 	// The fee type.
 	Type V2MoneyManagementOutboundPaymentQuoteEstimatedFeeType `json:"type"`
 }
@@ -105,12 +149,42 @@ type V2MoneyManagementOutboundPaymentQuoteFxQuote struct {
 	ToCurrency Currency `json:"to_currency"`
 }
 
+// ACH-specific network options.
+type V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACH struct {
+	// Open Enum. ACH submission timing.
+	Submission V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHSubmission `json:"submission,omitempty"`
+	// The transaction purpose for this ACH payment.
+	TransactionPurpose V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHTransactionPurpose `json:"transaction_purpose,omitempty"`
+}
+
+// Per-network configuration options.
+type V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptions struct {
+	// ACH-specific network options.
+	ACH *V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACH `json:"ach,omitempty"`
+}
+
+// Options for bank account payout methods.
+type V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccount struct {
+	// Per-network configuration options.
+	PreferredNetworkOptions *V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptions `json:"preferred_network_options,omitempty"`
+	// The preferred networks to use for this OutboundPayment.
+	PreferredNetworks []V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetwork `json:"preferred_networks"`
+}
+
+// Payout method options for the OutboundPaymentQuote.
+type V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptions struct {
+	// Options for bank account payout methods.
+	BankAccount *V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccount `json:"bank_account,omitempty"`
+}
+
 // Details about the recipient of an OutboundPaymentQuote.
 type V2MoneyManagementOutboundPaymentQuoteTo struct {
 	// The monetary amount being credited to the destination.
 	Credited Amount `json:"credited"`
 	// The payout method which the OutboundPayment uses to send payout.
 	PayoutMethod string `json:"payout_method"`
+	// Payout method options for the OutboundPaymentQuote.
+	PayoutMethodOptions *V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptions `json:"payout_method_options,omitempty"`
 	// To which account the OutboundPayment is sent.
 	Recipient string `json:"recipient"`
 }

@@ -456,6 +456,12 @@ func (p *CustomerSessionCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// This hash contains whether the active entitlements is enabled.
+type CustomerSessionComponentsActiveEntitlements struct {
+	// Whether the active entitlements is enabled.
+	Enabled bool `json:"enabled"`
+}
+
 // This hash contains whether the buy button is enabled.
 type CustomerSessionComponentsBuyButton struct {
 	// Whether the buy button is enabled.
@@ -578,6 +584,8 @@ type CustomerSessionComponentsTaxIDElement struct {
 
 // Configuration for the components supported by this Customer Session.
 type CustomerSessionComponents struct {
+	// This hash contains whether the active entitlements is enabled.
+	ActiveEntitlements *CustomerSessionComponentsActiveEntitlements `json:"active_entitlements"`
 	// This hash contains whether the buy button is enabled.
 	BuyButton *CustomerSessionComponentsBuyButton `json:"buy_button"`
 	// This hash contains whether the customer portal is enabled.

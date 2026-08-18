@@ -1435,8 +1435,6 @@ type PaymentAttemptRecordPaymentMethodDetailsCardNetworkToken struct {
 type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure struct {
 	// For authenticated transactions: Indicates how the issuing bank authenticated the customer.
 	AuthenticationFlow PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
-	// The 3D Secure cryptogram, also known as the "authentication value" (AAV, CAVV or AEVV).
-	Cryptogram string `json:"cryptogram"`
 	// The Electronic Commerce Indicator (ECI). A protocol-level field indicating what degree of authentication was performed.
 	ElectronicCommerceIndicator PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureElectronicCommerceIndicator `json:"electronic_commerce_indicator"`
 	// The exemption requested via 3DS and accepted by the issuer at authentication time.

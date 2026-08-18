@@ -32,9 +32,42 @@ type V2MoneyManagementTransactionListParams struct {
 // Retrieves the details of a Transaction by ID.
 type V2MoneyManagementTransactionParams struct {
 	Params `form:"*"`
+	// Description of this Transaction, up to 100 characters.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Set of key-value pairs that you can attach to the Transaction. Individual keys can be unset by posting
+	// null to them.
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2MoneyManagementTransactionParams) AddMetadata(key string, value *string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]*string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Retrieves the details of a Transaction by ID.
 type V2MoneyManagementTransactionRetrieveParams struct {
 	Params `form:"*"`
+}
+
+// Updates the description of an existing Transaction.
+type V2MoneyManagementTransactionUpdateParams struct {
+	Params `form:"*"`
+	// Description of this Transaction, up to 100 characters.
+	Description *string `form:"description" json:"description,omitempty"`
+	// Set of key-value pairs that you can attach to the Transaction. Individual keys can be unset by posting
+	// null to them.
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2MoneyManagementTransactionUpdateParams) AddMetadata(key string, value *string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]*string)
+	}
+
+	p.Metadata[key] = value
 }
