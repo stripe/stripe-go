@@ -679,3 +679,195 @@ func TestEventHandler_RegisteredEventTypesMultipleAlphabetized(t *testing.T) {
 
 	assert.Equal(t, expected, types)
 }
+
+// Test: WithoutVerification routes event to registered handler
+func TestWithoutVerification_RoutesEventToHandler(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	var unhandledCalled bool
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		unhandledCalled = true
+		return nil
+	}
+
+	handler := NewEventNotificationHandlerWithoutVerification(client, onUnhandled)
+
+	var handlerCalled bool
+	var receivedEvent *V1BillingMeterErrorReportTriggeredEventNotification
+	var receivedClient *Client
+
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+		handlerCalled = true
+		receivedEvent = event
+		receivedClient = client
+		return nil
+	}
+
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback)
+	assert.NoError(t, err)
+
+	// Execute — no signature header required
+	payload := v1BillingMeterPayload()
+	err = handler.Handle(context.TODO(), []byte(payload))
+
+	// Assert
+	assert.NoError(t, err)
+	assert.True(t, handlerCalled, "Handler should have been called")
+	assert.NotNil(t, receivedEvent, "Handler should have received event")
+	assert.Equal(t, "v1.billing.meter.error_report_triggered", receivedEvent.Type)
+	assert.Equal(t, "evt_123", receivedEvent.ID)
+	assert.Equal(t, "mtr_123", receivedEvent.RelatedObject.ID)
+	assert.NotNil(t, receivedClient, "Handler should have received client")
+	assert.False(t, unhandledCalled, "Unhandled handler should not be called")
+}
+
+// Test: WithoutVerification routes known unregistered event to fallback
+func TestWithoutVerification_FallbackForUnregisteredEvent(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	var unhandledCalled bool
+	var unhandledEvent EventNotificationContainer
+	var unhandledDetails UnhandledNotificationDetails
+
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		unhandledCalled = true
+		unhandledEvent = notif
+		unhandledDetails = details
+		return nil
+	}
+
+	handler := NewEventNotificationHandlerWithoutVerification(client, onUnhandled)
+
+	// Don't register a handler for this known event type
+	payload := v1BillingMeterPayload()
+	err := handler.Handle(context.TODO(), []byte(payload))
+
+	assert.NoError(t, err)
+	assert.True(t, unhandledCalled, "Fallback should have been called")
+	assert.NotNil(t, unhandledEvent)
+
+	_, isKnown := unhandledEvent.(*V1BillingMeterErrorReportTriggeredEventNotification)
+	assert.True(t, isKnown, "Event should be V1BillingMeterErrorReportTriggeredEventNotification")
+	assert.True(t, unhandledDetails.IsKnownEventType, "Known event should have IsKnownEventType=true")
+}
+
+// Test: WithoutVerification routes unknown event type to fallback with IsKnownEventType=false
+func TestWithoutVerification_UnknownEventType(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	var unhandledCalled bool
+	var unhandledEvent EventNotificationContainer
+	var unhandledDetails UnhandledNotificationDetails
+
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		unhandledCalled = true
+		unhandledEvent = notif
+		unhandledDetails = details
+		return nil
+	}
+
+	handler := NewEventNotificationHandlerWithoutVerification(client, onUnhandled)
+
+	payload := unknownEventPayload()
+	err := handler.Handle(context.TODO(), []byte(payload))
+
+	assert.NoError(t, err)
+	assert.True(t, unhandledCalled, "Fallback should have been called")
+	assert.NotNil(t, unhandledEvent)
+
+	_, isUnknown := unhandledEvent.(*UnknownEventNotification)
+	assert.True(t, isUnknown, "Event should be UnknownEventNotification")
+	assert.Equal(t, "llama.created", unhandledEvent.GetEventNotification().Type)
+	assert.False(t, unhandledDetails.IsKnownEventType, "Unknown event should have IsKnownEventType=false")
+}
+
+// Test: WithoutVerification propagates event stripe_context to the client in callbacks
+func TestWithoutVerification_ContextPropagation(t *testing.T) {
+	config := &BackendConfig{StripeContext: String("original_context_123")}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(config)))
+
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		return nil
+	}
+
+	handler := NewEventNotificationHandlerWithoutVerification(client, onUnhandled)
+
+	var receivedContext *string
+
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+		receivedContext = client.backends.config.StripeContext
+		return nil
+	}
+
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback)
+	assert.NoError(t, err)
+
+	// Verify original context before handle
+	assert.Equal(t, "original_context_123", *client.backends.config.StripeContext)
+
+	payload := v1BillingMeterPayload()
+	err = handler.Handle(context.TODO(), []byte(payload))
+
+	assert.NoError(t, err)
+	assert.NotNil(t, receivedContext)
+	assert.Equal(t, "event_context_456", *receivedContext, "Handler should receive event's stripe_context")
+	// Original client context should be unchanged
+	assert.Equal(t, "original_context_123", *client.backends.config.StripeContext)
+}
+
+// Test: WithoutVerification On* methods inherited from embedded handler work correctly
+func TestWithoutVerification_InheritedOnMethods(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		return nil
+	}
+
+	handler := NewEventNotificationHandlerWithoutVerification(client, onUnhandled)
+
+	var billingCalled bool
+	var noMeterCalled bool
+
+	billingCallback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+		billingCalled = true
+		return nil
+	}
+	noMeterCallback := func(ctx context.Context, event *V1BillingMeterNoMeterFoundEventNotification, client *Client) error {
+		noMeterCalled = true
+		return nil
+	}
+
+	// Register both handlers via the promoted On* methods
+	err := handler.OnV1BillingMeterErrorReportTriggered(billingCallback)
+	assert.NoError(t, err)
+	err = handler.OnV1BillingMeterNoMeterFound(noMeterCallback)
+	assert.NoError(t, err)
+
+	// RegisteredEventTypes is also promoted and should reflect both registrations
+	types := handler.RegisteredEventTypes()
+	assert.Equal(t, []string{"v1.billing.meter.error_report_triggered", "v1.billing.meter.no_meter_found"}, types)
+
+	// Route billing event — only billing handler should fire
+	err = handler.Handle(context.TODO(), []byte(v1BillingMeterPayload()))
+	assert.NoError(t, err)
+	assert.True(t, billingCalled, "Billing handler should have been called")
+	assert.False(t, noMeterCalled, "NoMeter handler should not have been called yet")
+
+	// Route no-meter event — only no-meter handler should fire
+	err = handler.Handle(context.TODO(), []byte(v1BillingMeterNoMeterFoundPayload()))
+	assert.NoError(t, err)
+	assert.True(t, noMeterCalled, "NoMeter handler should have been called")
+}
+
+// Test: NewEventNotificationHandler panics when webhookSecret is empty
+func TestNewEventNotificationHandler_PanicsOnEmptySecret(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		return nil
+	}
+
+	assert.Panics(t, func() {
+		NewEventNotificationHandler(client, "", onUnhandled)
+	})
+}

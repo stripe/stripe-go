@@ -36,6 +36,14 @@ var handler = stripe.NewEventNotificationHandler(client, webhookSecret, func(con
 	return nil
 })
 
+// Handles events delivered through a channel that has already authenticated them, such as
+// AWS EventBridge or Azure Event Grid. Those payloads carry no Stripe-Signature header, so
+// this handler skips verification. Callbacks are registered separately from the one above.
+var unverifiedHandler = stripe.NewEventNotificationHandlerWithoutVerification(client, func(context context.Context, notif stripe.EventNotificationContainer, client *stripe.Client, details stripe.UnhandledNotificationDetails) error {
+	fmt.Printf("Received unhandled event with type %s", notif.GetEventNotification().Type)
+	return nil
+})
+
 func handleMeterErrors(ctx context.Context, notif *stripe.V1BillingMeterErrorReportTriggeredEventNotification, client *stripe.Client) error {
 	meter, err := notif.FetchRelatedObject(ctx)
 	if err != nil {
@@ -60,6 +68,29 @@ func main() {
 		}
 
 		err = handler.Handle(req.Context(), payload, req.Header.Get("Stripe-Signature"))
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error handling event notification: %v\n", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+	})
+
+	unverifiedHandler.OnV1BillingMeterErrorReportTriggered(handleMeterErrors)
+
+	http.HandleFunc("/webhook-from-cloud-provider", func(w http.ResponseWriter, req *http.Request) {
+		const MaxBodyBytes = int64(65536)
+		req.Body = http.MaxBytesReader(w, req.Body, MaxBodyBytes)
+		payload, err := io.ReadAll(req.Body)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error reading request body: %v\n", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		// Handle takes only the body here; there's no signature to check
+		err = unverifiedHandler.Handle(req.Context(), payload)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error handling event notification: %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)
