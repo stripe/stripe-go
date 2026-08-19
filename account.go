@@ -1712,6 +1712,25 @@ type AccountSettingsTreasuryParams struct {
 	TOSAcceptance *AccountSettingsTreasuryTOSAcceptanceParams `form:"tos_acceptance" json:"tos_acceptance,omitempty"`
 }
 
+// Settings specific to the WeChat Pay payments method.
+type AccountSettingsWeChatPayPaymentsParams struct {
+	// The domains of the user's mobile web checkout pages for WeChat Pay payments. At most 4 domains are allowed.
+	MobileWebDomains []*string                                          `form:"mobile_web_domains" json:"mobile_web_domains,omitempty"`
+	UnsetFields      []AccountSettingsWeChatPayPaymentsParamsUnsetField `form:"-" json:"-"`
+}
+
+// AccountSettingsWeChatPayPaymentsParamsUnsetField is the list of fields that can be cleared/unset on AccountSettingsWeChatPayPaymentsParams.
+type AccountSettingsWeChatPayPaymentsParamsUnsetField string
+
+const (
+	AccountSettingsWeChatPayPaymentsParamsUnsetFieldMobileWebDomains AccountSettingsWeChatPayPaymentsParamsUnsetField = "mobile_web_domains"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *AccountSettingsWeChatPayPaymentsParams) AddUnsetField(field AccountSettingsWeChatPayPaymentsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Options for customizing how the account functions within Stripe.
 type AccountSettingsParams struct {
 	// Settings specific to Bacs Direct Debit payments.
@@ -1742,6 +1761,8 @@ type AccountSettingsParams struct {
 	TaxForms *AccountSettingsTaxFormsParams `form:"tax_forms" json:"tax_forms,omitempty"`
 	// Settings specific to the account's Treasury FinancialAccounts.
 	Treasury *AccountSettingsTreasuryParams `form:"treasury" json:"treasury,omitempty"`
+	// Settings specific to the WeChat Pay payments method.
+	WeChatPayPayments *AccountSettingsWeChatPayPaymentsParams `form:"wechat_pay_payments" json:"wechat_pay_payments,omitempty"`
 }
 
 // Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
@@ -3188,6 +3209,25 @@ type AccountUpdateSettingsTreasuryParams struct {
 	TOSAcceptance *AccountUpdateSettingsTreasuryTOSAcceptanceParams `form:"tos_acceptance" json:"tos_acceptance,omitempty"`
 }
 
+// Settings specific to the WeChat Pay payments method.
+type AccountUpdateSettingsWeChatPayPaymentsParams struct {
+	// The domains of the user's mobile web checkout pages for WeChat Pay payments. At most 4 domains are allowed.
+	MobileWebDomains []*string                                                `form:"mobile_web_domains" json:"mobile_web_domains,omitempty"`
+	UnsetFields      []AccountUpdateSettingsWeChatPayPaymentsParamsUnsetField `form:"-" json:"-"`
+}
+
+// AccountUpdateSettingsWeChatPayPaymentsParamsUnsetField is the list of fields that can be cleared/unset on AccountUpdateSettingsWeChatPayPaymentsParams.
+type AccountUpdateSettingsWeChatPayPaymentsParamsUnsetField string
+
+const (
+	AccountUpdateSettingsWeChatPayPaymentsParamsUnsetFieldMobileWebDomains AccountUpdateSettingsWeChatPayPaymentsParamsUnsetField = "mobile_web_domains"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *AccountUpdateSettingsWeChatPayPaymentsParams) AddUnsetField(field AccountUpdateSettingsWeChatPayPaymentsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Options for customizing how the account functions within Stripe.
 type AccountUpdateSettingsParams struct {
 	// Settings specific to Bacs Direct Debit payments.
@@ -3218,6 +3258,8 @@ type AccountUpdateSettingsParams struct {
 	TaxForms *AccountUpdateSettingsTaxFormsParams `form:"tax_forms" json:"tax_forms,omitempty"`
 	// Settings specific to the account's Treasury FinancialAccounts.
 	Treasury *AccountUpdateSettingsTreasuryParams `form:"treasury" json:"treasury,omitempty"`
+	// Settings specific to the WeChat Pay payments method.
+	WeChatPayPayments *AccountUpdateSettingsWeChatPayPaymentsParams `form:"wechat_pay_payments" json:"wechat_pay_payments,omitempty"`
 }
 
 // Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
@@ -4644,6 +4686,25 @@ type AccountCreateSettingsTreasuryParams struct {
 	TOSAcceptance *AccountCreateSettingsTreasuryTOSAcceptanceParams `form:"tos_acceptance" json:"tos_acceptance,omitempty"`
 }
 
+// Settings specific to the WeChat Pay payments method.
+type AccountCreateSettingsWeChatPayPaymentsParams struct {
+	// The domains of the user's mobile web checkout pages for WeChat Pay payments. At most 4 domains are allowed.
+	MobileWebDomains []*string                                                `form:"mobile_web_domains" json:"mobile_web_domains,omitempty"`
+	UnsetFields      []AccountCreateSettingsWeChatPayPaymentsParamsUnsetField `form:"-" json:"-"`
+}
+
+// AccountCreateSettingsWeChatPayPaymentsParamsUnsetField is the list of fields that can be cleared/unset on AccountCreateSettingsWeChatPayPaymentsParams.
+type AccountCreateSettingsWeChatPayPaymentsParamsUnsetField string
+
+const (
+	AccountCreateSettingsWeChatPayPaymentsParamsUnsetFieldMobileWebDomains AccountCreateSettingsWeChatPayPaymentsParamsUnsetField = "mobile_web_domains"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *AccountCreateSettingsWeChatPayPaymentsParams) AddUnsetField(field AccountCreateSettingsWeChatPayPaymentsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // Options for customizing how the account functions within Stripe.
 type AccountCreateSettingsParams struct {
 	// Settings specific to Bacs Direct Debit.
@@ -4672,6 +4733,8 @@ type AccountCreateSettingsParams struct {
 	TaxForms *AccountCreateSettingsTaxFormsParams `form:"tax_forms" json:"tax_forms,omitempty"`
 	// Settings specific to the account's Treasury FinancialAccounts.
 	Treasury *AccountCreateSettingsTreasuryParams `form:"treasury" json:"treasury,omitempty"`
+	// Settings specific to the WeChat Pay payments method.
+	WeChatPayPayments *AccountCreateSettingsWeChatPayPaymentsParams `form:"wechat_pay_payments" json:"wechat_pay_payments,omitempty"`
 }
 
 // Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
@@ -5388,6 +5451,10 @@ type AccountSettingsTreasuryTOSAcceptance struct {
 type AccountSettingsTreasury struct {
 	TOSAcceptance *AccountSettingsTreasuryTOSAcceptance `json:"tos_acceptance,omitempty"`
 }
+type AccountSettingsWeChatPayPayments struct {
+	// The domains of the user's mobile web checkout pages for WeChat Pay payments. At most 4 domains are allowed.
+	MobileWebDomains []string `json:"mobile_web_domains,omitempty"`
+}
 
 // Options for customizing how the account functions within Stripe.
 type AccountSettings struct {
@@ -5405,6 +5472,7 @@ type AccountSettings struct {
 	SmartDisputes     *AccountSettingsSmartDisputes     `json:"smart_disputes,omitempty"`
 	TaxForms          *AccountSettingsTaxForms          `json:"tax_forms,omitempty"`
 	Treasury          *AccountSettingsTreasury          `json:"treasury,omitempty"`
+	WeChatPayPayments *AccountSettingsWeChatPayPayments `json:"wechat_pay_payments,omitempty"`
 }
 type AccountTOSAcceptance struct {
 	// The Unix timestamp marking when the account representative accepted their service agreement

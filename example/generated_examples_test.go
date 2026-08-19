@@ -19457,7 +19457,18 @@ func TestV2MoneyManagementOutboundPaymentQuotePostService(t *testing.T) {
 		To: &stripe.V2MoneyManagementOutboundPaymentQuoteToParams{
 			Currency:     stripe.String(stripe.CurrencyUSD),
 			PayoutMethod: stripe.String("payout_method"),
-			Recipient:    stripe.String("recipient"),
+			PayoutMethodOptions: &stripe.V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsParams{
+				BankAccount: &stripe.V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountParams{
+					PreferredNetworkOptions: &stripe.V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams{
+						ACH: &stripe.V2MoneyManagementOutboundPaymentQuoteToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams{
+							Submission:         stripe.String("next_day"),
+							TransactionPurpose: stripe.String("payroll"),
+						},
+					},
+					PreferredNetworks: []*string{stripe.String("sepa_credit")},
+				},
+			},
+			Recipient: stripe.String("recipient"),
 		},
 	}
 	testServer := MockServer(
@@ -19481,7 +19492,18 @@ func TestV2MoneyManagementOutboundPaymentQuotePostClient(t *testing.T) {
 		To: &stripe.V2MoneyManagementOutboundPaymentQuoteCreateToParams{
 			Currency:     stripe.String(stripe.CurrencyUSD),
 			PayoutMethod: stripe.String("payout_method"),
-			Recipient:    stripe.String("recipient"),
+			PayoutMethodOptions: &stripe.V2MoneyManagementOutboundPaymentQuoteCreateToPayoutMethodOptionsParams{
+				BankAccount: &stripe.V2MoneyManagementOutboundPaymentQuoteCreateToPayoutMethodOptionsBankAccountParams{
+					PreferredNetworkOptions: &stripe.V2MoneyManagementOutboundPaymentQuoteCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsParams{
+						ACH: &stripe.V2MoneyManagementOutboundPaymentQuoteCreateToPayoutMethodOptionsBankAccountPreferredNetworkOptionsACHParams{
+							Submission:         stripe.String("next_day"),
+							TransactionPurpose: stripe.String("payroll"),
+						},
+					},
+					PreferredNetworks: []*string{stripe.String("sepa_credit")},
+				},
+			},
+			Recipient: stripe.String("recipient"),
 		},
 	}
 	testServer := MockServer(
@@ -20504,6 +20526,33 @@ func TestV2MoneyManagementTransactionGet2Client(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2MoneyManagementTransactions.Retrieve(
+		context.TODO(), "id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2MoneyManagementTransactionPostService(t *testing.T) {
+	params := &stripe.V2MoneyManagementTransactionParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/transactions/id_123", params, "{\"object\":\"v2.money_management.transaction\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"category\":\"platform_earning_refund\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"pending\",\"status_transitions\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2MoneyManagementTransactions.Update("id_123", params)
+	assert.NotNil(t, result)
+	assert.NoError(t, err)
+}
+
+func TestV2MoneyManagementTransactionPostClient(t *testing.T) {
+	params := &stripe.V2MoneyManagementTransactionUpdateParams{}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/money_management/transactions/id_123", params, "{\"object\":\"v2.money_management.transaction\",\"amount\":{\"currency\":\"USD\",\"value\":96},\"balance_impact\":{\"available\":{\"currency\":\"USD\",\"value\":35},\"inbound_pending\":{\"currency\":\"USD\",\"value\":11},\"outbound_pending\":{\"currency\":\"USD\",\"value\":60}},\"category\":\"platform_earning_refund\",\"created\":\"1970-01-12T21:42:34.472Z\",\"financial_account\":\"financial_account\",\"id\":\"obj_123\",\"livemode\":true,\"status\":\"pending\",\"status_transitions\":{}}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2MoneyManagementTransactions.Update(
 		context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.NoError(t, err)

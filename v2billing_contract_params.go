@@ -268,6 +268,8 @@ type V2BillingContractPricingOverrideParams struct {
 	EndsAt *V2BillingContractPricingOverrideEndsAtParams `form:"ends_at" json:"ends_at"`
 	// A user-provided lookup key to reference this pricing override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Set of key-value pairs.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Parameters for a multiply_pricing override. Required if `type` is `multiply_pricing`.
 	MultiplyPricing *V2BillingContractPricingOverrideMultiplyPricingParams `form:"multiply_pricing" json:"multiply_pricing,omitempty"`
 	// The priority of this override relative to others. The highest priority is 0 and the lowest is 100.
@@ -276,6 +278,15 @@ type V2BillingContractPricingOverrideParams struct {
 	StartsAt *V2BillingContractPricingOverrideStartsAtParams `form:"starts_at" json:"starts_at"`
 	// The type of pricing override.
 	Type *string `form:"type" json:"type"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractPricingOverrideParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Create a draft contract.
@@ -293,7 +304,7 @@ type V2BillingContractParams struct {
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
 	// Set of key-value pairs that you can attach to an object.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Pricing line actions to apply.
 	PricingLineActions []*V2BillingContractPricingLineActionParams `form:"pricing_line_actions" json:"pricing_line_actions,omitempty"`
 	// A list of pricing lines to create with the contract.
@@ -305,9 +316,9 @@ type V2BillingContractParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingContractParams) AddMetadata(key string, value string) {
+func (p *V2BillingContractParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value
@@ -532,16 +543,16 @@ type V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideA
 	ID *string `form:"id" json:"id,omitempty"`
 	// Updated lookup key.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Metadata for the pricing override.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Metadata mutations to apply to the pricing override.
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Updated start time.
 	StartsAt *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingContractPricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value
@@ -603,10 +614,21 @@ type V2BillingContractPricingLineActionUpdateParams struct {
 	EndsAt *V2BillingContractPricingLineActionUpdateEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// The id of the pricing line.
 	ID *string `form:"id" json:"id"`
+	// Metadata mutations to apply to the pricing line.
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Updated pricing configuration.
 	Pricing *V2BillingContractPricingLineActionUpdatePricingParams `form:"pricing" json:"pricing,omitempty"`
 	// Updated start time.
 	StartsAt *V2BillingContractPricingLineActionUpdateStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractPricingLineActionUpdateParams) AddMetadata(key string, value *string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]*string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Pricing line actions to apply.
@@ -667,6 +689,8 @@ type V2BillingContractPricingOverrideActionAddParams struct {
 	EndsAt *V2BillingContractPricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
 	// A lookup key for the pricing override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Metadata for the pricing override.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A multiply_pricing override to add.
 	MultiplyPricing *V2BillingContractPricingOverrideActionAddMultiplyPricingParams `form:"multiply_pricing" json:"multiply_pricing,omitempty"`
 	// An overwrite price override to add.
@@ -677,6 +701,15 @@ type V2BillingContractPricingOverrideActionAddParams struct {
 	StartsAt *V2BillingContractPricingOverrideActionAddStartsAtParams `form:"starts_at" json:"starts_at"`
 	// The type of pricing override to add.
 	Type *string `form:"type" json:"type"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractPricingOverrideActionAddParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Remove a pricing override.
@@ -707,8 +740,19 @@ type V2BillingContractPricingOverrideActionUpdateParams struct {
 	EndsAt *V2BillingContractPricingOverrideActionUpdateEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// The ID of the pricing override.
 	ID *string `form:"id" json:"id"`
+	// Metadata mutations to apply to the pricing override.
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The updated start time for the pricing override.
 	StartsAt *V2BillingContractPricingOverrideActionUpdateStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractPricingOverrideActionUpdateParams) AddMetadata(key string, value *string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]*string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Pricing override actions to apply.
@@ -1003,6 +1047,8 @@ type V2BillingContractCreatePricingOverrideParams struct {
 	EndsAt *V2BillingContractCreatePricingOverrideEndsAtParams `form:"ends_at" json:"ends_at"`
 	// A user-provided lookup key to reference this pricing override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Set of key-value pairs.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Parameters for a multiply_pricing override. Required if `type` is `multiply_pricing`.
 	MultiplyPricing *V2BillingContractCreatePricingOverrideMultiplyPricingParams `form:"multiply_pricing" json:"multiply_pricing,omitempty"`
 	// The priority of this override relative to others. The highest priority is 0 and the lowest is 100.
@@ -1011,6 +1057,15 @@ type V2BillingContractCreatePricingOverrideParams struct {
 	StartsAt *V2BillingContractCreatePricingOverrideStartsAtParams `form:"starts_at" json:"starts_at"`
 	// The type of pricing override.
 	Type *string `form:"type" json:"type"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractCreatePricingOverrideParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Create a draft contract.
@@ -1275,16 +1330,16 @@ type V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOve
 	ID *string `form:"id" json:"id,omitempty"`
 	// Updated lookup key.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
-	// Metadata for the pricing override.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Metadata mutations to apply to the pricing override.
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Updated start time.
 	StartsAt *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateParams) AddMetadata(key string, value string) {
+func (p *V2BillingContractUpdatePricingLineActionUpdatePricingPriceDetailsPricingOverrideActionUpdateParams) AddMetadata(key string, value *string) {
 	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
+		p.Metadata = make(map[string]*string)
 	}
 
 	p.Metadata[key] = value
@@ -1346,10 +1401,21 @@ type V2BillingContractUpdatePricingLineActionUpdateParams struct {
 	EndsAt *V2BillingContractUpdatePricingLineActionUpdateEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// The id of the pricing line.
 	ID *string `form:"id" json:"id"`
+	// Metadata mutations to apply to the pricing line.
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Updated pricing configuration.
 	Pricing *V2BillingContractUpdatePricingLineActionUpdatePricingParams `form:"pricing" json:"pricing,omitempty"`
 	// Updated start time.
 	StartsAt *V2BillingContractUpdatePricingLineActionUpdateStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractUpdatePricingLineActionUpdateParams) AddMetadata(key string, value *string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]*string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Pricing line actions to apply.
@@ -1410,6 +1476,8 @@ type V2BillingContractUpdatePricingOverrideActionAddParams struct {
 	EndsAt *V2BillingContractUpdatePricingOverrideActionAddEndsAtParams `form:"ends_at" json:"ends_at"`
 	// A lookup key for the pricing override.
 	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// Metadata for the pricing override.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// A multiply_pricing override to add.
 	MultiplyPricing *V2BillingContractUpdatePricingOverrideActionAddMultiplyPricingParams `form:"multiply_pricing" json:"multiply_pricing,omitempty"`
 	// An overwrite price override to add.
@@ -1420,6 +1488,15 @@ type V2BillingContractUpdatePricingOverrideActionAddParams struct {
 	StartsAt *V2BillingContractUpdatePricingOverrideActionAddStartsAtParams `form:"starts_at" json:"starts_at"`
 	// The type of pricing override to add.
 	Type *string `form:"type" json:"type"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractUpdatePricingOverrideActionAddParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Remove a pricing override.
@@ -1450,8 +1527,19 @@ type V2BillingContractUpdatePricingOverrideActionUpdateParams struct {
 	EndsAt *V2BillingContractUpdatePricingOverrideActionUpdateEndsAtParams `form:"ends_at" json:"ends_at,omitempty"`
 	// The ID of the pricing override.
 	ID *string `form:"id" json:"id"`
+	// Metadata mutations to apply to the pricing override.
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// The updated start time for the pricing override.
 	StartsAt *V2BillingContractUpdatePricingOverrideActionUpdateStartsAtParams `form:"starts_at" json:"starts_at,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractUpdatePricingOverrideActionUpdateParams) AddMetadata(key string, value *string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]*string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Pricing override actions to apply.
@@ -1471,8 +1559,19 @@ type V2BillingContractUpdateParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
+	// Set of key-value pairs.
+	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
 	// Pricing line actions to apply.
 	PricingLineActions []*V2BillingContractUpdatePricingLineActionParams `form:"pricing_line_actions" json:"pricing_line_actions,omitempty"`
 	// Pricing override actions to apply.
 	PricingOverrideActions []*V2BillingContractUpdatePricingOverrideActionParams `form:"pricing_override_actions" json:"pricing_override_actions,omitempty"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2BillingContractUpdateParams) AddMetadata(key string, value *string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]*string)
+	}
+
+	p.Metadata[key] = value
 }

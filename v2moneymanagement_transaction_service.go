@@ -29,6 +29,18 @@ func (c v2MoneyManagementTransactionService) Retrieve(ctx context.Context, id st
 	return transaction, err
 }
 
+// Updates the description of an existing Transaction.
+func (c v2MoneyManagementTransactionService) Update(ctx context.Context, id string, params *V2MoneyManagementTransactionUpdateParams) (*V2MoneyManagementTransaction, error) {
+	if params == nil {
+		params = &V2MoneyManagementTransactionUpdateParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/transactions/%s", id)
+	transaction := &V2MoneyManagementTransaction{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, transaction)
+	return transaction, err
+}
+
 // Returns a list of Transactions that match the provided filters.
 func (c v2MoneyManagementTransactionService) List(ctx context.Context, listParams *V2MoneyManagementTransactionListParams) *V2List[*V2MoneyManagementTransaction] {
 	if listParams == nil {

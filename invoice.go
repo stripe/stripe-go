@@ -458,6 +458,8 @@ type InvoiceParams struct {
 	FromInvoice *InvoiceFromInvoiceParams `form:"from_invoice" json:"from_invoice,omitempty"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *InvoiceIssuerParams `form:"issuer" json:"issuer,omitempty"`
+	// Settings for Managed Payments for this invoice.
+	ManagedPayments *InvoiceManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Set the number for this invoice. If no number is present then a number will be assigned automatically when the invoice is finalized. In many markets, regulations require invoices to be unique, sequential and / or gapless. You are responsible for ensuring this is true across all your different invoicing systems in the event that you edit the invoice number using our API. If you use only Stripe for your invoices and do not change invoice numbers, Stripe handles this aspect of compliance for you automatically.
@@ -1038,6 +1040,12 @@ type InvoiceFromInvoiceParams struct {
 	Action *string `form:"action" json:"action"`
 	// The `id` of the invoice that will be cloned.
 	Invoice *string `form:"invoice" json:"invoice"`
+}
+
+// Settings for Managed Payments for this invoice.
+type InvoiceManagedPaymentsParams struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
 // Search for invoices you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
@@ -4206,6 +4214,12 @@ type InvoiceCreateIssuerParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
+// Settings for Managed Payments for this invoice.
+type InvoiceCreateManagedPaymentsParams struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
+}
+
 // Additional fields for Mandate creation
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// Transaction type of the mandate.
@@ -4663,6 +4677,8 @@ type InvoiceCreateParams struct {
 	FromInvoice *InvoiceCreateFromInvoiceParams `form:"from_invoice" json:"from_invoice,omitempty"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *InvoiceCreateIssuerParams `form:"issuer" json:"issuer,omitempty"`
+	// Settings for Managed Payments for this invoice.
+	ManagedPayments *InvoiceCreateManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Set the number for this invoice. If no number is present then a number will be assigned automatically when the invoice is finalized. In many markets, regulations require invoices to be unique, sequential and / or gapless. You are responsible for ensuring this is true across all your different invoicing systems in the event that you edit the invoice number using our API. If you use only Stripe for your invoices and do not change invoice numbers, Stripe handles this aspect of compliance for you automatically.
@@ -4804,6 +4820,10 @@ type InvoiceIssuer struct {
 	Account *Account `json:"account,omitempty"`
 	// Type of the account referenced.
 	Type InvoiceIssuerType `json:"type"`
+}
+type InvoiceManagedPayments struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled bool `json:"enabled"`
 }
 
 // Details about the billing cadence that generated this invoice
@@ -5298,7 +5318,8 @@ type Invoice struct {
 	// The individual line items that make up the invoice. `lines` is sorted as follows: (1) pending invoice items (including prorations) in reverse chronological order, (2) subscription items in reverse chronological order, and (3) invoice items added after invoice creation in chronological order.
 	Lines *InvoiceLineItemList `json:"lines"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
-	Livemode bool `json:"livemode"`
+	Livemode        bool                    `json:"livemode"`
+	ManagedPayments *InvoiceManagedPayments `json:"managed_payments,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The time at which payment will next be attempted. This value will be `null` for invoices where `collection_method=send_invoice`.
@@ -5311,6 +5332,8 @@ type Invoice struct {
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// The parent that generated this invoice
 	Parent *InvoiceParent `json:"parent"`
+	// The ID of the payment plan associated with this invoice, if any. Use `expand[]=payment_plan` to include the full payment plan object.
+	PaymentPlan *PaymentPlan `json:"payment_plan,omitempty"`
 	// Payments for this invoice. Use [invoice payment](https://docs.stripe.com/api/invoice-payment) to get more details.
 	Payments        *InvoicePaymentList     `json:"payments,omitempty"`
 	PaymentSettings *InvoicePaymentSettings `json:"payment_settings"`

@@ -307,7 +307,7 @@ type TaxCalculationParams struct {
 	CustomerDetails *TaxCalculationCustomerDetailsParams `form:"customer_details" json:"customer_details,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// A list of items the customer is purchasing.
+	// A list of items the customer is purchasing. You can pass up to 100 line items, or 1,000 if your account has an increased limit.
 	LineItems []*TaxCalculationLineItemParams `form:"line_items" json:"line_items,omitempty"`
 	// Details about the address from which the goods are being shipped.
 	ShipFromDetails *TaxCalculationShipFromDetailsParams `form:"ship_from_details" json:"ship_from_details,omitempty"`
@@ -363,7 +363,7 @@ type TaxCalculationLineItemPerformanceLocationDetailsParams struct {
 	Address *AddressParams `form:"address" json:"address"`
 }
 
-// A list of items the customer is purchasing.
+// A list of items the customer is purchasing. You can pass up to 100 line items, or 1,000 if your account has an increased limit.
 type TaxCalculationLineItemParams struct {
 	// A positive integer representing the line item's total price in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
 	// If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
@@ -453,7 +453,7 @@ type TaxCalculationCreateLineItemPerformanceLocationDetailsParams struct {
 	Address *AddressParams `form:"address" json:"address"`
 }
 
-// A list of items the customer is purchasing.
+// A list of items the customer is purchasing. You can pass up to 100 line items, or 1,000 if your account has an increased limit.
 type TaxCalculationCreateLineItemParams struct {
 	// A positive integer representing the line item's total price in the [smallest currency unit](https://docs.stripe.com/currencies#minor-units).
 	// If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
@@ -514,7 +514,7 @@ type TaxCalculationCreateParams struct {
 	CustomerDetails *TaxCalculationCreateCustomerDetailsParams `form:"customer_details" json:"customer_details,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// A list of items the customer is purchasing.
+	// A list of items the customer is purchasing. You can pass up to 100 line items, or 1,000 if your account has an increased limit.
 	LineItems []*TaxCalculationCreateLineItemParams `form:"line_items" json:"line_items"`
 	// Details about the address from which the goods are being shipped.
 	ShipFromDetails *TaxCalculationCreateShipFromDetailsParams `form:"ship_from_details" json:"ship_from_details,omitempty"`

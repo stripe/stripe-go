@@ -903,7 +903,7 @@ type BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReason stru
 	// Whether the feature is enabled.
 	Enabled bool `json:"enabled"`
 	// The IDs of custom feedback options configured for this cancellation reason.
-	FeedbackOptions []*BillingFeedbackOptions `json:"feedback_options,omitempty"`
+	FeedbackOptions []*BillingFeedbackOption `json:"feedback_options"`
 	// Which cancellation reasons will be given as options to the customer.
 	Options []BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption `json:"options"`
 }

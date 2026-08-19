@@ -179,6 +179,8 @@ type V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesData st
 	ID string `json:"id"`
 	// The user-provided lookup key for this override.
 	LookupKey string `json:"lookup_key,omitempty"`
+	// Set of key-value pairs.
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// Details for an overwrite_price override.
 	OverwritePrice *V2BillingContractPricingLinesDataPricingPriceDetailsPricingOverridesDataOverwritePrice `json:"overwrite_price,omitempty"`
 	// The priority of this override relative to others. Lower number = higher priority.
@@ -279,6 +281,8 @@ type V2BillingContractPricingOverridesData struct {
 	ID string `json:"id"`
 	// The user-provided lookup key for the pricing override.
 	LookupKey string `json:"lookup_key,omitempty"`
+	// Set of key-value pairs.
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// Details for a multiply_pricing override.
 	MultiplyPricing *V2BillingContractPricingOverridesDataMultiplyPricing `json:"multiply_pricing,omitempty"`
 	// The priority of this override relative to others. Lower number = higher priority.

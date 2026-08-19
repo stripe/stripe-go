@@ -68,6 +68,8 @@ type InvoiceItemParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The ID of an existing invoice to add this invoice item to. For subscription invoices, when left blank, the invoice item will be added to the next upcoming scheduled invoice. For standalone invoices, the invoice item won't be automatically added unless you pass `pending_invoice_item_behavior: 'include'` when creating the invoice. This is useful when adding invoice items in response to an invoice.created webhook. You can only add invoice items to draft invoices and there is a maximum of 250 items per invoice.
 	Invoice *string `form:"invoice" json:"invoice,omitempty"`
+	// Settings for Managed Payments for this invoice item.
+	ManagedPayments *InvoiceItemManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
 	// The ids of the margins to apply to the invoice item. When set, the `default_margins` on the invoice do not apply to this invoice item.
 	Margins []*string `form:"margins" json:"margins,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -205,6 +207,12 @@ type InvoiceItemListParams struct {
 // AddExpand appends a new field to expand.
 func (p *InvoiceItemListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// Settings for Managed Payments for this invoice item.
+type InvoiceItemManagedPaymentsParams struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
 }
 
 // Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
@@ -380,6 +388,12 @@ type InvoiceItemCreateDiscountParams struct {
 	PromotionCode *string `form:"promotion_code" json:"promotion_code,omitempty"`
 }
 
+// Settings for Managed Payments for this invoice item.
+type InvoiceItemCreateManagedPaymentsParams struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution.
+	Enabled *bool `form:"enabled" json:"enabled,omitempty"`
+}
+
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://docs.stripe.com/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://docs.stripe.com/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceItemCreatePeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
@@ -429,6 +443,8 @@ type InvoiceItemCreateParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// The ID of an existing invoice to add this invoice item to. For subscription invoices, when left blank, the invoice item will be added to the next upcoming scheduled invoice. For standalone invoices, the invoice item won't be automatically added unless you pass `pending_invoice_item_behavior: 'include'` when creating the invoice. This is useful when adding invoice items in response to an invoice.created webhook. You can only add invoice items to draft invoices and there is a maximum of 250 items per invoice.
 	Invoice *string `form:"invoice" json:"invoice,omitempty"`
+	// Settings for Managed Payments for this invoice item.
+	ManagedPayments *InvoiceItemCreateManagedPaymentsParams `form:"managed_payments" json:"managed_payments,omitempty"`
 	// The ids of the margins to apply to the invoice item. When set, the `default_margins` on the invoice do not apply to this invoice item.
 	Margins []*string `form:"margins" json:"margins,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -482,6 +498,11 @@ func (p *InvoiceItemCreateParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+type InvoiceItemManagedPayments struct {
+	// Set to `true` to enable [Managed Payments](https://docs.stripe.com/payments/managed-payments), Stripe's merchant of record solution, for this session.
+	Enabled bool `json:"enabled"`
 }
 
 // Details about the pricing plan subscription that generated this invoice item
@@ -637,7 +658,8 @@ type InvoiceItem struct {
 	// The ID of the invoice this invoice item belongs to.
 	Invoice *Invoice `json:"invoice"`
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
-	Livemode bool `json:"livemode"`
+	Livemode        bool                        `json:"livemode"`
+	ManagedPayments *InvoiceItemManagedPayments `json:"managed_payments,omitempty"`
 	// The margins which apply to the invoice item. When set, the `default_margins` on the invoice do not apply to this invoice item.
 	Margins []*Margin `json:"margins,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
