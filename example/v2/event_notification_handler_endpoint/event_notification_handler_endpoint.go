@@ -7,6 +7,7 @@
 //   - write a fallback callback to handle unrecognized event notifications
 //   - create a stripe.Client called client
 //   - Initialize an EventNotificationHandler with the client, webhook secret, and fallback callback
+//   - register a PreHandle hook that deduplicates events by ID before any callback runs
 //   - register a specific handler for the "v1.billing.meter.error_report_triggered" event notification type
 //   - use handler.Handle() to process the received notification webhook body
 
@@ -18,6 +19,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"sync"
 
 	"github.com/stripe/stripe-go/v86"
 )
@@ -29,6 +31,32 @@ var handler = stripe.NewEventNotificationHandler(client, webhookSecret, func(con
 	fmt.Printf("Received unhandled event with type %s", notif.GetEventNotification().Type)
 	return nil
 })
+
+// seenEventIDs tracks event IDs we've already processed so that redelivered webhooks
+// (e.g. after a slow response causes Stripe to retry) don't get handled twice.
+var (
+	seenEventIDsMu sync.Mutex
+	seenEventIDs   = map[string]bool{}
+)
+
+func init() {
+	// PreHandle runs after Handle() parses the payload but before any callback (registered
+	// or fallback) fires. Returning false here skips every callback for this event, which is
+	// exactly what we want for a duplicate delivery.
+	handler.PreHandle(func(ctx context.Context, notif stripe.EventNotificationContainer, client *stripe.Client) (bool, error) {
+		eventID := notif.GetEventNotification().ID
+
+		seenEventIDsMu.Lock()
+		defer seenEventIDsMu.Unlock()
+
+		if seenEventIDs[eventID] {
+			fmt.Printf("Skipping duplicate delivery of event %s\n", eventID)
+			return false, nil
+		}
+		seenEventIDs[eventID] = true
+		return true, nil
+	})
+}
 
 // Handles events delivered through a channel that has already authenticated them, such as
 // AWS EventBridge or Azure Event Grid. Those payloads carry no Stripe-Signature header, so
