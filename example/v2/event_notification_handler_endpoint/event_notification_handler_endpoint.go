@@ -33,29 +33,37 @@ var handler = stripe.NewEventNotificationHandler(client, webhookSecret, func(con
 })
 
 // seenEventIDs tracks event IDs we've already processed so that redelivered webhooks
-// (e.g. after a slow response causes Stripe to retry) don't get handled twice.
+// (e.g. after a slow response causes Stripe to retry) don't get handled twice. A real
+// integration would keep this in a database or cache rather than in memory.
 var (
 	seenEventIDsMu sync.Mutex
 	seenEventIDs   = map[string]bool{}
 )
 
-func init() {
-	// PreHandle runs after Handle() parses the payload but before any callback (registered
-	// or fallback) fires. Returning false here skips every callback for this event, which is
-	// exactly what we want for a duplicate delivery.
-	handler.PreHandle(func(ctx context.Context, notif stripe.EventNotificationContainer, client *stripe.Client) (bool, error) {
-		eventID := notif.GetEventNotification().ID
+// skipDuplicateEvents is registered via PreHandle() on both handlers below. It runs after
+// Handle() parses the payload but before any callback fires, and returning false stops
+// handling entirely: neither the registered callback nor the fallback runs.
+func skipDuplicateEvents(ctx context.Context, notif stripe.EventNotificationContainer, client *stripe.Client) (bool, error) {
+	eventID := notif.GetEventNotification().ID
 
-		seenEventIDsMu.Lock()
-		defer seenEventIDsMu.Unlock()
+	seenEventIDsMu.Lock()
+	defer seenEventIDsMu.Unlock()
 
-		if seenEventIDs[eventID] {
-			fmt.Printf("Skipping duplicate delivery of event %s\n", eventID)
-			return false, nil
-		}
-		seenEventIDs[eventID] = true
-		return true, nil
-	})
+	if seenEventIDs[eventID] {
+		fmt.Printf("Skipping duplicate delivery of event %s\n", eventID)
+		return false, nil
+	}
+	seenEventIDs[eventID] = true
+
+	return true, nil
+}
+
+// registering a callback only fails on a programming error (registering twice, or after an
+// event has already been handled), so there's nothing to recover from at runtime.
+func mustRegister(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
 
 // Handles events delivered through a channel that has already authenticated them, such as
@@ -77,7 +85,8 @@ func handleMeterErrors(ctx context.Context, notif *stripe.V1BillingMeterErrorRep
 }
 
 func main() {
-	handler.OnV1BillingMeterErrorReportTriggered(handleMeterErrors)
+	mustRegister(handler.PreHandle(skipDuplicateEvents))
+	mustRegister(handler.OnV1BillingMeterErrorReportTriggered(handleMeterErrors))
 
 	http.HandleFunc("/webhook", func(w http.ResponseWriter, req *http.Request) {
 		const MaxBodyBytes = int64(65536)
@@ -99,7 +108,8 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	unverifiedHandler.OnV1BillingMeterErrorReportTriggered(handleMeterErrors)
+	mustRegister(unverifiedHandler.PreHandle(skipDuplicateEvents))
+	mustRegister(unverifiedHandler.OnV1BillingMeterErrorReportTriggered(handleMeterErrors))
 
 	http.HandleFunc("/webhook-from-cloud-provider", func(w http.ResponseWriter, req *http.Request) {
 		const MaxBodyBytes = int64(65536)
