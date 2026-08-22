@@ -65,7 +65,7 @@ func NewEventNotificationHandler(client *Client, webhookSecret string, fallbackC
 // synchronously on startup, so it'll only be read after it's done being written.
 func (h *eventNotificationHandlerBase) assertCanRegister() error {
 	if h.hasHandledEvent {
-		return fmt.Errorf("cannot register new event handlers after handling an event. This is indicative of a bug.")
+		return fmt.Errorf("cannot register new callbacks after an event has been handled. This is indicative of a bug.")
 	}
 
 	return nil
@@ -77,7 +77,7 @@ func (h *eventNotificationHandlerBase) register(eventType string, callback Callb
 	}
 
 	if h.eventHandlers[eventType] != nil {
-		return fmt.Errorf("handler for event type %s is already registered", eventType)
+		return fmt.Errorf("callback for event type %q is already registered", eventType)
 	}
 
 	h.eventHandlers[eventType] = callback

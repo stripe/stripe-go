@@ -239,7 +239,7 @@ func TestEventHandler_CannotRegisterHandlerAfterHandling(t *testing.T) {
 
 	err = handler.OnV1BillingMeterNoMeterFound(callback2)
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "cannot register new event handlers after handling an event")
+	assert.Contains(t, err.Error(), "cannot register new callbacks after an event has been handled")
 }
 
 // Test: Cannot register duplicate handler
@@ -265,7 +265,7 @@ func TestEventHandler_CannotRegisterDuplicateHandler(t *testing.T) {
 
 	err = handler.OnV1BillingMeterErrorReportTriggered(callback2)
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "handler for event type v1.billing.meter.error_report_triggered is already registered")
+	assert.Contains(t, err.Error(), `callback for event type "v1.billing.meter.error_report_triggered" is already registered`)
 }
 
 // Test: Handler uses event stripe context
@@ -1079,7 +1079,7 @@ func TestPreHandle_CannotRegisterAfterHandling(t *testing.T) {
 		return true, nil
 	})
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "cannot register new event handlers after handling an event")
+	assert.Contains(t, err.Error(), "cannot register new callbacks after an event has been handled")
 }
 
 // Test: PreHandle cannot be registered twice
@@ -1168,5 +1168,5 @@ func TestWithoutVerification_PreHandleRegistrationErrorsArePromoted(t *testing.T
 	// Registration after handling fails via the promoted method
 	err = handler.PreHandle(hook)
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "cannot register new event handlers after handling an event")
+	assert.Contains(t, err.Error(), "cannot register new callbacks after an event has been handled")
 }
