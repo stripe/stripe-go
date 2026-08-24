@@ -12,7 +12,7 @@ type CallbackFunc = func(context.Context, EventNotificationContainer, *Client) e
 // FallbackCallbackFunc is run when an event is received that does not match any registered type. It contains additional details about the unhandled event (as compared to a CallbackFunc).
 type FallbackCallbackFunc = func(context.Context, EventNotificationContainer, *Client, UnhandledNotificationDetails) error
 
-// PreHandleFunc runs after Handle() parses the payload but before any user callback fires. Returning false stops handling entirely: no callback runs. Returning a non-nil error aborts handling and is returned from Handle.
+// PreHandleFunc is the function type registered via PreHandle.
 type PreHandleFunc = func(context.Context, EventNotificationContainer, *Client) (bool, error)
 
 type UnhandledNotificationDetails struct {
@@ -84,7 +84,13 @@ func (h *eventNotificationHandlerBase) register(eventType string, callback Callb
 	return nil
 }
 
-// PreHandle registers a hook that runs after Handle() parses the payload but before any other callback fires. Returning `false` from the hook stops handling: no callback runs. Returning an error aborts handling and is returned from the original Handle() call.
+// PreHandle registers a function that will be run before any event-specific callbacks. A useful
+// place to store event-agnostic logic, such as logging or checking for duplicate event deliveries
+// (https://docs.stripe.com/webhooks#handle-duplicate-events).
+//
+// Returning true causes handling to continue as normal; returning false returns from Handle()
+// immediately, so neither the registered callback nor the fallback callback are called. A non-nil
+// error aborts handling and is returned from Handle().
 func (h *eventNotificationHandlerBase) PreHandle(callback PreHandleFunc) error {
 	if err := h.assertCanRegister(); err != nil {
 		return err

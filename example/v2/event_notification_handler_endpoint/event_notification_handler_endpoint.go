@@ -32,17 +32,17 @@ var handler = stripe.NewEventNotificationHandler(client, webhookSecret, func(con
 	return nil
 })
 
-// seenEventIDs tracks event IDs we've already processed so that redelivered webhooks
-// (e.g. after a slow response causes Stripe to retry) don't get handled twice. A real
-// integration would keep this in a database or cache rather than in memory.
+// Webhooks can be delivered more than once, so we track ids we've already
+// processed. In production, back this with something durable and shared
+// across processes (e.g. Redis or a database table) instead of an in-memory map.
 var (
 	seenEventIDsMu sync.Mutex
 	seenEventIDs   = map[string]bool{}
 )
 
-// skipDuplicateEvents is registered via PreHandle() on both handlers below. It runs after
-// Handle() parses the payload but before any callback fires, and returning false stops
-// handling entirely: neither the registered callback nor the fallback runs.
+// skipDuplicateEvents runs before any registered callback. Returning false
+// here skips handling entirely for this delivery, which is useful for
+// deduplicating webhooks.
 func skipDuplicateEvents(ctx context.Context, notif stripe.EventNotificationContainer, client *stripe.Client) (bool, error) {
 	eventID := notif.GetEventNotification().ID
 
