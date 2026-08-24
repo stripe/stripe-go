@@ -239,7 +239,7 @@ func TestEventHandler_CannotRegisterHandlerAfterHandling(t *testing.T) {
 
 	err = handler.OnV1BillingMeterNoMeterFound(callback2)
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "cannot register new event handlers after handling an event")
+	assert.Contains(t, err.Error(), "cannot register new callbacks after an event has been handled")
 }
 
 // Test: Cannot register duplicate handler
@@ -265,7 +265,7 @@ func TestEventHandler_CannotRegisterDuplicateHandler(t *testing.T) {
 
 	err = handler.OnV1BillingMeterErrorReportTriggered(callback2)
 	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "handler for event type v1.billing.meter.error_report_triggered is already registered")
+	assert.Contains(t, err.Error(), `callback for event type "v1.billing.meter.error_report_triggered" is already registered`)
 }
 
 // Test: Handler uses event stripe context
@@ -864,4 +864,309 @@ func TestNewEventNotificationHandler_PanicsOnEmptySecret(t *testing.T) {
 	assert.Panics(t, func() {
 		NewEventNotificationHandler(client, "", onUnhandled)
 	})
+}
+
+// Test: With no PreHandle hook registered, the callback still runs (regression)
+func TestPreHandle_NoHookRegistered_CallbackStillRuns(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		return nil
+	}
+
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
+
+	var callbackCalled bool
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+		callbackCalled = true
+		return nil
+	}
+
+	err := handler.OnV1BillingMeterErrorReportTriggered(callback)
+	assert.NoError(t, err)
+
+	payload := v1BillingMeterPayload()
+	sigHeader := generateTestSignature(payload)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
+
+	assert.NoError(t, err)
+	assert.True(t, callbackCalled, "Callback should have been called")
+}
+
+// Test: PreHandle hook returning (true, nil) allows the callback to run, and runs first
+func TestPreHandle_ReturnsTrue_CallbackRunsAfterHook(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		return nil
+	}
+
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
+
+	var order []string
+
+	err := handler.PreHandle(func(ctx context.Context, notif EventNotificationContainer, client *Client) (bool, error) {
+		order = append(order, "preHandle")
+		return true, nil
+	})
+	assert.NoError(t, err)
+
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+		order = append(order, "callback")
+		return nil
+	}
+
+	err = handler.OnV1BillingMeterErrorReportTriggered(callback)
+	assert.NoError(t, err)
+
+	payload := v1BillingMeterPayload()
+	sigHeader := generateTestSignature(payload)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
+
+	assert.NoError(t, err)
+	assert.Equal(t, []string{"preHandle", "callback"}, order, "PreHandle should run before the callback")
+}
+
+// Test: PreHandle hook returning (false, nil) prevents the registered callback from running
+func TestPreHandle_ReturnsFalse_RegisteredCallbackDoesNotRun(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		return nil
+	}
+
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
+
+	err := handler.PreHandle(func(ctx context.Context, notif EventNotificationContainer, client *Client) (bool, error) {
+		return false, nil
+	})
+	assert.NoError(t, err)
+
+	var callbackCalled bool
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+		callbackCalled = true
+		return nil
+	}
+
+	err = handler.OnV1BillingMeterErrorReportTriggered(callback)
+	assert.NoError(t, err)
+
+	payload := v1BillingMeterPayload()
+	sigHeader := generateTestSignature(payload)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
+
+	assert.NoError(t, err)
+	assert.False(t, callbackCalled, "Registered callback should not have been called")
+}
+
+// Test: PreHandle hook returning (false, nil) for an unknown event type prevents the fallback from running
+func TestPreHandle_ReturnsFalse_FallbackDoesNotRunForUnknownEvent(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	var unhandledCalled bool
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		unhandledCalled = true
+		return nil
+	}
+
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
+
+	err := handler.PreHandle(func(ctx context.Context, notif EventNotificationContainer, client *Client) (bool, error) {
+		return false, nil
+	})
+	assert.NoError(t, err)
+
+	payload := unknownEventPayload()
+	sigHeader := generateTestSignature(payload)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
+
+	assert.NoError(t, err)
+	assert.False(t, unhandledCalled, "Fallback should not have been called")
+}
+
+// Test: PreHandle hook receives the context-scoped client, and the handler's own client is unmutated
+func TestPreHandle_ReceivesContextScopedClient(t *testing.T) {
+	config := &BackendConfig{StripeContext: String("original_context_123")}
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(config)))
+
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		return nil
+	}
+
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
+
+	var receivedContext *string
+	err := handler.PreHandle(func(ctx context.Context, notif EventNotificationContainer, hookClient *Client) (bool, error) {
+		receivedContext = hookClient.backends.config.StripeContext
+		return true, nil
+	})
+	assert.NoError(t, err)
+
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+		return nil
+	}
+	err = handler.OnV1BillingMeterErrorReportTriggered(callback)
+	assert.NoError(t, err)
+
+	// Verify original context before handle
+	assert.Equal(t, "original_context_123", *client.backends.config.StripeContext)
+
+	payload := v1BillingMeterPayload()
+	sigHeader := generateTestSignature(payload)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
+	assert.NoError(t, err)
+
+	assert.NotNil(t, receivedContext)
+	assert.Equal(t, "event_context_456", *receivedContext, "PreHandle should receive event's stripe_context")
+
+	// Handler's own client should be unmutated
+	assert.Equal(t, "original_context_123", *client.backends.config.StripeContext)
+}
+
+// Test: PreHandle hook returning a non-nil error aborts handling; the error is returned from
+// Handle and no callback runs
+func TestPreHandle_ReturnsError_AbortsHandling(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	var unhandledCalled bool
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		unhandledCalled = true
+		return nil
+	}
+
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
+
+	preHandleErr := fmt.Errorf("pre-handle failure")
+	err := handler.PreHandle(func(ctx context.Context, notif EventNotificationContainer, client *Client) (bool, error) {
+		return false, preHandleErr
+	})
+	assert.NoError(t, err)
+
+	var callbackCalled bool
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+		callbackCalled = true
+		return nil
+	}
+	err = handler.OnV1BillingMeterErrorReportTriggered(callback)
+	assert.NoError(t, err)
+
+	payload := v1BillingMeterPayload()
+	sigHeader := generateTestSignature(payload)
+	err = handler.Handle(context.TODO(), []byte(payload), sigHeader)
+
+	assert.Error(t, err)
+	assert.Equal(t, preHandleErr, err)
+	assert.False(t, callbackCalled, "Callback should not have been called")
+	assert.False(t, unhandledCalled, "Fallback should not have been called")
+}
+
+// Test: PreHandle cannot be registered after handling
+func TestPreHandle_CannotRegisterAfterHandling(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		return nil
+	}
+
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
+
+	payload := v1BillingMeterPayload()
+	sigHeader := generateTestSignature(payload)
+	err := handler.Handle(context.TODO(), []byte(payload), sigHeader)
+	assert.NoError(t, err)
+
+	err = handler.PreHandle(func(ctx context.Context, notif EventNotificationContainer, client *Client) (bool, error) {
+		return true, nil
+	})
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "cannot register new callbacks after an event has been handled")
+}
+
+// Test: PreHandle cannot be registered twice
+func TestPreHandle_CannotRegisterTwice(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		return nil
+	}
+
+	handler := NewEventNotificationHandler(client, testWebhookSecret, onUnhandled)
+
+	hook := func(ctx context.Context, notif EventNotificationContainer, client *Client) (bool, error) {
+		return true, nil
+	}
+
+	err := handler.PreHandle(hook)
+	assert.NoError(t, err)
+
+	err = handler.PreHandle(hook)
+	assert.Error(t, err)
+}
+
+// Test: PreHandle is promoted onto EventNotificationHandlerWithoutVerification and gates it too
+func TestWithoutVerification_PreHandleIsPromotedAndGatesHandling(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	var unhandledCalled bool
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		unhandledCalled = true
+		return nil
+	}
+
+	handler := NewEventNotificationHandlerWithoutVerification(client, onUnhandled)
+
+	var preHandleCalled bool
+	err := handler.PreHandle(func(ctx context.Context, notif EventNotificationContainer, client *Client) (bool, error) {
+		preHandleCalled = true
+		return false, nil
+	})
+	assert.NoError(t, err)
+
+	var callbackCalled bool
+	callback := func(ctx context.Context, event *V1BillingMeterErrorReportTriggeredEventNotification, client *Client) error {
+		callbackCalled = true
+		return nil
+	}
+	err = handler.OnV1BillingMeterErrorReportTriggered(callback)
+	assert.NoError(t, err)
+
+	payload := v1BillingMeterPayload()
+	err = handler.Handle(context.TODO(), []byte(payload))
+
+	assert.NoError(t, err)
+	assert.True(t, preHandleCalled, "PreHandle hook should have been called")
+	assert.False(t, callbackCalled, "Registered callback should not have been called")
+	assert.False(t, unhandledCalled, "Fallback should not have been called")
+}
+
+// Test: PreHandle registration errors (already-registered, and post-handling) are surfaced
+// through the promoted method on EventNotificationHandlerWithoutVerification
+func TestWithoutVerification_PreHandleRegistrationErrorsArePromoted(t *testing.T) {
+	client := NewClient("sk_test_1234", WithBackends(NewBackendsWithConfig(&BackendConfig{})))
+
+	onUnhandled := func(ctx context.Context, notif EventNotificationContainer, client *Client, details UnhandledNotificationDetails) error {
+		return nil
+	}
+
+	handler := NewEventNotificationHandlerWithoutVerification(client, onUnhandled)
+
+	hook := func(ctx context.Context, notif EventNotificationContainer, client *Client) (bool, error) {
+		return true, nil
+	}
+
+	err := handler.PreHandle(hook)
+	assert.NoError(t, err)
+
+	// Duplicate registration fails via the promoted method
+	err = handler.PreHandle(hook)
+	assert.Error(t, err)
+
+	payload := v1BillingMeterPayload()
+	err = handler.Handle(context.TODO(), []byte(payload))
+	assert.NoError(t, err)
+
+	// Registration after handling fails via the promoted method
+	err = handler.PreHandle(hook)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "cannot register new callbacks after an event has been handled")
 }

@@ -12,6 +12,9 @@ type CallbackFunc = func(context.Context, EventNotificationContainer, *Client) e
 // FallbackCallbackFunc is run when an event is received that does not match any registered type. It contains additional details about the unhandled event (as compared to a CallbackFunc).
 type FallbackCallbackFunc = func(context.Context, EventNotificationContainer, *Client, UnhandledNotificationDetails) error
 
+// PreHandleFunc is the function type registered via PreHandle.
+type PreHandleFunc = func(context.Context, EventNotificationContainer, *Client) (bool, error)
+
 type UnhandledNotificationDetails struct {
 	// IsKnownEventType indicates whether the unhandled event is of a known type (i.e., it has a defined struct in the SDK) or is completely unknown.
 	IsKnownEventType bool
@@ -24,6 +27,7 @@ type eventNotificationHandlerBase struct {
 	eventHandlers    map[string]CallbackFunc
 	hasHandledEvent  bool
 	fallbackCallback FallbackCallbackFunc
+	preHandleFunc    PreHandleFunc
 }
 
 // newEventNotificationHandlerBase builds the shared handler state used by both the
@@ -53,18 +57,50 @@ func NewEventNotificationHandler(client *Client, webhookSecret string, fallbackC
 	}
 }
 
-func (h *eventNotificationHandlerBase) register(eventType string, callback CallbackFunc) error {
-	// intentionally not worried about concurrency because we expect all registrations to happen
-	// synchronously on startup, so it'll only be read after it's done being written.
+// assertCanRegister reports an error if callbacks can no longer be registered. Callbacks are
+// expected to be registered once on startup, so registering anything after handling has begun
+// indicates a bug.
+//
+// intentionally not worried about concurrency because we expect all registrations to happen
+// synchronously on startup, so it'll only be read after it's done being written.
+func (h *eventNotificationHandlerBase) assertCanRegister() error {
 	if h.hasHandledEvent {
-		return fmt.Errorf("cannot register new event handlers after handling an event. This is indicative of a bug.")
+		return fmt.Errorf("cannot register new callbacks after an event has been handled. This is indicative of a bug.")
+	}
+
+	return nil
+}
+
+func (h *eventNotificationHandlerBase) register(eventType string, callback CallbackFunc) error {
+	if err := h.assertCanRegister(); err != nil {
+		return err
 	}
 
 	if h.eventHandlers[eventType] != nil {
-		return fmt.Errorf("handler for event type %s is already registered", eventType)
+		return fmt.Errorf("callback for event type %q is already registered", eventType)
 	}
 
 	h.eventHandlers[eventType] = callback
+	return nil
+}
+
+// PreHandle registers a function that will be run before any event-specific callbacks. A useful
+// place to store event-agnostic logic, such as logging or checking for duplicate event deliveries
+// (https://docs.stripe.com/webhooks#handle-duplicate-events).
+//
+// Returning true causes handling to continue as normal; returning false returns from Handle()
+// immediately, so neither the registered callback nor the fallback callback are called. A non-nil
+// error aborts handling and is returned from Handle().
+func (h *eventNotificationHandlerBase) PreHandle(callback PreHandleFunc) error {
+	if err := h.assertCanRegister(); err != nil {
+		return err
+	}
+
+	if h.preHandleFunc != nil {
+		return fmt.Errorf("a PreHandle callback is already registered")
+	}
+
+	h.preHandleFunc = callback
 	return nil
 }
 
@@ -268,6 +304,16 @@ func (h *eventNotificationHandlerBase) dispatch(ctx context.Context, notif Event
 	clientWithContext, err := h.createClientWithContext(n.Context.StringPtr())
 	if err != nil {
 		return err
+	}
+
+	if h.preHandleFunc != nil {
+		shouldContinue, err := h.preHandleFunc(ctx, notif, clientWithContext)
+		if err != nil {
+			return err
+		}
+		if !shouldContinue {
+			return nil
+		}
 	}
 
 	callback, ok := h.eventHandlers[eventType]
