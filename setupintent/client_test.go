@@ -43,7 +43,7 @@ func TestSetupIntentList(t *testing.T) {
 func TestSetupIntentNew(t *testing.T) {
 	intent, err := New(&stripe.SetupIntentParams{
 		Customer: stripe.String("cus_123"),
-		PaymentMethodTypes: stripe.StringSlice([]string{
+		AllowedPaymentMethodTypes: stripe.StringSlice([]string{
 			"card",
 		}),
 	})

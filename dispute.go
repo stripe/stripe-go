@@ -841,7 +841,7 @@ type DisputePaymentMethodDetails struct {
 	Type DisputePaymentMethodDetailsType `json:"type"`
 }
 type DisputeSmartDisputes struct {
-	// Evidence that could be provided to improve the SmartDisputes packet
+	// Evidence that could be provided to improve the Smart Disputes packet
 	RecommendedEvidence [][]string `json:"recommended_evidence"`
 	// Smart Disputes auto representment packet availability status.
 	Status DisputeSmartDisputesStatus `json:"status"`

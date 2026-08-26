@@ -293,7 +293,7 @@ type ClimateOrder struct {
 	DeliveredAt int64 `json:"delivered_at"`
 	// Details about the delivery of carbon removal for this order.
 	DeliveryDetails []*ClimateOrderDeliveryDetail `json:"delivery_details"`
-	// The year this order is expected to be delivered.
+	// The year this order is expected to be delivered. If the year is in the past, the order is a spot purchase and will be delivered within 30 days of purchase.
 	ExpectedDeliveryYear int64 `json:"expected_delivery_year"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

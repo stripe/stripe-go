@@ -12,6 +12,9 @@ type CallbackFunc = func(context.Context, EventNotificationContainer, *Client) e
 // FallbackCallbackFunc is run when an event is received that does not match any registered type. It contains additional details about the unhandled event (as compared to a CallbackFunc).
 type FallbackCallbackFunc = func(context.Context, EventNotificationContainer, *Client, UnhandledNotificationDetails) error
 
+// PreHandleFunc is the function type registered via PreHandle.
+type PreHandleFunc = func(context.Context, EventNotificationContainer, *Client) (bool, error)
+
 type UnhandledNotificationDetails struct {
 	// IsKnownEventType indicates whether the unhandled event is of a known type (i.e., it has a defined struct in the SDK) or is completely unknown.
 	IsKnownEventType bool
@@ -24,6 +27,7 @@ type eventNotificationHandlerBase struct {
 	eventHandlers    map[string]CallbackFunc
 	hasHandledEvent  bool
 	fallbackCallback FallbackCallbackFunc
+	preHandleFunc    PreHandleFunc
 }
 
 // newEventNotificationHandlerBase builds the shared handler state used by both the
@@ -53,18 +57,50 @@ func NewEventNotificationHandler(client *Client, webhookSecret string, fallbackC
 	}
 }
 
-func (h *eventNotificationHandlerBase) register(eventType string, callback CallbackFunc) error {
-	// intentionally not worried about concurrency because we expect all registrations to happen
-	// synchronously on startup, so it'll only be read after it's done being written.
+// assertCanRegister reports an error if callbacks can no longer be registered. Callbacks are
+// expected to be registered once on startup, so registering anything after handling has begun
+// indicates a bug.
+//
+// intentionally not worried about concurrency because we expect all registrations to happen
+// synchronously on startup, so it'll only be read after it's done being written.
+func (h *eventNotificationHandlerBase) assertCanRegister() error {
 	if h.hasHandledEvent {
-		return fmt.Errorf("cannot register new event handlers after handling an event. This is indicative of a bug.")
+		return fmt.Errorf("cannot register new callbacks after an event has been handled. This is indicative of a bug.")
+	}
+
+	return nil
+}
+
+func (h *eventNotificationHandlerBase) register(eventType string, callback CallbackFunc) error {
+	if err := h.assertCanRegister(); err != nil {
+		return err
 	}
 
 	if h.eventHandlers[eventType] != nil {
-		return fmt.Errorf("handler for event type %s is already registered", eventType)
+		return fmt.Errorf("callback for event type %q is already registered", eventType)
 	}
 
 	h.eventHandlers[eventType] = callback
+	return nil
+}
+
+// PreHandle registers a function that will be run before any event-specific callbacks. A useful
+// place to store event-agnostic logic, such as logging or checking for duplicate event deliveries
+// (https://docs.stripe.com/webhooks#handle-duplicate-events).
+//
+// Returning true causes handling to continue as normal; returning false returns from Handle()
+// immediately, so neither the registered callback nor the fallback callback are called. A non-nil
+// error aborts handling and is returned from Handle().
+func (h *eventNotificationHandlerBase) PreHandle(callback PreHandleFunc) error {
+	if err := h.assertCanRegister(); err != nil {
+		return err
+	}
+
+	if h.preHandleFunc != nil {
+		return fmt.Errorf("a PreHandle callback is already registered")
+	}
+
+	h.preHandleFunc = callback
 	return nil
 }
 
@@ -235,6 +271,41 @@ func (h *eventNotificationHandlerBase) OnV2CoreAccountPersonDeleted(callback fun
 // OnV2CoreAccountPersonUpdated registers a callback to handle notifications about the "v2.core.account_person.updated" event.
 func (h *eventNotificationHandlerBase) OnV2CoreAccountPersonUpdated(callback func(ctx context.Context, notif *V2CoreAccountPersonUpdatedEventNotification, client *Client) error) error {
 	return registerTypedHandler(h, "v2.core.account_person.updated", callback)
+}
+
+// OnV2CoreApprovalRequestApproved registers a callback to handle notifications about the "v2.core.approval_request.approved" event.
+func (h *eventNotificationHandlerBase) OnV2CoreApprovalRequestApproved(callback func(ctx context.Context, notif *V2CoreApprovalRequestApprovedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.approval_request.approved", callback)
+}
+
+// OnV2CoreApprovalRequestCanceled registers a callback to handle notifications about the "v2.core.approval_request.canceled" event.
+func (h *eventNotificationHandlerBase) OnV2CoreApprovalRequestCanceled(callback func(ctx context.Context, notif *V2CoreApprovalRequestCanceledEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.approval_request.canceled", callback)
+}
+
+// OnV2CoreApprovalRequestCreated registers a callback to handle notifications about the "v2.core.approval_request.created" event.
+func (h *eventNotificationHandlerBase) OnV2CoreApprovalRequestCreated(callback func(ctx context.Context, notif *V2CoreApprovalRequestCreatedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.approval_request.created", callback)
+}
+
+// OnV2CoreApprovalRequestExpired registers a callback to handle notifications about the "v2.core.approval_request.expired" event.
+func (h *eventNotificationHandlerBase) OnV2CoreApprovalRequestExpired(callback func(ctx context.Context, notif *V2CoreApprovalRequestExpiredEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.approval_request.expired", callback)
+}
+
+// OnV2CoreApprovalRequestFailed registers a callback to handle notifications about the "v2.core.approval_request.failed" event.
+func (h *eventNotificationHandlerBase) OnV2CoreApprovalRequestFailed(callback func(ctx context.Context, notif *V2CoreApprovalRequestFailedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.approval_request.failed", callback)
+}
+
+// OnV2CoreApprovalRequestRejected registers a callback to handle notifications about the "v2.core.approval_request.rejected" event.
+func (h *eventNotificationHandlerBase) OnV2CoreApprovalRequestRejected(callback func(ctx context.Context, notif *V2CoreApprovalRequestRejectedEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.approval_request.rejected", callback)
+}
+
+// OnV2CoreApprovalRequestSucceeded registers a callback to handle notifications about the "v2.core.approval_request.succeeded" event.
+func (h *eventNotificationHandlerBase) OnV2CoreApprovalRequestSucceeded(callback func(ctx context.Context, notif *V2CoreApprovalRequestSucceededEventNotification, client *Client) error) error {
+	return registerTypedHandler(h, "v2.core.approval_request.succeeded", callback)
 }
 
 // OnV2CoreBatchJobBatchFailed registers a callback to handle notifications about the "v2.core.batch_job.batch_failed" event.
@@ -589,6 +660,12 @@ func (h *eventNotificationHandlerBase) OnV2OrchestratedCommerceAgreementTerminat
 		h, "v2.orchestrated_commerce.agreement.terminated", callback)
 }
 
+// OnV2SignalsAccountEvaluationComplete registers a callback to handle notifications about the "v2.signals.account_evaluation.complete" event.
+func (h *eventNotificationHandlerBase) OnV2SignalsAccountEvaluationComplete(callback func(ctx context.Context, notif *V2SignalsAccountEvaluationCompleteEventNotification, client *Client) error) error {
+	return registerTypedHandler(
+		h, "v2.signals.account_evaluation.complete", callback)
+}
+
 // event-handler-methods: The end of the section generated from our OpenAPI spec
 
 // createClientWithContext creates a new Client with a custom stripe_context.
@@ -627,6 +704,16 @@ func (h *eventNotificationHandlerBase) dispatch(ctx context.Context, notif Event
 	clientWithContext, err := h.createClientWithContext(n.Context.StringPtr())
 	if err != nil {
 		return err
+	}
+
+	if h.preHandleFunc != nil {
+		shouldContinue, err := h.preHandleFunc(ctx, notif, clientWithContext)
+		if err != nil {
+			return err
+		}
+		if !shouldContinue {
+			return nil
+		}
 	}
 
 	callback, ok := h.eventHandlers[eventType]

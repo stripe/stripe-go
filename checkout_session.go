@@ -428,7 +428,7 @@ const (
 	CheckoutSessionOriginContextWeb       CheckoutSessionOriginContext = "web"
 )
 
-// Configure whether a Checkout Session should collect a payment method. Defaults to `always`.
+// Configure whether a Checkout Session should collect a payment method for sessions with mode `payment`. Defaults to `always`.
 type CheckoutSessionPaymentMethodCollection string
 
 // List of values that CheckoutSessionPaymentMethodCollection can take
@@ -720,6 +720,16 @@ const (
 	CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlockedDiscoverGlobalNetwork CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked = "discover_global_network"
 	CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlockedMastercard            CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked = "mastercard"
 	CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlockedVisa                  CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked = "visa"
+)
+
+// Card funding types to block for this Checkout Session. Supported values are `credit`, `debit`, and `prepaid`.
+type CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlocked string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlocked can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlockedCredit  CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlocked = "credit"
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlockedDebit   CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlocked = "debit"
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlockedPrepaid CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlocked = "prepaid"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1514,7 +1524,7 @@ const (
 //
 // Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 //
-// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+// This parameter is only supported when `ui_mode=elements`.
 type CheckoutSessionPermissionsUpdateShippingDetails string
 
 // List of values that CheckoutSessionPermissionsUpdateShippingDetails can take
@@ -1828,7 +1838,7 @@ type CheckoutSessionCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type CheckoutSessionCustomFieldDropdownParams struct {
-	// The value that pre-fills the field on the payment page.Must match a `value` in the `options` array.
+	// The value that pre-fills the field on the payment page. Must match a `value` in the `options` array.
 	DefaultValue *string `form:"default_value" json:"default_value,omitempty"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*CheckoutSessionCustomFieldDropdownOptionParams `form:"options" json:"options"`
@@ -2298,26 +2308,17 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
-	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment
-	// method collected by this Checkout Session.
+	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
 	//
-	// When setting this to `on_session`, Checkout will show a notice to the
-	// customer that their payment details will be saved.
+	// When setting this to `on_session`, Checkout will show a notice to the customer that their payment details will be saved.
 	//
-	// When setting this to `off_session`, Checkout will show a notice to the
-	// customer that their payment details will be saved and used for future
-	// payments.
+	// When setting this to `off_session`, Checkout will show a notice to the customer that their payment details will be saved and used for future payments.
 	//
-	// If a Customer has been provided or Checkout creates a new Customer,
-	// Checkout will attach the payment method to the Customer.
+	// If a Customer has been provided or Checkout creates a new Customer, Checkout will attach the payment method to the Customer.
 	//
-	// If Checkout does not create a Customer, the payment method is not attached
-	// to a Customer. To reuse the payment method, you can retrieve it from the
-	// Checkout Session's PaymentIntent.
+	// If Checkout does not create a Customer, the payment method is not attached to a Customer. To reuse the payment method, you can retrieve it from the Checkout Session's PaymentIntent.
 	//
-	// When processing card payments, Checkout also uses `setup_future_usage`
-	// to dynamically optimize your payment flow and comply with regional
-	// legislation and network rules, such as SCA.
+	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Shipping information for this payment.
 	Shipping *ShippingDetailsParams `form:"shipping" json:"shipping,omitempty"`
@@ -2576,6 +2577,8 @@ type CheckoutSessionPaymentMethodOptionsCardInstallmentsParams struct {
 type CheckoutSessionPaymentMethodOptionsCardRestrictionsParams struct {
 	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 	BrandsBlocked []*string `form:"brands_blocked" json:"brands_blocked,omitempty"`
+	// Card funding types to block for this Checkout Session. Supported values are `credit`, `debit`, and `prepaid`.
+	FundingTypesBlocked []*string `form:"funding_types_blocked" json:"funding_types_blocked,omitempty"`
 }
 
 // contains details about the Card payment method options.
@@ -3386,7 +3389,7 @@ type CheckoutSessionPermissionsUpdateParams struct {
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 	//
-	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	// This parameter is only supported when `ui_mode=elements`.
 	ShippingDetails *string `form:"shipping_details" json:"shipping_details,omitempty"`
 }
 
@@ -3410,7 +3413,7 @@ type CheckoutSessionPermissionsParams struct {
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 	//
-	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	// This parameter is only supported when `ui_mode=elements`.
 	UpdateShippingDetails *string `form:"update_shipping_details" json:"update_shipping_details,omitempty"`
 }
 
@@ -4062,7 +4065,7 @@ type CheckoutSessionCreateCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type CheckoutSessionCreateCustomFieldDropdownParams struct {
-	// The value that pre-fills the field on the payment page.Must match a `value` in the `options` array.
+	// The value that pre-fills the field on the payment page. Must match a `value` in the `options` array.
 	DefaultValue *string `form:"default_value" json:"default_value,omitempty"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*CheckoutSessionCreateCustomFieldDropdownOptionParams `form:"options" json:"options"`
@@ -4516,26 +4519,17 @@ type CheckoutSessionCreatePaymentIntentDataParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
-	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment
-	// method collected by this Checkout Session.
+	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
 	//
-	// When setting this to `on_session`, Checkout will show a notice to the
-	// customer that their payment details will be saved.
+	// When setting this to `on_session`, Checkout will show a notice to the customer that their payment details will be saved.
 	//
-	// When setting this to `off_session`, Checkout will show a notice to the
-	// customer that their payment details will be saved and used for future
-	// payments.
+	// When setting this to `off_session`, Checkout will show a notice to the customer that their payment details will be saved and used for future payments.
 	//
-	// If a Customer has been provided or Checkout creates a new Customer,
-	// Checkout will attach the payment method to the Customer.
+	// If a Customer has been provided or Checkout creates a new Customer, Checkout will attach the payment method to the Customer.
 	//
-	// If Checkout does not create a Customer, the payment method is not attached
-	// to a Customer. To reuse the payment method, you can retrieve it from the
-	// Checkout Session's PaymentIntent.
+	// If Checkout does not create a Customer, the payment method is not attached to a Customer. To reuse the payment method, you can retrieve it from the Checkout Session's PaymentIntent.
 	//
-	// When processing card payments, Checkout also uses `setup_future_usage`
-	// to dynamically optimize your payment flow and comply with regional
-	// legislation and network rules, such as SCA.
+	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Shipping information for this payment.
 	Shipping *ShippingDetailsParams `form:"shipping" json:"shipping,omitempty"`
@@ -4794,6 +4788,8 @@ type CheckoutSessionCreatePaymentMethodOptionsCardInstallmentsParams struct {
 type CheckoutSessionCreatePaymentMethodOptionsCardRestrictionsParams struct {
 	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 	BrandsBlocked []*string `form:"brands_blocked" json:"brands_blocked,omitempty"`
+	// Card funding types to block for this Checkout Session. Supported values are `credit`, `debit`, and `prepaid`.
+	FundingTypesBlocked []*string `form:"funding_types_blocked" json:"funding_types_blocked,omitempty"`
 }
 
 // contains details about the Card payment method options.
@@ -5604,7 +5600,7 @@ type CheckoutSessionCreatePermissionsUpdateParams struct {
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 	//
-	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	// This parameter is only supported when `ui_mode=elements`.
 	ShippingDetails *string `form:"shipping_details" json:"shipping_details,omitempty"`
 }
 
@@ -5628,7 +5624,7 @@ type CheckoutSessionCreatePermissionsParams struct {
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 	//
-	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	// This parameter is only supported when `ui_mode=elements`.
 	UpdateShippingDetails *string `form:"update_shipping_details" json:"update_shipping_details,omitempty"`
 }
 
@@ -7028,6 +7024,8 @@ type CheckoutSessionPaymentMethodOptionsCardInstallments struct {
 type CheckoutSessionPaymentMethodOptionsCardRestrictions struct {
 	// The card brands to block. If a customer enters or selects a card belonging to a blocked brand, they can't complete the payment.
 	BrandsBlocked []CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked `json:"brands_blocked,omitempty"`
+	// Card funding types to block for this Checkout Session. Supported values are `credit`, `debit`, and `prepaid`.
+	FundingTypesBlocked []CheckoutSessionPaymentMethodOptionsCardRestrictionsFundingTypesBlocked `json:"funding_types_blocked,omitempty"`
 }
 type CheckoutSessionPaymentMethodOptionsCard struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -7581,7 +7579,7 @@ type CheckoutSessionPermissionsUpdate struct {
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 	//
-	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	// This parameter is only supported when `ui_mode=elements`.
 	ShippingDetails CheckoutSessionPermissionsUpdateShippingDetails `json:"shipping_details"`
 }
 
@@ -7601,7 +7599,7 @@ type CheckoutSessionPermissions struct {
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 	//
-	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	// This parameter is only supported when `ui_mode=elements`.
 	UpdateShippingDetails CheckoutSessionPermissionsUpdateShippingDetails `json:"update_shipping_details"`
 }
 type CheckoutSessionPhoneNumberCollection struct {
@@ -7840,7 +7838,7 @@ type CheckoutSession struct {
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// The ID of the Payment Link that created this Session.
 	PaymentLink *PaymentLink `json:"payment_link"`
-	// Configure whether a Checkout Session should collect a payment method. Defaults to `always`.
+	// Configure whether a Checkout Session should collect a payment method for sessions with mode `payment`. Defaults to `always`.
 	PaymentMethodCollection CheckoutSessionPaymentMethodCollection `json:"payment_method_collection"`
 	// Information about the payment method configuration used for this Checkout session if using dynamic payment methods.
 	PaymentMethodConfigurationDetails *CheckoutSessionPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`

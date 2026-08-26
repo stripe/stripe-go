@@ -50,7 +50,7 @@ type V2MoneyManagementOutboundSetupIntentPayoutMethodDataParams struct {
 	BankAccount *V2MoneyManagementOutboundSetupIntentPayoutMethodDataBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The type specific details of the card payout method.
 	Card *V2MoneyManagementOutboundSetupIntentPayoutMethodDataCardParams `form:"card" json:"card,omitempty"`
-	// Closed Enum. The type of payout method to be created/updated.
+	// Open Enum. The type of payout method to be created/updated.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -111,7 +111,7 @@ type V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataParams struct {
 	BankAccount *V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The type specific details of the card payout method.
 	Card *V2MoneyManagementOutboundSetupIntentCreatePayoutMethodDataCardParams `form:"card" json:"card,omitempty"`
-	// Closed Enum. The type of payout method to be created.
+	// Open Enum. The type of payout method to be created.
 	Type *string `form:"type" json:"type"`
 }
 
@@ -172,7 +172,7 @@ type V2MoneyManagementOutboundSetupIntentUpdatePayoutMethodDataParams struct {
 	BankAccount *V2MoneyManagementOutboundSetupIntentUpdatePayoutMethodDataBankAccountParams `form:"bank_account" json:"bank_account,omitempty"`
 	// The type specific details of the card payout method.
 	Card *V2MoneyManagementOutboundSetupIntentUpdatePayoutMethodDataCardParams `form:"card" json:"card,omitempty"`
-	// Closed Enum. The type of payout method to be created/updated.
+	// Open Enum. The type of payout method to be created/updated.
 	Type *string `form:"type" json:"type"`
 }
 

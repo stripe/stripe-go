@@ -68,7 +68,7 @@ type CapitalFinancingSummaryDetailsCurrentRepaymentInterval struct {
 // fee amount, withhold rate, remaining amount, paid amount, current repayment interval,
 // repayment start date, and advance payout date.
 //
-// Only present for financing offers with the `paid_out` status.
+// Only present for financing offers with a `status` other than `none`.
 type CapitalFinancingSummaryDetails struct {
 	// Amount of financing offered, in minor units. For example, 1,000 USD is represented as 100000.
 	AdvanceAmount int64 `json:"advance_amount"`
@@ -101,7 +101,7 @@ type CapitalFinancingSummary struct {
 	// fee amount, withhold rate, remaining amount, paid amount, current repayment interval,
 	// repayment start date, and advance payout date.
 	//
-	// Only present for financing offers with the `paid_out` status.
+	// Only present for financing offers with a `status` other than `none`.
 	Details *CapitalFinancingSummaryDetails `json:"details"`
 	// The unique identifier of the Financing Offer object that corresponds to the Financing Summary object.
 	FinancingOffer string `json:"financing_offer"`

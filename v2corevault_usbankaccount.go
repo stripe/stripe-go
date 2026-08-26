@@ -97,6 +97,8 @@ type V2CoreVaultUSBankAccount struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
+	// Whether the US Bank Account is currently unusable for money movement, despite potentially being correctly set up. Please reach out to Stripe Support for more information.
+	Restricted bool `json:"restricted"`
 	// The ACH routing number of the bank account.
 	RoutingNumber string `json:"routing_number,omitempty"`
 	// The list of currencies supported by this bank account.

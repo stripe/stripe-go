@@ -7,6 +7,7 @@
 //   - write a fallback callback to handle unrecognized event notifications
 //   - create a stripe.Client called client
 //   - Initialize an EventNotificationHandler with the client, webhook secret, and fallback callback
+//   - register a PreHandle hook that deduplicates events by ID before any callback runs
 //   - register a specific handler for the "v1.billing.meter.error_report_triggered" event notification type
 //   - use handler.Handle() to process the received notification webhook body
 
@@ -18,6 +19,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"sync"
 
 	"github.com/stripe/stripe-go/v86"
 )
@@ -29,6 +31,40 @@ var handler = stripe.NewEventNotificationHandler(client, webhookSecret, func(con
 	fmt.Printf("Received unhandled event with type %s", notif.GetEventNotification().Type)
 	return nil
 })
+
+// Webhooks can be delivered more than once, so we track ids we've already
+// processed. In production, back this with something durable and shared
+// across processes (e.g. Redis or a database table) instead of an in-memory map.
+var (
+	seenEventIDsMu sync.Mutex
+	seenEventIDs   = map[string]bool{}
+)
+
+// skipDuplicateEvents runs before any registered callback. Returning false
+// here skips handling entirely for this delivery, which is useful for
+// deduplicating webhooks.
+func skipDuplicateEvents(ctx context.Context, notif stripe.EventNotificationContainer, client *stripe.Client) (bool, error) {
+	eventID := notif.GetEventNotification().ID
+
+	seenEventIDsMu.Lock()
+	defer seenEventIDsMu.Unlock()
+
+	if seenEventIDs[eventID] {
+		fmt.Printf("Skipping duplicate delivery of event %s\n", eventID)
+		return false, nil
+	}
+	seenEventIDs[eventID] = true
+
+	return true, nil
+}
+
+// registering a callback only fails on a programming error (registering twice, or after an
+// event has already been handled), so there's nothing to recover from at runtime.
+func mustRegister(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
 
 // Handles events delivered through a channel that has already authenticated them, such as
 // AWS EventBridge or Azure Event Grid. Those payloads carry no Stripe-Signature header, so
@@ -49,7 +85,8 @@ func handleMeterErrors(ctx context.Context, notif *stripe.V1BillingMeterErrorRep
 }
 
 func main() {
-	handler.OnV1BillingMeterErrorReportTriggered(handleMeterErrors)
+	mustRegister(handler.PreHandle(skipDuplicateEvents))
+	mustRegister(handler.OnV1BillingMeterErrorReportTriggered(handleMeterErrors))
 
 	http.HandleFunc("/webhook", func(w http.ResponseWriter, req *http.Request) {
 		const MaxBodyBytes = int64(65536)
@@ -71,7 +108,8 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	unverifiedHandler.OnV1BillingMeterErrorReportTriggered(handleMeterErrors)
+	mustRegister(unverifiedHandler.PreHandle(skipDuplicateEvents))
+	mustRegister(unverifiedHandler.OnV1BillingMeterErrorReportTriggered(handleMeterErrors))
 
 	http.HandleFunc("/webhook-from-cloud-provider", func(w http.ResponseWriter, req *http.Request) {
 		const MaxBodyBytes = int64(65536)
