@@ -133,6 +133,27 @@ const (
 	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
+// Type of registration the company or entity holds in their registered country.
+type InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType string
+
+// List of values that InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType can take
+const (
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeChEin       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "ch_ein"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeDEHrb       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "de_hrb"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeDkCvr       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "dk_cvr"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeESCIF       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "es_cif"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFITunnus    InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fi_tunnus"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFRSiren     InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fr_siren"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFRSiret     InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fr_siret"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeITRea       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "it_rea"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNLKvk       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "nl_kvk"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNoOrgNumber InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "no_org_number"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNoPno       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "no_pno"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeSeOrgNumber InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "se_org_number"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeSePno       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "se_pno"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeUkCrn       InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "uk_crn"
+)
+
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure string
 
@@ -618,6 +639,55 @@ type InvoicePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// Registration details about the buyer's organization.
+type InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams struct {
+	// The address the company or entity is registered with.
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// The official registration number for the given registration type.
+	RegistrationNumber *string `form:"registration_number" json:"registration_number,omitempty"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType *string `form:"registration_type" json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT         *string                                                                          `form:"vat" json:"vat,omitempty"`
+	UnsetFields []InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams.
+type InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField string
+
+const (
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegisteredAddress InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registered_address"
+	InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegistrationType  InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registration_type"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams) AddUnsetField(field InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBillieParams struct {
+	// Registration details about the buyer's organization.
+	CompanyDetails *InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams `form:"company_details" json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference   *string                                                            `form:"reference" json:"reference,omitempty"`
+	UnsetFields []InvoicePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoicePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField is the list of fields that can be cleared/unset on InvoicePaymentSettingsPaymentMethodOptionsBillieParams.
+type InvoicePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField string
+
+const (
+	InvoicePaymentSettingsPaymentMethodOptionsBillieParamsUnsetFieldCompanyDetails InvoicePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField = "company_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoicePaymentSettingsPaymentMethodOptionsBillieParams) AddUnsetField(field InvoicePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsBizumParams struct{}
 
@@ -783,6 +853,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *InvoicePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+	Billie *InvoicePaymentSettingsPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
 	// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 	Bizum *InvoicePaymentSettingsPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
@@ -818,6 +890,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField string
 const (
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBLIK            InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "blik"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
@@ -2512,7 +2585,7 @@ type InvoiceCreatePreviewScheduleDetailsBillingScheduleBillUntilDurationParams s
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// The end date for the billing schedule.
+// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 type InvoiceCreatePreviewScheduleDetailsBillingScheduleBillUntilParams struct {
 	// Specifies the billing period.
 	Duration *InvoiceCreatePreviewScheduleDetailsBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
@@ -2526,7 +2599,7 @@ type InvoiceCreatePreviewScheduleDetailsBillingScheduleBillUntilParams struct {
 type InvoiceCreatePreviewScheduleDetailsBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
 	AppliesTo []*InvoiceCreatePreviewScheduleDetailsBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
-	// The end date for the billing schedule.
+	// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 	BillUntil *InvoiceCreatePreviewScheduleDetailsBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
 	Key *string `form:"key" json:"key,omitempty"`
@@ -3144,7 +3217,7 @@ type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilDurationPara
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// The end date for the billing schedule.
+// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilParams struct {
 	// Specifies the billing period.
 	Duration *InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
@@ -3158,7 +3231,7 @@ type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilParams struc
 type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
 	AppliesTo []*InvoiceCreatePreviewSubscriptionDetailsBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
-	// The end date for the billing schedule.
+	// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 	BillUntil *InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
 	Key *string `form:"key" json:"key,omitempty"`
@@ -3638,6 +3711,55 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// Registration details about the buyer's organization.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams struct {
+	// The address the company or entity is registered with.
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// The official registration number for the given registration type.
+	RegistrationNumber *string `form:"registration_number" json:"registration_number,omitempty"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType *string `form:"registration_type" json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT         *string                                                                                `form:"vat" json:"vat,omitempty"`
+	UnsetFields []InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField string
+
+const (
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegisteredAddress InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registered_address"
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegistrationType  InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registration_type"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams) AddUnsetField(field InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParams struct {
+	// Registration details about the buyer's organization.
+	CompanyDetails *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams `form:"company_details" json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference   *string                                                                  `form:"reference" json:"reference,omitempty"`
+	UnsetFields []InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField is the list of fields that can be cleared/unset on InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParams.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField string
+
+const (
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetFieldCompanyDetails InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField = "company_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParams) AddUnsetField(field InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBizumParams struct{}
 
@@ -3803,6 +3925,8 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *InvoiceUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+	Billie *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
 	// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 	Bizum *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
@@ -3838,6 +3962,7 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField string
 const (
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBLIK            InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "blik"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
@@ -4240,6 +4365,55 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// Registration details about the buyer's organization.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams struct {
+	// The address the company or entity is registered with.
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// The official registration number for the given registration type.
+	RegistrationNumber *string `form:"registration_number" json:"registration_number,omitempty"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType *string `form:"registration_type" json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT         *string                                                                                `form:"vat" json:"vat,omitempty"`
+	UnsetFields []InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField is the list of fields that can be cleared/unset on InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField string
+
+const (
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegisteredAddress InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registered_address"
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegistrationType  InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registration_type"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams) AddUnsetField(field InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParams struct {
+	// Registration details about the buyer's organization.
+	CompanyDetails *InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsParams `form:"company_details" json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference   *string                                                                  `form:"reference" json:"reference,omitempty"`
+	UnsetFields []InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField `form:"-" json:"-"`
+}
+
+// InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField is the list of fields that can be cleared/unset on InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParams.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField string
+
+const (
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetFieldCompanyDetails InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField = "company_details"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParams) AddUnsetField(field InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsBizumParams struct{}
 
@@ -4405,6 +4579,8 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *InvoiceCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoiceCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+	Billie *InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
 	// If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 	Bizum *InvoiceCreatePaymentSettingsPaymentMethodOptionsBizumParams `form:"bizum" json:"bizum,omitempty"`
 	// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
@@ -4440,6 +4616,7 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField string
 const (
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBizum           InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bizum"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBLIK            InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "blik"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
@@ -4897,9 +5074,24 @@ type InvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage string `json:"preferred_language"`
 }
+type InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetails struct {
+	RegisteredAddress *Address `json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName string `json:"registered_name"`
+	// The official registration number for the given registration type.
+	RegistrationNumber string `json:"registration_number"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType `json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT string `json:"vat"`
+}
 
 // If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
-type InvoicePaymentSettingsPaymentMethodOptionsBillie struct{}
+type InvoicePaymentSettingsPaymentMethodOptionsBillie struct {
+	CompanyDetails *InvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetails `json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference string `json:"reference,omitempty"`
+}
 
 // If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsBizum struct{}

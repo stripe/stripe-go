@@ -7741,7 +7741,9 @@ func TestSetupIntentsGet2Client(t *testing.T) {
 
 func TestSetupIntentsPost(t *testing.T) {
 	params := &stripe.SetupIntentParams{
-		PaymentMethodTypes: []*string{stripe.String("card")},
+		AllowedPaymentMethodTypes: []*string{
+			stripe.String(stripe.SetupIntentAllowedPaymentMethodTypeCard),
+		},
 	}
 	result, err := setupintent.New(params)
 	assert.NotNil(t, result)
@@ -7751,7 +7753,9 @@ func TestSetupIntentsPost(t *testing.T) {
 func TestSetupIntentsPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SetupIntentParams{
-		PaymentMethodTypes: []*string{stripe.String("card")},
+		AllowedPaymentMethodTypes: []*string{
+			stripe.String(stripe.SetupIntentAllowedPaymentMethodTypeCard),
+		},
 	}
 	result, err := sc.SetupIntents.New(params)
 	assert.NotNil(t, result)
@@ -7761,7 +7765,9 @@ func TestSetupIntentsPostService(t *testing.T) {
 func TestSetupIntentsPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SetupIntentCreateParams{
-		PaymentMethodTypes: []*string{stripe.String("card")},
+		AllowedPaymentMethodTypes: []*string{
+			stripe.String(stripe.SetupIntentAllowedPaymentMethodTypeCard),
+		},
 	}
 	result, err := sc.V1SetupIntents.Create(context.TODO(), params)
 	assert.NotNil(t, result)
@@ -18487,7 +18493,7 @@ func TestV2ExtendWorkflowRunGet2Client(t *testing.T) {
 func TestV2IamActivityLogGetService(t *testing.T) {
 	params := &stripe.V2IamActivityLogListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/iam/activity_logs", params, "{\"data\":[{\"object\":\"v2.iam.activity_log\",\"actor\":{\"type\":\"api_key\"},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"details\":{\"type\":\"api_key\"},\"id\":\"obj_123\",\"livemode\":true,\"type\":\"api_key_created\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/iam/activity_logs", params, "{\"data\":[{\"object\":\"v2.iam.activity_log\",\"actor\":{\"type\":\"api_key\"},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"details\":{\"type\":\"user_invite\"},\"id\":\"obj_123\",\"livemode\":true,\"type\":\"api_key_created\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18499,7 +18505,7 @@ func TestV2IamActivityLogGetService(t *testing.T) {
 func TestV2IamActivityLogGetClient(t *testing.T) {
 	params := &stripe.V2IamActivityLogListParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/iam/activity_logs", params, "{\"data\":[{\"object\":\"v2.iam.activity_log\",\"actor\":{\"type\":\"api_key\"},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"details\":{\"type\":\"api_key\"},\"id\":\"obj_123\",\"livemode\":true,\"type\":\"api_key_created\"}],\"next_page_url\":null,\"previous_page_url\":null}")
+		t, http.MethodGet, "/v2/iam/activity_logs", params, "{\"data\":[{\"object\":\"v2.iam.activity_log\",\"actor\":{\"type\":\"api_key\"},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"details\":{\"type\":\"user_invite\"},\"id\":\"obj_123\",\"livemode\":true,\"type\":\"api_key_created\"}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18511,7 +18517,7 @@ func TestV2IamActivityLogGetClient(t *testing.T) {
 func TestV2IamActivityLogGet2Service(t *testing.T) {
 	params := &stripe.V2IamActivityLogParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/iam/activity_logs/id_123", params, "{\"object\":\"v2.iam.activity_log\",\"actor\":{\"type\":\"api_key\"},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"details\":{\"type\":\"api_key\"},\"id\":\"obj_123\",\"livemode\":true,\"type\":\"api_key_created\"}")
+		t, http.MethodGet, "/v2/iam/activity_logs/id_123", params, "{\"object\":\"v2.iam.activity_log\",\"actor\":{\"type\":\"api_key\"},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"details\":{\"type\":\"user_invite\"},\"id\":\"obj_123\",\"livemode\":true,\"type\":\"api_key_created\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -18524,7 +18530,7 @@ func TestV2IamActivityLogGet2Service(t *testing.T) {
 func TestV2IamActivityLogGet2Client(t *testing.T) {
 	params := &stripe.V2IamActivityLogRetrieveParams{}
 	testServer := MockServer(
-		t, http.MethodGet, "/v2/iam/activity_logs/id_123", params, "{\"object\":\"v2.iam.activity_log\",\"actor\":{\"type\":\"api_key\"},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"details\":{\"type\":\"api_key\"},\"id\":\"obj_123\",\"livemode\":true,\"type\":\"api_key_created\"}")
+		t, http.MethodGet, "/v2/iam/activity_logs/id_123", params, "{\"object\":\"v2.iam.activity_log\",\"actor\":{\"type\":\"api_key\"},\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"details\":{\"type\":\"user_invite\"},\"id\":\"obj_123\",\"livemode\":true,\"type\":\"api_key_created\"}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})

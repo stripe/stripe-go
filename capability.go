@@ -129,11 +129,16 @@ type CapabilityFutureRequirementsAlternative struct {
 	// Fields that are due and can be resolved by providing all fields in `alternative_fields_due`.
 	OriginalFieldsDue []string `json:"original_fields_due"`
 }
+type CapabilityFutureRequirementsErrorDetails struct {
+	// The rejection code as received from our payment method partner.
+	PartnerRejectionCode string `json:"partner_rejection_code,omitempty"`
+}
 
 // Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type CapabilityFutureRequirementsError struct {
 	// The code for the type of error.
-	Code string `json:"code"`
+	Code    string                                    `json:"code"`
+	Details *CapabilityFutureRequirementsErrorDetails `json:"details,omitempty"`
 	// An informative message that indicates the error type and provides additional details about the error.
 	Reason string `json:"reason"`
 	// The specific user onboarding requirement field (in the requirements hash) that needs to be resolved.

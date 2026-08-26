@@ -441,7 +441,7 @@ type SubscriptionScheduleBillingScheduleBillUntilDurationParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// The end date for the billing schedule.
+// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 type SubscriptionScheduleBillingScheduleBillUntilParams struct {
 	// Specifies the billing period.
 	Duration *SubscriptionScheduleBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
@@ -455,7 +455,7 @@ type SubscriptionScheduleBillingScheduleBillUntilParams struct {
 type SubscriptionScheduleBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
 	AppliesTo []*SubscriptionScheduleBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
-	// The end date for the billing schedule.
+	// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 	BillUntil *SubscriptionScheduleBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
 	Key *string `form:"key" json:"key,omitempty"`
@@ -1843,7 +1843,7 @@ type SubscriptionScheduleCreateBillingScheduleBillUntilDurationParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// The end date for the billing schedule.
+// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 type SubscriptionScheduleCreateBillingScheduleBillUntilParams struct {
 	// Specifies the billing period.
 	Duration *SubscriptionScheduleCreateBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
@@ -1857,7 +1857,7 @@ type SubscriptionScheduleCreateBillingScheduleBillUntilParams struct {
 type SubscriptionScheduleCreateBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
 	AppliesTo []*SubscriptionScheduleCreateBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
-	// The end date for the billing schedule.
+	// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 	BillUntil *SubscriptionScheduleCreateBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
 	Key *string `form:"key" json:"key,omitempty"`
@@ -2610,7 +2610,7 @@ type SubscriptionScheduleUpdateBillingScheduleBillUntilDurationParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// The end date for the billing schedule.
+// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 type SubscriptionScheduleUpdateBillingScheduleBillUntilParams struct {
 	// Specifies the billing period.
 	Duration *SubscriptionScheduleUpdateBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
@@ -2624,7 +2624,7 @@ type SubscriptionScheduleUpdateBillingScheduleBillUntilParams struct {
 type SubscriptionScheduleUpdateBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
 	AppliesTo []*SubscriptionScheduleUpdateBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
-	// The end date for the billing schedule.
+	// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 	BillUntil *SubscriptionScheduleUpdateBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
 	Key *string `form:"key" json:"key,omitempty"`

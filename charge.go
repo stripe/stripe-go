@@ -3904,7 +3904,10 @@ type ChargePaymentMethodDetailsCardThreeDSecure struct {
 type ChargePaymentMethodDetailsCardWalletAmexExpressCheckout struct{}
 type ChargePaymentMethodDetailsCardWalletApplePay struct{}
 type ChargePaymentMethodDetailsCardWalletGooglePay struct{}
-type ChargePaymentMethodDetailsCardWalletLink struct{}
+type ChargePaymentMethodDetailsCardWalletLink struct {
+	// The [funding source group code](https://docs.stripe.com/payments/link/link-payment-methods) applied to this Link payment at confirmation time.
+	FundingSourceGroup string `json:"funding_source_group"`
+}
 type ChargePaymentMethodDetailsCardWalletMasterpass struct {
 	// Owner's verified billing address. Values are verified or provided by the wallet directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	BillingAddress *Address `json:"billing_address"`
@@ -4359,7 +4362,7 @@ type ChargePaymentMethodDetailsLink struct {
 	// Two-letter ISO code representing the funding source country beneath the Link payment.
 	// You could use this attribute to get a sense of international fees.
 	Country string `json:"country"`
-	// The funding source group applied to this Link payment at confirmation time. Maps to a bundle in your Stripe pricing contract and on Stripe's published pricing page. Omitted if group lookup failed at confirmation time.
+	// The [funding source group code](https://docs.stripe.com/payments/link/link-payment-methods) applied to this Link payment at confirmation time.
 	FundingSourceGroup string `json:"funding_source_group,omitempty"`
 }
 type ChargePaymentMethodDetailsMbWay struct{}
@@ -4568,10 +4571,6 @@ type ChargePaymentMethodDetailsSEPADebit struct {
 	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://docs.stripe.com/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
-type ChargePaymentMethodDetailsSequra struct {
-	// The SeQura transaction ID associated with this payment.
-	TransactionID string `json:"transaction_id"`
-}
 type ChargePaymentMethodDetailsShopeepay struct{}
 type ChargePaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -4716,7 +4715,6 @@ type ChargePaymentMethodDetails struct {
 	Scalapay           *ChargePaymentMethodDetailsScalapay           `json:"scalapay,omitempty"`
 	SEPACreditTransfer *ChargePaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *ChargePaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
-	Sequra             *ChargePaymentMethodDetailsSequra             `json:"sequra,omitempty"`
 	Shopeepay          *ChargePaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
 	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort,omitempty"`
 	StripeAccount      *ChargePaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`

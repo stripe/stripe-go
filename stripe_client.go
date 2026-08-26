@@ -106,6 +106,8 @@ type Client struct {
 	V1Customers *v1CustomerService
 	// V1CustomerSessions is the service used to invoke /v1/customer_sessions APIs.
 	V1CustomerSessions *v1CustomerSessionService
+	// V1CustomerTaxExemptions is the service used to invoke /v1/customers/{customer}/tax_exemptions APIs.
+	V1CustomerTaxExemptions *v1CustomerTaxExemptionService
 	// V1DelegatedCheckoutOrders is the service used to invoke /v1/delegated_checkout/orders APIs.
 	V1DelegatedCheckoutOrders *v1DelegatedCheckoutOrderService
 	// V1DelegatedCheckoutRequestedSessions is the service used to invoke /v1/delegated_checkout/requested_sessions APIs.
@@ -670,6 +672,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1CustomerCashBalanceTransactions = &v1CustomerCashBalanceTransactionService{B: backends.API, Key: key}
 	client.V1Customers = &v1CustomerService{B: backends.API, Key: key}
 	client.V1CustomerSessions = &v1CustomerSessionService{B: backends.API, Key: key}
+	client.V1CustomerTaxExemptions = &v1CustomerTaxExemptionService{B: backends.API, Key: key}
 	client.V1DelegatedCheckoutOrders = &v1DelegatedCheckoutOrderService{B: backends.API, Key: key}
 	client.V1DelegatedCheckoutRequestedSessions = &v1DelegatedCheckoutRequestedSessionService{B: backends.API, Key: key}
 	client.V1Disputes = &v1DisputeService{B: backends.API, Key: key}

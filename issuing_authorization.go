@@ -446,6 +446,21 @@ const (
 	IssuingAuthorizationHealthcareVerificationStatusNotVerified              IssuingAuthorizationHealthcareVerificationStatus = "not_verified"
 )
 
+// The point-of-sale initiation condition. This is null when the card network did not provide one.
+type IssuingAuthorizationPosCondition string
+
+// List of values that IssuingAuthorizationPosCondition can take
+const (
+	IssuingAuthorizationPosConditionAccountVerification IssuingAuthorizationPosCondition = "account_verification"
+	IssuingAuthorizationPosConditionCardNotPresent      IssuingAuthorizationPosCondition = "card_not_present"
+	IssuingAuthorizationPosConditionCardPresent         IssuingAuthorizationPosCondition = "card_present"
+	IssuingAuthorizationPosConditionECommerce           IssuingAuthorizationPosCondition = "e_commerce"
+	IssuingAuthorizationPosConditionKeyEnteredPos       IssuingAuthorizationPosCondition = "key_entered_pos"
+	IssuingAuthorizationPosConditionOther               IssuingAuthorizationPosCondition = "other"
+	IssuingAuthorizationPosConditionPINEntered          IssuingAuthorizationPosCondition = "pin_entered"
+	IssuingAuthorizationPosConditionRecurringOrMOTO     IssuingAuthorizationPosCondition = "recurring_or_moto"
+)
+
 // Indicates whether this object and its related objects have been redacted or not.
 type IssuingAuthorizationRedactionStatus string
 
@@ -1726,6 +1741,8 @@ type IssuingAuthorization struct {
 	Object string `json:"object"`
 	// The pending authorization request. This field will only be non-null during an `issuing_authorization.request` webhook.
 	PendingRequest *IssuingAuthorizationPendingRequest `json:"pending_request"`
+	// The point-of-sale initiation condition. This is null when the card network did not provide one.
+	PosCondition IssuingAuthorizationPosCondition `json:"pos_condition,omitempty"`
 	// Redaction status of this authorization. If the authorization is not redacted, this field will be null.
 	Redaction *IssuingAuthorizationRedaction `json:"redaction,omitempty"`
 	// History of every time a `pending_request` authorization was approved/declined, either by you directly or by Stripe (e.g. based on your spending_controls). If the merchant changes the authorization by performing an incremental authorization, you can look at this field to see the previous requests for the authorization. This field can be helpful in determining why a given authorization was approved/declined.

@@ -186,6 +186,16 @@ type IdentityVerificationSessionRelatedPersonParams struct {
 	Person *string `form:"person" json:"person"`
 }
 
+// Details on the user's consent to Stripe Terms of Service and Privacy Policy.
+type IdentityVerificationSessionUserConsentParams struct {
+	// The time at which the user gave consent, as a Unix timestamp.
+	Date *int64 `form:"date" json:"date"`
+	// The IP address of the user when they gave consent.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser or device the user used to give consent.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Creates a VerificationSession object.
 //
 // After the VerificationSession is created, display a verification modal using the session client_secret or send your users to the session's url.
@@ -217,6 +227,8 @@ type IdentityVerificationSessionParams struct {
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// The type of [verification check](https://docs.stripe.com/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`.
 	Type *string `form:"type" json:"type,omitempty"`
+	// Details on the user's consent to Stripe Terms of Service and Privacy Policy.
+	UserConsent *IdentityVerificationSessionUserConsentParams `form:"user_consent" json:"user_consent,omitempty"`
 	// The ID of a verification flow from the Dashboard. See https://docs.stripe.com/identity/verification-flows.
 	VerificationFlow *string `form:"verification_flow" json:"verification_flow,omitempty"`
 }
@@ -326,6 +338,16 @@ type IdentityVerificationSessionCreateRelatedPersonParams struct {
 	Person *string `form:"person" json:"person"`
 }
 
+// Details on the user's consent to Stripe Terms of Service and Privacy Policy.
+type IdentityVerificationSessionCreateUserConsentParams struct {
+	// The time at which the user gave consent, as a Unix timestamp.
+	Date *int64 `form:"date" json:"date"`
+	// The IP address of the user when they gave consent.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser or device the user used to give consent.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Creates a VerificationSession object.
 //
 // After the VerificationSession is created, display a verification modal using the session client_secret or send your users to the session's url.
@@ -357,6 +379,8 @@ type IdentityVerificationSessionCreateParams struct {
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// The type of [verification check](https://docs.stripe.com/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`.
 	Type *string `form:"type" json:"type,omitempty"`
+	// Details on the user's consent to Stripe Terms of Service and Privacy Policy.
+	UserConsent *IdentityVerificationSessionCreateUserConsentParams `form:"user_consent" json:"user_consent,omitempty"`
 	// The ID of a verification flow from the Dashboard. See https://docs.stripe.com/identity/verification-flows.
 	VerificationFlow *string `form:"verification_flow" json:"verification_flow,omitempty"`
 }
@@ -429,6 +453,16 @@ type IdentityVerificationSessionUpdateProvidedDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
+// Details on the user's consent to Stripe Terms of Service and Privacy Policy.
+type IdentityVerificationSessionUpdateUserConsentParams struct {
+	// The time at which the user gave consent, as a Unix timestamp.
+	Date *int64 `form:"date" json:"date"`
+	// The IP address of the user when they gave consent.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser or device the user used to give consent.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Updates a VerificationSession object.
 //
 // When the session status is requires_input, you can use this method to update the
@@ -447,6 +481,8 @@ type IdentityVerificationSessionUpdateParams struct {
 	ProvidedDetails *IdentityVerificationSessionUpdateProvidedDetailsParams `form:"provided_details" json:"provided_details,omitempty"`
 	// The type of [verification check](https://docs.stripe.com/identity/verification-checks) to be performed.
 	Type *string `form:"type" json:"type,omitempty"`
+	// Details on the user's consent to Stripe Terms of Service and Privacy Policy.
+	UserConsent *IdentityVerificationSessionUpdateUserConsentParams `form:"user_consent" json:"user_consent,omitempty"`
 }
 
 // AddExpand appends a new field to expand.

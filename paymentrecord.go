@@ -647,51 +647,13 @@ func (p *PaymentRecordListParams) AddExpand(f string) {
 // Retrieves a Payment Record with the given ID
 type PaymentRecordParams struct {
 	Params `form:"*"`
-	// The ID of the Payment Record.
-	ID *string `form:"-"` // Included in URL
-	// The amount that has been lost to the customer due to disputes on this payment.
-	Amount *PaymentRecordAmountParams `form:"amount" json:"amount,omitempty"`
-	// Information about the dispute closing.
-	Closed *PaymentRecordClosedParams `form:"closed" json:"closed,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Information about the dispute funding event.
-	Funded *PaymentRecordFundedParams `form:"funded" json:"funded,omitempty"`
-	// When the reported payment was initiated. Measured in seconds since the Unix epoch.
-	InitiatedAt *int64 `form:"initiated_at" json:"initiated_at,omitempty"`
-	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// Processor information for this payment.
-	ProcessorDetails *PaymentRecordProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
-	// The reason the payment was disputed.
-	Reason      *string                         `form:"reason" json:"reason,omitempty"`
-	UnsetFields []PaymentRecordParamsUnsetField `form:"-" json:"-"`
-}
-
-// PaymentRecordParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordParams.
-type PaymentRecordParamsUnsetField string
-
-const (
-	PaymentRecordParamsUnsetFieldMetadata PaymentRecordParamsUnsetField = "metadata"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentRecordParams) AddUnsetField(field PaymentRecordParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
 }
 
 // AddExpand appends a new field to expand.
 func (p *PaymentRecordParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *PaymentRecordParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
 }
 
 // Search for PaymentRecords you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
@@ -712,7 +674,7 @@ func (p *PaymentRecordSearchParams) AddExpand(f string) {
 }
 
 // The amount that has been lost to the customer due to disputes on this payment.
-type PaymentRecordAmountParams struct {
+type PaymentRecordReportDisputeAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
 	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
@@ -720,13 +682,13 @@ type PaymentRecordAmountParams struct {
 }
 
 // Information about the dispute closing.
-type PaymentRecordClosedParams struct {
+type PaymentRecordReportDisputeClosedParams struct {
 	// When the dispute was closed. Measured in seconds since the Unix epoch.
 	ClosedAt *int64 `form:"closed_at" json:"closed_at"`
 }
 
 // The amount that has been lost to the customer due to disputes on this payment.
-type PaymentRecordFundedAmountParams struct {
+type PaymentRecordReportDisputeFundedAmountParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency" json:"currency"`
 	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
@@ -734,9 +696,9 @@ type PaymentRecordFundedAmountParams struct {
 }
 
 // Information about the dispute funding event.
-type PaymentRecordFundedParams struct {
+type PaymentRecordReportDisputeFundedParams struct {
 	// The amount that has been lost to the customer due to disputes on this payment.
-	Amount *PaymentRecordFundedAmountParams `form:"amount" json:"amount"`
+	Amount *PaymentRecordReportDisputeFundedAmountParams `form:"amount" json:"amount"`
 	// When the dispute funding event occurred. Measured in seconds since the Unix epoch.
 	FundedAt *int64 `form:"funded_at" json:"funded_at"`
 	// The type of dispute funding event.
@@ -744,17 +706,67 @@ type PaymentRecordFundedParams struct {
 }
 
 // Information about the custom processor used to make this payment.
-type PaymentRecordProcessorDetailsCustomParams struct {
+type PaymentRecordReportDisputeProcessorDetailsCustomParams struct {
 	// A reference to the external dispute. This field must be unique across all disputes.
 	DisputeReference *string `form:"dispute_reference" json:"dispute_reference"`
 }
 
 // Processor information for this payment.
-type PaymentRecordProcessorDetailsParams struct {
+type PaymentRecordReportDisputeProcessorDetailsParams struct {
 	// Information about the custom processor used to make this payment.
-	Custom *PaymentRecordProcessorDetailsCustomParams `form:"custom" json:"custom,omitempty"`
+	Custom *PaymentRecordReportDisputeProcessorDetailsCustomParams `form:"custom" json:"custom,omitempty"`
 	// The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor.
 	Type *string `form:"type" json:"type"`
+}
+
+// Report that the most recent payment attempt on the specified Payment Record
+//
+//	was disputed.
+type PaymentRecordReportDisputeParams struct {
+	Params `form:"*"`
+	// The amount that has been lost to the customer due to disputes on this payment.
+	Amount *PaymentRecordReportDisputeAmountParams `form:"amount" json:"amount"`
+	// Information about the dispute closing.
+	Closed *PaymentRecordReportDisputeClosedParams `form:"closed" json:"closed,omitempty"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Information about the dispute funding event.
+	Funded *PaymentRecordReportDisputeFundedParams `form:"funded" json:"funded,omitempty"`
+	// When the reported payment was initiated. Measured in seconds since the Unix epoch.
+	InitiatedAt *int64 `form:"initiated_at" json:"initiated_at,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Processor information for this payment.
+	ProcessorDetails *PaymentRecordReportDisputeProcessorDetailsParams `form:"processor_details" json:"processor_details"`
+	// The reason the payment was disputed.
+	Reason      *string                                      `form:"reason" json:"reason,omitempty"`
+	UnsetFields []PaymentRecordReportDisputeParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentRecordReportDisputeParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportDisputeParams.
+type PaymentRecordReportDisputeParamsUnsetField string
+
+const (
+	PaymentRecordReportDisputeParamsUnsetFieldMetadata PaymentRecordReportDisputeParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentRecordReportDisputeParams) AddUnsetField(field PaymentRecordReportDisputeParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentRecordReportDisputeParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentRecordReportDisputeParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Information about the custom processor used to make this payment.
@@ -1452,104 +1464,6 @@ type PaymentRecordRetrieveParams struct {
 // AddExpand appends a new field to expand.
 func (p *PaymentRecordRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
-}
-
-// The amount that has been lost to the customer due to disputes on this payment.
-type PaymentRecordCreateAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
-	Value *int64 `form:"value" json:"value"`
-}
-
-// Information about the dispute closing.
-type PaymentRecordCreateClosedParams struct {
-	// When the dispute was closed. Measured in seconds since the Unix epoch.
-	ClosedAt *int64 `form:"closed_at" json:"closed_at"`
-}
-
-// The amount that has been lost to the customer due to disputes on this payment.
-type PaymentRecordCreateFundedAmountParams struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency" json:"currency"`
-	// A positive integer representing the amount in the currency's [minor unit](https://docs.stripe.com/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
-	Value *int64 `form:"value" json:"value"`
-}
-
-// Information about the dispute funding event.
-type PaymentRecordCreateFundedParams struct {
-	// The amount that has been lost to the customer due to disputes on this payment.
-	Amount *PaymentRecordCreateFundedAmountParams `form:"amount" json:"amount"`
-	// When the dispute funding event occurred. Measured in seconds since the Unix epoch.
-	FundedAt *int64 `form:"funded_at" json:"funded_at"`
-	// The type of dispute funding event.
-	Type *string `form:"type" json:"type"`
-}
-
-// Information about the custom processor used to make this payment.
-type PaymentRecordCreateProcessorDetailsCustomParams struct {
-	// A reference to the external dispute. This field must be unique across all disputes.
-	DisputeReference *string `form:"dispute_reference" json:"dispute_reference"`
-}
-
-// Processor information for this payment.
-type PaymentRecordCreateProcessorDetailsParams struct {
-	// Information about the custom processor used to make this payment.
-	Custom *PaymentRecordCreateProcessorDetailsCustomParams `form:"custom" json:"custom,omitempty"`
-	// The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor.
-	Type *string `form:"type" json:"type"`
-}
-
-// Report that the most recent payment attempt on the specified Payment Record
-//
-//	was disputed.
-type PaymentRecordCreateParams struct {
-	Params `form:"*"`
-	// The ID of the Payment Record.
-	ID *string `form:"-"` // Included in URL
-	// The amount that has been lost to the customer due to disputes on this payment.
-	Amount *PaymentRecordCreateAmountParams `form:"amount" json:"amount"`
-	// Information about the dispute closing.
-	Closed *PaymentRecordCreateClosedParams `form:"closed" json:"closed,omitempty"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Information about the dispute funding event.
-	Funded *PaymentRecordCreateFundedParams `form:"funded" json:"funded,omitempty"`
-	// When the reported payment was initiated. Measured in seconds since the Unix epoch.
-	InitiatedAt *int64 `form:"initiated_at" json:"initiated_at,omitempty"`
-	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// Processor information for this payment.
-	ProcessorDetails *PaymentRecordCreateProcessorDetailsParams `form:"processor_details" json:"processor_details"`
-	// The reason the payment was disputed.
-	Reason      *string                               `form:"reason" json:"reason,omitempty"`
-	UnsetFields []PaymentRecordCreateParamsUnsetField `form:"-" json:"-"`
-}
-
-// PaymentRecordCreateParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordCreateParams.
-type PaymentRecordCreateParamsUnsetField string
-
-const (
-	PaymentRecordCreateParamsUnsetFieldMetadata PaymentRecordCreateParamsUnsetField = "metadata"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentRecordCreateParams) AddUnsetField(field PaymentRecordCreateParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
-// AddExpand appends a new field to expand.
-func (p *PaymentRecordCreateParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *PaymentRecordCreateParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
 }
 
 // A representation of an amount of money, consisting of an amount and a currency.
@@ -2453,10 +2367,6 @@ type PaymentRecordPaymentMethodDetailsSEPADebit struct {
 	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://docs.stripe.com/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
-type PaymentRecordPaymentMethodDetailsSequra struct {
-	// The SeQura transaction ID associated with this payment.
-	TransactionID string `json:"transaction_id"`
-}
 type PaymentRecordPaymentMethodDetailsShopeepay struct{}
 type PaymentRecordPaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -2608,7 +2518,6 @@ type PaymentRecordPaymentMethodDetails struct {
 	Scalapay           *PaymentRecordPaymentMethodDetailsScalapay           `json:"scalapay,omitempty"`
 	SEPACreditTransfer *PaymentRecordPaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *PaymentRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
-	Sequra             *PaymentRecordPaymentMethodDetailsSequra             `json:"sequra,omitempty"`
 	Shopeepay          *PaymentRecordPaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
 	Sofort             *PaymentRecordPaymentMethodDetailsSofort             `json:"sofort,omitempty"`
 	StripeAccount      *PaymentRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`

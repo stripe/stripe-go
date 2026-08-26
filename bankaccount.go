@@ -681,11 +681,16 @@ type BankAccountRetrieveParams struct {
 	Customer *string `form:"-"` // Included in URL
 	Account  *string `form:"-"` // Included in URL
 }
+type BankAccountFutureRequirementsErrorDetails struct {
+	// The rejection code as received from our payment method partner.
+	PartnerRejectionCode string `json:"partner_rejection_code,omitempty"`
+}
 
 // Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type BankAccountFutureRequirementsError struct {
 	// The code for the type of error.
-	Code BankAccountFutureRequirementsErrorCode `json:"code"`
+	Code    BankAccountFutureRequirementsErrorCode     `json:"code"`
+	Details *BankAccountFutureRequirementsErrorDetails `json:"details,omitempty"`
 	// An informative message that indicates the error type and provides additional details about the error.
 	Reason string `json:"reason"`
 	// The specific user onboarding requirement field (in the requirements hash) that needs to be resolved.
@@ -703,11 +708,16 @@ type BankAccountFutureRequirements struct {
 	// Fields that are being reviewed, or might become required depending on the results of a review. If the review fails, these fields can move to `eventually_due`, `currently_due`, `past_due` or `alternatives`. Fields might appear in `eventually_due`, `currently_due`, `past_due` or `alternatives` and in `pending_verification` if one verification fails but another is still pending.
 	PendingVerification []string `json:"pending_verification"`
 }
+type BankAccountRequirementsErrorDetails struct {
+	// The rejection code as received from our payment method partner.
+	PartnerRejectionCode string `json:"partner_rejection_code,omitempty"`
+}
 
 // Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type BankAccountRequirementsError struct {
 	// The code for the type of error.
-	Code BankAccountRequirementsErrorCode `json:"code"`
+	Code    BankAccountRequirementsErrorCode     `json:"code"`
+	Details *BankAccountRequirementsErrorDetails `json:"details,omitempty"`
 	// An informative message that indicates the error type and provides additional details about the error.
 	Reason string `json:"reason"`
 	// The specific user onboarding requirement field (in the requirements hash) that needs to be resolved.

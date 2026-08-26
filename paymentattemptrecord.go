@@ -690,6 +690,30 @@ func (p *PaymentAttemptRecordReportAuthenticatedParams) AddMetadata(key string, 
 	p.Metadata[key] = value
 }
 
+// Verification checks performed on the card.
+type PaymentAttemptRecordReportAuthorizedPaymentMethodDetailsCardChecksParams struct {
+	// The result of the check on the cardholder's address line 1.
+	AddressLine1Check *string `form:"address_line1_check" json:"address_line1_check,omitempty"`
+	// The result of the check on the cardholder's postal code.
+	AddressPostalCodeCheck *string `form:"address_postal_code_check" json:"address_postal_code_check,omitempty"`
+	// The result of the check on the card's CVC.
+	CVCCheck *string `form:"cvc_check" json:"cvc_check,omitempty"`
+}
+
+// Information about the card payment method used to make this payment.
+type PaymentAttemptRecordReportAuthorizedPaymentMethodDetailsCardParams struct {
+	// Verification checks performed on the card.
+	Checks *PaymentAttemptRecordReportAuthorizedPaymentMethodDetailsCardChecksParams `form:"checks" json:"checks,omitempty"`
+}
+
+// Information about the Payment Method debited for this payment.
+type PaymentAttemptRecordReportAuthorizedPaymentMethodDetailsParams struct {
+	// Information about the card payment method used to make this payment.
+	Card *PaymentAttemptRecordReportAuthorizedPaymentMethodDetailsCardParams `form:"card" json:"card,omitempty"`
+	// The type of the payment method details. An additional hash is included on the payment_method_details with a name matching this value. It contains additional information specific to the type.
+	Type *string `form:"type" json:"type"`
+}
+
 // Information about the custom processor used to make this payment.
 type PaymentAttemptRecordReportAuthorizedProcessorDetailsCustomParams struct {
 	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
@@ -713,6 +737,10 @@ type PaymentAttemptRecordReportAuthorizedParams struct {
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Payment evaluations associated with this reported payment.
+	PaymentEvaluations []*string `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
+	// Information about the Payment Method debited for this payment.
+	PaymentMethodDetails *PaymentAttemptRecordReportAuthorizedPaymentMethodDetailsParams `form:"payment_method_details" json:"payment_method_details,omitempty"`
 	// Processor information for this payment.
 	ProcessorDetails *PaymentAttemptRecordReportAuthorizedProcessorDetailsParams `form:"processor_details" json:"processor_details,omitempty"`
 	UnsetFields      []PaymentAttemptRecordReportAuthorizedParamsUnsetField      `form:"-" json:"-"`
@@ -2063,10 +2091,6 @@ type PaymentAttemptRecordPaymentMethodDetailsSEPADebit struct {
 	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://docs.stripe.com/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
-type PaymentAttemptRecordPaymentMethodDetailsSequra struct {
-	// The SeQura transaction ID associated with this payment.
-	TransactionID string `json:"transaction_id"`
-}
 type PaymentAttemptRecordPaymentMethodDetailsShopeepay struct{}
 type PaymentAttemptRecordPaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -2218,7 +2242,6 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	Scalapay           *PaymentAttemptRecordPaymentMethodDetailsScalapay           `json:"scalapay,omitempty"`
 	SEPACreditTransfer *PaymentAttemptRecordPaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *PaymentAttemptRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
-	Sequra             *PaymentAttemptRecordPaymentMethodDetailsSequra             `json:"sequra,omitempty"`
 	Shopeepay          *PaymentAttemptRecordPaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
 	Sofort             *PaymentAttemptRecordPaymentMethodDetailsSofort             `json:"sofort,omitempty"`
 	StripeAccount      *PaymentAttemptRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`

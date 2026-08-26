@@ -370,7 +370,6 @@ const (
 	PaymentMethodTypeSatispay         PaymentMethodType = "satispay"
 	PaymentMethodTypeScalapay         PaymentMethodType = "scalapay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
-	PaymentMethodTypeSequra           PaymentMethodType = "sequra"
 	PaymentMethodTypeShopeepay        PaymentMethodType = "shopeepay"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeStripeBalance    PaymentMethodType = "stripe_balance"
