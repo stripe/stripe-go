@@ -19,10 +19,9 @@ const (
 
 // colorUnion is the struct-with-pointers pattern Go uses for discriminated
 // unions on the response side: the discriminator plus one nullable pointer per
-// variant. Nothing in the generated code or the decoder enforces that exactly
-// one variant is set — the API guarantees it. See
-// TestDiscriminatedUnion_Response_MultipleVariantsPopulate for what the decoder
-// actually does when that guarantee is violated.
+// variant. Exclusivity is enforced by the generated UnmarshalJSON below, not by
+// encoding/json, which would otherwise fill every variant whose tag matches a
+// key in the payload. See TestDiscriminatedUnion_Response_DiscriminatorWins.
 //
 // Field names, json tags, and field ordering here are copied from real
 // generated output — sdk-codegen's committed integration snapshot, type
@@ -33,6 +32,39 @@ type colorUnion struct {
 	Hsv   *hsvVariant `json:"hsv,omitempty"`
 	Model colorModel  `json:"model"`
 	Rgb   *rgbVariant `json:"rgb,omitempty"`
+}
+
+// UnmarshalJSON mirrors the generated method for V2TestLlamaColor: deserialize
+// normally, then clear every variant the discriminator does not name.
+//
+// The generated alias is the struct name with a lowercased first letter, which
+// is always distinct because generated type names are exported. The shortened
+// names here are not, so the alias needs a prefix instead.
+func (c *colorUnion) UnmarshalJSON(data []byte) error {
+	type rawColorUnion colorUnion
+	var v rawColorUnion
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*c = colorUnion(v)
+	var empty colorUnion
+	switch c.Model {
+	case colorModelRGB:
+		c.Hsv = empty.Hsv
+		c.Hsl = empty.Hsl
+	case colorModelHSV:
+		c.Rgb = empty.Rgb
+		c.Hsl = empty.Hsl
+	case colorModelHSL:
+		c.Rgb = empty.Rgb
+		c.Hsv = empty.Hsv
+	default:
+		c.Rgb = empty.Rgb
+		c.Hsv = empty.Hsv
+		c.Hsl = empty.Hsl
+	}
+	return nil
 }
 
 type rgbVariant struct {
@@ -427,25 +459,29 @@ func TestDiscriminatedUnion_Response_DiscriminatorOnly(t *testing.T) {
 // verbatim rather than rejected, and every known variant pointer stays nil.
 // Generated discriminator types are plain strings, so there is no enum
 // validation to fail.
+//
+// The payload carries a known variant alongside the unknown discriminator so
+// that the nil assertions test the clearing rather than the absence of a
+// matching json key.
 func TestDiscriminatedUnion_Response_UnknownDiscriminator(t *testing.T) {
-	data := []byte(`{"model":"cmyk","cmyk":{"c":1,"m":0,"y":0,"k":0}}`)
+	data := []byte(`{"model":"cmyk","cmyk":{"c":1,"m":0,"y":0,"k":0},"rgb":{"r":255,"g":0,"b":0}}`)
 
 	var c colorUnion
 	err := json.Unmarshal(data, &c)
 	assert.NoError(t, err)
 
 	assert.Equal(t, colorModel("cmyk"), c.Model)
-	assert.Nil(t, c.Rgb)
+	assert.Nil(t, c.Rgb, "an unrecognized discriminator names no variant we can trust")
 	assert.Nil(t, c.Hsv)
 	assert.Nil(t, c.Hsl)
 }
 
-// TestDiscriminatedUnion_Response_MultipleVariantsPopulate pins what the decoder
-// does when the API's one-variant guarantee is violated: it populates every
-// variant present and does not consult the discriminator. Nothing in the
-// generated shape can enforce exclusivity, so a caller that trusts Model over
-// the pointers is relying on the API, not on the SDK.
-func TestDiscriminatedUnion_Response_MultipleVariantsPopulate(t *testing.T) {
+// TestDiscriminatedUnion_Response_DiscriminatorWins verifies that the
+// discriminator decides which variant survives when the API's one-variant
+// guarantee is violated. encoding/json alone would populate both, since it fills
+// every field whose tag matches a key; the generated UnmarshalJSON clears the
+// ones the discriminator does not name.
+func TestDiscriminatedUnion_Response_DiscriminatorWins(t *testing.T) {
 	data := []byte(`{"model":"rgb","rgb":{"r":255,"g":0,"b":0},"hsv":{"h":180,"s":100,"v":50}}`)
 
 	var c colorUnion
@@ -454,7 +490,7 @@ func TestDiscriminatedUnion_Response_MultipleVariantsPopulate(t *testing.T) {
 
 	assert.Equal(t, colorModelRGB, c.Model)
 	assert.NotNil(t, c.Rgb)
-	assert.NotNil(t, c.Hsv, "the decoder populates a variant the discriminator does not name")
+	assert.Nil(t, c.Hsv, "the discriminator does not name hsv, so it is cleared")
 	assert.Nil(t, c.Hsl)
 }
 
@@ -476,6 +512,38 @@ type llamaResource struct {
 	AlienLlama *alienLlamaResource `json:"alien_llama,omitempty"`
 	EarthLlama *earthLlamaResource `json:"earth_llama,omitempty"`
 	MagicLlama *magicLlamaResource `json:"magic_llama,omitempty"`
+}
+
+// UnmarshalJSON mirrors the generated method for V2TestLlama. An inline union
+// gets the same treatment as a standalone one: base fields deserialize normally
+// and only the variants are cleared. A resource carrying two inline unions gets
+// one switch apiece in a single method, since Go permits one UnmarshalJSON per
+// type.
+func (l *llamaResource) UnmarshalJSON(data []byte) error {
+	type rawLlamaResource llamaResource
+	var v rawLlamaResource
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*l = llamaResource(v)
+	var empty llamaResource
+	switch l.Type {
+	case llamaTypeAlienLlama:
+		l.EarthLlama = empty.EarthLlama
+		l.MagicLlama = empty.MagicLlama
+	case llamaTypeEarthLlama:
+		l.AlienLlama = empty.AlienLlama
+		l.MagicLlama = empty.MagicLlama
+	case llamaTypeMagicLlama:
+		l.AlienLlama = empty.AlienLlama
+		l.EarthLlama = empty.EarthLlama
+	default:
+		l.AlienLlama = empty.AlienLlama
+		l.EarthLlama = empty.EarthLlama
+		l.MagicLlama = empty.MagicLlama
+	}
+	return nil
 }
 
 type alienLlamaResource struct {
@@ -550,9 +618,10 @@ func TestDiscriminatedUnion_ResponseInline_DiscriminatorOnly(t *testing.T) {
 // TestDiscriminatedUnion_ResponseInline_UnknownDiscriminator verifies forward
 // compatibility for the inline shape: a variant added after this release keeps
 // its discriminator value and leaves every known variant pointer nil. Base
-// fields alongside the union still populate.
+// fields alongside the union still populate, which is what distinguishes
+// clearing the variants from discarding the whole payload.
 func TestDiscriminatedUnion_ResponseInline_UnknownDiscriminator(t *testing.T) {
-	data := []byte(`{"name":"Robo","type":"robot_llama","robot_llama":{"firmware":"2.1"}}`)
+	data := []byte(`{"name":"Robo","type":"robot_llama","robot_llama":{"firmware":"2.1"},"earth_llama":{"country":"Peru"}}`)
 
 	var l llamaResource
 	err := json.Unmarshal(data, &l)
@@ -561,6 +630,24 @@ func TestDiscriminatedUnion_ResponseInline_UnknownDiscriminator(t *testing.T) {
 	assert.Equal(t, "Robo", l.Name)
 	assert.Equal(t, llamaType("robot_llama"), l.Type)
 	assert.Nil(t, l.AlienLlama)
-	assert.Nil(t, l.EarthLlama)
+	assert.Nil(t, l.EarthLlama, "an unrecognized discriminator names no variant we can trust")
+	assert.Nil(t, l.MagicLlama)
+}
+
+// TestDiscriminatedUnion_ResponseInline_DiscriminatorWins verifies that the
+// discriminator decides which variant survives on the inline shape too, and that
+// base fields are untouched by the clearing.
+func TestDiscriminatedUnion_ResponseInline_DiscriminatorWins(t *testing.T) {
+	data := []byte(`{"name":"Cosmo","type":"alien_llama","alien_llama":{"planet":"Mars","telepathic":true},"earth_llama":{"country":"Peru"}}`)
+
+	var l llamaResource
+	err := json.Unmarshal(data, &l)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "Cosmo", l.Name)
+	assert.Equal(t, llamaTypeAlienLlama, l.Type)
+	assert.NotNil(t, l.AlienLlama)
+	assert.Equal(t, "Mars", l.AlienLlama.Planet)
+	assert.Nil(t, l.EarthLlama, "the discriminator does not name earth_llama, so it is cleared")
 	assert.Nil(t, l.MagicLlama)
 }
