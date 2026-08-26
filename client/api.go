@@ -29,6 +29,7 @@ import (
 	billingcreditbalancesummary "github.com/stripe/stripe-go/v86/billing/creditbalancesummary"
 	billingcreditbalancetransaction "github.com/stripe/stripe-go/v86/billing/creditbalancetransaction"
 	billingcreditgrant "github.com/stripe/stripe-go/v86/billing/creditgrant"
+	billingfeedbackoption "github.com/stripe/stripe-go/v86/billing/feedbackoption"
 	billingmeter "github.com/stripe/stripe-go/v86/billing/meter"
 	billingmeterevent "github.com/stripe/stripe-go/v86/billing/meterevent"
 	billingmetereventadjustment "github.com/stripe/stripe-go/v86/billing/metereventadjustment"
@@ -198,6 +199,7 @@ import (
 	v2coreaccountsperson "github.com/stripe/stripe-go/v86/v2/core/accounts/person"
 	v2coreaccountspersontoken "github.com/stripe/stripe-go/v86/v2/core/accounts/persontoken"
 	v2coreaccounttoken "github.com/stripe/stripe-go/v86/v2/core/accounttoken"
+	v2coreapprovalrequest "github.com/stripe/stripe-go/v86/v2/core/approvalrequest"
 	v2corebatchjob "github.com/stripe/stripe-go/v86/v2/core/batchjob"
 	v2coreevent "github.com/stripe/stripe-go/v86/v2/core/event"
 	v2coreeventdestination "github.com/stripe/stripe-go/v86/v2/core/eventdestination"
@@ -223,6 +225,9 @@ import (
 	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v86/v2/moneymanagement/transactionentry"
 	v2networkbusinessprofile "github.com/stripe/stripe-go/v86/v2/network/businessprofile"
 	v2orchestratedcommerceagreement "github.com/stripe/stripe-go/v86/v2/orchestratedcommerce/agreement"
+	v2signalsaccountactivity "github.com/stripe/stripe-go/v86/v2/signals/accountactivity"
+	v2signalsaccountevaluation "github.com/stripe/stripe-go/v86/v2/signals/accountevaluation"
+	v2signalsaccountsignal "github.com/stripe/stripe-go/v86/v2/signals/accountsignal"
 	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v86/v2/testhelpers/financialaddress"
 	"github.com/stripe/stripe-go/v86/webhookendpoint"
 )
@@ -265,6 +270,8 @@ type API struct {
 	BillingCreditBalanceTransactions *billingcreditbalancetransaction.Client
 	// BillingCreditGrants is the client used to invoke /v1/billing/credit_grants APIs.
 	BillingCreditGrants *billingcreditgrant.Client
+	// BillingFeedbackOptions is the client used to invoke /v1/billing/feedback_options APIs.
+	BillingFeedbackOptions *billingfeedbackoption.Client
 	// BillingMeterEventAdjustments is the client used to invoke /v1/billing/meter_event_adjustments APIs.
 	BillingMeterEventAdjustments *billingmetereventadjustment.Client
 	// BillingMeterEvents is the client used to invoke /v1/billing/meter_events APIs.
@@ -603,6 +610,8 @@ type API struct {
 	V2CoreAccountsPersonTokens *v2coreaccountspersontoken.Client
 	// V2CoreAccountTokens is the client used to invoke /v2/core/account_tokens APIs.
 	V2CoreAccountTokens *v2coreaccounttoken.Client
+	// V2CoreApprovalRequests is the client used to invoke /v2/core/approval_requests APIs.
+	V2CoreApprovalRequests *v2coreapprovalrequest.Client
 	// V2CoreBatchJobs is the client used to invoke /v2/core/batch_jobs APIs.
 	V2CoreBatchJobs *v2corebatchjob.Client
 	// V2CoreEventDestinations is the client used to invoke /v2/core/event_destinations APIs.
@@ -653,6 +662,12 @@ type API struct {
 	V2NetworkBusinessProfiles *v2networkbusinessprofile.Client
 	// V2OrchestratedCommerceAgreements is the client used to invoke /v2/orchestrated_commerce/agreements APIs.
 	V2OrchestratedCommerceAgreements *v2orchestratedcommerceagreement.Client
+	// V2SignalsAccountActivities is the client used to invoke /v2/signals/account_activity APIs.
+	V2SignalsAccountActivities *v2signalsaccountactivity.Client
+	// V2SignalsAccountEvaluations is the client used to invoke /v2/signals/account_evaluations APIs.
+	V2SignalsAccountEvaluations *v2signalsaccountevaluation.Client
+	// V2SignalsAccountSignals is the client used to invoke /v2/signals/account_signals APIs.
+	V2SignalsAccountSignals *v2signalsaccountsignal.Client
 	// V2TestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2testhelpersfinancialaddress.Client
 	// WebhookEndpoints is the client used to invoke /v1/webhook_endpoints APIs.
@@ -689,6 +704,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BillingCreditBalanceSummary = &billingcreditbalancesummary.Client{B: backends.API, Key: key}
 	a.BillingCreditBalanceTransactions = &billingcreditbalancetransaction.Client{B: backends.API, Key: key}
 	a.BillingCreditGrants = &billingcreditgrant.Client{B: backends.API, Key: key}
+	a.BillingFeedbackOptions = &billingfeedbackoption.Client{B: backends.API, Key: key}
 	a.BillingMeterEventAdjustments = &billingmetereventadjustment.Client{B: backends.API, Key: key}
 	a.BillingMeterEvents = &billingmeterevent.Client{B: backends.API, Key: key}
 	a.BillingMeterEventSummaries = &billingmetereventsummary.Client{B: backends.API, Key: key}
@@ -858,6 +874,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2CoreAccountsPersons = &v2coreaccountsperson.Client{B: backends.API, Key: key}
 	a.V2CoreAccountsPersonTokens = &v2coreaccountspersontoken.Client{B: backends.API, Key: key}
 	a.V2CoreAccountTokens = &v2coreaccounttoken.Client{B: backends.API, Key: key}
+	a.V2CoreApprovalRequests = &v2coreapprovalrequest.Client{B: backends.API, Key: key}
 	a.V2CoreBatchJobs = &v2corebatchjob.Client{B: backends.API, Key: key}
 	a.V2CoreEventDestinations = &v2coreeventdestination.Client{B: backends.API, Key: key}
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
@@ -883,6 +900,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
 	a.V2NetworkBusinessProfiles = &v2networkbusinessprofile.Client{B: backends.API, Key: key}
 	a.V2OrchestratedCommerceAgreements = &v2orchestratedcommerceagreement.Client{B: backends.API, Key: key}
+	a.V2SignalsAccountActivities = &v2signalsaccountactivity.Client{B: backends.API, Key: key}
+	a.V2SignalsAccountEvaluations = &v2signalsaccountevaluation.Client{B: backends.API, Key: key}
+	a.V2SignalsAccountSignals = &v2signalsaccountsignal.Client{B: backends.API, Key: key}
 	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }

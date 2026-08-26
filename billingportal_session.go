@@ -29,6 +29,7 @@ type BillingPortalSessionFlowType string
 
 // List of values that BillingPortalSessionFlowType can take
 const (
+	BillingPortalSessionFlowTypeCustomerUpdate            BillingPortalSessionFlowType = "customer_update"
 	BillingPortalSessionFlowTypePaymentMethodUpdate       BillingPortalSessionFlowType = "payment_method_update"
 	BillingPortalSessionFlowTypeSubscriptionCancel        BillingPortalSessionFlowType = "subscription_cancel"
 	BillingPortalSessionFlowTypeSubscriptionUpdate        BillingPortalSessionFlowType = "subscription_update"
@@ -291,6 +292,9 @@ type BillingPortalSessionFlowAfterCompletion struct {
 	Type BillingPortalSessionFlowAfterCompletionType `json:"type"`
 }
 
+// Configuration when `flow.type=customer_update`.
+type BillingPortalSessionFlowCustomerUpdate struct{}
+
 // Configuration when `retention.type=coupon_offer`.
 type BillingPortalSessionFlowSubscriptionCancelRetentionCouponOffer struct {
 	// The ID of the coupon to be offered.
@@ -350,6 +354,8 @@ type BillingPortalSessionFlowSubscriptionUpdateConfirm struct {
 // Information about a specific flow for the customer to go through. See the [docs](https://docs.stripe.com/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 type BillingPortalSessionFlow struct {
 	AfterCompletion *BillingPortalSessionFlowAfterCompletion `json:"after_completion"`
+	// Configuration when `flow.type=customer_update`.
+	CustomerUpdate *BillingPortalSessionFlowCustomerUpdate `json:"customer_update"`
 	// Configuration when `flow.type=subscription_cancel`.
 	SubscriptionCancel *BillingPortalSessionFlowSubscriptionCancel `json:"subscription_cancel"`
 	// Configuration when `flow.type=subscription_update`.

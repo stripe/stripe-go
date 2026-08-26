@@ -38,6 +38,8 @@ type Client struct {
 	V1BillingCreditBalanceTransactions *v1BillingCreditBalanceTransactionService
 	// V1BillingCreditGrants is the service used to invoke /v1/billing/credit_grants APIs.
 	V1BillingCreditGrants *v1BillingCreditGrantService
+	// V1BillingFeedbackOptions is the service used to invoke /v1/billing/feedback_options APIs.
+	V1BillingFeedbackOptions *v1BillingFeedbackOptionService
 	// V1BillingMeterEventAdjustments is the service used to invoke /v1/billing/meter_event_adjustments APIs.
 	V1BillingMeterEventAdjustments *v1BillingMeterEventAdjustmentService
 	// V1BillingMeterEvents is the service used to invoke /v1/billing/meter_events APIs.
@@ -378,6 +380,8 @@ type Client struct {
 	V2CoreAccountsPersonTokens *v2CoreAccountsPersonTokenService
 	// V2CoreAccountTokens is the service used to invoke /v2/core/account_tokens APIs.
 	V2CoreAccountTokens *v2CoreAccountTokenService
+	// V2CoreApprovalRequests is the service used to invoke /v2/core/approval_requests APIs.
+	V2CoreApprovalRequests *v2CoreApprovalRequestService
 	// V2CoreBatchJobs is the service used to invoke /v2/core/batch_jobs APIs.
 	V2CoreBatchJobs *v2CoreBatchJobService
 	// V2CoreEventDestinations is the service used to invoke /v2/core/event_destinations APIs.
@@ -428,6 +432,12 @@ type Client struct {
 	V2NetworkBusinessProfiles *v2NetworkBusinessProfileService
 	// V2OrchestratedCommerceAgreements is the service used to invoke /v2/orchestrated_commerce/agreements APIs.
 	V2OrchestratedCommerceAgreements *v2OrchestratedCommerceAgreementService
+	// V2SignalsAccountActivities is the service used to invoke /v2/signals/account_activity APIs.
+	V2SignalsAccountActivities *v2SignalsAccountActivityService
+	// V2SignalsAccountEvaluations is the service used to invoke /v2/signals/account_evaluations APIs.
+	V2SignalsAccountEvaluations *v2SignalsAccountEvaluationService
+	// V2SignalsAccountSignals is the service used to invoke /v2/signals/account_signals APIs.
+	V2SignalsAccountSignals *v2SignalsAccountSignalService
 	// V2TestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2TestHelpersFinancialAddressService
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
@@ -484,6 +494,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1BillingCreditBalanceSummary = &v1BillingCreditBalanceSummaryService{B: backends.API, Key: key}
 	client.V1BillingCreditBalanceTransactions = &v1BillingCreditBalanceTransactionService{B: backends.API, Key: key}
 	client.V1BillingCreditGrants = &v1BillingCreditGrantService{B: backends.API, Key: key}
+	client.V1BillingFeedbackOptions = &v1BillingFeedbackOptionService{B: backends.API, Key: key}
 	client.V1BillingMeterEventAdjustments = &v1BillingMeterEventAdjustmentService{B: backends.API, Key: key}
 	client.V1BillingMeterEvents = &v1BillingMeterEventService{B: backends.API, Key: key}
 	client.V1BillingMeterEventSummaries = &v1BillingMeterEventSummaryService{B: backends.API, Key: key}
@@ -654,6 +665,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2CoreAccountsPersons = &v2CoreAccountsPersonService{B: backends.API, Key: key}
 	client.V2CoreAccountsPersonTokens = &v2CoreAccountsPersonTokenService{B: backends.API, Key: key}
 	client.V2CoreAccountTokens = &v2CoreAccountTokenService{B: backends.API, Key: key}
+	client.V2CoreApprovalRequests = &v2CoreApprovalRequestService{B: backends.API, Key: key}
 	client.V2CoreBatchJobs = &v2CoreBatchJobService{B: backends.API, Key: key}
 	client.V2CoreEventDestinations = &v2CoreEventDestinationService{B: backends.API, Key: key}
 	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
@@ -679,6 +691,9 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
 	client.V2NetworkBusinessProfiles = &v2NetworkBusinessProfileService{B: backends.API, Key: key}
 	client.V2OrchestratedCommerceAgreements = &v2OrchestratedCommerceAgreementService{B: backends.API, Key: key}
+	client.V2SignalsAccountActivities = &v2SignalsAccountActivityService{B: backends.API, Key: key}
+	client.V2SignalsAccountEvaluations = &v2SignalsAccountEvaluationService{B: backends.API, Key: key}
+	client.V2SignalsAccountSignals = &v2SignalsAccountSignalService{B: backends.API, Key: key}
 	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
 }

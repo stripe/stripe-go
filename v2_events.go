@@ -1198,6 +1198,293 @@ func (n *V2CoreAccountPersonUpdatedEventNotification) FetchRelatedObject(ctx con
 	return relatedObj, err
 }
 
+// V2CoreApprovalRequestApprovedEvent is the Go struct for the "v2.core.approval_request.approved" event.
+// Occurs when an approval request is approved by a reviewer.
+type V2CoreApprovalRequestApprovedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreApprovalRequest, error)
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (e *V2CoreApprovalRequestApprovedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreApprovalRequestApprovedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.approval_request.approved"
+// Occurs when an approval request is approved by a reviewer.
+type V2CoreApprovalRequestApprovedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreApprovalRequestApprovedEvent that created this Notification
+func (n *V2CoreApprovalRequestApprovedEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestApprovedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreApprovalRequestApprovedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (n *V2CoreApprovalRequestApprovedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreApprovalRequest{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreApprovalRequestCanceledEvent is the Go struct for the "v2.core.approval_request.canceled" event.
+// Occurs when an approval request is canceled by the requester.
+type V2CoreApprovalRequestCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreApprovalRequest, error)
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (e *V2CoreApprovalRequestCanceledEvent) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreApprovalRequestCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.core.approval_request.canceled"
+// Occurs when an approval request is canceled by the requester.
+type V2CoreApprovalRequestCanceledEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreApprovalRequestCanceledEvent that created this Notification
+func (n *V2CoreApprovalRequestCanceledEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestCanceledEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreApprovalRequestCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (n *V2CoreApprovalRequestCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreApprovalRequest{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreApprovalRequestCreatedEvent is the Go struct for the "v2.core.approval_request.created" event.
+// Occurs when an approval request is created.
+type V2CoreApprovalRequestCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreApprovalRequest, error)
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (e *V2CoreApprovalRequestCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreApprovalRequestCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.approval_request.created"
+// Occurs when an approval request is created.
+type V2CoreApprovalRequestCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreApprovalRequestCreatedEvent that created this Notification
+func (n *V2CoreApprovalRequestCreatedEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreApprovalRequestCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (n *V2CoreApprovalRequestCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreApprovalRequest{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreApprovalRequestExpiredEvent is the Go struct for the "v2.core.approval_request.expired" event.
+// Occurs when an approval request expires without being acted upon.
+type V2CoreApprovalRequestExpiredEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreApprovalRequest, error)
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (e *V2CoreApprovalRequestExpiredEvent) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreApprovalRequestExpiredEventNotification is the webhook payload you'll get when handling an event with type "v2.core.approval_request.expired"
+// Occurs when an approval request expires without being acted upon.
+type V2CoreApprovalRequestExpiredEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreApprovalRequestExpiredEvent that created this Notification
+func (n *V2CoreApprovalRequestExpiredEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestExpiredEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreApprovalRequestExpiredEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (n *V2CoreApprovalRequestExpiredEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreApprovalRequest{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreApprovalRequestFailedEvent is the Go struct for the "v2.core.approval_request.failed" event.
+// Occurs when the action associated with an approval request fails during execution.
+type V2CoreApprovalRequestFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreApprovalRequest, error)
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (e *V2CoreApprovalRequestFailedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreApprovalRequestFailedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.approval_request.failed"
+// Occurs when the action associated with an approval request fails during execution.
+type V2CoreApprovalRequestFailedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreApprovalRequestFailedEvent that created this Notification
+func (n *V2CoreApprovalRequestFailedEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestFailedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreApprovalRequestFailedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (n *V2CoreApprovalRequestFailedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreApprovalRequest{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreApprovalRequestRejectedEvent is the Go struct for the "v2.core.approval_request.rejected" event.
+// Occurs when an approval request is rejected by a reviewer.
+type V2CoreApprovalRequestRejectedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreApprovalRequest, error)
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (e *V2CoreApprovalRequestRejectedEvent) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreApprovalRequestRejectedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.approval_request.rejected"
+// Occurs when an approval request is rejected by a reviewer.
+type V2CoreApprovalRequestRejectedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreApprovalRequestRejectedEvent that created this Notification
+func (n *V2CoreApprovalRequestRejectedEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestRejectedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreApprovalRequestRejectedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (n *V2CoreApprovalRequestRejectedEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreApprovalRequest{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2CoreApprovalRequestSucceededEvent is the Go struct for the "v2.core.approval_request.succeeded" event.
+// Occurs when an approval request is successfully executed.
+type V2CoreApprovalRequestSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreApprovalRequest, error)
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (e *V2CoreApprovalRequestSucceededEvent) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreApprovalRequestSucceededEventNotification is the webhook payload you'll get when handling an event with type "v2.core.approval_request.succeeded"
+// Occurs when an approval request is successfully executed.
+type V2CoreApprovalRequestSucceededEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2CoreApprovalRequestSucceededEvent that created this Notification
+func (n *V2CoreApprovalRequestSucceededEventNotification) FetchEvent(ctx context.Context) (*V2CoreApprovalRequestSucceededEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreApprovalRequestSucceededEvent), nil
+}
+
+// FetchRelatedObject fetches the V2CoreApprovalRequest related to the event.
+func (n *V2CoreApprovalRequestSucceededEventNotification) FetchRelatedObject(ctx context.Context) (*V2CoreApprovalRequest, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2CoreApprovalRequest{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // V2CoreBatchJobBatchFailedEvent is the Go struct for the "v2.core.batch_job.batch_failed" event.
 // Occurs when a batch job fails.
 type V2CoreBatchJobBatchFailedEvent struct {
@@ -3688,6 +3975,47 @@ func (n *V2OrchestratedCommerceAgreementTerminatedEventNotification) FetchRelate
 	return relatedObj, err
 }
 
+// V2SignalsAccountEvaluationCompleteEvent is the Go struct for the "v2.signals.account_evaluation.complete" event.
+// Occurs when all requested signals for an account evaluation are complete.
+type V2SignalsAccountEvaluationCompleteEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2SignalsAccountEvaluation, error)
+}
+
+// FetchRelatedObject fetches the V2SignalsAccountEvaluation related to the event.
+func (e *V2SignalsAccountEvaluationCompleteEvent) FetchRelatedObject(ctx context.Context) (*V2SignalsAccountEvaluation, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2SignalsAccountEvaluationCompleteEventNotification is the webhook payload you'll get when handling an event with type "v2.signals.account_evaluation.complete"
+// Occurs when all requested signals for an account evaluation are complete.
+type V2SignalsAccountEvaluationCompleteEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2SignalsAccountEvaluationCompleteEvent that created this Notification
+func (n *V2SignalsAccountEvaluationCompleteEventNotification) FetchEvent(ctx context.Context) (*V2SignalsAccountEvaluationCompleteEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2SignalsAccountEvaluationCompleteEvent), nil
+}
+
+// FetchRelatedObject fetches the V2SignalsAccountEvaluation related to the event.
+func (n *V2SignalsAccountEvaluationCompleteEventNotification) FetchRelatedObject(ctx context.Context) (*V2SignalsAccountEvaluation, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2SignalsAccountEvaluation{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
 // The request causes the error.
 type V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeSampleErrorRequest struct {
 	// The request idempotency key.
@@ -4385,6 +4713,111 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		}
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
+		}
+		return result, nil
+	case "v2.core.approval_request.approved":
+		result := &V2CoreApprovalRequestApprovedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
+			v := &V2CoreApprovalRequest{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.approval_request.canceled":
+		result := &V2CoreApprovalRequestCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
+			v := &V2CoreApprovalRequest{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.approval_request.created":
+		result := &V2CoreApprovalRequestCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
+			v := &V2CoreApprovalRequest{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.approval_request.expired":
+		result := &V2CoreApprovalRequestExpiredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
+			v := &V2CoreApprovalRequest{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.approval_request.failed":
+		result := &V2CoreApprovalRequestFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
+			v := &V2CoreApprovalRequest{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.approval_request.rejected":
+		result := &V2CoreApprovalRequestRejectedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
+			v := &V2CoreApprovalRequest{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.approval_request.succeeded":
+		result := &V2CoreApprovalRequestSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreApprovalRequest, error) {
+			v := &V2CoreApprovalRequest{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
 		}
 		return result, nil
 	case "v2.core.batch_job.batch_failed":
@@ -5318,6 +5751,21 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return nil, err
 		}
 		return result, nil
+	case "v2.signals.account_evaluation.complete":
+		result := &V2SignalsAccountEvaluationCompleteEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2SignalsAccountEvaluation, error) {
+			v := &V2SignalsAccountEvaluation{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
 	default:
 		return event, nil
 	}
@@ -5516,6 +5964,55 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.core.account_person.updated":
 		evt := V2CoreAccountPersonUpdatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.approval_request.approved":
+		evt := V2CoreApprovalRequestApprovedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.approval_request.canceled":
+		evt := V2CoreApprovalRequestCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.approval_request.created":
+		evt := V2CoreApprovalRequestCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.approval_request.expired":
+		evt := V2CoreApprovalRequestExpiredEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.approval_request.failed":
+		evt := V2CoreApprovalRequestFailedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.approval_request.rejected":
+		evt := V2CoreApprovalRequestRejectedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.approval_request.succeeded":
+		evt := V2CoreApprovalRequestSucceededEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}
@@ -5943,6 +6440,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.orchestrated_commerce.agreement.terminated":
 		evt := V2OrchestratedCommerceAgreementTerminatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.signals.account_evaluation.complete":
+		evt := V2SignalsAccountEvaluationCompleteEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

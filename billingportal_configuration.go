@@ -195,6 +195,8 @@ func (p *BillingPortalConfigurationFeaturesPaymentMethodUpdateParams) AddUnsetFi
 type BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParams struct {
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled" json:"enabled"`
+	// The IDs of custom feedback options to use for this cancellation reason.
+	FeedbackOptions []*string `form:"feedback_options" json:"feedback_options,omitempty"`
 	// Which cancellation reasons will be given as options to the customer.
 	Options     []*string                                                                                `form:"options" json:"options,omitempty"`
 	UnsetFields []BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParamsUnsetField `form:"-" json:"-"`
@@ -204,7 +206,8 @@ type BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParam
 type BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParamsUnsetField string
 
 const (
-	BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParamsUnsetFieldOptions BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParamsUnsetField = "options"
+	BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParamsUnsetFieldFeedbackOptions BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParamsUnsetField = "feedback_options"
+	BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParamsUnsetFieldOptions         BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParamsUnsetField = "options"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -448,6 +451,8 @@ func (p *BillingPortalConfigurationCreateFeaturesPaymentMethodUpdateParams) AddU
 type BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParams struct {
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled" json:"enabled"`
+	// The IDs of custom feedback options to use for this cancellation reason.
+	FeedbackOptions []*string `form:"feedback_options" json:"feedback_options,omitempty"`
 	// Which cancellation reasons will be given as options to the customer.
 	Options     []*string                                                                                      `form:"options" json:"options"`
 	UnsetFields []BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField `form:"-" json:"-"`
@@ -457,7 +462,8 @@ type BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReaso
 type BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField string
 
 const (
-	BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParamsUnsetFieldOptions BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField = "options"
+	BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParamsUnsetFieldFeedbackOptions BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField = "feedback_options"
+	BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParamsUnsetFieldOptions         BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField = "options"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -697,6 +703,8 @@ func (p *BillingPortalConfigurationUpdateFeaturesPaymentMethodUpdateParams) AddU
 type BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParams struct {
 	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled" json:"enabled"`
+	// The IDs of custom feedback options to use for this cancellation reason.
+	FeedbackOptions []*string `form:"feedback_options" json:"feedback_options,omitempty"`
 	// Which cancellation reasons will be given as options to the customer.
 	Options     []*string                                                                                      `form:"options" json:"options,omitempty"`
 	UnsetFields []BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField `form:"-" json:"-"`
@@ -706,7 +714,8 @@ type BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReaso
 type BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField string
 
 const (
-	BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParamsUnsetFieldOptions BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField = "options"
+	BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParamsUnsetFieldFeedbackOptions BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField = "feedback_options"
+	BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParamsUnsetFieldOptions         BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParamsUnsetField = "options"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -902,6 +911,8 @@ type BillingPortalConfigurationFeaturesPaymentMethodUpdate struct {
 type BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReason struct {
 	// Whether the feature is enabled.
 	Enabled bool `json:"enabled"`
+	// The IDs of custom feedback options configured for this cancellation reason.
+	FeedbackOptions []*BillingFeedbackOption `json:"feedback_options"`
 	// Which cancellation reasons will be given as options to the customer.
 	Options []BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption `json:"options"`
 }

@@ -410,6 +410,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeAUBECSDebit        QuotePreviewInvoicePaymentSettingsPaymentMethodType = "au_becs_debit"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBACSDebit          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "bacs_debit"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBancontact         QuotePreviewInvoicePaymentSettingsPaymentMethodType = "bancontact"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBillie             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "billie"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBLIK               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "blik"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBoleto             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "boleto"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCard               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "card"
@@ -701,6 +702,9 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
 	PreferredLanguage QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage `json:"preferred_language"`
 }
 
+// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillie struct{}
+
 // If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBLIK struct{}
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardInstallments struct {
@@ -802,6 +806,8 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	ACSSDebit *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
+	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+	Billie *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillie `json:"billie,omitempty"`
 	// If paying by `blik`, this sub-hash contains details about the Blik payment method options to pass to the invoice's PaymentIntent.
 	BLIK *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBLIK `json:"blik,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.

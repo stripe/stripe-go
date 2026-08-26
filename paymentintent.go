@@ -100,6 +100,7 @@ const (
 	PaymentIntentAllowedPaymentMethodTypeSwish                PaymentIntentAllowedPaymentMethodType = "swish"
 	PaymentIntentAllowedPaymentMethodTypeTamara               PaymentIntentAllowedPaymentMethodType = "tamara"
 	PaymentIntentAllowedPaymentMethodTypeTestPay              PaymentIntentAllowedPaymentMethodType = "test_pay"
+	PaymentIntentAllowedPaymentMethodTypeTouchNGo             PaymentIntentAllowedPaymentMethodType = "touch_n_go"
 	PaymentIntentAllowedPaymentMethodTypeTruemoney            PaymentIntentAllowedPaymentMethodType = "truemoney"
 	PaymentIntentAllowedPaymentMethodTypeTWINT                PaymentIntentAllowedPaymentMethodType = "twint"
 	PaymentIntentAllowedPaymentMethodTypeUpi                  PaymentIntentAllowedPaymentMethodType = "upi"
@@ -6113,8 +6114,6 @@ type PaymentIntentParams struct {
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 	RadarOptions *PaymentIntentRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
@@ -8479,8 +8478,6 @@ type PaymentIntentConfirmParams struct {
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 	RadarOptions *PaymentIntentConfirmRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
@@ -13296,8 +13293,6 @@ type PaymentIntentCreateParams struct {
 	PaymentMethodData *PaymentIntentCreatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentCreatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://docs.stripe.com/radar/radar-session).
 	RadarOptions *PaymentIntentCreateRadarOptionsParams `form:"radar_options" json:"radar_options,omitempty"`
 	// Email address to send the receipt to. If you specify `receipt_email` for a payment in live mode, you send a receipt regardless of your [email settings](https://dashboard.stripe.com/account/emails).
@@ -17425,8 +17420,6 @@ type PaymentIntentUpdateParams struct {
 	PaymentMethodData *PaymentIntentUpdatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentUpdatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// The list of payment method types (for example, card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -19520,7 +19513,7 @@ type PaymentIntentTransferData struct {
 type PaymentIntent struct {
 	APIResource
 	// The list of payment method types allowed for use with this payment. Stripe automatically returns compatible payment methods from this list in the `payment_method_types` field of the response, based on the other PaymentIntent parameters, such as `currency`, `amount`, and `customer`.
-	AllowedPaymentMethodTypes []PaymentIntentAllowedPaymentMethodType `json:"allowed_payment_method_types,omitempty"`
+	AllowedPaymentMethodTypes []PaymentIntentAllowedPaymentMethodType `json:"allowed_payment_method_types"`
 	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://docs.stripe.com/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount int64 `json:"amount"`
 	// Amount that can be captured from this PaymentIntent.

@@ -37,7 +37,7 @@ const (
 	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeToza     V2MoneyManagementPayoutMethodBankAccountBankAccountType = "toza"
 )
 
-// Closed Enum. The type of payout method.
+// Open Enum. The type of payout method.
 type V2MoneyManagementPayoutMethodType string
 
 // List of values that V2MoneyManagementPayoutMethodType can take
@@ -48,20 +48,24 @@ const (
 )
 
 // Payments status - used when sending OutboundPayments (sending funds to recipients).
+// If disabled, enable the payout method by creating an OutboundSetupIntent using [`POST /v2/money_management/outbound_setup_intents`](https://docs.stripe.com/api/v2/money-management/outbound-setup-intents/create).
 type V2MoneyManagementPayoutMethodUsageStatusPayments string
 
 // List of values that V2MoneyManagementPayoutMethodUsageStatusPayments can take
 const (
+	V2MoneyManagementPayoutMethodUsageStatusPaymentsDisabled       V2MoneyManagementPayoutMethodUsageStatusPayments = "disabled"
 	V2MoneyManagementPayoutMethodUsageStatusPaymentsEligible       V2MoneyManagementPayoutMethodUsageStatusPayments = "eligible"
 	V2MoneyManagementPayoutMethodUsageStatusPaymentsInvalid        V2MoneyManagementPayoutMethodUsageStatusPayments = "invalid"
 	V2MoneyManagementPayoutMethodUsageStatusPaymentsRequiresAction V2MoneyManagementPayoutMethodUsageStatusPayments = "requires_action"
 )
 
 // Transfers status - used when making an OutboundTransfer (sending funds to yourself).
+// If disabled, enable the payout method by creating an OutboundSetupIntent using [`POST /v2/money_management/outbound_setup_intents`](https://docs.stripe.com/api/v2/money-management/outbound-setup-intents/create).
 type V2MoneyManagementPayoutMethodUsageStatusTransfers string
 
 // List of values that V2MoneyManagementPayoutMethodUsageStatusTransfers can take
 const (
+	V2MoneyManagementPayoutMethodUsageStatusTransfersDisabled       V2MoneyManagementPayoutMethodUsageStatusTransfers = "disabled"
 	V2MoneyManagementPayoutMethodUsageStatusTransfersEligible       V2MoneyManagementPayoutMethodUsageStatusTransfers = "eligible"
 	V2MoneyManagementPayoutMethodUsageStatusTransfersInvalid        V2MoneyManagementPayoutMethodUsageStatusTransfers = "invalid"
 	V2MoneyManagementPayoutMethodUsageStatusTransfersRequiresAction V2MoneyManagementPayoutMethodUsageStatusTransfers = "requires_action"
@@ -90,7 +94,7 @@ type V2MoneyManagementPayoutMethodBankAccount struct {
 	// The country code of the bank account.
 	Country string `json:"country"`
 	// List of enabled flows for this bank account (wire or local).
-	EnabledDeliveryOptions []string `json:"enabled_delivery_options"`
+	EnabledDeliverySchemes []string `json:"enabled_delivery_schemes"`
 	// The ID of the Financial Connections Account used to create the bank account.
 	FinancialConnectionsAccount string `json:"financial_connections_account,omitempty"`
 	// The last 4 digits of the account number.
@@ -125,8 +129,10 @@ type V2MoneyManagementPayoutMethodCard struct {
 // Indicates whether the payout method has met the necessary requirements for outbound money movement.
 type V2MoneyManagementPayoutMethodUsageStatus struct {
 	// Payments status - used when sending OutboundPayments (sending funds to recipients).
+	// If disabled, enable the payout method by creating an OutboundSetupIntent using [`POST /v2/money_management/outbound_setup_intents`](https://docs.stripe.com/api/v2/money-management/outbound-setup-intents/create).
 	Payments V2MoneyManagementPayoutMethodUsageStatusPayments `json:"payments"`
 	// Transfers status - used when making an OutboundTransfer (sending funds to yourself).
+	// If disabled, enable the payout method by creating an OutboundSetupIntent using [`POST /v2/money_management/outbound_setup_intents`](https://docs.stripe.com/api/v2/money-management/outbound-setup-intents/create).
 	Transfers V2MoneyManagementPayoutMethodUsageStatusTransfers `json:"transfers"`
 }
 
@@ -154,7 +160,7 @@ type V2MoneyManagementPayoutMethod struct {
 	// Whether the Payout Method is currently unusable for money movement, despite potentially being correctly set up.
 	// Please reach out to Stripe Support for more information.
 	Restricted bool `json:"restricted"`
-	// Closed Enum. The type of payout method.
+	// Open Enum. The type of payout method.
 	Type V2MoneyManagementPayoutMethodType `json:"type"`
 	// Indicates whether the payout method has met the necessary requirements for outbound money movement.
 	UsageStatus *V2MoneyManagementPayoutMethodUsageStatus `json:"usage_status"`

@@ -879,7 +879,7 @@ type QuoteLineParams struct {
 	Actions []*QuoteLineActionParams `form:"actions" json:"actions,omitempty"`
 	// Details to identify the subscription schedule the quote line applies to.
 	AppliesTo *QuoteLineAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
-	// For point-in-time quote lines (having no `ends_at` timestamp), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the Quote Line `starts_at` timestamp.For time-span based quote lines (having both `starts_at` and `ends_at`), the only valid value is `automatic`, which removes any previously configured billing cycle anchor resets during the window of time spanning the quote line.
+	// For point-in-time quote lines (having no `ends_at` timestamp), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the Quote Line `starts_at` timestamp. For time-span based quote lines (having both `starts_at` and `ends_at`), the only valid value is `automatic`, which removes any previously configured billing cycle anchor resets during the window of time spanning the quote line.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
 	CancelSubscriptionSchedule *QuoteLineCancelSubscriptionScheduleParams `form:"cancel_subscription_schedule" json:"cancel_subscription_schedule,omitempty"`
@@ -1880,7 +1880,7 @@ type QuoteCreateLineParams struct {
 	Actions []*QuoteCreateLineActionParams `form:"actions" json:"actions,omitempty"`
 	// Details to identify the subscription schedule the quote line applies to.
 	AppliesTo *QuoteCreateLineAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
-	// For point-in-time quote lines (having no `ends_at` timestamp), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the Quote Line `starts_at` timestamp.For time-span based quote lines (having both `starts_at` and `ends_at`), the only valid value is `automatic`, which removes any previously configured billing cycle anchor resets during the window of time spanning the quote line.
+	// For point-in-time quote lines (having no `ends_at` timestamp), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the Quote Line `starts_at` timestamp. For time-span based quote lines (having both `starts_at` and `ends_at`), the only valid value is `automatic`, which removes any previously configured billing cycle anchor resets during the window of time spanning the quote line.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
 	CancelSubscriptionSchedule *QuoteCreateLineCancelSubscriptionScheduleParams `form:"cancel_subscription_schedule" json:"cancel_subscription_schedule,omitempty"`
@@ -2729,7 +2729,7 @@ type QuoteUpdateLineParams struct {
 	Actions []*QuoteUpdateLineActionParams `form:"actions" json:"actions,omitempty"`
 	// Details to identify the subscription schedule the quote line applies to.
 	AppliesTo *QuoteUpdateLineAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
-	// For point-in-time quote lines (having no `ends_at` timestamp), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the Quote Line `starts_at` timestamp.For time-span based quote lines (having both `starts_at` and `ends_at`), the only valid value is `automatic`, which removes any previously configured billing cycle anchor resets during the window of time spanning the quote line.
+	// For point-in-time quote lines (having no `ends_at` timestamp), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the Quote Line `starts_at` timestamp. For time-span based quote lines (having both `starts_at` and `ends_at`), the only valid value is `automatic`, which removes any previously configured billing cycle anchor resets during the window of time spanning the quote line.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
 	CancelSubscriptionSchedule *QuoteUpdateLineCancelSubscriptionScheduleParams `form:"cancel_subscription_schedule" json:"cancel_subscription_schedule,omitempty"`

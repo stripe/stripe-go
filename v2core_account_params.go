@@ -21,7 +21,7 @@ type V2CoreAccountListParams struct {
 
 // Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxParams struct {
-	// Describes the customer's tax exemption status, which is `none`, `exempt`, or `reverse`. When set to reverse, invoice and receipt PDFs include the following text: “Reverse charge”.
+	// Describes the customer's tax exemption status, which is `none`, `exempt`, or `reverse`. When set to reverse, invoice and receipt PDFs include the following text: "Reverse charge".
 	Exempt *string `form:"exempt" json:"exempt,omitempty"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
@@ -925,6 +925,8 @@ type V2CoreAccountDefaultsParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The Account's preferred locales (languages), ordered by preference.
 	Locales []*string `form:"locales" json:"locales,omitempty"`
+	// Default payout methods per currency. Keys are three-letter [ISO currency codes](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Values are v2 Payout Method IDs.
+	PayoutMethods map[string]string `form:"payout_methods" json:"payout_methods,omitempty"`
 	// Account profile information.
 	Profile *V2CoreAccountDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
@@ -1647,7 +1649,7 @@ type V2CoreAccountCloseParams struct {
 
 // Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
 type V2CoreAccountCreateConfigurationCustomerAutomaticIndirectTaxParams struct {
-	// Describes the customer's tax exemption status, which is `none`, `exempt`, or `reverse`. When set to reverse, invoice and receipt PDFs include the following text: “Reverse charge”.
+	// Describes the customer's tax exemption status, which is `none`, `exempt`, or `reverse`. When set to reverse, invoice and receipt PDFs include the following text: "Reverse charge".
 	Exempt *string `form:"exempt" json:"exempt,omitempty"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
@@ -4151,6 +4153,8 @@ type V2CoreAccountUpdateDefaultsParams struct {
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The Account's preferred locales (languages), ordered by preference.
 	Locales []*string `form:"locales" json:"locales,omitempty"`
+	// Default payout methods per currency. Keys are three-letter [ISO currency codes](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Values are v2 Payout Method IDs.
+	PayoutMethods map[string]string `form:"payout_methods" json:"payout_methods,omitempty"`
 	// Account profile information.
 	Profile *V2CoreAccountUpdateDefaultsProfileParams `form:"profile" json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.
