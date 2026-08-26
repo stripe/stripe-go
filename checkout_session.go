@@ -70,6 +70,16 @@ const (
 	CheckoutSessionAutomaticTaxAddressCollectionPrecisionMinimal CheckoutSessionAutomaticTaxAddressCollectionPrecision = "minimal"
 )
 
+// How `automatic_tax` was set: `explicit`, `managed_payments`, or `tax_integration_configuration`.
+type CheckoutSessionAutomaticTaxEnablementDetailsSource string
+
+// List of values that CheckoutSessionAutomaticTaxEnablementDetailsSource can take
+const (
+	CheckoutSessionAutomaticTaxEnablementDetailsSourceExplicit                    CheckoutSessionAutomaticTaxEnablementDetailsSource = "explicit"
+	CheckoutSessionAutomaticTaxEnablementDetailsSourceManagedPayments             CheckoutSessionAutomaticTaxEnablementDetailsSource = "managed_payments"
+	CheckoutSessionAutomaticTaxEnablementDetailsSourceTaxIntegrationConfiguration CheckoutSessionAutomaticTaxEnablementDetailsSource = "tax_integration_configuration"
+)
+
 // Type of the account referenced.
 type CheckoutSessionAutomaticTaxLiabilityType string
 
@@ -1469,14 +1479,6 @@ const (
 	CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage = "on_session"
 )
 
-// Controls when the funds will be captured from the customer's account.
-type CheckoutSessionPaymentMethodOptionsSequraCaptureMethod string
-
-// List of values that CheckoutSessionPaymentMethodOptionsSequraCaptureMethod can take
-const (
-	CheckoutSessionPaymentMethodOptionsSequraCaptureMethodManual CheckoutSessionPaymentMethodOptionsSequraCaptureMethod = "manual"
-)
-
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1670,7 +1672,7 @@ const (
 //
 // Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 //
-// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+// This parameter is only supported when `ui_mode=elements`.
 type CheckoutSessionPermissionsUpdateShippingDetails string
 
 // List of values that CheckoutSessionPermissionsUpdateShippingDetails can take
@@ -2658,26 +2660,17 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
-	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment
-	// method collected by this Checkout Session.
+	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
 	//
-	// When setting this to `on_session`, Checkout will show a notice to the
-	// customer that their payment details will be saved.
+	// When setting this to `on_session`, Checkout will show a notice to the customer that their payment details will be saved.
 	//
-	// When setting this to `off_session`, Checkout will show a notice to the
-	// customer that their payment details will be saved and used for future
-	// payments.
+	// When setting this to `off_session`, Checkout will show a notice to the customer that their payment details will be saved and used for future payments.
 	//
-	// If a Customer has been provided or Checkout creates a new Customer,
-	// Checkout will attach the payment method to the Customer.
+	// If a Customer has been provided or Checkout creates a new Customer, Checkout will attach the payment method to the Customer.
 	//
-	// If Checkout does not create a Customer, the payment method is not attached
-	// to a Customer. To reuse the payment method, you can retrieve it from the
-	// Checkout Session's PaymentIntent.
+	// If Checkout does not create a Customer, the payment method is not attached to a Customer. To reuse the payment method, you can retrieve it from the Checkout Session's PaymentIntent.
 	//
-	// When processing card payments, Checkout also uses `setup_future_usage`
-	// to dynamically optimize your payment flow and comply with regional
-	// legislation and network rules, such as SCA.
+	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Shipping information for this payment.
 	Shipping *ShippingDetailsParams `form:"shipping" json:"shipping,omitempty"`
@@ -3757,7 +3750,7 @@ type CheckoutSessionPermissionsUpdateParams struct {
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 	//
-	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	// This parameter is only supported when `ui_mode=elements`.
 	ShippingDetails *string `form:"shipping_details" json:"shipping_details,omitempty"`
 }
 
@@ -3781,7 +3774,7 @@ type CheckoutSessionPermissionsParams struct {
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 	//
-	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	// This parameter is only supported when `ui_mode=elements`.
 	UpdateShippingDetails *string `form:"update_shipping_details" json:"update_shipping_details,omitempty"`
 }
 
@@ -5185,26 +5178,17 @@ type CheckoutSessionCreatePaymentIntentDataParams struct {
 	OnBehalfOf *string `form:"on_behalf_of" json:"on_behalf_of,omitempty"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email" json:"receipt_email,omitempty"`
-	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment
-	// method collected by this Checkout Session.
+	// Indicates that you intend to [make future payments](https://docs.stripe.com/payments/payment-intents#future-usage) with the payment method collected by this Checkout Session.
 	//
-	// When setting this to `on_session`, Checkout will show a notice to the
-	// customer that their payment details will be saved.
+	// When setting this to `on_session`, Checkout will show a notice to the customer that their payment details will be saved.
 	//
-	// When setting this to `off_session`, Checkout will show a notice to the
-	// customer that their payment details will be saved and used for future
-	// payments.
+	// When setting this to `off_session`, Checkout will show a notice to the customer that their payment details will be saved and used for future payments.
 	//
-	// If a Customer has been provided or Checkout creates a new Customer,
-	// Checkout will attach the payment method to the Customer.
+	// If a Customer has been provided or Checkout creates a new Customer, Checkout will attach the payment method to the Customer.
 	//
-	// If Checkout does not create a Customer, the payment method is not attached
-	// to a Customer. To reuse the payment method, you can retrieve it from the
-	// Checkout Session's PaymentIntent.
+	// If Checkout does not create a Customer, the payment method is not attached to a Customer. To reuse the payment method, you can retrieve it from the Checkout Session's PaymentIntent.
 	//
-	// When processing card payments, Checkout also uses `setup_future_usage`
-	// to dynamically optimize your payment flow and comply with regional
-	// legislation and network rules, such as SCA.
+	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
 	SetupFutureUsage *string `form:"setup_future_usage" json:"setup_future_usage,omitempty"`
 	// Shipping information for this payment.
 	Shipping *ShippingDetailsParams `form:"shipping" json:"shipping,omitempty"`
@@ -6284,7 +6268,7 @@ type CheckoutSessionCreatePermissionsUpdateParams struct {
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 	//
-	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	// This parameter is only supported when `ui_mode=elements`.
 	ShippingDetails *string `form:"shipping_details" json:"shipping_details,omitempty"`
 }
 
@@ -6308,7 +6292,7 @@ type CheckoutSessionCreatePermissionsParams struct {
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 	//
-	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	// This parameter is only supported when `ui_mode=elements`.
 	UpdateShippingDetails *string `form:"update_shipping_details" json:"update_shipping_details,omitempty"`
 }
 
@@ -7313,6 +7297,20 @@ type CheckoutSessionAutomaticSurcharge struct {
 	TaxBehavior CheckoutSessionAutomaticSurchargeTaxBehavior `json:"tax_behavior"`
 }
 
+// Present when `source=tax_integration_configuration` and `automatic_tax[enabled]=false`.
+type CheckoutSessionAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason struct {
+	// The parameter that prevented `automatic_tax` from being enabled (e.g. `line_items[][tax_rates]`).
+	ConflictingField string `json:"conflicting_field"`
+}
+
+// How `automatic_tax` was set (`explicit`, `managed_payments`, or `tax_integration_configuration`) and why it may have been disabled.
+type CheckoutSessionAutomaticTaxEnablementDetails struct {
+	// Present when `source=tax_integration_configuration` and `automatic_tax[enabled]=false`.
+	IntegrationConfigurationDisabledReason *CheckoutSessionAutomaticTaxEnablementDetailsIntegrationConfigurationDisabledReason `json:"integration_configuration_disabled_reason"`
+	// How `automatic_tax` was set: `explicit`, `managed_payments`, or `tax_integration_configuration`.
+	Source CheckoutSessionAutomaticTaxEnablementDetailsSource `json:"source"`
+}
+
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 type CheckoutSessionAutomaticTaxLiability struct {
 	// The connected account being referenced when `type` is `account`.
@@ -7325,6 +7323,8 @@ type CheckoutSessionAutomaticTax struct {
 	AddressCollectionPrecision CheckoutSessionAutomaticTaxAddressCollectionPrecision `json:"address_collection_precision,omitempty"`
 	// Indicates whether automatic tax is enabled for the session
 	Enabled bool `json:"enabled"`
+	// How `automatic_tax` was set (`explicit`, `managed_payments`, or `tax_integration_configuration`) and why it may have been disabled.
+	EnablementDetails *CheckoutSessionAutomaticTaxEnablementDetails `json:"enablement_details,omitempty"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *CheckoutSessionAutomaticTaxLiability `json:"liability"`
 	// The tax provider powering automatic tax.
@@ -8351,10 +8351,6 @@ type CheckoutSessionPaymentMethodOptionsSEPADebit struct {
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date,omitempty"`
 }
-type CheckoutSessionPaymentMethodOptionsSequra struct {
-	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod CheckoutSessionPaymentMethodOptionsSequraCaptureMethod `json:"capture_method,omitempty"`
-}
 type CheckoutSessionPaymentMethodOptionsSofort struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -8504,7 +8500,6 @@ type CheckoutSessionPaymentMethodOptions struct {
 	Satispay         *CheckoutSessionPaymentMethodOptionsSatispay         `json:"satispay,omitempty"`
 	Scalapay         *CheckoutSessionPaymentMethodOptionsScalapay         `json:"scalapay,omitempty"`
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit,omitempty"`
-	Sequra           *CheckoutSessionPaymentMethodOptionsSequra           `json:"sequra,omitempty"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort,omitempty"`
 	Sunbit           *CheckoutSessionPaymentMethodOptionsSunbit           `json:"sunbit,omitempty"`
 	Swish            *CheckoutSessionPaymentMethodOptionsSwish            `json:"swish,omitempty"`
@@ -8526,7 +8521,7 @@ type CheckoutSessionPermissionsUpdate struct {
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 	//
-	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	// This parameter is only supported when `ui_mode=elements`.
 	ShippingDetails CheckoutSessionPermissionsUpdateShippingDetails `json:"shipping_details"`
 }
 
@@ -8546,7 +8541,7 @@ type CheckoutSessionPermissions struct {
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
 	//
-	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	// This parameter is only supported when `ui_mode=elements`.
 	UpdateShippingDetails CheckoutSessionPermissionsUpdateShippingDetails `json:"update_shipping_details"`
 }
 type CheckoutSessionPhoneNumberCollection struct {

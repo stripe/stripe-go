@@ -19,6 +19,15 @@ const (
 	IssuingCardCancellationReasonStolen           IssuingCardCancellationReason = "stolen"
 )
 
+// The type of wallet (standard or bridge_wallet).
+type IssuingCardCryptoWalletType string
+
+// List of values that IssuingCardCryptoWalletType can take
+const (
+	IssuingCardCryptoWalletTypeBridgeWallet IssuingCardCryptoWalletType = "bridge_wallet"
+	IssuingCardCryptoWalletTypeStandard     IssuingCardCryptoWalletType = "standard"
+)
+
 // The type of fraud warning that most recently took place on this card. This field updates with every new fraud warning, so the value changes over time. If populated, cancel and reissue the card.
 type IssuingCardLatestFraudWarningType string
 
@@ -248,6 +257,18 @@ func (p *IssuingCardListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The crypto wallet to attach this card to for Bridge integration.
+type IssuingCardCryptoWalletParams struct {
+	// The public address of the crypto wallet.
+	Address *string `form:"address" json:"address,omitempty"`
+	// The blockchain network the wallet is on.
+	Chain *string `form:"chain" json:"chain,omitempty"`
+	// Updates the crypto wallet's funding currency for subsequent card movements. This doesn't convert existing balances or change the wallet's address, chain, or type.
+	Currency *string `form:"currency" json:"currency"`
+	// The type of wallet (standard or bridge_wallet).
+	Type *string `form:"type" json:"type,omitempty"`
+}
+
 // Cancels the card after the specified conditions are met.
 type IssuingCardLifecycleControlsCancelAfterParams struct {
 	// The card is automatically cancelled when it makes this number of non-zero payment authorizations and transactions. The count includes penny authorizations, but doesn't include non-payment actions, such as authorization advice.
@@ -333,6 +354,8 @@ type IssuingCardParams struct {
 	Params `form:"*"`
 	// The [Cardholder](https://docs.stripe.com/api#issuing_cardholder_object) object with which the card will be associated.
 	Cardholder *string `form:"cardholder" json:"cardholder,omitempty"`
+	// Updates the cryptocurrency used to fund this card's existing crypto wallet.
+	CryptoWallet *IssuingCardCryptoWalletParams `form:"crypto_wallet" json:"crypto_wallet,omitempty"`
 	// The currency for the card.
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -398,6 +421,18 @@ func (p *IssuingCardParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// The crypto wallet to attach this card to for Bridge integration.
+type IssuingCardCreateCryptoWalletParams struct {
+	// The public address of the crypto wallet.
+	Address *string `form:"address" json:"address,omitempty"`
+	// The blockchain network the wallet is on.
+	Chain *string `form:"chain" json:"chain"`
+	// The cryptocurrency held in the wallet.
+	Currency *string `form:"currency" json:"currency"`
+	// The type of wallet (standard or bridge_wallet).
+	Type *string `form:"type" json:"type,omitempty"`
 }
 
 // Cancels the card after the specified conditions are met.
@@ -485,6 +520,8 @@ type IssuingCardCreateParams struct {
 	Params `form:"*"`
 	// The [Cardholder](https://docs.stripe.com/api#issuing_cardholder_object) object with which the card will be associated.
 	Cardholder *string `form:"cardholder" json:"cardholder,omitempty"`
+	// The crypto wallet to attach this card to for Bridge integration.
+	CryptoWallet *IssuingCardCreateCryptoWalletParams `form:"crypto_wallet" json:"crypto_wallet,omitempty"`
 	// The currency for the card.
 	Currency *string `form:"currency" json:"currency"`
 	// Specifies which fields in the response should be expanded.
@@ -560,6 +597,12 @@ func (p *IssuingCardRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Updates the cryptocurrency used to fund this card's existing crypto wallet.
+type IssuingCardUpdateCryptoWalletParams struct {
+	// Updates the crypto wallet's funding currency for subsequent card movements. This doesn't convert existing balances or change the wallet's address, chain, or type.
+	Currency *string `form:"currency" json:"currency"`
+}
+
 // The desired new PIN for this card.
 type IssuingCardUpdatePINParams struct {
 	// The card's desired new PIN, encrypted under Stripe's public key.
@@ -633,6 +676,8 @@ type IssuingCardUpdateParams struct {
 	Params `form:"*"`
 	// Reason why the `status` of this card is `canceled`.
 	CancellationReason *string `form:"cancellation_reason" json:"cancellation_reason,omitempty"`
+	// Updates the cryptocurrency used to fund this card's existing crypto wallet.
+	CryptoWallet *IssuingCardUpdateCryptoWalletParams `form:"crypto_wallet" json:"crypto_wallet,omitempty"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand" json:"expand,omitempty"`
 	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -675,6 +720,17 @@ func (p *IssuingCardUpdateParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+type IssuingCardCryptoWallet struct {
+	// The public address of the wallet.
+	Address string `json:"address"`
+	// The blockchain network the wallet is on.
+	Chain string `json:"chain"`
+	// The cryptocurrency held in the wallet.
+	Currency Currency `json:"currency"`
+	// The type of wallet (standard or bridge_wallet).
+	Type IssuingCardCryptoWalletType `json:"type"`
 }
 
 // Stripe's assessment of whether this card's details have been compromised. If this property isn't null, cancel and reissue the card to prevent fraudulent activity risk.
@@ -819,7 +875,8 @@ type IssuingCard struct {
 	// Related guide: [How to create a cardholder](https://docs.stripe.com/issuing/cards/virtual/issue-cards#create-cardholder)
 	Cardholder *IssuingCardholder `json:"cardholder"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created      int64                    `json:"created"`
+	CryptoWallet *IssuingCardCryptoWallet `json:"crypto_wallet,omitempty"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Supported currencies are `usd` in the US, `eur` in the EU, and `gbp` in the UK.
 	Currency Currency `json:"currency"`
 	// The card's CVC. For security reasons, this is only available for virtual cards, and will be omitted unless you explicitly request it with [the `expand` parameter](https://docs.stripe.com/api/expanding_objects). Additionally, it's only available via the ["Retrieve a card" endpoint](https://docs.stripe.com/api/issuing/cards/retrieve), not via "List all cards" or any other endpoint.

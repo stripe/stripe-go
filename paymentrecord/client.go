@@ -23,28 +23,6 @@ type Client struct {
 	Key string
 }
 
-// Report that the most recent payment attempt on the specified Payment Record
-//
-//	was disputed.
-func New(params *stripe.PaymentRecordParams) (*stripe.PaymentRecord, error) {
-	return getC().New(params)
-}
-
-// Report that the most recent payment attempt on the specified Payment Record
-//
-//	was disputed.
-//
-// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
-//
-// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
-func (c Client) New(params *stripe.PaymentRecordParams) (*stripe.PaymentRecord, error) {
-	path := stripe.FormatURLPath(
-		"/v1/payment_records/%s/report_dispute", stripe.StringValue(params.ID))
-	paymentrecord := &stripe.PaymentRecord{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
-	return paymentrecord, err
-}
-
 // Retrieves a Payment Record with the given ID
 func Get(id string, params *stripe.PaymentRecordParams) (*stripe.PaymentRecord, error) {
 	return getC().Get(id, params)
@@ -59,6 +37,27 @@ func (c Client) Get(id string, params *stripe.PaymentRecordParams) (*stripe.Paym
 	path := stripe.FormatURLPath("/v1/payment_records/%s", id)
 	paymentrecord := &stripe.PaymentRecord{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentrecord)
+	return paymentrecord, err
+}
+
+// Report that the most recent payment attempt on the specified Payment Record
+//
+//	was disputed.
+func ReportDispute(id string, params *stripe.PaymentRecordReportDisputeParams) (*stripe.PaymentRecord, error) {
+	return getC().ReportDispute(id, params)
+}
+
+// Report that the most recent payment attempt on the specified Payment Record
+//
+//	was disputed.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) ReportDispute(id string, params *stripe.PaymentRecordReportDisputeParams) (*stripe.PaymentRecord, error) {
+	path := stripe.FormatURLPath("/v1/payment_records/%s/report_dispute", id)
+	paymentrecord := &stripe.PaymentRecord{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
 }
 

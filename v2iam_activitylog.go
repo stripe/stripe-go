@@ -40,8 +40,70 @@ type V2IamActivityLogDetailsType string
 // List of values that V2IamActivityLogDetailsType can take
 const (
 	V2IamActivityLogDetailsTypeAPIKey     V2IamActivityLogDetailsType = "api_key"
+	V2IamActivityLogDetailsTypeUserAccess V2IamActivityLogDetailsType = "user_access"
 	V2IamActivityLogDetailsTypeUserInvite V2IamActivityLogDetailsType = "user_invite"
 	V2IamActivityLogDetailsTypeUserRoles  V2IamActivityLogDetailsType = "user_roles"
+)
+
+// Type of authentication factor.
+type V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType string
+
+// List of values that V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType can take
+const (
+	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeBackupCode V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "backup_code"
+	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeEmailCode  V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "email_code"
+	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeOauth      V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "oauth"
+	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypePasskey    V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "passkey"
+	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypePassword   V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "password"
+	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypePhoneCode  V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "phone_code"
+	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeSaml       V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "saml"
+	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeSms        V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "sms"
+	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeTotp       V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "totp"
+	V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorTypeWebAuthn   V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType = "web_authn"
+)
+
+// Type of authentication factor.
+type V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType string
+
+// List of values that V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType can take
+const (
+	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeBackupCode V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "backup_code"
+	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeEmailCode  V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "email_code"
+	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeOauth      V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "oauth"
+	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypePasskey    V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "passkey"
+	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypePassword   V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "password"
+	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypePhoneCode  V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "phone_code"
+	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeSaml       V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "saml"
+	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeSms        V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "sms"
+	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeTotp       V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "totp"
+	V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorTypeWebAuthn   V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType = "web_authn"
+)
+
+// Risk level for the user access action.
+type V2IamActivityLogDetailsUserAccessRiskLevel string
+
+// List of values that V2IamActivityLogDetailsUserAccessRiskLevel can take
+const (
+	V2IamActivityLogDetailsUserAccessRiskLevelHigh   V2IamActivityLogDetailsUserAccessRiskLevel = "high"
+	V2IamActivityLogDetailsUserAccessRiskLevelLow    V2IamActivityLogDetailsUserAccessRiskLevel = "low"
+	V2IamActivityLogDetailsUserAccessRiskLevelMedium V2IamActivityLogDetailsUserAccessRiskLevel = "medium"
+)
+
+// Type of risk signal.
+type V2IamActivityLogDetailsUserAccessRiskSignalType string
+
+// List of values that V2IamActivityLogDetailsUserAccessRiskSignalType can take
+const (
+	V2IamActivityLogDetailsUserAccessRiskSignalTypeNovelDevice V2IamActivityLogDetailsUserAccessRiskSignalType = "novel_device"
+)
+
+// Surface where the user access action started.
+type V2IamActivityLogDetailsUserAccessSurface string
+
+// List of values that V2IamActivityLogDetailsUserAccessSurface can take
+const (
+	V2IamActivityLogDetailsUserAccessSurfaceDashboard V2IamActivityLogDetailsUserAccessSurface = "dashboard"
+	V2IamActivityLogDetailsUserAccessSurfaceExpress   V2IamActivityLogDetailsUserAccessSurface = "express"
 )
 
 // Source of the role change.
@@ -63,6 +125,7 @@ const (
 	V2IamActivityLogTypeAPIKeyDeleted      V2IamActivityLogType = "api_key_deleted"
 	V2IamActivityLogTypeAPIKeyUpdated      V2IamActivityLogType = "api_key_updated"
 	V2IamActivityLogTypeAPIKeyViewed       V2IamActivityLogType = "api_key_viewed"
+	V2IamActivityLogTypeUserAccessStarted  V2IamActivityLogType = "user_access_started"
 	V2IamActivityLogTypeUserInviteAccepted V2IamActivityLogType = "user_invite_accepted"
 	V2IamActivityLogTypeUserInviteCreated  V2IamActivityLogType = "user_invite_created"
 	V2IamActivityLogTypeUserInviteDeleted  V2IamActivityLogType = "user_invite_deleted"
@@ -128,6 +191,93 @@ type V2IamActivityLogDetailsAPIKey struct {
 	Type V2IamActivityLogDetailsAPIKeyType `json:"type"`
 }
 
+// Primary authentication factor.
+type V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactor struct {
+	// SSO provider for the authentication factor.
+	SsoProvider string `json:"sso_provider,omitempty"`
+	// Type of authentication factor.
+	Type V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactorType `json:"type"`
+}
+
+// Secondary authentication factors.
+type V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactor struct {
+	// SSO provider for the authentication factor.
+	SsoProvider string `json:"sso_provider,omitempty"`
+	// Type of authentication factor.
+	Type V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactorType `json:"type"`
+}
+
+// Authentication details for the user access action.
+type V2IamActivityLogDetailsUserAccessAuthentication struct {
+	// Primary authentication factor.
+	PrimaryFactor *V2IamActivityLogDetailsUserAccessAuthenticationPrimaryFactor `json:"primary_factor"`
+	// Secondary authentication factors.
+	SecondaryFactors []*V2IamActivityLogDetailsUserAccessAuthenticationSecondaryFactor `json:"secondary_factors"`
+}
+
+// Dashboard client details for the user access action.
+type V2IamActivityLogDetailsUserAccessDashboardClient struct {
+	// Browser used for the user access action.
+	Browser string `json:"browser"`
+	// Browser version used for the user access action.
+	BrowserVersion string `json:"browser_version"`
+	// Device type used for the user access action.
+	DeviceType string `json:"device_type"`
+	// Operating system used for the user access action.
+	Os string `json:"os"`
+}
+
+// Network details for the user access action.
+type V2IamActivityLogDetailsUserAccessNetwork struct {
+	// City for the user access action.
+	City string `json:"city"`
+	// Country for the user access action.
+	Country string `json:"country"`
+	// IP address for the user access action.
+	IPAddress string `json:"ip_address"`
+	// Region for the user access action.
+	Region string `json:"region"`
+}
+
+// The user access action used a novel device.
+type V2IamActivityLogDetailsUserAccessRiskSignalNovelDevice struct{}
+
+// Risk signals for the user access action.
+type V2IamActivityLogDetailsUserAccessRiskSignal struct {
+	// The user access action used a novel device.
+	NovelDevice *V2IamActivityLogDetailsUserAccessRiskSignalNovelDevice `json:"novel_device,omitempty"`
+	// Type of risk signal.
+	Type V2IamActivityLogDetailsUserAccessRiskSignalType `json:"type"`
+}
+
+// Risk details for the user access action.
+type V2IamActivityLogDetailsUserAccessRisk struct {
+	// Risk level for the user access action.
+	Level V2IamActivityLogDetailsUserAccessRiskLevel `json:"level"`
+	// Risk signals for the user access action.
+	Signals []*V2IamActivityLogDetailsUserAccessRiskSignal `json:"signals"`
+}
+
+// Details of a user access action.
+type V2IamActivityLogDetailsUserAccess struct {
+	// Authentication details for the user access action.
+	Authentication *V2IamActivityLogDetailsUserAccessAuthentication `json:"authentication"`
+	// Dashboard client details for the user access action.
+	DashboardClient *V2IamActivityLogDetailsUserAccessDashboardClient `json:"dashboard_client,omitempty"`
+	// Timestamp when the user access expires.
+	ExpiresAt time.Time `json:"expires_at"`
+	// Network details for the user access action.
+	Network *V2IamActivityLogDetailsUserAccessNetwork `json:"network"`
+	// Risk details for the user access action.
+	Risk *V2IamActivityLogDetailsUserAccessRisk `json:"risk"`
+	// Roles associated with the user access action.
+	Roles []string `json:"roles"`
+	// Session fingerprint for the user access action.
+	SessionFingerprint string `json:"session_fingerprint"`
+	// Surface where the user access action started.
+	Surface V2IamActivityLogDetailsUserAccessSurface `json:"surface"`
+}
+
 // Details of a user invite action.
 type V2IamActivityLogDetailsUserInvite struct {
 	// Email address of the invited user.
@@ -154,6 +304,8 @@ type V2IamActivityLogDetails struct {
 	APIKey *V2IamActivityLogDetailsAPIKey `json:"api_key,omitempty"`
 	// The action group type of the activity log entry.
 	Type V2IamActivityLogDetailsType `json:"type"`
+	// Details of a user access action.
+	UserAccess *V2IamActivityLogDetailsUserAccess `json:"user_access,omitempty"`
 	// Details of a user invite action.
 	UserInvite *V2IamActivityLogDetailsUserInvite `json:"user_invite,omitempty"`
 	// Details of a user role change action.

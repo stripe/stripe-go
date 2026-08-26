@@ -1201,6 +1201,52 @@ const (
 )
 
 // The current status of the protection.
+type V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationStatus string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationStatus can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationStatusActive    V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationStatus = "active"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationStatusDisrupted V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationStatus = "disrupted"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationStatusExpired   V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationStatus = "expired"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationStatusInactive  V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationStatus = "inactive"
+)
+
+// The status of the Capability.
+type V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatus string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatus can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusActive      V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatus = "active"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusPending     V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatus = "pending"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusRestricted  V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatus = "restricted"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusUnsupported V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCode = "unsupported_entity_type"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailResolutionContactStripe V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailResolution = "provide_info"
+)
+
+// The current status of the protection.
 type V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsProtectionsPspMigrationStatus string
 
 // List of values that V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsProtectionsPspMigrationStatus can take
@@ -7335,6 +7381,40 @@ type V2CoreAccountConfigurationMerchantCapabilitiesBLIKPayments struct {
 }
 
 // Protection details for PSP migration.
+type V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigration struct {
+	// The time until which the protection will expire, as a Unix timestamp.
+	ExpiresAt int64 `json:"expires_at,string,omitempty"`
+	// The time at which the protection was requested, as a Unix timestamp.
+	RequestedAt int64 `json:"requested_at,string"`
+	// The current status of the protection.
+	Status V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationStatus `json:"status"`
+}
+
+// Protections applied to this capability, keyed by protection type (e.g. "psp_migration").
+type V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtections struct {
+	// Protection details for PSP migration.
+	PspMigration *V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigration `json:"psp_migration"`
+}
+
+// Additional details about the capability's status. This value is empty when `status` is `active`.
+type V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetailResolution `json:"resolution"`
+}
+
+// Allow the merchant to process recurring BLIK payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPayments struct {
+	// Protections applied to this capability, keyed by protection type (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtections `json:"protections"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatus `json:"status"`
+	// Additional details about the capability's status. This value is empty when `status` is `active`.
+	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsStatusDetail `json:"status_details"`
+}
+
+// Protection details for PSP migration.
 type V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsProtectionsPspMigration struct {
 	// The time until which the protection will expire, as a Unix timestamp.
 	ExpiresAt int64 `json:"expires_at,string,omitempty"`
@@ -8586,6 +8666,8 @@ type V2CoreAccountConfigurationMerchantCapabilities struct {
 	BancontactPayments *V2CoreAccountConfigurationMerchantCapabilitiesBancontactPayments `json:"bancontact_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountConfigurationMerchantCapabilitiesBLIKPayments `json:"blik_payments,omitempty"`
+	// Allow the merchant to process recurring BLIK payments.
+	BLIKRecurringPayments *V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPayments `json:"blik_recurring_payments,omitempty"`
 	// Allow the merchant to process Boleto payments.
 	BoletoPayments *V2CoreAccountConfigurationMerchantCapabilitiesBoletoPayments `json:"boleto_payments,omitempty"`
 	// Allow the merchant to collect card payments.

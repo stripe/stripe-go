@@ -722,6 +722,26 @@ type V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsParams struct {
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process recurring BLIK payments.
+type V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -1443,6 +1463,8 @@ type V2CoreAccountConfigurationMerchantCapabilitiesParams struct {
 	BancontactPayments *V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsParams `form:"bancontact_payments" json:"bancontact_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
+	// Allow the merchant to process recurring BLIK payments.
+	BLIKRecurringPayments *V2CoreAccountConfigurationMerchantCapabilitiesBLIKRecurringPaymentsParams `form:"blik_recurring_payments" json:"blik_recurring_payments,omitempty"`
 	// Allow the merchant to process Boleto payments.
 	BoletoPayments *V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsParams `form:"boleto_payments" json:"boleto_payments,omitempty"`
 	// Allow the merchant to collect card payments.
@@ -4862,6 +4884,26 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKPaymentsParams stru
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process recurring BLIK payments.
+type V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountCreateConfigurationMerchantCapabilitiesBoletoPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -5583,6 +5625,8 @@ type V2CoreAccountCreateConfigurationMerchantCapabilitiesParams struct {
 	BancontactPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBancontactPaymentsParams `form:"bancontact_payments" json:"bancontact_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
+	// Allow the merchant to process recurring BLIK payments.
+	BLIKRecurringPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsParams `form:"blik_recurring_payments" json:"blik_recurring_payments,omitempty"`
 	// Allow the merchant to process Boleto payments.
 	BoletoPayments *V2CoreAccountCreateConfigurationMerchantCapabilitiesBoletoPaymentsParams `form:"boleto_payments" json:"boleto_payments,omitempty"`
 	// Allow the merchant to collect card payments.
@@ -8990,6 +9034,26 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKPaymentsParams stru
 }
 
 // Parameter to request psp_migration protection.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationParams struct {
+	// To request a protection, pass true.
+	Requested *bool `form:"requested" json:"requested"`
+}
+
+// Protection types to request for this capability (e.g. "psp_migration").
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsParams struct {
+	// Parameter to request psp_migration protection.
+	PspMigration *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsPspMigrationParams `form:"psp_migration" json:"psp_migration"`
+}
+
+// Allow the merchant to process recurring BLIK payments.
+type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsParams struct {
+	// Protection types to request for this capability (e.g. "psp_migration").
+	Protections *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsProtectionsParams `form:"protections" json:"protections,omitempty"`
+	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
+	Requested *bool `form:"requested" json:"requested,omitempty"`
+}
+
+// Parameter to request psp_migration protection.
 type V2CoreAccountUpdateConfigurationMerchantCapabilitiesBoletoPaymentsProtectionsPspMigrationParams struct {
 	// To request a protection, pass true.
 	Requested *bool `form:"requested" json:"requested"`
@@ -9711,6 +9775,8 @@ type V2CoreAccountUpdateConfigurationMerchantCapabilitiesParams struct {
 	BancontactPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBancontactPaymentsParams `form:"bancontact_payments" json:"bancontact_payments,omitempty"`
 	// Allow the merchant to process BLIK payments.
 	BLIKPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKPaymentsParams `form:"blik_payments" json:"blik_payments,omitempty"`
+	// Allow the merchant to process recurring BLIK payments.
+	BLIKRecurringPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBLIKRecurringPaymentsParams `form:"blik_recurring_payments" json:"blik_recurring_payments,omitempty"`
 	// Allow the merchant to process Boleto payments.
 	BoletoPayments *V2CoreAccountUpdateConfigurationMerchantCapabilitiesBoletoPaymentsParams `form:"boleto_payments" json:"boleto_payments,omitempty"`
 	// Allow the merchant to collect card payments.

@@ -63,6 +63,7 @@ import (
 	"github.com/stripe/stripe-go/v86/customerbalancetransaction"
 	"github.com/stripe/stripe-go/v86/customercashbalancetransaction"
 	"github.com/stripe/stripe-go/v86/customersession"
+	"github.com/stripe/stripe-go/v86/customertaxexemption"
 	delegatedcheckoutorder "github.com/stripe/stripe-go/v86/delegatedcheckout/order"
 	delegatedcheckoutrequestedsession "github.com/stripe/stripe-go/v86/delegatedcheckout/requestedsession"
 	"github.com/stripe/stripe-go/v86/dispute"
@@ -409,6 +410,8 @@ type API struct {
 	Customers *customer.Client
 	// CustomerSessions is the client used to invoke /v1/customer_sessions APIs.
 	CustomerSessions *customersession.Client
+	// CustomerTaxExemptions is the client used to invoke /v1/customers/{customer}/tax_exemptions APIs.
+	CustomerTaxExemptions *customertaxexemption.Client
 	// DelegatedCheckoutOrders is the client used to invoke /v1/delegated_checkout/orders APIs.
 	DelegatedCheckoutOrders *delegatedcheckoutorder.Client
 	// DelegatedCheckoutRequestedSessions is the client used to invoke /v1/delegated_checkout/requested_sessions APIs.
@@ -951,6 +954,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.CustomerCashBalanceTransactions = &customercashbalancetransaction.Client{B: backends.API, Key: key}
 	a.Customers = &customer.Client{B: backends.API, Key: key}
 	a.CustomerSessions = &customersession.Client{B: backends.API, Key: key}
+	a.CustomerTaxExemptions = &customertaxexemption.Client{B: backends.API, Key: key}
 	a.DelegatedCheckoutOrders = &delegatedcheckoutorder.Client{B: backends.API, Key: key}
 	a.DelegatedCheckoutRequestedSessions = &delegatedcheckoutrequestedsession.Client{B: backends.API, Key: key}
 	a.Disputes = &dispute.Client{B: backends.API, Key: key}

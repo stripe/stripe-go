@@ -134,7 +134,7 @@ type IssuingCardholderCompanyParams struct {
 	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 }
 
-// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
 	Date *int64 `form:"date" json:"date,omitempty"`
@@ -159,7 +159,7 @@ func (p *IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams) AddUns
 
 // Information related to the card_issuing program for this cardholder.
 type IssuingCardholderIndividualCardIssuingParams struct {
-	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 	UserTermsAcceptance *IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance" json:"user_terms_acceptance,omitempty"`
 }
 
@@ -288,7 +288,7 @@ type IssuingCardholderCreateCompanyParams struct {
 	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 }
 
-// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
 	Date *int64 `form:"date" json:"date,omitempty"`
@@ -313,7 +313,7 @@ func (p *IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams) 
 
 // Information related to the card_issuing program for this cardholder.
 type IssuingCardholderCreateIndividualCardIssuingParams struct {
-	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 	UserTermsAcceptance *IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance" json:"user_terms_acceptance,omitempty"`
 }
 
@@ -454,7 +454,7 @@ type IssuingCardholderUpdateCompanyParams struct {
 	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 }
 
-// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
 	Date *int64 `form:"date" json:"date,omitempty"`
@@ -479,7 +479,7 @@ func (p *IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams) 
 
 // Information related to the card_issuing program for this cardholder.
 type IssuingCardholderUpdateIndividualCardIssuingParams struct {
-	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 	UserTermsAcceptance *IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance" json:"user_terms_acceptance,omitempty"`
 }
 
@@ -603,7 +603,7 @@ type IssuingCardholderCompany struct {
 	TaxIDProvided bool `json:"tax_id_provided"`
 }
 
-// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderIndividualCardIssuingUserTermsAcceptance struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
 	Date int64 `json:"date"`
@@ -615,7 +615,7 @@ type IssuingCardholderIndividualCardIssuingUserTermsAcceptance struct {
 
 // Information related to the card_issuing program for this cardholder.
 type IssuingCardholderIndividualCardIssuing struct {
-	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 	UserTermsAcceptance *IssuingCardholderIndividualCardIssuingUserTermsAcceptance `json:"user_terms_acceptance"`
 }
 

@@ -19,21 +19,6 @@ type v1PaymentRecordService struct {
 	Key string
 }
 
-// Report that the most recent payment attempt on the specified Payment Record
-//
-//	was disputed.
-func (c v1PaymentRecordService) Create(ctx context.Context, params *PaymentRecordCreateParams) (*PaymentRecord, error) {
-	if params == nil {
-		params = &PaymentRecordCreateParams{}
-	}
-	params.Context = ctx
-	path := FormatURLPath(
-		"/v1/payment_records/%s/report_dispute", StringValue(params.ID))
-	paymentrecord := &PaymentRecord{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
-	return paymentrecord, err
-}
-
 // Retrieves a Payment Record with the given ID
 func (c v1PaymentRecordService) Retrieve(ctx context.Context, id string, params *PaymentRecordRetrieveParams) (*PaymentRecord, error) {
 	if params == nil {
@@ -43,6 +28,20 @@ func (c v1PaymentRecordService) Retrieve(ctx context.Context, id string, params 
 	path := FormatURLPath("/v1/payment_records/%s", id)
 	paymentrecord := &PaymentRecord{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentrecord)
+	return paymentrecord, err
+}
+
+// Report that the most recent payment attempt on the specified Payment Record
+//
+//	was disputed.
+func (c v1PaymentRecordService) ReportDispute(ctx context.Context, id string, params *PaymentRecordReportDisputeParams) (*PaymentRecord, error) {
+	if params == nil {
+		params = &PaymentRecordReportDisputeParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/payment_records/%s/report_dispute", id)
+	paymentrecord := &PaymentRecord{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
 }
 

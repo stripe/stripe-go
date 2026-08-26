@@ -276,7 +276,6 @@ const (
 	PaymentIntentExcludedPaymentMethodTypeSatispay         PaymentIntentExcludedPaymentMethodType = "satispay"
 	PaymentIntentExcludedPaymentMethodTypeScalapay         PaymentIntentExcludedPaymentMethodType = "scalapay"
 	PaymentIntentExcludedPaymentMethodTypeSEPADebit        PaymentIntentExcludedPaymentMethodType = "sepa_debit"
-	PaymentIntentExcludedPaymentMethodTypeSequra           PaymentIntentExcludedPaymentMethodType = "sequra"
 	PaymentIntentExcludedPaymentMethodTypeShopeepay        PaymentIntentExcludedPaymentMethodType = "shopeepay"
 	PaymentIntentExcludedPaymentMethodTypeSofort           PaymentIntentExcludedPaymentMethodType = "sofort"
 	PaymentIntentExcludedPaymentMethodTypeStripeBalance    PaymentIntentExcludedPaymentMethodType = "stripe_balance"
@@ -870,6 +869,27 @@ type PaymentIntentPaymentMethodOptionsBillieCaptureMethod string
 // List of values that PaymentIntentPaymentMethodOptionsBillieCaptureMethod can take
 const (
 	PaymentIntentPaymentMethodOptionsBillieCaptureMethodManual PaymentIntentPaymentMethodOptionsBillieCaptureMethod = "manual"
+)
+
+// Type of registration the company or entity holds in their registered country.
+type PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType string
+
+// List of values that PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType can take
+const (
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeChEin       PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "ch_ein"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeDEHrb       PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "de_hrb"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeDkCvr       PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "dk_cvr"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeESCIF       PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "es_cif"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFITunnus    PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fi_tunnus"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFRSiren     PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fr_siren"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFRSiret     PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fr_siret"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeITRea       PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "it_rea"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNLKvk       PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "nl_kvk"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNoOrgNumber PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "no_org_number"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNoPno       PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "no_pno"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeSeOrgNumber PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "se_org_number"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeSePno       PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "se_pno"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeUkCrn       PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "uk_crn"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1952,28 +1972,6 @@ const (
 	PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage = "off_session"
 	PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage = "on_session"
-)
-
-// Controls when the funds will be captured from the customer's account.
-type PaymentIntentPaymentMethodOptionsSequraCaptureMethod string
-
-// List of values that PaymentIntentPaymentMethodOptionsSequraCaptureMethod can take
-const (
-	PaymentIntentPaymentMethodOptionsSequraCaptureMethodManual PaymentIntentPaymentMethodOptionsSequraCaptureMethod = "manual"
-)
-
-// Indicates that you intend to make future payments with this PaymentIntent's payment method.
-//
-// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
-//
-// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
-//
-// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-type PaymentIntentPaymentMethodOptionsSequraSetupFutureUsage string
-
-// List of values that PaymentIntentPaymentMethodOptionsSequraSetupFutureUsage can take
-const (
-	PaymentIntentPaymentMethodOptionsSequraSetupFutureUsageNone PaymentIntentPaymentMethodOptionsSequraSetupFutureUsage = "none"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -4147,6 +4145,34 @@ func (p *PaymentIntentPaymentMethodOptionsBancontactParams) AddUnsetField(field 
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Registration details about the buyer's organization.
+type PaymentIntentPaymentMethodOptionsBillieCompanyDetailsParams struct {
+	// The address the company or entity is registered with.
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// The official registration number for the given registration type.
+	RegistrationNumber *string `form:"registration_number" json:"registration_number,omitempty"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType *string `form:"registration_type" json:"registration_type,omitempty"`
+	// VAT id number
+	VAT         *string                                                                 `form:"vat" json:"vat,omitempty"`
+	UnsetFields []PaymentIntentPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsBillieCompanyDetailsParams.
+type PaymentIntentPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField string
+
+const (
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegisteredAddress PaymentIntentPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registered_address"
+	PaymentIntentPaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegistrationType  PaymentIntentPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registration_type"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentPaymentMethodOptionsBillieCompanyDetailsParams) AddUnsetField(field PaymentIntentPaymentMethodOptionsBillieCompanyDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is a `billie` PaymentMethod, this sub-hash contains details about the Billie payment method options.
 type PaymentIntentPaymentMethodOptionsBillieParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -4154,15 +4180,20 @@ type PaymentIntentPaymentMethodOptionsBillieParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                   `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentPaymentMethodOptionsBillieParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Registration details about the buyer's organization.
+	CompanyDetails *PaymentIntentPaymentMethodOptionsBillieCompanyDetailsParams `form:"company_details" json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference   *string                                                   `form:"reference" json:"reference,omitempty"`
+	UnsetFields []PaymentIntentPaymentMethodOptionsBillieParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentPaymentMethodOptionsBillieParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentPaymentMethodOptionsBillieParams.
 type PaymentIntentPaymentMethodOptionsBillieParamsUnsetField string
 
 const (
-	PaymentIntentPaymentMethodOptionsBillieParamsUnsetFieldCaptureMethod PaymentIntentPaymentMethodOptionsBillieParamsUnsetField = "capture_method"
+	PaymentIntentPaymentMethodOptionsBillieParamsUnsetFieldCaptureMethod  PaymentIntentPaymentMethodOptionsBillieParamsUnsetField = "capture_method"
+	PaymentIntentPaymentMethodOptionsBillieParamsUnsetFieldCompanyDetails PaymentIntentPaymentMethodOptionsBillieParamsUnsetField = "company_details"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -4466,6 +4497,20 @@ func (p *PaymentIntentPaymentMethodOptionsCardParams) AddUnsetField(field Paymen
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Greek e-invoicing data required for card-present transactions processed by merchants subject to AADE's myDATA POS compliance mandate (Governor's Decision A.1155/2023).
+type PaymentIntentPaymentMethodOptionsCardPresentAadeDataParams struct {
+	// The canonical string that was signed by the e-invoicing provider to produce `signed_mark`, formatted per Appendix A of A.1155/2023. Required when `mode` is `standard`.
+	MarkData *string `form:"mark_data" json:"mark_data,omitempty"`
+	// The e-invoicing mode under which the mark was generated.
+	Mode *string `form:"mode" json:"mode"`
+	// The AADE-assigned approval number of the e-invoicing provider that generated the mark. Required when `mode` is `standard`.
+	ProviderID *int64 `form:"provider_id" json:"provider_id,omitempty"`
+	// The cryptographic signature returned by the e-invoicing provider for this transaction, hex-encoded. Required when `mode` is `standard`.
+	SignedMark *string `form:"signed_mark" json:"signed_mark,omitempty"`
+	// The reason for entering autonomous mode. Required when `mode` is `autonomous`.
+	UnboundPos *string `form:"unbound_pos" json:"unbound_pos,omitempty"`
+}
+
 // The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
 //
 // You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
@@ -4500,6 +4545,8 @@ type PaymentIntentPaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
+	// Greek e-invoicing data required for card-present transactions processed by merchants subject to AADE's myDATA POS compliance mandate (Governor's Decision A.1155/2023).
+	AadeData *PaymentIntentPaymentMethodOptionsCardPresentAadeDataParams `form:"aade_data" json:"aade_data,omitempty"`
 	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
 	//
 	// If omitted, funds are captured before the authorization expires.
@@ -12271,6 +12318,34 @@ func (p *PaymentIntentCreatePaymentMethodOptionsBancontactParams) AddUnsetField(
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Registration details about the buyer's organization.
+type PaymentIntentCreatePaymentMethodOptionsBillieCompanyDetailsParams struct {
+	// The address the company or entity is registered with.
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// The official registration number for the given registration type.
+	RegistrationNumber *string `form:"registration_number" json:"registration_number,omitempty"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType *string `form:"registration_type" json:"registration_type,omitempty"`
+	// VAT id number
+	VAT         *string                                                                       `form:"vat" json:"vat,omitempty"`
+	UnsetFields []PaymentIntentCreatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentCreatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsBillieCompanyDetailsParams.
+type PaymentIntentCreatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetField string
+
+const (
+	PaymentIntentCreatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegisteredAddress PaymentIntentCreatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registered_address"
+	PaymentIntentCreatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegistrationType  PaymentIntentCreatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registration_type"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentCreatePaymentMethodOptionsBillieCompanyDetailsParams) AddUnsetField(field PaymentIntentCreatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is a `billie` PaymentMethod, this sub-hash contains details about the Billie payment method options.
 type PaymentIntentCreatePaymentMethodOptionsBillieParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -12278,15 +12353,20 @@ type PaymentIntentCreatePaymentMethodOptionsBillieParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                         `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentCreatePaymentMethodOptionsBillieParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Registration details about the buyer's organization.
+	CompanyDetails *PaymentIntentCreatePaymentMethodOptionsBillieCompanyDetailsParams `form:"company_details" json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference   *string                                                         `form:"reference" json:"reference,omitempty"`
+	UnsetFields []PaymentIntentCreatePaymentMethodOptionsBillieParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentCreatePaymentMethodOptionsBillieParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentCreatePaymentMethodOptionsBillieParams.
 type PaymentIntentCreatePaymentMethodOptionsBillieParamsUnsetField string
 
 const (
-	PaymentIntentCreatePaymentMethodOptionsBillieParamsUnsetFieldCaptureMethod PaymentIntentCreatePaymentMethodOptionsBillieParamsUnsetField = "capture_method"
+	PaymentIntentCreatePaymentMethodOptionsBillieParamsUnsetFieldCaptureMethod  PaymentIntentCreatePaymentMethodOptionsBillieParamsUnsetField = "capture_method"
+	PaymentIntentCreatePaymentMethodOptionsBillieParamsUnsetFieldCompanyDetails PaymentIntentCreatePaymentMethodOptionsBillieParamsUnsetField = "company_details"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -12590,6 +12670,20 @@ func (p *PaymentIntentCreatePaymentMethodOptionsCardParams) AddUnsetField(field 
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Greek e-invoicing data required for card-present transactions processed by merchants subject to AADE's myDATA POS compliance mandate (Governor's Decision A.1155/2023).
+type PaymentIntentCreatePaymentMethodOptionsCardPresentAadeDataParams struct {
+	// The canonical string that was signed by the e-invoicing provider to produce `signed_mark`, formatted per Appendix A of A.1155/2023. Required when `mode` is `standard`.
+	MarkData *string `form:"mark_data" json:"mark_data,omitempty"`
+	// The e-invoicing mode under which the mark was generated.
+	Mode *string `form:"mode" json:"mode"`
+	// The AADE-assigned approval number of the e-invoicing provider that generated the mark. Required when `mode` is `standard`.
+	ProviderID *int64 `form:"provider_id" json:"provider_id,omitempty"`
+	// The cryptographic signature returned by the e-invoicing provider for this transaction, hex-encoded. Required when `mode` is `standard`.
+	SignedMark *string `form:"signed_mark" json:"signed_mark,omitempty"`
+	// The reason for entering autonomous mode. Required when `mode` is `autonomous`.
+	UnboundPos *string `form:"unbound_pos" json:"unbound_pos,omitempty"`
+}
+
 // The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
 //
 // You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
@@ -12624,6 +12718,8 @@ type PaymentIntentCreatePaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentCreatePaymentMethodOptionsCardPresentParams struct {
+	// Greek e-invoicing data required for card-present transactions processed by merchants subject to AADE's myDATA POS compliance mandate (Governor's Decision A.1155/2023).
+	AadeData *PaymentIntentCreatePaymentMethodOptionsCardPresentAadeDataParams `form:"aade_data" json:"aade_data,omitempty"`
 	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
 	//
 	// If omitted, funds are captured before the authorization expires.
@@ -16908,6 +17004,34 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsBancontactParams) AddUnsetField(
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Registration details about the buyer's organization.
+type PaymentIntentUpdatePaymentMethodOptionsBillieCompanyDetailsParams struct {
+	// The address the company or entity is registered with.
+	RegisteredAddress *AddressParams `form:"registered_address" json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName *string `form:"registered_name" json:"registered_name,omitempty"`
+	// The official registration number for the given registration type.
+	RegistrationNumber *string `form:"registration_number" json:"registration_number,omitempty"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType *string `form:"registration_type" json:"registration_type,omitempty"`
+	// VAT id number
+	VAT         *string                                                                       `form:"vat" json:"vat,omitempty"`
+	UnsetFields []PaymentIntentUpdatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentIntentUpdatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsBillieCompanyDetailsParams.
+type PaymentIntentUpdatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetField string
+
+const (
+	PaymentIntentUpdatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegisteredAddress PaymentIntentUpdatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registered_address"
+	PaymentIntentUpdatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetFieldRegistrationType  PaymentIntentUpdatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetField = "registration_type"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentIntentUpdatePaymentMethodOptionsBillieCompanyDetailsParams) AddUnsetField(field PaymentIntentUpdatePaymentMethodOptionsBillieCompanyDetailsParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
 // If this is a `billie` PaymentMethod, this sub-hash contains details about the Billie payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsBillieParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -16915,15 +17039,20 @@ type PaymentIntentUpdatePaymentMethodOptionsBillieParams struct {
 	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://docs.stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
-	CaptureMethod *string                                                         `form:"capture_method" json:"capture_method,omitempty"`
-	UnsetFields   []PaymentIntentUpdatePaymentMethodOptionsBillieParamsUnsetField `form:"-" json:"-"`
+	CaptureMethod *string `form:"capture_method" json:"capture_method,omitempty"`
+	// Registration details about the buyer's organization.
+	CompanyDetails *PaymentIntentUpdatePaymentMethodOptionsBillieCompanyDetailsParams `form:"company_details" json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference   *string                                                         `form:"reference" json:"reference,omitempty"`
+	UnsetFields []PaymentIntentUpdatePaymentMethodOptionsBillieParamsUnsetField `form:"-" json:"-"`
 }
 
 // PaymentIntentUpdatePaymentMethodOptionsBillieParamsUnsetField is the list of fields that can be cleared/unset on PaymentIntentUpdatePaymentMethodOptionsBillieParams.
 type PaymentIntentUpdatePaymentMethodOptionsBillieParamsUnsetField string
 
 const (
-	PaymentIntentUpdatePaymentMethodOptionsBillieParamsUnsetFieldCaptureMethod PaymentIntentUpdatePaymentMethodOptionsBillieParamsUnsetField = "capture_method"
+	PaymentIntentUpdatePaymentMethodOptionsBillieParamsUnsetFieldCaptureMethod  PaymentIntentUpdatePaymentMethodOptionsBillieParamsUnsetField = "capture_method"
+	PaymentIntentUpdatePaymentMethodOptionsBillieParamsUnsetFieldCompanyDetails PaymentIntentUpdatePaymentMethodOptionsBillieParamsUnsetField = "company_details"
 )
 
 // AddUnsetField adds a field to the list of fields to clear/unset on this params object.
@@ -17227,6 +17356,20 @@ func (p *PaymentIntentUpdatePaymentMethodOptionsCardParams) AddUnsetField(field 
 	p.UnsetFields = append(p.UnsetFields, field)
 }
 
+// Greek e-invoicing data required for card-present transactions processed by merchants subject to AADE's myDATA POS compliance mandate (Governor's Decision A.1155/2023).
+type PaymentIntentUpdatePaymentMethodOptionsCardPresentAadeDataParams struct {
+	// The canonical string that was signed by the e-invoicing provider to produce `signed_mark`, formatted per Appendix A of A.1155/2023. Required when `mode` is `standard`.
+	MarkData *string `form:"mark_data" json:"mark_data,omitempty"`
+	// The e-invoicing mode under which the mark was generated.
+	Mode *string `form:"mode" json:"mode"`
+	// The AADE-assigned approval number of the e-invoicing provider that generated the mark. Required when `mode` is `standard`.
+	ProviderID *int64 `form:"provider_id" json:"provider_id,omitempty"`
+	// The cryptographic signature returned by the e-invoicing provider for this transaction, hex-encoded. Required when `mode` is `standard`.
+	SignedMark *string `form:"signed_mark" json:"signed_mark,omitempty"`
+	// The reason for entering autonomous mode. Required when `mode` is `autonomous`.
+	UnboundPos *string `form:"unbound_pos" json:"unbound_pos,omitempty"`
+}
+
 // The number of days or hours to delay the capture of the funds. You can set both days and hours as long as the total delay does not exceed 30 days.
 //
 // You can only set this if `capture_method` is `automatic_delayed` and `capture_by` is `target_delay`.
@@ -17261,6 +17404,8 @@ type PaymentIntentUpdatePaymentMethodOptionsCardPresentRoutingParams struct {
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsCardPresentParams struct {
+	// Greek e-invoicing data required for card-present transactions processed by merchants subject to AADE's myDATA POS compliance mandate (Governor's Decision A.1155/2023).
+	AadeData *PaymentIntentUpdatePaymentMethodOptionsCardPresentAadeDataParams `form:"aade_data" json:"aade_data,omitempty"`
 	// Controls when funds are captured from the customer's account when `capture_method` is `automatic_delayed`.
 	//
 	// If omitted, funds are captured before the authorization expires.
@@ -21034,9 +21179,23 @@ type PaymentIntentPaymentMethodOptionsBancontact struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsBancontactSetupFutureUsage `json:"setup_future_usage,omitempty"`
 }
+type PaymentIntentPaymentMethodOptionsBillieCompanyDetails struct {
+	RegisteredAddress *Address `json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName string `json:"registered_name"`
+	// The official registration number for the given registration type.
+	RegistrationNumber string `json:"registration_number"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType PaymentIntentPaymentMethodOptionsBillieCompanyDetailsRegistrationType `json:"registration_type,omitempty"`
+	// VAT id number
+	VAT string `json:"vat"`
+}
 type PaymentIntentPaymentMethodOptionsBillie struct {
 	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod PaymentIntentPaymentMethodOptionsBillieCaptureMethod `json:"capture_method,omitempty"`
+	CaptureMethod  PaymentIntentPaymentMethodOptionsBillieCaptureMethod   `json:"capture_method,omitempty"`
+	CompanyDetails *PaymentIntentPaymentMethodOptionsBillieCompanyDetails `json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference string `json:"reference,omitempty"`
 }
 type PaymentIntentPaymentMethodOptionsBizum struct{}
 type PaymentIntentPaymentMethodOptionsBLIK struct {
@@ -21733,18 +21892,6 @@ type PaymentIntentPaymentMethodOptionsSEPADebit struct {
 	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
 	TargetDate string `json:"target_date,omitempty"`
 }
-type PaymentIntentPaymentMethodOptionsSequra struct {
-	// Controls when the funds will be captured from the customer's account.
-	CaptureMethod PaymentIntentPaymentMethodOptionsSequraCaptureMethod `json:"capture_method,omitempty"`
-	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
-	//
-	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
-	//
-	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
-	//
-	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
-	SetupFutureUsage PaymentIntentPaymentMethodOptionsSequraSetupFutureUsage `json:"setup_future_usage,omitempty"`
-}
 type PaymentIntentPaymentMethodOptionsShopeepay struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -21974,7 +22121,6 @@ type PaymentIntentPaymentMethodOptions struct {
 	Satispay         *PaymentIntentPaymentMethodOptionsSatispay         `json:"satispay,omitempty"`
 	Scalapay         *PaymentIntentPaymentMethodOptionsScalapay         `json:"scalapay,omitempty"`
 	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit,omitempty"`
-	Sequra           *PaymentIntentPaymentMethodOptionsSequra           `json:"sequra,omitempty"`
 	Shopeepay        *PaymentIntentPaymentMethodOptionsShopeepay        `json:"shopeepay,omitempty"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort,omitempty"`
 	StripeBalance    *PaymentIntentPaymentMethodOptionsStripeBalance    `json:"stripe_balance,omitempty"`

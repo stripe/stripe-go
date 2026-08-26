@@ -235,6 +235,8 @@ type TestHelpersIssuingAuthorizationParams struct {
 	MerchantData *TestHelpersIssuingAuthorizationMerchantDataParams `form:"merchant_data" json:"merchant_data,omitempty"`
 	// Details about the authorization, such as identifiers, set by the card network.
 	NetworkData *TestHelpersIssuingAuthorizationNetworkDataParams `form:"network_data" json:"network_data,omitempty"`
+	// The point-of-sale initiation condition for this test authorization.
+	PosCondition *string `form:"pos_condition" json:"pos_condition,omitempty"`
 	// Stripe's assessment of the fraud risk for this authorization.
 	RiskAssessment *TestHelpersIssuingAuthorizationRiskAssessmentParams `form:"risk_assessment" json:"risk_assessment,omitempty"`
 	// Verifications that Stripe performed on information that the cardholder provided to the merchant.
@@ -801,6 +803,8 @@ type TestHelpersIssuingAuthorizationCreateParams struct {
 	MerchantData *TestHelpersIssuingAuthorizationCreateMerchantDataParams `form:"merchant_data" json:"merchant_data,omitempty"`
 	// Details about the authorization, such as identifiers, set by the card network.
 	NetworkData *TestHelpersIssuingAuthorizationCreateNetworkDataParams `form:"network_data" json:"network_data,omitempty"`
+	// The point-of-sale initiation condition for this test authorization.
+	PosCondition *string `form:"pos_condition" json:"pos_condition,omitempty"`
 	// Stripe's assessment of the fraud risk for this authorization.
 	RiskAssessment *TestHelpersIssuingAuthorizationCreateRiskAssessmentParams `form:"risk_assessment" json:"risk_assessment,omitempty"`
 	// Verifications that Stripe performed on information that the cardholder provided to the merchant.

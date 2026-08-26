@@ -188,7 +188,6 @@ const (
 	SetupIntentExcludedPaymentMethodTypeSatispay         SetupIntentExcludedPaymentMethodType = "satispay"
 	SetupIntentExcludedPaymentMethodTypeScalapay         SetupIntentExcludedPaymentMethodType = "scalapay"
 	SetupIntentExcludedPaymentMethodTypeSEPADebit        SetupIntentExcludedPaymentMethodType = "sepa_debit"
-	SetupIntentExcludedPaymentMethodTypeSequra           SetupIntentExcludedPaymentMethodType = "sequra"
 	SetupIntentExcludedPaymentMethodTypeShopeepay        SetupIntentExcludedPaymentMethodType = "shopeepay"
 	SetupIntentExcludedPaymentMethodTypeSofort           SetupIntentExcludedPaymentMethodType = "sofort"
 	SetupIntentExcludedPaymentMethodTypeStripeBalance    SetupIntentExcludedPaymentMethodType = "stripe_balance"

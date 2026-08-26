@@ -283,6 +283,27 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageNL QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "nl"
 )
 
+// Type of registration the company or entity holds in their registered country.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType string
+
+// List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType can take
+const (
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeChEin       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "ch_ein"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeDEHrb       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "de_hrb"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeDkCvr       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "dk_cvr"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeESCIF       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "es_cif"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFITunnus    QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fi_tunnus"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFRSiren     QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fr_siren"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeFRSiret     QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "fr_siret"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeITRea       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "it_rea"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNLKvk       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "nl_kvk"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNoOrgNumber QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "no_org_number"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeNoPno       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "no_pno"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeSeOrgNumber QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "se_org_number"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeSePno       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "se_pno"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationTypeUkCrn       QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType = "uk_crn"
+)
+
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://docs.stripe.com/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://docs.stripe.com/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure string
 
@@ -754,9 +775,24 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage `json:"preferred_language"`
 }
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetails struct {
+	RegisteredAddress *Address `json:"registered_address,omitempty"`
+	// Company or entity name.
+	RegisteredName string `json:"registered_name"`
+	// The official registration number for the given registration type.
+	RegistrationNumber string `json:"registration_number"`
+	// Type of registration the company or entity holds in their registered country.
+	RegistrationType QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetailsRegistrationType `json:"registration_type,omitempty"`
+	// VAT ID number.
+	VAT string `json:"vat"`
+}
 
 // If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
-type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillie struct{}
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillie struct {
+	CompanyDetails *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBillieCompanyDetails `json:"company_details,omitempty"`
+	// An identifier or reference that this payment corresponds to.
+	Reference string `json:"reference,omitempty"`
+}
 
 // If paying by `bizum`, this sub-hash contains details about the Bizum payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsBizum struct{}
