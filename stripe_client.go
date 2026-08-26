@@ -34,6 +34,8 @@ type Client struct {
 	V1BillingCreditBalanceTransactions *v1BillingCreditBalanceTransactionService
 	// V1BillingCreditGrants is the service used to invoke /v1/billing/credit_grants APIs.
 	V1BillingCreditGrants *v1BillingCreditGrantService
+	// V1BillingFeedbackOptions is the service used to invoke /v1/billing/feedback_options APIs.
+	V1BillingFeedbackOptions *v1BillingFeedbackOptionService
 	// V1BillingMeterEventAdjustments is the service used to invoke /v1/billing/meter_event_adjustments APIs.
 	V1BillingMeterEventAdjustments *v1BillingMeterEventAdjustmentService
 	// V1BillingMeterEvents is the service used to invoke /v1/billing/meter_events APIs.
@@ -364,6 +366,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1BillingCreditBalanceSummary = &v1BillingCreditBalanceSummaryService{B: backends.API, Key: key}
 	client.V1BillingCreditBalanceTransactions = &v1BillingCreditBalanceTransactionService{B: backends.API, Key: key}
 	client.V1BillingCreditGrants = &v1BillingCreditGrantService{B: backends.API, Key: key}
+	client.V1BillingFeedbackOptions = &v1BillingFeedbackOptionService{B: backends.API, Key: key}
 	client.V1BillingMeterEventAdjustments = &v1BillingMeterEventAdjustmentService{B: backends.API, Key: key}
 	client.V1BillingMeterEvents = &v1BillingMeterEventService{B: backends.API, Key: key}
 	client.V1BillingMeterEventSummaries = &v1BillingMeterEventSummaryService{B: backends.API, Key: key}

@@ -27,6 +27,7 @@ import (
 	billingcreditbalancesummary "github.com/stripe/stripe-go/v86/billing/creditbalancesummary"
 	billingcreditbalancetransaction "github.com/stripe/stripe-go/v86/billing/creditbalancetransaction"
 	billingcreditgrant "github.com/stripe/stripe-go/v86/billing/creditgrant"
+	billingfeedbackoption "github.com/stripe/stripe-go/v86/billing/feedbackoption"
 	billingmeter "github.com/stripe/stripe-go/v86/billing/meter"
 	billingmeterevent "github.com/stripe/stripe-go/v86/billing/meterevent"
 	billingmetereventadjustment "github.com/stripe/stripe-go/v86/billing/metereventadjustment"
@@ -202,6 +203,8 @@ type API struct {
 	BillingCreditBalanceTransactions *billingcreditbalancetransaction.Client
 	// BillingCreditGrants is the client used to invoke /v1/billing/credit_grants APIs.
 	BillingCreditGrants *billingcreditgrant.Client
+	// BillingFeedbackOptions is the client used to invoke /v1/billing/feedback_options APIs.
+	BillingFeedbackOptions *billingfeedbackoption.Client
 	// BillingMeterEventAdjustments is the client used to invoke /v1/billing/meter_event_adjustments APIs.
 	BillingMeterEventAdjustments *billingmetereventadjustment.Client
 	// BillingMeterEvents is the client used to invoke /v1/billing/meter_events APIs.
@@ -510,6 +513,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BillingCreditBalanceSummary = &billingcreditbalancesummary.Client{B: backends.API, Key: key}
 	a.BillingCreditBalanceTransactions = &billingcreditbalancetransaction.Client{B: backends.API, Key: key}
 	a.BillingCreditGrants = &billingcreditgrant.Client{B: backends.API, Key: key}
+	a.BillingFeedbackOptions = &billingfeedbackoption.Client{B: backends.API, Key: key}
 	a.BillingMeterEventAdjustments = &billingmetereventadjustment.Client{B: backends.API, Key: key}
 	a.BillingMeterEvents = &billingmeterevent.Client{B: backends.API, Key: key}
 	a.BillingMeterEventSummaries = &billingmetereventsummary.Client{B: backends.API, Key: key}

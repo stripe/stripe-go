@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// The cardholder's preferred locales (languages), ordered by preference. Locales can be `da`, `de`, `en`, `es`, `fr`, `it`, `pl`, or `sv`.
+// The cardholder's preferred locales (languages), ordered by preference. Locales can be `de`, `en`, `es`, `fr`, or `it`.
 //
 //	This changes the language of the [3D Secure flow](https://docs.stripe.com/issuing/3d-secure) and one-time password messages sent to the cardholder.
 type IssuingCardholderPreferredLocale string
@@ -119,7 +119,7 @@ type IssuingCardholderCompanyParams struct {
 	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 }
 
-// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
 	Date *int64 `form:"date" json:"date,omitempty"`
@@ -144,7 +144,7 @@ func (p *IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams) AddUns
 
 // Information related to the card_issuing program for this cardholder.
 type IssuingCardholderIndividualCardIssuingParams struct {
-	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 	UserTermsAcceptance *IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance" json:"user_terms_acceptance,omitempty"`
 }
 
@@ -235,7 +235,7 @@ type IssuingCardholderParams struct {
 	Name *string `form:"name" json:"name,omitempty"`
 	// The cardholder's phone number. This will be transformed to [E.164](https://en.wikipedia.org/wiki/E.164) if it is not provided in that format already. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://docs.stripe.com/issuing/3d-secure#when-is-3d-secure-applied) for more details.
 	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
-	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `da`, `de`, `en`, `es`, `fr`, `it`, `pl`, or `sv`.
+	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `de`, `en`, `es`, `fr`, or `it`.
 	//  This changes the language of the [3D Secure flow](https://docs.stripe.com/issuing/3d-secure) and one-time password messages sent to the cardholder.
 	PreferredLocales []*string `form:"preferred_locales" json:"preferred_locales,omitempty"`
 	// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
@@ -272,7 +272,7 @@ type IssuingCardholderCreateCompanyParams struct {
 	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 }
 
-// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
 	Date *int64 `form:"date" json:"date,omitempty"`
@@ -297,7 +297,7 @@ func (p *IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams) 
 
 // Information related to the card_issuing program for this cardholder.
 type IssuingCardholderCreateIndividualCardIssuingParams struct {
-	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 	UserTermsAcceptance *IssuingCardholderCreateIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance" json:"user_terms_acceptance,omitempty"`
 }
 
@@ -388,7 +388,7 @@ type IssuingCardholderCreateParams struct {
 	Name *string `form:"name" json:"name"`
 	// The cardholder's phone number. This will be transformed to [E.164](https://en.wikipedia.org/wiki/E.164) if it is not provided in that format already. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://docs.stripe.com/issuing/3d-secure#when-is-3d-secure-applied) for more details.
 	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
-	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `da`, `de`, `en`, `es`, `fr`, `it`, `pl`, or `sv`.
+	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `de`, `en`, `es`, `fr`, or `it`.
 	//  This changes the language of the [3D Secure flow](https://docs.stripe.com/issuing/3d-secure) and one-time password messages sent to the cardholder.
 	PreferredLocales []*string `form:"preferred_locales" json:"preferred_locales,omitempty"`
 	// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
@@ -437,7 +437,7 @@ type IssuingCardholderUpdateCompanyParams struct {
 	TaxID *string `form:"tax_id" json:"tax_id,omitempty"`
 }
 
-// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
 	Date *int64 `form:"date" json:"date,omitempty"`
@@ -462,7 +462,7 @@ func (p *IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams) 
 
 // Information related to the card_issuing program for this cardholder.
 type IssuingCardholderUpdateIndividualCardIssuingParams struct {
-	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 	UserTermsAcceptance *IssuingCardholderUpdateIndividualCardIssuingUserTermsAcceptanceParams `form:"user_terms_acceptance" json:"user_terms_acceptance,omitempty"`
 }
 
@@ -551,7 +551,7 @@ type IssuingCardholderUpdateParams struct {
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// The cardholder's phone number. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://docs.stripe.com/issuing/3d-secure) for more details.
 	PhoneNumber *string `form:"phone_number" json:"phone_number,omitempty"`
-	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `da`, `de`, `en`, `es`, `fr`, `it`, `pl`, or `sv`.
+	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `de`, `en`, `es`, `fr`, or `it`.
 	//  This changes the language of the [3D Secure flow](https://docs.stripe.com/issuing/3d-secure) and one-time password messages sent to the cardholder.
 	PreferredLocales []*string `form:"preferred_locales" json:"preferred_locales,omitempty"`
 	// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://docs.stripe.com/issuing/controls/spending-controls) for more details.
@@ -584,7 +584,7 @@ type IssuingCardholderCompany struct {
 	TaxIDProvided bool `json:"tax_id_provided"`
 }
 
-// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderIndividualCardIssuingUserTermsAcceptance struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
 	Date int64 `json:"date"`
@@ -596,7 +596,7 @@ type IssuingCardholderIndividualCardIssuingUserTermsAcceptance struct {
 
 // Information related to the card_issuing program for this cardholder.
 type IssuingCardholderIndividualCardIssuing struct {
-	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
+	// Information about cardholder acceptance of Celtic [Authorized User Terms](https://docs.stripe.com/issuing/compliance-us#issuing-terms). Required for cards backed by a Celtic program.
 	UserTermsAcceptance *IssuingCardholderIndividualCardIssuingUserTermsAcceptance `json:"user_terms_acceptance"`
 }
 
@@ -700,7 +700,7 @@ type IssuingCardholder struct {
 	Object string `json:"object"`
 	// The cardholder's phone number. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://docs.stripe.com/issuing/3d-secure#when-is-3d-secure-applied) for more details.
 	PhoneNumber string `json:"phone_number"`
-	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `da`, `de`, `en`, `es`, `fr`, `it`, `pl`, or `sv`.
+	// The cardholder's preferred locales (languages), ordered by preference. Locales can be `de`, `en`, `es`, `fr`, or `it`.
 	//  This changes the language of the [3D Secure flow](https://docs.stripe.com/issuing/3d-secure) and one-time password messages sent to the cardholder.
 	PreferredLocales []IssuingCardholderPreferredLocale `json:"preferred_locales"`
 	Requirements     *IssuingCardholderRequirements     `json:"requirements"`
