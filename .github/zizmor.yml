@@ -5,7 +5,7 @@ rules:
   unpinned-uses:
     config:
       policies:
-        "stripe/*": ref-pin
+        "stripe/openapi/*": ref-pin
 
   # The Test job keeps setup-go's Go build cache; Lint and govulncheck disable
   # it. A poisoned cache has nothing to reach here: a Go release is the git tag,
