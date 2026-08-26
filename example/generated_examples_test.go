@@ -7741,7 +7741,9 @@ func TestSetupIntentsGet2Client(t *testing.T) {
 
 func TestSetupIntentsPost(t *testing.T) {
 	params := &stripe.SetupIntentParams{
-		PaymentMethodTypes: []*string{stripe.String("card")},
+		AllowedPaymentMethodTypes: []*string{
+			stripe.String(stripe.SetupIntentAllowedPaymentMethodTypeCard),
+		},
 	}
 	result, err := setupintent.New(params)
 	assert.NotNil(t, result)
@@ -7751,7 +7753,9 @@ func TestSetupIntentsPost(t *testing.T) {
 func TestSetupIntentsPostService(t *testing.T) {
 	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SetupIntentParams{
-		PaymentMethodTypes: []*string{stripe.String("card")},
+		AllowedPaymentMethodTypes: []*string{
+			stripe.String(stripe.SetupIntentAllowedPaymentMethodTypeCard),
+		},
 	}
 	result, err := sc.SetupIntents.New(params)
 	assert.NotNil(t, result)
@@ -7761,7 +7765,9 @@ func TestSetupIntentsPostService(t *testing.T) {
 func TestSetupIntentsPostClient(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SetupIntentCreateParams{
-		PaymentMethodTypes: []*string{stripe.String("card")},
+		AllowedPaymentMethodTypes: []*string{
+			stripe.String(stripe.SetupIntentAllowedPaymentMethodTypeCard),
+		},
 	}
 	result, err := sc.V1SetupIntents.Create(context.TODO(), params)
 	assert.NotNil(t, result)

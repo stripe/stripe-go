@@ -6,6 +6,16 @@
 
 package stripe
 
+// Array of field names that can't be modified. Attempting to update a frozen field returns an error.
+type InvoiceItemFrozenField string
+
+// List of values that InvoiceItemFrozenField can take
+const (
+	InvoiceItemFrozenFieldDiscounts InvoiceItemFrozenField = "discounts"
+	InvoiceItemFrozenFieldPricing   InvoiceItemFrozenField = "pricing"
+	InvoiceItemFrozenFieldQuantity  InvoiceItemFrozenField = "quantity"
+)
+
 // The type of parent that generated this invoice item
 type InvoiceItemParentType string
 
@@ -487,6 +497,8 @@ type InvoiceItem struct {
 	Discountable bool `json:"discountable"`
 	// The discounts which apply to the invoice item. Item discounts are applied before invoice discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
+	// Array of field names that can't be modified. Attempting to update a frozen field returns an error.
+	FrozenFields []InvoiceItemFrozenField `json:"frozen_fields,omitempty"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The ID of the invoice this invoice item belongs to.

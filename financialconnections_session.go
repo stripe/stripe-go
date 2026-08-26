@@ -244,6 +244,8 @@ type FinancialConnectionsSessionFilters struct {
 	AccountSubcategories []FinancialConnectionsSessionFiltersAccountSubcategory `json:"account_subcategories"`
 	// List of countries from which to filter accounts.
 	Countries []string `json:"countries"`
+	// Country from which to filter accounts.
+	Country string `json:"country"`
 	// Whether the Session should require that linked accounts support payments and retrieve account numbers before completion.
 	RequirePaymentMethodSupport FinancialConnectionsSessionFiltersRequirePaymentMethodSupport `json:"require_payment_method_support,omitempty"`
 }
