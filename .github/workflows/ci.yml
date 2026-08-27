@@ -31,28 +31,21 @@ jobs:
       contents: read
 
     steps:
-      - uses: extractions/setup-just@v2
-      - uses: actions/checkout@v6
+      - uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: "1.26"
-
-      - name: Cache Go tools
-        id: cache-go-tools
-        uses: actions/cache@v5
-        with:
-          path: ~/go/bin
-          key: v1-go-tools-${{ runner.os }}-goimports-v0.39.0
-
-      - name: Install Go tools
-        if: steps.cache-go-tools.outputs.cache-hit != 'true'
-        run: |
-          go install golang.org/x/tools/cmd/goimports@v0.39.0
+          # Measured at no benefit: golangci-lint runs off its own cache, which
+          # golangci-lint-action manages, not the Go build cache.
+          cache: false
 
       - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v9
+        uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
         with:
           version: v2.11.4
 
@@ -66,12 +59,17 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Set up Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: "1.26"
           check-latest: true
+          # Saves ~15s installing govulncheck, on a job that never reaches the
+          # critical path. Not worth keeping a cache in a third job for.
+          cache: false
       - name: Install govulncheck
         run: go install golang.org/x/vuln/cmd/govulncheck@latest
       - name: Run vulnerability scan
@@ -101,10 +99,15 @@ jobs:
             # use any modern-ish version
             go: "1.26"
     steps:
-      - uses: extractions/setup-just@v2
-      - uses: actions/checkout@v6
+      - uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Setup go
-        uses: actions/setup-go@v6
+        # The Go build cache is kept here, unlike the other two jobs: it is
+        # worth ~110s on the windows-latest entry, which otherwise compiles the
+        # module and its tests from scratch.
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: ${{ matrix.go }}
       - uses: stripe/openapi/actions/stripe-mock@master
@@ -120,7 +123,9 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - uses: stripe/openapi/actions/notify-release@master
         if: always()
         with:
