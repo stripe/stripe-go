@@ -305,6 +305,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeAUBECSDebit        SubscriptionPaymentSettingsPaymentMethodType = "au_becs_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeBACSDebit          SubscriptionPaymentSettingsPaymentMethodType = "bacs_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeBancontact         SubscriptionPaymentSettingsPaymentMethodType = "bancontact"
+	SubscriptionPaymentSettingsPaymentMethodTypeBillie             SubscriptionPaymentSettingsPaymentMethodType = "billie"
 	SubscriptionPaymentSettingsPaymentMethodTypeBoleto             SubscriptionPaymentSettingsPaymentMethodType = "boleto"
 	SubscriptionPaymentSettingsPaymentMethodTypeCard               SubscriptionPaymentSettingsPaymentMethodType = "card"
 	SubscriptionPaymentSettingsPaymentMethodTypeCashApp            SubscriptionPaymentSettingsPaymentMethodType = "cashapp"
@@ -406,8 +407,10 @@ type SubscriptionCancelCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
 	Comment *string `form:"comment" json:"comment,omitempty"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
-	Feedback    *string                                                 `form:"feedback" json:"feedback,omitempty"`
-	UnsetFields []SubscriptionCancelCancellationDetailsParamsUnsetField `form:"-" json:"-"`
+	Feedback *string `form:"feedback" json:"feedback,omitempty"`
+	// Customized feedback options that provide deeper insight into why the subscription was canceled, if the subscription was canceled explicitly by the user.
+	FeedbackOption *string                                                 `form:"feedback_option" json:"feedback_option,omitempty"`
+	UnsetFields    []SubscriptionCancelCancellationDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SubscriptionCancelCancellationDetailsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCancelCancellationDetailsParams.
@@ -464,7 +467,7 @@ type SubscriptionParams struct {
 	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *SubscriptionBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
-	// Sets the billing schedules for the subscription.
+	// An array of billing schedules, which allow you to bill customers in advance for multiple service periods. Requires flexible billing mode and API version 2026-05-27.dahlia or later. Learn more about [prebilling](https://docs.stripe.com/billing/subscriptions/prebilling).
 	BillingSchedules []*SubscriptionBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
@@ -703,7 +706,7 @@ type SubscriptionBillingScheduleBillUntilDurationParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// The end date for the billing schedule.
+// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 type SubscriptionBillingScheduleBillUntilParams struct {
 	// Specifies the billing period.
 	Duration *SubscriptionBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
@@ -713,11 +716,11 @@ type SubscriptionBillingScheduleBillUntilParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Sets the billing schedules for the subscription.
+// An array of billing schedules, which allow you to bill customers in advance for multiple service periods. Requires flexible billing mode and API version 2026-05-27.dahlia or later. Learn more about [prebilling](https://docs.stripe.com/billing/subscriptions/prebilling).
 type SubscriptionBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
 	AppliesTo []*SubscriptionBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
-	// The end date for the billing schedule.
+	// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 	BillUntil *SubscriptionBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
 	Key *string `form:"key" json:"key,omitempty"`
@@ -736,8 +739,10 @@ type SubscriptionCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
 	Comment *string `form:"comment" json:"comment,omitempty"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
-	Feedback    *string                                           `form:"feedback" json:"feedback,omitempty"`
-	UnsetFields []SubscriptionCancellationDetailsParamsUnsetField `form:"-" json:"-"`
+	Feedback *string `form:"feedback" json:"feedback,omitempty"`
+	// Customized feedback options that provide deeper insight into why the subscription was canceled, if the subscription was canceled explicitly by the user.
+	FeedbackOption *string                                           `form:"feedback_option" json:"feedback_option,omitempty"`
+	UnsetFields    []SubscriptionCancellationDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SubscriptionCancellationDetailsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionCancellationDetailsParams.
@@ -889,6 +894,9 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// This sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBillieParams struct{}
+
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
@@ -1019,6 +1027,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// This sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+	Billie *SubscriptionPaymentSettingsPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -1044,6 +1054,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField string
 const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         SubscriptionPaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
@@ -1372,7 +1383,7 @@ type SubscriptionUpdateBillingScheduleBillUntilDurationParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// The end date for the billing schedule.
+// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 type SubscriptionUpdateBillingScheduleBillUntilParams struct {
 	// Specifies the billing period.
 	Duration *SubscriptionUpdateBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
@@ -1382,11 +1393,11 @@ type SubscriptionUpdateBillingScheduleBillUntilParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Sets the billing schedules for the subscription.
+// An array of billing schedules, which allow you to bill customers in advance for multiple service periods. Requires flexible billing mode and API version 2026-05-27.dahlia or later. Learn more about [prebilling](https://docs.stripe.com/billing/subscriptions/prebilling).
 type SubscriptionUpdateBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
 	AppliesTo []*SubscriptionUpdateBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
-	// The end date for the billing schedule.
+	// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 	BillUntil *SubscriptionUpdateBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
 	Key *string `form:"key" json:"key,omitempty"`
@@ -1405,8 +1416,10 @@ type SubscriptionUpdateCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
 	Comment *string `form:"comment" json:"comment,omitempty"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
-	Feedback    *string                                                 `form:"feedback" json:"feedback,omitempty"`
-	UnsetFields []SubscriptionUpdateCancellationDetailsParamsUnsetField `form:"-" json:"-"`
+	Feedback *string `form:"feedback" json:"feedback,omitempty"`
+	// Customized feedback options that provide deeper insight into why the subscription was canceled, if the subscription was canceled explicitly by the user.
+	FeedbackOption *string                                                 `form:"feedback_option" json:"feedback_option,omitempty"`
+	UnsetFields    []SubscriptionUpdateCancellationDetailsParamsUnsetField `form:"-" json:"-"`
 }
 
 // SubscriptionUpdateCancellationDetailsParamsUnsetField is the list of fields that can be cleared/unset on SubscriptionUpdateCancellationDetailsParams.
@@ -1597,6 +1610,9 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struc
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// This sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieParams struct{}
+
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
@@ -1727,6 +1743,8 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// This sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+	Billie *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -1752,6 +1770,7 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField strin
 const (
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
@@ -1822,7 +1841,7 @@ type SubscriptionUpdateTrialSettingsParams struct {
 // When changing prices or quantities, we optionally prorate the price we charge next month to make up for any price changes.
 // To preview how the proration is calculated, use the [create preview](https://docs.stripe.com/docs/api/invoices/create_preview) endpoint.
 //
-// By default, we prorate subscription changes. For example, if a customer signs up on May 1 for a 100 price, they'll be billed 100 immediately. If on May 15 they switch to a 200 price, then on June 1 they'll be billed 250 (200 for a renewal of her subscription, plus a 50 prorating adjustment for half of the previous month's 100 difference). Similarly, a downgrade generates a credit that is applied to the next invoice. We also prorate when you make quantity changes.
+// By default, we prorate subscription changes. For example, if a customer signs up on May 1 for a 100 price, they'll be billed 100 immediately. If on May 15 they switch to a 200 price, then on June 1 they'll be billed 250 (200 for a renewal of her subscription, plus a 50 prorating adjustment for half of the previous month's 100 difference). Similarly, a downgrade generates a credit that is applied to the next invoice. We also prorate when you make quantity changes. You can also [use scripts to prorate your billing. To learn more, see <a href="/billing/subscriptions/prorations">Prorations](https://docs.stripe.com/billing/scripts/stripe-authored/proration).
 //
 // Switching prices does not normally change the billing date or generate an immediate charge unless:
 //
@@ -1849,7 +1868,7 @@ type SubscriptionUpdateParams struct {
 	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor" json:"billing_cycle_anchor,omitempty"`
 	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
-	// Sets the billing schedules for the subscription.
+	// An array of billing schedules, which allow you to bill customers in advance for multiple service periods. Requires flexible billing mode and API version 2026-05-27.dahlia or later. Learn more about [prebilling](https://docs.stripe.com/billing/subscriptions/prebilling).
 	BillingSchedules []*SubscriptionUpdateBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionUpdateBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
@@ -2108,7 +2127,7 @@ type SubscriptionCreateBillingScheduleBillUntilDurationParams struct {
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// The end date for the billing schedule.
+// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 type SubscriptionCreateBillingScheduleBillUntilParams struct {
 	// Specifies the billing period.
 	Duration *SubscriptionCreateBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
@@ -2118,11 +2137,11 @@ type SubscriptionCreateBillingScheduleBillUntilParams struct {
 	Type *string `form:"type" json:"type"`
 }
 
-// Sets the billing schedules for the subscription.
+// An array of billing schedules, which allow you to bill customers in advance for multiple service periods. Requires flexible billing mode and API version 2026-05-27.dahlia or later. Learn more about [prebilling](https://docs.stripe.com/billing/subscriptions/prebilling).
 type SubscriptionCreateBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
 	AppliesTo []*SubscriptionCreateBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
-	// The end date for the billing schedule.
+	// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 	BillUntil *SubscriptionCreateBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
 	Key *string `form:"key" json:"key,omitempty"`
@@ -2294,6 +2313,9 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams struc
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// This sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieParams struct{}
+
 // Configuration options for setting up an eMandate for cards issued in India.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
@@ -2424,6 +2446,8 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *SubscriptionCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// This sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+	Billie *SubscriptionCreatePaymentSettingsPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -2449,6 +2473,7 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField strin
 const (
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         SubscriptionCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
@@ -2540,7 +2565,7 @@ type SubscriptionCreateParams struct {
 	BillingCycleAnchorUnchanged *bool                                             `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *SubscriptionCreateBillingModeParams `form:"billing_mode" json:"billing_mode,omitempty"`
-	// Sets the billing schedules for the subscription.
+	// An array of billing schedules, which allow you to bill customers in advance for multiple service periods. Requires flexible billing mode and API version 2026-05-27.dahlia or later. Learn more about [prebilling](https://docs.stripe.com/billing/subscriptions/prebilling).
 	BillingSchedules []*SubscriptionCreateBillingScheduleParams `form:"billing_schedules" json:"billing_schedules,omitempty"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionCreateBillingThresholdsParams `form:"billing_thresholds" json:"billing_thresholds,omitempty"`
@@ -2757,6 +2782,8 @@ type SubscriptionCancellationDetails struct {
 	Comment string `json:"comment"`
 	// The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
 	Feedback SubscriptionCancellationDetailsFeedback `json:"feedback"`
+	// Customized feedback options that provide deeper insight into why the subscription was canceled, if the subscription was canceled explicitly by the user.
+	FeedbackOption *BillingFeedbackOption `json:"feedback_option"`
 	// Why this subscription was canceled.
 	Reason SubscriptionCancellationDetailsReason `json:"reason"`
 }
@@ -2816,6 +2843,9 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage string `json:"preferred_language"`
 }
+
+// This sub-hash contains details about the Billie payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBillie struct{}
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptions struct {
 	// Amount to be charged for future payments, specified in the presentment currency.
 	Amount int64 `json:"amount"`
@@ -2925,6 +2955,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	ACSSDebit *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	// This sub-hash contains details about the Bancontact payment method options to pass to invoices created by the subscription.
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
+	// This sub-hash contains details about the Billie payment method options to pass to invoices created by the subscription.
+	Billie *SubscriptionPaymentSettingsPaymentMethodOptionsBillie `json:"billie,omitempty"`
 	// This sub-hash contains details about the Card payment method options to pass to invoices created by the subscription.
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCard `json:"card"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to invoices created by the subscription.

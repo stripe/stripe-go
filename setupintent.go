@@ -100,6 +100,7 @@ const (
 	SetupIntentAllowedPaymentMethodTypeSwish                SetupIntentAllowedPaymentMethodType = "swish"
 	SetupIntentAllowedPaymentMethodTypeTamara               SetupIntentAllowedPaymentMethodType = "tamara"
 	SetupIntentAllowedPaymentMethodTypeTestPay              SetupIntentAllowedPaymentMethodType = "test_pay"
+	SetupIntentAllowedPaymentMethodTypeTouchNGo             SetupIntentAllowedPaymentMethodType = "touch_n_go"
 	SetupIntentAllowedPaymentMethodTypeTruemoney            SetupIntentAllowedPaymentMethodType = "truemoney"
 	SetupIntentAllowedPaymentMethodTypeTWINT                SetupIntentAllowedPaymentMethodType = "twint"
 	SetupIntentAllowedPaymentMethodTypeUpi                  SetupIntentAllowedPaymentMethodType = "upi"
@@ -4355,7 +4356,7 @@ type SetupIntentPaymentMethodOptions struct {
 type SetupIntent struct {
 	APIResource
 	// The list of payment method types to allow for this SetupIntent. Stripe will only use methods in this list when determining the payment methods to offer.
-	AllowedPaymentMethodTypes []SetupIntentAllowedPaymentMethodType `json:"allowed_payment_method_types,omitempty"`
+	AllowedPaymentMethodTypes []SetupIntentAllowedPaymentMethodType `json:"allowed_payment_method_types"`
 	// ID of the Connect application that created the SetupIntent.
 	Application *Application `json:"application"`
 	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.
