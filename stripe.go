@@ -648,6 +648,28 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 	return nil
 }
 
+// validatePath ensures a request path is origin-relative: that it
+// begins with a single "/".
+//
+// The absolute URL is built by concatenating a base URL onto this path, and no
+// base URL ends in a slash (normalizeURL actively strips a trailing one). A path
+// like "@evil.example/v1/x" or ".evil.example/v1/x" would therefore land inside
+// the authority component and send the request -- Authorization header included
+// -- to a host of the path's choosing. Some request paths originate in remote
+// data (a webhook body's related_object.url, a response's next_page_url), so the
+// path cannot be assumed to be well-formed.
+//
+// A single leading slash is sufficient: it terminates the authority component,
+// after which nothing in the path can extend it. This check replaces an earlier
+// silent "prepend a slash if missing" normalization, which had the same
+// protective effect but did not say so and could be removed as dead tidying.
+func validatePath(path string) error {
+	if !strings.HasPrefix(path, "/") || strings.HasPrefix(path, "//") {
+		return fmt.Errorf("path must begin with a single \"/\", got %q", path)
+	}
+	return nil
+}
+
 // extractVersion ensures the path starts with /v1, /v2, or contains /oauth
 // and returns the corresponding APIMode.
 func extractVersion(path string) (APIMode, error) {
@@ -752,8 +774,13 @@ func (s *BackendImplementation) CallRaw(method, path, key string, body []byte, p
 // NewRequest is used by Call to generate an http.Request. It handles encoding
 // parameters and attaching the appropriate headers.
 func (s *BackendImplementation) NewRequest(method, path, key, contentType string, params *Params) (*http.Request, error) {
-	if !strings.HasPrefix(path, "/") {
-		path = "/" + path
+	if err := validatePath(path); err != nil {
+		ctx := context.Background()
+		if params != nil && params.Context != nil {
+			ctx = params.Context
+		}
+		s.logErrorf(ctx, "Cannot create Stripe request: %v", err)
+		return nil, err
 	}
 
 	// Body is set later by `Do`.
