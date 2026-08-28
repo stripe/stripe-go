@@ -257,6 +257,20 @@ type AccountSessionComponentsPaymentDisputesParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsPaymentMethodSettingsFeaturesParams struct {
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. This is `false` by default.
+	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication" json:"disable_stripe_user_authentication,omitempty"`
+}
+
+// Configuration for the [payment method settings](https://docs.stripe.com/connect/supported-embedded-components/payment-method-settings/) embedded component.
+type AccountSessionComponentsPaymentMethodSettingsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsPaymentMethodSettingsFeaturesParams `form:"features" json:"features,omitempty"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsPaymentsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments" json:"capture_payments,omitempty"`
@@ -385,6 +399,8 @@ type AccountSessionComponentsParams struct {
 	PaymentDetails *AccountSessionComponentsPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Configuration for the [payment disputes](https://docs.stripe.com/connect/supported-embedded-components/payment-disputes/) embedded component.
 	PaymentDisputes *AccountSessionComponentsPaymentDisputesParams `form:"payment_disputes" json:"payment_disputes,omitempty"`
+	// Configuration for the [payment method settings](https://docs.stripe.com/connect/supported-embedded-components/payment-method-settings/) embedded component.
+	PaymentMethodSettings *AccountSessionComponentsPaymentMethodSettingsParams `form:"payment_method_settings" json:"payment_method_settings,omitempty"`
 	// Configuration for the [payments](https://docs.stripe.com/connect/supported-embedded-components/payments/) embedded component.
 	Payments *AccountSessionComponentsPaymentsParams `form:"payments" json:"payments,omitempty"`
 	// Configuration for the [payout details](https://docs.stripe.com/connect/supported-embedded-components/payout-details/) embedded component.
@@ -668,6 +684,20 @@ type AccountSessionCreateComponentsPaymentDisputesParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsPaymentMethodSettingsFeaturesParams struct {
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. This is `false` by default.
+	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication" json:"disable_stripe_user_authentication,omitempty"`
+}
+
+// Configuration for the [payment method settings](https://docs.stripe.com/connect/supported-embedded-components/payment-method-settings/) embedded component.
+type AccountSessionCreateComponentsPaymentMethodSettingsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled" json:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsPaymentMethodSettingsFeaturesParams `form:"features" json:"features,omitempty"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsPaymentsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments" json:"capture_payments,omitempty"`
@@ -796,6 +826,8 @@ type AccountSessionCreateComponentsParams struct {
 	PaymentDetails *AccountSessionCreateComponentsPaymentDetailsParams `form:"payment_details" json:"payment_details,omitempty"`
 	// Configuration for the [payment disputes](https://docs.stripe.com/connect/supported-embedded-components/payment-disputes/) embedded component.
 	PaymentDisputes *AccountSessionCreateComponentsPaymentDisputesParams `form:"payment_disputes" json:"payment_disputes,omitempty"`
+	// Configuration for the [payment method settings](https://docs.stripe.com/connect/supported-embedded-components/payment-method-settings/) embedded component.
+	PaymentMethodSettings *AccountSessionCreateComponentsPaymentMethodSettingsParams `form:"payment_method_settings" json:"payment_method_settings,omitempty"`
 	// Configuration for the [payments](https://docs.stripe.com/connect/supported-embedded-components/payments/) embedded component.
 	Payments *AccountSessionCreateComponentsPaymentsParams `form:"payments" json:"payments,omitempty"`
 	// Configuration for the [payout details](https://docs.stripe.com/connect/supported-embedded-components/payout-details/) embedded component.
@@ -1008,6 +1040,15 @@ type AccountSessionComponentsPaymentDisputes struct {
 	Enabled  bool                                             `json:"enabled"`
 	Features *AccountSessionComponentsPaymentDisputesFeatures `json:"features"`
 }
+type AccountSessionComponentsPaymentMethodSettingsFeatures struct {
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. This is `false` by default.
+	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
+}
+type AccountSessionComponentsPaymentMethodSettings struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                   `json:"enabled"`
+	Features *AccountSessionComponentsPaymentMethodSettingsFeatures `json:"features"`
+}
 type AccountSessionComponentsPaymentsFeatures struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments bool `json:"capture_payments"`
@@ -1087,6 +1128,7 @@ type AccountSessionComponents struct {
 	NotificationBanner           *AccountSessionComponentsNotificationBanner           `json:"notification_banner"`
 	PaymentDetails               *AccountSessionComponentsPaymentDetails               `json:"payment_details"`
 	PaymentDisputes              *AccountSessionComponentsPaymentDisputes              `json:"payment_disputes"`
+	PaymentMethodSettings        *AccountSessionComponentsPaymentMethodSettings        `json:"payment_method_settings"`
 	Payments                     *AccountSessionComponentsPayments                     `json:"payments"`
 	PayoutDetails                *AccountSessionComponentsPayoutDetails                `json:"payout_details"`
 	PayoutReconciliationReport   *AccountSessionComponentsPayoutReconciliationReport   `json:"payout_reconciliation_report"`

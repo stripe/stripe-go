@@ -80,6 +80,6 @@ func (n *UnknownEventNotification) FetchRelatedObject(ctx context.Context) (*API
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 
-	err := n.client.backend.Call(http.MethodGet, n.RelatedObject.URL, n.client.key, params, obj)
+	err := n.client.backends.API.Call(http.MethodGet, n.RelatedObject.URL, n.client.key, params, obj)
 	return obj, err
 }

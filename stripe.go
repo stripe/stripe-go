@@ -1408,6 +1408,7 @@ func (s *BackendImplementation) sleepTime(numRetries int) time.Duration {
 // Backends are the currently supported endpoints.
 type Backends struct {
 	API, Connect, Uploads, MeterEvents Backend
+	config                             *BackendConfig
 	mu                                 sync.RWMutex
 }
 
@@ -1626,16 +1627,8 @@ func Int64Slice(v []int64) []*int64 {
 
 // NewBackends creates a new set of backends with the given HTTP client.
 func NewBackends(httpClient *http.Client) *Backends {
-	apiConfig := &BackendConfig{HTTPClient: httpClient}
-	connectConfig := &BackendConfig{HTTPClient: httpClient}
-	uploadConfig := &BackendConfig{HTTPClient: httpClient}
-	meterConfig := &BackendConfig{HTTPClient: httpClient}
-	return &Backends{
-		API:         GetBackendWithConfig(APIBackend, apiConfig),
-		Connect:     GetBackendWithConfig(ConnectBackend, connectConfig),
-		Uploads:     GetBackendWithConfig(UploadsBackend, uploadConfig),
-		MeterEvents: GetBackendWithConfig(MeterEventsBackend, meterConfig),
-	}
+	config := &BackendConfig{HTTPClient: httpClient}
+	return NewBackendsWithConfig(config)
 }
 
 // NewBackendsWithConfig creates a new set of backends with the given config for all backends.
@@ -1646,6 +1639,7 @@ func NewBackendsWithConfig(config *BackendConfig) *Backends {
 		Connect:     GetBackendWithConfig(ConnectBackend, config),
 		Uploads:     GetBackendWithConfig(UploadsBackend, config),
 		MeterEvents: GetBackendWithConfig(MeterEventsBackend, config),
+		config:      config,
 	}
 }
 
@@ -1770,7 +1764,7 @@ func TimeValue(v *time.Time) time.Time {
 //
 
 // clientversion is the binding version
-const clientversion = "86.2.0"
+const clientversion = "86.4.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and

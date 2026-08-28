@@ -226,6 +226,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeAUBECSDebit        InvoicePaymentSettingsPaymentMethodType = "au_becs_debit"
 	InvoicePaymentSettingsPaymentMethodTypeBACSDebit          InvoicePaymentSettingsPaymentMethodType = "bacs_debit"
 	InvoicePaymentSettingsPaymentMethodTypeBancontact         InvoicePaymentSettingsPaymentMethodType = "bancontact"
+	InvoicePaymentSettingsPaymentMethodTypeBillie             InvoicePaymentSettingsPaymentMethodType = "billie"
 	InvoicePaymentSettingsPaymentMethodTypeBoleto             InvoicePaymentSettingsPaymentMethodType = "boleto"
 	InvoicePaymentSettingsPaymentMethodTypeCard               InvoicePaymentSettingsPaymentMethodType = "card"
 	InvoicePaymentSettingsPaymentMethodTypeCashApp            InvoicePaymentSettingsPaymentMethodType = "cashapp"
@@ -531,6 +532,9 @@ type InvoicePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBillieParams struct{}
+
 // The selected installment plan to use for this invoice.
 type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
@@ -674,6 +678,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *InvoicePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+	Billie *InvoicePaymentSettingsPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoicePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -699,6 +705,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField string
 const (
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         InvoicePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
@@ -2057,7 +2064,7 @@ type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilDurationPara
 	IntervalCount *int64 `form:"interval_count" json:"interval_count,omitempty"`
 }
 
-// The end date for the billing schedule.
+// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilParams struct {
 	// Specifies the billing period.
 	Duration *InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilDurationParams `form:"duration" json:"duration,omitempty"`
@@ -2071,7 +2078,7 @@ type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilParams struc
 type InvoiceCreatePreviewSubscriptionDetailsBillingScheduleParams struct {
 	// Configure billing schedule differently for individual subscription items.
 	AppliesTo []*InvoiceCreatePreviewSubscriptionDetailsBillingScheduleAppliesToParams `form:"applies_to" json:"applies_to,omitempty"`
-	// The end date for the billing schedule.
+	// The end date for the billing schedule. You must not set this earlier than current period end for every applicable subscription item.
 	BillUntil *InvoiceCreatePreviewSubscriptionDetailsBillingScheduleBillUntilParams `form:"bill_until" json:"bill_until,omitempty"`
 	// Specify a key for the billing schedule. Must be unique to this field, alphanumeric, and up to 200 characters. If not provided, a unique key will be generated.
 	Key *string `form:"key" json:"key,omitempty"`
@@ -2407,6 +2414,9 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+type InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParams struct{}
+
 // The selected installment plan to use for this invoice.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
@@ -2550,6 +2560,8 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *InvoiceUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+	Billie *InvoiceUpdatePaymentSettingsPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -2575,6 +2587,7 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField string
 const (
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         InvoiceUpdatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
@@ -2928,6 +2941,9 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language" json:"preferred_language,omitempty"`
 }
 
+// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+type InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParams struct{}
+
 // The selected installment plan to use for this invoice.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
@@ -3071,6 +3087,8 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	ACSSDebit *InvoiceCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit" json:"acss_debit,omitempty"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoiceCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact" json:"bancontact,omitempty"`
+	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+	Billie *InvoiceCreatePaymentSettingsPaymentMethodOptionsBillieParams `form:"billie" json:"billie,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoiceCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card" json:"card,omitempty"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
@@ -3096,6 +3114,7 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField string
 const (
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldACSSDebit       InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "acss_debit"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBancontact      InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "bancontact"
+	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldBillie          InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "billie"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCard            InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "card"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldCustomerBalance InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "customer_balance"
 	InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetFieldKonbini         InvoiceCreatePaymentSettingsPaymentMethodOptionsParamsUnsetField = "konbini"
@@ -3479,6 +3498,9 @@ type InvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage string `json:"preferred_language"`
 }
+
+// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBillie struct{}
 type InvoicePaymentSettingsPaymentMethodOptionsCardInstallments struct {
 	// Whether Installments are enabled for this Invoice.
 	Enabled bool `json:"enabled"`
@@ -3573,6 +3595,8 @@ type InvoicePaymentSettingsPaymentMethodOptions struct {
 	ACSSDebit *InvoicePaymentSettingsPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
+	// If paying by `billie`, this sub-hash contains details about the Billie payment method options to pass to the invoice's PaymentIntent.
+	Billie *InvoicePaymentSettingsPaymentMethodOptionsBillie `json:"billie,omitempty"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoicePaymentSettingsPaymentMethodOptionsCard `json:"card"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.

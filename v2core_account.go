@@ -2437,7 +2437,7 @@ const (
 	V2CoreAccountIdentityIndividualIDNumberTypeZaID        V2CoreAccountIdentityIndividualIDNumberType = "za_id"
 )
 
-// The individual's gender (International regulations require either "male” or "female").
+// The individual's gender (International regulations require either "male" or "female").
 type V2CoreAccountIdentityIndividualLegalGender string
 
 // List of values that V2CoreAccountIdentityIndividualLegalGender can take
@@ -4601,7 +4601,7 @@ type V2CoreAccountIdentityIndividual struct {
 	ID string `json:"id"`
 	// The identification numbers (e.g., SSN) associated with the individual.
 	IDNumbers []*V2CoreAccountIdentityIndividualIDNumber `json:"id_numbers,omitempty"`
-	// The individual's gender (International regulations require either "male” or "female").
+	// The individual's gender (International regulations require either "male" or "female").
 	LegalGender V2CoreAccountIdentityIndividualLegalGender `json:"legal_gender,omitempty"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata,omitempty"`

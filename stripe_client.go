@@ -34,6 +34,8 @@ type Client struct {
 	V1BillingCreditBalanceTransactions *v1BillingCreditBalanceTransactionService
 	// V1BillingCreditGrants is the service used to invoke /v1/billing/credit_grants APIs.
 	V1BillingCreditGrants *v1BillingCreditGrantService
+	// V1BillingFeedbackOptions is the service used to invoke /v1/billing/feedback_options APIs.
+	V1BillingFeedbackOptions *v1BillingFeedbackOptionService
 	// V1BillingMeterEventAdjustments is the service used to invoke /v1/billing/meter_event_adjustments APIs.
 	V1BillingMeterEventAdjustments *v1BillingMeterEventAdjustmentService
 	// V1BillingMeterEvents is the service used to invoke /v1/billing/meter_events APIs.
@@ -314,8 +316,8 @@ type Client struct {
 	V2CoreEvents *v2CoreEventService
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
 
-	backend Backend
-	key     string
+	backends *Backends
+	key      string
 }
 
 // NewClient creates a new Stripe [Client] with the given API key.
@@ -340,12 +342,12 @@ func initClient(client *Client, cfg clientConfig) {
 			Connect:     &UsageBackend{B: GetBackend(ConnectBackend), Usage: cfg.usage},
 			Uploads:     &UsageBackend{B: GetBackend(UploadsBackend), Usage: cfg.usage},
 			MeterEvents: &UsageBackend{B: GetBackend(MeterEventsBackend), Usage: cfg.usage},
+			config:      &BackendConfig{},
 		}
 	}
 	backends := cfg.backends
 	key := cfg.key
-	// enough information on the Client to make API calls
-	client.backend = backends.API
+	client.backends = backends
 	client.key = key
 
 	// stripeClientInit: The beginning of the section generated from our OpenAPI spec
@@ -364,6 +366,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1BillingCreditBalanceSummary = &v1BillingCreditBalanceSummaryService{B: backends.API, Key: key}
 	client.V1BillingCreditBalanceTransactions = &v1BillingCreditBalanceTransactionService{B: backends.API, Key: key}
 	client.V1BillingCreditGrants = &v1BillingCreditGrantService{B: backends.API, Key: key}
+	client.V1BillingFeedbackOptions = &v1BillingFeedbackOptionService{B: backends.API, Key: key}
 	client.V1BillingMeterEventAdjustments = &v1BillingMeterEventAdjustmentService{B: backends.API, Key: key}
 	client.V1BillingMeterEvents = &v1BillingMeterEventService{B: backends.API, Key: key}
 	client.V1BillingMeterEventSummaries = &v1BillingMeterEventSummaryService{B: backends.API, Key: key}
@@ -524,8 +527,44 @@ func WithBackends(backends *Backends) ClientOption {
 	}
 }
 
-// ParseEventNotification parses a Stripe event from the payload and verifies its signature.
+// ConstructEvent constructs a [snapshot event] from an incoming webhook after
+// verifying its authenticity. To work with a webhook that has already been
+// verified (i.e. one from a cloud provider, an asynchronous queue, or during
+// testing), see [Client.ConstructEventWithoutVerification]. Returns an error
+// if the body or Stripe-Signature header provided are unreadable, if the
+// signature doesn't match, or if the timestamp for the signature is older than
+// WebhookDefaultTolerance.
+//
+// This will return an error if the event API version does not match the
+// APIVersion constant.
+//
+// [snapshot event]: https://docs.stripe.com/event-destinations#snapshot-payload
+func (c *Client) ConstructEvent(payload []byte, header string, secret string, opts ...WebhookOption) (Event, error) {
+	return ConstructEvent(payload, header, secret, opts...)
+}
+
+// ConstructEventWithoutVerification constructs a [snapshot event] from an
+// incoming webhook without first verifying its authenticity. Should be used
+// after calling [ValidatePayload] or with input from a trusted source (such as
+// [AWS EventBridge], or [Azure Event Grid] payload). Or, to verify & construct
+// in a single call, use [ConstructEvent] instead.
+//
+// [snapshot event]: https://docs.stripe.com/event-destinations#snapshot-payload
+// [AWS EventBridge]: https://docs.stripe.com/event-destinations/eventbridge
+// [Azure Event Grid]: https://docs.stripe.com/event-destinations/eventgrid
+func (c *Client) ConstructEventWithoutVerification(payload []byte, opts ...WebhookOption) (Event, error) {
+	return ConstructEventWithoutVerification(payload, opts...)
+}
+
+// ParseEventNotification constructs a [thin event notification] from an
+// incoming webhook after verifying its authenticity. To work with a webhook
+// that has already been verified (i.e. one from a cloud provider, an
+// asynchronous queue, or during testing), see
+// [Client.ParseEventNotificationWithoutVerification].
+//
 // It returns a union of all possible event notification types that implement EventNotificationContainer.
+//
+// [thin event notification]: https://docs.stripe.com/event-destinations#thin-payload
 func (c *Client) ParseEventNotification(payload []byte, header string, secret string, opts ...WebhookOption) (EventNotificationContainer, error) {
 	if err := ValidatePayload(payload, header, secret, opts...); err != nil {
 		return nil, err
@@ -534,18 +573,21 @@ func (c *Client) ParseEventNotification(payload []byte, header string, secret st
 	return EventNotificationFromJSON(payload, *c)
 }
 
-// ConstructEvent initializes an Event object from a JSON webhook payload, validating
-// the Stripe-Signature header using the specified signing secret. Returns an error
-// if the body or Stripe-Signature header provided are unreadable, if the
-// signature doesn't match, or if the timestamp for the signature is older than
-// WebhookDefaultTolerance.
+// ParseEventNotificationWithoutVerification constructs a [thin event
+// notification] from an incoming webhook without first verifying its
+// authenticity. Should be used after calling [ValidatePayload] or with input
+// from a trusted source (such as [AWS EventBridge], or [Azure Event Grid]
+// payload). Or, to verify & parse in a single call, use
+// [Client.ParseEventNotification] instead.
 //
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-//
-// This will return an error if the event API version does not match the
-// APIVersion constant.
-func (c *Client) ConstructEvent(payload []byte, header string, secret string, opts ...WebhookOption) (Event, error) {
-	return ConstructEvent(payload, header, secret, opts...)
+// [thin event notification]: https://docs.stripe.com/event-destinations#thin-payload
+// [AWS EventBridge]: https://docs.stripe.com/event-destinations/eventbridge
+// [Azure Event Grid]: https://docs.stripe.com/event-destinations/eventgrid
+func (c *Client) ParseEventNotificationWithoutVerification(payload []byte) (EventNotificationContainer, error) {
+	innerBytes, err := maybeExtractFromCloudProviderEnvelope(payload)
+	if err != nil {
+		return nil, err
+	}
+
+	return EventNotificationFromJSON(innerBytes, *c)
 }
