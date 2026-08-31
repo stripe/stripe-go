@@ -653,16 +653,13 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 //
 // The absolute URL is built by concatenating a base URL onto this path, and no
 // base URL ends in a slash (normalizeURL actively strips a trailing one). A path
-// like "@evil.example/v1/x" or ".evil.example/v1/x" would therefore land inside
-// the authority component and send the request -- Authorization header included
-// -- to a host of the path's choosing. Some request paths originate in remote
-// data (a webhook body's related_object.url, a response's next_page_url), so the
-// path cannot be assumed to be well-formed.
+// like "@evil.example/v1/x" or ".evil.example/v1/x" would modify the resulting
+// host and direct the request (including the API key) to a non-Stripe host.
 //
-// A single leading slash is sufficient: it terminates the authority component,
-// after which nothing in the path can extend it. This check replaces an earlier
-// silent "prepend a slash if missing" normalization, which had the same
-// protective effect but did not say so and could be removed as dead tidying.
+// Because some relative urls arrive from potentially untrusted sources (like
+// webhook bodies), we have to be a little defensive.
+//
+// So, we require that a path starts with a leading slash.
 func validatePath(path string) error {
 	if !strings.HasPrefix(path, "/") || strings.HasPrefix(path, "//") {
 		return fmt.Errorf("path must begin with a single \"/\", got %q", path)
