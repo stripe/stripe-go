@@ -648,6 +648,25 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 	return nil
 }
 
+// validatePath ensures a request path is origin-relative: that it
+// begins with a single "/".
+//
+// The absolute URL is built by concatenating a base URL onto this path, and no
+// base URL ends in a slash (normalizeURL actively strips a trailing one). A path
+// like "@evil.example/v1/x" or ".evil.example/v1/x" would modify the resulting
+// host and direct the request (including the API key) to a non-Stripe host.
+//
+// Because some relative urls arrive from potentially untrusted sources (like
+// webhook bodies), we have to be a little defensive.
+//
+// So, we require that a path starts with a leading slash.
+func validatePath(path string) error {
+	if !strings.HasPrefix(path, "/") || strings.HasPrefix(path, "//") {
+		return fmt.Errorf("path must begin with a single \"/\", got %q", path)
+	}
+	return nil
+}
+
 // extractVersion ensures the path starts with /v1, /v2, or contains /oauth
 // and returns the corresponding APIMode.
 func extractVersion(path string) (APIMode, error) {
@@ -752,8 +771,13 @@ func (s *BackendImplementation) CallRaw(method, path, key string, body []byte, p
 // NewRequest is used by Call to generate an http.Request. It handles encoding
 // parameters and attaching the appropriate headers.
 func (s *BackendImplementation) NewRequest(method, path, key, contentType string, params *Params) (*http.Request, error) {
-	if !strings.HasPrefix(path, "/") {
-		path = "/" + path
+	if err := validatePath(path); err != nil {
+		ctx := context.Background()
+		if params != nil && params.Context != nil {
+			ctx = params.Context
+		}
+		s.logErrorf(ctx, "Cannot create Stripe request: %v", err)
+		return nil, err
 	}
 
 	// Body is set later by `Do`.
