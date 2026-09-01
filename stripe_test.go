@@ -52,7 +52,7 @@ func TestApiVersion(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	key := "apiKey"
 
-	req, err := c.NewRequest("", "", key, "", nil)
+	req, err := c.NewRequest("", "/v1/hello", key, "", nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, APIVersion, req.Header.Get("Stripe-Version"))
@@ -65,7 +65,7 @@ func TestCanSetBetaHeaders(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	key := "apiKey"
 
-	req, err := c.NewRequest("", "", key, "", nil)
+	req, err := c.NewRequest("", "/v1/hello", key, "", nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, APIVersion+"; feature_in_beta=v3", req.Header.Get("Stripe-Version"))
@@ -81,7 +81,7 @@ func TestSetBetaVersionTwiceAsc(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	key := "apiKey"
 
-	req, err := c.NewRequest("", "", key, "", nil)
+	req, err := c.NewRequest("", "/v1/hello", key, "", nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, APIVersion+"; feature_in_beta=v5", req.Header.Get("Stripe-Version"))
@@ -100,7 +100,7 @@ func TestSetBetaVersionTwiceDesc(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	key := "apiKey"
 
-	req, err := c.NewRequest("", "", key, "", nil)
+	req, err := c.NewRequest("", "/v1/hello", key, "", nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, APIVersion+"; feature_in_beta=v5", req.Header.Get("Stripe-Version"))
@@ -129,7 +129,7 @@ func TestCanSetSecondBetaHeaders(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	key := "apiKey"
 
-	req, err := c.NewRequest("", "", key, "", nil)
+	req, err := c.NewRequest("", "/v1/hello", key, "", nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, APIVersion+"; feature_in_beta=v3; second_feature_in_beta=v2", req.Header.Get("Stripe-Version"))
