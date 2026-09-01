@@ -1,5 +1,8 @@
 # Changelog
 
+## 86.4.1 - 2026-09-01
+* [#2424](https://github.com/stripe/stripe-go/pull/2424) Harden API requestor code against malicious URLs
+
 ## 86.4.0 - 2026-08-26
 This release changes the pinned API version to 2026-08-26.dahlia.
 
