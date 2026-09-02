@@ -32,6 +32,7 @@ import (
 	billingcreditbalancesummary "github.com/stripe/stripe-go/v86/billing/creditbalancesummary"
 	billingcreditbalancetransaction "github.com/stripe/stripe-go/v86/billing/creditbalancetransaction"
 	billingcreditgrant "github.com/stripe/stripe-go/v86/billing/creditgrant"
+	billingfeedbackoption "github.com/stripe/stripe-go/v86/billing/feedbackoption"
 	billingmeter "github.com/stripe/stripe-go/v86/billing/meter"
 	billingmeterevent "github.com/stripe/stripe-go/v86/billing/meterevent"
 	billingmetereventadjustment "github.com/stripe/stripe-go/v86/billing/metereventadjustment"
@@ -137,6 +138,7 @@ import (
 	"github.com/stripe/stripe-go/v86/quotepreviewinvoice"
 	"github.com/stripe/stripe-go/v86/quotepreviewsubscriptionschedule"
 	radaraccountevaluation "github.com/stripe/stripe-go/v86/radar/accountevaluation"
+	radarbillingevaluation "github.com/stripe/stripe-go/v86/radar/billingevaluation"
 	radarcustomerevaluation "github.com/stripe/stripe-go/v86/radar/customerevaluation"
 	radarearlyfraudwarning "github.com/stripe/stripe-go/v86/radar/earlyfraudwarning"
 	radarissuingauthorizationevaluation "github.com/stripe/stripe-go/v86/radar/issuingauthorizationevaluation"
@@ -297,6 +299,9 @@ import (
 	v2signalsaccountactivity "github.com/stripe/stripe-go/v86/v2/signals/accountactivity"
 	v2signalsaccountevaluation "github.com/stripe/stripe-go/v86/v2/signals/accountevaluation"
 	v2signalsaccountsignal "github.com/stripe/stripe-go/v86/v2/signals/accountsignal"
+	v2signalspaymentretryevaluation "github.com/stripe/stripe-go/v86/v2/signals/paymentretryevaluation"
+	v2signalspaymentretrysignal "github.com/stripe/stripe-go/v86/v2/signals/paymentretrysignal"
+	v2taxintegrationconfiguration "github.com/stripe/stripe-go/v86/v2/tax/integrationconfiguration"
 	v2taxmanualrule "github.com/stripe/stripe-go/v86/v2/tax/manualrule"
 	v2taxoperation "github.com/stripe/stripe-go/v86/v2/tax/operation"
 	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v86/v2/testhelpers/financialaddress"
@@ -348,6 +353,8 @@ type API struct {
 	BillingCreditBalanceTransactions *billingcreditbalancetransaction.Client
 	// BillingCreditGrants is the client used to invoke /v1/billing/credit_grants APIs.
 	BillingCreditGrants *billingcreditgrant.Client
+	// BillingFeedbackOptions is the client used to invoke /v1/billing/feedback_options APIs.
+	BillingFeedbackOptions *billingfeedbackoption.Client
 	// BillingMeterEventAdjustments is the client used to invoke /v1/billing/meter_event_adjustments APIs.
 	BillingMeterEventAdjustments *billingmetereventadjustment.Client
 	// BillingMeterEvents is the client used to invoke /v1/billing/meter_events APIs.
@@ -558,6 +565,8 @@ type API struct {
 	Quotes *quote.Client
 	// RadarAccountEvaluations is the client used to invoke /v1/radar/account_evaluations APIs.
 	RadarAccountEvaluations *radaraccountevaluation.Client
+	// RadarBillingEvaluations is the client used to invoke /v1/radar/billing_evaluations APIs.
+	RadarBillingEvaluations *radarbillingevaluation.Client
 	// RadarCustomerEvaluations is the client used to invoke /v1/radar/customer_evaluations APIs.
 	RadarCustomerEvaluations *radarcustomerevaluation.Client
 	// RadarEarlyFraudWarnings is the client used to invoke /v1/radar/early_fraud_warnings APIs.
@@ -878,6 +887,12 @@ type API struct {
 	V2SignalsAccountEvaluations *v2signalsaccountevaluation.Client
 	// V2SignalsAccountSignals is the client used to invoke /v2/signals/account_signals APIs.
 	V2SignalsAccountSignals *v2signalsaccountsignal.Client
+	// V2SignalsPaymentRetryEvaluations is the client used to invoke /v2/signals/payment_retry_evaluations APIs.
+	V2SignalsPaymentRetryEvaluations *v2signalspaymentretryevaluation.Client
+	// V2SignalsPaymentRetrySignals is the client used to invoke paymentretrysignal related APIs.
+	V2SignalsPaymentRetrySignals *v2signalspaymentretrysignal.Client
+	// V2TaxIntegrationConfigurations is the client used to invoke integrationconfiguration related APIs.
+	V2TaxIntegrationConfigurations *v2taxintegrationconfiguration.Client
 	// V2TaxManualRules is the client used to invoke /v2/tax/manual_rules APIs.
 	V2TaxManualRules *v2taxmanualrule.Client
 	// V2TaxOperations is the client used to invoke operation related APIs.
@@ -923,6 +938,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BillingCreditBalanceSummary = &billingcreditbalancesummary.Client{B: backends.API, Key: key}
 	a.BillingCreditBalanceTransactions = &billingcreditbalancetransaction.Client{B: backends.API, Key: key}
 	a.BillingCreditGrants = &billingcreditgrant.Client{B: backends.API, Key: key}
+	a.BillingFeedbackOptions = &billingfeedbackoption.Client{B: backends.API, Key: key}
 	a.BillingMeterEventAdjustments = &billingmetereventadjustment.Client{B: backends.API, Key: key}
 	a.BillingMeterEvents = &billingmeterevent.Client{B: backends.API, Key: key}
 	a.BillingMeterEventSummaries = &billingmetereventsummary.Client{B: backends.API, Key: key}
@@ -1028,6 +1044,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.QuotePreviewSubscriptionSchedules = &quotepreviewsubscriptionschedule.Client{B: backends.API, Key: key}
 	a.Quotes = &quote.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
 	a.RadarAccountEvaluations = &radaraccountevaluation.Client{B: backends.API, Key: key}
+	a.RadarBillingEvaluations = &radarbillingevaluation.Client{B: backends.API, Key: key}
 	a.RadarCustomerEvaluations = &radarcustomerevaluation.Client{B: backends.API, Key: key}
 	a.RadarEarlyFraudWarnings = &radarearlyfraudwarning.Client{B: backends.API, Key: key}
 	a.RadarIssuingAuthorizationEvaluations = &radarissuingauthorizationevaluation.Client{B: backends.API, Key: key}
@@ -1188,6 +1205,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2SignalsAccountActivities = &v2signalsaccountactivity.Client{B: backends.API, Key: key}
 	a.V2SignalsAccountEvaluations = &v2signalsaccountevaluation.Client{B: backends.API, Key: key}
 	a.V2SignalsAccountSignals = &v2signalsaccountsignal.Client{B: backends.API, Key: key}
+	a.V2SignalsPaymentRetryEvaluations = &v2signalspaymentretryevaluation.Client{B: backends.API, Key: key}
+	a.V2SignalsPaymentRetrySignals = &v2signalspaymentretrysignal.Client{B: backends.API, Key: key}
+	a.V2TaxIntegrationConfigurations = &v2taxintegrationconfiguration.Client{B: backends.API, Key: key}
 	a.V2TaxManualRules = &v2taxmanualrule.Client{B: backends.API, Key: key}
 	a.V2TaxOperations = &v2taxoperation.Client{B: backends.API, Key: key}
 	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}

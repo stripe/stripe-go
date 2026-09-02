@@ -390,7 +390,10 @@ type AccountSessionComponentsPaymentDisputesParams struct {
 }
 
 // The list of features enabled in the embedded component.
-type AccountSessionComponentsPaymentMethodSettingsFeaturesParams struct{}
+type AccountSessionComponentsPaymentMethodSettingsFeaturesParams struct {
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. This is `false` by default.
+	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication" json:"disable_stripe_user_authentication,omitempty"`
+}
 
 // Configuration for the [payment method settings](https://docs.stripe.com/connect/supported-embedded-components/payment-method-settings/) embedded component.
 type AccountSessionComponentsPaymentMethodSettingsParams struct {
@@ -1043,7 +1046,10 @@ type AccountSessionCreateComponentsPaymentDisputesParams struct {
 }
 
 // The list of features enabled in the embedded component.
-type AccountSessionCreateComponentsPaymentMethodSettingsFeaturesParams struct{}
+type AccountSessionCreateComponentsPaymentMethodSettingsFeaturesParams struct {
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. This is `false` by default.
+	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication" json:"disable_stripe_user_authentication,omitempty"`
+}
 
 // Configuration for the [payment method settings](https://docs.stripe.com/connect/supported-embedded-components/payment-method-settings/) embedded component.
 type AccountSessionCreateComponentsPaymentMethodSettingsParams struct {
@@ -1392,6 +1398,14 @@ type AccountSessionComponentsCapitalFinancingApplication struct {
 	Enabled  bool                                                         `json:"enabled"`
 	Features *AccountSessionComponentsCapitalFinancingApplicationFeatures `json:"features"`
 }
+type AccountSessionComponentsCapitalFinancingManualPaymentFeatures struct{}
+
+// Configuration for the [Capital financing manual payment](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-manual-payment/) embedded component.
+type AccountSessionComponentsCapitalFinancingManualPayment struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                           `json:"enabled"`
+	Features *AccountSessionComponentsCapitalFinancingManualPaymentFeatures `json:"features"`
+}
 type AccountSessionComponentsCapitalFinancingPromotionFeatures struct{}
 type AccountSessionComponentsCapitalFinancingPromotion struct {
 	// Whether the embedded component is enabled.
@@ -1718,7 +1732,9 @@ type AccountSessionComponents struct {
 	Bills                       *AccountSessionComponentsBills                       `json:"bills,omitempty"`
 	CapitalFinancing            *AccountSessionComponentsCapitalFinancing            `json:"capital_financing,omitempty"`
 	CapitalFinancingApplication *AccountSessionComponentsCapitalFinancingApplication `json:"capital_financing_application,omitempty"`
-	CapitalFinancingPromotion   *AccountSessionComponentsCapitalFinancingPromotion   `json:"capital_financing_promotion,omitempty"`
+	// Configuration for the [Capital financing manual payment](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-manual-payment/) embedded component.
+	CapitalFinancingManualPayment *AccountSessionComponentsCapitalFinancingManualPayment `json:"capital_financing_manual_payment,omitempty"`
+	CapitalFinancingPromotion     *AccountSessionComponentsCapitalFinancingPromotion     `json:"capital_financing_promotion,omitempty"`
 	// Configuration for the [check scanning](https://docs.stripe.com/connect/supported-embedded-components/check-scanning/) embedded component.
 	CheckScanning    *AccountSessionComponentsCheckScanning    `json:"check_scanning,omitempty"`
 	DisputesList     *AccountSessionComponentsDisputesList     `json:"disputes_list"`

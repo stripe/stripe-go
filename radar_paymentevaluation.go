@@ -284,7 +284,7 @@ type RadarPaymentEvaluationCustomerDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// Describes card money movement details for the payment evaluation.
+// Describes card money movement details.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams struct {
 	// Describes the presence of the customer during the payment.
 	CustomerPresence *string `form:"customer_presence" json:"customer_presence,omitempty"`
@@ -294,7 +294,7 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams struct {
 
 // Details about the payment's customer presence and type.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsParams struct {
-	// Describes card money movement details for the payment evaluation.
+	// Describes card money movement details.
 	Card *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardParams `form:"card" json:"card,omitempty"`
 	// Describes the type of money movement. Currently only `card` is supported.
 	MoneyMovementType *string `form:"money_movement_type" json:"money_movement_type"`
@@ -431,7 +431,7 @@ type RadarPaymentEvaluationCreateCustomerDetailsParams struct {
 	Phone *string `form:"phone" json:"phone,omitempty"`
 }
 
-// Describes card money movement details for the payment evaluation.
+// Describes card money movement details.
 type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams struct {
 	// Describes the presence of the customer during the payment.
 	CustomerPresence *string `form:"customer_presence" json:"customer_presence,omitempty"`
@@ -441,7 +441,7 @@ type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams st
 
 // Details about the payment's customer presence and type.
 type RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsParams struct {
-	// Describes card money movement details for the payment evaluation.
+	// Describes card money movement details.
 	Card *RadarPaymentEvaluationCreatePaymentDetailsMoneyMovementDetailsCardParams `form:"card" json:"card,omitempty"`
 	// Describes the type of money movement. Currently only `card` is supported.
 	MoneyMovementType *string `form:"money_movement_type" json:"money_movement_type"`
@@ -700,7 +700,7 @@ type RadarPaymentEvaluationOutcome struct {
 	Type RadarPaymentEvaluationOutcomeType `json:"type"`
 }
 
-// Describes card money movement details for the payment evaluation.
+// Describes card money movement details.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCard struct {
 	// Describes the presence of the customer during the payment.
 	CustomerPresence RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCardCustomerPresence `json:"customer_presence"`
@@ -710,7 +710,7 @@ type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCard struct {
 
 // Details about the payment's customer presence and type.
 type RadarPaymentEvaluationPaymentDetailsMoneyMovementDetails struct {
-	// Describes card money movement details for the payment evaluation.
+	// Describes card money movement details.
 	Card *RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsCard `json:"card"`
 	// Describes the type of money movement. Currently only `card` is supported.
 	MoneyMovementType RadarPaymentEvaluationPaymentDetailsMoneyMovementDetailsMoneyMovementType `json:"money_movement_type"`

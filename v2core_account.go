@@ -2902,15 +2902,6 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailResolution = "provide_info"
 )
 
-// Whether to collect a payment method for gross settlement.
-type V2CoreAccountConfigurationMerchantGrossSettlementPaymentMethodCollection string
-
-// List of values that V2CoreAccountConfigurationMerchantGrossSettlementPaymentMethodCollection can take
-const (
-	V2CoreAccountConfigurationMerchantGrossSettlementPaymentMethodCollectionAlways V2CoreAccountConfigurationMerchantGrossSettlementPaymentMethodCollection = "always"
-	V2CoreAccountConfigurationMerchantGrossSettlementPaymentMethodCollectionNever  V2CoreAccountConfigurationMerchantGrossSettlementPaymentMethodCollection = "never"
-)
-
 // The preference for automatic dispute responses.
 type V2CoreAccountConfigurationMerchantSmartDisputesAutoRespondPreference string
 
@@ -8760,8 +8751,6 @@ type V2CoreAccountConfigurationMerchantCardPayments struct {
 type V2CoreAccountConfigurationMerchantGrossSettlement struct {
 	// The ID of the payment method to use for gross settlement payouts.
 	PaymentMethod string `json:"payment_method,omitempty"`
-	// Whether to collect a payment method for gross settlement.
-	PaymentMethodCollection V2CoreAccountConfigurationMerchantGrossSettlementPaymentMethodCollection `json:"payment_method_collection,omitempty"`
 }
 
 // Support hours for Konbini payments.
@@ -10740,6 +10729,8 @@ type V2CoreAccountDefaults struct {
 	Currency Currency `json:"currency,omitempty"`
 	// The Account's preferred locales (languages), ordered by preference.
 	Locales []string `json:"locales,omitempty"`
+	// Default payout methods per currency. Keys are three-letter [ISO currency codes](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Values are v2 Payout Method IDs.
+	PayoutMethods map[string]string `json:"payout_methods,omitempty"`
 	// Account profile information.
 	Profile *V2CoreAccountDefaultsProfile `json:"profile,omitempty"`
 	// Default responsibilities held by either Stripe or the platform.

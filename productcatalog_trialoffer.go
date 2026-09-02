@@ -178,7 +178,7 @@ type ProductCatalogTrialOffer struct {
 	// If the object exists in live mode, the value is `true`. If the object exists in test mode, the value is `false`.
 	Livemode bool `json:"livemode"`
 	// A brief, user-friendly name for the trial offer-for identification purposes.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The price during the trial offer.

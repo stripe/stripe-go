@@ -100,6 +100,7 @@ const (
 	SetupIntentAllowedPaymentMethodTypeSwish                SetupIntentAllowedPaymentMethodType = "swish"
 	SetupIntentAllowedPaymentMethodTypeTamara               SetupIntentAllowedPaymentMethodType = "tamara"
 	SetupIntentAllowedPaymentMethodTypeTestPay              SetupIntentAllowedPaymentMethodType = "test_pay"
+	SetupIntentAllowedPaymentMethodTypeTouchNGo             SetupIntentAllowedPaymentMethodType = "touch_n_go"
 	SetupIntentAllowedPaymentMethodTypeTruemoney            SetupIntentAllowedPaymentMethodType = "truemoney"
 	SetupIntentAllowedPaymentMethodTypeTWINT                SetupIntentAllowedPaymentMethodType = "twint"
 	SetupIntentAllowedPaymentMethodTypeUpi                  SetupIntentAllowedPaymentMethodType = "upi"
@@ -188,6 +189,7 @@ const (
 	SetupIntentExcludedPaymentMethodTypeSatispay         SetupIntentExcludedPaymentMethodType = "satispay"
 	SetupIntentExcludedPaymentMethodTypeScalapay         SetupIntentExcludedPaymentMethodType = "scalapay"
 	SetupIntentExcludedPaymentMethodTypeSEPADebit        SetupIntentExcludedPaymentMethodType = "sepa_debit"
+	SetupIntentExcludedPaymentMethodTypeSequra           SetupIntentExcludedPaymentMethodType = "sequra"
 	SetupIntentExcludedPaymentMethodTypeShopeepay        SetupIntentExcludedPaymentMethodType = "shopeepay"
 	SetupIntentExcludedPaymentMethodTypeSofort           SetupIntentExcludedPaymentMethodType = "sofort"
 	SetupIntentExcludedPaymentMethodTypeStripeBalance    SetupIntentExcludedPaymentMethodType = "stripe_balance"
@@ -280,6 +282,14 @@ const (
 	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodAutomatic     SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "automatic"
 	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodInstant       SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "instant"
 	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
+)
+
+type SetupIntentPaymentMethodOptionsBACSDebitVerificationMethod string
+
+// List of values that SetupIntentPaymentMethodOptionsBACSDebitVerificationMethod can take
+const (
+	SetupIntentPaymentMethodOptionsBACSDebitVerificationMethodAutomatic             SetupIntentPaymentMethodOptionsBACSDebitVerificationMethod = "automatic"
+	SetupIntentPaymentMethodOptionsBACSDebitVerificationMethodPayerNameVerification SetupIntentPaymentMethodOptionsBACSDebitVerificationMethod = "payer_name_verification"
 )
 
 // One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
@@ -1157,7 +1167,8 @@ func (p *SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams) AddUnsetF
 // If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
 type SetupIntentPaymentMethodOptionsBACSDebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	MandateOptions     *SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	VerificationMethod *string                                                       `form:"verification_method" json:"verification_method,omitempty"`
 }
 
 // If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
@@ -1672,8 +1683,6 @@ type SetupIntentParams struct {
 	PaymentMethodData *SetupIntentPaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. To redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/setup_intents/create#create_setup_intent-confirm).
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// Provides industry-specific information about the SetupIntent.
@@ -2958,7 +2967,8 @@ func (p *SetupIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParams) Add
 // If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
 type SetupIntentCreatePaymentMethodOptionsBACSDebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *SetupIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	MandateOptions     *SetupIntentCreatePaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	VerificationMethod *string                                                             `form:"verification_method" json:"verification_method,omitempty"`
 }
 
 // If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
@@ -3471,8 +3481,6 @@ type SetupIntentCreateParams struct {
 	PaymentMethodData *SetupIntentCreatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentCreatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// The list of payment method types (for example, card) that this SetupIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. To redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://docs.stripe.com/api/setup_intents/create#create_setup_intent-confirm).
 	ReturnURL *string `form:"return_url" json:"return_url,omitempty"`
 	// Provides industry-specific information about the SetupIntent.
@@ -4101,7 +4109,8 @@ func (p *SetupIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParams) Add
 // If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
 type SetupIntentUpdatePaymentMethodOptionsBACSDebitParams struct {
 	// Additional fields for Mandate creation
-	MandateOptions *SetupIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	MandateOptions     *SetupIntentUpdatePaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options" json:"mandate_options,omitempty"`
+	VerificationMethod *string                                                             `form:"verification_method" json:"verification_method,omitempty"`
 }
 
 // If this is a `bizum` SetupIntent, this sub-hash contains details about the Bizum payment method options.
@@ -4589,8 +4598,6 @@ type SetupIntentUpdateParams struct {
 	PaymentMethodData *SetupIntentUpdatePaymentMethodDataParams `form:"payment_method_data" json:"payment_method_data,omitempty"`
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentUpdatePaymentMethodOptionsParams `form:"payment_method_options" json:"payment_method_options,omitempty"`
-	// The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []*string `form:"payment_method_types" json:"payment_method_types,omitempty"`
 	// Provides industry-specific information about the SetupIntent.
 	SetupDetails *SetupIntentUpdateSetupDetailsParams `form:"setup_details" json:"setup_details,omitempty"`
 	UnsetFields  []SetupIntentUpdateParamsUnsetField  `form:"-" json:"-"`
@@ -4747,7 +4754,8 @@ type SetupIntentPaymentMethodOptionsBACSDebitMandateOptions struct {
 	ReferencePrefix string `json:"reference_prefix,omitempty"`
 }
 type SetupIntentPaymentMethodOptionsBACSDebit struct {
-	MandateOptions *SetupIntentPaymentMethodOptionsBACSDebitMandateOptions `json:"mandate_options,omitempty"`
+	MandateOptions     *SetupIntentPaymentMethodOptionsBACSDebitMandateOptions    `json:"mandate_options,omitempty"`
+	VerificationMethod SetupIntentPaymentMethodOptionsBACSDebitVerificationMethod `json:"verification_method,omitempty"`
 }
 type SetupIntentPaymentMethodOptionsBizum struct{}
 
@@ -4963,7 +4971,7 @@ type SetupIntentSetupDetails struct {
 type SetupIntent struct {
 	APIResource
 	// The list of payment method types to allow for this SetupIntent. Stripe will only use methods in this list when determining the payment methods to offer.
-	AllowedPaymentMethodTypes []SetupIntentAllowedPaymentMethodType `json:"allowed_payment_method_types,omitempty"`
+	AllowedPaymentMethodTypes []SetupIntentAllowedPaymentMethodType `json:"allowed_payment_method_types"`
 	// ID of the Connect application that created the SetupIntent.
 	Application *Application `json:"application"`
 	// If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.

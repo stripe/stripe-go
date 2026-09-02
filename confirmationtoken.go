@@ -442,6 +442,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeSatispay         ConfirmationTokenPaymentMethodPreviewType = "satispay"
 	ConfirmationTokenPaymentMethodPreviewTypeScalapay         ConfirmationTokenPaymentMethodPreviewType = "scalapay"
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
+	ConfirmationTokenPaymentMethodPreviewTypeSequra           ConfirmationTokenPaymentMethodPreviewType = "sequra"
 	ConfirmationTokenPaymentMethodPreviewTypeShopeepay        ConfirmationTokenPaymentMethodPreviewType = "shopeepay"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
 	ConfirmationTokenPaymentMethodPreviewTypeStripeBalance    ConfirmationTokenPaymentMethodPreviewType = "stripe_balance"
@@ -1165,6 +1166,7 @@ type ConfirmationTokenPaymentMethodPreviewSEPADebit struct {
 	// Last four characters of the IBAN.
 	Last4 string `json:"last4"`
 }
+type ConfirmationTokenPaymentMethodPreviewSequra struct{}
 type ConfirmationTokenPaymentMethodPreviewShopeepay struct{}
 type ConfirmationTokenPaymentMethodPreviewSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
@@ -1289,6 +1291,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Satispay        *ConfirmationTokenPaymentMethodPreviewSatispay        `json:"satispay,omitempty"`
 	Scalapay        *ConfirmationTokenPaymentMethodPreviewScalapay        `json:"scalapay,omitempty"`
 	SEPADebit       *ConfirmationTokenPaymentMethodPreviewSEPADebit       `json:"sepa_debit,omitempty"`
+	Sequra          *ConfirmationTokenPaymentMethodPreviewSequra          `json:"sequra,omitempty"`
 	Shopeepay       *ConfirmationTokenPaymentMethodPreviewShopeepay       `json:"shopeepay,omitempty"`
 	Sofort          *ConfirmationTokenPaymentMethodPreviewSofort          `json:"sofort,omitempty"`
 	StripeBalance   *ConfirmationTokenPaymentMethodPreviewStripeBalance   `json:"stripe_balance,omitempty"`
@@ -1333,6 +1336,8 @@ type ConfirmationToken struct {
 	Livemode bool `json:"livemode"`
 	// Data used for generating a Mandate.
 	MandateData *ConfirmationTokenMandateData `json:"mandate_data,omitempty"`
+	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// ID of the PaymentIntent that this ConfirmationToken was used to confirm, or null if this ConfirmationToken has not yet been used.

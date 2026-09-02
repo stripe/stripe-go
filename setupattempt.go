@@ -49,7 +49,6 @@ type SetupAttemptPaymentMethodDetailsCardThreeDSecureResult string
 const (
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultAuthenticated       SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "authenticated"
-	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultDataShareOnly       SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "data_share_only"
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultExempted            SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "exempted"
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultFailed              SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "failed"
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultNotSupported        SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "not_supported"

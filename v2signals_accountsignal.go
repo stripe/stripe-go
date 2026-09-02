@@ -9,30 +9,30 @@ package stripe
 import "time"
 
 // The effect this indicator had on the overall risk level.
-type V2SignalsAccountSignalFraudulentMerchantIndicatorImpact string
+type V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorImpact string
 
-// List of values that V2SignalsAccountSignalFraudulentMerchantIndicatorImpact can take
+// List of values that V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorImpact can take
 const (
-	V2SignalsAccountSignalFraudulentMerchantIndicatorImpactDecrease       V2SignalsAccountSignalFraudulentMerchantIndicatorImpact = "decrease"
-	V2SignalsAccountSignalFraudulentMerchantIndicatorImpactNeutral        V2SignalsAccountSignalFraudulentMerchantIndicatorImpact = "neutral"
-	V2SignalsAccountSignalFraudulentMerchantIndicatorImpactSlightIncrease V2SignalsAccountSignalFraudulentMerchantIndicatorImpact = "slight_increase"
-	V2SignalsAccountSignalFraudulentMerchantIndicatorImpactStrongIncrease V2SignalsAccountSignalFraudulentMerchantIndicatorImpact = "strong_increase"
+	V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorImpactDecrease       V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorImpact = "decrease"
+	V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorImpactNeutral        V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorImpact = "neutral"
+	V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorImpactSlightIncrease V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorImpact = "slight_increase"
+	V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorImpactStrongIncrease V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorImpact = "strong_increase"
 )
 
 // The name of the specific indicator used in the risk assessment.
-type V2SignalsAccountSignalFraudulentMerchantIndicatorIndicator string
+type V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicator string
 
-// List of values that V2SignalsAccountSignalFraudulentMerchantIndicatorIndicator can take
+// List of values that V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicator can take
 const (
-	V2SignalsAccountSignalFraudulentMerchantIndicatorIndicatorBankAccount                           V2SignalsAccountSignalFraudulentMerchantIndicatorIndicator = "bank_account"
-	V2SignalsAccountSignalFraudulentMerchantIndicatorIndicatorBusinessInformationAndAccountActivity V2SignalsAccountSignalFraudulentMerchantIndicatorIndicator = "business_information_and_account_activity"
-	V2SignalsAccountSignalFraudulentMerchantIndicatorIndicatorDisputes                              V2SignalsAccountSignalFraudulentMerchantIndicatorIndicator = "disputes"
-	V2SignalsAccountSignalFraudulentMerchantIndicatorIndicatorFailures                              V2SignalsAccountSignalFraudulentMerchantIndicatorIndicator = "failures"
-	V2SignalsAccountSignalFraudulentMerchantIndicatorIndicatorGeolocation                           V2SignalsAccountSignalFraudulentMerchantIndicatorIndicator = "geolocation"
-	V2SignalsAccountSignalFraudulentMerchantIndicatorIndicatorOther                                 V2SignalsAccountSignalFraudulentMerchantIndicatorIndicator = "other"
-	V2SignalsAccountSignalFraudulentMerchantIndicatorIndicatorOtherRelatedAccounts                  V2SignalsAccountSignalFraudulentMerchantIndicatorIndicator = "other_related_accounts"
-	V2SignalsAccountSignalFraudulentMerchantIndicatorIndicatorOtherTransactionActivity              V2SignalsAccountSignalFraudulentMerchantIndicatorIndicator = "other_transaction_activity"
-	V2SignalsAccountSignalFraudulentMerchantIndicatorIndicatorOwnerEmail                            V2SignalsAccountSignalFraudulentMerchantIndicatorIndicator = "owner_email"
+	V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicatorBankAccount                           V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicator = "bank_account"
+	V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicatorBusinessInformationAndAccountActivity V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicator = "business_information_and_account_activity"
+	V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicatorDisputes                              V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicator = "disputes"
+	V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicatorFailures                              V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicator = "failures"
+	V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicatorGeolocation                           V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicator = "geolocation"
+	V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicatorOther                                 V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicator = "other"
+	V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicatorOtherRelatedAccounts                  V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicator = "other_related_accounts"
+	V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicatorOtherTransactionActivity              V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicator = "other_transaction_activity"
+	V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicatorOwnerEmail                            V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicator = "owner_email"
 )
 
 // Categorical assessment of the fraudulent merchant risk based on probability.
@@ -40,12 +40,11 @@ type V2SignalsAccountSignalFraudulentMerchantRiskLevel string
 
 // List of values that V2SignalsAccountSignalFraudulentMerchantRiskLevel can take
 const (
-	V2SignalsAccountSignalFraudulentMerchantRiskLevelElevated    V2SignalsAccountSignalFraudulentMerchantRiskLevel = "elevated"
-	V2SignalsAccountSignalFraudulentMerchantRiskLevelHighest     V2SignalsAccountSignalFraudulentMerchantRiskLevel = "highest"
-	V2SignalsAccountSignalFraudulentMerchantRiskLevelLow         V2SignalsAccountSignalFraudulentMerchantRiskLevel = "low"
-	V2SignalsAccountSignalFraudulentMerchantRiskLevelNormal      V2SignalsAccountSignalFraudulentMerchantRiskLevel = "normal"
-	V2SignalsAccountSignalFraudulentMerchantRiskLevelNotAssessed V2SignalsAccountSignalFraudulentMerchantRiskLevel = "not_assessed"
-	V2SignalsAccountSignalFraudulentMerchantRiskLevelUnknown     V2SignalsAccountSignalFraudulentMerchantRiskLevel = "unknown"
+	V2SignalsAccountSignalFraudulentMerchantRiskLevelElevated V2SignalsAccountSignalFraudulentMerchantRiskLevel = "elevated"
+	V2SignalsAccountSignalFraudulentMerchantRiskLevelHighest  V2SignalsAccountSignalFraudulentMerchantRiskLevel = "highest"
+	V2SignalsAccountSignalFraudulentMerchantRiskLevelLow      V2SignalsAccountSignalFraudulentMerchantRiskLevel = "low"
+	V2SignalsAccountSignalFraudulentMerchantRiskLevelNormal   V2SignalsAccountSignalFraudulentMerchantRiskLevel = "normal"
+	V2SignalsAccountSignalFraudulentMerchantRiskLevelUnknown  V2SignalsAccountSignalFraudulentMerchantRiskLevel = "unknown"
 )
 
 // Categorical assessment of the fraudulent website risk.
@@ -53,46 +52,45 @@ type V2SignalsAccountSignalFraudulentWebsiteRiskLevel string
 
 // List of values that V2SignalsAccountSignalFraudulentWebsiteRiskLevel can take
 const (
-	V2SignalsAccountSignalFraudulentWebsiteRiskLevelElevated    V2SignalsAccountSignalFraudulentWebsiteRiskLevel = "elevated"
-	V2SignalsAccountSignalFraudulentWebsiteRiskLevelHighest     V2SignalsAccountSignalFraudulentWebsiteRiskLevel = "highest"
-	V2SignalsAccountSignalFraudulentWebsiteRiskLevelLow         V2SignalsAccountSignalFraudulentWebsiteRiskLevel = "low"
-	V2SignalsAccountSignalFraudulentWebsiteRiskLevelNormal      V2SignalsAccountSignalFraudulentWebsiteRiskLevel = "normal"
-	V2SignalsAccountSignalFraudulentWebsiteRiskLevelNotAssessed V2SignalsAccountSignalFraudulentWebsiteRiskLevel = "not_assessed"
-	V2SignalsAccountSignalFraudulentWebsiteRiskLevelUnknown     V2SignalsAccountSignalFraudulentWebsiteRiskLevel = "unknown"
+	V2SignalsAccountSignalFraudulentWebsiteRiskLevelElevated V2SignalsAccountSignalFraudulentWebsiteRiskLevel = "elevated"
+	V2SignalsAccountSignalFraudulentWebsiteRiskLevelHighest  V2SignalsAccountSignalFraudulentWebsiteRiskLevel = "highest"
+	V2SignalsAccountSignalFraudulentWebsiteRiskLevelLow      V2SignalsAccountSignalFraudulentWebsiteRiskLevel = "low"
+	V2SignalsAccountSignalFraudulentWebsiteRiskLevelNormal   V2SignalsAccountSignalFraudulentWebsiteRiskLevel = "normal"
+	V2SignalsAccountSignalFraudulentWebsiteRiskLevelUnknown  V2SignalsAccountSignalFraudulentWebsiteRiskLevel = "unknown"
 )
 
 // The effect this indicator had on the overall risk level.
-type V2SignalsAccountSignalMerchantDelinquencyIndicatorImpact string
+type V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorImpact string
 
-// List of values that V2SignalsAccountSignalMerchantDelinquencyIndicatorImpact can take
+// List of values that V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorImpact can take
 const (
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorImpactDecrease       V2SignalsAccountSignalMerchantDelinquencyIndicatorImpact = "decrease"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorImpactNeutral        V2SignalsAccountSignalMerchantDelinquencyIndicatorImpact = "neutral"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorImpactSlightIncrease V2SignalsAccountSignalMerchantDelinquencyIndicatorImpact = "slight_increase"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorImpactStrongIncrease V2SignalsAccountSignalMerchantDelinquencyIndicatorImpact = "strong_increase"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorImpactDecrease       V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorImpact = "decrease"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorImpactNeutral        V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorImpact = "neutral"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorImpactSlightIncrease V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorImpact = "slight_increase"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorImpactStrongIncrease V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorImpact = "strong_increase"
 )
 
 // The name of the specific indicator used in the risk assessment.
-type V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator string
+type V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator string
 
-// List of values that V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator can take
+// List of values that V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator can take
 const (
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorAccountBalance      V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "account_balance"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorAov                 V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "aov"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorChargeConcentration V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "charge_concentration"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorDisputes            V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "disputes"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorDisputeWindow       V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "dispute_window"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorExposure            V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "exposure"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorFirmographic        V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "firmographic"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorLifetimeMetrics     V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "lifetime_metrics"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorOther               V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "other"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorPaymentProcessing   V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "payment_processing"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorPaymentVolume       V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "payment_volume"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorPayouts             V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "payouts"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorRefunds             V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "refunds"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorRelatedAccounts     V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "related_accounts"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorTenure              V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "tenure"
-	V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicatorTransfers           V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator = "transfers"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorAccountBalance      V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "account_balance"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorAov                 V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "aov"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorChargeConcentration V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "charge_concentration"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorDisputes            V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "disputes"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorDisputeWindow       V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "dispute_window"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorExposure            V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "exposure"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorFirmographic        V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "firmographic"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorLifetimeMetrics     V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "lifetime_metrics"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorOther               V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "other"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorPaymentProcessing   V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "payment_processing"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorPaymentVolume       V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "payment_volume"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorPayouts             V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "payouts"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorRefunds             V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "refunds"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorRelatedAccounts     V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "related_accounts"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorTenure              V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "tenure"
+	V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicatorTransfers           V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator = "transfers"
 )
 
 // Categorical assessment of the delinquency risk based on probability.
@@ -100,12 +98,11 @@ type V2SignalsAccountSignalMerchantDelinquencyRiskLevel string
 
 // List of values that V2SignalsAccountSignalMerchantDelinquencyRiskLevel can take
 const (
-	V2SignalsAccountSignalMerchantDelinquencyRiskLevelElevated    V2SignalsAccountSignalMerchantDelinquencyRiskLevel = "elevated"
-	V2SignalsAccountSignalMerchantDelinquencyRiskLevelHighest     V2SignalsAccountSignalMerchantDelinquencyRiskLevel = "highest"
-	V2SignalsAccountSignalMerchantDelinquencyRiskLevelLow         V2SignalsAccountSignalMerchantDelinquencyRiskLevel = "low"
-	V2SignalsAccountSignalMerchantDelinquencyRiskLevelNormal      V2SignalsAccountSignalMerchantDelinquencyRiskLevel = "normal"
-	V2SignalsAccountSignalMerchantDelinquencyRiskLevelNotAssessed V2SignalsAccountSignalMerchantDelinquencyRiskLevel = "not_assessed"
-	V2SignalsAccountSignalMerchantDelinquencyRiskLevelUnknown     V2SignalsAccountSignalMerchantDelinquencyRiskLevel = "unknown"
+	V2SignalsAccountSignalMerchantDelinquencyRiskLevelElevated V2SignalsAccountSignalMerchantDelinquencyRiskLevel = "elevated"
+	V2SignalsAccountSignalMerchantDelinquencyRiskLevelHighest  V2SignalsAccountSignalMerchantDelinquencyRiskLevel = "highest"
+	V2SignalsAccountSignalMerchantDelinquencyRiskLevelLow      V2SignalsAccountSignalMerchantDelinquencyRiskLevel = "low"
+	V2SignalsAccountSignalMerchantDelinquencyRiskLevelNormal   V2SignalsAccountSignalMerchantDelinquencyRiskLevel = "normal"
+	V2SignalsAccountSignalMerchantDelinquencyRiskLevelUnknown  V2SignalsAccountSignalMerchantDelinquencyRiskLevel = "unknown"
 )
 
 // The type of signal.
@@ -126,12 +123,11 @@ type V2SignalsAccountSignalUserAccountSharingRiskLevel string
 
 // List of values that V2SignalsAccountSignalUserAccountSharingRiskLevel can take
 const (
-	V2SignalsAccountSignalUserAccountSharingRiskLevelElevated    V2SignalsAccountSignalUserAccountSharingRiskLevel = "elevated"
-	V2SignalsAccountSignalUserAccountSharingRiskLevelHighest     V2SignalsAccountSignalUserAccountSharingRiskLevel = "highest"
-	V2SignalsAccountSignalUserAccountSharingRiskLevelLow         V2SignalsAccountSignalUserAccountSharingRiskLevel = "low"
-	V2SignalsAccountSignalUserAccountSharingRiskLevelNormal      V2SignalsAccountSignalUserAccountSharingRiskLevel = "normal"
-	V2SignalsAccountSignalUserAccountSharingRiskLevelNotAssessed V2SignalsAccountSignalUserAccountSharingRiskLevel = "not_assessed"
-	V2SignalsAccountSignalUserAccountSharingRiskLevelUnknown     V2SignalsAccountSignalUserAccountSharingRiskLevel = "unknown"
+	V2SignalsAccountSignalUserAccountSharingRiskLevelElevated V2SignalsAccountSignalUserAccountSharingRiskLevel = "elevated"
+	V2SignalsAccountSignalUserAccountSharingRiskLevelHighest  V2SignalsAccountSignalUserAccountSharingRiskLevel = "highest"
+	V2SignalsAccountSignalUserAccountSharingRiskLevelLow      V2SignalsAccountSignalUserAccountSharingRiskLevel = "low"
+	V2SignalsAccountSignalUserAccountSharingRiskLevelNormal   V2SignalsAccountSignalUserAccountSharingRiskLevel = "normal"
+	V2SignalsAccountSignalUserAccountSharingRiskLevelUnknown  V2SignalsAccountSignalUserAccountSharingRiskLevel = "unknown"
 )
 
 // Categorical assessment of the multi-accounting risk.
@@ -139,12 +135,11 @@ type V2SignalsAccountSignalUserMultiAccountingRiskLevel string
 
 // List of values that V2SignalsAccountSignalUserMultiAccountingRiskLevel can take
 const (
-	V2SignalsAccountSignalUserMultiAccountingRiskLevelElevated    V2SignalsAccountSignalUserMultiAccountingRiskLevel = "elevated"
-	V2SignalsAccountSignalUserMultiAccountingRiskLevelHighest     V2SignalsAccountSignalUserMultiAccountingRiskLevel = "highest"
-	V2SignalsAccountSignalUserMultiAccountingRiskLevelLow         V2SignalsAccountSignalUserMultiAccountingRiskLevel = "low"
-	V2SignalsAccountSignalUserMultiAccountingRiskLevelNormal      V2SignalsAccountSignalUserMultiAccountingRiskLevel = "normal"
-	V2SignalsAccountSignalUserMultiAccountingRiskLevelNotAssessed V2SignalsAccountSignalUserMultiAccountingRiskLevel = "not_assessed"
-	V2SignalsAccountSignalUserMultiAccountingRiskLevelUnknown     V2SignalsAccountSignalUserMultiAccountingRiskLevel = "unknown"
+	V2SignalsAccountSignalUserMultiAccountingRiskLevelElevated V2SignalsAccountSignalUserMultiAccountingRiskLevel = "elevated"
+	V2SignalsAccountSignalUserMultiAccountingRiskLevelHighest  V2SignalsAccountSignalUserMultiAccountingRiskLevel = "highest"
+	V2SignalsAccountSignalUserMultiAccountingRiskLevelLow      V2SignalsAccountSignalUserMultiAccountingRiskLevel = "low"
+	V2SignalsAccountSignalUserMultiAccountingRiskLevelNormal   V2SignalsAccountSignalUserMultiAccountingRiskLevel = "normal"
+	V2SignalsAccountSignalUserMultiAccountingRiskLevelUnknown  V2SignalsAccountSignalUserMultiAccountingRiskLevel = "unknown"
 )
 
 // The account or customer this signal is associated with.
@@ -155,23 +150,29 @@ type V2SignalsAccountSignalAccountDetails struct {
 	Customer string `json:"customer,omitempty"`
 }
 
-// Array of objects representing individual factors that contributed to the calculated probability. Absent when risk level is not_assessed or unknown,
+// Array of objects representing individual factors that contributed to the calculated probability. Absent when risk level is unknown,
 // or when the user is not on a product tier that includes indicators.
-type V2SignalsAccountSignalFraudulentMerchantIndicator struct {
+type V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicator struct {
 	// A brief explanation of how this indicator contributed to the fraudulent merchant probability.
 	Explanation string `json:"explanation"`
 	// The effect this indicator had on the overall risk level.
-	Impact V2SignalsAccountSignalFraudulentMerchantIndicatorImpact `json:"impact"`
+	Impact V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorImpact `json:"impact"`
 	// The name of the specific indicator used in the risk assessment.
-	Indicator V2SignalsAccountSignalFraudulentMerchantIndicatorIndicator `json:"indicator"`
+	Indicator V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicatorIndicator `json:"indicator"`
+}
+
+// Supplementary contextual data for the signal, including indicators.
+type V2SignalsAccountSignalFraudulentMerchantAdditionalDetails struct {
+	// Array of objects representing individual factors that contributed to the calculated probability. Absent when risk level is unknown,
+	// or when the user is not on a product tier that includes indicators.
+	Indicators []*V2SignalsAccountSignalFraudulentMerchantAdditionalDetailsIndicator `json:"indicators"`
 }
 
 // Data for the fraudulent merchant signal. Present only when type is fraudulent_merchant.
 type V2SignalsAccountSignalFraudulentMerchant struct {
-	// Array of objects representing individual factors that contributed to the calculated probability. Absent when risk level is not_assessed or unknown,
-	// or when the user is not on a product tier that includes indicators.
-	Indicators []*V2SignalsAccountSignalFraudulentMerchantIndicator `json:"indicators"`
-	// The probability of the merchant being fraudulent. Can be between 0.00 and 100.00. Absent when risk level is not_assessed or unknown,
+	// Supplementary contextual data for the signal, including indicators.
+	AdditionalDetails *V2SignalsAccountSignalFraudulentMerchantAdditionalDetails `json:"additional_details,omitempty"`
+	// The probability of the merchant being fraudulent. Can be between 0.00 and 100.00. Absent when risk level is unknown,
 	// or when the user is not on a product tier that includes numeric scores.
 	Probability float64 `json:"probability,string,omitempty"`
 	// Categorical assessment of the fraudulent merchant risk based on probability.
@@ -186,23 +187,29 @@ type V2SignalsAccountSignalFraudulentWebsite struct {
 	RiskLevel V2SignalsAccountSignalFraudulentWebsiteRiskLevel `json:"risk_level"`
 }
 
-// Array of objects representing individual factors that contributed to the calculated probability of delinquency. Absent when risk level is not_assessed or unknown,
+// Array of objects representing individual factors that contributed to the calculated probability of delinquency. Absent when risk level is unknown,
 // or when the user is not on a product tier that includes indicators.
-type V2SignalsAccountSignalMerchantDelinquencyIndicator struct {
+type V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicator struct {
 	// A brief explanation of how this indicator contributed to the delinquency probability.
 	Explanation string `json:"explanation"`
 	// The effect this indicator had on the overall risk level.
-	Impact V2SignalsAccountSignalMerchantDelinquencyIndicatorImpact `json:"impact"`
+	Impact V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorImpact `json:"impact"`
 	// The name of the specific indicator used in the risk assessment.
-	Indicator V2SignalsAccountSignalMerchantDelinquencyIndicatorIndicator `json:"indicator"`
+	Indicator V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicatorIndicator `json:"indicator"`
+}
+
+// Supplementary contextual data for the signal, including indicators.
+type V2SignalsAccountSignalMerchantDelinquencyAdditionalDetails struct {
+	// Array of objects representing individual factors that contributed to the calculated probability of delinquency. Absent when risk level is unknown,
+	// or when the user is not on a product tier that includes indicators.
+	Indicators []*V2SignalsAccountSignalMerchantDelinquencyAdditionalDetailsIndicator `json:"indicators"`
 }
 
 // Data for the merchant delinquency signal. Present only when type is merchant_delinquency.
 type V2SignalsAccountSignalMerchantDelinquency struct {
-	// Array of objects representing individual factors that contributed to the calculated probability of delinquency. Absent when risk level is not_assessed or unknown,
-	// or when the user is not on a product tier that includes indicators.
-	Indicators []*V2SignalsAccountSignalMerchantDelinquencyIndicator `json:"indicators"`
-	// The probability of delinquency. Can be between 0.00 and 100.00. Absent when risk level is not_assessed or unknown,
+	// Supplementary contextual data for the signal, including indicators.
+	AdditionalDetails *V2SignalsAccountSignalMerchantDelinquencyAdditionalDetails `json:"additional_details,omitempty"`
+	// The probability of delinquency. Can be between 0.00 and 100.00. Absent when risk level is unknown,
 	// or when the user is not on a product tier that includes numeric scores.
 	Probability float64 `json:"probability,string,omitempty"`
 	// Categorical assessment of the delinquency risk based on probability.

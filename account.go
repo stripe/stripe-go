@@ -5002,6 +5002,8 @@ type AccountCapabilities struct {
 	SEPABankTransferPayments AccountCapabilityStatus `json:"sepa_bank_transfer_payments,omitempty"`
 	// The status of the SEPA Direct Debits payments capability of the account, or whether the account can directly process SEPA Direct Debits charges.
 	SEPADebitPayments AccountCapabilityStatus `json:"sepa_debit_payments,omitempty"`
+	// The status of the SeQura capability of the account, or whether the account can directly process SeQura payments.
+	SequraPayments AccountCapabilityStatus `json:"sequra_payments,omitempty"`
 	// The status of the ShopeePay capability of the account, or whether the account can directly process ShopeePay payments.
 	ShopeepayPayments AccountCapabilityStatus `json:"shopeepay_payments,omitempty"`
 	// The status of the Sofort payments capability of the account, or whether the account can directly process Sofort charges.

@@ -34,6 +34,13 @@ type V2MoneyManagementPayoutMethodArchiveParams struct {
 	Params `form:"*"`
 }
 
+// Disable a PayoutMethod object. The payout method will not be available for use in outbound money movement.
+// To re-enable the payout method, create an OutboundSetupIntent
+// using [`POST /v2/money_management/outbound_setup_intents`](https://docs.stripe.com/api/v2/money-management/outbound-setup-intents/create).
+type V2MoneyManagementPayoutMethodDisableParams struct {
+	Params `form:"*"`
+}
+
 // Unarchive an PayoutMethod object.
 type V2MoneyManagementPayoutMethodUnarchiveParams struct {
 	Params `form:"*"`

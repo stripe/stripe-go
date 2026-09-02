@@ -42,11 +42,12 @@ const (
 	SharedPaymentGrantedTokenPaymentMethodDetailsTypeLink   SharedPaymentGrantedTokenPaymentMethodDetailsType = "link"
 )
 
-// The recurring interval at which the shared payment token's amount usage restrictions reset.
+// The interval at which the shared payment token's amount usage restrictions reset.
 type SharedPaymentGrantedTokenUsageLimitsRecurringInterval string
 
 // List of values that SharedPaymentGrantedTokenUsageLimitsRecurringInterval can take
 const (
+	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalDay   SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "day"
 	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalMonth SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "month"
 	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalWeek  SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "week"
 	SharedPaymentGrantedTokenUsageLimitsRecurringIntervalYear  SharedPaymentGrantedTokenUsageLimitsRecurringInterval = "year"
@@ -294,6 +295,14 @@ type SharedPaymentGrantedTokenUsageDetails struct {
 	AmountCaptured *SharedPaymentGrantedTokenUsageDetailsAmountCaptured `json:"amount_captured"`
 }
 
+// The recurring schedule for the shared payment token's amount usage restrictions.
+type SharedPaymentGrantedTokenUsageLimitsRecurring struct {
+	// The interval at which the shared payment token's amount usage restrictions reset.
+	Interval SharedPaymentGrantedTokenUsageLimitsRecurringInterval `json:"interval"`
+	// The number of intervals between each reset.
+	IntervalCount int64 `json:"interval_count"`
+}
+
 // Limits on how this SharedPaymentGrantedToken can be used.
 type SharedPaymentGrantedTokenUsageLimits struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -302,6 +311,8 @@ type SharedPaymentGrantedTokenUsageLimits struct {
 	ExpiresAt int64 `json:"expires_at"`
 	// Max amount that can be captured using this SharedPaymentToken.
 	MaxAmount int64 `json:"max_amount"`
+	// The recurring schedule for the shared payment token's amount usage restrictions.
+	Recurring *SharedPaymentGrantedTokenUsageLimitsRecurring `json:"recurring,omitempty"`
 	// The recurring interval at which the shared payment token's amount usage restrictions reset.
 	RecurringInterval SharedPaymentGrantedTokenUsageLimitsRecurringInterval `json:"recurring_interval,omitempty"`
 }

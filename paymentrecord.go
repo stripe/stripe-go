@@ -184,7 +184,6 @@ type PaymentRecordPaymentMethodDetailsCardThreeDSecureResult string
 const (
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultAuthenticated       PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "authenticated"
-	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultDataShareOnly       PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "data_share_only"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultExempted            PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "exempted"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultFailed              PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "failed"
 	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultNotSupported        PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "not_supported"
@@ -769,6 +768,48 @@ func (p *PaymentRecordReportDisputeParams) AddMetadata(key string, value string)
 	p.Metadata[key] = value
 }
 
+// Information about the payment attempt cancelation.
+type PaymentRecordReportPaymentAttemptCanceledParams struct {
+	Params `form:"*"`
+	// When the reported payment was canceled. Measured in seconds since the Unix epoch.
+	CanceledAt *int64 `form:"canceled_at" json:"canceled_at,omitempty"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand" json:"expand,omitempty"`
+	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// Payment evaluations associated with this reported payment.
+	PaymentEvaluations []*string `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
+	// The reason the payment attempt was canceled.
+	Reason      *string                                                     `form:"reason" json:"reason,omitempty"`
+	UnsetFields []PaymentRecordReportPaymentAttemptCanceledParamsUnsetField `form:"-" json:"-"`
+}
+
+// PaymentRecordReportPaymentAttemptCanceledParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportPaymentAttemptCanceledParams.
+type PaymentRecordReportPaymentAttemptCanceledParamsUnsetField string
+
+const (
+	PaymentRecordReportPaymentAttemptCanceledParamsUnsetFieldMetadata PaymentRecordReportPaymentAttemptCanceledParamsUnsetField = "metadata"
+)
+
+// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
+func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddUnsetField(field PaymentRecordReportPaymentAttemptCanceledParamsUnsetField) {
+	p.UnsetFields = append(p.UnsetFields, field)
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Information about the custom processor used to make this payment.
 type PaymentRecordReportPaymentAttemptFailedProcessorDetailsCustomParams struct {
 	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
@@ -952,6 +993,8 @@ type PaymentRecordReportPaymentAttemptShippingDetailsParams struct {
 //	attempt can only be specified if all other payment attempts are canceled or failed.
 type PaymentRecordReportPaymentAttemptParams struct {
 	Params `form:"*"`
+	// Information about the payment attempt cancelation.
+	Canceled *PaymentRecordReportPaymentAttemptCanceledParams `form:"canceled" json:"canceled,omitempty"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description" json:"description,omitempty"`
 	// Specifies which fields in the response should be expanded.
@@ -992,50 +1035,6 @@ func (p *PaymentRecordReportPaymentAttemptParams) AddExpand(f string) {
 
 // AddMetadata adds a new key-value pair to the Metadata.
 func (p *PaymentRecordReportPaymentAttemptParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
-}
-
-// Report that the most recent payment attempt on the specified Payment Record
-//
-//	was canceled.
-type PaymentRecordReportPaymentAttemptCanceledParams struct {
-	Params `form:"*"`
-	// When the reported payment was canceled. Measured in seconds since the Unix epoch.
-	CanceledAt *int64 `form:"canceled_at" json:"canceled_at,omitempty"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand" json:"expand,omitempty"`
-	// Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
-	// Payment evaluations associated with this reported payment.
-	PaymentEvaluations []*string `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
-	// The reason the payment attempt was canceled.
-	Reason      *string                                                     `form:"reason" json:"reason,omitempty"`
-	UnsetFields []PaymentRecordReportPaymentAttemptCanceledParamsUnsetField `form:"-" json:"-"`
-}
-
-// PaymentRecordReportPaymentAttemptCanceledParamsUnsetField is the list of fields that can be cleared/unset on PaymentRecordReportPaymentAttemptCanceledParams.
-type PaymentRecordReportPaymentAttemptCanceledParamsUnsetField string
-
-const (
-	PaymentRecordReportPaymentAttemptCanceledParamsUnsetFieldMetadata PaymentRecordReportPaymentAttemptCanceledParamsUnsetField = "metadata"
-)
-
-// AddUnsetField adds a field to the list of fields to clear/unset on this params object.
-func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddUnsetField(field PaymentRecordReportPaymentAttemptCanceledParamsUnsetField) {
-	p.UnsetFields = append(p.UnsetFields, field)
-}
-
-// AddExpand appends a new field to expand.
-func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]string)
 	}
@@ -1257,6 +1256,16 @@ type PaymentRecordReportPaymentAmountRequestedParams struct {
 	Value *int64 `form:"value" json:"value"`
 }
 
+// Information about the payment attempt cancelation.
+type PaymentRecordReportPaymentCanceledParams struct {
+	// When the reported payment was canceled. Measured in seconds since the Unix epoch.
+	CanceledAt *int64 `form:"canceled_at" json:"canceled_at"`
+	// Payment evaluations associated with this reported payment.
+	PaymentEvaluations []*string `form:"payment_evaluations" json:"payment_evaluations,omitempty"`
+	// The reason the payment attempt was canceled.
+	Reason *string `form:"reason" json:"reason,omitempty"`
+}
+
 // Customer information for this payment.
 type PaymentRecordReportPaymentCustomerDetailsParams struct {
 	// The customer who made the payment.
@@ -1401,6 +1410,8 @@ type PaymentRecordReportPaymentParams struct {
 	Params `form:"*"`
 	// The amount you initially requested for this payment.
 	AmountRequested *PaymentRecordReportPaymentAmountRequestedParams `form:"amount_requested" json:"amount_requested"`
+	// Information about the payment attempt cancelation.
+	Canceled *PaymentRecordReportPaymentCanceledParams `form:"canceled" json:"canceled,omitempty"`
 	// Customer information for this payment.
 	CustomerDetails *PaymentRecordReportPaymentCustomerDetailsParams `form:"customer_details" json:"customer_details,omitempty"`
 	// Indicates whether the customer was present in your checkout flow during this payment.
@@ -2367,6 +2378,10 @@ type PaymentRecordPaymentMethodDetailsSEPADebit struct {
 	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://docs.stripe.com/api/mandates/retrieve).
 	Mandate string `json:"mandate"`
 }
+type PaymentRecordPaymentMethodDetailsSequra struct {
+	// The SeQura transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type PaymentRecordPaymentMethodDetailsShopeepay struct{}
 type PaymentRecordPaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -2518,6 +2533,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	Scalapay           *PaymentRecordPaymentMethodDetailsScalapay           `json:"scalapay,omitempty"`
 	SEPACreditTransfer *PaymentRecordPaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer,omitempty"`
 	SEPADebit          *PaymentRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit,omitempty"`
+	Sequra             *PaymentRecordPaymentMethodDetailsSequra             `json:"sequra,omitempty"`
 	Shopeepay          *PaymentRecordPaymentMethodDetailsShopeepay          `json:"shopeepay,omitempty"`
 	Sofort             *PaymentRecordPaymentMethodDetailsSofort             `json:"sofort,omitempty"`
 	StripeAccount      *PaymentRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account,omitempty"`

@@ -541,6 +541,28 @@ const (
 	V2CoreHealthMeterEventSummariesDelayedResolvedEventDataImpactIngestionMethodImportSets V2CoreHealthMeterEventSummariesDelayedResolvedEventDataImpactIngestionMethod = "import_sets"
 )
 
+// The impacted Metronome billing pipeline.
+type V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpactPipeline string
+
+// List of values that V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpactPipeline can take
+const (
+	V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpactPipelineConfigurationTriggered        V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpactPipeline = "configuration_triggered"
+	V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpactPipelineHighCardinalityUsageTriggered V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpactPipeline = "high_cardinality_usage_triggered"
+	V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpactPipelineStandardUsageTriggered        V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpactPipeline = "standard_usage_triggered"
+	V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpactPipelineTimeTriggered                 V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpactPipeline = "time_triggered"
+)
+
+// The impacted Metronome billing pipeline.
+type V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipeline string
+
+// List of values that V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipeline can take
+const (
+	V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipelineConfigurationTriggered        V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipeline = "configuration_triggered"
+	V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipelineHighCardinalityUsageTriggered V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipeline = "high_cardinality_usage_triggered"
+	V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipelineStandardUsageTriggered        V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipeline = "standard_usage_triggered"
+	V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipelineTimeTriggered                 V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipeline = "time_triggered"
+)
+
 // The type of the payment method.
 type V2CoreHealthPaymentMethodErrorFiringEventDataImpactPaymentMethodType string
 
@@ -13601,6 +13623,50 @@ func (n *V2CoreHealthMeterEventSummariesDelayedResolvedEventNotification) FetchE
 	return evt.(*V2CoreHealthMeterEventSummariesDelayedResolvedEvent), nil
 }
 
+// V2CoreHealthMetronomeNotificationLatencyFiringEvent is the Go struct for the "v2.core.health.metronome_notification_latency.firing" event.
+// Occurs when a Metronome notification latency alert is firing.
+type V2CoreHealthMetronomeNotificationLatencyFiringEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthMetronomeNotificationLatencyFiringEventData `json:"data"`
+}
+
+// V2CoreHealthMetronomeNotificationLatencyFiringEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.metronome_notification_latency.firing"
+// Occurs when a Metronome notification latency alert is firing.
+type V2CoreHealthMetronomeNotificationLatencyFiringEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2CoreHealthMetronomeNotificationLatencyFiringEvent that created this Notification
+func (n *V2CoreHealthMetronomeNotificationLatencyFiringEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthMetronomeNotificationLatencyFiringEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreHealthMetronomeNotificationLatencyFiringEvent), nil
+}
+
+// V2CoreHealthMetronomeNotificationLatencyResolvedEvent is the Go struct for the "v2.core.health.metronome_notification_latency.resolved" event.
+// Occurs when a Metronome notification latency alert is resolved.
+type V2CoreHealthMetronomeNotificationLatencyResolvedEvent struct {
+	V2BaseEvent
+	Data V2CoreHealthMetronomeNotificationLatencyResolvedEventData `json:"data"`
+}
+
+// V2CoreHealthMetronomeNotificationLatencyResolvedEventNotification is the webhook payload you'll get when handling an event with type "v2.core.health.metronome_notification_latency.resolved"
+// Occurs when a Metronome notification latency alert is resolved.
+type V2CoreHealthMetronomeNotificationLatencyResolvedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2CoreHealthMetronomeNotificationLatencyResolvedEvent that created this Notification
+func (n *V2CoreHealthMetronomeNotificationLatencyResolvedEventNotification) FetchEvent(ctx context.Context) (*V2CoreHealthMetronomeNotificationLatencyResolvedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2CoreHealthMetronomeNotificationLatencyResolvedEvent), nil
+}
+
 // V2CoreHealthPaymentMethodErrorFiringEvent is the Go struct for the "v2.core.health.payment_method_error.firing" event.
 // Occurs when a payment method error alert is firing.
 type V2CoreHealthPaymentMethodErrorFiringEvent struct {
@@ -15579,6 +15645,211 @@ func (n *V2MoneyManagementOutboundTransferUpdatedEventNotification) FetchRelated
 	params.Headers = make(http.Header)
 	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
 	relatedObj := &V2MoneyManagementOutboundTransfer{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementPayoutIntentCanceledEvent is the Go struct for the "v2.money_management.payout_intent.canceled" event.
+// Occurs when a PayoutIntent transitions into the canceled state.
+type V2MoneyManagementPayoutIntentCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementPayoutIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (e *V2MoneyManagementPayoutIntentCanceledEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementPayoutIntentCanceledEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.payout_intent.canceled"
+// Occurs when a PayoutIntent transitions into the canceled state.
+type V2MoneyManagementPayoutIntentCanceledEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementPayoutIntentCanceledEvent that created this Notification
+func (n *V2MoneyManagementPayoutIntentCanceledEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutIntentCanceledEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementPayoutIntentCanceledEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (n *V2MoneyManagementPayoutIntentCanceledEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementPayoutIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementPayoutIntentCreatedEvent is the Go struct for the "v2.money_management.payout_intent.created" event.
+// Occurs when a PayoutIntent is created.
+type V2MoneyManagementPayoutIntentCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementPayoutIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (e *V2MoneyManagementPayoutIntentCreatedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementPayoutIntentCreatedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.payout_intent.created"
+// Occurs when a PayoutIntent is created.
+type V2MoneyManagementPayoutIntentCreatedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementPayoutIntentCreatedEvent that created this Notification
+func (n *V2MoneyManagementPayoutIntentCreatedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutIntentCreatedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementPayoutIntentCreatedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (n *V2MoneyManagementPayoutIntentCreatedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementPayoutIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementPayoutIntentPostedEvent is the Go struct for the "v2.money_management.payout_intent.posted" event.
+// Occurs when a PayoutIntent transitions into the posted state.
+type V2MoneyManagementPayoutIntentPostedEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementPayoutIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (e *V2MoneyManagementPayoutIntentPostedEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementPayoutIntentPostedEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.payout_intent.posted"
+// Occurs when a PayoutIntent transitions into the posted state.
+type V2MoneyManagementPayoutIntentPostedEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementPayoutIntentPostedEvent that created this Notification
+func (n *V2MoneyManagementPayoutIntentPostedEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutIntentPostedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementPayoutIntentPostedEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (n *V2MoneyManagementPayoutIntentPostedEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementPayoutIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementPayoutIntentProcessingEvent is the Go struct for the "v2.money_management.payout_intent.processing" event.
+// Occurs when a PayoutIntent transitions into the processing state.
+type V2MoneyManagementPayoutIntentProcessingEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementPayoutIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (e *V2MoneyManagementPayoutIntentProcessingEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementPayoutIntentProcessingEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.payout_intent.processing"
+// Occurs when a PayoutIntent transitions into the processing state.
+type V2MoneyManagementPayoutIntentProcessingEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementPayoutIntentProcessingEvent that created this Notification
+func (n *V2MoneyManagementPayoutIntentProcessingEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutIntentProcessingEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementPayoutIntentProcessingEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (n *V2MoneyManagementPayoutIntentProcessingEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementPayoutIntent{}
+	err := n.client.backends.API.Call(
+		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
+	return relatedObj, err
+}
+
+// V2MoneyManagementPayoutIntentRequiresActionEvent is the Go struct for the "v2.money_management.payout_intent.requires_action" event.
+// Occurs when a PayoutIntent transitions into the requires_action state.
+type V2MoneyManagementPayoutIntentRequiresActionEvent struct {
+	V2BaseEvent
+	RelatedObject      V2CoreEventRelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementPayoutIntent, error)
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (e *V2MoneyManagementPayoutIntentRequiresActionEvent) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementPayoutIntentRequiresActionEventNotification is the webhook payload you'll get when handling an event with type "v2.money_management.payout_intent.requires_action"
+// Occurs when a PayoutIntent transitions into the requires_action state.
+type V2MoneyManagementPayoutIntentRequiresActionEventNotification struct {
+	V2CoreEventNotification
+	RelatedObject V2CoreEventRelatedObject `json:"related_object"`
+}
+
+// FetchEvent retrieves the V2MoneyManagementPayoutIntentRequiresActionEvent that created this Notification
+func (n *V2MoneyManagementPayoutIntentRequiresActionEventNotification) FetchEvent(ctx context.Context) (*V2MoneyManagementPayoutIntentRequiresActionEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2MoneyManagementPayoutIntentRequiresActionEvent), nil
+}
+
+// FetchRelatedObject fetches the V2MoneyManagementPayoutIntent related to the event.
+func (n *V2MoneyManagementPayoutIntentRequiresActionEventNotification) FetchRelatedObject(ctx context.Context) (*V2MoneyManagementPayoutIntent, error) {
+	params := &eventNotificationParams{Params: Params{Context: ctx}}
+	params.SetStripeContextFrom(n.Context)
+	params.Headers = make(http.Header)
+	params.Headers.Set("Stripe-Request-Trigger", fmt.Sprintf("event=%s", n.ID))
+	relatedObj := &V2MoneyManagementPayoutIntent{}
 	err := n.client.backends.API.Call(
 		http.MethodGet, n.RelatedObject.URL, n.client.key, params, relatedObj)
 	return relatedObj, err
@@ -17923,6 +18194,30 @@ func (n *V2SignalsAccountSignalPaymentDelinquencyExposureReadyEventNotification)
 	return relatedObj, err
 }
 
+// V2SignalsPaymentRetryEvaluationsRetryRecommendedEvent is the Go struct for the "v2.signals.payment_retry_evaluations.retry_recommended" event.
+// Occurs when the ML scoring model determines it's a good time to retry a failed payment.
+// This is a thin event — the merchant must call GET to retrieve the full evaluation.
+type V2SignalsPaymentRetryEvaluationsRetryRecommendedEvent struct {
+	V2BaseEvent
+	Data V2SignalsPaymentRetryEvaluationsRetryRecommendedEventData `json:"data"`
+}
+
+// V2SignalsPaymentRetryEvaluationsRetryRecommendedEventNotification is the webhook payload you'll get when handling an event with type "v2.signals.payment_retry_evaluations.retry_recommended"
+// Occurs when the ML scoring model determines it's a good time to retry a failed payment.
+// This is a thin event — the merchant must call GET to retrieve the full evaluation.
+type V2SignalsPaymentRetryEvaluationsRetryRecommendedEventNotification struct {
+	V2CoreEventNotification
+}
+
+// FetchEvent retrieves the V2SignalsPaymentRetryEvaluationsRetryRecommendedEvent that created this Notification
+func (n *V2SignalsPaymentRetryEvaluationsRetryRecommendedEventNotification) FetchEvent(ctx context.Context) (*V2SignalsPaymentRetryEvaluationsRetryRecommendedEvent, error) {
+	evt, err := n.fetchEvent(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evt.(*V2SignalsPaymentRetryEvaluationsRetryRecommendedEvent), nil
+}
+
 // Array of objects representing individual factors that contributed to the calculated probability of delinquency.
 type V1AccountSignalsIncludingDelinquencyCreatedEventDataIndicator struct {
 	// A brief explanation of how this indicator contributed to the delinquency probability.
@@ -18735,6 +19030,48 @@ type V2CoreHealthMeterEventSummariesDelayedResolvedEventData struct {
 	Summary string `json:"summary"`
 }
 
+// The user impact.
+type V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpact struct {
+	// The impacted Metronome billing pipeline.
+	Pipeline V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpactPipeline `json:"pipeline"`
+}
+
+// Occurs when a Metronome notification latency alert is firing.
+type V2CoreHealthMetronomeNotificationLatencyFiringEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthMetronomeNotificationLatencyFiringEventDataImpact `json:"impact"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
+// The user impact.
+type V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpact struct {
+	// The impacted Metronome billing pipeline.
+	Pipeline V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpactPipeline `json:"pipeline"`
+}
+
+// Occurs when a Metronome notification latency alert is resolved.
+type V2CoreHealthMetronomeNotificationLatencyResolvedEventData struct {
+	// The alert ID.
+	AlertID string `json:"alert_id"`
+	// The grouping key for the alert.
+	GroupingKey string `json:"grouping_key"`
+	// The user impact.
+	Impact *V2CoreHealthMetronomeNotificationLatencyResolvedEventDataImpact `json:"impact"`
+	// The time when the user experience has returned to expected levels.
+	ResolvedAt time.Time `json:"resolved_at"`
+	// The time when impact on the user experience was first detected.
+	StartedAt time.Time `json:"started_at"`
+	// A short description of the alert.
+	Summary string `json:"summary"`
+}
+
 // The top impacted connected accounts (only for platforms).
 type V2CoreHealthPaymentMethodErrorFiringEventDataImpactTopImpactedAccount struct {
 	// The account ID of the impacted connected account.
@@ -19291,6 +19628,19 @@ type V2SignalsAccountSignalFraudulentMerchantReadyEventData struct {
 	FraudulentMerchant *V2SignalsAccountSignalFraudulentMerchantReadyEventDataFraudulentMerchant `json:"fraudulent_merchant,omitempty"`
 	// The type of account signal. Currently only fraudulent_merchant is supported.
 	Type V2SignalsAccountSignalFraudulentMerchantReadyEventDataType `json:"type"`
+}
+
+// Occurs when the ML scoring model determines it's a good time to retry a failed payment.
+// This is a thin event — the merchant must call GET to retrieve the full evaluation.
+type V2SignalsPaymentRetryEvaluationsRetryRecommendedEventData struct {
+	// Unique identifier for the payment retry evaluation.
+	ID string `json:"id"`
+	// Whether the event was created in livemode.
+	Livemode bool `json:"livemode"`
+	// The PaymentIntent ID. Present when the evaluation is for a PaymentIntent.
+	PaymentIntent string `json:"payment_intent,omitempty"`
+	// The PaymentRecord ID. Present when the evaluation is for a PaymentRecord.
+	PaymentRecord string `json:"payment_record,omitempty"`
 }
 
 // ConvertRawEvent converts a raw event to a concrete event type.
@@ -23991,6 +24341,20 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			return nil, err
 		}
 		return result, nil
+	case "v2.core.health.metronome_notification_latency.firing":
+		result := &V2CoreHealthMetronomeNotificationLatencyFiringEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.health.metronome_notification_latency.resolved":
+		result := &V2CoreHealthMetronomeNotificationLatencyResolvedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case "v2.core.health.payment_method_error.firing":
 		result := &V2CoreHealthPaymentMethodErrorFiringEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -24696,6 +25060,81 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.payout_intent.canceled":
+		result := &V2MoneyManagementPayoutIntentCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutIntent, error) {
+			v := &V2MoneyManagementPayoutIntent{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.payout_intent.created":
+		result := &V2MoneyManagementPayoutIntentCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutIntent, error) {
+			v := &V2MoneyManagementPayoutIntent{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.payout_intent.posted":
+		result := &V2MoneyManagementPayoutIntentPostedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutIntent, error) {
+			v := &V2MoneyManagementPayoutIntent{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.payout_intent.processing":
+		result := &V2MoneyManagementPayoutIntentProcessingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutIntent, error) {
+			v := &V2MoneyManagementPayoutIntent{}
+			params := &Params{}
+			params.Headers = make(http.Header)
+			params.Headers.Set(
+				"Stripe-Request-Trigger", fmt.Sprintf("event=%s", event.ID))
+			err := backend.Call(
+				http.MethodGet, event.RelatedObject.URL, key, params, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.payout_intent.requires_action":
+		result := &V2MoneyManagementPayoutIntentRequiresActionEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutIntent, error) {
+			v := &V2MoneyManagementPayoutIntent{}
 			params := &Params{}
 			params.Headers = make(http.Header)
 			params.Headers.Set(
@@ -25589,6 +26028,13 @@ func ConvertRawEvent(event *V2CoreRawEvent, backend Backend, key string) (V2Core
 			err := backend.Call(
 				http.MethodGet, event.RelatedObject.URL, key, params, v)
 			return v, err
+		}
+		return result, nil
+	case "v2.signals.payment_retry_evaluations.retry_recommended":
+		result := &V2SignalsPaymentRetryEvaluationsRetryRecommendedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
 		}
 		return result, nil
 	default:
@@ -27901,6 +28347,20 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.core.health.metronome_notification_latency.firing":
+		evt := V2CoreHealthMetronomeNotificationLatencyFiringEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.core.health.metronome_notification_latency.resolved":
+		evt := V2CoreHealthMetronomeNotificationLatencyResolvedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.core.health.payment_method_error.firing":
 		evt := V2CoreHealthPaymentMethodErrorFiringEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -28307,6 +28767,41 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		}
 		evt.client = client
 		return &evt, nil
+	case "v2.money_management.payout_intent.canceled":
+		evt := V2MoneyManagementPayoutIntentCanceledEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.payout_intent.created":
+		evt := V2MoneyManagementPayoutIntentCreatedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.payout_intent.posted":
+		evt := V2MoneyManagementPayoutIntentPostedEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.payout_intent.processing":
+		evt := V2MoneyManagementPayoutIntentProcessingEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.money_management.payout_intent.requires_action":
+		evt := V2MoneyManagementPayoutIntentRequiresActionEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
 	case "v2.money_management.payout_method.created":
 		evt := V2MoneyManagementPayoutMethodCreatedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
@@ -28701,6 +29196,13 @@ func EventNotificationFromJSON(payload []byte, client Client) (EventNotification
 		return &evt, nil
 	case "v2.signals.account_signal.payment_delinquency_exposure_ready":
 		evt := V2SignalsAccountSignalPaymentDelinquencyExposureReadyEventNotification{}
+		if err := json.Unmarshal(payload, &evt); err != nil {
+			return nil, err
+		}
+		evt.client = client
+		return &evt, nil
+	case "v2.signals.payment_retry_evaluations.retry_recommended":
+		evt := V2SignalsPaymentRetryEvaluationsRetryRecommendedEventNotification{}
 		if err := json.Unmarshal(payload, &evt); err != nil {
 			return nil, err
 		}

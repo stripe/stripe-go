@@ -104,6 +104,26 @@ type V2BillingContractBillingSettingsParams struct {
 	CollectionSettingsDetails *V2BillingContractBillingSettingsCollectionSettingsDetailsParams `form:"collection_settings_details" json:"collection_settings_details"`
 }
 
+// When this fee should be billed.
+type V2BillingContractOneTimeFeeBillAtParams struct {
+	// The timestamp at which the entry should be billed. Required if `type` is `timestamp`.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// The type of the bill_at.
+	Type *string `form:"type" json:"type"`
+}
+
+// A list of one-time fees to create with the contract. Each fee is billed as individual invoice items per its bill_schedule.
+type V2BillingContractOneTimeFeeParams struct {
+	// The amount to bill.
+	Amount *Amount `form:"amount" json:"amount"`
+	// When this fee should be billed.
+	BillAt *V2BillingContractOneTimeFeeBillAtParams `form:"bill_at" json:"bill_at"`
+	// A user-provided lookup key.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// The id of the product for this fee.
+	Product *string `form:"product" json:"product"`
+}
+
 // When the pricing line ends.
 type V2BillingContractPricingLineEndsAtParams struct {
 	// The timestamp when the item ends. Required if `type` is `timestamp`.
@@ -298,6 +318,7 @@ type V2BillingContractParams struct {
 	// The billing settings for the contract.
 	BillingSettings *V2BillingContractBillingSettingsParams `form:"billing_settings" json:"billing_settings,omitempty"`
 	// A unique user-provided contract number e.g. C-2026-0001.
+	// Maximum length of 200 characters.
 	ContractNumber *string `form:"contract_number" json:"contract_number,omitempty"`
 	// Currency of the contract.
 	Currency *string `form:"currency" json:"currency,omitempty"`
@@ -305,6 +326,10 @@ type V2BillingContractParams struct {
 	Include []*string `form:"include" json:"include,omitempty"`
 	// Set of key-value pairs that you can attach to an object.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
+	// One-time fee actions to apply.
+	OneTimeFeeActions []*V2BillingContractOneTimeFeeActionParams `form:"one_time_fee_actions" json:"one_time_fee_actions,omitempty"`
+	// A list of one-time fees to create with the contract. Each fee is billed as individual invoice items per its bill_schedule.
+	OneTimeFees []*V2BillingContractOneTimeFeeParams `form:"one_time_fees" json:"one_time_fees,omitempty"`
 	// Pricing line actions to apply.
 	PricingLineActions []*V2BillingContractPricingLineActionParams `form:"pricing_line_actions" json:"pricing_line_actions,omitempty"`
 	// A list of pricing lines to create with the contract.
@@ -322,6 +347,66 @@ func (p *V2BillingContractParams) AddMetadata(key string, value *string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// When this fee should be billed.
+type V2BillingContractOneTimeFeeActionAddBillAtParams struct {
+	// The timestamp at which the entry should be billed. Required if `type` is `timestamp`.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// The type of the bill_at.
+	Type *string `form:"type" json:"type"`
+}
+
+// Parameters for adding a one-time fee.
+type V2BillingContractOneTimeFeeActionAddParams struct {
+	// The amount to bill.
+	Amount *Amount `form:"amount" json:"amount"`
+	// When this fee should be billed.
+	BillAt *V2BillingContractOneTimeFeeActionAddBillAtParams `form:"bill_at" json:"bill_at"`
+	// A user-provided lookup key.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// The id of the product for this fee.
+	Product *string `form:"product" json:"product"`
+}
+
+// Parameters for removing a one-time fee.
+type V2BillingContractOneTimeFeeActionRemoveParams struct {
+	// The id of the one-time fee to remove.
+	ID *string `form:"id" json:"id,omitempty"`
+	// The lookup key of the one-time fee to remove.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+}
+
+// The updated bill_at schedule.
+type V2BillingContractOneTimeFeeActionUpdateBillAtParams struct {
+	// The timestamp at which the entry should be billed. Required if `type` is `timestamp`.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// The type of the bill_at.
+	Type *string `form:"type" json:"type"`
+}
+
+// Parameters for updating a one-time fee.
+type V2BillingContractOneTimeFeeActionUpdateParams struct {
+	// The updated amount to bill.
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
+	// The updated bill_at schedule.
+	BillAt *V2BillingContractOneTimeFeeActionUpdateBillAtParams `form:"bill_at" json:"bill_at,omitempty"`
+	// The id of the one-time fee to update.
+	ID *string `form:"id" json:"id,omitempty"`
+	// The lookup key of the one-time fee to update.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+}
+
+// One-time fee actions to apply.
+type V2BillingContractOneTimeFeeActionParams struct {
+	// Parameters for adding a one-time fee.
+	Add *V2BillingContractOneTimeFeeActionAddParams `form:"add" json:"add,omitempty"`
+	// Parameters for removing a one-time fee.
+	Remove *V2BillingContractOneTimeFeeActionRemoveParams `form:"remove" json:"remove,omitempty"`
+	// The type of one-time fee action.
+	Type *string `form:"type" json:"type"`
+	// Parameters for updating a one-time fee.
+	Update *V2BillingContractOneTimeFeeActionUpdateParams `form:"update" json:"update,omitempty"`
 }
 
 // The end time for the pricing line.
@@ -883,6 +968,26 @@ type V2BillingContractCreateBillingSettingsParams struct {
 	CollectionSettingsDetails *V2BillingContractCreateBillingSettingsCollectionSettingsDetailsParams `form:"collection_settings_details" json:"collection_settings_details"`
 }
 
+// When this fee should be billed.
+type V2BillingContractCreateOneTimeFeeBillAtParams struct {
+	// The timestamp at which the entry should be billed. Required if `type` is `timestamp`.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// The type of the bill_at.
+	Type *string `form:"type" json:"type"`
+}
+
+// A list of one-time fees to create with the contract. Each fee is billed as individual invoice items per its bill_schedule.
+type V2BillingContractCreateOneTimeFeeParams struct {
+	// The amount to bill.
+	Amount *Amount `form:"amount" json:"amount"`
+	// When this fee should be billed.
+	BillAt *V2BillingContractCreateOneTimeFeeBillAtParams `form:"bill_at" json:"bill_at"`
+	// A user-provided lookup key.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// The id of the product for this fee.
+	Product *string `form:"product" json:"product"`
+}
+
 // When the pricing line ends.
 type V2BillingContractCreatePricingLineEndsAtParams struct {
 	// The timestamp when the item ends. Required if `type` is `timestamp`.
@@ -1077,6 +1182,7 @@ type V2BillingContractCreateParams struct {
 	// The billing settings for the contract.
 	BillingSettings *V2BillingContractCreateBillingSettingsParams `form:"billing_settings" json:"billing_settings,omitempty"`
 	// A unique user-provided contract number e.g. C-2026-0001.
+	// Maximum length of 200 characters.
 	ContractNumber *string `form:"contract_number" json:"contract_number"`
 	// Currency of the contract.
 	Currency *string `form:"currency" json:"currency"`
@@ -1084,6 +1190,8 @@ type V2BillingContractCreateParams struct {
 	Include []*string `form:"include" json:"include,omitempty"`
 	// Set of key-value pairs that you can attach to an object.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// A list of one-time fees to create with the contract. Each fee is billed as individual invoice items per its bill_schedule.
+	OneTimeFees []*V2BillingContractCreateOneTimeFeeParams `form:"one_time_fees" json:"one_time_fees,omitempty"`
 	// A list of pricing lines to create with the contract.
 	PricingLines []*V2BillingContractCreatePricingLineParams `form:"pricing_lines" json:"pricing_lines,omitempty"`
 	// A list of pricing overrides to create with the contract.
@@ -1109,6 +1217,66 @@ type V2BillingContractRetrieveParams struct {
 	Params `form:"*"`
 	// Additional fields to include in the response.
 	Include []*string `form:"include" json:"include,omitempty"`
+}
+
+// When this fee should be billed.
+type V2BillingContractUpdateOneTimeFeeActionAddBillAtParams struct {
+	// The timestamp at which the entry should be billed. Required if `type` is `timestamp`.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// The type of the bill_at.
+	Type *string `form:"type" json:"type"`
+}
+
+// Parameters for adding a one-time fee.
+type V2BillingContractUpdateOneTimeFeeActionAddParams struct {
+	// The amount to bill.
+	Amount *Amount `form:"amount" json:"amount"`
+	// When this fee should be billed.
+	BillAt *V2BillingContractUpdateOneTimeFeeActionAddBillAtParams `form:"bill_at" json:"bill_at"`
+	// A user-provided lookup key.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+	// The id of the product for this fee.
+	Product *string `form:"product" json:"product"`
+}
+
+// Parameters for removing a one-time fee.
+type V2BillingContractUpdateOneTimeFeeActionRemoveParams struct {
+	// The id of the one-time fee to remove.
+	ID *string `form:"id" json:"id,omitempty"`
+	// The lookup key of the one-time fee to remove.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+}
+
+// The updated bill_at schedule.
+type V2BillingContractUpdateOneTimeFeeActionUpdateBillAtParams struct {
+	// The timestamp at which the entry should be billed. Required if `type` is `timestamp`.
+	Timestamp *time.Time `form:"timestamp" json:"timestamp,omitempty"`
+	// The type of the bill_at.
+	Type *string `form:"type" json:"type"`
+}
+
+// Parameters for updating a one-time fee.
+type V2BillingContractUpdateOneTimeFeeActionUpdateParams struct {
+	// The updated amount to bill.
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
+	// The updated bill_at schedule.
+	BillAt *V2BillingContractUpdateOneTimeFeeActionUpdateBillAtParams `form:"bill_at" json:"bill_at,omitempty"`
+	// The id of the one-time fee to update.
+	ID *string `form:"id" json:"id,omitempty"`
+	// The lookup key of the one-time fee to update.
+	LookupKey *string `form:"lookup_key" json:"lookup_key,omitempty"`
+}
+
+// One-time fee actions to apply.
+type V2BillingContractUpdateOneTimeFeeActionParams struct {
+	// Parameters for adding a one-time fee.
+	Add *V2BillingContractUpdateOneTimeFeeActionAddParams `form:"add" json:"add,omitempty"`
+	// Parameters for removing a one-time fee.
+	Remove *V2BillingContractUpdateOneTimeFeeActionRemoveParams `form:"remove" json:"remove,omitempty"`
+	// The type of one-time fee action.
+	Type *string `form:"type" json:"type"`
+	// Parameters for updating a one-time fee.
+	Update *V2BillingContractUpdateOneTimeFeeActionUpdateParams `form:"update" json:"update,omitempty"`
 }
 
 // The end time for the pricing line.
@@ -1561,6 +1729,8 @@ type V2BillingContractUpdateParams struct {
 	Include []*string `form:"include" json:"include,omitempty"`
 	// Set of key-value pairs.
 	Metadata map[string]*string `form:"metadata" json:"metadata,omitempty"`
+	// One-time fee actions to apply.
+	OneTimeFeeActions []*V2BillingContractUpdateOneTimeFeeActionParams `form:"one_time_fee_actions" json:"one_time_fee_actions,omitempty"`
 	// Pricing line actions to apply.
 	PricingLineActions []*V2BillingContractUpdatePricingLineActionParams `form:"pricing_line_actions" json:"pricing_line_actions,omitempty"`
 	// Pricing override actions to apply.

@@ -8,6 +8,24 @@ package stripe
 
 import "time"
 
+// The reason the account or customer was restricted.
+type V2SignalsAccountActivityAccountRestrictedReason string
+
+// List of values that V2SignalsAccountActivityAccountRestrictedReason can take
+const (
+	V2SignalsAccountActivityAccountRestrictedReasonAbuse V2SignalsAccountActivityAccountRestrictedReason = "abuse"
+	V2SignalsAccountActivityAccountRestrictedReasonOther V2SignalsAccountActivityAccountRestrictedReason = "other"
+)
+
+// The reason the customer was suspended.
+type V2SignalsAccountActivityAccountSuspendedReason string
+
+// List of values that V2SignalsAccountActivityAccountSuspendedReason can take
+const (
+	V2SignalsAccountActivityAccountSuspendedReasonAbuse V2SignalsAccountActivityAccountSuspendedReason = "abuse"
+	V2SignalsAccountActivityAccountSuspendedReasonOther V2SignalsAccountActivityAccountSuspendedReason = "other"
+)
+
 // The action the merchant took following the evaluation.
 type V2SignalsAccountActivityLoginDecisionStatus string
 
@@ -33,6 +51,8 @@ type V2SignalsAccountActivityType string
 
 // List of values that V2SignalsAccountActivityType can take
 const (
+	V2SignalsAccountActivityTypeAccountRestricted    V2SignalsAccountActivityType = "account_restricted"
+	V2SignalsAccountActivityTypeAccountSuspended     V2SignalsAccountActivityType = "account_suspended"
 	V2SignalsAccountActivityTypeLoginAttempt         V2SignalsAccountActivityType = "login_attempt"
 	V2SignalsAccountActivityTypeLoginDecision        V2SignalsAccountActivityType = "login_decision"
 	V2SignalsAccountActivityTypeRegistrationAttempt  V2SignalsAccountActivityType = "registration_attempt"
@@ -83,6 +103,20 @@ type V2SignalsAccountActivityAccountDetails struct {
 	Customer string `json:"customer,omitempty"`
 	// Inline account data to evaluate without creating a v2 account.
 	Data *V2SignalsAccountActivityAccountDetailsData `json:"data,omitempty"`
+}
+
+// Details for the account restriction. Present only when type is account_restricted. The activity
+// requires an existing account_details.account or account_details.customer; inline data is unsupported.
+type V2SignalsAccountActivityAccountRestricted struct {
+	// The reason the account or customer was restricted.
+	Reason V2SignalsAccountActivityAccountRestrictedReason `json:"reason"`
+}
+
+// Details for the account suspension. Present only when type is account_suspended. The activity
+// requires an existing account_details.customer; account_details.account and inline data are unsupported.
+type V2SignalsAccountActivityAccountSuspended struct {
+	// The reason the customer was suspended.
+	Reason V2SignalsAccountActivityAccountSuspendedReason `json:"reason"`
 }
 
 // Raw client details for the activity, when a Radar session is not available.
@@ -152,6 +186,12 @@ type V2SignalsAccountActivity struct {
 	AccountDetails *V2SignalsAccountActivityAccountDetails `json:"account_details,omitempty"`
 	// The account evaluation this activity is associated with, when applicable.
 	AccountEvaluation string `json:"account_evaluation,omitempty"`
+	// Details for the account restriction. Present only when type is account_restricted. The activity
+	// requires an existing account_details.account or account_details.customer; inline data is unsupported.
+	AccountRestricted *V2SignalsAccountActivityAccountRestricted `json:"account_restricted,omitempty"`
+	// Details for the account suspension. Present only when type is account_suspended. The activity
+	// requires an existing account_details.customer; account_details.account and inline data are unsupported.
+	AccountSuspended *V2SignalsAccountActivityAccountSuspended `json:"account_suspended,omitempty"`
 	// Timestamp at which the account activity was created.
 	Created time.Time `json:"created"`
 	// Unique identifier for the account activity.
@@ -162,6 +202,8 @@ type V2SignalsAccountActivity struct {
 	LoginAttempt *V2SignalsAccountActivityLoginAttempt `json:"login_attempt,omitempty"`
 	// Details for the login decision. Present only when type is login_decision.
 	LoginDecision *V2SignalsAccountActivityLoginDecision `json:"login_decision,omitempty"`
+	// Additional information about the activity.
+	Metadata map[string]string `json:"metadata,omitempty"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// Timestamp at which the activity occurred. Defaults to the created time if not provided.

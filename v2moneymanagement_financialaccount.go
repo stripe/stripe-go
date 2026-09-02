@@ -26,6 +26,14 @@ const (
 	V2MoneyManagementFinancialAccountCreditFundedByTypeStripe   V2MoneyManagementFinancialAccountCreditFundedByType = "stripe"
 )
 
+// The period over which interest accrues.
+type V2MoneyManagementFinancialAccountSavingsInterestRatePeriod string
+
+// List of values that V2MoneyManagementFinancialAccountSavingsInterestRatePeriod can take
+const (
+	V2MoneyManagementFinancialAccountSavingsInterestRatePeriodAnnual V2MoneyManagementFinancialAccountSavingsInterestRatePeriod = "annual"
+)
+
 // Closed Enum. An enum representing the status of the FinancialAccount. This indicates whether or not the FinancialAccount can be used for any money movement flows.
 type V2MoneyManagementFinancialAccountStatus string
 
@@ -66,6 +74,7 @@ const (
 	V2MoneyManagementFinancialAccountTypeMultiprocessorSettlement V2MoneyManagementFinancialAccountType = "multiprocessor_settlement"
 	V2MoneyManagementFinancialAccountTypeOther                    V2MoneyManagementFinancialAccountType = "other"
 	V2MoneyManagementFinancialAccountTypePayments                 V2MoneyManagementFinancialAccountType = "payments"
+	V2MoneyManagementFinancialAccountTypeSavings                  V2MoneyManagementFinancialAccountType = "savings"
 	V2MoneyManagementFinancialAccountTypeStorage                  V2MoneyManagementFinancialAccountType = "storage"
 )
 
@@ -171,6 +180,28 @@ type V2MoneyManagementFinancialAccountPayments struct {
 	StartingBalance *V2MoneyManagementFinancialAccountPaymentsStartingBalance `json:"starting_balance,omitempty"`
 }
 
+// The interest rate applied to this savings FinancialAccount.
+type V2MoneyManagementFinancialAccountSavingsInterestRate struct {
+	// Current variable rate, e.g. "3.00".
+	Percentage float64 `json:"percentage,string"`
+	// The period over which interest accrues.
+	Period V2MoneyManagementFinancialAccountSavingsInterestRatePeriod `json:"period"`
+}
+
+// Interest details for this savings FinancialAccount. Populated by the server.
+type V2MoneyManagementFinancialAccountSavingsInterest struct {
+	// The interest rate applied to this savings FinancialAccount.
+	Rate *V2MoneyManagementFinancialAccountSavingsInterestRate `json:"rate"`
+}
+
+// If this is a `savings` FinancialAccount, this hash includes details specific to `savings` FinancialAccounts.
+type V2MoneyManagementFinancialAccountSavings struct {
+	// The currencies that this savings FinancialAccount can hold.
+	HoldsCurrencies []Currency `json:"holds_currencies"`
+	// Interest details for this savings FinancialAccount. Populated by the server.
+	Interest *V2MoneyManagementFinancialAccountSavingsInterest `json:"interest,omitempty"`
+}
+
 // The forwarding settings for the closed FinancialAccount.
 type V2MoneyManagementFinancialAccountStatusDetailsClosedForwardingSettings struct {
 	// The address to send forwarded payments to.
@@ -230,6 +261,8 @@ type V2MoneyManagementFinancialAccount struct {
 	Other *V2MoneyManagementFinancialAccountOther `json:"other,omitempty"`
 	// If this is a `payments` FinancialAccount, this hash include details specific to `payments` FinancialAccount.
 	Payments *V2MoneyManagementFinancialAccountPayments `json:"payments,omitempty"`
+	// If this is a `savings` FinancialAccount, this hash includes details specific to `savings` FinancialAccounts.
+	Savings *V2MoneyManagementFinancialAccountSavings `json:"savings,omitempty"`
 	// Closed Enum. An enum representing the status of the FinancialAccount. This indicates whether or not the FinancialAccount can be used for any money movement flows.
 	Status V2MoneyManagementFinancialAccountStatus `json:"status"`
 	// Additional details related to the status of the FinancialAccount.
